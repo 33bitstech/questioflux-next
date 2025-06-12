@@ -11,7 +11,7 @@ import Wave from "@/components/wave";
 export default function LandingPage() {
 
     return (
-        <div className={`${styles.container}}`}>
+        <>
             <main className={styles.content}>
                 <section id='create_quiz' className={styles.create_quiz}>
                     <div className={styles.title_section}>
@@ -111,6 +111,6 @@ export default function LandingPage() {
             <footer className={styles.footer}>
                 <Link href={'/aboutus'}>About us</Link>
             </footer>
-        </div>
+        </>
     );
 }

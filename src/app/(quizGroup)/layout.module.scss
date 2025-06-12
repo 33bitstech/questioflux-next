@@ -1,0 +1,11 @@
+@import '../../assets/styles/vars.scss';
+
+.container {
+  @extend %container-default; 
+  justify-content: center;
+  gap: 1rem;
+
+  header {
+    @extend %header-position;
+  }
+}

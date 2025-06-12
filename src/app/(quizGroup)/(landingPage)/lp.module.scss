@@ -1,14 +1,5 @@
 @import '../../../assets/styles/vars.scss';
 
-.container {
-  @extend %container-default; 
-  justify-content: center;
-  gap: 1rem;
-
-  header {
-    @extend %header-position;
-  }
-}
 
 .content {
   @extend %content-default;
@@ -35,7 +26,6 @@
     display: flex;
     gap: 2.31rem;
     li {
-      // %icons-li-default já foi atualizado em vars.scss para usar variáveis
       @extend %icons-li-default;
     }
   }
@@ -76,29 +66,25 @@
     max-width: 333px;
     flex-wrap: wrap;
     border-radius: 0.9375rem;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15); // Sombra um pouco mais sutil
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
     display: flex;
     padding: 2.5rem 1.4rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.625rem;
-    background-color: var(--background-secondary); // <--- MUDANÇA
+    background-color: var(--background-divs);
 
     & > span {
       display: block;
       @extend %icons-li-default;
-      // O ícone dentro do card pode ter uma cor diferente do fundo do card
-      background-color: var(--background-icon);
     }
 
     p {
       text-align: center;
-      // Chamando o mixin com a variável CSS
-      @include styleTexto(var(--text-secondary), .83rem, 400); // <--- MUDANÇA
+      @include styleTexto(var(--text-secondary), .83rem, 400);
       span {
         font-weight: 700;
-        // O span pode ter a cor primária do texto para dar mais destaque
         color: var(--text-primary);
       }
     }
@@ -121,7 +107,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    @include styleTexto(var(--text-primary), 2.9rem, 500); // <--- MUDANÇA
+    @include styleTexto(var(--text-primary), 2.9rem, 500);
 
     &:nth-child(2) {
       font-size: 2.1rem;
@@ -129,21 +115,20 @@
 
     strong {
       font-weight: 700;
-      color: var(--primary-color); // <--- MUDANÇA para dar destaque
     }
 
     .fakeh2 {
       align-items: center;
-      @include styleTexto(var(--text-secondary), 1.65rem, 400); // <--- MUDANÇA
+      @include styleTexto(var(---text-primary), 1.65rem, 400);
     }
   }
 
   h2 {
-    @include styleTexto(var(--text-primary), 2rem, 400); // <--- MUDANÇA
+    @include styleTexto(var(--text-primary), 2rem, 400);
   }
 
   p {
-    @include styleTexto(var(--text-description), 1rem, 400); // <--- MUDANÇA
+    @include styleTexto(var(--text-description), 1rem, 400);
     padding: 1rem;
   }
 }
@@ -161,8 +146,6 @@
   svg {
     width: 100%;
     height: 80%;
-    // A cor da onda também pode ser controlada por uma variável
-    fill: var(--background-secondary);
   }
 }
 
@@ -172,15 +155,10 @@
   width: 23rem;
   padding: 0.625rem 7.25rem;
   border-radius: 0.625rem;
-  // Usando as cores de destaque para o botão
-  background-color: var(--secondary-color); // <--- MUDANÇA
+  background-color: var(--background-button);
   text-transform: uppercase;
-  @include styleTexto(var(--primary-color), 1.25rem, 700); // <--- MUDANÇA
+  @include styleTexto(var(--button-text-color), 1.25rem, 700);
   transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 }
 
 .footer {
@@ -190,19 +168,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // A cor do footer e a sombra agora usam as variáveis
-  background-color: var(--background-secondary); // <--- MUDANÇA
-  box-shadow: 0px 0px 20px -10px var(--text-primary); // <--- MUDANÇA
+  background-color: var(--background-secondary);
+  box-shadow: 0px 0px 39.3px -13px rgba(0, 0, 0, 0.25);
 
   a {
-    // Herdando o estilo do .button_link para não repetir código
     @extend .button_link;
   }
 }
 
-/* OS BLOCOS .container.white_theme E .container.dark_theme FORAM REMOVIDOS!
-  Eles não são mais necessários.
-*/
 
 @media screen and (max-width: 860px) {
   .register_comp_section {

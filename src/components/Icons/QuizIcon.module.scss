@@ -1,0 +1,12 @@
+.icon {
+  width: 43.14px;  // Ou o tamanho que você precisar
+  height: 43.14px;
+  
+  // A mágica acontece aqui. Usamos a variável na propriedade background-image.
+  background-image: var(--quiz-icon);
+  
+  // Propriedades para garantir que a imagem se ajuste bem
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
