@@ -1,6 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
 import { ProviderTheme} from "@/contexts/themeContext";
+import StoreProvider from "@/lib/provider/store-provider";
 
 
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
                 <body>
                     <ProviderTheme attribute="data-theme" defaultTheme="system" enableSystem>
-                        {children}
+                        <StoreProvider>
+                            {children}
+                        </StoreProvider>
                     </ProviderTheme>
                 </body>
         </html>

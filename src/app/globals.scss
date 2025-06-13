@@ -47,13 +47,17 @@ button:hover, input[type='submit']:hover, .button:hover {
   --status-error: #FF4B4B;
   --status-correct: #039855;
   --status-incorrect: #D92D20;
+
+  --checkbox-border-color: #A3A3A3;
+  --checkbox-checked-bg-color: #0A0A0A;
+  --checkbox-checked-image: url('../assets/checkedWhite.svg');
 }
 
 [data-theme='dark'] {
   --background-primary: #242526;
   --background-secondary: #4b4b4b;
   --background-icon: #4b4b4b;
-  --main-background-image: url(../assets/fundoPreto.png);
+  --main-background-image: url('../assets/fundoPreto.png');
 
   --background-button: #0047FF;
   --button-text-color: #ffffff;
@@ -69,6 +73,10 @@ button:hover, input[type='submit']:hover, .button:hover {
 
   --scrollbar-thumb-color: #0047FF;
   --scrollbar-thumb-hover-color: #00E4FF;
+
+  --checkbox-border-color: #A3A3A3;
+  --checkbox-checked-bg-color: #0047FF;
+  --checkbox-checked-image: url('../assets/checkedDark.svg');
 }
 
 html {

@@ -3,10 +3,13 @@ import styles from './navbar.module.scss'
 import { userAgent } from 'next/server'
 import Link from 'next/link'
 import QuizIcon from '../Icons/QuizIcon'
+//import { useTheme } from 'next-themes'
 
-export default function NavbarQuizgroup() {
-    const {device} = userAgent({headers:headers()}),
+export default async function NavbarQuizgroup() {
+    const {device} = userAgent({headers: await headers()}),
         isMobile = device.type === 'mobile'
+
+    //const {theme, setTheme} = useTheme() //dark | light
 
     const isAuth = false
 
