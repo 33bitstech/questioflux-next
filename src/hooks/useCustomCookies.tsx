@@ -1,23 +1,20 @@
-import { useCookies } from "react-cookie";
-import { CookieSetOptions } from "universal-cookie";
+'use client'
 
+import {getCookie, setCookie, deleteCookie, OptionsType} from 'cookies-next/client';
 type CookieValue = any;
 
 interface UseCustomCookiesReturn {
     cookie: CookieValue;
     createCookie: (cookieValue: CookieValue) => void;
-    deleteCookie: () => void;
+    removeCookie: () => void;
     setToken: (token: string) => void;
 }
 
 const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
-    const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
-    const cookie: CookieValue = cookies[cookieName];
-
-    const cookieOptions: CookieSetOptions = {
+    const cookieOptions: OptionsType = {
         path: '/',
         domain: '.quizvortex.site',
-        expires: new Date(Date.now() + 7 * 86400000), // 7 dias
+        maxAge: 60 * 60 * 24 * 7, // 7 dias
         secure: true,
         sameSite: 'strict'
     };
@@ -26,15 +23,17 @@ const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
         setCookie(cookieName, cookieValue, cookieOptions);
     };
 
-    const deleteCookie = (): void => {
-        removeCookie(cookieName, { path: '/', domain: '.quizvortex.site' });
+    const removeCookie = (): void => {
+        deleteCookie(cookieName, { path: '/', domain: '.quizvortex.site' });
     };
 
     const setToken = (token: string): void => {
         setCookie(cookieName, `Bearer ${token}`, cookieOptions);
     };
 
-    return { cookie, createCookie, deleteCookie, setToken };
+    const cookie = getCookie(cookieName, cookieOptions)
+
+    return { cookie, createCookie, removeCookie, setToken };
 };
 
 export default useCustomCookies;

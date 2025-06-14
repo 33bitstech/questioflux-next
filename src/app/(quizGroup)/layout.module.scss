@@ -1,4 +1,4 @@
-@import '../../assets/styles/vars.scss';
+@use '../../assets/styles/vars.scss';
 
 .container {
   @extend %container-default; 

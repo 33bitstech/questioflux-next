@@ -9,7 +9,7 @@ interface IProps{
 export default function NavButtonLogReg({isLogin, toRegister, ...props}: IProps) {
     return (
         <button type='button' onClick={toRegister} {...props}>
-            {isLogin ? 'Login' : 'Register'}
+            {isLogin ? 'Register' : 'Login'}
         </button>
     )
 }

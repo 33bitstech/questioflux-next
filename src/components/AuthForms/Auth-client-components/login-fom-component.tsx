@@ -9,37 +9,39 @@ import CheckboxComponent from './checkbox-component'
 import InputComponent from './input-component'
 
 import { validEmail } from '@/utils/FormatText'
+import { useAppDispatch } from '@/lib/hooks'
+import { reset as errorReset} from '@/lib/slices/globalErrorsSlice'
 
 interface IProps{
-    handleRegisterAndFinishQuiz: () => void,
+    handleRegisterAndFinishQuiz?: () => void,
 }
 
 export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...props}: IProps) {
-    const [email, setEmail] = useState(''),
-        [password, setPassword] = useState(''),
-        [remember, setRemember] = useState(false),
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [remember, setRemember] = useState(false)
 
-        {getError, setError, concatErrors, hasErrors, resetErrors, inputsErrors} = useErrors(),
-        {cookie, setToken} = useCustomCookies('user')
-
+    const {getError, setError, concatErrors, hasErrors, resetErrors, inputsErrors} = useErrors()
+    
     useEffect(()=>{
         if (email){
             if (!validEmail(email)) return setError('email', 'Enter a valid email address')
-            return setError('email', '')
+                return setError('email', '')
         }
         return setError('email', '')
     }, [email, setError])
     useEffect(()=>{
         if (password) setError('password', '')
-    },[password, setError])
-
-
-
+        },[password, setError])
+    
+    
+    
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
-
-        handleRegisterAndFinishQuiz()
+        
+        if (handleRegisterAndFinishQuiz) handleRegisterAndFinishQuiz()
     }
+    
 
     return (
         <form {...props} className='login-form' onSubmit={handleSubmit}>
@@ -52,7 +54,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
                     error={getError('email')}
                     icon={<MailSvg />}
                     autoFocus
-                />
+                    />
                 <InputComponent
                     type='password'
                     placeholder='********'

@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react';
 
 // (Opcional, mas recomendado) Definir uma interface para o valor de retorno do hook

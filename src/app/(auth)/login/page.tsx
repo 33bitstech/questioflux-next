@@ -4,17 +4,17 @@ import React from 'react'
 import '@/assets/styles/auth.scss'
 
 export default function Login() {
-    const h = async () =>{
+    const handleRegisterAndFinishQuiz = async () =>{
         'use server'
     }
     return (
         <div className={`container-section`}>
             <section className='login-section'>
-                <LoginFormComponent handleRegisterAndFinishQuiz={h}/>
+                <LoginFormComponent/>
                 <p>Haven&apos;t Account? 
                     <NavButtonLogReg 
                         isLogin={true} 
-                        toRegister={h}
+                        toRegister={handleRegisterAndFinishQuiz}
                     />
                 </p>
             </section>

@@ -1,4 +1,4 @@
-@import '../../assets/styles/vars.scss';
+@use '../../assets/styles/vars.scss';
 
 // --- SELETOR PRINCIPAL ---
 .navbar {
@@ -50,7 +50,7 @@
 // --- COMPONENTES DAS AÇÕES ---
 .search {
   // O mixin já usa variáveis, então só precisamos garantir que o fundo também use
-  @include makeInputWithIcon(18.6rem, 0.5rem, 0.5625rem);
+  @include vars.makeInputWithIcon(18.6rem, 0.5rem, 0.5625rem);
   background-color: var(--background-secondary);
 
   input[type='search']::-webkit-search-cancel-button {

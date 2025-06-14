@@ -1,43 +1,32 @@
-import { useEffect, useState } from 'react';
-import { setErrorGlobal, reset } from '../lib/slices/globalErrorsSlice';
-import { useAppDispatch } from '@/lib/hooks';
+'use client'
+import { useState, useCallback } from 'react';
 
-// Define a interface para o estado dos erros
 interface ErrorsState {
     [key: string]: string;
 }
 
 const useErrors = () => {
     const [inputsErrors, setInputErrors] = useState<ErrorsState>({});
-    const dispatch = useAppDispatch();
 
-    const setError = (type: string, message: string): void => {
-        setInputErrors(value => ({ ...value, [type]: message }));
-    };
+    const setError = useCallback((type: string, message: string): void => {
+        setInputErrors(currentErrors => ({ ...currentErrors, [type]: message }));
+    }, []);
 
-    const getError = (type: string): string | undefined => {
+    const getError = useCallback((type: string): string | undefined => {
         return inputsErrors[type];
-    };
+    }, [inputsErrors]);
 
-    const concatErrors = (errorsObject: ErrorsState): void => {
-        setInputErrors(value => ({ ...value, ...errorsObject }));
-    };
+    const concatErrors = useCallback((errorsObject: ErrorsState): void => {
+        setInputErrors(currentErrors => ({ ...currentErrors, ...errorsObject }));
+    }, []);
 
-    const hasErrors = (errorsObject: ErrorsState): boolean => {
+    const hasErrors = useCallback((errorsObject: ErrorsState): boolean => {
         return Object.values(errorsObject).some(value => value !== '');
-    };
+    }, []);
 
-    const resetErrors = (): void => {
+    const resetErrors = useCallback((): void => {
         setInputErrors({});
-    };
-
-    const dispatchGlobalError = (message: string): void => {
-        dispatch(setErrorGlobal({ message }));
-    };
-
-    useEffect(() => {
-        dispatch(reset());
-    }, [dispatch]);
+    }, []);
 
     return {
         setError,
@@ -46,7 +35,6 @@ const useErrors = () => {
         inputsErrors,
         hasErrors,
         resetErrors,
-        dispatchGlobalError,
     };
 };
 
