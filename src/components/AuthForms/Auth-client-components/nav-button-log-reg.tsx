@@ -3,12 +3,18 @@ import React from 'react'
 
 interface IProps{
     isLogin: boolean,
-    toRegister: () => void
+    toRegister?: () => void
 }
 
 export default function NavButtonLogReg({isLogin, toRegister, ...props}: IProps) {
     return (
-        <button type='button' onClick={toRegister} {...props}>
+        <button 
+            {...props}
+            type='button' 
+            onClick={()=>{
+                if (toRegister) toRegister()
+            }} 
+        >
             {isLogin ? 'Register' : 'Login'}
         </button>
     )

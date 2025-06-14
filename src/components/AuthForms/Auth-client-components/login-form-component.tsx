@@ -1,7 +1,6 @@
 'use client'
 import MailSvg from '@/components/Icons/MailSvg'
 import PadlockSvg from '@/components/Icons/PadlockSvg'
-import useCustomCookies from '@/hooks/useCustomCookies'
 import useErrors from '@/hooks/useErrors'
 import Link from 'next/link'
 import React, { FormEvent, useEffect, useState } from 'react'
@@ -9,8 +8,7 @@ import CheckboxComponent from './checkbox-component'
 import InputComponent from './input-component'
 
 import { validEmail } from '@/utils/FormatText'
-import { useAppDispatch } from '@/lib/hooks'
-import { reset as errorReset} from '@/lib/slices/globalErrorsSlice'
+import '@/assets/styles/auth.scss'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,

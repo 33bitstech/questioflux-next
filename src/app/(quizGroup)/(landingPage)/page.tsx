@@ -7,6 +7,7 @@ import LockedSvg from "@/components/Icons/LockedSvg";
 import StrokeProfileSvg from "@/components/Icons/StrokeProfileSvg";
 import WorldSvg from "@/components/Icons/WorldSvg";
 import Wave from "@/components/wave";
+import RegisterComponent from '@/components/AuthForms/register-component';
 
 export default function LandingPage() {
 
@@ -29,7 +30,7 @@ export default function LandingPage() {
                             <li><span><StrokeProfileSvg/></span></li>
                             <li><span><ListSvg/></span></li>
                         </ul>
-                        {/* <Link herf='#register_comp_section' className={styles.button_link}>Start Now</Link> */}
+                        <Link href='/#register_comp_section' className={styles.button_link}>Start Now</Link>
                         <Link href={'/explore'} className={styles.explore_link} >Explore</Link>
                     </div>
                 </section>
@@ -100,9 +101,12 @@ export default function LandingPage() {
 
                 {/* <GoogleAd/> */}
 
-                {/* <section id='register_comp_section' className={styles.register_comp_section}>
-                    <RegisterForm pageReg={false}/>
-                </section> */}
+                <section id='register_comp_section' className={styles.register_comp_section}>
+                    <RegisterComponent 
+                        absolute={false}
+                        toLogin={async ()=>{'use server'}}
+                    />
+                </section>
 
             </main>
 

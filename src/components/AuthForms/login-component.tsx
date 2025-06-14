@@ -2,7 +2,7 @@ import React from 'react'
 import '@/assets/styles/auth.scss'
 import NavButtonLogReg from './Auth-client-components/nav-button-log-reg'
 import ClosePopupAuth from './Auth-client-components/close-popup-auth'
-import LoginFormComponent from './Auth-client-components/login-fom-component'
+import LoginFormComponent from './Auth-client-components/login-form-component'
 
 interface IPropsLogin{
     handleRegisterAndFinishQuiz: () => void,

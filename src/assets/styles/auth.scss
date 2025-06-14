@@ -137,6 +137,9 @@
   }
   h1 {
     @extend %h1-default;
+    strong{
+      color: var(--fixed-blue)
+    }
   }
   h2 {
     @include vars.styleTexto(var(--text-primary), 2.5rem, 700);
@@ -163,8 +166,7 @@
       .input-class {
         @extend %inputclass-default;
         // O mixin já cuida da borda e do fundo do input
-        @include vars.makeInputWithIcon(100%, 0, 0); 
-        
+        background-color: var(--background-input);        
         input {
           @extend %inputelement-default;
           width: 100%;
@@ -211,7 +213,7 @@
         }
 
         // Estilo do checkbox MARCADO
-        .checkbox-span-clicked {
+        .is-checked {
           @include vars.makeCheckbox(transparent); // A cor vem do fundo
           @extend %checkbox-clicked-default;
           background-color: var(--checkbox-checked-bg-color);
@@ -239,7 +241,7 @@
         text-decoration: underline;
       }
       p a, p button {
-        color: var(--primary-color);
+        color: var(--secondary-color);
         background-color: transparent;
         border: none;
         outline: none;
@@ -265,6 +267,54 @@
       opacity: .9;
     }
   }
+  .second-part-section{
+      @extend %part2section-default;
+      #image{
+          @extend %hidden-element;
+      }
+      label {
+          @extend %label-image-default;
+          
+          
+          img{
+              height: 100%;
+              width: 100%;
+              position: absolute;
+              
+              border-radius: 50%;
+              background-size: contain;
+              object-fit: cover;
+              border: 2px solid var(--background-primary);
+          }
+          
+          span{
+              display: inline-block;
+              height: 170px;
+              width: 170px;
+              border-radius: 100%;
+              position: relative;
+              background-color: var(--background-upload-image);
+
+              svg{
+                  position: relative;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+              }
+          }
+          span:hover{
+              opacity: .8;
+          }
+          p{
+              @include vars.styleTexto(var(--text-secondary), map.get($map: vars.$tamanhos, $key: doze), 400);
+              text-align: center;
+          }
+          span:hover, p:hover{
+              cursor: pointer;
+          }
+      }
+      
+  }
 
   // Seções específicas
   .login-form, .forgotpass-form {
@@ -287,7 +337,7 @@
     @include vars.styleTexto(var(--text-secondary), map.get($map: vars.$tamanhos, $key: treze), 400);
     
     a, button {
-      color: var(--primary-color);
+      color: var(--primary-icon-color);
     }
     a:hover, button:hover {
       text-decoration: underline;

@@ -11,7 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export default function InputComponent({ icon, error, ...props }: InputProps) {
     return (
         <div className={'input-error-message'}>
-            <div className={error ? `input-class input-erro` : 'inputClass'}>
+            <div className={error ? `input-class input-erro` : 'input-class'}>
                 {icon}
                 <input {...props} />
             </div>
