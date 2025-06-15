@@ -1,14 +1,17 @@
 'use client'
 import MailSvg from '@/components/Icons/MailSvg'
 import PadlockSvg from '@/components/Icons/PadlockSvg'
-import useErrors from '@/hooks/useErrors'
+import useErrors, { ErrorsState } from '@/hooks/useErrors'
 import Link from 'next/link'
+import {useRouter} from 'next/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 import CheckboxComponent from './checkbox-component'
 import InputComponent from './input-component'
 
 import { validEmail } from '@/utils/FormatText'
 import '@/assets/styles/auth.scss'
+import useLogin from '@/hooks/requests/auth-requests/useLogin'
+import useCustomCookies from '@/hooks/useCustomCookies'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
@@ -20,7 +23,13 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
     const [remember, setRemember] = useState(false)
 
     const {getError, setError, concatErrors, hasErrors, resetErrors, inputsErrors} = useErrors()
-    
+    const [erroAuth, setErroAuth] = useState<ErrorsState>()
+    const {setToken} = useCustomCookies('token')
+
+    const {login} = useLogin()
+
+    const router = useRouter()
+
     useEffect(()=>{
         if (email){
             if (!validEmail(email)) return setError('email', 'Enter a valid email address')
@@ -30,14 +39,42 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
     }, [email, setError])
     useEffect(()=>{
         if (password) setError('password', '')
-        },[password, setError])
+    },[password, setError])
+    useEffect(()=>{
+        if (erroAuth) {
+            setError(erroAuth.type, erroAuth.message)
+        }
+    }, [erroAuth])
     
     
     
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
+        let errors: ErrorsState = {}
+
+        if (!email) errors.email = "Email is required"
+        if (!password) errors.password = 'Password is required'
+
+        concatErrors(errors)
+        if (hasErrors(errors)) return
+
+        const UserObject = {
+            user:{
+                email, password
+            }
+        }
         
-        if (handleRegisterAndFinishQuiz) handleRegisterAndFinishQuiz()
+        login(JSON.stringify(UserObject))
+            .then(res=>{
+                console.log(res)
+                setToken(res.token)
+                if (handleRegisterAndFinishQuiz) return handleRegisterAndFinishQuiz()
+                else router.push('/home')
+            })
+            .catch(err=>{
+                setErroAuth(err)
+            })
+
     }
     
 
@@ -52,6 +89,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
                     error={getError('email')}
                     icon={<MailSvg />}
                     autoFocus
+                    autoComplete='email'
                     />
                 <InputComponent
                     type='password'
@@ -60,6 +98,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
                     onChange={(e)=>setPassword(e.target.value)}
                     error={getError('password')}
                     icon={<PadlockSvg/>}
+                    autoComplete='current-password'
                 />
             </div>
             <div className="footer-form">

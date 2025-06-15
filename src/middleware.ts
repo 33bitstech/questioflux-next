@@ -5,6 +5,7 @@ const publicRoutes = [
         {src: '/register', actionWhenAuth: 'redirect'},
         {src: '/', actionWhenAuth: 'redirect'}
     ] as {src:string, actionWhenAuth: string}[],
+    
     defaultRoute = '/login'
 
 export function middleware(req: NextRequest){

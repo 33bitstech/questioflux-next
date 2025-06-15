@@ -13,10 +13,11 @@ interface UseCustomCookiesReturn {
 const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
     const cookieOptions: OptionsType = {
         path: '/',
-        domain: '.quizvortex.site',
+        //domain: '.quizvortex.site',
+        domain: 'localhost',
         maxAge: 60 * 60 * 24 * 7, // 7 dias
-        secure: true,
-        sameSite: 'strict'
+/*         secure: true,
+        sameSite: 'strict' */
     };
 
     const createCookie = (cookieValue: CookieValue): void => {
@@ -24,10 +25,11 @@ const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
     };
 
     const removeCookie = (): void => {
-        deleteCookie(cookieName, { path: '/', domain: '.quizvortex.site' });
+        deleteCookie(cookieName, { path: '/', domain: 'localhost' });
     };
 
     const setToken = (token: string): void => {
+        console.log('era pra eu estar colocado no cookie', token)
         setCookie(cookieName, `Bearer ${token}`, cookieOptions);
     };
 

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useCallback } from 'react';
 
-interface ErrorsState {
+export interface ErrorsState {
     [key: string]: string;
 }
 

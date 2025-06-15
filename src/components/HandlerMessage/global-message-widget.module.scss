@@ -1,0 +1,33 @@
+@use "sass:map";
+@use '../../assets/styles/vars.scss';
+
+.message_container{
+    border-radius: 0.625rem;
+    display: flex;
+    gap: .4rem;
+    align-items: center;
+    z-index: 10;
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding: .8rem 1.2rem;
+    user-select: none;
+    cursor: pointer;
+    &.error{
+        background-color: map.get($map: $colors, $key: error);
+    }
+    &.sucess{
+        background-color: map.get($map: $colors, $key: correct);
+    }
+    p{
+        @include vars.styleTexto(map.get($map: $colors, $key: branco), 1rem, 500);
+        &::first-letter{
+            text-transform: capitalize;
+        }
+    }
+    svg{
+        width: 1.87494rem;
+        height: 1.77719rem;
+    }
+}
