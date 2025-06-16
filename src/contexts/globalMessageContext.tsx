@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, ReactNode, useContext, useState } from "react"
+import { createContext, ReactNode, useCallback, useContext, useState } from "react"
 
 type TypeMessage = 'sucess' | 'error' | 'warning' | 'nothing'
 
@@ -21,9 +21,9 @@ const GlobalMessageContext = createContext({} as IGlobalMessageContext)
 export function GlobalMessageProvider({children} : {children : ReactNode}){
     const [globalMessage, setGlobalMessage] = useState<IGlobalMessage>({type:'nothing'})
 
-    const resetGlobalMessage = () : void => {
-        setGlobalMessage({type:'nothing'})
-    }
+    const resetGlobalMessage = useCallback(() => {
+        setGlobalMessage({ type: 'nothing', message: '' })
+    }, [])
     const setError = (message: string) : void => {
         setGlobalMessage({type:'error', message})
     }

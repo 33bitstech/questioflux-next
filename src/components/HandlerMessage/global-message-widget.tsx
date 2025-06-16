@@ -8,28 +8,30 @@ import Error from '../Icons/Error'
 export default function GlobalMessageWidget() {
     const {globalMessage, resetGlobalMessage} = useGlobalMessage(),
     {type, message} = globalMessage,
-    [clear, setClear] = useState<boolean>(false)
+
+    handleClose = () => {
+        if (resetGlobalMessage) {
+            resetGlobalMessage()
+        }
+    }
 
     useEffect(()=>{
-        setClear(false)
+        if (type === 'nothing') return
 
-        const tout = setTimeout(() => {
-            setClear(true)
+        const timer = setTimeout(() => {
+            handleClose()
         }, 5000);
 
-        return ()=>clearTimeout(tout)
-    },[message])
-
-    useEffect(()=>{
-        if(clear && resetGlobalMessage) resetGlobalMessage()
-    }, [clear, resetGlobalMessage])
+        return ()=>clearTimeout(timer)
+    },[message, type])
 
 
-    if(globalMessage.type === 'nothing') return <></>
+
+    if(globalMessage.type === 'nothing') return null
     return (
         <div 
             className={`${styles.message_container} ${type === 'error' ? styles.error : type === 'sucess' ? styles.sucess : ''}`} 
-            onClick={()=>setClear(true)}
+            onClick={handleClose}
         >
             {type === 'error' && <Error/>}
             {type === 'sucess' && <CorrectSignal/>}

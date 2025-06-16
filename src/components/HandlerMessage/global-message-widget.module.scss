@@ -15,13 +15,13 @@
     user-select: none;
     cursor: pointer;
     &.error{
-        background-color: map.get($map: $colors, $key: error);
+        background-color: var(--status-error);
     }
     &.sucess{
-        background-color: map.get($map: $colors, $key: correct);
+        background-color: var(--status-correct);
     }
     p{
-        @include vars.styleTexto(map.get($map: $colors, $key: branco), 1rem, 500);
+        @include vars.styleTexto(#fff, 1rem, 500);
         &::first-letter{
             text-transform: capitalize;
         }

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ProviderTheme} from "@/contexts/themeContext";
 import { GlobalMessageProvider } from "@/contexts/globalMessageContext";
 import { FilterProvider } from "@/contexts/filtersContext";
+import GlobalMessageWidget from "@/components/HandlerMessage/global-message-widget";
 
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
                     <ProviderTheme attribute="data-theme" defaultTheme="system" enableSystem>
                         <GlobalMessageProvider>
                             <FilterProvider>
+                                <GlobalMessageWidget />
                                 {children}
                             </FilterProvider>
                         </GlobalMessageProvider>

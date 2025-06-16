@@ -15,9 +15,12 @@ export default async function ApiData({
     method, headerKey, headerValue
 } : IApiDataParams) {
     const baseUrl = `${env.NEXT_PUBLIC_DOMAIN_API}/${path}`,
-        headers = new Headers()
+        headers = new Headers(),
+        isFormData = body instanceof FormData;
     
-    if (headerKey && headerValue) headers.append(headerKey, headerValue)
+    if (headerKey && headerValue) 
+        if (!(isFormData && headerKey.toLowerCase() === 'content-type')) 
+            headers.append(headerKey, headerValue)
 
     const config = {
         body, method, ...cache, headers

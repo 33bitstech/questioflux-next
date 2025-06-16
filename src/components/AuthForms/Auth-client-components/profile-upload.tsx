@@ -45,7 +45,13 @@ export default function ProfileUploadComponent({ onFileChange }: ImageUploaderPr
             <label htmlFor="image">
                 <span>
                     {draftImage ? (
-                        <Image src={draftImage} alt="Preview profile image" quality={100}/>
+                        <Image 
+                            src={draftImage} 
+                            alt="Preview profile image" 
+                            quality={10}
+                            width={400}
+                            height={400}
+                        />
                     ) : (
                         <UploadImageSvg />
                     )}

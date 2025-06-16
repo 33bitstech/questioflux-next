@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 const publicRoutes = [
         {src: '/login', actionWhenAuth: 'redirect'},
         {src: '/register', actionWhenAuth: 'redirect'},
-        {src: '/', actionWhenAuth: 'redirect'}
-    ] as {src:string, actionWhenAuth: string}[],
+        {src: '/', actionWhenAuth: 'redirect'},
+        {src: '/about-us', actionWhenAuth: 'next'}
+    ] as {src:string, actionWhenAuth: 'next' | 'redirect'}[],
     
     defaultRoute = '/login'
 

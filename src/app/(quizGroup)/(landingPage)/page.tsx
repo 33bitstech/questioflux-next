@@ -113,7 +113,7 @@ export default function LandingPage() {
             {/* <GoogleAd/> */}
 
             <footer className={styles.footer}>
-                <Link href={'/aboutus'}>About us</Link>
+                <Link href={'/about-us'}>About us</Link>
             </footer>
         </>
     );

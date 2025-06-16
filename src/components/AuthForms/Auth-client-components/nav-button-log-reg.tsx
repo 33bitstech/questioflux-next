@@ -1,4 +1,5 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface IProps{
@@ -7,12 +8,14 @@ interface IProps{
 }
 
 export default function NavButtonLogReg({isLogin, toRegister, ...props}: IProps) {
+    const route = useRouter()
     return (
         <button 
             {...props}
             type='button' 
             onClick={()=>{
-                if (toRegister) toRegister()
+                if (toRegister) return toRegister()
+                isLogin ? route.push('/register') : route.push('/login')
             }} 
         >
             {isLogin ? 'Register' : 'Login'}

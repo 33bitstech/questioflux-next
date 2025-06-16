@@ -2,16 +2,13 @@
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { BodyInit } from '@/types/fetchTypes'
 
-const useRegister = async() =>{
+const useRegister = () =>{
     const {setError} = useGlobalMessage()
 
     async function register(body: BodyInit) {
         try {
             const resJson = await fetch('/api/register',{
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: body, 
             })
             const res = await resJson.json()
