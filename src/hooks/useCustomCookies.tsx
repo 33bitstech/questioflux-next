@@ -1,41 +1,51 @@
 'use client'
 
-import {getCookie, setCookie, deleteCookie, OptionsType} from 'cookies-next/client';
-type CookieValue = any;
+import {getCookie, setCookie, deleteCookie, OptionsType, CookieValueTypes} from 'cookies-next/client';
+import { useCallback, useState } from 'react';
+type CookieValue = string | undefined;
 
 interface UseCustomCookiesReturn {
-    cookie: CookieValue;
-    createCookie: (cookieValue: CookieValue) => void;
-    removeCookie: () => void;
-    setToken: (token: string) => void;
+    cookie: CookieValue,
+    createCookie: (cookieValue: CookieValue) => void,
+    removeCookie: () => void,
+    setToken: (token: string) => void,
+    refreshCookie: () => void
 }
 
 const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
+    
     const cookieOptions: OptionsType = {
         path: '/',
         //domain: '.quizvortex.site',
-        domain: 'localhost',
         maxAge: 60 * 60 * 24 * 7, // 7 dias
-/*         secure: true,
+        /*         secure: true,
         sameSite: 'strict' */
     };
 
-    const createCookie = (cookieValue: CookieValue): void => {
+    const [cookie, setInternalCookie] = useState<CookieValue>(() => getCookie(cookieName, cookieOptions))
+    
+    const createCookie = useCallback((cookieValue: CookieValue): void => {
         setCookie(cookieName, cookieValue, cookieOptions);
-    };
+        setInternalCookie(cookieValue)
+    }, []);
 
-    const removeCookie = (): void => {
-        deleteCookie(cookieName, { path: '/', domain: 'localhost' });
-    };
+    const removeCookie = useCallback((): void => {
+        deleteCookie(cookieName, { path: '/'/* , domain: '.quizvortex.site'  */});
+        setInternalCookie(undefined)
+    }, [])
 
-    const setToken = (token: string): void => {
-        console.log('era pra eu estar colocado no cookie', token)
+    const setToken = useCallback((token: string): void => {
         setCookie(cookieName, `Bearer ${token}`, cookieOptions);
-    };
+        setInternalCookie(`Bearer ${token}`)
+    }, [])
 
-    const cookie = getCookie(cookieName, cookieOptions)
+    const refreshCookie = useCallback(() => {
+        const newCookieValue = getCookie(cookieName);
+        setInternalCookie(newCookieValue);
+    }, [cookieName])
 
-    return { cookie, createCookie, removeCookie, setToken };
+
+    return { cookie, createCookie, removeCookie, setToken, refreshCookie};
 };
 
 export default useCustomCookies;

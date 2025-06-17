@@ -4,6 +4,7 @@ import { ProviderTheme} from "@/contexts/themeContext";
 import { GlobalMessageProvider } from "@/contexts/globalMessageContext";
 import { FilterProvider } from "@/contexts/filtersContext";
 import GlobalMessageWidget from "@/components/HandlerMessage/global-message-widget";
+import { UserProvider } from "@/contexts/userContext";
 
 
 export const metadata: Metadata = {
@@ -18,14 +19,16 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
                 <body>
-                    <ProviderTheme attribute="data-theme" defaultTheme="system" enableSystem>
-                        <GlobalMessageProvider>
-                            <FilterProvider>
-                                <GlobalMessageWidget />
-                                {children}
-                            </FilterProvider>
-                        </GlobalMessageProvider>
-                    </ProviderTheme>
+                    <GlobalMessageProvider>
+                        <UserProvider>
+                            <ProviderTheme attribute="data-theme" defaultTheme="system" enableSystem>
+                                <FilterProvider>
+                                    <GlobalMessageWidget />
+                                    {children}
+                                </FilterProvider>
+                            </ProviderTheme>
+                        </UserProvider>
+                    </GlobalMessageProvider>
                 </body>
         </html>
     );

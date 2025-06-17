@@ -11,9 +11,9 @@ import UploadImageSvg from '@/components/Icons/UploadImageSvg'
 import ProfileUploadComponent from './profile-upload'
 import { cleanString, validEmail } from '@/utils/FormatText'
 import useRegister from '@/hooks/requests/auth-requests/useRegister'
-import useCustomCookies from '@/hooks/useCustomCookies'
 import { useRouter } from 'next/navigation'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { useUser } from '@/contexts/userContext'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
@@ -32,7 +32,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         [profileImageFile, setProfileImageFile] = useState<File | null>(null),
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
         {register} = useRegister(),
-        {setToken} = useCustomCookies('token'),
+        {setUserAccess} = useUser(),
         router = useRouter(),
         {setError:setGlobalError} = useGlobalMessage()
         
@@ -90,8 +90,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
 
         register(formData)
             .then(res=>{
-                console.log(res)
-                setToken(res.token || res.res.token)
+                setUserAccess(res.token || res.res.token)
 
                 if (res.errImage) setGlobalError(res.errImage.message)
                 if (handleRegisterAndFinishQuiz) return handleRegisterAndFinishQuiz()

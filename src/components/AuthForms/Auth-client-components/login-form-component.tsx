@@ -11,7 +11,7 @@ import InputComponent from './input-component'
 import { validEmail } from '@/utils/FormatText'
 import '@/assets/styles/auth.scss'
 import useLogin from '@/hooks/requests/auth-requests/useLogin'
-import useCustomCookies from '@/hooks/useCustomCookies'
+import { useUser } from '@/contexts/userContext'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
@@ -24,7 +24,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
 
     const {getError, setError, concatErrors, hasErrors, resetErrors, inputsErrors} = useErrors()
     const [erroAuth, setErroAuth] = useState<ErrorsState>()
-    const {setToken} = useCustomCookies('token')
+    const {setUserAccess} = useUser()
 
     const {login} = useLogin()
 
@@ -66,8 +66,8 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
         
         login(JSON.stringify(UserObject))
             .then(res=>{
-                console.log(res)
-                setToken(res.token)
+                setUserAccess(res.token)
+                
                 if (handleRegisterAndFinishQuiz) return handleRegisterAndFinishQuiz()
                 else router.push('/home')
             })
