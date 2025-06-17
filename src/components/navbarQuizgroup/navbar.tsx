@@ -3,73 +3,59 @@ import styles from './navbar.module.scss'
 import { userAgent } from 'next/server'
 import Link from 'next/link'
 import QuizIcon from '../Icons/QuizIcon'
-//import { useTheme } from 'next-themes'
+import {getCookie} from 'cookies-next/server'
+import {cookies} from 'next/headers'
+import ToggleMenuAsideContainer from './client/toggle-menu-aside-container'
+import LogoutWidget from './client/logout-widget'
+import ImgProfileConfig from './client/img-profile-config'
+import SearchQuiz from './client/search-quiz'
 
 export default async function NavbarQuizgroup() {
     const {device} = userAgent({headers: await headers()}),
-        isMobile = device.type === 'mobile'
+        isMobile = device.type === 'mobile',
 
-    //const {theme, setTheme} = useTheme() //dark | light
-
-    const isAuth = false
+        token = await getCookie('token', {cookies})
 
     return (
         <nav className={styles.navbar}>
             <ul className={styles.menus}>
                 {isMobile && (<>
-                    {!isAuth && <li>
+                    {!token && <li>
                         <Link href='/'>
                             <QuizIcon/>
                         </Link>
                     </li>}
-                    {isAuth && (
-                        {/* <li className={styles.menu_button_container}>
-                            <span onClick={() => setMenuOpen(!menuOpen)}>
-                                {menuOpen ? <CloseSvg color={'white'} /> : <MenuSvg id={styles.menu} themeColor={colorReverse} />}
-                            </span>
-                            {menuOpen && <Menu auth={isAuth} user={user} />}
-                        </li> */}
+                    {token && (
+                        <ToggleMenuAsideContainer styles={styles} token={token} className='menu_button_container'/>
                     )}
                 </>)}
                 {!isMobile && (<>
                     <li>
-                        <Link href={isAuth ? '/home': '/'}>
+                        <Link href={token ? '/home': '/'}>
                             <QuizIcon/>
                         </Link>
                     </li>
-                    {isAuth && (
-                        {/* <li className={styles.menu_button_container}>
-                            <span onClick={() => setMenuOpen(!menuOpen)}>
-                                {menuOpen ? <CloseSvg color={'white'} /> : <MenuSvg id={styles.menu} themeColor={colorReverse} />}
-                            </span>
-                            {menuOpen && <Menu auth={isAuth} user={user} />}
-                        </li> */}
+                    {token && (
+                        <ToggleMenuAsideContainer styles={styles} token={token} className='menu_button_container'/>
                     )}
                 </>)}
             </ul>
             <ul className={styles.actions}>
-                {/* input de pesquisa || clientComponent */}
-                {isAuth ? (
+                {token ? (
                     <>
                         {!isMobile && <> 
+                            <SearchQuiz styles={styles} />
                             <li>
                                 <Link href='/create/quiz' className={`${styles.button} ${styles.first_button}`}>Create Quiz</Link>
                             </li>
                             <li>
                                 <Link href='/profile/config'>
-                                    <span className={styles.profile_image_span}>
-                                        {/* {user
-                                            ? (user?.profileImg && user.profileImg !== 'default' && imageExist
-                                                ? <img src={user.profileImg} alt="Foto de perfil" onError={() => setImageExist(false)} />
-                                                : <DefaultProfileImg />)
-                                            : <DefaultProfileImg />
-                                        } */}
-                                    </span>
+                                    <ImgProfileConfig styles={styles}/>
                                 </Link>
                             </li>
-                            {/* <li>
-                                <button className={`${styles.second_button}`} onClick={handleLeave}>Leave</button>
-                            </li> */}
+                            <li>
+                                <LogoutWidget styles={styles}/>
+                            </li>
                         </>}
                     </>
                 ) : (
@@ -80,12 +66,7 @@ export default async function NavbarQuizgroup() {
                         <li>
                             <Link href='/login' className={`${styles.second_button}`}>Login</Link>
                         </li>
-                        {/* <li id={styles.config_container}>
-                            <span onClick={() => setConfigOpen(!configOpen)}>
-                                {configOpen ? <CloseSvg color={colorReverse} /> : <ConfigSvg themeColor={colorReverse} />}
-                            </span>
-                            {configOpen && <Menu auth={isAuth} />}
-                        </li> */}
+                        <ToggleMenuAsideContainer styles={styles} className='config_container'/>
                     </>
                 )}
             </ul>

@@ -1,12 +1,44 @@
 'use client'
 import { useUser } from '@/contexts/userContext'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import styles from './user-profile-header.module.scss'
+import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg'
+import Image from 'next/image'
+
 
 export default function UserProfileHeader() {
-    const {user} = useUser()
+    const {user} = useUser(),
+        [imageError, setImageError] = useState(false)
 
-    console.log(user)
+    useEffect(() => {
+        setImageError(false);
+    }, [user?.profileImg]);
+
     return (
-        <div>user-profile-header</div>
+        <div className={styles.profile_container}>
+            <div className={styles.image_container}>
+                <div className={styles.image_content}>
+                    {user && user.profileImg && user.profileImg !== 'default' && !imageError ? (
+                        <Image
+                            loading='lazy'
+                            src={user.profileImg}
+                            alt="Foto de perfil"
+                            onError={() => setImageError(true)}
+                            width={500}
+                            height={500}
+                            quality={100}
+                        />
+                    ) : (
+                        <DefaultProfileImg />
+                    )}
+                </div>
+            </div>
+            <div className={styles.profile_actions}>
+                <div className={styles.Username}>
+                    <p>{user?.name || ''}</p>
+                </div>
+                <div className={styles.badges}></div>
+            </div>
+        </div>
     )
 }

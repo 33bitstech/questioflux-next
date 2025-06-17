@@ -33,6 +33,7 @@ button:hover, input[type='submit']:hover, .button:hover {
   --horizontal-rule-color: #DDDDDD;
 
   --text-primary: #0A0A0A;
+  --reverse-primary: #FFFFFF;
   --text-secondary: #6C6C6C;
   --text-description: #4E4E4E;
   --text-placeholder: #A9A9A9;
@@ -58,6 +59,32 @@ button:hover, input[type='submit']:hover, .button:hover {
   --checkbox-border-color: #A3A3A3;
   --checkbox-checked-bg-color: #0A0A0A;
   --checkbox-checked-image: url('../assets/checkedWhite.svg');
+
+  --popup-menu-bg: #ffffff;
+  --popup-menu-text: #0A0A0A;
+  --popup-action-button-bg: #ffffff;
+  --popup-action-button-text: #0A0A0A;
+  
+  --theme-button-border: #0A0A0A;
+  --theme-button-text: #0A0A0A;
+
+  --theme-button-active-bg: #0A0A0A;
+  --theme-button-active-text: #00E4FF;
+  --theme-button-active-outline: #00E4FF;
+   --vortexplus-bg: #FFFFFF;
+  --vortexplus-border: #0047FF;
+  --vortexplus-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
+  
+  --vortexplus-link-bg: #0A0A0A;
+  --vortexplus-link-text: #00E4FF;
+  --vortexplus-link-border: #00E4FF;
+
+  --profile-container-border: #0A0A0A;
+  --profile-image-ring-bg: #0A0A0A;
+  --profile-image-ring-inner-border: #FFFFFF;
+  --profile-image-gradient-start: #FFFFFF;
+  --profile-image-gradient-end: #0A0A0A;
+  --seemore-button-border: #0A0A0A;
 }
 
 [data-theme='dark'] {
@@ -74,6 +101,7 @@ button:hover, input[type='submit']:hover, .button:hover {
   --horizontal-rule-color: #909090;
 
   --text-primary: #FFFFFF;
+  --reverse-primary: #0A0A0A;
   --text-secondary: #A3A3A3;
   --text-description: #A0A0A0;
   --text-placeholder: #909090;
@@ -86,6 +114,33 @@ button:hover, input[type='submit']:hover, .button:hover {
   --checkbox-border-color: #A3A3A3;
   --checkbox-checked-bg-color: #0047FF;
   --checkbox-checked-image: url('../assets/checkedDark.svg');
+
+  --popup-menu-bg: #242526;
+  --popup-menu-text: #FFFFFF;
+  --popup-action-button-bg: #4b4b4b;
+  --popup-action-button-text: #FFFFFF;
+
+  --theme-button-border: #FFFFFF;
+  --theme-button-text: #FFFFFF;
+  
+  --theme-button-active-bg: #0047FF;
+  --theme-button-active-text: #FFFFFF;
+  --theme-button-active-outline: #FFFFFF;
+
+  --vortexplus-bg: #242526;
+  --vortexplus-border: #00E4FF;
+  --vortexplus-shadow: 0px 0px 8px 0px rgba(0, 228, 255, 0.2);
+
+  --vortexplus-link-bg: #0047FF;
+  --vortexplus-link-text: #FFFFFF;
+  --vortexplus-link-border: #0047FF;
+  
+  --profile-container-border: #FFFFFF;
+  --profile-image-ring-bg: #FFFFFF;
+  --profile-image-ring-inner-border: #0A0A0A;
+  --profile-image-gradient-start: #0A0A0A;
+  --profile-image-gradient-end: #FFFFFF;
+  --seemore-button-border: #FFFFFF;
 }
 
 html {

@@ -1,0 +1,91 @@
+@use '@/assets/styles/vars.scss';
+
+
+.content {
+    @extend %content-default;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 4rem;
+    margin-top: 4rem;
+    gap: 2rem;
+
+    .div_buttons_links {
+        margin: 2.5rem 0;
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .quiz_area {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .88rem;
+        width: 100%;
+        
+        h2 {
+            // Título da área de quiz também usa a variável primária
+            @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
+        }
+
+        .quizes {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .62rem;
+            justify-content: center;
+        }
+    }
+    
+    .seemore_button {
+        align-self: center;
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+        width: 80%;
+        padding: 0.5rem 1rem;
+        border-radius: 0.6875rem;
+        background-color: transparent;
+        border: 1px solid var(--seemore-button-border);
+        
+        p {
+            @include vars.styleTexto(var(--text-primary), 1rem, 700);
+        }
+
+        svg {
+            transition: .2s linear;
+            margin-top: 2px;
+            width: 2%;
+        }
+
+        &.active {
+            svg {
+                margin-top: 0;
+                transform: rotate(-180deg);
+                transition: .2s linear;
+            }
+        }
+    }
+
+    .more_content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        
+        .end_of_content {
+            width: 35.1875rem;
+            height: 0.3125rem;
+            border-radius: 2.5rem;
+            background-color: var(--horizontal-rule-color);
+        }
+    }
+}

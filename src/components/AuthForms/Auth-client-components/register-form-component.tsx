@@ -112,6 +112,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     onChange={(e) => setName(e.target.value)}
                     error={getError('name')}
                     icon={<ProfileSvg />}
+                    autoComplete='username'
                 />
                 <InputComponent
                     type="email"
@@ -120,6 +121,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     onChange={(e) => setEmail(e.target.value)}
                     error={getError('email')}
                     icon={<MailSvg />}
+                    autoComplete='email'
                 />
                 <InputComponent
                     type='password'
@@ -128,6 +130,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     onChange={(e)=>setPassword(e.target.value)}
                     error={getError('password')}
                     icon={<PadlockSvg/>}
+                    autoComplete='current-password'
                 />
                 <InputComponent
                     type='password'
@@ -136,6 +139,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     onChange={(e)=>setConfirmPassword(e.target.value)}
                     error={getError('confirmPassword')}
                     icon={<PadlockSvg/>}
+                    autoComplete='current-password'
                 />
                 
                 <div className='footer-form'>
