@@ -1,9 +1,10 @@
 'use client'
 import SearchSvg from '@/components/Icons/Search'
+import { TStyles } from '@/types/stylesType'
 import React, { FormEvent, useState } from 'react'
 
 interface IProps{
-    styles: Record<string, string>,
+    styles: TStyles,
 }
 
 export default function SearchQuiz({styles}: IProps) {

@@ -85,6 +85,15 @@ button:hover, input[type='submit']:hover, .button:hover {
   --profile-image-gradient-start: #FFFFFF;
   --profile-image-gradient-end: #0A0A0A;
   --seemore-button-border: #0A0A0A;
+
+  --filters-popup-bg: #FFFFFF;
+  --filters-popup-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.30);
+  
+  --filter-tag-border: #0A0A0A;
+  --filter-tag-text: #0A0A0A;
+  
+  --filter-tag-active-bg: #242526;
+  --filter-tag-active-text: #00E4FF;
 }
 
 [data-theme='dark'] {
@@ -141,6 +150,15 @@ button:hover, input[type='submit']:hover, .button:hover {
   --profile-image-gradient-start: #0A0A0A;
   --profile-image-gradient-end: #FFFFFF;
   --seemore-button-border: #FFFFFF;
+
+  --filters-popup-bg: #242526;
+  --filters-popup-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.45);
+
+  --filter-tag-border: #FFFFFF;
+  --filter-tag-text: #FFFFFF;
+  
+  --filter-tag-active-bg: #0047FF;
+  --filter-tag-active-text: #FFFFFF;
 }
 
 html {

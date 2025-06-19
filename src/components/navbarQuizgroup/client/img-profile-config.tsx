@@ -2,11 +2,12 @@
 
 import DefaultProfileImg from '@/components/Icons/profile-icons/DefaultProfileImg'
 import { useUser } from '@/contexts/userContext'
+import { TStyles } from '@/types/stylesType'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
 interface IProps{
-    styles: Record<string, string>
+    styles: TStyles
 }
 
 export default function ImgProfileConfig({styles}: IProps) {

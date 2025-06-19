@@ -1,4 +1,3 @@
-// src/hooks/requests/auth-requests/useLogin.ts
 'use client'
 
 import { useGlobalMessage } from '@/contexts/globalMessageContext'

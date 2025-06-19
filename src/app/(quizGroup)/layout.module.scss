@@ -9,3 +9,9 @@
     @extend %header-position;
   }
 }
+
+@media screen and (max-width: 860px) {
+  .container{
+      padding: .5rem;
+  }
+}

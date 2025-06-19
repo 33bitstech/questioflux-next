@@ -1,0 +1,1 @@
+export type TStyles = Record<string, string>

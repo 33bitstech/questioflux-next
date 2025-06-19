@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import styles from './contextual-header-action.module.scss'
+import ToggleFilterContainer from './filtersWidgets/toggle-filter-container'
 
 interface IProps {
     page: string
@@ -14,17 +15,18 @@ export default function ContextualHeaderActions({page} : IProps) {
             {page === 'home' && (
                 <Link href={'/explore'}>Explore Quizzes</Link>
             )}
-            {/* {page === 'explore' && (
-                <>
-                    <div className={`${styles.filter_button} ${filterClicked ? styles.active : ''}`} onClick={handleFilterClick}>
-                        <p>Filters</p>
-                        <ArrowSvg color={reverseColor}/>
-                    </div>
-                    <div className={styles.filter_popup_container}>
-                        {filterClicked && <Filters classTheme={classTheme} setFilterClicked={handleFilterClick}/>}
-                    </div>
-                </>
-            )} */}
+            {page === 'explore' && (
+                <ToggleFilterContainer styles={styles}/>
+            )}
+            {/* <>
+                <div className={`${styles.filter_button} ${filterClicked ? styles.active : ''}`} onClick={handleFilterClick}>
+                    <p>Filters</p>
+                    <ArrowSvg color={reverseColor}/>
+                </div>
+                <div className={styles.filter_popup_container}>
+                    {filterClicked && <Filters classTheme={classTheme} setFilterClicked={handleFilterClick}/>}
+                </div>
+            </> */}
             {/* {page === 'quiz' && isAuth && (
                 <Link to={'/home'}>Home</Link>
             )}

@@ -1,8 +1,9 @@
 'use client'
+import { TStyles } from '@/types/stylesType'
 import React from 'react'
 
 interface IProps{
-    styles: Record<string, string>
+    styles: TStyles
     setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 

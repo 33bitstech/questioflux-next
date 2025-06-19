@@ -1,4 +1,5 @@
 export type TFilter =
+    |"Others"
     |"General knowledge"
     |"Sports"
     |"Anime"

@@ -9,7 +9,10 @@ export default function Home() {
         <>
             <main className={styles.content}>
                 <UserProfileHeader />
-                <ContextualHeaderActions page='home'/>
+
+                <nav className={styles.div_buttons_links}>
+                    <ContextualHeaderActions page='home'/>
+                </nav>
 
                 <div className={styles.quiz_area}>
                     <h2>My private quizzes (0)</h2>

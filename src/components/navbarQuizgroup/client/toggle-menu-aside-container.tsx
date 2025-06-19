@@ -6,9 +6,10 @@ import MenuAside from '../menu-aside'
 import { CookieValueTypes } from 'cookies-next'
 import Overlay from './overlay'
 import ConfigSvg from '@/components/Icons/ConfigSvg'
+import { TStyles } from '@/types/stylesType'
 
 interface IProps{
-    styles: Record<string, string>,
+    styles: TStyles,
     token?: CookieValueTypes | undefined,
     className: string
 }

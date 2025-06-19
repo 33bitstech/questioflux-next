@@ -1,10 +1,11 @@
 'use client'
 import { useUser } from '@/contexts/userContext'
+import { TStyles } from '@/types/stylesType'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface IProps {
-    styles: Record<string, string>
+    styles: TStyles
 }
 
 export default function LogoutWidget({styles}:IProps) {

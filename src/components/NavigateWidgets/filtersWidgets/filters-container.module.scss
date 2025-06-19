@@ -1,0 +1,77 @@
+@use '@/assets/styles/vars.scss';
+
+.filters_popup {
+    position: absolute;
+    z-index: 7;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+
+    .filters_container {
+        border-radius: .625rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.30rem;
+
+        // O fundo e a sombra do container agora usam variáveis de tema
+        background-color: var(--filters-popup-bg);
+        box-shadow: var(--filters-popup-shadow);
+
+        .quiz_types, .categories {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: .8rem;
+
+            p {
+                // A cor do título agora usa a variável primária de texto
+                @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
+            }
+
+            ul {
+                display: flex;
+                gap: .62rem;
+                flex-wrap: wrap;
+
+                li {
+                    display: flex;
+                    justify-content: center;
+                    // O estilo padrão da tag de filtro agora usa variáveis
+                    @include vars.styleTexto(var(--filter-tag-text), 1rem, 600);
+                    border: 1px solid var(--filter-tag-border);
+                    background-color: transparent;
+                    min-width: 5rem;
+                    padding: .625rem .8rem;
+                    border-radius: 3rem;
+                    user-select: none;
+                    cursor: pointer;
+                }
+                
+                // O estado ativo agora é um único seletor que funciona para ambos os temas
+                .active_li {
+                    background-color: var(--filter-tag-active-bg);
+                    color: var(--filter-tag-active-text);
+                    border: none;
+                }
+
+                .types_soon {
+                    cursor: not-allowed;
+                    opacity: .5;
+                }
+            }
+        }
+    }
+
+    .apply_filters {
+        // Reutilizando as variáveis globais de botão para consistência
+        @include vars.styleTexto(var(--button-text-color), 1rem, 700);
+        background-color: var(--background-button);
+        padding: .6rem;
+        border: none;
+        border-radius: 0.625rem;
+        cursor: pointer;
+    }
+}
