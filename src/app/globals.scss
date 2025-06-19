@@ -94,6 +94,13 @@ button:hover, input[type='submit']:hover, .button:hover {
   
   --filter-tag-active-bg: #242526;
   --filter-tag-active-text: #00E4FF;
+
+  --quiz-card-bg: #FFFFFF;
+  --quiz-card-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.20);
+  --quiz-card-description-text: #909090; // cinza6
+  --quiz-card-gradient-text: linear-gradient(90deg, #00E4FF 47.52%, #0047FF 99.95%);
+  --quiz-card-hover-gradient: linear-gradient(180deg, #FFFFFF 26%, transparent 100%);
+
 }
 
 [data-theme='dark'] {
@@ -159,6 +166,13 @@ button:hover, input[type='submit']:hover, .button:hover {
   
   --filter-tag-active-bg: #0047FF;
   --filter-tag-active-text: #FFFFFF;
+
+  --quiz-card-bg: #242526;
+  --quiz-card-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.35);
+  --quiz-card-description-text: #A9A9A9; // cinza4
+  --quiz-card-gradient-text: linear-gradient(90deg, #0047FF 0%, #00E4FF 100%);
+  --quiz-card-hover-gradient: linear-gradient(180deg, #242526 26%, transparent 100%);
+
 }
 
 html {

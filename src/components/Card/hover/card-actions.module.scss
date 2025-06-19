@@ -1,0 +1,35 @@
+@use '@/assets/styles/vars.scss';
+
+.navQuizHover {
+    width: 12.1rem;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .69rem;
+        width: 100%;
+
+        li {
+            width: 100%;
+
+            button, a {
+                display: block;
+                cursor: pointer;
+                text-align: center;
+                border: none;
+                width: 100%;
+                text-transform: uppercase;
+                padding: .62rem 0;
+                border-radius: 0.3125rem;
+
+                @include vars.styleTexto(var(--button-text-color), .84rem, 700);
+                background-color: var(--background-button);
+
+                &:hover {
+                    opacity: .95;
+                }
+            }
+        }
+    }
+}

@@ -1,3 +1,4 @@
+import { TFilter } from "@/types/filtersType";
 import IQuestion from "./IQuestion"
 export interface IResultMessages {
     allCorrect: string; // Mensagem para quando o usuário acertar todas as perguntas
@@ -17,7 +18,7 @@ export default interface IQuizes {
     qtdQuestions: number;
     questions?: Array<IQuestion>;
     tags?: Array<string>;
-    category: string;
+    category: TFilter;
     resultMessages?: IResultMessages;
     idiom: string,
     usersCount?: number,

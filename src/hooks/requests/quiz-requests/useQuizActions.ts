@@ -2,13 +2,16 @@
 
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 
-const useGettingQuiz = () => {
+const useQuizActions = (savedQuizes: Array<{id: string}> | undefined) => {
     const { setError } = useGlobalMessage()
 
-    async function publicQuizzes() {
+    async function saveQuiz(quizId:string, token: string) {
         try {
-            const response = await fetch('/api/quizzes/public', {
-                method: 'GET',
+            const response = await fetch(`/api/quiz/save/${quizId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                }
             });
 
             const res = await response.json();
@@ -24,14 +27,17 @@ const useGettingQuiz = () => {
             throw err.response.data;
         }
     }
-    async function featuredQuizzes() {
+    async function unsaveQuiz(quizId:string, token:string) {
         try {
-            const response = await fetch('/api/quizzes/featured', {
-                method: 'GET',
+            const response = await fetch(`/api/quiz/unsave/${quizId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': token,
+                }
             });
 
             const res = await response.json();
-
+            console.log(res)
             if (!response.ok) throw { response: { data: res } }
 
             return res;
@@ -44,7 +50,11 @@ const useGettingQuiz = () => {
         }
     }
 
-    return { publicQuizzes, featuredQuizzes};
+    const verifySave = (quizId:string)=>{
+        return savedQuizes?.find(quiz=>quiz.id == quizId)
+    }
+
+    return { saveQuiz, unsaveQuiz, verifySave};
 }
 
-export default useGettingQuiz;
+export default useQuizActions;

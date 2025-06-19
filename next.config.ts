@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         hostname: 'quizvortex33.s3.sa-east-1.amazonaws.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'quizvortex.s3.sa-east-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
       }
     ]
   }

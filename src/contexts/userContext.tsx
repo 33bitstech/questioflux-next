@@ -8,6 +8,7 @@ import useCustomCookies from "@/hooks/useCustomCookies"
 
 interface IUserContext {
     user: IUser | null,
+    token: string | undefined
     updateUser: (userObj: IUser | null) => void,
     logout: ()=>void,
     setUserAccess: (token: string) =>void
@@ -72,7 +73,7 @@ export function UserProvider({children} : {children : ReactNode}){
 
     return (
         <UserContext.Provider value={{
-            user, updateUser, logout, setUserAccess
+            user, token, updateUser, logout, setUserAccess
         }}>
             {children}
         </UserContext.Provider>

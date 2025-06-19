@@ -3,6 +3,9 @@ import useGettingQuiz from '@/hooks/requests/quiz-requests/useGettingQuiz'
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
+import QuizCard from '../Card/quiz-card'
+import ArrowSvg from '../Icons/ArrowSvg'
+import { useFilters } from '@/contexts/filtersContext'
 
 interface IProps {
     styles : TStyles
@@ -11,58 +14,74 @@ interface IProps {
 
 export default function SearchResults({styles} : IProps) {
     const {publicQuizzes} = useGettingQuiz(),
-        [quizzes, setQuizzes] = useState<IQuizes[]>()
+        {filtersSelected} = useFilters(),
+        [quizzes, setQuizzes] = useState<IQuizes[]>(),
+        [results, setResults] = useState<IQuizes[]>(),
+
+        [visibleQuizzesQtd, setVisibleQuizzesQtd] = useState(9),
+        [viewAllExplore, setViewAllExplore] = useState(false)
+
+    const handleViewMore = ()=>{
+        setVisibleQuizzesQtd(()=>visibleQuizzesQtd+9)
+    },
+    handleViewLess = ()=>{
+        setVisibleQuizzesQtd(9)
+        setViewAllExplore(false)
+    },
+    handleFilteringQuizzes = () =>{
+        setResults(quizzes?.filter(quiz=>filtersSelected.includes(quiz.category)))
+    }
 
     useEffect(()=>{
         const get = async ()=>{
             try {
                 const res = await publicQuizzes()
                 setQuizzes(res.quizzes)
+                setResults(res.quizzes)
             } catch (err) {
                 console.log(err)
             }
         }
         get()
     },[])
+    useEffect(()=>{
+        if(filtersSelected.length > 0) {
+            handleFilteringQuizzes()
+        }else{
+            setResults(quizzes)
+        }
+    },[filtersSelected])
 
     return (
         <>
-            <p>aqui estára os quizzes</p>
-            {/* <div className={styles.quizes_container}>
-                {quizzes?.slice(0,9).map((quiz, index)=>(
-                    <QuizBox key={index} 
-                        classThemeModule={classThemeModule}
+            <div className={styles.quizes_container}>
+                {results?.slice(0,9).map((quiz, index)=>(
+                    <QuizCard 
+                        key={index} 
                         quiz={quiz}
-                        saveFunc={save}
-                        unsaveFunc={unsave}
-                        verifySave={verifySave}
-                        token={cookie}
                     />
                 ))}
             </div>
-            {Array.isArray(quizzes) && quizzes?.length > visibleQuizzesQtd && (
+            
+            {Array.isArray(results) && results?.length > visibleQuizzesQtd && (
                 <button onClick={()=>setViewAllExplore(!viewAllExplore)} 
                 className={`${styles.seemore_button} ${viewAllExplore ? styles.active : ''}`}>
                     <p>
                         See {viewAllExplore ? 'less': 'more'}
                     </p>
-                    <ArrowSvg color={colorReverse}/>
+                    <ArrowSvg/>
                 </button>
             )}
             {viewAllExplore && <div className={styles.more_content}>
                 <div className={styles.quizes_container}>
-                    {quizzes?.slice(9, visibleQuizzesQtd+9).map((quiz, index)=>(
-                        <QuizBox key={index} 
-                            classThemeModule={classThemeModule}
+                    {results?.slice(9, visibleQuizzesQtd+9).map((quiz, index)=>(
+                        <QuizCard 
+                            key={index} 
                             quiz={quiz}
-                            saveFunc={save}
-                            unsaveFunc={unsave}
-                            verifySave={verifySave}
-                            token={cookie}
                         />
                     ))}
                 </div>    
-                {quizzes?.length > visibleQuizzesQtd + 9 ? <>
+                {Array.isArray(results) && results?.length > visibleQuizzesQtd + 9 ? <>
                     <button onClick={()=>{
                         setViewAllExplore(true)
                         handleViewMore()
@@ -71,7 +90,7 @@ export default function SearchResults({styles} : IProps) {
                         <p>
                             See more
                         </p>
-                        <ArrowSvg color={colorReverse}/>
+                        <ArrowSvg/>
                     </button>
                 </> : <>
                     <button onClick={()=>{
@@ -82,10 +101,10 @@ export default function SearchResults({styles} : IProps) {
                         <p>
                             See less
                         </p>
-                        <ArrowSvg color={colorReverse}/>
+                        <ArrowSvg/>
                     </button>
                 </>}
-            </div>} */}
+            </div>}
         </>
     )
 }
