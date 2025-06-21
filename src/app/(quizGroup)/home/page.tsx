@@ -3,6 +3,7 @@ import UserProfileHeader from '@/components/User/user-profile-header'
 import React from 'react'
 
 import styles from './home.module.scss'
+import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 
 export default function Home() {
     return (
@@ -15,10 +16,17 @@ export default function Home() {
                 </nav>
 
                 <div className={styles.quiz_area}>
-                    <h2>My private quizzes (0)</h2>
+                    <ContainerUserQuizzes
+                        styles={styles}
+                        quizzes_type='private'
+                    />
+                    {/* ContainerUserQuizzes */}
                 </div>
                 <div className={styles.quiz_area}>
-                    <h2>My public quizzes (0)</h2>
+                    <ContainerUserQuizzes
+                        styles={styles}
+                        quizzes_type='public'
+                    />
                 </div>
 
             </main>

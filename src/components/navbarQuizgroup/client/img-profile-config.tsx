@@ -22,7 +22,6 @@ export default function ImgProfileConfig({styles}: IProps) {
         <span className={styles.profile_image_span}>
             {user && user.profileImg && user.profileImg !== 'default' && !imageError ? (
                 <Image
-                    loading='lazy'
                     src={user.profileImg}
                     alt="Foto de perfil"
                     onError={() => setImageError(true)}

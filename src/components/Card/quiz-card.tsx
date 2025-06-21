@@ -63,7 +63,6 @@ export default function QuizCard({quiz}: IProps) {
                             setImageLoading(false);
                             setImageBackup(true);
                         }}
-                        loading="lazy"
                     />
                     <div className={styles.footerImg}>
                         <div>

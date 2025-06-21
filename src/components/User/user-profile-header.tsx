@@ -20,7 +20,6 @@ export default function UserProfileHeader() {
                 <div className={styles.image_content}>
                     {user && user.profileImg && user.profileImg !== 'default' && !imageError ? (
                         <Image
-                            loading='lazy'
                             src={user.profileImg}
                             alt="Foto de perfil"
                             onError={() => setImageError(true)}

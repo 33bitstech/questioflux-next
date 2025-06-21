@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import QuizCard from '../Card/quiz-card'
 import ArrowSvg from '../Icons/ArrowSvg'
 import { useFilters } from '@/contexts/filtersContext'
+import { useSearchParams } from 'next/navigation'
 
 interface IProps {
     styles : TStyles
@@ -15,11 +16,18 @@ interface IProps {
 export default function SearchResults({styles} : IProps) {
     const {publicQuizzes} = useGettingQuiz(),
         {filtersSelected} = useFilters(),
+        {searchQuiz} = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
         [results, setResults] = useState<IQuizes[]>(),
 
         [visibleQuizzesQtd, setVisibleQuizzesQtd] = useState(9),
-        [viewAllExplore, setViewAllExplore] = useState(false)
+        [viewAllExplore, setViewAllExplore] = useState(false),
+
+        searchParams = useSearchParams(),
+
+        title = searchParams.get('title') || '',
+        tags = searchParams.get('tags') || '',
+        categories = searchParams.get('categories') || ''
 
     const handleViewMore = ()=>{
         setVisibleQuizzesQtd(()=>visibleQuizzesQtd+9)
@@ -29,7 +37,7 @@ export default function SearchResults({styles} : IProps) {
         setViewAllExplore(false)
     },
     handleFilteringQuizzes = () =>{
-        setResults(quizzes?.filter(quiz=>filtersSelected.includes(quiz.category)))
+        setResults(results?.filter(quiz=>filtersSelected.includes(quiz.category)))
     }
 
     useEffect(()=>{
@@ -51,6 +59,22 @@ export default function SearchResults({styles} : IProps) {
             setResults(quizzes)
         }
     },[filtersSelected])
+    useEffect(()=>{
+        if(title || tags || categories){
+            const get = async () =>{
+                try {
+                    const res = await searchQuiz(title, categories, tags)
+                    setResults(res.quizzes)
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+            get()
+        }else{
+            setResults(quizzes)
+        }
+        
+    }, [title, tags, categories])
 
     return (
         <>
