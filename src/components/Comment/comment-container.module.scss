@@ -1,0 +1,285 @@
+@use '../../assets/styles/vars.scss';
+
+.comment{
+    display: flex;
+    gap: .5rem;
+    width: 100%;
+    .image_comment_container{
+        display: inline-block;
+        width: 3.4375rem;
+        height: 3.1375rem;
+        border-radius: 100%;
+        img, svg{
+            height: 100%;
+            width: 100%;
+            border-radius: 100%;
+        }
+        img{
+            background-size: contain;
+            object-fit: cover;
+        }
+    }
+    .body_comment{
+        display: flex;
+        flex-direction: column;
+        gap: .2rem;
+        width: 100%;
+        .header_comment{
+            display: flex;
+            align-items: center;
+            gap: .62rem;
+            a{
+                @include vars.styleTexto(map-get($map: $colors, $key: preto), 1rem, 700);
+            }
+            p{  
+                @include vars.styleTexto(map-get($map: $colors, $key: cinza8), .75rem, 700);
+            }
+        }
+        .content_comment{
+            text-overflow: clip;
+            width: 99%;
+            word-break: break-word;
+            .show_more_buttons{
+                button{
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    @include vars.styleTexto(map-get($map: $colors, $key: cinzaSearch), .8rem, 400);
+                    cursor: pointer;
+                }
+            }
+            .p_container{
+                max-height: 120px;
+                overflow: hidden;
+                transition: 1s linear;
+            }
+            .showing{
+                max-height: unset !important;
+            }
+            p{
+                @include vars.styleTexto(map-get($map: $colors, $key: preto), 1rem, 400);
+                word-wrap: break-word;
+                white-space: pre-wrap;
+
+                a{
+                    border-radius: .5rem;
+                    padding: .1rem .3rem;
+                    @include vars.styleTexto(map-get($map: $colors, $key: azulEscuro), 1rem, 600);
+                }
+            }
+            form{
+                display: flex;
+                position: relative;
+                input{
+                    @include vars.styleTexto(map-get($map: $colors, $key: preto), .88rem, 400);
+                    padding: .5rem .75rem;
+                    width: 100%;
+                    border: 1px solid map-get($map: $colors, $key: cinzaDescD);
+                    background-color: transparent;
+                }
+                .edit_actions{
+                    position: absolute;
+                    display: flex;
+                    align-items: center;
+                    right: .5%;
+                    gap: .1rem;
+                    
+                    button, span{
+                        background-color: transparent;
+                        border: none;
+                        cursor: pointer;
+                        align-self: center;
+                    }
+                    button{
+                        display: flex;
+                        align-items: center;
+                    }
+                    span, span svg{
+                        width: .9rem;
+                        height: .9rem;
+                    }
+                }
+            }
+        }
+        .actions_comment{
+            margin-top: .5rem;
+            display: flex;
+            gap: 1.69rem;
+            .action{
+                user-select: none;
+                display: flex;
+                gap: .44rem;
+                align-items: center;
+                cursor: pointer;
+                p{
+                    @include vars.styleTexto( map-get($map: $colors, $key: preto), .75rem, 700);
+                    text-transform: uppercase;
+                }
+                .options{
+                    display: flex;
+                    gap: .7rem;
+                    flex-wrap: wrap;
+                    li{
+                        display: flex;
+                        gap: .1rem;
+                        align-items: center;
+                        cursor: pointer;
+                        user-select: none;
+                        @include vars.styleTexto(map-get($map: $colors, $key: preto), .75rem, 700);
+                        text-transform: uppercase;
+                        svg{
+                            rotate: 270deg;
+                        }
+                    }
+                }
+            }
+            .action.action_active{
+                p{
+                    background: linear-gradient(180deg, map-get($map: $colors, $key: azulEscuro) 0%, map-get($map: $colors, $key: ciano) 100%);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+            }
+        }
+        .dynamic_itens{
+            margin-top: .5rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            .form_reply{
+                width: 100%;
+                display: flex;
+                position: relative;
+                input{
+                    @include vars.styleTexto(map-get($map: $colors, $key: preto), .88rem, 400);
+                    padding: .5rem .75rem;
+                    width: 100%;
+                    border: 1px solid map-get($map: $colors, $key: cinzaDescD);
+                    background-color: transparent;
+                }
+                button{
+                    position: absolute;
+                    display: flex;
+                    align-items: center;
+                    right: .5%;
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                }
+            }
+            .show_more{
+                p{
+                    @include vars.styleTexto(map-get($map: $colors, $key: cinzaSearch), .75rem, 700);
+                }
+                display: flex;
+                gap: .33rem;
+                cursor: pointer;
+                text-transform: uppercase;
+                align-items: center;
+                width: 25%;
+                &.show_active{
+                    svg{
+                        rotate: 180deg;
+                    }
+                }
+            }
+            .replies{
+                margin-top: .8rem;
+                display: flex;
+                flex-direction: column;
+                gap: .6rem;
+            }
+        }
+    }
+}
+.comment.white_theme{
+    .body_comment{
+        .header_comment{
+            a{
+                color: map-get($map: $colors, $key: preto) !important;
+            }
+        }
+        .content_comment{
+            p{
+                color: map-get($map: $colors, $key: preto) !important;
+                a{
+                    color: map-get($map: $colors, $key: azulEscuro) !important;
+                    background-color: #d9d9d9ba;
+                    &:hover{
+                        color: map-get($map: $colors, $key: ciano) !important;
+                    }
+                }
+            }
+            form{
+                input{
+                    color: map-get($map: $colors, $key: preto) !important;
+                }
+            }
+        }
+        .actions_comment{
+            .action{
+                p, li{
+                    color: map-get($map: $colors, $key: preto) !important;
+                }
+            }
+        }
+        .dynamic_itens{
+            .form_reply{
+                input{
+                    color: map-get($map: $colors, $key: preto) !important;
+                }
+            }
+            .show_more{
+                p{
+                    color: map-get($map: $colors, $key: cinzaSearch) !important;
+                }
+            }
+        }
+    }
+}
+.comment.dark_theme{
+    .body_comment{
+        .header_comment{
+            a{
+                color: map-get($map: $colors, $key: branco) !important;
+            }
+        }
+        .content_comment{
+            p{
+                color: map-get($map: $colors, $key: branco) !important;
+                a{
+                    color: map-get($map: $colors, $key: ciano) !important;
+                    background-color: #282a2cba;
+                    &:hover{
+                        color: map-get($map: $colors, $key: azulEscuro) !important;
+                    }
+                }
+            }
+            form{
+                input{
+                    color: map-get($map: $colors, $key: branco) !important;
+                }
+            }
+        }
+        .actions_comment{
+            .action{
+                p, li{
+                    color: map-get($map: $colors, $key: branco) !important;
+                }
+            }
+        }
+        .dynamic_itens{
+            .form_reply{
+                input{
+                    color: map-get($map: $colors, $key: branco) !important;
+                }
+            }
+            .show_more{
+                p{
+                    color: map-get($map: $colors, $key: cinzaDescD) !important;
+                }
+            }
+        }
+    }
+}

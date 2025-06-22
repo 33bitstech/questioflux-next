@@ -1,0 +1,12 @@
+// Em um novo arquivo, ex: MoreIcon.module.scss
+
+.icon {
+    // Estado padrão: usa a cor primária de texto do tema (preto no claro, branco no escuro)
+    fill: var(--text-primary);
+    transition: fill 0.2s ease-in-out;
+}
+
+.icon.active {
+    // Estado ativo: usa o gradiente que definimos
+    fill: var(--icon-gradient);
+}

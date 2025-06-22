@@ -26,6 +26,7 @@ button:hover, input[type='submit']:hover, .button:hover {
   --main-background-image: url(../assets/fundoBranco.png);
 
   --background-button: #0A0A0A;
+  --background-button-transparent: transparent;
   --button-text-color: #00E4FF;
   --background-divs: #ffffff;
   --background-input: #0A0A0A;
@@ -81,6 +82,9 @@ button:hover, input[type='submit']:hover, .button:hover {
   --vortexplus-link-text: #00E4FF;
   --vortexplus-link-border: #00E4FF;
 
+  --like-color: #0A0A0A;
+  --icon-gradient: url(#icon-gradient-fill)
+
   --profile-container-border: #0A0A0A;
   --profile-image-ring-bg: #0A0A0A;
   --profile-image-ring-inner-border: #FFFFFF;
@@ -112,11 +116,14 @@ button:hover, input[type='submit']:hover, .button:hover {
   --main-background-image: url('../assets/fundoPreto.png');
 
   --background-button: #0047FF;
+  --background-button-transparent:#0047FF;
   --button-text-color: #ffffff;
 
   --background-divs: #242526;
 
   --horizontal-rule-color: #909090;
+
+  --like-color: url(#paint0_linear_1134_64);
 
   --background-dark: #242526;
 
