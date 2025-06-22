@@ -6,6 +6,7 @@ import ThemeWidget from './client/theme-widget'
 import GamepassWidget from './client/gamepass-widget'
 
 import './menu-aside.scss'
+import LinkProfile from './client/link-profile'
 
 interface IProps{
     auth: CookieValueTypes | undefined
@@ -30,7 +31,7 @@ export default function MenuAside({auth}: IProps) {
                                 <NavLink href='/create/quiz'>Create Quiz</NavLink>
                             </li>
                             <li>
-                                <NavLink href={`/user/123`}>Profile</NavLink>
+                                <LinkProfile/>
                             </li>
                             <li>
                                 <NavLink href={`/saves`}>Saves</NavLink>

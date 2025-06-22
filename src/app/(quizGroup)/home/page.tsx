@@ -20,8 +20,8 @@ export default function Home() {
                         styles={styles}
                         quizzes_type='private'
                     />
-                    {/* ContainerUserQuizzes */}
                 </div>
+                
                 <div className={styles.quiz_area}>
                     <ContainerUserQuizzes
                         styles={styles}

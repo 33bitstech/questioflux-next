@@ -14,7 +14,6 @@ interface IProps {
 export default function NavLink({ href, children, styles} : IProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
-  console.log(isActive)
   return (
     <Link
       href={href}

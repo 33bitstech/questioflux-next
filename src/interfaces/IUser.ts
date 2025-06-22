@@ -1,7 +1,7 @@
 export interface IUser {
     userId?: string;
     name: string;
-    email: string;
+    email?: string;
     profileImg?: string;
     premium?: boolean,
     specialCount?: number,

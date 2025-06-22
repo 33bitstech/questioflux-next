@@ -1,40 +1,27 @@
 'use client'
 import { useUser } from '@/contexts/userContext'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styles from './user-profile-header.module.scss'
-import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg'
-import Image from 'next/image'
+import { IUser } from '@/interfaces/IUser'
+import UserProfileImgRender from '../ImagesRender/user-profile-img-render'
 
+interface IProps {
+    userP?: IUser
+}
 
-export default function UserProfileHeader() {
-    const {user} = useUser(),
-        [imageError, setImageError] = useState(false)
-
-    useEffect(() => {
-        setImageError(false);
-    }, [user?.profileImg]);
+export default function UserProfileHeader({userP}: IProps) {
+    const {user} = useUser()
 
     return (
         <div className={styles.profile_container}>
             <div className={styles.image_container}>
                 <div className={styles.image_content}>
-                    {user && user.profileImg && user.profileImg !== 'default' && !imageError ? (
-                        <Image
-                            src={user.profileImg}
-                            alt="Foto de perfil"
-                            onError={() => setImageError(true)}
-                            width={500}
-                            height={500}
-                            quality={100}
-                        />
-                    ) : (
-                        <DefaultProfileImg />
-                    )}
+                    { (userP || user) && <UserProfileImgRender user={userP || user as IUser}/> }
                 </div>
             </div>
             <div className={styles.profile_actions}>
                 <div className={styles.Username}>
-                    <p>{user?.name || ''}</p>
+                    <p>{userP?.name || user?.name || ''}</p>
                 </div>
                 <div className={styles.badges}></div>
             </div>

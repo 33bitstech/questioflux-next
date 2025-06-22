@@ -4,22 +4,22 @@ import ArrowSvg from '@/components/Icons/ArrowSvg'
 import { useUser } from '@/contexts/userContext'
 import useGettingQuiz from '@/hooks/requests/quiz-requests/useGettingQuiz'
 import IQuizes from '@/interfaces/IQuizes'
+import { IUser } from '@/interfaces/IUser'
 import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
 
 interface IProps{
     styles: TStyles,
-    quizzes_type: 'public' | 'private' | 'drafts' | 'saves',
-    customTitle?: string
+    quizzes_type: 'public' | 'private' | 'draft' | 'saved',
+    customTitle?: string,
+    userP?: IUser
 }
 
-export default function ContainerUserQuizzes({styles, quizzes_type, customTitle}: IProps) {
+export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP}: IProps) {
     const {token, user} = useUser(),
         {userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes} = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
-        [viewQuizzes, setViewQuizzes] = useState<boolean>(false),
-        [title, setTitle] = useState<string>('')
-
+        [viewQuizzes, setViewQuizzes] = useState<boolean>(false)
 
     useEffect(()=>{
         const get = async ()=>{
@@ -27,38 +27,39 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle}
                 const actions = {
                     public:{
                         action: async () => {
+                            if(userP && userP.userId){
+                                const res = await userPublicQuizzes(userP.userId)
+                                if (res) setQuizzes(res.quizes)
+                                return
+                            }
                             if (user.userId) {
                                 const res = await userPublicQuizzes(user.userId)
                                 if (res) setQuizzes(res.quizes)
+                                return
                             } 
                         },
-                        title: `${customTitle ? `${customTitle}` : 'My public quizes'} (${quizzes?.length || 0})`
                     },
                     private: {
                         action: async () => {
                             const res = await userPrivateQuizzes(token)
-                            if (res) setQuizzes(res.quizes)
+                            if (res) setQuizzes(res.quizzes)
                         },
-                        title: `${customTitle ? `${customTitle}` : 'My private quizes'} (${quizzes?.length || 0})`
                     },
-                    drafts: {
+                    draft: {
                         action: async () => {
                             const res = await userDraftsQuizzes(token)
-                            if (res) setQuizzes(res.quizes)
+                            if (res) setQuizzes(res.quizzes)
                         },
-                        title: `${customTitle ? `${customTitle}` : 'Your draft quizzes'} (${quizzes?.length || 0})`
                     },
-                    saves: {
+                    saved: {
                         action: async () => {
                             const res = await userSavesQuizzes(token)
-                            if (res) setQuizzes(res.quizes)
+                            if (res) setQuizzes(res.quizzes)
                         },
-                        title: `${customTitle ? `${customTitle}` : 'All saved quizzes'} (${quizzes?.length || 0})`
                     }
                 }
     
                 await actions[quizzes_type].action()
-                setTitle(actions[quizzes_type].title)
             }
         }
 
@@ -70,7 +71,13 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle}
     if(quizzes_type == 'public' || quizzes_type == 'private'){
         return (
             <>
-                <h2>{title}</h2>
+                <h2>
+                    {`${customTitle 
+                        ? `${customTitle}` 
+                        : `Your ${quizzes_type} quizzes`} 
+                    
+                    (${quizzes?.length || 0})`}
+                </h2>
                 <section className={styles.quizes}>
                         {user && Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
                             <QuizCard 
@@ -105,10 +112,16 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle}
             </>
         )
     }
-    if(quizzes_type == 'drafts' || quizzes_type == 'saves'){
+    if(quizzes_type == 'draft' || quizzes_type == 'saved'){
         return (
             <>
-                <h1>{title}</h1>
+                <h1>
+                    {`${customTitle 
+                        ? `${customTitle}` 
+                        : `Your ${quizzes_type} quizzes`} 
+                    
+                    (${quizzes?.length || 0})`}
+                </h1>
                 <div className={styles.quizes_container}>
                     {quizzes?.map((quiz, index)=>(
                         <QuizCard
