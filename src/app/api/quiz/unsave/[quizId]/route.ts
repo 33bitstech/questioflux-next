@@ -19,7 +19,6 @@ export async function DELETE(request: Request, {params}: {params:{quizId:string}
             headerValue: token,
             cache: {cache: 'no-store'}
         })
-        console.log(externalApiResponse)
         const responseData = await externalApiResponse.json();
 
         if (!externalApiResponse.ok) {

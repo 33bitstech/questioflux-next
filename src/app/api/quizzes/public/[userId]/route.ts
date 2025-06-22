@@ -10,7 +10,6 @@ export async function GET(request: Request, {params}: {params: {userId: string}}
             method: 'GET',
             cache: { cache: 'no-store' },
         });
-        console.log(externalApiResponse)
 
         const responseData = await externalApiResponse.json();
 

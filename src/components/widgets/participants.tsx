@@ -6,19 +6,16 @@ import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
 import ParticipantsContainer from './participants-container'
 import useQuizDatas from '@/hooks/requests/quiz-requests/useQuizDatas'
+import { TLeaderboard } from '@/types/leaderboardTypes'
 
 interface IProps{
     styles: TStyles,
     quiz: IQuizes
 }
-type TParticipants = Array<IUserLeaderBoardScore & {
-    name: string;
-    profileImg: string;
-}>
 
 export default function Participants({quiz, styles}: IProps) {
     const [showParticipants, setShowParticipants] = useState<boolean>(false),
-        [participants, setParticipants] = useState<TParticipants>(),
+        [participants, setParticipants] = useState<TLeaderboard>(),
         {getLeaderboard} = useQuizDatas()
 
     useEffect(()=>{

@@ -6,5 +6,7 @@ export default interface IUserLeaderBoardScore {
     score:  string;
     result: IResultComparation
     attempts?: number
+    name: string;
+    profileImg: string;
 }
 

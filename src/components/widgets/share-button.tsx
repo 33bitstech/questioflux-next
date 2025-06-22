@@ -13,7 +13,7 @@ export default function ShareButton({quizId, styles}: IProps) {
     return (
         <>
 
-            <button onClick={()=>setOpenShare(!openShare)}>Share Quiz</button>
+            <button className={styles.share_quiz} onClick={()=>setOpenShare(!openShare)}>Share Quiz</button>
 
             {openShare && <div className={styles.sharing_container}>
                 <ShareContainer quizId={quizId} closeShareContainer={()=>setOpenShare(value=>!value)}/>

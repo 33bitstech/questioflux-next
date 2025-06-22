@@ -7,15 +7,13 @@ import CloseSvg from '../Icons/CloseSvg';
 import Image from 'next/image';
 import styles from './participants-container.module.scss'
 import UserProfileImgRender from '../ImagesRender/user-profile-img-render';
+import { TLeaderboard } from '@/types/leaderboardTypes';
 
 interface IProps {
-    users: TParticipants,
+    users: TLeaderboard,
     closeParticipants: () => void
 }
-type TParticipants = Array<IUserLeaderBoardScore & {
-    name: string;
-    profileImg: string;
-}>
+
 
 export default function ParticipantsContainer({users, closeParticipants}: IProps) {
     return (

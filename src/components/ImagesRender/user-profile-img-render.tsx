@@ -4,11 +4,12 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg';
 import { IUser } from '@/interfaces/IUser';
+import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
 
 interface IProps{
     width?: number,
     height?: number,
-    user: IUser,
+    user: IUser | IUserLeaderBoardScore,
     quality?: number
 }
 
