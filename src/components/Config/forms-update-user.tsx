@@ -5,13 +5,17 @@ import { TStyles } from '@/types/stylesType'
 import { FormEvent, useState } from 'react'
 import InputEdit from './input-edit'
 import ProfileImgEdit from './profile-img-edit'
+import useUpdate from '@/hooks/requests/auth-requests/useUpdate'
+import { useGlobalMessage } from '@/contexts/globalMessageContext'
 
 interface IProps{
     styles: TStyles
 }
 
 export default function FormsUpdataUser({styles}: IProps) {
-    const {user} = useUser(),
+    const {user, token, setUserAccess} = useUser(),
+        {updateUser, updateUserProfile} = useUpdate(),
+        {setSucess} = useGlobalMessage(),
 
         [username, setUsername] = useState<string>(''),
         [email, setEmail] = useState<string>(''),
@@ -21,19 +25,58 @@ export default function FormsUpdataUser({styles}: IProps) {
 
         [editUsername, setEditUsername] = useState<boolean>(false),
         [editEmail, setEditEmail] = useState<boolean>(false),
-        [editPassword, setEditPassword] = useState<boolean>(false),
+        [editPassword, setEditPassword] = useState<boolean>(false)
 
-        [newUser, setNewUser] = useState<IUser>()
-
-
-    const handleSubmit = (e:FormEvent) => e.preventDefault(),
-        onFileChange = (file: File | null) => {
-            setImageValue(file)
-        },
-
-        handleSaveConfig = () => {
-            console.log(username, email, password)
+    const preventSubmit = (e:FormEvent) => {
+        e.preventDefault()
+    },
+    onFileChange = (file: File | null) => {
+        setImageValue(file)
+    },
+    handleResetInputs = ()=>{
+        setEditUsername(false)
+        setEditEmail(false)
+        setEditPassword(false)
+    },
+    handleSaveConfig = () => {
+        if(!token) return
+        if(username || email || password) {
+            const user = {
+                userName: username,
+                userEmail: email,
+                password
+            }
+    
+            type UserKey = keyof typeof user;
+            const userObject = Object.keys(user).reduce((prev, actual) => {
+                const key = actual as UserKey;
+                if (user[key]) prev[key] = user[key];
+    
+                return prev;
+    
+            }, {} as Partial<typeof user>);
+    
+            
+            updateUser(JSON.stringify({user:userObject}), token).then(res=>{
+                setUserAccess(res.token)
+                setSucess('Saved successfully !')
+            })
+            .finally(()=>{
+                handleResetInputs()
+            })
         }
+
+        if(!imageValue) return
+
+        const formData = new FormData()
+        formData.append('profileImg', imageValue)
+
+        updateUserProfile(formData, token).then(res=>{
+            setUserAccess(res.token)
+            setSucess('Saved successfully !')
+        })
+
+    }
 
     return (
         <>
@@ -47,7 +90,7 @@ export default function FormsUpdataUser({styles}: IProps) {
 
             <div className={styles.account_info}>
                 <h2>Account Info</h2>
-                <form className={styles.form_account} onSubmit={handleSubmit}>
+                <form className={styles.form_account} onSubmit={preventSubmit}>
                     <InputEdit 
                         styles={styles}
                         toggleEditing={()=>setEditUsername(state=>!state)}
@@ -92,7 +135,7 @@ export default function FormsUpdataUser({styles}: IProps) {
                     <h2>Profile Image</h2>
                     <p>Update your profile image</p>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={preventSubmit}>
                     <ProfileImgEdit 
                         styles={styles}
                         onFileChange={onFileChange}
