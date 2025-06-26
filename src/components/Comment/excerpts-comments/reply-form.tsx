@@ -5,6 +5,7 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import IComment from '@/interfaces/IComment'
 import IReplies from '@/interfaces/IReplies'
 import { TStyles } from '@/types/stylesType'
+import { useRouter } from 'next/navigation'
 import React, { FormEvent, TextareaHTMLAttributes, useState } from 'react'
 
 interface IProps{
@@ -13,29 +14,36 @@ interface IProps{
     commentOrReply: IComment | IReplies,
     isReply?: boolean,
     token: string | undefined,
-    quizId: string
+    quizId: string,
+    commentId: string
 }
 
-export default function ReplyForm({styles, resetReplying, commentOrReply, token, isReply, quizId}:IProps) {
+export default function ReplyForm({styles, resetReplying, commentOrReply, token, commentId, quizId}:IProps) {
     const [replyValue, setReplyValue] = useState<string>(''),
         [loadingReply, setLoadingReply] = useState<boolean>(false),
-        {setError} = useGlobalMessage()
+        {setError} = useGlobalMessage(),
+        router = useRouter()
 
     const handleSubmitReply = async(e:FormEvent)=>{
         e.preventDefault()
         setLoadingReply(true)
-        if(replyValue.length > 2000) setError('The maximum number of characters is 2000!')
+        if(replyValue.length > 2000) {
+            setError('The maximum number of characters is 2000!')
+            setLoadingReply(false)
+        }
         const data = {
             comment:{body:replyValue}, 
             replyTo:commentOrReply.userId
         }
-        replyComment(quizId, commentOrReply.commentId, data, token)
+        replyComment(quizId, commentId, data, token)
             .then(res=>{
                 if(res?.err) setError(res.err)
+                else router.refresh()
             })
             .finally(()=>{
                 resetReplying()
                 setReplyValue('')
+                setLoadingReply(false)
             })
     }
 
@@ -48,7 +56,7 @@ export default function ReplyForm({styles, resetReplying, commentOrReply, token,
                     autoFocus 
                     maxLength={2000}
                 />  
-                <button type='submit'><Send/></button>  
+                <button type='submit' disabled={loadingReply}><Send/></button>  
             </form>
         </>
     )

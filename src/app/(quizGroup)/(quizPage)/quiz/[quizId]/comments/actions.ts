@@ -106,9 +106,67 @@ export async function repliesFromComment(quizId:string, commentId: string) : Pro
 
         const res = await response.json()
     
-        revalidatePath(`/quiz/${quizId}/comments`)
         return res.repliesMargedArray
     } catch (err) {
         console.log(err)
     }
+}
+
+
+export async function deleteReply(quizId: string, commentId: string, replyId:string, data: object, token: CookieValueTypes) {
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/delete`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`
+        },
+        body: JSON.stringify(data)
+    })
+    const res = await response.json()
+
+    if (!response.ok) return {err: res.message}
+
+    revalidatePath(`/quiz/${quizId}/comments`)
+}
+export async function editReply(quizId: string, commentId: string,replyId:string, data: object, token: CookieValueTypes) {
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/edit`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`
+        },
+        body: JSON.stringify(data)
+    })
+    const res = await response.json()
+
+    if (!response.ok) return {err: res.message}
+
+    revalidatePath(`/quiz/${quizId}/comments`)
+}
+export async function likeReply(commentId: string, replyId:string, token: CookieValueTypes) {
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/like`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `${token}`
+        },
+    })
+    const res = await response.json()
+
+    if (!response.ok) return {err: res.message}
+
+}
+export async function dislikeReply(commentId: string, replyId:string, token: CookieValueTypes) {
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/dislike`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `${token}`
+        },
+    })
+    const res = await response.json()
+
+    if (!response.ok) return {err: res.message}
+
 }

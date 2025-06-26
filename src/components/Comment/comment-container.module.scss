@@ -44,7 +44,7 @@
                     background-color: transparent;
                     border: none;
                     outline: none;
-                    @include vars.styleTexto(vars.$cor-cinzaSearch, .8rem, 400);
+                    @include vars.styleTexto(var(--text-description), .8rem, 400);
                     cursor: pointer;
                 }
             }
@@ -64,9 +64,10 @@
                 a{
                     border-radius: .5rem;
                     padding: .1rem .3rem;
-                    @include vars.styleTexto(var(--secondary-color), 1rem, 600);
+                    @include vars.styleTexto(var(--alternate-secondary), 1rem, 600);
+                    background-color: var(--background-link-profile);
                     &:hover{
-                        color: var(--primary-color);
+                        color: var(--alternate-primary);
                     }
                 }
             }
@@ -179,7 +180,7 @@
             }
             .show_more{
                 p{
-                    @include vars.styleTexto(vars.$cor-cinzaSearch, .75rem, 700);
+                    @include vars.styleTexto(var(--text-description), .75rem, 700);
                 }
                 display: flex;
                 gap: .33rem;
@@ -187,6 +188,11 @@
                 text-transform: uppercase;
                 align-items: center;
                 width: 25%;
+                svg{
+                    path{
+                        stroke: var(--text-description);
+                    }
+                }
                 &.show_active{
                     svg{
                         rotate: 180deg;

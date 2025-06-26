@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-export async function POST(request: Request, {params}: {params:{quizId:string}}) {
+export async function DELETE(request: Request, {params}: {params:{commentId:string, replyId:string}}) {
     try {
         const Headers = request.headers,
             token = Headers.get('Authorization'),
-            {quizId} = await params,
+            {commentId, replyId} = await params,
             body = await request.json()
     
         if (!token || !token.startsWith('Bearer ')) return NextResponse.json(
@@ -14,8 +14,8 @@ export async function POST(request: Request, {params}: {params:{quizId:string}})
             );
 
         const externalApiResponse = await ApiData({
-            path: `comment/${quizId}`, 
-            method: 'POST',
+            path: `reply/${commentId}/${replyId}`, 
+            method: 'DELETE',
             body: JSON.stringify(body),
             headerKey: ['Authorization', 'Content-Type'],
             headerValue: [token, 'application/json'],
@@ -32,7 +32,7 @@ export async function POST(request: Request, {params}: {params:{quizId:string}})
         return NextResponse.json(responseData, { status: 200 });
 
     } catch (error) {
-        console.error('[API ROUTE /api/quiz/comment] Erro inesperado:', error);
+        console.error('[API ROUTE /api/quiz/reply/delete] Erro inesperado:', error);
         return NextResponse.json(
             { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' }, 
             { status: 500 }

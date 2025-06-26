@@ -32,7 +32,7 @@ button:hover, input[type='submit']:hover, .button:hover {
   --background-input: #0A0A0A;
 
   --background-dark: #0a0a0a;
-  
+
   --horizontal-rule-color: #DDDDDD;
 
   --text-primary: #0A0A0A;
@@ -47,7 +47,11 @@ button:hover, input[type='submit']:hover, .button:hover {
   
   --fixed-cyan: #00E4FF;
   --fixed-blue: #0047FF;
+  --alternate-primary: #00E4FF;
+  --alternate-secondary: #0047FF;
   --fixed-gray: gray;
+
+  --background-link-profile: #d9d9d9ba;
 
   --background-upload-image: #D9D9D9;
   --border-color: #c1c1c1;
@@ -136,6 +140,11 @@ button:hover, input[type='submit']:hover, .button:hover {
 
   --scrollbar-thumb-color: #0047FF;
   --scrollbar-thumb-hover-color: #00E4FF;
+
+  --alternate-primary: #0047FF;
+  --alternate-secondary: #00E4FF;
+
+  --background-link-profile: #282a2cba;
 
   --checkbox-border-color: #A3A3A3;
   --checkbox-checked-bg-color: #0047FF;

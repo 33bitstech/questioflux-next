@@ -37,7 +37,6 @@ const useQuizActions = (savedQuizes: Array<{id: string}> | undefined) => {
             });
 
             const res = await response.json();
-            console.log(res)
             if (!response.ok) throw { response: { data: res } }
 
             return res;

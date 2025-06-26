@@ -31,7 +31,6 @@ export default function CommentFormComponent({styles, user, quizId, token}: IPro
                     quizId
                 }
             }
-            console.log(data)
             await createComment(quizId, data, token).then(res=>{
                 if(res?.err) setError(res.err)
             })

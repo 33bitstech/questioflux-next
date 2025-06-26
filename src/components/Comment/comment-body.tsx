@@ -11,6 +11,7 @@ import EditForm from './excerpts-comments/edit-form'
 import ActionsComment from './excerpts-comments/actions-comment'
 import ReplyForm from './excerpts-comments/reply-form'
 import ArrowSvg from '../Icons/ArrowSvg'
+import ReplyContainer from './Reply/reply-container'
 
 interface IProps{
     styles: TStyles,
@@ -98,9 +99,8 @@ export default function CommentBody({styles, comment, quizId}:IProps) {
             const res = await repliesFromComment(quizId, comment.commentId)
             if(res) setReplies(res)
         }
-
         get()
-    },[])
+    },[arrayReplies])
 
     return (
         <>
@@ -147,10 +147,11 @@ export default function CommentBody({styles, comment, quizId}:IProps) {
                             resetReplying={()=>setReplying(false)}
                             styles={styles}
                             token={token}
+                            commentId={comment.commentId}
                         />
                     }
 
-                    {(arrayReplies && arrayReplies.length > 0 || replies) && <>
+                    {(arrayReplies && arrayReplies.length > 0 || replies && replies.length > 0) && <>
                         
                         <span className={`${styles.show_more} ${showReplies ? styles.show_active : ''}`} onClick={handleShowReplies}>
                             <p>
@@ -160,11 +161,17 @@ export default function CommentBody({styles, comment, quizId}:IProps) {
                             <ArrowSvg/>
                         </span>
 
-                        {/* {showReplies && <div className={styles.replies}>
-                            {replies[commentUser._doc.commentId]?.reply?.map((rep, i, reps)=>(
-                                <ReplyComp key={rep.replyId} replyObject={rep} imagesExist={replyImagesExist} handleImagesError={handleImageReplyError} index={i} commentId={replies[commentUser._doc.commentId].commentId} user={user} quizId={quizId} token={token} handleSetLengthImagesReply={handleSetLengthImagesReply} replies={reps}/>
+                        {showReplies && <div className={styles.replies}>
+                            {replies?.map((rep, i, reps)=>(
+                                <ReplyContainer
+                                    key={i}
+                                    quizId={quizId}
+                                    reply={rep}
+                                    styles={styles}
+                                    commentId={comment.commentId}
+                                />
                             ))}
-                        </div>} */}
+                        </div>}
                     </>}
                 </div>
             </>}
