@@ -7,4 +7,10 @@ export default interface IReplies {
     created_at: Date;
     updated_at: Date;
     replyTo: string; 
+    profileImg: string
+    name:string,
+    userRepliedDates?: {
+        userId?: string,
+        name?: string
+    }
 }

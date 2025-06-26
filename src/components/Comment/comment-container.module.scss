@@ -29,10 +29,10 @@
             align-items: center;
             gap: .62rem;
             a{
-                @include vars.styleTexto(map-get($map: $colors, $key: preto), 1rem, 700);
+                @include vars.styleTexto(var(--text-primary), 1rem, 700);
             }
-            p{  
-                @include vars.styleTexto(map-get($map: $colors, $key: cinza8), .75rem, 700);
+            time{  
+                @include vars.styleTexto(vars.$cor-cinza8, .75rem, 700);
             }
         }
         .content_comment{
@@ -44,7 +44,7 @@
                     background-color: transparent;
                     border: none;
                     outline: none;
-                    @include vars.styleTexto(map-get($map: $colors, $key: cinzaSearch), .8rem, 400);
+                    @include vars.styleTexto(vars.$cor-cinzaSearch, .8rem, 400);
                     cursor: pointer;
                 }
             }
@@ -57,25 +57,30 @@
                 max-height: unset !important;
             }
             p{
-                @include vars.styleTexto(map-get($map: $colors, $key: preto), 1rem, 400);
+                @include vars.styleTexto(var(--text-primary), 1rem, 400);
                 word-wrap: break-word;
                 white-space: pre-wrap;
 
                 a{
                     border-radius: .5rem;
                     padding: .1rem .3rem;
-                    @include vars.styleTexto(map-get($map: $colors, $key: azulEscuro), 1rem, 600);
+                    @include vars.styleTexto(var(--secondary-color), 1rem, 600);
+                    &:hover{
+                        color: var(--primary-color);
+                    }
                 }
             }
             form{
                 display: flex;
                 position: relative;
-                input{
-                    @include vars.styleTexto(map-get($map: $colors, $key: preto), .88rem, 400);
+                textarea{
+                    @include vars.styleTexto(var(--text-primary), .88rem, 400);
                     padding: .5rem .75rem;
                     width: 100%;
-                    border: 1px solid map-get($map: $colors, $key: cinzaDescD);
+                    border: 1px solid vars.$cor-cinzaDescD;
                     background-color: transparent;
+                    resize: none;
+                    field-sizing: content;
                 }
                 .edit_actions{
                     position: absolute;
@@ -83,6 +88,7 @@
                     align-items: center;
                     right: .5%;
                     gap: .1rem;
+                    align-self: flex-end;
                     
                     button, span{
                         background-color: transparent;
@@ -112,7 +118,7 @@
                 align-items: center;
                 cursor: pointer;
                 p{
-                    @include vars.styleTexto( map-get($map: $colors, $key: preto), .75rem, 700);
+                    @include vars.styleTexto( var(--text-primary), .75rem, 700);
                     text-transform: uppercase;
                 }
                 .options{
@@ -125,7 +131,7 @@
                         align-items: center;
                         cursor: pointer;
                         user-select: none;
-                        @include vars.styleTexto(map-get($map: $colors, $key: preto), .75rem, 700);
+                        @include vars.styleTexto(var(--text-primary), .75rem, 700);
                         text-transform: uppercase;
                         svg{
                             rotate: 270deg;
@@ -135,7 +141,7 @@
             }
             .action.action_active{
                 p{
-                    background: linear-gradient(180deg, map-get($map: $colors, $key: azulEscuro) 0%, map-get($map: $colors, $key: ciano) 100%);
+                    background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
                     background-clip: text;
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
@@ -151,17 +157,20 @@
                 width: 100%;
                 display: flex;
                 position: relative;
-                input{
-                    @include vars.styleTexto(map-get($map: $colors, $key: preto), .88rem, 400);
+                textarea{
+                    @include vars.styleTexto(var(--text-primary), .88rem, 400);
                     padding: .5rem .75rem;
                     width: 100%;
-                    border: 1px solid map-get($map: $colors, $key: cinzaDescD);
+                    border: 1px solid vars.$cor-cinzaDescD;
                     background-color: transparent;
+                    resize: none;
+                    field-sizing: content;
                 }
                 button{
                     position: absolute;
                     display: flex;
                     align-items: center;
+                    align-self: flex-end;
                     right: .5%;
                     background-color: transparent;
                     border: none;
@@ -170,7 +179,7 @@
             }
             .show_more{
                 p{
-                    @include vars.styleTexto(map-get($map: $colors, $key: cinzaSearch), .75rem, 700);
+                    @include vars.styleTexto(vars.$cor-cinzaSearch, .75rem, 700);
                 }
                 display: flex;
                 gap: .33rem;
@@ -189,96 +198,6 @@
                 display: flex;
                 flex-direction: column;
                 gap: .6rem;
-            }
-        }
-    }
-}
-.comment.white_theme{
-    .body_comment{
-        .header_comment{
-            a{
-                color: map-get($map: $colors, $key: preto) !important;
-            }
-        }
-        .content_comment{
-            p{
-                color: map-get($map: $colors, $key: preto) !important;
-                a{
-                    color: map-get($map: $colors, $key: azulEscuro) !important;
-                    background-color: #d9d9d9ba;
-                    &:hover{
-                        color: map-get($map: $colors, $key: ciano) !important;
-                    }
-                }
-            }
-            form{
-                input{
-                    color: map-get($map: $colors, $key: preto) !important;
-                }
-            }
-        }
-        .actions_comment{
-            .action{
-                p, li{
-                    color: map-get($map: $colors, $key: preto) !important;
-                }
-            }
-        }
-        .dynamic_itens{
-            .form_reply{
-                input{
-                    color: map-get($map: $colors, $key: preto) !important;
-                }
-            }
-            .show_more{
-                p{
-                    color: map-get($map: $colors, $key: cinzaSearch) !important;
-                }
-            }
-        }
-    }
-}
-.comment.dark_theme{
-    .body_comment{
-        .header_comment{
-            a{
-                color: map-get($map: $colors, $key: branco) !important;
-            }
-        }
-        .content_comment{
-            p{
-                color: map-get($map: $colors, $key: branco) !important;
-                a{
-                    color: map-get($map: $colors, $key: ciano) !important;
-                    background-color: #282a2cba;
-                    &:hover{
-                        color: map-get($map: $colors, $key: azulEscuro) !important;
-                    }
-                }
-            }
-            form{
-                input{
-                    color: map-get($map: $colors, $key: branco) !important;
-                }
-            }
-        }
-        .actions_comment{
-            .action{
-                p, li{
-                    color: map-get($map: $colors, $key: branco) !important;
-                }
-            }
-        }
-        .dynamic_itens{
-            .form_reply{
-                input{
-                    color: map-get($map: $colors, $key: branco) !important;
-                }
-            }
-            .show_more{
-                p{
-                    color: map-get($map: $colors, $key: cinzaDescD) !important;
-                }
             }
         }
     }

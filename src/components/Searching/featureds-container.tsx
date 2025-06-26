@@ -22,7 +22,7 @@ export default function FeaturedsContainer({styles}: IProps) {
         const get = async() =>{
             try {
                 const res = await featuredQuizzes()
-                setPopular(res.quizzes)
+                setPopular(res.quizzesSort)
             } catch (err) {
                 console.log(err)
             }

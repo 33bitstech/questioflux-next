@@ -6,8 +6,8 @@ interface IApiDataParams {
     path: string,
     method: Methods,
     body?: BodyInit,
-    headerKey?: HeaderType,
-    headerValue?: string,
+    headerKey?: HeaderType | HeaderType[],
+    headerValue?: string | string[],
     cache: Cache
 }
 export default async function ApiData({
@@ -18,9 +18,19 @@ export default async function ApiData({
         headers = new Headers(),
         isFormData = body instanceof FormData;
     
-    if (headerKey && headerValue) 
-        if (!(isFormData && headerKey.toLowerCase() === 'content-type')) 
-            headers.append(headerKey, headerValue)
+    if (headerKey && headerValue) {
+        if (Array.isArray(headerKey) && Array.isArray(headerValue)) {
+            headerKey.forEach((key, idx) => {
+                if (!(isFormData && typeof key === 'string' && key.toLowerCase() === 'content-type')) {
+                    headers.append(key, headerValue[idx]);
+                }
+            });
+        } else if (typeof headerKey === 'string' && typeof headerValue === 'string') {
+            if (!(isFormData && headerKey.toLowerCase() === 'content-type')) {
+                headers.append(headerKey, headerValue);
+            }
+        }
+    }
 
     const config = {
         body, method, ...cache, headers

@@ -5,11 +5,13 @@ import React, { useEffect, useState } from 'react'
 import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg';
 import { IUser } from '@/interfaces/IUser';
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
+import IComment from '@/interfaces/IComment';
+import IReplies from '@/interfaces/IReplies';
 
 interface IProps{
     width?: number,
     height?: number,
-    user: IUser | IUserLeaderBoardScore,
+    user: IUser | IUserLeaderBoardScore | IComment | IReplies,
     quality?: number
 }
 

@@ -19,7 +19,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -38,7 +38,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -58,7 +58,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -80,7 +80,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -102,7 +102,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -124,7 +124,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -151,7 +151,7 @@ const useGettingQuiz = () => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }

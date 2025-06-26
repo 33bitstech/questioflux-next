@@ -47,7 +47,7 @@ export function UserProvider({children} : {children : ReactNode}){
             return res
         } catch (err:any) {
             const {type} = err.response.data
-            if (type == 'global' || type == undefined) return setError(err.response.data.message)
+            if (type == 'global'  ) return setError(err.response.data.message)
                 
             throw err.response.data
         } 

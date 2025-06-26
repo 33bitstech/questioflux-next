@@ -6,8 +6,9 @@ import { CookieValueTypes } from 'cookies-next'
 import { env } from '@/env'
 import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
-import FormComponent from '@/components/Comment/form-component'
+import CommentFormComponent from '@/components/Comment/comment-form-component'
 import IComment from '@/interfaces/IComment'
+import CommentContainer from '@/components/Comment/comment-container'
 
 interface IProps {
     params: {
@@ -56,27 +57,24 @@ export default async function Comment({params}: IProps) {
         <div className={styles.comment_area}>
             <p>{comments?.length} Comments</p>
 
-            {user && <FormComponent
+            {user && <CommentFormComponent
                 styles={styles}
                 user={user}
+                quizId={quizId}
+                token={token}
             />}
 
             {!comments || comments.length === 0 && (<p className={styles.no_comment}>No comments</p>)}
 
             {comments && comments.length > 0 && <div className={styles.comments}>
-                {/* {comments?.map((com, index)=>(
-                    <CommentComp 
-                        key={com._doc.commentId} 
-                        commentUser={com} 
-                        index={index} 
-                        handleImagesError={handleImagesError} 
-                        imagesExist={imagesExist} 
-                        user={user} 
-                        token={cookie} 
-                        quizId={quizId} 
-                        repliesLength={repliesLength} 
-                        handleRepliesLength={handleRepliesLength} />
-                ))} */}
+                {comments?.map((com, index)=>(
+                    <div key={index}>
+                        {com && <CommentContainer
+                            comment={com}
+                            quizId={quizId}    
+                        />}
+                    </div>
+                ))}
             </div>}
         </div>
     )

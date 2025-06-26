@@ -22,7 +22,7 @@ const useQuizActions = (savedQuizes: Array<{id: string}> | undefined) => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }
@@ -44,7 +44,7 @@ const useQuizActions = (savedQuizes: Array<{id: string}> | undefined) => {
 
         } catch (err: any) {
             const { type, message } = err.response.data;
-            if (type === 'global' || type == undefined) return setError(message);
+            if (type === 'global'  ) return setError(message);
 
             throw err.response.data;
         }

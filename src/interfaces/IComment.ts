@@ -8,6 +8,8 @@ export default interface IComment {
     updated_at: Date;
     userLikes?: Array<{userId: string}>;
     replies?: Array<IAnswers> 
+    profileImg: string,
+    name:string
 }
 
 

@@ -19,32 +19,35 @@ export const getTimeString = (timing: number)=>{
     }
     return time
 }
-export const getTimeSinceDate = (timing: number)=>{
-    const now = Date.now(),
-        time = new Date(timing).getTime(),
-        secondsSinceDate = Math.floor((now - time) / 1000)
-        
-    switch (true) {
-        case (secondsSinceDate < 60):
-            return `${secondsSinceDate} secs ago`
-        case (secondsSinceDate < 3600):
-            const minutes = Math.floor(secondsSinceDate / 60)
-            return `${minutes} mins ago`
-        case (secondsSinceDate < 86400):
-            const hours = Math.floor(secondsSinceDate / 3600)
-            return `${hours} hours ago`
-        case (secondsSinceDate < 604800):
-            const days = Math.floor(secondsSinceDate / 86400)
-            return `${days} days ago`
-        case (secondsSinceDate < 2628000):
-            const weeks = Math.floor(secondsSinceDate / 604800)
-            return `${weeks} weeks ago`
-        case (secondsSinceDate < 31536000):
-            const months = Math.floor(secondsSinceDate / 2628000)
-            return `${months} months ago`
-    
-        default:
-            const years = Math.floor(secondsSinceDate / 31536000)
-            return `${years} years ago`
+export const getTimeSinceDate = (timing: string | number | Date) => {
+    const now = Date.now();
+    const time = new Date(timing).getTime();
+    const secondsSinceDate = Math.floor((now - time) / 1000);
+
+    let displayText = '';
+
+    if (secondsSinceDate < 60) {
+        displayText = `${secondsSinceDate} secs ago`;
+    } else if (secondsSinceDate < 3600) {
+        const minutes = Math.floor(secondsSinceDate / 60);
+        displayText = `${minutes} mins ago`;
+    } else if (secondsSinceDate < 86400) {
+        const hours = Math.floor(secondsSinceDate / 3600);
+        displayText = `${hours} hours ago`;
+    } else if (secondsSinceDate < 604800) {
+        const days = Math.floor(secondsSinceDate / 86400);
+        displayText = `${days} days ago`;
+    } else if (secondsSinceDate < 2628000) {
+        const weeks = Math.floor(secondsSinceDate / 604800);
+        displayText = `${weeks} weeks ago`;
+    } else if (secondsSinceDate < 31536000) {
+        const months = Math.floor(secondsSinceDate / 2628000);
+        displayText = `${months} months ago`;
+    } else {
+        const years = Math.floor(secondsSinceDate / 31536000);
+        displayText = `${years} years ago`;
     }
-}
+
+    const isoDate = new Date(timing).toISOString();
+    return {isoDate, displayText}
+};
