@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Profile = ({ className }: { className?: string }) => {
+const ProfileSvg = ({ className }: { className?: string }) => {
   return (
     <svg
       className={className}
@@ -18,4 +18,4 @@ const Profile = ({ className }: { className?: string }) => {
   );
 };
 
-export default Profile;
+export default ProfileSvg;

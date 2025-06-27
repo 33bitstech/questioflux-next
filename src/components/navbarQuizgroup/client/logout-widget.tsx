@@ -9,14 +9,13 @@ interface IProps {
 }
 
 export default function LogoutWidget({styles}:IProps) {
-    const {logout} = useUser(),
-        route = useRouter()
+    const {logout} = useUser()
+    
     return (
         <button 
             className={`${styles.second_button}`} 
             onClick={()=>{
                 logout()
-                route.push('/')
             }}
 
         >Leave</button>

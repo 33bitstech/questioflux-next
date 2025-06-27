@@ -21,6 +21,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [remember, setRemember] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const {getError, setError, concatErrors, hasErrors, resetErrors, inputsErrors} = useErrors()
     const [erroAuth, setErroAuth] = useState<ErrorsState>()
@@ -50,13 +51,14 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
     
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
+        setLoading(true)
         let errors: ErrorsState = {}
 
         if (!email) errors.email = "Email is required"
         if (!password) errors.password = 'Password is required'
 
         concatErrors(errors)
-        if (hasErrors(errors)) return
+        if (hasErrors(errors)) return setLoading(false)
 
         const UserObject = {
             user:{
@@ -73,6 +75,9 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
             })
             .catch(err=>{
                 setErroAuth(err)
+            })
+            .finally(()=>{
+                setLoading(false)
             })
 
     }
@@ -110,7 +115,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
                 <Link href='/rescuepassword'>Forgot Password?</Link>
             </div>
             
-            <input type="submit" value="Login" />
+            <input type="submit" value="Login" disabled={loading}/>
         </form>
     )
 }

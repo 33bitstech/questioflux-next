@@ -26,7 +26,11 @@ export default async function NavbarQuizgroup() {
                         </Link>
                     </li>}
                     {token && (
-                        <ToggleMenuAsideContainer styles={styles} token={token} className='menu_button_container'/>
+                        <ToggleMenuAsideContainer 
+                            styles={styles} 
+                            token={token} 
+                            className='menu_button_container'
+                        />
                     )}
                 </>)}
                 {!isMobile && (<>
@@ -36,7 +40,11 @@ export default async function NavbarQuizgroup() {
                         </Link>
                     </li>
                     {token && (
-                        <ToggleMenuAsideContainer styles={styles} token={token} className='menu_button_container'/>
+                        <ToggleMenuAsideContainer 
+                            styles={styles} 
+                            token={token} 
+                            className='menu_button_container'
+                        />
                     )}
                 </>)}
             </ul>

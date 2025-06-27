@@ -28,6 +28,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         [password, setPassword] = useState(''),
         [confirmPassword, setConfirmPassword] = useState(''),
         [remember, setRemember] = useState(false),
+        [loading, setLoading] = useState<boolean>(false),
 
         [profileImageFile, setProfileImageFile] = useState<File | null>(null),
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
@@ -67,6 +68,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
 
     const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setLoading(true)
         let errors: ErrorsState = {}
 
         if (!name) errors.name = 'name field is required'
@@ -75,7 +77,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         if (!confirmPassword) errors.confirmPassword = 'confirm password is required'
 
         concatErrors(errors)
-        if (hasErrors(errors)) return
+        if (hasErrors(errors)) return setLoading(false)
  
         const UserObject = {
             user:{
@@ -98,7 +100,10 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
             })
             .catch(err=>{
                 setErroAuth(err)
-            })            
+            })   
+            .finally(()=>{
+                setLoading(false)
+            })         
     }
 
 
@@ -156,7 +161,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     
                 </div>
 
-                <input type="submit" value='Register' />
+                <input type="submit" value='Register' disabled={loading} />
             </div>
             <div className='second-part-section'>
                 <ProfileUploadComponent

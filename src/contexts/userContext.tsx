@@ -5,6 +5,7 @@ import { IUser } from "@/interfaces/IUser"
 import React from 'react'
 import { useGlobalMessage } from "./globalMessageContext"
 import useCustomCookies from "@/hooks/useCustomCookies"
+import { useRouter } from "next/navigation"
 
 interface IUserContext {
     user: IUser | null,
@@ -19,13 +20,17 @@ const UserContext = createContext({} as IUserContext)
 export function UserProvider({children} : {children : ReactNode}){
     const [user, setUser] = useState<IUser | null>(null),
     {setError} = useGlobalMessage(),
-    {cookie: token, removeCookie, setToken} = useCustomCookies('token')
+    {cookie: token, removeCookie, setToken} = useCustomCookies('token'),
+    router = useRouter()
 
     const updateUser = useCallback((userObj: IUser | null)=>{
         setUser(userObj)
     }, []),
     logout = useCallback(()=>{
+        router.push('/')
+
         removeCookie()
+        router.refresh()
         setUser(null)
     },[]),
     setUserAccess = useCallback((token:string) =>{
