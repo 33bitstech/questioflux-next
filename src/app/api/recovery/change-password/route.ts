@@ -4,7 +4,6 @@ import ApiData from '@/utils/ApiData';
 export async function PUT(request: Request) {
     try {
         const body = await request.json()
-        console.log(body)
         const externalApiResponse = await ApiData({
             path: `password-by-token`, 
             method: 'PUT',
@@ -13,7 +12,6 @@ export async function PUT(request: Request) {
             body: JSON.stringify(body),
             cache: {cache: 'no-store'}
         })
-        console.log(externalApiResponse)
 
         
         if (!externalApiResponse.ok) {

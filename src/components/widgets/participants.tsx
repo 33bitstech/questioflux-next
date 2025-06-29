@@ -26,7 +26,7 @@ export default function Participants({quiz, styles}: IProps) {
                     setParticipants(res.scoreBoard)
                 }
             } catch (err) {
-                console.log(err)
+                
             }
         }
         get()

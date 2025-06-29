@@ -13,7 +13,8 @@ const publicRoutes: PublicRoute[] = [
     { src: '/rescuepassword', actionWhenAuth: 'redirect' },
     { src: /^\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' }, 
     { src: '/explore', actionWhenAuth: 'next' },
-];
+    { src: '/create/quiz/cover', actionWhenAuth: 'next' },
+]
     
 const defaultPrivateRoute = '/home'; 
 const defaultPublicRoute = '/login';

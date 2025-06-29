@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useUser } from '@/contexts/userContext';
 import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg';
 import { TStyles } from '@/types/stylesType';
+import { useGlobalMessage } from '@/contexts/globalMessageContext';
 
 interface IProps {
     onFileChange: (file: File | null) => void,
@@ -16,7 +17,8 @@ export default function ProfileImgEdit({ onFileChange,styles }: IProps) {
 
     const imageInput = useRef<HTMLInputElement>(null),
         [draftImage, setDraftImage] = useState<string>(''),
-        [imageExist, setImageExist] = useState<boolean>(true)
+        [imageExist, setImageExist] = useState<boolean>(true),
+        {setError} = useGlobalMessage()
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
         //setError('global', '')
@@ -29,7 +31,7 @@ export default function ProfileImgEdit({ onFileChange,styles }: IProps) {
 
         const image = files[0];
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
-            //alert('Invalid file type!'); 
+            setError('Invalid file type!'); 
             onFileChange(null); 
         return;
         }

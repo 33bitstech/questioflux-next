@@ -1,23 +1,31 @@
-'use client'; // Necessário para usar o hook usePathname
+'use client'; 
 
 import { TStyles } from '@/types/stylesType';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import { LinkHTMLAttributes, ReactNode } from 'react';
 
-interface IProps {
+interface IProps extends LinkHTMLAttributes<HTMLAnchorElement>{
   href: string;
   children: ReactNode;
   styles?: TStyles
+  isBlock?: boolean
 }
 
-export default function NavLink({ href, children, styles} : IProps) {
+export default function NavLink({ href, children, styles, isBlock, className ,...others} : IProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
+
+  let classe = className
+  if(isActive) classe += styles ? ` ${styles.active}` : ' active'
+  if(isBlock) classe += styles ? ` ${styles.blocked}` : ''
+
   return (
     <Link
-      href={href}
-      className={isActive ? `${styles ? styles.active : 'active'}` : ''}
+      {...others}
+      href={isBlock ? '#' : href}
+      //className={isActive ? `${styles ? styles.active : 'active'}` : ''}
+      className={classe}
     >
       {children}
     </Link>

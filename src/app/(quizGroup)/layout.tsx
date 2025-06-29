@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: {
-        template:'%s | Quiz Vortex',
+        template:'%s',
         default: 'Quiz Vortex'
     }
 };

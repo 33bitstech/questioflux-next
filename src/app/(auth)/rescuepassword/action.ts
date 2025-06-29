@@ -3,7 +3,6 @@
 import { env } from "@/env"
 
 export async function sendRecoveryEmail(email: object) {
-    console.log(email)
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/recovery/token`, {
         method: 'POST',
         headers: {

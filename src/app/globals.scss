@@ -78,7 +78,7 @@ button:hover, input[type='submit']:hover, .button:hover {
   --theme-button-active-bg: #0A0A0A;
   --theme-button-active-text: #00E4FF;
   --theme-button-active-outline: #00E4FF;
-   --vortexplus-bg: #FFFFFF;
+  --vortexplus-bg: #FFFFFF;
   --vortexplus-border: #0047FF;
   --vortexplus-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
   
@@ -202,6 +202,7 @@ body {
   min-height: 100vh;
   width: 100%;
   font-family: 'Inter', sans-serif; 
+  position: relative;
 
   background-color: var(--background-primary);
   background-image: var(--main-background-image) !important;

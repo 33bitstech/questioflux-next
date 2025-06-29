@@ -10,13 +10,12 @@ interface ImageUploaderProps {
     onFileChange: (file: File | null) => void; 
 }
 
-export default function ProfileUploadComponent({ onFileChange }: ImageUploaderProps) {
+export default function InputImageQuiz({ onFileChange }: ImageUploaderProps) {
     const imageInput = useRef<HTMLInputElement>(null);
     const [draftImage, setDraftImage] = useState<string>('');
     const {setError} = useGlobalMessage()
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-
         const files = e.target.files;
         if (!files || files.length === 0) {
             onFileChange(null);
@@ -38,26 +37,25 @@ export default function ProfileUploadComponent({ onFileChange }: ImageUploaderPr
         <>
             <input 
                 type="file" 
-                id="image" 
+                id="imageQuiz" 
                 ref={imageInput} 
                 onChange={handleImage} 
                 accept='image/*'
             />
-            <label htmlFor="image">
+            <label htmlFor="imageQuiz">
                 <span>
                     {draftImage ? (
                         <Image 
                             src={draftImage} 
-                            alt="Preview profile image" 
-                            quality={10}
-                            width={400}
-                            height={400}
+                            alt="Preview quiz image" 
+                            quality={100}
+                            width={1000}
+                            height={1000}
                         />
                     ) : (
                         <UploadImageSvg />
                     )}
                 </span>
-                <p>Chose your profile picture</p>
             </label>
         </>
     );    

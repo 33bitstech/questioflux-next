@@ -10,7 +10,6 @@ export async function DELETE(request: Request) {
                 { type: 'global', message: 'no valid token' },
                 { status: 401 } 
             );
-        console.log('ta chegando aq!!!!!!!!!!!!!!!!!')
         const externalApiResponse = await ApiData({
             path: 'cancel-subscription', 
             method: 'DELETE',
