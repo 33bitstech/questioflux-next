@@ -1,0 +1,18 @@
+@use '../../assets/styles/vars.scss';
+
+.navQuiz ul{
+    display: flex;
+    gap: .3rem;
+    li {
+        a{
+            @include vars.styleTexto(vars.$cor-cinza4, 1.25rem, 700);
+        }
+        .link.active{
+            color: var(--text-primary) !important;
+        }
+        .link.blocked{
+            cursor: not-allowed !important;
+            
+        }
+    }
+}

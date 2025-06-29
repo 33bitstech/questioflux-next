@@ -16,6 +16,9 @@
         gap: .30rem;
         height: auto;
         width: 70%;
+        h1{
+            @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+        }
         p{
             @include vars.styleTexto(var(--text-primary), .75rem, 400);
             span{
@@ -184,7 +187,7 @@
 
         background-color: var(--background-divs);
 
-        input[type='submit'], button{
+        input[type='submit'], button, a{
             @include vars.styleTexto(vars.$cor-preto, 1rem, 700);
             border-radius: 0.6875rem;
             cursor: pointer;
@@ -200,7 +203,7 @@
         .save{
             display: flex;
             gap: .8rem;
-            input:nth-child(1){
+            input:nth-child(1), a{
                 color: var(--text-primary);
                 border: 1px solid var(--text-primary);
                 background-color: var(--background-divs);
@@ -212,22 +215,6 @@
                 background-color: var(--background-button);
                 padding: 0.88rem 1.90rem;
             }
-        }
-    }
-}
-.navQuiz ul{
-    display: flex;
-    gap: .3rem;
-    li {
-        a{
-            @include vars.styleTexto(vars.$cor-cinza4, 1.25rem, 700);
-        }
-        .link.active{
-            color: var(--text-primary) !important;
-        }
-        .link.blocked{
-            cursor: not-allowed !important;
-            
         }
     }
 }

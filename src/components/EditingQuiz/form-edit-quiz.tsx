@@ -1,24 +1,28 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
 import React, { FormEvent, useEffect, useState } from 'react'
-import InputImageQuiz from './input-image-quiz'
-import InputTextQuiz from './input-text-quiz'
+import InputImageQuiz from '../CreatingQuiz/input-image-quiz'
+import InputTextQuiz from '../CreatingQuiz/input-text-quiz'
 import useErrors, {ErrorsState}from '@/hooks/useErrors'
 import { useFilters } from '@/contexts/filtersContext'
 import IFinalMessages from '@/interfaces/IFinalMessages'
-import InputFinalMessages from './input-final-messages'
+import InputFinalMessages from '../CreatingQuiz/input-final-messages'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/contexts/userContext'
 import { createQuiz } from '@/app/(quizGroup)/(createQuiz)/create/quiz/cover/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import Link from 'next/link'
+import IQuizes from '@/interfaces/IQuizes'
+import { editQuiz } from '@/app/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 
 interface IProps{
-    styles: TStyles
+    styles: TStyles,
+    quiz: IQuizes | undefined
 }
 
-export default function FormCreateQuiz({styles}:IProps) {
+export default function FormEditQuiz({styles, quiz}:IProps) {
     const {getError, setError} = useErrors(),
-        {setError: setGlobalError} = useGlobalMessage(),
+        {setError: setGlobalError, setSucess} = useGlobalMessage(),
         {filters} = useFilters(),
         router = useRouter(),
         {token} = useUser()
@@ -30,18 +34,17 @@ export default function FormCreateQuiz({styles}:IProps) {
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<string>(''),
         [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>('EN-US'),
+        [originalImage, setOriginalImage] = useState<string>(''),
 
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
 
-        [savingAsDraft, setSavingAsDraft] = useState<boolean>(false),
         [loading, setLoading] = useState<boolean>(false),
 
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>()
 
-    const sendDatas = ()=>{
-
-        // if(!token) return setCanShowRegister(true)
-        if(!token) return
+    const handleSubmit = (e:FormEvent)=>{
+        e.preventDefault()
+        if (!token || !quiz) return
 
         const isPrivate = visibility == 'public' ? false : true,
             tags = tagsString.split(',').map(tag=>tag.trim())
@@ -65,7 +68,7 @@ export default function FormCreateQuiz({styles}:IProps) {
         if (imageData) formData.append('quizImg', imageData)
 
 
-        createQuiz(formData, token)
+        editQuiz(formData, token, quiz.quizId)
             .then(({res, err, warning})=>{
                 if (warning) setGlobalError(warning ?? "Server Error")
                 if(err) {
@@ -75,25 +78,12 @@ export default function FormCreateQuiz({styles}:IProps) {
                         setErrorQuiz(err.message)
                     }
                 }else{
-                    if(savingAsDraft) {
-                        router.push('/home')
-                    }else{
-                        console.log(res)
-                        router.push(`/create/quiz/questions/${res.quizId}`)
-                    }
+                    setSucess('Quiz edited successfully!')
                 }
             })
             .finally(()=>{
                 setLoading(false)
             }) 
-    }
-    const handleSubmit = (e:FormEvent)=>{
-        e.preventDefault()
-
-        sendDatas()
-    },
-    handleRegisterAndFinishQuiz = ()=>{
-        sendDatas()
     }
 
     useEffect(()=>{
@@ -102,12 +92,28 @@ export default function FormCreateQuiz({styles}:IProps) {
         }
     }, [errorQuiz])
 
+    useEffect(()=>{
+        if(quiz){
+            setTitle(quiz.title)
+            setDesc(quiz.description)
+            setCategory(quiz.category)
+            setTagsString((quiz.tags ?? []).join(', '))
+            setVisibility(quiz.isPrivate ? 'private' : 'public')
+            setIdiom(quiz.idiom as "PT-BR" | "EN-US")
+
+            setFinalMessages(quiz.resultMessages)
+
+            setOriginalImage(quiz.quizThumbnail)
+        }
+    },[quiz])
+
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
 
             <div className={styles.image_container}>
                 <InputImageQuiz
                     onFileChange={setImageData}
+                    originalImage={originalImage}
                 />
             </div>
 
@@ -208,6 +214,7 @@ export default function FormCreateQuiz({styles}:IProps) {
                 <InputFinalMessages
                     styles={styles}
                     messagesChanged={setFinalMessages}
+                    finalMessages={finalMessages}
                 />
             </div>
 
@@ -219,8 +226,8 @@ export default function FormCreateQuiz({styles}:IProps) {
                     }}>Back</button>
                 </div>
                 <div className={styles.save}>
-                    <input disabled={loading} type='submit' value='Save as Draft' onClick={()=>setSavingAsDraft(true)}/>
-                    <input disabled={loading} type="submit" value="Continue" />
+                    <Link href={'/'}>Edit Questions</Link>
+                    <input disabled={loading} type="submit" value="Save Changes" />
                 </div>
             </footer>
         </form>

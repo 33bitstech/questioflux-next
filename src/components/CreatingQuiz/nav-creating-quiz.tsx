@@ -1,20 +1,20 @@
 import React from 'react'
 import NavLink from '../widgets/NavLink'
-import { TStyles } from '@/types/stylesType'
+import styles from './nav-creating-quiz.module.scss'
 
 interface IProps{
     isBlock?: boolean
     quizId?: string
-    styles: TStyles
+    isBacking?: boolean
 }
                     
-export default function NavCreatinQuiz({isBlock, quizId, styles}: IProps) {
+export default function NavCreatinQuiz({isBlock, quizId, isBacking}: IProps) {
     return (
         <nav className={styles.navQuiz}>
             <ul>
                 <li>
                     <NavLink 
-                        href={'/create/quiz/cover'} 
+                        href={!isBacking ? '/create/quiz/cover' : `/quiz/edit/${quizId}`} 
                         className={styles.link}  
                         styles={styles}
                     >

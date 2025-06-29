@@ -41,7 +41,7 @@ export default function ProfileImgEdit({ onFileChange,styles }: IProps) {
     };
 
     useEffect(()=>{
-        if(user && user.profileImg){
+        if(user && user.profileImg && user.profileImg != 'default'){
             setDraftImage(user.profileImg)
         }
     },[user])

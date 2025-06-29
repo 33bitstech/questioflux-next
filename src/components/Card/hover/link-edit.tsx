@@ -14,7 +14,7 @@ export default function LinkEdit({quizId, userCreatorId}: IProps) {
     if(user?.userId !== userCreatorId) return null
 
     return (
-        <li><Link href={`/quiz/${quizId}/editing`}>
+        <li><Link href={`/quiz/edit/${quizId}`}>
             Edit Quiz
         </Link></li>
     )

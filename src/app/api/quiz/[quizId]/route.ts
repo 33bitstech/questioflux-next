@@ -9,7 +9,7 @@ export async function GET(request: Request, {params}: {params:{quizId:string}}) 
         const externalApiResponse = await ApiData({
             path: `quiz/${quizId}`, 
             method: 'GET',
-            cache: {next:{revalidate: 60 * 60}}
+            cache: {cache: 'no-store'}
         })
 
         const responseData = await externalApiResponse.json();

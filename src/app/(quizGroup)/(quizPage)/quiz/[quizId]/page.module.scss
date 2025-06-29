@@ -60,8 +60,8 @@
             display: flex;
             flex-direction: column;
             li{
-                @include vars.styleTexto( var(--text-primary), 1rem, 400);
                 span, time, a{
+                    @include vars.styleTexto( var(--text-primary), 1rem, 400);
                     font-weight: 700;
                 }
                 a:hover{

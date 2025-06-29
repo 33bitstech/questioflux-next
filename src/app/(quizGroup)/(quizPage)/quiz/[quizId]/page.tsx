@@ -15,10 +15,11 @@ interface IProps {
     }
 }
 
-async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
+export async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
             method: 'GET',
+            next:{revalidate: 60*5}
         });
 
         const res = await response.json();

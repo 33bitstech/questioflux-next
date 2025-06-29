@@ -28,7 +28,10 @@ export default function UserProfileImgRender({height=500, width=500, user, quali
                 <Image
                     src={user.profileImg}
                     alt="Foto de perfil"
-                    onError={() => setImageError(true)}
+                    onError={(err) => {
+                        console.log('imagem ta dando erro na home', err)
+                        setImageError(true)
+                    }}
                     width={width}
                     height={height}
                     quality={quality}

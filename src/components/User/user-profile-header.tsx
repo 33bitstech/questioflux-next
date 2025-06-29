@@ -11,7 +11,7 @@ interface IProps {
 
 export default function UserProfileHeader({userP}: IProps) {
     const {user} = useUser()
-
+    console.log(user)
     return (
         <div className={styles.profile_container}>
             <div className={styles.image_container}>

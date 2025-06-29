@@ -8,7 +8,6 @@ export default function CreatingQuiz() {
         <main className={styles.content}>
             <div className={styles.subtitle_creations}>
                 <NavCreatinQuiz
-                    styles={styles}
                     isBlock={true}
                 />
                 <p>

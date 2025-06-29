@@ -1,16 +1,17 @@
 'use client';
 
 import UploadImageSvg from '@/components/Icons/UploadImageSvg';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import '@/assets/styles/auth.scss'
 import Image from 'next/image';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
 
 interface ImageUploaderProps {
     onFileChange: (file: File | null) => void; 
+    originalImage?: string
 }
 
-export default function InputImageQuiz({ onFileChange }: ImageUploaderProps) {
+export default function InputImageQuiz({ onFileChange, originalImage}: ImageUploaderProps) {
     const imageInput = useRef<HTMLInputElement>(null);
     const [draftImage, setDraftImage] = useState<string>('');
     const {setError} = useGlobalMessage()
@@ -32,6 +33,11 @@ export default function InputImageQuiz({ onFileChange }: ImageUploaderProps) {
         setDraftImage(URL.createObjectURL(image));
         onFileChange(image);
     };
+
+    //in edit
+    useEffect(()=>{
+        if(originalImage)setDraftImage(originalImage)
+    },[originalImage])
 
     return (
         <>

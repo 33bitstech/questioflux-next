@@ -5,5 +5,3 @@ export default interface IFinalMessages {
     belowFifty: string
     allWrong: string
 }
-
-
