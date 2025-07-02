@@ -34,6 +34,7 @@ export default function QuizContent({styles, quizId}:IProps) {
             <FormCreateQuestions 
                 styles={styles}
                 textMode={textMode}
+                quizId={quizId}
             />
         </>
     )

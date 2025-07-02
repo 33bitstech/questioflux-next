@@ -1,8 +1,9 @@
 import React from 'react'
-import styles from '../../../../(createQuiz)/create/quiz/cover/cover.module.scss'
+import styles from '../../../../../(createQuiz)/create/quiz/questions/[quizId]/questions.module.scss'
 import FormEditQuiz from '@/components/EditingQuiz/form-edit-quiz'
 import IQuizes from '@/interfaces/IQuizes'
 import { env } from '@/env'
+import FormEditQuestions from '@/components/EditingQuiz/form-edit-questions'
 
 interface IProps{
     params:{
@@ -30,14 +31,15 @@ export default async function EditingQuiz({params}:IProps) {
 
     return (
         <main className={styles.content}>
-            <div className={styles.subtitle_creations}>
-                <h1>Edit your quiz</h1>
+            <div className={styles.subtitle_questions}>
+                <h1>Edit your quiz questions</h1>
                 <p>
-                    Once you're done with your changes, click 'Save Changes' to apply them. Need to edit the questions? Simply click 'Edit Questions'.
+                    Once you're done with your changes, click 'Save Changes' to apply them. Need to edit the quiz? Simply click 'Edit Quiz'.
                 </p>
             </div>
 
-            <FormEditQuiz 
+
+            <FormEditQuestions 
                 styles={styles}
                 quiz={quiz}
             />

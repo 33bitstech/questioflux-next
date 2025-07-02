@@ -35,6 +35,8 @@ button:hover, input[type='submit']:hover, .button:hover {
 
   --horizontal-rule-color: #DDDDDD;
 
+  --background-blue-to-gradient: #0047FF;
+
   --text-primary: #0A0A0A;
   --reverse-primary: #FFFFFF;
   --text-secondary: #6C6C6C;
@@ -129,6 +131,8 @@ button:hover, input[type='submit']:hover, .button:hover {
   --like-color: url(#paint0_linear_1134_64);
 
   --background-dark: #242526;
+
+  --background-blue-to-gradient: linear-gradient(180deg, #0047FF 0%, #00E4FF 100%);
 
   --text-primary: #FFFFFF;
   --reverse-primary: #0A0A0A;

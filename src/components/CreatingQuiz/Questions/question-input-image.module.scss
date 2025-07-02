@@ -1,0 +1,201 @@
+@use '../../../assets/styles/vars.scss';
+
+.question_inputs{
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    width: 100%;
+    height: auto;
+    
+
+    .input_container{
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.9375rem;
+        box-shadow: 0px 0px 12px 0px #00000025;
+        overflow: hidden;
+        height: 20rem;
+        width: 100%;
+        background-color: var(--background-secondary);
+
+        position: relative;
+
+
+        .message_error_input{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            @include vars.styleTexto(vars.$cor-branco,1rem, 500);
+            background-color: vars.$cor-error;
+            padding: .8rem 1.2rem;
+            border-radius: 0.625rem;
+            &::first-letter{
+                text-transform: uppercase;
+            }
+        }
+
+        label{
+            input{
+                @extend %hidden-element;
+            }
+            width: 100%;
+            height: 85%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            .questionImage{
+                width: 100%;
+            }
+            .image_label_container{
+                display:flex;
+                align-items: center;
+                justify-content: center;
+            }
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                background-size: contain;
+            }
+        }
+
+        .footer_input{
+            display: flex;
+            gap: .62rem;
+            align-items: center;
+            padding: 1rem .62rem;
+            width: 100%;
+            height: 15%;
+            position: relative;
+            background-color: var(--background-divs);
+            .circle_background{
+                width: 1.625rem;
+                height: 1.625rem;
+                border-radius: 100%;
+                background: var(--background-blue-to-gradient);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .circle_container{
+                    width: calc(100% - 3px);
+                    height: calc(100% - 3px);
+                    border-radius: 100%;
+                    display: flex;
+                    background-color: var(--reverse-primary);
+                    align-items: center;
+                    justify-content: center;
+                    span{
+                        @include vars.styleTexto(var(--background-blue-to-gradient), .8rem, 1000); 
+                        height: calc(100% + 1px);
+                        display: flex;
+                        background: var(--background-blue-to-gradient);
+                        align-items: center;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+                }
+            }
+            p, input{
+                @include vars.styleTexto(var(--text-primary), .85rem, 400);
+                span{
+                    font-weight: 700;
+                }
+            }
+            input[type="text"]{
+                width: 100%;
+                border: none;
+                background-color: transparent;
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            .deleteDiv{
+                height: 1rem;
+                width: 1rem;
+                align-self: center;
+                position: absolute;
+                right: 4%;
+                cursor: pointer;
+                svg{
+                    height: 100%;
+                    width: 100%;
+                    path{
+                        fill: vars.$cor-incorrect;
+                    }
+                }
+                &.deleteQuestion{
+                    width: 1rem;
+                    height: 1rem;
+                    position: absolute;
+                    top: 50%;
+                    right: 0%;
+                    transform: translate(-100%, -50%);
+                    svg path{
+                        fill: vars.$cor-azulEscuro;
+                    }
+                }
+            }
+        }
+    }
+    .alternatives_container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1.5rem;
+        width: 100%;
+        .input_container{
+            width: 48%;
+            &.correct{
+                border: 3px solid vars.$cor-correct;
+
+            }
+            &.incorrect{
+                border: 3px solid vars.$cor-incorrect;
+
+            }
+        }
+    }
+
+
+    
+    .vertical_bar{
+        width: 0.1rem;
+        height: 2rem;
+        align-self: center;
+        background-color: vars.$cor-cinzaDescW;
+    }
+    .actions{
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        gap: .56rem;
+        button{
+            cursor: pointer;
+            width: 22rem;
+            padding: .44rem 0;
+            background-color: transparent;
+            border-radius: 0.6875rem;
+            @include vars.styleTexto(var(--text-primary), 1rem, 700);
+            border: 1px solid var(--text-primary);
+        }
+        button:disabled{
+            border: 1px solid vars.$cor-cinzaDescD !important;
+            color: vars.$cor-cinzaDescD !important;
+            cursor: not-allowed;
+        }
+    }
+}
+@media screen and (max-width: 860px) {
+    .question_inputs{
+        .alternatives_container{
+            justify-content: center;
+            .input_container{
+                width: 70%;
+            }
+        }
+    }
+}

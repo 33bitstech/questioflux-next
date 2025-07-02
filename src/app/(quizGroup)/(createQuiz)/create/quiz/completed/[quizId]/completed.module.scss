@@ -1,0 +1,58 @@
+@use '../../../../../../../assets/styles/vars.scss';
+.content{
+    @extend %content-default;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 1.5rem;
+
+    .share{
+        width: 98%;
+        max-width: 620px
+    }
+    h2{
+        @include vars.styleTexto(var(--text-primary), 1.875rem, 700);
+    }
+    h3, button, a{
+        @include vars.styleTexto(var(--text-primary), 1rem, 700);
+    }
+    p{
+        @include vars.styleTexto(var(--text-primary), .75rem, 400);
+    }
+    button{
+        cursor: pointer;
+        
+    }
+    button, a{
+        border-radius: 0.6875rem;
+        color: var(--text-primary);
+    }
+    .navigation_created{
+        display: flex;
+        gap: .81rem;
+        a{
+            padding: .88rem 0;
+            text-align: center;
+            background-color: transparent;
+            border: 1px solid var(--text-primary);
+        }
+        a:nth-child(1){
+            width: 11.9rem;
+        }
+        a:nth-child(2){
+            width: 8.31rem;
+            color: var(--button-text-color);
+            background-color: var(--background-button);
+            border: 1px solid var(--background-button);
+        }
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .content{
+        h2{
+            text-align: center !important;
+        }
+    }
+}

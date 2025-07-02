@@ -1,0 +1,156 @@
+@use '../../../assets/styles/vars.scss';
+
+.deleteDiv{
+    height: 1rem;
+    width: 1rem;
+    align-self: center;
+    cursor: pointer;
+    svg{
+        height: 100%;
+        width: 100%;
+        path{
+            fill: vars.$cor-incorrect;
+        }
+    }
+    &.deleteQuestion{
+        width: 1rem;
+        height: 1rem;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(-20%, -50%);
+        svg path{
+            fill: vars.$cor-azulEscuro;
+        }
+    }
+}
+.question_inputs{
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    width: 100%;
+    height: auto;
+    .header_question{
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        .circle_background{
+            width: 1.625rem;
+            height: 1.625rem;
+            border-radius: 100%;
+            background: var(--background-blue-to-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .circle_container{
+                width: calc(100% - 3px);
+                height: calc(100% - 3px);
+                border-radius: 100%;
+                display: flex;
+                background-color: var(--reverse-primary);
+                align-items: center;
+                justify-content: center;
+                span{
+                    @include vars.styleTexto(var(--background-blue-to-gradient), .8rem, 1000); 
+                    height: calc(100% + 1px);
+                    display: flex;
+                    background: var(--background-blue-to-gradient);
+                    align-items: center;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+            }
+        }
+
+        .message_error_input{
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translate(0%, -50%);
+            @include vars.styleTexto(vars.$cor-errorColor,.86rem, 400);
+            &::first-letter{
+                text-transform: uppercase;
+            }
+        }
+    }
+    .answer, textarea{
+        width: 100%;
+        padding: .75rem .95rem;
+        @include vars.styleTexto(vars.$cor-preto, 1rem, 500);
+        border-radius: 0.3125rem;
+        background-color: var(--background-divs);
+    }
+    .answer::placeholder, textarea::placeholder{
+        color: vars.$cor-cinzaDescD;
+    }
+    textarea{
+        border: 1px solid vars.$cor-cinzaDescD;
+        color: var(--text-primary) !important;
+        height: 7rem !important;
+        resize: none;
+        field-sizing: content;
+    }
+    .alternatives{
+        display: flex;
+        flex-direction: column;
+        gap: .62rem;
+        .answer{
+            display: flex;
+            gap: .5rem;
+            padding: .6rem .5rem;
+            span{
+                display: flex;
+                align-items: center;
+            }
+            input{
+                border: none;
+                background-color: transparent;
+                width: 100%;
+                -webkit-text-stroke: .2px;
+                letter-spacing: .5px;
+            }
+            input:focus{
+                outline: none;
+            }
+        }
+        .answer.correct_alternative{
+            input{
+                color: vars.$cor-correct !important;
+            }
+            border: 3px solid vars.$cor-correct;
+            
+        }
+        .answer.incorrect_alternative{
+            input{
+                color: vars.$cor-incorrect !important;
+            }
+            border: 3px solid vars.$cor-incorrect;
+        }
+    }
+    .vertical_bar{
+        width: 0.1rem;
+        height: 2rem;
+        align-self: center;
+        background-color: vars.$cor-cinzaDescW;
+    }
+    .actions{
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        gap: .56rem;
+        button{
+            cursor: pointer;
+            width: 22rem;
+            padding: .44rem 0;
+            background-color: transparent;
+            border-radius: 0.6875rem;
+            @include vars.styleTexto(var(--text-primary), 1rem, 700)
+        }
+        button:disabled{
+            border: 1px solid vars.$cor-cinzaDescD !important;
+            color: vars.$cor-cinzaDescD !important;
+            cursor: not-allowed;
+        }
+    }
+}

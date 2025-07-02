@@ -10,7 +10,7 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext'
 
 interface IProps {
     quizId: string,
-    closeShareContainer: ()=>void
+    closeShareContainer?: ()=>void
 }
 
 export default function ShareContainer({closeShareContainer, quizId}:IProps) {
@@ -18,7 +18,7 @@ export default function ShareContainer({closeShareContainer, quizId}:IProps) {
     return (
         <div className={styles.share}>
             
-            <div className={styles.close} onClick={closeShareContainer}><CloseSvg/></div>
+            {closeShareContainer && <div className={styles.close} onClick={closeShareContainer}><CloseSvg/></div>}
             <h3>Share with your friends</h3>
 
             <section className={styles.apps_share}>

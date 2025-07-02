@@ -16,8 +16,15 @@
         gap: .8rem;
         height: auto;
         width:65%;
+        h1{
+            @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+        }
         p{
             @include vars.styleTexto(var(--text-primary), .75rem, 400);
+            span{
+                display: block;
+                font-weight: 700;
+            }
         }
         .actions{
             display: flex;
@@ -74,7 +81,7 @@
 
             background-color: var(--background-divs);
 
-            input[type='submit'], button{
+            input[type='submit'], button, a{
                 @include vars.styleTexto(vars.$cor-preto, 1rem, 700);
                 border-radius: 0.6875rem;
                 cursor: pointer;
@@ -90,7 +97,7 @@
             .save{
                 display: flex;
                 gap: .8rem;
-                input:nth-child(1){
+                input:nth-child(1), a{
                     padding: 0.88rem 2.80rem;
                     color: var(--text-primary);
                     border: 1px solid var(--text-primary);
@@ -105,8 +112,7 @@
             }
         }
     }
-
-    .warning_overlay{
+    .warning_overlay, .overlay_warning{
         position: fixed;
         top: 0;
         left: 0;

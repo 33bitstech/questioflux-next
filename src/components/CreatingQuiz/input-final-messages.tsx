@@ -27,7 +27,6 @@ export default function InputFinalMessages({styles, messagesChanged, finalMessag
         [customMessages, setCustomMessages] = useState<boolean>(false)
 
     const compareFinalMessages = (obj1:IFinalMessages, obj2:IFinalMessages)=>{
-        console.log(obj1, obj2)
         return (
             obj1.allCorrect == obj2.allCorrect && 
             obj1.aboveEighty == obj2.aboveEighty && 

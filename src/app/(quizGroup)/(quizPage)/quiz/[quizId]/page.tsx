@@ -33,8 +33,6 @@ export async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
 export default async function Quiz({params}: IProps) {
     const {quizId} = await params,
         quiz = await getQuiz(quizId)
-
-
     const transformData = (datatime: Date) => {
         const day = new Date(datatime).getDate()
         const month = new Date(datatime).getMonth() + 1

@@ -1,0 +1,57 @@
+@use '../../assets/styles/vars.scss';
+
+.container{
+    width: 98%;
+    max-width: 40rem;
+    background-color: var(--background-divs);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+
+    border-radius: .6rem;
+    box-shadow: 0 0 5px #0003;;
+    padding: 2rem 5rem;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+
+
+    h3{
+        @include vars.styleTexto('white', 3rem, 700);
+        background: linear-gradient(180deg, orangered, orange);
+        text-transform: uppercase;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    p{
+        @include vars.styleTexto(vars.$cor-incorrect, 1.2rem, 400);
+        text-align: center;
+    }
+    .actions{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-around;
+        button{
+            padding: .8rem 1rem;
+            text-transform: capitalize;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            border-radius: .5rem;
+            min-width: 6rem;
+            @include vars.styleTexto(vars.$cor-branco, 1rem, 700);
+            &:nth-child(1){
+                background-color: vars.$cor-incorrect;
+            }
+            &:nth-child(2){
+                background-color: vars.$cor-correct;
+            }
+        }
+    }
+}

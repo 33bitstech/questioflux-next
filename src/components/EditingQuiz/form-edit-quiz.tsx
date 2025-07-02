@@ -226,7 +226,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                     }}>Back</button>
                 </div>
                 <div className={styles.save}>
-                    <Link href={'/'}>Edit Questions</Link>
+                    <Link href={`/quiz/edit/questions/${quiz?.quizId}`}>Edit Questions</Link>
                     <input disabled={loading} type="submit" value="Save Changes" />
                 </div>
             </footer>
