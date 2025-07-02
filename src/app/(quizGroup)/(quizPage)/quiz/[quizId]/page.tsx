@@ -40,6 +40,8 @@ export default async function Quiz({params}: IProps) {
 
         return `${day}/${month}/${year}`
     }
+
+    console.log(quiz)
     return (
         <>
             <div className={styles.quiz_details}>

@@ -42,6 +42,7 @@ export default async function EditingQuiz({params}:IProps) {
             <FormEditQuestions 
                 styles={styles}
                 quiz={quiz}
+                quizId={quizId}
             />
         </main>
     )

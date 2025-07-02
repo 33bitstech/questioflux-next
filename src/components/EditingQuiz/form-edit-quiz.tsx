@@ -56,12 +56,11 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                 category,
                 tags,
                 isPrivate,
-                draft: true,
+                draft: false,
                 idiom,
                 resultMessages: finalMessages
             }
         }
-        
         const formData = new FormData()
 
         formData.append('quizDatas', JSON.stringify(quizObject))

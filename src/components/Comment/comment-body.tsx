@@ -18,12 +18,6 @@ interface IProps{
     comment: IComment,
     quizId: string
 }
-export interface ILocalReplies {
-    [commentId: string]: {
-        reply?: IReplies[],
-        commentId?: string
-    }
-}
 
 export default function CommentBody({styles, comment, quizId}:IProps) {
     const {user, token} = useUser(),

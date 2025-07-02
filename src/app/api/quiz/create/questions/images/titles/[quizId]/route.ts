@@ -15,13 +15,14 @@ export async function PUT(request: Request, {params}: {params:{quizId:string}}) 
         );
         
         const externalApiResponse = await ApiData({
-            path: `questions/${quizId}`, 
+            path: `questions-images/${quizId}`, 
             method: 'PUT',
             body: JSON.stringify(body), 
             headerKey: ['Content-Type', 'Authorization'],
             headerValue: ['application/json', token],
             cache: { cache: 'no-store' },
         });
+        console.log(externalApiResponse)
         const responseData = await externalApiResponse.json();
 
         if (!externalApiResponse.ok) return NextResponse.json({data:responseData}, { status: externalApiResponse.status });

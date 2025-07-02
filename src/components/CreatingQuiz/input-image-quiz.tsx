@@ -36,7 +36,7 @@ export default function InputImageQuiz({ onFileChange, originalImage}: ImageUplo
 
     //in edit
     useEffect(()=>{
-        if(originalImage)setDraftImage(originalImage)
+        if(originalImage && originalImage !== 'default')setDraftImage(originalImage)
     },[originalImage])
 
     return (

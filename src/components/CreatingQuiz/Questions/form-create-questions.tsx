@@ -7,7 +7,7 @@ import { TStyles } from '@/types/stylesType'
 import { useRouter } from 'next/navigation'
 import React, { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import QuestionInput from './question-input'
-import { createQuestionsText } from '@/app/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
+import { createQuestionsImage, createQuestionsText } from '@/app/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
 import useQuestions from '@/hooks/useQuestions'
 import QuestionInputImage from './question-input-image'
 
@@ -100,7 +100,25 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
                 questionsObj = {
                     questions: [...questionsFormated]
                 }
-            
+            createQuestionsImage(`${token}`, quizId, questions, questionsObj)
+                .then(({err, res})=>{
+                    if(err) {
+                        console.log(err, 'aq está o erro !!!!!!!!!!!')
+                    }else{
+                        const results = res?.map(r=>{
+                            if(r.data.type) {
+                                setError(r.data.message)
+                                return 1
+                            }else{return 0}
+                        })
+                        if(!results?.some(r=>r === 1)){
+                            router.push(`/create/quiz/completed/${quizId}`)
+                        }
+                    }
+                })
+                .finally(()=>{
+                    setLoading(false)
+                })
 
         }
     }

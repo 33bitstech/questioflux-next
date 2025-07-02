@@ -9,10 +9,11 @@ const useQuestions = (textMode: boolean, token: string) => {
         return [{
             id: `q-${Date.now()}`,
             title: '',
+            isNew: true,
             type: isTextMode ? 'text' : 'image',
             alternatives: [
-                { id: `a-${Date.now()}1`, answer: '' },
-                { id: `a-${Date.now()}2`, answer: '' }
+                { id: `a-${Date.now()}1`, answer: '', isNew: true},
+                { id: `a-${Date.now()}2`, answer: '', isNew: true}
             ]
         }]
     }
@@ -21,11 +22,19 @@ const useQuestions = (textMode: boolean, token: string) => {
         {setError} = useGlobalMessage()
 
     const handleQuestionChange = (questionId: string, field:string, value: string | File) => {
-            setQuestions(prevQuestions =>
-                prevQuestions?.map(q =>
-                    q.id === questionId ? { ...q, [field]: value } : q
+            if(field === 'errorMessage'){
+                setQuestions(prevQuestions =>
+                    prevQuestions?.map(q =>
+                        q.id === questionId ? { ...q, [field]: typeof value === 'string' ? value : '' } : q
+                    )
                 )
-            )
+            }else{
+                setQuestions(prevQuestions =>
+                    prevQuestions?.map(q =>
+                        q.id === questionId ? { ...q, [field]: value, isNew:true} : q
+                    )
+                )
+            }
     },
     addQuestion = async() => {
         if ((questions?.length ?? 0) > 9) {
@@ -46,9 +55,10 @@ const useQuestions = (textMode: boolean, token: string) => {
             id: `q-${Date.now()}`,
             title: '',
             type: textMode ? 'text' : 'image',
+            isNew: true,
             alternatives: [
-                { id: `a-${Date.now()}_1`, answer: '' },
-                { id: `a-${Date.now()}_2`, answer: ''}
+                { id: `a-${Date.now()}_1`, answer: '', isNew: true},
+                { id: `a-${Date.now()}_2`, answer: '', isNew: true}
             ]
         }
         setQuestions(prev => [...(prev ?? []), newQuestion])
@@ -63,8 +73,8 @@ const useQuestions = (textMode: boolean, token: string) => {
             prevQuestions?.map(q => {
                 if (q.id === questionId) {
                     const updatedAlternatives = [...q.alternatives]
-                    updatedAlternatives[altIndex] = { ...updatedAlternatives[altIndex], [field]: value }
-                    return { ...q, alternatives: updatedAlternatives }
+                    updatedAlternatives[altIndex] = { ...updatedAlternatives[altIndex], [field]: value, isNew:true}
+                    return { ...q, alternatives: updatedAlternatives}
                 }
                 return q
             })
@@ -97,7 +107,7 @@ const useQuestions = (textMode: boolean, token: string) => {
         setQuestions(prevQuestions => 
             prevQuestions?.map(q => 
                 q.id === questionId
-                    ? { ...q, alternatives: [...q.alternatives, {answer: '', id:`a-${Date.now()}`}] } 
+                    ? { ...q, alternatives: [...q.alternatives, {answer: '', id:`a-${Date.now()}`, isNew: true}]} 
                     : q 
             )
         )

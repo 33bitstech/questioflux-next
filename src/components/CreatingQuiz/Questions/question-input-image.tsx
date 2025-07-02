@@ -35,6 +35,7 @@ export default function QuestionInputImage({
 
                 <InputTitle 
                     styles={styles}
+                    question={question}
                     onQuestionImageChange={onQuestionImageChange}
                 />
 
@@ -51,7 +52,7 @@ export default function QuestionInputImage({
                         onChange={e=>{
                             onTitleChange(e.target.value)
                         }} 
-                        autoFocus/>
+                    />
 
                     { position > 1 && <span className={`${styles.deleteDiv} ${styles.deleteQuestion}`} onClick={()=>onRemoveQuestion()}>
                         <CloseSvg/>

@@ -27,11 +27,15 @@ export async function createQuestionsImage(token:string, quizId:string, question
     try {
         //enviar o questionsFormated(questionsFormated, quizId, token)
         //PUT - `questions-images/${quizId}`
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/${quizId}`, {
+
+        //enviando as perguntas das questões para a API
+        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/titles/${quizId}`, {
             method: 'PUT',
             headers: {
-                'Authorization': `${token}`
+                'Authorization': `${token}`,
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify(questionsFormated)
         })
         const res = await response.json()
 
@@ -46,6 +50,19 @@ export async function createQuestionsImage(token:string, quizId:string, question
         //enviar esse formdata para 
         //POST - `questions-thumbnail/${quizId}`,
 
+        //enviando as imagens das questões para a API
+        const responseThumb = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/thumbs/${quizId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `${token}`
+            },
+            body: questionsImagesFormdata
+        })
+        const resThumb = await responseThumb.json()
+
+        if (!responseThumb.ok) return {err:resThumb}
+
+        //enviando as imagens das alternativas para a API
         const reqs = questions.map(async (q)=>{
             const alternativesImagesFormdata = new FormData()
 
@@ -54,12 +71,21 @@ export async function createQuestionsImage(token:string, quizId:string, question
                     alternativesImagesFormdata.append('questionAlternatives', alt.thumbnail)
                 }
             })
-            return await (1) // POST - `quiz-images-alternatives/${quizId}/${questionId}`
+            const responseAlt = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/alternatives/${quizId}/${q.id}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `${token}`
+                },
+                body: alternativesImagesFormdata
+            })
+            const resAlt = await responseAlt.json()
+            if (!responseAlt.ok) return {err:resAlt}
+            return resAlt // POST - `quiz-images-alternatives/${quizId}/${questionId}`
         })
 
         const finalRes = await Promise.all(reqs)
 
-        return {res:res.data}
+        return {res:finalRes}
     
     } catch (err:any) {
         throw err

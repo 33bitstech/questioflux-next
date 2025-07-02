@@ -1,16 +1,18 @@
 'use client'
 import UploadImageSvg from '@/components/Icons/UploadImageSvg'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { ILocalQuestions } from '@/interfaces/ILocalQuestions'
 import { TStyles } from '@/types/stylesType'
 import Image from 'next/image'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 interface IProps{
     styles: TStyles,
-    onQuestionImageChange: (file: File | string) => void
+    onQuestionImageChange: (file: File | string) => void,
+    question: ILocalQuestions
 }
 
-export default function InputTitle({styles, onQuestionImageChange}:IProps) {
+export default function InputTitle({styles, onQuestionImageChange, question}:IProps) {
     const [questionDraft, setQuestionDraft] = useState<string>(''),
         {setError} = useGlobalMessage()
 
@@ -26,6 +28,16 @@ export default function InputTitle({styles, onQuestionImageChange}:IProps) {
         setQuestionDraft(URL.createObjectURL(image))
         onQuestionImageChange(image)
     }
+    //in edit
+    useEffect(()=>{
+        if (question.image) {
+            if (typeof question.image === 'string') {
+                setQuestionDraft(question.image)
+            } else {
+                setQuestionDraft(URL.createObjectURL(question.image))
+            }
+        }
+    },[question])
 
     return (
         <label>

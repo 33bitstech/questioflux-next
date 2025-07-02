@@ -11,13 +11,26 @@ import QuestionInput from '../CreatingQuiz/Questions/question-input'
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions'
 import { createQuestionsText } from '@/app/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
 import WarningReset from '../widgets/warning-reset'
+import QuestionInputImage from '../CreatingQuiz/Questions/question-input-image'
+import { updateQuestionsImage } from '@/app/(quizGroup)/(editQuiz)/quiz/edit/questions/action'
 
 interface IProps{
     styles: TStyles,
-    quiz: IQuizes | undefined
+    quiz: IQuizes | undefined,
+    quizId: string
+}
+export interface IArraysToUpdate{
+    questionsToUpdate: {
+        questionId:string
+    }[],
+    alternativesToUpdate: {
+        id: string, 
+        file: File | string,
+        questionId: string
+    }[]
 }
 
-export default function FormEditQuestions({styles, quiz}: IProps) {
+export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
     const router = useRouter(),
         {token} = useUser(),
         {setError, setSucess} = useGlobalMessage(),
@@ -29,9 +42,10 @@ export default function FormEditQuestions({styles, quiz}: IProps) {
             removeAlternative, removeQuestion, setQuestions
         } = useQuestions(quiz?.type === 'default/RW', `${token}`),
 
+        [initialQuestions, setInitialQuestions] = useState<ILocalQuestions[]>(),
+
         [loading, setLoading] = useState<boolean>(false),
         prevQuestionsLengthRef = useRef(questions.length)
-
 
 
     //format to send to API
@@ -50,14 +64,15 @@ export default function FormEditQuestions({styles, quiz}: IProps) {
     handleFormatImageMode = () =>{
         return questions?.map(q=>{
             const answers = q.alternatives?.map(ans=>({
-                answer:ans.id,
-                thumbnail:''
-            }))  
+                answer: ans.id,
+                thumbnail: typeof ans.thumbnail === 'string' ? ans.thumbnail : ''
+            }))
             return {
                 questionId: q.id,
                 title: q.title || '',
                 answers,
-                correctAnswer: q.alternatives[0].id || ''
+                correctAnswer: q.alternatives[0].id || '',
+                image: typeof q.image === 'string' ? q.image : ''
             }
         })
     },
@@ -69,7 +84,7 @@ export default function FormEditQuestions({styles, quiz}: IProps) {
             cancel = false
         }
         quiz?.questions?.forEach((q, i)=>{
-            if(q.answers.length + 1 != questions[i].alternatives.length){
+            if(q.answers.length + (quiz.type=== 'default/RW'? 1 : 0) != questions[i].alternatives.length){
                 cancel=true
             }else{
                 cancel=false
@@ -113,28 +128,84 @@ export default function FormEditQuestions({styles, quiz}: IProps) {
                     setLoading(false)
                 })
         }else{
-
+            const questionsFormated = handleFormatImageMode(),
+                questionsObj = {
+                    questions: [...questionsFormated]
+                },
+                dataToSubmit : IArraysToUpdate = {
+                    questionsToUpdate: [],
+                    alternativesToUpdate: []
+                }
+            questions.forEach(q=>{
+                if(q.isNew){
+                    dataToSubmit.questionsToUpdate.push({questionId:q.id})
+                }
+                q.alternatives.forEach(a=>{
+                    if(a.isNew && a.thumbnail instanceof File){
+                        dataToSubmit.alternativesToUpdate.push({
+                            id: a.id,
+                            file: a.thumbnail,
+                            questionId: q.id
+                        })
+                    }
+                })
+            })
+            updateQuestionsImage(`${token}`, quizId, questions, questionsObj, dataToSubmit)
+                .then(({res})=>{
+                    if(res) {
+                        console.log(res)
+                        setSucess('Quiz edited sucessfully !')
+                    }
+                })
+                .finally(()=>{
+                    setLoading(false)
+                })
         }
     }
 
     useEffect(()=>{
         if(quiz && quiz.questions){
-            const newQuestions : ILocalQuestions[] = quiz.questions?.map(q=>{
-                const ans = [q.correctAnswer, ...q.answers],
-                    alternatives = ans.map((a, i) => ({
-                        id: `a-${Date.now()}${i+1}`,
-                        answer: typeof a === 'string' ? a : (a?.answer ?? '')
-                    }))
-                return {
-                    id: q.questionId,
-                    type: quiz.type === 'default/RW' ? 'text':'image',
-                    title: q.question,
-                    alternatives
-                }
-            })
-            setQuestions(newQuestions)
-        
-            prevQuestionsLengthRef.current = newQuestions.length
+            if(quiz.type === 'default/RW'){
+                const newQuestions : ILocalQuestions[] = quiz.questions?.map(q=>{
+                    const ans = [q.correctAnswer, ...q.answers],
+                        alternatives = ans.map((a, i) => ({
+                            id: `a-${Date.now()}${i+1}`,
+                            answer: typeof a === 'string' ? a : (a?.answer ?? ''),
+                            isNew: false
+                        }))
+                    return {
+                        id: q.questionId,
+                        type: quiz.type === 'default/RW' ? 'text':'image',
+                        title: q.question,
+                        isNew: false,
+                        alternatives
+                    }
+                })
+                setQuestions(newQuestions)
+                setInitialQuestions(newQuestions)
+            
+                prevQuestionsLengthRef.current = newQuestions.length
+            }else{
+                const newQuestions : ILocalQuestions[] = quiz.questions?.map(q=>{
+                    const alternatives = q.answers.map((a, i) => ({
+                            id: typeof a === 'string' ? a : (a?.answer ?? ''),
+                            thumbnail: typeof a === 'string' ? a : (a?.thumbnail ?? ''),
+                            isNew: false
+                        }))
+                    return {
+                        id: q.questionId,
+                        type: quiz.type === 'default/RW' ? 'text':'image',
+                        title: q.title ?? '',
+                        image: q.image,
+                        isNew: false,
+                        alternatives
+                    }
+                })
+                setQuestions(newQuestions)
+                setInitialQuestions(newQuestions)
+            
+                prevQuestionsLengthRef.current = newQuestions.length
+            }
         }
     },[quiz, setQuestions])
 
@@ -180,7 +251,19 @@ export default function FormEditQuestions({styles, quiz}: IProps) {
                             onAlternativeChange={(altIndex: number, answer:string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}  
                             />
                     }else{
-                        return <></>
+                        return <QuestionInputImage 
+                            key={q.id}
+                            question={q}
+                            position={i+1}
+                            questions={arr}
+                            onAddAlternative={()=>addAlternative(q.id)}
+                            onAddQuestion={()=>addQuestion()}
+                            onRemoveAlternative={(altIndex:number)=>removeAlternative(q.id, altIndex)}
+                            onRemoveQuestion={()=>removeQuestion(q.id)}
+                            onTitleChange={(title:string)=>handleQuestionChange(q.id, 'title', title)}
+                            onQuestionImageChange={(file:string | File)=> handleQuestionChange(q.id, 'image', file)}
+                            onAlternativeImageChange={(altIndex: number, file: File | string)=>handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
+                        />
                     }
                 })}
             </div>
