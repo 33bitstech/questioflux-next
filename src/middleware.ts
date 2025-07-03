@@ -14,6 +14,10 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' }, 
     { src: '/explore', actionWhenAuth: 'next' },
     { src: '/create/quiz/cover', actionWhenAuth: 'next' },
+    { src: /^\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
+    { src: /^\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
+    { src: /^\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
 ]
     
 const defaultPrivateRoute = '/home'; 
@@ -22,6 +26,9 @@ const defaultPublicRoute = '/login';
 export function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname; 
     const authToken = req.cookies.get('token');
+    const requestHeaders = new Headers(req.headers)
+
+    requestHeaders.set('x-pathname', path)
 
     const publicRoute = publicRoutes.find(route => {
         if (route.src instanceof RegExp) {
@@ -33,7 +40,11 @@ export function middleware(req: NextRequest) {
     // 1. Rota pública e usuário NÃO está logado
     // Ação: Permite o acesso
     if (publicRoute && !authToken) {
-        return NextResponse.next();
+        return NextResponse.next({
+            request: {
+                headers: requestHeaders,
+            },
+        })
     }
 
     // 2. Rota pública, usuário ESTÁ logado e a ação é 'redirect'
@@ -57,7 +68,11 @@ export function middleware(req: NextRequest) {
     // - Rota privada e logado -> Permite acesso (aqui você pode adicionar a verificação de expiração do token)
     // - etc.
     // Ação: Permite o acesso
-    return NextResponse.next();
+    return NextResponse.next({
+        request: {
+            headers: requestHeaders,
+        },
+    })
 }
 
 export const config = {
