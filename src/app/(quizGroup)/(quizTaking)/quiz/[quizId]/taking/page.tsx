@@ -9,7 +9,7 @@ interface IProps{
 }
 
 export default async function Taking({params}:IProps) {
-    const {quizId} = params
+    const {quizId} = await params
     const quiz = await getQuiz(quizId)
 
     return (

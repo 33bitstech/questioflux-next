@@ -14,7 +14,7 @@ interface IProps {
     }
 }
 
-async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
+export async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
             method: 'GET',
@@ -27,7 +27,7 @@ async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
         console.log(err)
     }
 }
-async function getLeaderboard(quizId:string) : Promise<TLeaderboard | undefined> {
+export async function getLeaderboard(quizId:string) : Promise<TLeaderboard | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/leaderboard/${quizId}`, {
             method: 'GET',
@@ -40,7 +40,7 @@ async function getLeaderboard(quizId:string) : Promise<TLeaderboard | undefined>
         console.log(err)
     }
 }
-async function getUser(token:CookieValueTypes) : Promise<IUser | undefined>{
+export async function getUser(token:CookieValueTypes) : Promise<IUser | undefined>{
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user`, {
             method: 'GET',

@@ -4,6 +4,11 @@ import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
+import { takeQuiz } from '@/app/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
+import { useUser } from '@/contexts/userContext'
+import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { useRouter } from 'next/navigation'
+import { setCookie } from 'cookies-next/client'
 
 interface IProps{
     styles: TStyles,
@@ -16,7 +21,11 @@ export default function TakingComponent({quiz, styles}:IProps) {
         [result, setResult] = useState<{
             quizAnswer: any,
             timing: number
-        }>()
+        }>(),
+        {token} = useUser(),
+        {setError} = useGlobalMessage(),
+        [loading, setLoading] = useState<boolean>(false),
+        route = useRouter()
 
 
     const handleStart = () =>{
@@ -28,10 +37,22 @@ export default function TakingComponent({quiz, styles}:IProps) {
     }
 
     useEffect(()=>{
-        if(result){
-            console.log(result)
+        if(result && quiz){
+            takeQuiz(quiz.quizId, result, `${token}`)
+                .then(({err, res})=>{
+                    if(err) return setError(err)
+                    if(res){
+                        console.log(res)
+                        setCookie('quizResults', JSON.stringify(res))
+                        route.push(`/quiz/${quiz.quizId}/results`)
+                    }
+                })
+                .catch(console.log)
+                .finally(()=>{
+                    setLoading(false)
+                })
         }
-    },[result])
+    },[result, quiz])
 
     return (
         <>
@@ -59,6 +80,7 @@ export default function TakingComponent({quiz, styles}:IProps) {
                     started={started} 
                     setStarted={setStarted}
                     setResult={setResult}
+                    startLoading={()=>{setLoading(true)}}
                 />}
             </div>
         </>

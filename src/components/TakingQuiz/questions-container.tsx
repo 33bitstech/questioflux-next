@@ -13,7 +13,8 @@ interface IProps{
     initialTime:number
     typeOfQuiz: 'default/RW' | 'image/RW'
     handleScroll: ()=>void
-    started:boolean 
+    started:boolean ,
+    startLoading: ()=>void
     setStarted: React.Dispatch<React.SetStateAction<boolean>>
     setResult: React.Dispatch<React.SetStateAction<{
         quizAnswer: any;
@@ -31,7 +32,8 @@ interface ISelectedValues{
 export default function QuestionsContainer({
     handleScroll, initialTime, qtdQuestions,
     questions, quizId, setStarted,
-    started, typeOfQuiz, setResult
+    started, typeOfQuiz, setResult,
+    startLoading
 }:IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
         [answerArray, setAnswerArray] = useState<IQuestion[]>([]),
@@ -117,6 +119,7 @@ export default function QuestionsContainer({
         if (!token) return //setCanShowRegister(true)
 
         handleSelectValues()
+        startLoading()
     },
     verifyAllAnswered = ()=>{
         return Object.keys(selectedValues).length === Object.keys(answerArray).length
