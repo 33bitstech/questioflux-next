@@ -1,11 +1,13 @@
+'use client'
 import React from 'react';
 import '@/assets/styles/auth.scss';
 import ClosePopupAuth from './Auth-client-components/close-popup-auth';
 import RegisterFormComponent from './Auth-client-components/register-form-component';
 import { getTranslations } from 'next-intl/server'; // 1. Importar a função
+import { useTranslations } from 'next-intl';
 
 interface IPropsRegister {
-    handleRegisterAndFinishQuiz?: () => void;
+    handleRegisterAndFinishQuiz?: (token:string) => void;
     toLogin: () => void;
     show_pop_up?: React.Dispatch<React.SetStateAction<boolean>>;
     absolute: boolean;
@@ -13,7 +15,7 @@ interface IPropsRegister {
 }
 
 // 2. Transformar em 'async' e receber 'locale'
-export default async function RegisterComponent({
+export default function RegisterComponent({
     handleRegisterAndFinishQuiz, 
     toLogin, 
     show_pop_up, 
@@ -21,7 +23,7 @@ export default async function RegisterComponent({
     locale 
 }: IPropsRegister) {
     // 3. Buscar as traduções para o namespace, passando o locale
-    const t = await getTranslations({ locale, namespace: 'registerComponent' });
+    const t = useTranslations('registerComponent')
 
     return (
         <div className={`container-section ${absolute ? 'pop_up_register' : ''}`}>

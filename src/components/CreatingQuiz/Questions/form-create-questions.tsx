@@ -10,6 +10,7 @@ import QuestionInput from './question-input'
 import { createQuestionsImage, createQuestionsText } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
 import useQuestions from '@/hooks/useQuestions'
 import QuestionInputImage from './question-input-image'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles
@@ -27,6 +28,8 @@ export interface IFormatedImageQuestions{
 }
 
 export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
+    const t = useTranslations('creatingQuiz.questionsForm')
+    const locale = useLocale()
     const router = useRouter(),
         {setError} = useGlobalMessage(),
         {token} = useUser(),
@@ -36,7 +39,7 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
         {
             questions, addAlternative, addQuestion,
             handleAlternativeChange, handleQuestionChange, removeAlternative,
-            removeQuestion
+            removeQuestion, hasImages
         } = useQuestions(textMode, `${token}`),
 
         prevQuestionsLengthRef = useRef(questions.length)
@@ -84,8 +87,10 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
                     if(err) {
                         if(err.data.type == 'global' || err.data.type == 'server') setError('')
                         if(err.data.invalidQuestions) {
-                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePt:string})=>{
-                                handleQuestionChange(q.questionId, 'errorMessage', q.message)
+                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePT:string})=>{
+                                locale == 'pt' 
+                                ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
+                                : handleQuestionChange(q.questionId, 'errorMessage', q.message)
                             })
                         }
                     }else{
@@ -99,11 +104,22 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
             const questionsFormated = handleFormatImageMode(),
                 questionsObj = {
                     questions: [...questionsFormated]
-                }
+                },
+                canSend = hasImages()
+
+            if(!canSend) return setError(t('errors'))
+
             createQuestionsImage(`${token}`, quizId, questions, questionsObj)
                 .then(({err, res})=>{
                     if(err) {
-                        console.log(err, 'aq está o erro !!!!!!!!!!!')
+                        if(err.data.type == 'global' || err.data.type == 'server') setError('')
+                        if(err.data.invalidQuestions) {
+                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePT:string})=>{
+                                locale == 'pt' 
+                                ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
+                                : handleQuestionChange(q.questionId, 'errorMessage', q.message)
+                            })
+                        }
                     }else{
                         const results = res?.map(r=>{
                             if(r.data.type) {
@@ -169,11 +185,11 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
 
             <footer className={styles.footer}>
                 <div className={styles.actions}>
-                    <button onClick={()=>router.back()}>Back</button>
+                    <button onClick={()=>router.back()}>{t('backButton')}</button>
                 </div>
                 <div className={styles.save}>
-                    <input type='submit' value='Save as draft' disabled={loading} />
-                    <input type="submit" value="Create" disabled={loading} />
+                    <input type='submit' value={t('saveDraftButton')} disabled={loading} />
+                    <input type="submit" value={t('createButton')} disabled={loading} />
                 </div>
             </footer>
         </form>

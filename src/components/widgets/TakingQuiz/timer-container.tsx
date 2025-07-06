@@ -1,6 +1,8 @@
+'use client'
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
 import { getTimeObject } from '@/utils/FormatTime'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
@@ -14,6 +16,7 @@ interface IProps{
 
 export default function TimerContainer({styles, quiz, setStarted, started, initialTime}:IProps) {
     const [passedTime, setPassedTime] = useState<number>(0)
+    const t = useTranslations('takingPage')
 
     type TimeKey = 'hours' | 'minutes' | 'seconds' | 'miliseconds';
     const formatTimeValue = (typeTime: TimeKey) =>{
@@ -55,7 +58,7 @@ export default function TimerContainer({styles, quiz, setStarted, started, initi
                     <button 
                         onClick={setStarted} 
                         className={started ? styles.button_started : ''}
-                    >Start</button>
+                    >{t('buttonStart')}</button>
                 </div>
             </div>
         </div>

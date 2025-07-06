@@ -1,29 +1,38 @@
 import React, { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import { Metadata } from 'next';
-import ButtonBack from '@/components/widgets/button-back';
-import { getQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/page';
 import TimerContainer from '@/components/widgets/TakingQuiz/timer-container';
 import Image from 'next/image';
 import NavLink from '@/components/widgets/NavLink';
+import { getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page';
+import { getTranslations } from 'next-intl/server'; // Importar
 
-export const metadata: Metadata = {
-    title: 'Taking'
-};
-
-
+// Atualizar IProps para incluir locale
 interface IProps {
-    children: ReactNode
-    params:{
-        quizId: string
-    }
+    children: ReactNode,
+    params: Promise<{
+        quizId: string,
+        locale: string
+    }>
+}
+
+// Atualizar generateMetadata para ser dinâmico
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const { locale, quizId } = await params;
+    const t = await getTranslations({ locale, namespace: 'quizResultsPage.layout' });
+    const quiz = await getQuiz(quizId);
+    return {
+        title: `${t('metadataTitle')} - ${quiz?.title || ''}`
+    };
 }
 
 export default async function LayoutTaking({children, params}: IProps) {
-    const {quizId} = await params,
-        quiz = await getQuiz(quizId)
+    const {quizId, locale} = await params;
+    const t = await getTranslations({ locale, namespace: 'quizResultsPage.layout' });
+    const quiz = await getQuiz(quizId);
 
-    if(!quiz) return
+    if(!quiz) return null; // Retornar nulo se o quiz não for encontrado
+
     return (
         <>
             <div className={styles.header_quiz}>
@@ -34,7 +43,7 @@ export default async function LayoutTaking({children, params}: IProps) {
                         src={quiz?.quizThumbnail !== 'default' 
                             ? quiz?.quizThumbnail 
                             : '/imageQuizDefault.jpg'} 
-                        alt="quiz image" 
+                        alt={t('altQuizImage')} 
                         width={800}
                         height={800}
                         quality={100}
@@ -47,13 +56,13 @@ export default async function LayoutTaking({children, params}: IProps) {
                             <NavLink 
                                 href={`/quiz/${quizId}/results`} 
                                 styles={styles}
-                            >Results</NavLink>
+                            >{t('navResults')}</NavLink>
                         </li>
                         <li>
                             <NavLink 
                                 href={`/quiz/${quizId}/lb`} 
                                 styles={styles}
-                            >Leaderboard</NavLink>
+                            >{t('navLeaderboard')}</NavLink>
                         </li>
                     </ul>
                 </nav>

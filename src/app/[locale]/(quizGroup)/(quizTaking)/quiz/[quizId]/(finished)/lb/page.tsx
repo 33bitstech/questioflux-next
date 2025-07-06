@@ -7,13 +7,14 @@ import { getLeaderboard, getQuiz, getUser } from '@/app/[locale]/(quizGroup)/(qu
 import LbUser from '@/components/Leaderboard/lb-user'
 
 interface IProps {
-    params: {
-        quizId: string
-    }
+    params: Promise<{
+        quizId: string,
+        locale:string
+    }>
 }
 
 export default async function LB({params}:IProps) {
-    const {quizId} = await params,
+    const {quizId, locale} = await params,
         token = await getCookie('token', {cookies}),
 
         [quizLb, quiz, user] = await Promise.all([
@@ -36,6 +37,7 @@ export default async function LB({params}:IProps) {
                             userLb={userLb}
                             quiz={quiz}
                             quizLb={quizLb}
+                            locale={locale}
                         />
                     </div>
                 ))}
@@ -47,6 +49,7 @@ export default async function LB({params}:IProps) {
                                 userLb={userInLeaderboard}
                                 quiz={quiz}
                                 quizLb={quizLb}
+                                locale={locale}
                             />
                         </div>
                     )}

@@ -5,6 +5,10 @@ import IQuestion from '@/interfaces/IQuestion'
 import React, { useEffect, useState } from 'react'
 import styles from './questions-container.module.scss'
 import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
+import usePopupAuth from '@/hooks/usePopupAuth'
+import RegisterComponent from '../AuthForms/register-component'
+import LoginComponent from '../AuthForms/login-component'
 
 interface IProps{
     qtdQuestions: number
@@ -43,7 +47,10 @@ export default function QuestionsContainer({
         [canShowRegister, setCanShowRegister] = useState(false),
         [finalTime, setFinalTime] = useState(0),
         {setError} = useGlobalMessage(),
-        {token} = useUser()
+        {token} = useUser(),
+        {registering, toLogin, toRegister} = usePopupAuth()
+    const t = useTranslations('takingPage'),
+        locale = useLocale()
 
     const verifyActualQuestion = (indexQuestion:number) =>{
         return indexQuestion+1 == actualQuestion
@@ -74,7 +81,7 @@ export default function QuestionsContainer({
             [actualQuestion-1]:index
         })
     },
-    handleRegisterAndFinishQuiz = () =>{
+    handleRegisterAndFinishQuiz = (token:string) =>{
         setCanShowRegister(false); 
         if(selectedValuesCopy) setSelectedValues(selectedValuesCopy)
     },
@@ -109,14 +116,14 @@ export default function QuestionsContainer({
         }
     },
     handleResult = ()=>{
-        if (Object.keys(selectedAnswers).length < qtdQuestions) return setError("You have to answer all the questions; make sure you didn't miss any")
+        if (Object.keys(selectedAnswers).length < qtdQuestions) return setError(t('errors.resAll'))
 
         setStarted(false)
         setFinalTime(Date.now())
         
         handleSelectValuesCopy()
 
-        if (!token) return //setCanShowRegister(true)
+        if (!token) return setCanShowRegister(true)
 
         handleSelectValues()
         startLoading()
@@ -179,28 +186,41 @@ export default function QuestionsContainer({
                         </div>
                     ))}
                     <div className={styles.answers_actions}>
-                        <button className={actualQuestion === 1 ? `${styles.hidden_button}` :''} onClick={handlePreviusQuestion}>Anterior</button>
+                        <button className={actualQuestion === 1 ? `${styles.hidden_button}` :''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
                         {actualQuestion === qtdQuestions ? (
-                            <button onClick={handleResult}>Results</button>
+                            <button onClick={handleResult}>{t('navigation.results')}</button>
                         ) : (
-                            <button onClick={handleNextQuestion}>Next</button>
+                            <button onClick={handleNextQuestion}>{t('navigation.next')}</button>
                         )}
                     </div>
                 </div>
             </div>}
 
 
-            {/* popup */}
-            {/* {!isAuth && canShowRegister && registering && <RegisterForm pageReg={false} absolute={true} canNavigate={false} handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz} show_pop_up={setCanShowRegister} toLogin={toLogin}/>}
-            {!isAuth && canShowRegister && !registering && <LoginForm handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz} show_pop_up={setCanShowRegister} toRegister={toRegister}/>} */}
-
+            {!token && canShowRegister && (<div>
+                {registering 
+                    ? <RegisterComponent
+                        locale={locale}
+                        absolute={true}
+                        toLogin={toLogin}
+                        handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
+                        show_pop_up={setCanShowRegister}
+                    /> 
+                    : <LoginComponent
+                        locale={locale}
+                        toRegister={toRegister}
+                        handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
+                        show_pop_up={setCanShowRegister}
+                    />
+                }
+            </div>)}
 
             {typeOfQuiz === 'image/RW' && <div className={styles.question_answering_image}>
                 <div className={styles.taking_image_container}>
                     <div className={styles.image}>
                         <Image
                             src={questions[actualQuestion-1].image || '/quiz_padrao_preto.png'} 
-                            alt="question image" 
+                            alt={t('imageAlts.question')} 
                             width={900}
                             height={900}
                             quality={100}
@@ -225,20 +245,20 @@ export default function QuestionsContainer({
                                     width={600}
                                     height={600} 
                                     src={typeof answer === 'object' && answer !== null && 'thumbnail' in answer ? answer.thumbnail : ''} 
-                                    alt="alternative image" />
+                                    alt={t('imageAlts.alternative')} />
                             </div>
                             <div className={styles.footer_question}>
-                                <p>Alternative N°<span>{i+1}</span></p>
+                                <p>{t('imageLabels.alternative', { number: i+1 })}</p>
                             </div>
                         </div>
                     ))}
                 </div>
                 <div className={styles.answers_actions}>
-                    <button className={actualQuestion === 1 ? `${styles.hidden_button}` :''} onClick={handlePreviusQuestion}>Previous</button>
+                    <button className={actualQuestion === 1 ? `${styles.hidden_button}` :''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
                     {actualQuestion === qtdQuestions ? (
-                        <button onClick={handleResult}>Results</button>
+                        <button onClick={handleResult}>{t('navigation.results')}</button>
                     ) : (
-                        <button onClick={handleNextQuestion}>Next</button>
+                        <button onClick={handleNextQuestion}>{t('navigation.next')}</button>
                     )}
                 </div>
             </div>}

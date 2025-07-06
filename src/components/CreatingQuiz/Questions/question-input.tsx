@@ -4,6 +4,7 @@ import React from 'react'
 import styles from './question-input.module.scss'
 import CloseSvg from '@/components/Icons/CloseSvg'
 import GetAnswerIcon from '@/components/Icons/GetAnswerIcon'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     question:ILocalQuestions
@@ -22,6 +23,7 @@ export default function QuestionInput({
     onRemoveAlternative, onRemoveQuestion, onTitleChange,
     position, question, questions
 }:IProps) {
+    const t = useTranslations('creatingQuiz.questionsForm.textInput')
     return (
         <div className={styles.question_inputs}>
             <div className={styles.header_question}>
@@ -43,7 +45,7 @@ export default function QuestionInput({
 
             <textarea 
                 className={styles.question_textarea}
-                placeholder='Enter Your Question'
+                placeholder={t('placeholder')}
                 value={question.title}
                 onChange={(e)=>onTitleChange(e.target.value)}
             ></textarea>
@@ -60,8 +62,8 @@ export default function QuestionInput({
                             onChange={e=>onAlternativeChange(index, e.target.value)}
                             value={alternative.answer}
                             placeholder={index === 0 
-                                ? "Place the correct alternative here"
-                                : "Place the incorrect alternative here"
+                                ? t('correctPlaceholder')
+                                : t('incorrectPlaceholder')
                             }
                         />
                         {index > 1 && <span className={styles.deleteDiv} onClick={()=>onRemoveAlternative(index)}><CloseSvg /></span>}
@@ -71,11 +73,11 @@ export default function QuestionInput({
                 <div className={styles.vertical_bar}/>
 
                 <div className={styles.actions}>
-                    <button type='button' onClick={onAddAlternative}>Add alternative</button>
+                    <button type='button' onClick={onAddAlternative}>{t('addAlternative')}</button>
                     
                     <button type='button' onClick={onAddQuestion}
                         disabled={position < questions.length}
-                    >Add question</button>
+                    >{t('addQuestion')}</button>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 import UploadImageSvg from '@/components/Icons/UploadImageSvg'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { TStyles } from '@/types/stylesType'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { ChangeEvent, useState } from 'react'
 import { file } from 'zod/v4'
@@ -19,6 +20,7 @@ interface IProps{
 
 export default function InputAlternative({styles, onAlternativeImageChange, i, alternative}:IProps) {
     const {setError} = useGlobalMessage()
+    const t = useTranslations('creation')
 
     const handleImageAlternative = (e:ChangeEvent<HTMLInputElement>) =>{
         const files = e.target.files
@@ -26,7 +28,7 @@ export default function InputAlternative({styles, onAlternativeImageChange, i, a
         
         let image = files[0]
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
-            setError('Invalid file type!')
+            setError(t('sharedErrors.invalidFileType'))
             return 
         }
         onAlternativeImageChange(i, image)
@@ -44,14 +46,14 @@ export default function InputAlternative({styles, onAlternativeImageChange, i, a
                     (typeof alternative.thumbnail === 'string' && alternative.thumbnail.startsWith('http'))
                     ? <Image 
                         src={alternative.thumbnail} 
-                        alt="Question image" 
+                        alt={t('imageInputs.altAlternative')}
                         height={200}
                         width={200}
                     />
                     : (alternative.thumbnail instanceof File)
                         ? <Image 
                             src={URL.createObjectURL(alternative.thumbnail)} 
-                            alt="Question image" 
+                            alt={t('imageInputs.altAlternative')}
                             height={200}
                             width={200}
                         />

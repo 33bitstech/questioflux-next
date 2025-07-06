@@ -1,3 +1,4 @@
+'use client'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useUser } from '@/contexts/userContext'
 import IReplies from '@/interfaces/IReplies'
@@ -9,6 +10,7 @@ import ActionsComment from '../excerpts-comments/actions-comment'
 import ReplyForm from '../excerpts-comments/reply-form'
 import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import { useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles
@@ -21,66 +23,68 @@ export default function ReplyBody({quizId, reply, styles, commentId}: IProps) {
     const {user, token} = useUser(),
             {setError} = useGlobalMessage(),
             router = useRouter()
-    
-        const arrayLikes = reply.userLikes
 
-        const [editing, setEditing] = useState<boolean>(false),
-            [replying, setReplying] = useState<boolean>(false), 
-            [liked, setLiked] = useState<boolean>(false),
-            [likeCount, setLikeCount] = useState(arrayLikes?.length),
+    const t = useTranslations('creation')
     
-    
-            [replyValueEdited, setReplyValueEdited] = useState<string>(''),
-        
-            [loadingEdit, setLoadingEdit] = useState<boolean>(false)
+    const arrayLikes = reply.userLikes
 
-        const handleEdit = ()=>{
-            setEditing(!editing)
-            setReplyValueEdited(reply.body)
-        },
-        handleReply = () =>{
-            setReplying(state=>!state)
-        },
-        handleRemove = ()=>{
-            const data = {comment:reply.body}
-            deleteReply(quizId, commentId, reply.replyId, data, token).then(res=>{
-                if(res?.err) setError(res.err)
-                else router.refresh()
-            })
-        },
-        handleSubmitEdit = (e:FormEvent)=>{
-            setLoadingEdit(true)
-            e.preventDefault()
+    const [editing, setEditing] = useState<boolean>(false),
+        [replying, setReplying] = useState<boolean>(false), 
+        [liked, setLiked] = useState<boolean>(false),
+        [likeCount, setLikeCount] = useState(arrayLikes?.length),
+
+
+        [replyValueEdited, setReplyValueEdited] = useState<string>(''),
     
-            if(!replyValueEdited) return
-            if (replyValueEdited.length > 2000) return setError('The maximum number of characters is 2000!')
-            const data = {
-                reply: {...reply, body:replyValueEdited, quizId},
-            }
-            editReply(quizId, commentId, reply.replyId, data, token).then(res=>{
-                if(res?.err) setError(res.err)
-            }).finally(()=>{
-                setEditing(false)
-                setLoadingEdit(false)
-                router.refresh()
-            })
-        },
-        handleLikeComment = () =>{
-            if(!user) return
-            if (liked){
-                setLiked(false)
-                setLikeCount(state => (state ?? 0) - 1)
-                dislikeReply(commentId, reply.replyId, token).then(res=>{
-                    if(res?.err) setError(res.err)
-                })
-            } else{
-                setLiked(true)
-                setLikeCount(state=> (state ?? 0) + 1)
-                likeReply(commentId, reply.replyId, token).then(res=>{
-                    if(res?.err) setError(res.err)
-                })
-            }
+        [loadingEdit, setLoadingEdit] = useState<boolean>(false)
+
+    const handleEdit = ()=>{
+        setEditing(!editing)
+        setReplyValueEdited(reply.body)
+    },
+    handleReply = () =>{
+        setReplying(state=>!state)
+    },
+    handleRemove = ()=>{
+        const data = {comment:reply.body}
+        deleteReply(quizId, commentId, reply.replyId, data, token).then(res=>{
+            if(res?.err) setError(res.err)
+            else router.refresh()
+        })
+    },
+    handleSubmitEdit = (e:FormEvent)=>{
+        setLoadingEdit(true)
+        e.preventDefault()
+
+        if(!replyValueEdited) return
+        if (replyValueEdited.length > 2000) return setError(t('sharedErrors.maxLength'))
+        const data = {
+            reply: {...reply, body:replyValueEdited, quizId},
         }
+        editReply(quizId, commentId, reply.replyId, data, token).then(res=>{
+            if(res?.err) setError(res.err)
+        }).finally(()=>{
+            setEditing(false)
+            setLoadingEdit(false)
+            router.refresh()
+        })
+    },
+    handleLikeComment = () =>{
+        if(!user) return
+        if (liked){
+            setLiked(false)
+            setLikeCount(state => (state ?? 0) - 1)
+            dislikeReply(commentId, reply.replyId, token).then(res=>{
+                if(res?.err) setError(res.err)
+            })
+        } else{
+            setLiked(true)
+            setLikeCount(state=> (state ?? 0) + 1)
+            likeReply(commentId, reply.replyId, token).then(res=>{
+                if(res?.err) setError(res.err)
+            })
+        }
+    }
 
     return (
         <>

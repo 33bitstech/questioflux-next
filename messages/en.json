@@ -396,6 +396,23 @@
             "premiumWarning": {
                 "popupText": "The 'Text and Image' option is available for our premium users. To enable it, subscribe to <vortexplus>vortexplus</vortexplus> for unlimited access or purchase a single-use pass for this quiz."
             }
+        },
+        "questionsForm": {
+            "backButton": "Back",
+            "saveDraftButton": "Save as Draft",
+            "createButton": "Create",
+            "textInput": {
+                "placeholder": "Enter Your Question",
+                "correctPlaceholder": "Place the correct alternative here",
+                "incorrectPlaceholder": "Place the incorrect alternative here",
+                "addAlternative": "Add alternative",
+                "addQuestion": "Add question"
+            },
+            "imageInput": {
+                "placeholder": "Question N°{position}",
+                "alternativeLabel": "Alternative N°{number}"
+            },
+            "errors": "Choose the images of the questions/alternatives"
         }
     },
     "editQuizFlow": {
@@ -410,6 +427,78 @@
                 "editQuestions": "Edit Questions",
                 "saveChanges": "Save Changes"
             }
+        },
+        "questionsPage": {
+            "metadataTitle": "Edit Questions",
+            "title": "Edit your quiz questions",
+            "subtitle": "Once you're done with your changes, click 'Save Changes' to apply them. Need to edit the quiz? Simply click 'Edit Quiz'."
+        },
+        "buttons": {
+            "back": "Back",
+            "editQuiz": "Edit Quiz",
+            "editQuestions": "Edit Questions",
+            "saveChanges": "Save Changes"
+        },
+        "warningReset": {
+            "title": "Warning!",
+            "description": "If you edit the quiz, the entire leaderboard will be reset. Are you sure you want to proceed with editing?",
+            "cancelButton": "Cancel",
+            "confirmButton": "Save Changes"
+        }
+    },
+    "creation": {
+        "sharedErrors": {
+            "maxLength": "The maximum number of characters is 2000!",
+            "invalidFileType": "Invalid file type!",
+            "serverError": "Server error"
+        },
+        "questionHook": {
+            "questionLimitError": "You have reached your limit of questions",
+            "alternativeLimitError": "You have reached your limit of alternatives"
+        },
+        "imageInputs": {
+            "altAlternative": "Alternative image",
+            "altQuizPreview": "Preview quiz image",
+            "altProfileDraft": "Draft profile image"
+        }
+    },
+    "quizCompletedPage": {
+        "metadataTitle": "Quiz Created!",
+        "title": "Congratulations! Your quiz has been created successfully!",
+        "viewQuizButton": "View Quiz",
+        "homeButton": "Home"
+    },
+    "takingPage":{
+        "buttonStart": "Start",
+        "errors":{
+            "resAll": "You have to answer all the questions; make sure you didn't miss any"
+        },
+        "navigation": {
+            "previous": "Previous",
+            "next": "Next",
+            "results": "Results"
+        },
+        "imageAlts": {
+            "question": "Question image",
+            "alternative": "Alternative image"
+        },
+        "imageLabels": {
+            "alternative": "Alternative N°{number}"
+        }
+    },
+    "quizResultsPage": {
+        "layout": {
+            "metadataTitle": "Taking Quiz",
+            "altQuizImage": "Quiz image",
+            "navResults": "Results",
+            "navLeaderboard": "Leaderboard"
+        },
+        "results": {
+            "noResults": "No results found.",
+            "totalQuestions": "Questions in total",
+            "correctAnswers": "Correct answers",
+            "totalTime": "Time in total",
+            "viewLeaderboard": "View leaderboard"
         }
     }
 }

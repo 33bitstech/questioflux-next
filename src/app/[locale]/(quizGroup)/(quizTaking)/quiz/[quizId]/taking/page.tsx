@@ -1,11 +1,11 @@
-import { getQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/page'
 import React from 'react'
 import styles from './taking.module.scss'
 import TakingComponent from '@/components/TakingQuiz/taking'
+import { getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 
 
 interface IProps{
-    params:{quizId: string}
+    params:Promise<{quizId: string}>
 }
 
 export default async function Taking({params}:IProps) {

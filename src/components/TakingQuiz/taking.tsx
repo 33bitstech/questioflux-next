@@ -42,7 +42,6 @@ export default function TakingComponent({quiz, styles}:IProps) {
                 .then(({err, res})=>{
                     if(err) return setError(err)
                     if(res){
-                        console.log(res)
                         setCookie('quizResults', JSON.stringify(res))
                         route.push(`/quiz/${quiz.quizId}/results`)
                     }

@@ -396,6 +396,23 @@
             "premiumWarning": {
                 "popupText": "A opção 'Texto e Imagem' está disponível para nossos usuários premium. Para habilitá-la, assine o <vortexplus>vortexplus</vortexplus> para acesso ilimitado ou compre um passe de uso único para este quiz."
             }
+        },
+        "questionsForm": {
+            "backButton": "Voltar",
+            "saveDraftButton": "Salvar como Rascunho",
+            "createButton": "Criar",
+            "textInput": {
+                "placeholder": "Digite sua Pergunta",
+                "correctPlaceholder": "Coloque a alternativa correta aqui",
+                "incorrectPlaceholder": "Coloque a alternativa incorreta aqui",
+                "addAlternative": "Adicionar alternativa",
+                "addQuestion": "Adicionar pergunta"
+            },
+            "imageInput": {
+                "placeholder": "Pergunta N°{position}",
+                "alternativeLabel": "Alternativa N°{number}"
+            },
+            "errors": "Escolha as imagens das questões/alternativas"
         }
     },
     "editQuizFlow": {
@@ -410,7 +427,79 @@
                 "editQuestions": "Editar Perguntas",
                 "saveChanges": "Salvar Alterações"
             }
+        },
+        "questionsPage": {
+            "metadataTitle": "Editar Perguntas",
+            "title": "Editar perguntas do seu quiz",
+            "subtitle": "Quando terminar suas alterações, clique em 'Salvar Alterações' para aplicá-las. Precisa editar o quiz? Basta clicar em 'Editar Quiz'."
+        },
+        "buttons": {
+            "back": "Voltar",
+            "editQuiz": "Editar Quiz",
+            "editQuestions": "Editar Perguntas",
+            "saveChanges": "Salvar Alterações"
+        },
+        "warningReset": {
+            "title": "Atenção!",
+            "description": "Se você editar o quiz, todo o ranking será reiniciado. Tem certeza que deseja prosseguir com a edição?",
+            "cancelButton": "Cancelar",
+            "confirmButton": "Salvar Alterações"
         }
-    } 
+    },
+    "creation": {
+        "sharedErrors": {
+            "maxLength": "O número máximo de caracteres é 2000!",
+            "invalidFileType": "Tipo de arquivo inválido!",
+            "serverError": "Erro no servidor"
+        },
+        "questionHook": {
+            "questionLimitError": "Você atingiu seu limite de perguntas",
+            "alternativeLimitError": "Você atingiu seu limite de alternativas"
+        },
+        "imageInputs": {
+            "altAlternative": "Imagem da alternativa",
+            "altQuizPreview": "Pré-visualização da imagem do quiz",
+            "altProfileDraft": "Rascunho da imagem de perfil"
+        }
+    },
+    "quizCompletedPage": {
+        "metadataTitle": "Quiz Criado!",
+        "title": "Parabéns! Seu quiz foi criado com sucesso!",
+        "viewQuizButton": "Ver o Quiz",
+        "homeButton": "Inicio"
+    },
+    "takingPage":{
+        "buttonStart": "Iniciar",
+        "errors":{
+            "resAll": "Você tem que responder a todas as perguntas; certifique-se de não perder nenhuma."
+        },
+        "navigation": {
+            "previous": "Anterior",
+            "next": "Próxima",
+            "results": "Resultados"
+        },
+        "imageAlts": {
+            "question": "Imagem da pergunta",
+            "alternative": "Imagem da alternativa"
+        },
+        "imageLabels": {
+            "alternative": "Alternativa N°{number}"
+        }
+    },
+    "quizResultsPage": {
+        "layout": {
+            "metadataTitle": "Fazendo o Quiz",
+            "altQuizImage": "Imagem do quiz",
+            "navResults": "Resultados",
+            "navLeaderboard": "Ranking"
+        },
+        "results": {
+            "noResults": "Nenhum resultado encontrado.",
+            "totalQuestions": "Perguntas no total",
+            "correctAnswers": "Respostas corretas",
+            "totalTime": "Tempo total",
+            "viewLeaderboard": "Ver o ranking"
+        }
+    }
 
 }

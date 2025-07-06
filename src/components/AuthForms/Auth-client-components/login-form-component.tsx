@@ -14,7 +14,7 @@ import { useUser } from '@/contexts/userContext'
 import { useTranslations } from 'next-intl'
 
 interface IProps{
-    handleRegisterAndFinishQuiz?: () => void,
+    handleRegisterAndFinishQuiz?: (token:string) => void,
     locale: string
 }
 
@@ -49,7 +49,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
             if (locale == 'en') {
                 setError(erroAuth.type, erroAuth.message)
             }else{
-                setError(erroAuth.type, erroAuth.messagePt)
+                setError(erroAuth.type, erroAuth.messagePT)
             }
         }
     }, [erroAuth, setError])
@@ -70,7 +70,10 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
         login(JSON.stringify(UserObject))
             .then(res=>{
                 setUserAccess(res.token)
-                if (handleRegisterAndFinishQuiz) return handleRegisterAndFinishQuiz()
+                if (handleRegisterAndFinishQuiz)  {
+                    router.refresh()
+                    return handleRegisterAndFinishQuiz(res.token)
+                }
                 else router.push('/home')
             })
             .catch(err=>{

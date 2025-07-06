@@ -109,13 +109,19 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background: none !important;
     z-index: 30;
     .closepopup {
       align-self: flex-start;
       position: absolute;
       top: 3%;
       left: 3%;
-      cursor: pointer
+      cursor: pointer;
+      svg {
+        path{
+          fill: gray ;
+        }
+      }
     }
   }
 

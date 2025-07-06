@@ -9,6 +9,6 @@ interface IProps{
 
 export default function ClosePopupAuth({show_pop_up, ...props}: IProps) {
     return (
-        <span {...props} onClick={()=>show_pop_up(false)}><CloseSvg/></span>
+        <span className='closepopup' {...props} onClick={()=>show_pop_up(false)}><CloseSvg/></span>
     )
 }

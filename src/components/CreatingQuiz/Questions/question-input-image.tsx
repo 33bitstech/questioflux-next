@@ -6,6 +6,7 @@ import CloseSvg from '@/components/Icons/CloseSvg'
 import GetAnswerIcon from '@/components/Icons/GetAnswerIcon'
 import InputTitle from './ImagesInputs/input-title'
 import InputAlternative from './ImagesInputs/input-alternative'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     question:ILocalQuestions
@@ -25,13 +26,13 @@ export default function QuestionInputImage({
     onRemoveAlternative, onRemoveQuestion, onTitleChange,
     position, question, questions, onQuestionImageChange
 }:IProps) {
+    const t = useTranslations('creatingQuiz.questionsForm')
     return (
         <div className={`${styles.question_inputs}`}>
 
             <div className={styles.input_container}>
 
                 {question.errorMessage && <p className={styles.message_error_input}>{question.errorMessage}</p>}
-
 
                 <InputTitle 
                     styles={styles}
@@ -47,7 +48,7 @@ export default function QuestionInputImage({
                     </div>
                     <input 
                         type="text" 
-                        placeholder={`Question N°${position}`} 
+                        placeholder={t('imageInput.placeholder', { position })}
                         value={question.title}
                         onChange={e=>{
                             onTitleChange(e.target.value)
@@ -76,7 +77,7 @@ export default function QuestionInputImage({
                                     type={index === 0 ? 'correct' : 'incorrect'}
                                 />
                             </span>
-                            <p>Alternative N°<span>{index+1}</span></p>
+                            <p>{t('imageInput.alternativeLabel', { number: index + 1 })}</p>
 
                             {index > 1 && <span className={styles.deleteDiv} onClick={()=>onRemoveAlternative(index)}>
                                 <CloseSvg/>
@@ -89,11 +90,11 @@ export default function QuestionInputImage({
             <div className={styles.vertical_bar}/>
 
             <div className={styles.actions}>
-                <button type='button' onClick={onAddAlternative}>Add alternative</button>
+                <button type='button' onClick={onAddAlternative}>{t('textInput.addAlternative')}</button>
                 
                 <button type='button' onClick={onAddQuestion}
-                        disabled={position < questions.length}
-                    >Add question</button>
+                    disabled={position < questions.length}
+                >{t('textInput.addQuestion')}</button>
             </div>
         </div>
     )

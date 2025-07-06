@@ -7,6 +7,7 @@ import IReplies from '@/interfaces/IReplies'
 import { TStyles } from '@/types/stylesType'
 import { useRouter } from '@/i18n/navigation'
 import React, { FormEvent, TextareaHTMLAttributes, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles,
@@ -24,11 +25,13 @@ export default function ReplyForm({styles, resetReplying, commentOrReply, token,
         {setError} = useGlobalMessage(),
         router = useRouter()
 
+    const t = useTranslations('creation')
+
     const handleSubmitReply = async(e:FormEvent)=>{
         e.preventDefault()
         setLoadingReply(true)
         if(replyValue.length > 2000) {
-            setError('The maximum number of characters is 2000!')
+            setError(t('sharedErrors.maxLength'))
             setLoadingReply(false)
         }
         const data = {

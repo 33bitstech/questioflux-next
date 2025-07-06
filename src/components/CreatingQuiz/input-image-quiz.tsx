@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import '@/assets/styles/auth.scss'
 import Image from 'next/image';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
+import { useTranslations } from 'next-intl';
 
 interface ImageUploaderProps {
     onFileChange: (file: File | null) => void; 
@@ -15,6 +16,7 @@ export default function InputImageQuiz({ onFileChange, originalImage}: ImageUplo
     const imageInput = useRef<HTMLInputElement>(null);
     const [draftImage, setDraftImage] = useState<string>('');
     const {setError} = useGlobalMessage()
+    const t = useTranslations('creation')
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -25,7 +27,7 @@ export default function InputImageQuiz({ onFileChange, originalImage}: ImageUplo
 
         const image = files[0];
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
-            setError('Invalid file type!'); 
+            setError(t('sharedErrors.invalidFileType'))
             onFileChange(null); 
         return;
         }
@@ -53,7 +55,7 @@ export default function InputImageQuiz({ onFileChange, originalImage}: ImageUplo
                     {draftImage ? (
                         <Image 
                             src={draftImage} 
-                            alt="Preview quiz image" 
+                            alt={t('imageInputs.altQuizPreview')} 
                             quality={100}
                             width={1000}
                             height={1000}

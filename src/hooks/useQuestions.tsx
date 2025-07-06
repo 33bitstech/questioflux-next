@@ -2,9 +2,12 @@
 import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 const useQuestions = (textMode: boolean, token: string) => {
+    const t = useTranslations('creation')
+
     const createInitialQuestion = (isTextMode: boolean): ILocalQuestions[] => {
         return [{
             id: `q-${Date.now()}`,
@@ -44,11 +47,11 @@ const useQuestions = (textMode: boolean, token: string) => {
                 if (res.err) return setError(res.err)
 
                 const { premium, specialCount } = res.premium
-                if (!premium && !specialCount) return setError('You have reached your limit of questions')
+                if (!premium && !specialCount) return setError(t('questionHook.questionLimitError'))
 
             } catch (err) {
                 console.log(err)
-                return setError('server error')
+                return setError(t('sharedErrors.serverError'))
             }
         }
         const newQuestion : ILocalQuestions = {
@@ -88,7 +91,7 @@ const useQuestions = (textMode: boolean, token: string) => {
             FREE_LIMIT = 6,
             PREMIUM_LIMIT = 15
 
-        if (currentAltsCount >= PREMIUM_LIMIT) return setError('You have reached your limit of alternatives')
+        if (currentAltsCount >= PREMIUM_LIMIT) return setError(t('questionHook.alternativeLimitError'))
 
         if (currentAltsCount >= FREE_LIMIT){
             try {
@@ -97,11 +100,11 @@ const useQuestions = (textMode: boolean, token: string) => {
                 if (res.err) return setError(res.err)
 
                 const { premium, specialCount } = res.premium
-                if (!premium && !specialCount) return setError('You have reached your limit of alternatives')
+                if (!premium && !specialCount) return setError(t('questionHook.alternativeLimitError'))
 
             } catch (err) {
                 console.log(err)
-                return setError('server error')
+                return setError(t('sharedErrors.serverError'))
             }
         }
         setQuestions(prevQuestions => 
@@ -122,6 +125,17 @@ const useQuestions = (textMode: boolean, token: string) => {
                 return q
             })
         )
+    },
+    hasImages = ()=>{
+        return questions.every(q=>{
+            const hasQuestionImage = !!q.image
+
+            const hasAllThumbnails = q.alternatives.every(a=>{
+                return !!a.thumbnail
+            })
+
+            return hasQuestionImage && hasAllThumbnails
+        })
     }
     
     useEffect(()=>{
@@ -132,7 +146,7 @@ const useQuestions = (textMode: boolean, token: string) => {
     return{
         questions, handleQuestionChange, addQuestion, removeQuestion,
         handleAlternativeChange, addAlternative, removeAlternative,
-        setQuestions
+        setQuestions, hasImages
     }
 };
 

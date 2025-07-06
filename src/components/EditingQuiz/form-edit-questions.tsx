@@ -13,6 +13,7 @@ import { createQuestionsText } from '@/app/[locale]/(quizGroup)/(createQuiz)/cre
 import WarningReset from '../widgets/warning-reset'
 import QuestionInputImage from '../CreatingQuiz/Questions/question-input-image'
 import { updateQuestionsImage } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/questions/action'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles,
@@ -31,6 +32,10 @@ export interface IArraysToUpdate{
 }
 
 export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
+    const t = useTranslations('editQuizFlow'); // Inicializar hook com o namespace principal
+    const tSharedButtons = useTranslations('creatingQuiz.questionsForm.textInput'); // Hook para botões reutilizados
+
+
     const router = useRouter(),
         {token} = useUser(),
         {setError, setSucess} = useGlobalMessage(),
@@ -121,7 +126,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                             })
                         }
                     }else{
-                        if (res) setSucess('Quiz edited sucessfully !')
+                        if (res) setSucess(t('form.successMessage'))
                     }
                 })
                 .finally(()=>{
@@ -154,7 +159,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                 .then(({res})=>{
                     if(res) {
                         console.log(res)
-                        setSucess('Quiz edited sucessfully !')
+                        setSucess(t('form.successMessage'))
                     }
                 })
                 .finally(()=>{
@@ -227,10 +232,10 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                         sendDatas()
                         setShowWarning(false)
                     }}
-                    cancelValue='Cancel'
-                    confirmValue='Save Changes'
-                    title='Warning!'
-                    description='If you edit the quiz, the entire leaderboard will be reset. Are you sure you want to proceed with editing?'
+                    cancelValue={t('warningReset.cancelButton')}
+                    confirmValue={t('warningReset.confirmButton')}
+                    title={t('warningReset.title')}
+                    description={t('warningReset.description')}
                 />
                 <div className={styles.overlay_warning}/>
             </>}
@@ -273,11 +278,11 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                     <button onClick={(e)=>{
                         e.preventDefault()
                         router.back()
-                    }}>Back</button>
+                    }}>{t('buttons.back')}</button>
                 </div>
                 <div className={styles.save}>
-                    <Link href={`/quiz/edit/${quiz?.quizId}`}>Edit Quiz</Link>
-                    <input disabled={loading} type="submit" value="Save Changes" />
+                    <Link href={`/quiz/edit/${quiz?.quizId}`}>{t('buttons.editQuiz')}</Link>
+                    <input disabled={loading} type="submit" value={t('buttons.saveChanges')} />
                 </div>
             </footer>
         </form>

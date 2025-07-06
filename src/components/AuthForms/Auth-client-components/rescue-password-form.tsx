@@ -30,7 +30,7 @@ export default function RescuePasswordForm({locale}:{locale:string}) {
             if (locale === 'en'){
                 setError(erroAuth.type, erroAuth.message)
             }else{
-                setError(erroAuth.type, erroAuth.messagePt)
+                setError(erroAuth.type, erroAuth.messagePT)
             }
         }
     }, [erroAuth, setError])

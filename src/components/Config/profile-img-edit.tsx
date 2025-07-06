@@ -6,6 +6,7 @@ import { useUser } from '@/contexts/userContext';
 import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg';
 import { TStyles } from '@/types/stylesType';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
+import { useTranslations } from 'next-intl';
 
 interface IProps {
     onFileChange: (file: File | null) => void,
@@ -14,6 +15,7 @@ interface IProps {
 
 export default function ProfileImgEdit({ onFileChange,styles }: IProps) {
     const {user} = useUser()
+    const t = useTranslations('creation')
 
     const imageInput = useRef<HTMLInputElement>(null),
         [draftImage, setDraftImage] = useState<string>(''),
@@ -31,7 +33,7 @@ export default function ProfileImgEdit({ onFileChange,styles }: IProps) {
 
         const image = files[0];
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
-            setError('Invalid file type!'); 
+            setError(t('sharedErrors.invalidFileType')) 
             onFileChange(null); 
         return;
         }
@@ -61,7 +63,7 @@ export default function ProfileImgEdit({ onFileChange,styles }: IProps) {
                         ? (draftImage && imageExist 
                             ? (<Image
                                     src={draftImage} 
-                                    alt="draft-image" 
+                                    alt={t('imageInputs.altProfileDraft')}
                                     width={400}
                                     height={400}
                                     quality={30}

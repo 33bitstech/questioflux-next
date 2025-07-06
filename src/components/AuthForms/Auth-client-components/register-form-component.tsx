@@ -17,7 +17,7 @@ import { useTranslations } from 'next-intl' // 1. Importar o hook
 import { useLocale } from 'next-intl'
 
 interface IProps{
-    handleRegisterAndFinishQuiz?: () => void,
+    handleRegisterAndFinishQuiz?: (token:string) => void,
     toLogin?: () => void,
     absolute: boolean
 }
@@ -45,7 +45,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
             if (locale === 'en'){
                 setError(erroAuth.type, erroAuth.message)
             }else{
-                setError(erroAuth.type, erroAuth.messagePt)
+                setError(erroAuth.type, erroAuth.messagePT)
             }
         }
     }, [erroAuth])
@@ -94,7 +94,10 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
             .then(res=>{
                 setUserAccess(res.token || res.res.token)
                 if (res.errImage) setGlobalError(res.errImage.message)
-                if (handleRegisterAndFinishQuiz) return handleRegisterAndFinishQuiz()
+                if (handleRegisterAndFinishQuiz){
+                    router.refresh()
+                    return handleRegisterAndFinishQuiz(res.token || res.res.token)
+                }
                 else router.push('/home')
             })
             .catch(err=>{
