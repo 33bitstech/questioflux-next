@@ -1,18 +1,20 @@
+'use client' // Deve ser um Client Component
 import NavLink from '@/components/widgets/NavLink'
 import { CookieValueTypes } from 'cookies-next'
-import React, { useState } from 'react'
+import React from 'react'
 import LangsWidget from './client/langs-widget'
 import ThemeWidget from './client/theme-widget'
 import GamepassWidget from './client/gamepass-widget'
-
 import './menu-aside.scss'
 import LinkProfile from './client/link-profile'
+import { useTranslations } from 'next-intl' // Importar
 
 interface IProps{
     auth: CookieValueTypes | undefined
 }
 
 export default function MenuAside({auth}: IProps) {
+    const t = useTranslations('navbar.asideMenu');
     
     return (
         <div id={auth ? 'pop-up-menu' : 'pop-up-config'}>
@@ -20,28 +22,15 @@ export default function MenuAside({auth}: IProps) {
                 <ul className={auth ? 'logged' : 'not-logged'}>
                     {auth && (
                         <>
-                            <li>
-                                <NavLink href='/home'>Home</NavLink>
-                            </li>
-                            <li>
-                                <NavLink href='/explore'>Explore</NavLink>
-                            </li>
-                            <GamepassWidget />
-                            <li>
-                                <NavLink href='/create/quiz'>Create Quiz</NavLink>
-                            </li>
-                            <li>
-                                <LinkProfile/>
-                            </li>
-                            <li>
-                                <NavLink href={`/saves`}>Saves</NavLink>
-                            </li>
-                            <li>
-                                <NavLink href={`/drafts`}>Drafts</NavLink>
-                            </li>
-                            <li>
-                                <NavLink href='/profile/config'>Config</NavLink>
-                            </li>
+                            <li><NavLink href='/home'>{t('home')}</NavLink></li>
+                            <li><NavLink href='/explore'>{t('explore')}</NavLink></li>
+                            {/* Assumindo que GamepassWidget também será traduzido */}
+                            <GamepassWidget /> 
+                            <li><NavLink href='/create/quiz'>{t('createQuiz')}</NavLink></li>
+                            <li><LinkProfile/></li>
+                            <li><NavLink href={`/saves`}>{t('saves')}</NavLink></li>
+                            <li><NavLink href={`/drafts`}>{t('drafts')}</NavLink></li>
+                            <li><NavLink href='/profile/config'>{t('config')}</NavLink></li>
                         </>
                     )}
                     <ThemeWidget />

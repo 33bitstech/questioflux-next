@@ -1,26 +1,35 @@
+'use client'; // 1. Definir como Client Component
+
+import { useTranslations, useLocale } from 'next-intl'; // 2. Importar os hooks
 import styles from './VortexPlus.module.scss'
 import CorrectIconSvg from '../../Icons/CorrectIconSvg'
 
+// 3. Assinatura simplificada
 const VortexPlusUniqueUse = () => {
+    // 4. Usar os hooks
+    const t = useTranslations('vortexPlus');
+    const locale = useLocale();
+
     return (
         <div className={styles.vortexplus_container}>
-            <h3>Buy this pass to get premium quiz creation usage</h3>
+            <h3>{t('singleUse.title')}</h3>
             <ul className={styles.itens}>
-                <li><p> Image as alternatives for answers </p> <span><CorrectIconSvg/></span></li>
-                <li><p> Ilustrative images for your questions </p> <span><CorrectIconSvg/></span></li>
-                <li><p> Unlimited questions for your quiz </p> <span><CorrectIconSvg/></span></li>
-                <li><p> Up to 15 alternatives for your questions </p> <span><CorrectIconSvg/></span></li>
+                <li><p>{t('sharedFeatures.feature1')}</p> <span><CorrectIconSvg/></span></li>
+                <li><p>{t('sharedFeatures.feature2')}</p> <span><CorrectIconSvg/></span></li>
+                <li><p>{t('sharedFeatures.feature3')}</p> <span><CorrectIconSvg/></span></li>
+                <li><p>{t('sharedFeatures.feature4')}</p> <span><CorrectIconSvg/></span></li>
             </ul>
             <div className={styles.price}>
-                <span>$1,99/use</span>
+                <span>{t('singleUse.price')}</span>
 
+                {/* 5. Usar o locale do hook para construir a URL */}
                 <a 
-                    href='/subscription/vortexplususage' 
+                    href={`/${locale}/subscription/vortexplususage` }
                     target='_blank'
                     rel="noopener noreferrer"
                     className={styles.link}
                 >
-                    Buy Now
+                    {t('singleUse.ctaButton')}
                 </a>
             </div>
         </div>

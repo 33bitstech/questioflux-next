@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import ParticipantsContainer from './participants-container'
 import useQuizDatas from '@/hooks/requests/quiz-requests/useQuizDatas'
 import { TLeaderboard } from '@/types/leaderboardTypes'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles,
@@ -16,7 +17,9 @@ interface IProps{
 export default function Participants({quiz, styles}: IProps) {
     const [showParticipants, setShowParticipants] = useState<boolean>(false),
         [participants, setParticipants] = useState<TLeaderboard>(),
-        {getLeaderboard} = useQuizDatas()
+        {getLeaderboard} = useQuizDatas(),
+        t = useTranslations('quizInfoPage'),
+        locale = useLocale()
 
     useEffect(()=>{
         const get = async ()=>{
@@ -34,12 +37,13 @@ export default function Participants({quiz, styles}: IProps) {
 
     return (
         <>
-            <span onClick={()=>setShowParticipants(value=>!value)} className={styles.participants}>{quiz.usersCount} users responded to this quiz</span>
+            <span onClick={()=>setShowParticipants(value=>!value)} className={styles.participants}>{quiz.usersCount} {t('details.participantsSpan')}</span>
 
             {showParticipants && participants && 
                 <div className={styles.participants_popup}>
                     <ParticipantsContainer 
                         users={participants} 
+                        locale={locale}
                         closeParticipants={()=>setShowParticipants(false)}
                     />
                     

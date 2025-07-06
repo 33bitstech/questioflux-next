@@ -7,13 +7,14 @@ import useErrors, {ErrorsState}from '@/hooks/useErrors'
 import { useFilters } from '@/contexts/filtersContext'
 import IFinalMessages from '@/interfaces/IFinalMessages'
 import InputFinalMessages from '../CreatingQuiz/input-final-messages'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useUser } from '@/contexts/userContext'
-import { createQuiz } from '@/app/(quizGroup)/(createQuiz)/create/quiz/cover/actions'
+import { createQuiz } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/cover/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
-import Link from 'next/link'
+import {Link} from '@/i18n/navigation'
 import IQuizes from '@/interfaces/IQuizes'
-import { editQuiz } from '@/app/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
+import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles,
@@ -23,9 +24,13 @@ interface IProps{
 export default function FormEditQuiz({styles, quiz}:IProps) {
     const {getError, setError} = useErrors(),
         {setError: setGlobalError, setSucess} = useGlobalMessage(),
-        {filters} = useFilters(),
+        {filters, filtersPt} = useFilters(),
         router = useRouter(),
         {token} = useUser()
+
+    const t = useTranslations('editQuizFlow.form');
+    const tShared = useTranslations('createQuizFlow.formComponent');
+    const locale = useLocale()
 
     const [imageData, setImageData] = useState<File | null>(null),
         [title, setTitle] = useState<string>(''),
@@ -69,7 +74,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
 
         editQuiz(formData, token, quiz.quizId)
             .then(({res, err, warning})=>{
-                if (warning) setGlobalError(warning ?? "Server Error")
+                if (warning) setGlobalError(warning ?? tShared('serverError'))
                 if(err) {
                     if(err.type == undefined || err.type == null) {
                         setGlobalError(err.message)
@@ -77,7 +82,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                         setErrorQuiz(err.message)
                     }
                 }else{
-                    setSucess('Quiz edited successfully!')
+                    setSucess(t('successMessage'))
                 }
             })
             .finally(()=>{
@@ -105,7 +110,6 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
             setOriginalImage(quiz.quizThumbnail)
         }
     },[quiz])
-
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
 
@@ -119,13 +123,13 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
             <InputTextQuiz
                 styles={styles}
                 labelFor='title'
-                labelValue='Title '
+                labelValue={tShared('labels.title')}
                 error={getError('title')}
             >
                 <input 
                     type="text" 
                     id="title" 
-                    placeholder='Ex: you know everything about football?' 
+                    placeholder={tShared('placeholders.title')}
                     value={title}
                     onChange={(e)=>setTitle(e.target.value)}    
                 />
@@ -134,13 +138,13 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
 
             <InputTextQuiz
                 labelFor='desc'
-                labelValue='Description'
+                labelValue={tShared('labels.description')}
                 styles={styles}
                 error={getError('description')}
             >
                 <textarea 
                     id="desc" 
-                    placeholder='Here you write the description of your quiz.'
+                    placeholder={tShared('placeholders.description')}
                     value={desc}
                     onChange={(e)=>setDesc(e.target.value)}
                 ></textarea>
@@ -150,14 +154,18 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                 error={getError('category')}
                 styles={styles}
                 labelFor='category'
-                labelValue='Category'
+                labelValue={tShared('labels.category')}
             >
-            
                 <select id="category" value={category} onChange={e=>setCategory(e.target.value)}> 
-                    <option value="" disabled>Choose a category</option>
-                    {filters.map((categorie)=>(
-                        <option key={categorie} value={categorie}>{categorie}</option>
-                    ))}
+                    <option value="" disabled>{tShared('selects.chooseCategory')}</option>
+                    {locale == 'pt'
+                        ? filtersPt.map((categorie, index)=>(
+                            <option key={categorie} value={filters[filtersPt.indexOf(categorie)]}>{categorie}</option>
+                        )) 
+                        : filters.map((categorie)=>(
+                            <option key={categorie} value={categorie}>{categorie}</option>
+                        ))
+                    }
                 </select>
             </InputTextQuiz>
 
@@ -165,51 +173,49 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                 error={getError('tags')}
                 styles={styles}
                 labelFor='tags'
-                labelValue='Tags'
+                labelValue={tShared('labels.tags')}
             >
                 <input 
                     id='tags'
                     type="text" 
-                    placeholder='Write and use "," to separate tags'
+                    placeholder={tShared('placeholders.tags')}
                     value={tagsString}
                     onChange={(e)=>setTagsString(e.target.value)}
                 />
             </InputTextQuiz>
 
-
-
             <InputTextQuiz
                 styles={styles}
                 labelFor='visibility'
-                labelValue='Visibility'
+                labelValue={tShared('labels.visibility')}
             >
                 <select 
                     id="visibility" 
                     value={visibility} 
                     onChange={e=>setVisibility(e.target.value)}
                 >
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
+                    <option value="public">{tShared('selects.public')}</option>
+                    <option value="private">{tShared('selects.private')}</option>
                 </select>
             </InputTextQuiz>
+
             <InputTextQuiz
                 styles={styles}
                 labelFor='lang'
-                labelValue='Idiom'
+                labelValue={tShared('labels.idiom')}
             >
                 <select 
                     id="lang" 
                     value={idiom} 
                     onChange={e=>setIdiom(e.target.value as 'PT-BR' | 'EN-US')}
                 >
-                    <option value='EN-US'>EN-US</option>
-                    <option value='PT-BR'>PT-BR</option>
+                    <option value='EN-US'>{tShared('selects.en')}</option>
+                    <option value='PT-BR'>{tShared('selects.pt')}</option>
                 </select>
             </InputTextQuiz>
 
-
             <div className={styles.messages}>
-                <label>Appearance of message at the end of the Quiz:</label>
+                <label>{tShared('labels.finalMessages')}</label>
                 <InputFinalMessages
                     styles={styles}
                     messagesChanged={setFinalMessages}
@@ -222,11 +228,11 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                     <button onClick={(e)=>{
                         e.preventDefault()
                         router.back()
-                    }}>Back</button>
+                    }}>{tShared('buttons.back')}</button>
                 </div>
                 <div className={styles.save}>
-                    <Link href={`/quiz/edit/questions/${quiz?.quizId}`}>Edit Questions</Link>
-                    <input disabled={loading} type="submit" value="Save Changes" />
+                    {quiz && <Link href={`/quiz/edit/questions/${quiz?.quizId}`}>{t('buttons.editQuestions')}</Link>}
+                    <input disabled={loading} type="submit" value={t('buttons.saveChanges')} />
                 </div>
             </footer>
         </form>

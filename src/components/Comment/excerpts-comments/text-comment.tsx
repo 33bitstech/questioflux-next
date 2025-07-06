@@ -2,7 +2,8 @@
 import IComment from '@/interfaces/IComment'
 import IReplies from '@/interfaces/IReplies'
 import { TStyles } from '@/types/stylesType'
-import Link from 'next/link'
+import {Link} from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react'
 
 interface IProps{
@@ -12,6 +13,8 @@ interface IProps{
 }
 
 export default function TextComment({styles, comment, isReply}: IProps) {
+    const t = useTranslations('commentsSection.text');
+    const locale = useLocale()
     const [exceededContent, setExceededContent] = useState<boolean>(false),
         [showMore, setShowMore] = useState<boolean>(false),
 
@@ -36,7 +39,7 @@ export default function TextComment({styles, comment, isReply}: IProps) {
             >
                 <p suppressHydrationWarning ref={pElement}>
                     {isReply && 'userRepliedDates' in comment && comment.userRepliedDates?.name
-                        ? <Link href={`/user/${comment.userRepliedDates.userId}`}>@{comment.userRepliedDates.name}</Link>
+                        ? <Link locale={locale} href={`/user/${comment.userRepliedDates.userId}`}>@{comment.userRepliedDates.name}</Link>
                         : ''
                     }
                     {comment.body}
@@ -44,8 +47,8 @@ export default function TextComment({styles, comment, isReply}: IProps) {
             </div>
             {exceededContent && <div className={styles.show_more_buttons}>
                 {!showMore 
-                    ? <button type='button' onClick={e=>setShowMore(true)}>Show more</button>  
-                    : <button type='button' onClick={e=>setShowMore(false)}>Show less</button>    
+                    ? <button type='button' onClick={e=>setShowMore(true)}>{t('showMore')}</button>   
+                    : <button type='button' onClick={e=>setShowMore(false)}>{t('showLess')}</button>    
                 }   
             </div>}
         </>

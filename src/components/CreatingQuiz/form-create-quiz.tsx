@@ -7,19 +7,22 @@ import useErrors, {ErrorsState}from '@/hooks/useErrors'
 import { useFilters } from '@/contexts/filtersContext'
 import IFinalMessages from '@/interfaces/IFinalMessages'
 import InputFinalMessages from './input-final-messages'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useUser } from '@/contexts/userContext'
-import { createQuiz } from '@/app/(quizGroup)/(createQuiz)/create/quiz/cover/actions'
+import { createQuiz } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/cover/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface IProps{
     styles: TStyles
 }
 
 export default function FormCreateQuiz({styles}:IProps) {
+    const t = useTranslations('createQuizFlow.formComponent')
+    const locale = useLocale()
     const {getError, setError} = useErrors(),
         {setError: setGlobalError} = useGlobalMessage(),
-        {filters} = useFilters(),
+        {filters, filtersPt} = useFilters(),
         router = useRouter(),
         {token} = useUser()
 
@@ -29,7 +32,7 @@ export default function FormCreateQuiz({styles}:IProps) {
         [category, setCategory] = useState<string>(''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<string>(''),
-        [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>('EN-US'),
+        [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>(locale == 'pt' ? 'PT-BR':'EN-US'),
 
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
 
@@ -67,12 +70,12 @@ export default function FormCreateQuiz({styles}:IProps) {
 
         createQuiz(formData, token)
             .then(({res, err, warning})=>{
-                if (warning) setGlobalError(warning ?? "Server Error")
+                if (warning) setGlobalError(warning ?? t('serverError'))
                 if(err) {
                     if(err.type == undefined || err.type == null) {
                         setGlobalError(err.message)
                     }else{
-                        setErrorQuiz(err.message)
+                        setErrorQuiz(err)
                     }
                 }else{
                     if(savingAsDraft) {
@@ -114,28 +117,27 @@ export default function FormCreateQuiz({styles}:IProps) {
             <InputTextQuiz
                 styles={styles}
                 labelFor='title'
-                labelValue='Title '
+                labelValue={t('labels.title')}
                 error={getError('title')}
             >
                 <input 
                     type="text" 
                     id="title" 
-                    placeholder='Ex: you know everything about football?' 
+                    placeholder={t('placeholders.title')} 
                     value={title}
                     onChange={(e)=>setTitle(e.target.value)}    
                 />
             </InputTextQuiz>
 
-
             <InputTextQuiz
                 labelFor='desc'
-                labelValue='Description'
+                labelValue={t('labels.description')}
                 styles={styles}
                 error={getError('description')}
             >
                 <textarea 
                     id="desc" 
-                    placeholder='Here you write the description of your quiz.'
+                    placeholder={t('placeholders.description')}
                     value={desc}
                     onChange={(e)=>setDesc(e.target.value)}
                 ></textarea>
@@ -145,14 +147,18 @@ export default function FormCreateQuiz({styles}:IProps) {
                 error={getError('category')}
                 styles={styles}
                 labelFor='category'
-                labelValue='Category'
+                labelValue={t('labels.category')}
             >
-            
                 <select id="category" value={category} onChange={e=>setCategory(e.target.value)}> 
-                    <option value="" disabled>Choose a category</option>
-                    {filters.map((categorie)=>(
-                        <option key={categorie} value={categorie}>{categorie}</option>
-                    ))}
+                    <option value="" disabled>{t('selects.chooseCategory')}</option>
+                    {locale == 'pt'
+                        ? filtersPt.map((categorie, index)=>(
+                            <option key={categorie} value={filters[filtersPt.indexOf(categorie)]}>{categorie}</option>
+                        )) 
+                        : filters.map((categorie)=>(
+                            <option key={categorie} value={categorie}>{categorie}</option>
+                        ))
+                    }
                 </select>
             </InputTextQuiz>
 
@@ -160,51 +166,49 @@ export default function FormCreateQuiz({styles}:IProps) {
                 error={getError('tags')}
                 styles={styles}
                 labelFor='tags'
-                labelValue='Tags'
+                labelValue={t('labels.tags')}
             >
                 <input 
                     id='tags'
                     type="text" 
-                    placeholder='Write and use "," to separate tags'
+                    placeholder={t('placeholders.tags')}
                     value={tagsString}
                     onChange={(e)=>setTagsString(e.target.value)}
                 />
             </InputTextQuiz>
 
-
-
             <InputTextQuiz
                 styles={styles}
                 labelFor='visibility'
-                labelValue='Visibility'
+                labelValue={t('labels.visibility')}
             >
                 <select 
                     id="visibility" 
                     value={visibility} 
                     onChange={e=>setVisibility(e.target.value)}
                 >
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
+                    <option value="public">{t('selects.public')}</option>
+                    <option value="private">{t('selects.private')}</option>
                 </select>
             </InputTextQuiz>
+
             <InputTextQuiz
                 styles={styles}
                 labelFor='lang'
-                labelValue='Idiom'
+                labelValue={t('labels.idiom')}
             >
                 <select 
                     id="lang" 
                     value={idiom} 
                     onChange={e=>setIdiom(e.target.value as 'PT-BR' | 'EN-US')}
                 >
-                    <option value='EN-US'>EN-US</option>
-                    <option value='PT-BR'>PT-BR</option>
+                    <option value='EN-US'>{t('selects.en')}</option>
+                    <option value='PT-BR'>{t('selects.pt')}</option>
                 </select>
             </InputTextQuiz>
 
-
             <div className={styles.messages}>
-                <label>Appearance of message at the end of the Quiz:</label>
+                <label>{t('labels.finalMessages')}</label>
                 <InputFinalMessages
                     styles={styles}
                     messagesChanged={setFinalMessages}
@@ -216,11 +220,11 @@ export default function FormCreateQuiz({styles}:IProps) {
                     <button onClick={(e)=>{
                         e.preventDefault()
                         router.back()
-                    }}>Back</button>
+                    }}>{t('buttons.back')}</button>
                 </div>
                 <div className={styles.save}>
-                    <input disabled={loading} type='submit' value='Save as Draft' onClick={()=>setSavingAsDraft(true)}/>
-                    <input disabled={loading} type="submit" value="Continue" />
+                    <input disabled={loading} type='submit' value={t('buttons.saveDraft')} onClick={()=>setSavingAsDraft(true)}/>
+                    <input disabled={loading} type="submit" value={t('buttons.continue')} />
                 </div>
             </footer>
         </form>

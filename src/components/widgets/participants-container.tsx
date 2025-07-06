@@ -2,7 +2,7 @@ import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
 import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
 import DefaultProfileImg from '../Icons/profile-icons/DefaultProfileImg';
-import Link from 'next/link';
+import {Link} from '@/i18n/navigation';
 import CloseSvg from '../Icons/CloseSvg';
 import Image from 'next/image';
 import styles from './participants-container.module.scss'
@@ -11,11 +11,12 @@ import { TLeaderboard } from '@/types/leaderboardTypes';
 
 interface IProps {
     users: TLeaderboard,
+    locale:string,
     closeParticipants: () => void
 }
 
 
-export default function ParticipantsContainer({users, closeParticipants}: IProps) {
+export default function ParticipantsContainer({users, closeParticipants, locale}: IProps) {
     return (
         <div className={`${styles.container}`}>
             <div className={styles.close} onClick={closeParticipants}><CloseSvg/></div>
@@ -24,7 +25,7 @@ export default function ParticipantsContainer({users, closeParticipants}: IProps
                     <div className={styles.profileImg}>
                         <UserProfileImgRender user={user} />
                     </div>
-                    <Link href={`/user/${user.userId}`}>{user.name}</Link>
+                    <Link locale={locale} href={`/user/${user.userId}`}>{user.name}</Link>
                 </div>))}
             </div>
         </div>

@@ -1,5 +1,5 @@
 'use client'
-import { deleteComment, dislikeComment, likeComment } from '@/app/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
+import { deleteComment, dislikeComment, likeComment } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import ArrowSvg from '@/components/Icons/ArrowSvg'
 import Like from '@/components/Icons/Comment/Like'
 import MoreIcon from '@/components/Icons/Comment/MoreIcon'
@@ -8,6 +8,7 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import IComment from '@/interfaces/IComment'
 import IReplies from '@/interfaces/IReplies'
 import { IUser } from '@/interfaces/IUser'
+import { useTranslations } from 'next-intl';
 import { TStyles } from '@/types/stylesType'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState } from 'react'
@@ -44,7 +45,7 @@ export default function ActionsComment({
         [openOptions, setOpenOptions] = useState<boolean>(false),       
 
         {theme} = useTheme()
-    
+    const t = useTranslations('commentsSection.actions');
     const handleOptions = ()=>{
         setOpenOptions(!openOptions)
     },
@@ -68,12 +69,9 @@ export default function ActionsComment({
     return (
         <>
             {isClient && token && 
-                <div 
-                    className={styles.action} 
-                    onClick={handleReply}
-                >
+                <div className={styles.action} onClick={handleReply}>
                     <Reply />
-                    <p>Reply</p>
+                    <p>{t('reply')}</p>
                 </div>
             }
             <div className={styles.action} onClick={toggleLike}>
@@ -82,14 +80,12 @@ export default function ActionsComment({
             </div>
             {isClient && verifyCommentUser() && <>
                 <div className={`${styles.action} ${openOptions ? styles.action_active : ''}`} onClick={handleOptions}>
-                    {isClient && 
-                            <MoreIcon active={openOptions} theme={theme}/>
-                    }
-                    <p>More</p>
+                    {isClient && <MoreIcon active={openOptions} theme={theme}/> }
+                    <p>{t('more')}</p>
                     {openOptions && <>
                         <ul className={styles.options}>
-                            <li onClick={handleEdit}><ArrowSvg/> Edit</li>
-                            <li onClick={handleRemove}><ArrowSvg/> Remove</li>
+                            <li onClick={handleEdit}><ArrowSvg/> {t('edit')}</li>
+                            <li onClick={handleRemove}><ArrowSvg/> {t('remove')}</li>
                         </ul>
                     </>}
                 </div>

@@ -1,0 +1,230 @@
+@use '../../../../../../../assets/styles/vars.scss';
+
+.content{
+    @extend %content-default;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .81rem !important;
+    margin-bottom: 6.9375rem;
+    margin-top: 5rem;
+    
+    .subtitle_creations{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: .30rem;
+        height: auto;
+        width: 70%;
+        h1{
+            @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+        }
+        p{
+            @include vars.styleTexto(var(--text-primary), .75rem, 400);
+            span{
+                display: block;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .form{
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        margin-bottom: 5.19rem;
+        .image_container{
+            position: relative;
+            height: 23rem;
+            width: 100%;
+            border-radius: 0.3125rem;
+            border: 1px solid vars.$cor-cinzaDescD;
+            input[type="file"]{
+                @extend %hidden-element;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            label[for="imageQuiz"]{
+                display: inline-block;
+                height: 100%;
+                width: 100%;
+                border-radius: 0.3125rem;
+                background-color: var(--background-divs);
+                cursor: pointer;
+                
+                span{
+                    display: inline-block;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 0.3125rem;
+                    position: relative;
+                    svg{
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 4.72813rem;
+                        height: 4.47838rem;
+                    }
+                    img{
+                        height: 100%;
+                        width: 100%;
+                        position: absolute;
+                        
+                        border-radius: 0.3125rem;
+                        background-size: contain;
+                        object-fit: cover;
+                        border: 2px solid vars.$cor-cinza;
+                    }
+                }
+
+            }
+        }
+        .field{
+            display: flex;
+            flex-direction: column;
+            gap:.20rem;
+            width: 100%;
+            height: auto;
+            position: relative;
+            &:has(.message_error_input) input, &:has(.message_error_input) textarea, &:has(.message_error_input) select{
+                outline: 2px solid vars.$cor-errorColor;
+            }
+            .message_error_input{
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                transform: translate(0%, 100%);
+                @include vars.styleTexto(vars.$cor-errorColor,.86rem, 400);
+                &::first-letter{
+                    text-transform: uppercase;
+                }
+            }
+            label {
+                @include vars.styleTexto(var(--text-primary), 1rem, 400);
+            }
+            input, textarea, select{
+                @include vars.styleTexto(var(--text-primary), .75rem, 400);
+                background-color: var(--background-divs);
+            }
+            input{
+                padding: .5rem;
+                border-radius: 0.3125rem;
+                border: 1px solid vars.$cor-cinzaDescD;
+            }
+            textarea{
+                padding: .5rem;
+                border-radius: 0.3125rem;
+                border: 1px solid vars.$cor-cinzaDescD;
+                resize: vertical;
+                height: 7.8125rem;
+            }
+            input::placeholder{
+                @include vars.styleTexto(vars.$cor-cinzaDescD, .75rem, 400);
+            }
+            option{
+                padding: .5rem;
+                appearance: none;
+            }
+            select{
+                padding: .5rem;
+                border: 1px solid vars.$cor-cinzaDescD;
+                border-radius: 0.3125rem;
+            }
+            input:focus, select:focus, textarea:focus{
+                outline: none;
+            }
+        }
+        .messages{
+            display: flex;
+            flex-direction: column;
+            gap: .62rem;
+            label{
+                @include vars.styleTexto(var(--text-primary), .75rem, 400);
+            }
+            .messages_actions{
+                display: flex;
+                gap: .31rem;
+                align-items: center;
+                .button_message{
+                    @include vars.styleTexto(vars.$cor-cinzaDescD, 1rem, 700);
+                    border-radius: 0.6875rem;
+                    border: 2px solid vars.$cor-cinzaDescD;
+                    background-color: transparent;
+                    padding: .88rem 0;
+                    width: 90%;
+                    max-width: 11rem;
+                    cursor: pointer;
+                }
+                .active_button{
+                    border: 2px solid var(--text-primary);
+                    color: var(--text-primary);
+                }
+            }
+            .messages_inputs{
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+                width: 100%;
+
+            }
+        }
+    }
+
+    .footer{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 6.9375rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 0px 0px 39.3px -13px rgba(0, 0, 0, 0.25);
+
+        background-color: var(--background-divs);
+
+        input[type='submit'], button, a{
+            @include vars.styleTexto(vars.$cor-preto, 1rem, 700);
+            border-radius: 0.6875rem;
+            cursor: pointer;
+        }
+        .actions{
+            button{
+                padding: 0.88rem 1.56rem;
+                color: var(--text-primary);
+                border: 1px solid var(--text-primary);
+                background-color: var(--background-divs);
+            }
+        }
+        .save{
+            display: flex;
+            gap: .8rem;
+            input:nth-child(1), a{
+                color: var(--text-primary);
+                border: 1px solid var(--text-primary);
+                background-color: var(--background-divs);
+                padding: 0.88rem 2.80rem;
+            }
+            input:nth-child(2){
+                color: var(--button-text-color);
+                border: 1px solid var(--background-button);
+                background-color: var(--background-button);
+                padding: 0.88rem 1.90rem;
+            }
+        }
+    }
+}
+@media screen and (max-width: 860px) {
+    .form{
+        width: 95% !important;
+    }
+    .footer{
+        flex-direction: column;
+        gap: 5px;
+        padding: .5rem 0;
+    }
+}

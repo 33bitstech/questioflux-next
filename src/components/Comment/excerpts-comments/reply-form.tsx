@@ -1,11 +1,11 @@
 'use client'
-import { replyComment } from '@/app/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
+import { replyComment } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import Send from '@/components/Icons/Comment/Send'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import IComment from '@/interfaces/IComment'
 import IReplies from '@/interfaces/IReplies'
 import { TStyles } from '@/types/stylesType'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import React, { FormEvent, TextareaHTMLAttributes, useState } from 'react'
 
 interface IProps{

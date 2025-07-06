@@ -2,14 +2,16 @@
 import SearchSvg from '@/components/Icons/Search'
 import { useFilters } from '@/contexts/filtersContext'
 import { TStyles } from '@/types/stylesType'
-import { useRouter, useSearchParams } from 'next/navigation'
+import {useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 
 interface IProps{
     styles: TStyles,
+    placeholder:string
 }
 
-export default function SearchQuiz({styles}: IProps) {
+export default function SearchQuiz({styles, placeholder}: IProps) {
     const searchParams = useSearchParams() 
     
     const getInitialSearchValue = () => {
@@ -63,7 +65,7 @@ export default function SearchQuiz({styles}: IProps) {
             <SearchSvg />
             <input 
                 type="search" 
-                placeholder='Search' 
+                placeholder={placeholder}
                 value={searchValue} 
                 onChange={e => setSearchValue(e.target.value)} 
             />

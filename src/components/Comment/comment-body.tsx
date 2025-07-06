@@ -4,7 +4,7 @@ import IComment from '@/interfaces/IComment'
 import { TStyles } from '@/types/stylesType'
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import IReplies from '@/interfaces/IReplies'
-import { deleteComment, dislikeComment, editComment, likeComment, repliesFromComment } from '@/app/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
+import { deleteComment, dislikeComment, editComment, likeComment, repliesFromComment } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import TextComment from './excerpts-comments/text-comment'
 import EditForm from './excerpts-comments/edit-form'
@@ -12,6 +12,7 @@ import ActionsComment from './excerpts-comments/actions-comment'
 import ReplyForm from './excerpts-comments/reply-form'
 import ArrowSvg from '../Icons/ArrowSvg'
 import ReplyContainer from './Reply/reply-container'
+import { useTranslations } from 'next-intl';
 
 interface IProps{
     styles: TStyles,
@@ -22,6 +23,8 @@ interface IProps{
 export default function CommentBody({styles, comment, quizId}:IProps) {
     const {user, token} = useUser(),
         {setError} = useGlobalMessage()
+
+    const t = useTranslations('commentsSection');
 
     const arrayLikes = comment.userLikes,
         arrayReplies = comment.replies
@@ -60,7 +63,7 @@ export default function CommentBody({styles, comment, quizId}:IProps) {
         e.preventDefault()
 
         if(!commentValueEdited) return
-        if (commentValueEdited.length > 2000) return setError('The maximum number of characters is 2000!')
+        if (commentValueEdited.length > 2000) return setError(t('form.errors.maxLength'))
         const data = {
             comment: {body:commentValueEdited, quizId, commentId:comment.commentId},
         }
@@ -149,8 +152,8 @@ export default function CommentBody({styles, comment, quizId}:IProps) {
                         
                         <span className={`${styles.show_more} ${showReplies ? styles.show_active : ''}`} onClick={handleShowReplies}>
                             <p>
-                                Show
-                                {!replies ? (arrayReplies ? ` ${arrayReplies.length}` : ' 0') : ` ${replies.length}`} answers
+                                {/* Usar tradução com pluralização para as respostas */}
+                                {t('body.showReplies', {count: replies ? replies.length : arrayReplies ? arrayReplies.length : 0})}
                             </p>
                             <ArrowSvg/>
                         </span>

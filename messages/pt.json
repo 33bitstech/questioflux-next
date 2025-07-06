@@ -1,0 +1,416 @@
+{
+    "aboutPage": {
+        "metadataTitle": "Sobre nós",
+        "mainTitle": "<highlight>Sobre nós</highlight> & Suporte",
+        "description": "Um site de quiz personalizado é uma plataforma interativa onde os usuários têm a liberdade de criar seus próprios quizzes de forma simples e intuitiva. Eles podem personalizar perguntas, respostas e até adicionar elementos visuais como imagens e vídeos para tornar seus quizzes mais envolventes.<br></br>Uma vez que um usuário cria um quiz, ele pode compartilhá-lo com amigos ou com o público em geral, incentivando a participação e a interação. Os participantes podem responder às perguntas, ver seus resultados e deixar comentários no quiz. Essa funcionalidade de comentários permite feedback direto, discussões e interação social, tornando o processo uma experiência colaborativa e divertida.<br></br>Além disso, o site oferece uma interface amigável e opções de personalização, permitindo que os criadores adaptem seus quizzes a uma variedade de temas, como curiosidades, conhecimentos gerais, testes de personalidade e mais. A ideia é incentivar a criatividade enquanto se promove o compartilhamento e a interação entre os usuários.<br></br>Este ambiente dinâmico transforma os quizzes em uma forma de entretenimento social, onde qualquer pessoa pode ser tanto um criador quanto um participante em quizzes personalizados.",
+        "privacy": "Nosso site de quizzes valoriza sua privacidade e segurança. Por isso, queremos esclarecer que utilizamos apenas cookies estritamente necessários para garantir o bom funcionamento do nosso site. Esses cookies permitem que você navegue e utilize todas as funcionalidades, como responder a quizzes e acessar seu histórico de respostas, de forma eficiente e segura.<br></br>Além disso, não armazenamos informações de pagamento sensíveis em nosso banco de dados. Todo o processamento de pagamentos é tratado de forma segura pela Stripe, uma das plataformas de pagamento mais reconhecidas e confiáveis do mercado. A Stripe adere aos mais altos padrões de segurança e conformidade, garantindo que seus dados financeiros estejam protegidos durante todo o processo da transação.<br></br>Nosso compromisso é fornecer uma experiência segura e transparente para todos os nossos usuários. Se você tiver alguma dúvida ou preocupação sobre nossa política de privacidade, estamos à disposição para ajudar.",
+        "supportLabel": "E-mail de suporte:"
+    },
+    "landingPage": {
+        "hero": {
+            "titleLine1": "Crie seu <bold>quiz personalizado</bold> e compartilhe",
+            "titleLine2": "com seus amigos usando o <bold>Quiz vortex</bold>",
+            "subtitle": "Faça uma variedade de estilos de quiz e divirta-se compartilhando com seus amigos - qual deles combina mais com você?",
+            "ctaButton": "Comece Agora",
+            "exploreButton": "Explorar"
+        },
+        "stylesSection": {
+            "title": "Estilos de quiz clássicos",
+            "subtitle": "Que tipo de quiz você quer fazer?",
+            "rightAndWrong": "<span>Quiz de certo e errado:</span> Só existe uma resposta certa para cada pergunta! Aqui você encontrará uma variedade de perguntas divertidas e desafiadoras em diferentes categorias.",
+            "personality": "<span>Quiz de personalidade:</span> Não há respostas definitivas. Os resultados dependem das características e personalidade únicas de cada participante.",
+            "list": "<span>Quiz de lista:</span> Crie seu texto organizado por itens.",
+            "aboutMe": "<span>Quiz sobre mim:</span> Convide seus amigos para descobrir quem te conhece melhor.",
+            "ctaButton": "Criar Agora"
+        },
+        "explorationSection": {
+            "title": "Exploração de quizzes",
+            "subtitle": "Que tal responder a quizzes já criados por outros usuários?",
+            "public": "<span>Quizzes públicos:</span> Crie quizzes profissionais e poste em seu perfil para que outros usuários possam fazer.",
+            "private": "<span>Quizzes privados:</span> Crie quizzes privados, os usuários só podem acessá-los se você compartilhar um link especial."
+        },
+        "footer": {
+            "aboutLink": "Sobre nós"
+        }
+    },
+    "registerComponent": {
+        "title": "Crie sua conta",
+        "subtitle": "Comece a criar seu próprio quiz agora"
+    },
+    "registerForm": {
+        "placeholders": {
+            "username": "Nome de usuário",
+            "email": "email@gmail.com",
+            "password": "Senha",
+            "confirmPassword": "Repita a senha"
+        },
+        "rememberMeLabel": "Lembrar de mim",
+        "submitButton": "Registrar",
+        "loginPrompt": "Já tem uma conta?",
+        "loginLink": "Entrar",
+        "errors": {
+            "passwordsDoNotMatch": "As senhas não correspondem",
+            "invalidEmail": "Digite um endereço de e-mail válido",
+            "nameRequired": "O campo nome de usuário é obrigatório",
+            "emailRequired": "O e-mail é obrigatório",
+            "passwordRequired": "O campo senha é obrigatório",
+            "confirmPasswordRequired": "A confirmação de senha é obrigatória"
+        }
+    },
+    "profileUpload": {
+        "instruction": "Escolha sua foto de perfil",
+        "altText": "Pré-visualização da imagem de perfil",
+        "errorInvalidType": "Tipo de arquivo inválido!"
+    },
+    "registerPage": {
+        "metadataTitle": "Registre-se",
+        "title": "Bem-vindo(a) ao <bold>QuizVortex</bold>"
+    },
+    "loginPage": {
+        "metadataTitle": "Entrar",
+        "registerPrompt": "Não tem uma conta?",
+        "navButtons": {
+            "register": "Registre-se",
+            "login": "Entrar"
+        },
+        "form": {
+            "placeholders": {
+                "email": "email@gmail.com",
+                "password": "Senha"
+            },
+            "rememberMeLabel": "Lembrar de mim",
+            "forgotPasswordLink": "Esqueceu a senha?",
+            "submitButton": "Entrar",
+            "errors": {
+                "invalidEmail": "Digite um endereço de e-mail válido",
+                "emailRequired": "O e-mail é obrigatório",
+                "passwordRequired": "A senha é obrigatória"
+            }
+        }
+    },
+    "rescuePasswordFlow": {
+        "shared": {
+            "buttonSend": "Enviar",
+            "buttonLoading": "Carregando...",
+            "placeholderEmail": "email@gmail.com",
+            "placeholderPassword": "Nova senha",
+            "placeholderConfirmPassword": "Confirme a nova senha",
+            "errors": {
+                "invalidEmail": "Digite um endereço de e-mail válido",
+                "emailRequired": "O e-mail é obrigatório",
+                "passwordRequired": "A senha é obrigatória",
+                "passwordsDoNotMatch": "As senhas não correspondem",
+                "confirmPasswordRequired": "Repita sua senha"
+            }
+        },
+        "rescuePage": {
+            "metadataTitle": "Recuperar Senha",
+            "registerPrompt": "Não tem uma conta?",
+            "registerLink": "Registre-se"
+        },
+        "rescueForm": {
+            "label": "Digite seu e-mail para redefinir sua senha.",
+            "successMessage": "Verifique seu e-mail em alguns instantes para obter o token de redefinição de senha."
+        },
+        "changePasswordPage": {
+            "metadataTitle": "Alterar Senha",
+            "successMessage": "Senha alterada!",
+            "labels": {
+                "email": "Digite seu e-mail.",
+                "newPassword": "Digite sua nova senha.",
+                "confirmPassword": "Confirme sua senha."
+            }
+        }
+    },
+    "navbar": {
+        "createQuiz": "Criar Quiz",
+        "createAccount": "Criar Conta",
+        "login": "Entrar",
+        "searchPlaceholder": "Procurar por um quiz...",
+        "logout": "Sair",
+        "asideMenu": {
+            "home": "Início",
+            "explore": "Explorar",
+            "gamepass": "Game Pass",
+            "createQuiz": "Criar Quiz",
+            "profile": "Perfil",
+            "saves": "Salvos",
+            "drafts": "Rascunhos",
+            "config": "Configurações"
+        },
+        "themeWidget": {
+            "light": "Claro",
+            "dark": "Escuro"
+        }
+    },
+    "vortexPlus": {
+        "sharedFeatures": {
+            "feature1": "Imagem como alternativa para respostas",
+            "feature2": "Imagens ilustrativas para suas perguntas",
+            "feature3": "Perguntas ilimitadas para seu quiz",
+            "feature4": "Até 15 alternativas para suas perguntas"
+        },
+        "subscription": {
+            "title": "Melhore sua experiência com o VortexPlus",
+            "price": "R$ 2,50/mês",
+            "ctaButton": "Assine Agora"
+        },
+        "singleUse": {
+            "title": "Compre este passe para um uso de criação de quiz premium",
+            "price": "R$ 1,99/uso",
+            "ctaButton": "Compre Agora"
+        }
+    },
+    "contextualHeader": {
+        "createQuiz": "Criar Quiz",
+        "exploreQuizzes": "Explorar Quizzes",
+        "home": "Início",
+        "explore": "Explorar",
+        "filters": "Filtros"
+    },
+    "filters": {
+        "quizTypeTitle": "Tipo de Quiz",
+        "categoryTitle": "Categoria",
+        "applyButton": "Aplicar",
+        "quizTypes": {
+            "all": "Todos",
+            "personality": "Personalidade",
+            "image": "Imagem",
+            "rightAndWrong": "Certo e Errado"
+        }
+    },
+    "configPage": {
+        "metadataTitle": "Configurações",
+        "main": {
+            "subscriptionsTitle": "Assinaturas"
+        },
+        "updateForm": {
+            "mainTitle": "Configurações",
+            "saveWarning": "Não se esqueça de <bold>salvar</bold> antes de sair da página.",
+            "saveButton": "Salvar",
+            "accountInfoTitle": "Informações da Conta",
+            "labels": {
+                "username": "Nome de usuário",
+                "email": "Endereço de e-mail",
+                "password": "Senha"
+            },
+            "profileImageTitle": "Imagem de Perfil",
+            "profileImageSubtitle": "Atualize sua imagem de perfil",
+            "successMessage": "Salvo com sucesso!"
+        },
+        "subscriptionContainer": {
+            "activeTitle": "Ativas ({count})",
+            "vortexPlus": {
+                "title": "VortexPlus",
+                "price": "R$ 2,50/mês",
+                "subscribeButton": "Assinar",
+                "unsubscribeButton": "Cancelar Assinatura"
+            },
+            "vortexPlusUsage": {
+                "title": "Uso de VortexPlus ({count})",
+                "price": "R$ 1,99/uso",
+                "buyButton": "Comprar"
+            }
+        },
+        "accountWidget": {
+            "deleteButton": "Excluir Conta",
+            "confirmation": {
+                "title": "Você tem certeza?",
+                "confirmButton": "Sim, excluir minha conta",
+                "cancelButton": "Não, não excluir minha conta"
+            }
+        }
+    },
+    "userQuizzesContainer": {
+        "titles": {
+            "public": "Seus quizzes públicos ({count})",
+            "private": "Seus quizzes privados ({count})",
+            "draft": "Seus rascunhos ({count})",
+            "saved": "Seus quizzes salvos ({count})"
+        },
+        "seeMoreButton": {
+            "more": "Ver mais",
+            "less": "Ver menos"
+        }
+    },
+    "explorePage": {
+        "metadataTitle": "Explorar Quizzes",
+        "mainTitle": "Explore quizzes já criados",
+        "featuredTitle": "Mais Populares",
+        "buttons": {
+            "seeMore": "Ver mais",
+            "seeLess": "Ver menos"
+        }
+    },
+    "quizCard": {
+        "loading": "Carregando...",
+        "createdBy": "Criado por",
+        "actions": {
+            "quizPage": "Página do Quiz",
+            "takeQuiz": "Fazer o Quiz",
+            "editQuiz": "Editar Quiz"
+        }
+    },
+    "quizLayout": {
+        "nav": {
+            "info": "Infos do Quiz",
+            "comments": "Comentários",
+            "leaderboard": "Ranking"
+        }
+    },
+    "quizInfoPage": {
+        "title": "Informações do Quiz",
+        "details": {
+            "createdBy": "Criado por:",
+            "creationDate": "Data de Criação:",
+            "lastUpdated": "Atualizado em:",
+            "participants": "Participantes:",
+            "category": "Categoria:",
+            "tags": "Tags:",
+            "participantsSpan": "usuarios responderam a esse quiz"
+        },
+        "ctaButton": "Fazer o quiz"
+    },
+    "quizActions": {
+        "saveWidget": {
+            "save": "Salvar",
+            "remove": "Remover"
+        },
+        "share": {
+            "button": "Compartilhar Quiz",
+            "title": "Compartilhe com seus amigos",
+            "whatsappMessage": "Faça este quiz!",
+            "copyLinkButton": "Copiar link",
+            "copySuccessMessage": "Link copiado com sucesso!"
+        }
+    },
+    "commentsSection": {
+        "title": "{count, plural, =0 {Nenhum Comentário} =1 {1 Comentário} other {# Comentários}}",
+        "noComments": "Seja o primeiro a comentar!",
+        "form": {
+            "label": "Comentar como <span>@{username}</span>",
+            "placeholder": "Escreva seu comentário...",
+            "errors": {
+                "maxLength": "O número máximo de caracteres é 2000!"
+            }
+        },
+            "actions": {
+            "reply": "Responder",
+            "more": "Mais",
+            "edit": "Editar",
+            "remove": "Remover"
+        },
+        "body": {
+            "showReplies": "{count, plural, =0 {Mostrar respostas} =1 {Mostrar 1 resposta} other {Mostrar # respostas}}"
+        },
+        "text": {
+            "showMore": "Mostrar mais",
+            "showLess": "Mostrar menos"
+        }
+    },
+    "leaderboardPage": {
+        "metadataTitle": "Ranking",
+        "noResults": "Ninguém respondeu a este quiz ainda.",
+        "userAnswers": {
+            "attempts": "Tentativas:",
+            "correctTitle": "Respostas Corretas:",
+            "incorrectTitle": "Respostas Incorretas:",
+            "questionLabel": "Pergunta:",
+            "answerLabel": "Resposta do Usuário:"
+        }
+    },
+    "publicProfile":{
+        "customTitle": "Quizzes publicos desse usuário"
+    },
+    "createQuizFlow": {
+        "layout": {
+            "metadataTitle": "Crie seu Quiz"
+        },
+        "selectTypePage": {
+            "title": "Crie seu quiz",
+            "subtitle": "Para começar a criar seu quiz, teste de personalidade ou lista, simplesmente clique no respectivo botão abaixo e comece agora mesmo.",
+            "descriptions": {
+                "rightAndWrongTitle": "Quiz de Certo e Errado",
+                "rightAndWrongText": "Este é o tipo de quiz onde o objetivo é acertar todas as respostas. É muito usado para medir conhecimento sobre um assunto específico e é o favorito dos fãs para desafiar amigos. Muitos professores também criam este tipo de teste interativo como um quiz educacional para avaliar o conhecimento dos alunos.",
+                "personalityTitle": "Quiz de Personalidade",
+                "personalityText": "Este é um tipo de teste em que você responde a algumas perguntas e, dependendo de suas respostas, o quiz lhe dará o resultado que melhor se alinha com sua personalidade. Não é um quiz para medir conhecimento, mas sim para determinar com qual resultado você é mais compatível. Ideal para quizzes como: \"Quem você seria em ____?\", \"Que tipo de ____ é você?\", etc.",
+                "imageTitle": "Quiz de Imagem",
+                "imageText": "Neste tipo de quiz, o objetivo é acertar todas as respostas com base em imagens. Professores usam este formato interativo para avaliar a compreensão visual dos alunos. É também conhecido como um quiz de interpretação visual, onde cada pergunta é apresentada exclusivamente por imagens, sem texto."
+            }   
+        },
+        "formPage": {
+            "saveDraftInfo": "Após completar este passo, seu conteúdo será salvo automaticamente em <drafts>Rascunhos</drafts>."
+        },
+        "formComponent": {
+            "serverError": "Erro no Servidor",
+            "labels": {
+                "title": "Título",
+                "description": "Descrição",
+                "category": "Categoria",
+                "tags": "Tags",
+                "visibility": "Visibilidade",
+                "idiom": "Idioma",
+                "finalMessages": "Aparência da mensagem no final do Quiz:"
+            },
+            "placeholders": {
+                "title": "Ex: Você sabe tudo sobre futebol?",
+                "description": "Aqui você escreve a descrição do seu quiz.",
+                "tags": "Escreva e use \",\" para separar as tags"
+            },
+            "selects": {
+                "chooseCategory": "Escolha uma categoria",
+                "public": "Público",
+                "private": "Privado",
+                "en": "Inglês",
+                "pt": "Português"
+            },
+            "buttons": {
+                "back": "Voltar",
+                "saveDraft": "Salvar como Rascunho",
+                "continue": "Continuar"
+            }
+        }
+    },
+    "creatingQuiz": {
+        "nav": {
+            "cover": "Capa do Quiz",
+            "questions": "Perguntas"
+        },
+        "finalMessages": {
+            "defaultButton": "Padrão",
+            "customButton": "Personalizável",
+            "defaults": {
+                "allCorrect": "Parabéns! Você acertou todas as perguntas!",
+                "aboveEighty": "Ótimo trabalho! Você acertou mais de 80% das perguntas.",
+                "aboveFifty": "Bom trabalho! Você acertou mais de 50% das perguntas.",
+                "belowFifty": "Você acertou menos de 50% das perguntas. Continue praticando!",
+                "allWrong": "Que pena! Você errou todas as perguntas. Não desista e tente novamente!"
+            }
+        },
+        "questionsPage": {
+            "alternativesAppearance": "Aparência das alternativas do quiz:",
+            "toggleMode": {
+                "textOnly": "Apenas Texto",
+                "textAndImage": "Texto e Imagem"
+            },
+            "premiumWarning": {
+                "popupText": "A opção 'Texto e Imagem' está disponível para nossos usuários premium. Para habilitá-la, assine o <vortexplus>vortexplus</vortexplus> para acesso ilimitado ou compre um passe de uso único para este quiz."
+            }
+        }
+    },
+    "editQuizFlow": {
+        "metadataTitle": "Editar seu quiz",
+        "page": {
+            "title": "Editar seu quiz",
+            "subtitle": "Quando terminar suas alterações, clique em 'Salvar Alterações' para aplicá-las. Precisa editar as perguntas? Basta clicar em 'Editar Perguntas'."
+        },
+        "form": {
+            "successMessage": "Quiz editado com sucesso!",
+            "buttons": {
+                "editQuestions": "Editar Perguntas",
+                "saveChanges": "Salvar Alterações"
+            }
+        }
+    } 
+
+}

@@ -5,18 +5,19 @@ import { ChangeEvent, useRef, useState } from 'react';
 import '@/assets/styles/auth.scss'
 import Image from 'next/image';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
+import { useTranslations } from 'next-intl'; // 1. Importar o hook
 
 interface ImageUploaderProps {
     onFileChange: (file: File | null) => void; 
 }
 
 export default function ProfileUploadComponent({ onFileChange }: ImageUploaderProps) {
+    const t = useTranslations('profileUpload'); // 2. Inicializar o hook com o nosso namespace
     const imageInput = useRef<HTMLInputElement>(null);
     const [draftImage, setDraftImage] = useState<string>('');
     const {setError} = useGlobalMessage()
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-
         const files = e.target.files;
         if (!files || files.length === 0) {
             onFileChange(null);
@@ -24,10 +25,11 @@ export default function ProfileUploadComponent({ onFileChange }: ImageUploaderPr
         }
 
         const image = files[0];
+        // 3. Usar a tradução para a mensagem de erro
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
-            setError('Invalid file type!'); 
+            setError(t('errorInvalidType')); 
             onFileChange(null); 
-        return;
+            return;
         }
 
         setDraftImage(URL.createObjectURL(image));
@@ -48,7 +50,8 @@ export default function ProfileUploadComponent({ onFileChange }: ImageUploaderPr
                     {draftImage ? (
                         <Image 
                             src={draftImage} 
-                            alt="Preview profile image" 
+                            // 4. Usar a tradução para o texto 'alt'
+                            alt={t('altText')} 
                             quality={10}
                             width={400}
                             height={400}
@@ -57,7 +60,8 @@ export default function ProfileUploadComponent({ onFileChange }: ImageUploaderPr
                         <UploadImageSvg />
                     )}
                 </span>
-                <p>Chose your profile picture</p>
+                {/* 5. Usar a tradução para a instrução */}
+                <p>{t('instruction')}</p>
             </label>
         </>
     );    

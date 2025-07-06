@@ -1,32 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
+import createMiddleware from 'next-intl/middleware';
+import {routing} from './i18n/routing';
+
+export default createMiddleware(routing);
 
 type PublicRoute = {
     src: string | RegExp;
     actionWhenAuth: 'next' | 'redirect';
 };
 
-const publicRoutes: PublicRoute[] = [
-    { src: '/', actionWhenAuth: 'redirect' },
-    { src: '/login', actionWhenAuth: 'redirect' },
-    { src: '/register', actionWhenAuth: 'redirect' },
-    { src: '/about-us', actionWhenAuth: 'next' },
-    { src: '/rescuepassword', actionWhenAuth: 'redirect' },
-    { src: /^\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' }, 
-    { src: '/explore', actionWhenAuth: 'next' },
-    { src: '/create/quiz/cover', actionWhenAuth: 'next' },
-    { src: /^\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
-    { src: /^\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
-    { src: /^\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
+const publicRoutes: PublicRoute[] = [    
+    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
 ]
-    
-const defaultPrivateRoute = '/home'; 
-const defaultPublicRoute = '/login';
 
 export function middleware(req: NextRequest) {
-    const path = req.nextUrl.pathname; 
+    let path = req.nextUrl.pathname; 
     const authToken = req.cookies.get('token');
     const requestHeaders = new Headers(req.headers)
+    const locale = path.split('/')[1] == 'en' || path.split('/')[1] == 'pt' ? path.split('/')[0] : 'en'
+
+    const defaultPrivateRoute = `/${locale}/home`; 
+    const defaultPublicRoute = `/${locale}/login`;
+
+    if(path == '/' || path == '') path = `/${locale}`
 
     requestHeaders.set('x-pathname', path)
 
@@ -36,6 +43,12 @@ export function middleware(req: NextRequest) {
         }
         return route.src === path;
     });
+
+    if(path == `/${locale}` && !authToken){
+        const url = req.nextUrl.clone()
+        url.pathname = path
+        return NextResponse.rewrite(url);
+    }
 
     // 1. Rota pública e usuário NÃO está logado
     // Ação: Permite o acesso

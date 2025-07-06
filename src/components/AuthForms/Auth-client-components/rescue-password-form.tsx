@@ -4,54 +4,59 @@ import useErrors, { ErrorsState } from '@/hooks/useErrors'
 import React, { FormEvent, useEffect, useState } from 'react'
 import InputComponent from './input-component'
 import { validEmail } from '@/utils/FormatText'
-import { sendRecoveryEmail } from '@/app/(auth)/rescuepassword/action'
+import { sendRecoveryEmail } from '@/app/[locale]/(auth)/rescuepassword/action'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { useTranslations } from 'next-intl'
 
-export default function RescuePasswordForm() {
+export default function RescuePasswordForm({locale}:{locale:string}) {
+    const t = useTranslations('rescuePasswordFlow');
+    
     const {getError, setError, concatErrors, hasErrors} = useErrors(),
         [email, setEmail] = useState<string>(''),
         [loading, setLoading] = useState<boolean>(false),
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
         {setSucess} = useGlobalMessage()
 
-
     useEffect(()=>{
         if (email){
-            if (!validEmail(email)) return setError('email', 'Enter a valid email address')
+            if (!validEmail(email)) return setError('email', t('shared.errors.invalidEmail'));
             return setError('email', '')
         }
         return setError('email', '')
-    }, [email])
+    }, [email, setError, t])
+
     useEffect(()=>{
         if (erroAuth) {
-            setError(erroAuth.type, erroAuth.message)
+            if (locale === 'en'){
+                setError(erroAuth.type, erroAuth.message)
+            }else{
+                setError(erroAuth.type, erroAuth.messagePt)
+            }
         }
-    }, [erroAuth])
+    }, [erroAuth, setError])
     
     const handleSubmit = (e:FormEvent) =>{
         e.preventDefault()
         setLoading(true)
-
         let errors: ErrorsState = {}
-        
-        if (!email) errors.email = "Email is required"
-
+        if (!email) errors.email = t('shared.errors.emailRequired');
         concatErrors(errors)
         if (hasErrors(errors)) return setLoading(false)
 
         sendRecoveryEmail({email}).then(res=>{
             if(res.err) return setErroAuth(res.err)
-            if(res.ok) return setSucess('Check your email in a few moments, check your email to obtain the password reset token.')
+            if(res.ok) return setSucess(t('rescueForm.successMessage'))
         }).finally(()=>setLoading(false))
     }
+
     return (
         <form onSubmit={handleSubmit} className='forgotpass-form'>
             <div className="first-part-section">
-                <label htmlFor="email-id">Enter your email to reset your password.</label>
+                <label htmlFor="email-id">{t('rescueForm.label')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}
                     type='email'
-                    placeholder='email@gmail.com'
+                    placeholder={t('shared.placeholderEmail')}
                     value={email}
                     onChange={e=>setEmail(e.target.value)}
                     id='email-id'
@@ -59,7 +64,7 @@ export default function RescuePasswordForm() {
                     error={getError('email')}
                 />
             </div>
-            <input type="submit" value={loading ? 'Loading' : 'Send'} disabled={loading} />
+            <input type="submit" value={loading ? t('shared.buttonLoading') : t('shared.buttonSend')} disabled={loading} />
         </form>
     )
 }

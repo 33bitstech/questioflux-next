@@ -19,7 +19,7 @@ export const getTimeString = (timing: number)=>{
     }
     return time
 }
-export const getTimeSinceDate = (timing: string | number | Date) => {
+export const getTimeSinceDate = (timing: string | number | Date, locale:string) => {
     const now = Date.now();
     const time = new Date(timing).getTime();
     const secondsSinceDate = Math.floor((now - time) / 1000);
@@ -27,25 +27,25 @@ export const getTimeSinceDate = (timing: string | number | Date) => {
     let displayText = '';
 
     if (secondsSinceDate < 60) {
-        displayText = `${secondsSinceDate} secs ago`;
+        displayText = `${secondsSinceDate} secs ${locale == 'pt' ? 'atras' : 'ago'}`;
     } else if (secondsSinceDate < 3600) {
         const minutes = Math.floor(secondsSinceDate / 60);
-        displayText = `${minutes} mins ago`;
+        displayText = `${minutes} mins ${locale == 'pt' ? 'atras' : 'ago'}`;
     } else if (secondsSinceDate < 86400) {
         const hours = Math.floor(secondsSinceDate / 3600);
-        displayText = `${hours} hours ago`;
+        displayText = `${hours} ${locale == 'pt' ? 'horas atras' : 'hours ago'}`;
     } else if (secondsSinceDate < 604800) {
         const days = Math.floor(secondsSinceDate / 86400);
-        displayText = `${days} days ago`;
+        displayText = `${days} ${locale == 'pt' ? 'dias atras' : 'days ago'}`;
     } else if (secondsSinceDate < 2628000) {
         const weeks = Math.floor(secondsSinceDate / 604800);
-        displayText = `${weeks} weeks ago`;
+        displayText = `${weeks} ${locale == 'pt' ? 'semanas atras' : 'weeks ago'}`;
     } else if (secondsSinceDate < 31536000) {
         const months = Math.floor(secondsSinceDate / 2628000);
-        displayText = `${months} months ago`;
+        displayText = `${months} ${locale == 'pt' ? 'meses atras' : 'months ago'}`;
     } else {
         const years = Math.floor(secondsSinceDate / 31536000);
-        displayText = `${years} years ago`;
+        displayText = `${years} ${locale == 'pt' ? 'anos atras' : 'years ago'}`;
     }
 
     const isoDate = new Date(timing).toISOString();

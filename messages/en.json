@@ -1,0 +1,415 @@
+{
+    "aboutPage": {
+        "metadataTitle": "About us",
+        "mainTitle": "<highlight>About us</highlight> & Support",
+        "description": "A custom quiz site is an interactive platform where users have the freedom to create their own quizzes in a simple and intuitive way. They can customize questions, answers, and even add visual elements such as images and videos to make their quizzes more engaging.<br></br>Once a user has created a quiz, they can share it with friends or the general public, encouraging participation and interaction. Participants can answer questions, view their results, and leave comments on the quiz. This commenting functionality allows for direct feedback, discussions, and social interaction, making the process a collaborative and fun experience.<br></br>In addition, the site offers a user-friendly interface and customization options, allowing creators to adapt their quizzes to a variety of topics, such as trivia, general knowledge, personality tests, and more. The idea is to encourage creativity while promoting sharing and interaction among users.<br></br>This dynamic environment transforms quizzes into a form of social entertainment, where anyone can be both a creator and a participant in custom quizzes.",
+        "privacy": "Our quiz site values your privacy and security. Therefore, we want to clarify that we only use strictly necessary cookies to ensure the proper functioning of our site. These cookies allow you to navigate and use all the features, such as taking quizzes and accessing your response history, efficiently and securely.<br></br>Additionally, we do not store sensitive payment information in our database. All payment processing is securely handled by Stripe, one of the most recognized and trusted payment platforms in the market. Stripe adheres to the highest standards of security and compliance, ensuring that your financial data is protected throughout the transaction process.<br></br>Our commitment is to provide a safe and transparent experience for all our users. If you have any questions or concerns about our privacy policy, we are here to help.",
+        "supportLabel": "Support email:"
+    },
+    "landingPage": {
+        "hero": {
+            "titleLine1": "Create your <bold>custom quiz</bold> and share",
+            "titleLine2": "it with your friends using <bold>Quiz vortex</bold>",
+            "subtitle": "Make a variety of quiz styles and have fun sharing with your friends - which one suits you best?",
+            "ctaButton": "Start Now",
+            "exploreButton": "Explore"
+        },
+        "stylesSection": {
+            "title": "Classic quiz styles",
+            "subtitle": "What type of quiz do you want to do?",
+            "rightAndWrong": "<span>Right and wrong quiz:</span>There is only one right answer to each question! Here you will find a variety of fun and challenging questions in different categories.",
+            "personality": "<span>Personality quiz:</span> There are no definitive answers. Results depend on the unique characteristics and personality of each participant.",
+            "list": "<span>List quiz:</span> Create your text organized by items.",
+            "aboutMe": "<span>About me quiz:</span> Invite your friends to find out who knows you best.",
+            "ctaButton": "Create Now"
+        },
+        "explorationSection": {
+            "title": "Quiz exploration",
+            "subtitle": "How about answering quizzes already created by other users?",
+            "public": "<span>Public quizzes:</span> Create professional quizzes and post them on your profile for other users to take.",
+            "private": "<span>Private quizzes:</span> Create private quizzes, users can only access them if you share a special link."
+        },
+        "footer": {
+            "aboutLink": "About us"
+        }
+    },
+    "registerComponent": {
+        "title": "Create your account",
+        "subtitle": "Start by creating your own quiz now"
+    },
+    "registerForm": {
+        "placeholders": {
+            "username": "Username",
+            "email": "email@gmail.com",
+            "password": "Password",
+            "confirmPassword": "Repeat password"
+        },
+        "rememberMeLabel": "Remember me",
+        "submitButton": "Register",
+        "loginPrompt": "Already have an Account?",
+        "loginLink": "Login",
+        "errors": {
+            "passwordsDoNotMatch": "Passwords do not match",
+            "invalidEmail": "Enter a valid email address",
+            "nameRequired": "Username field is required",
+            "emailRequired": "Email is required",
+            "passwordRequired": "Password field is required",
+            "confirmPasswordRequired": "Confirm password is required"
+        }
+    },
+    "profileUpload": {
+        "instruction": "Choose your profile picture",
+        "altText": "Preview profile image",
+        "errorInvalidType": "Invalid file type!"
+    },
+    "registerPage": {
+        "metadataTitle": "Register",
+        "title": "Welcome to <bold>QuizVortex</bold>"
+    },
+    "loginPage": {
+        "metadataTitle": "Login",
+        "registerPrompt": "Haven't an account?",
+        "navButtons": {
+            "register": "Register",
+            "login": "Login"
+        },
+        "form": {
+            "placeholders": {
+                "email": "email@gmail.com",
+                "password": "Password"
+            },
+            "rememberMeLabel": "Remember me",
+            "forgotPasswordLink": "Forgot Password?",
+            "submitButton": "Login",
+            "errors": {
+                "invalidEmail": "Enter a valid email address",
+                "emailRequired": "Email is required",
+                "passwordRequired": "Password is required"
+            }
+        }
+    },
+    "rescuePasswordFlow": {
+        "shared": {
+            "buttonSend": "Send",
+            "buttonLoading": "Loading...",
+            "placeholderEmail": "email@gmail.com",
+            "placeholderPassword": "New password",
+            "placeholderConfirmPassword": "Confirm new password",
+            "errors": {
+                "invalidEmail": "Enter a valid email address",
+                "emailRequired": "Email is required",
+                "passwordRequired": "Password is required",
+                "passwordsDoNotMatch": "Passwords do not match",
+                "confirmPasswordRequired": "Repeat your password"
+            }
+        },
+        "rescuePage": {
+            "metadataTitle": "Rescue Password",
+            "registerPrompt": "Haven't an account?",
+            "registerLink": "Register"
+        },
+        "rescueForm": {
+            "label": "Enter your email to reset your password.",
+            "successMessage": "Check your email in a few moments, check your email to obtain the password reset token."
+        },
+        "changePasswordPage": {
+            "metadataTitle": "Change Password",
+            "successMessage": "Password changed!",
+            "labels": {
+                "email": "Enter your email.",
+                "newPassword": "Enter your new password.",
+                "confirmPassword": "Confirm your password."
+            }
+        }
+    },
+    "navbar": {
+        "createQuiz": "Create Quiz",
+        "createAccount": "Create Account",
+        "login": "Login",
+        "searchPlaceholder": "Search for a quiz...",
+        "logout": "Leave",
+        "asideMenu": {
+            "home": "Home",
+            "explore": "Explore",
+            "gamepass": "Game Pass",
+            "createQuiz": "Create Quiz",
+            "profile": "Profile",
+            "saves": "Saves",
+            "drafts": "Drafts",
+            "config": "Settings"
+        },
+        "themeWidget": {
+            "light": "Light",
+            "dark": "Dark"
+        }
+    },
+    "vortexPlus": {
+        "sharedFeatures": {
+            "feature1": "Image as alternatives for answers",
+            "feature2": "Illustrative images for your questions",
+            "feature3": "Unlimited questions for your quiz",
+            "feature4": "Up to 15 alternatives for your questions"
+        },
+        "subscription": {
+            "title": "Improve your experience with VortexPlus",
+            "price": "$2.50/mo",
+            "ctaButton": "Subscribe Now"
+        },
+        "singleUse": {
+            "title": "Buy this pass to get premium quiz creation usage",
+            "price": "$1.99/use",
+            "ctaButton": "Buy Now"
+        }
+    },
+    "contextualHeader": {
+        "createQuiz": "Create Quiz",
+        "exploreQuizzes": "Explore Quizzes",
+        "home": "Home",
+        "explore": "Explore",
+        "filters": "Filters"
+    },
+    "filters": {
+        "quizTypeTitle": "Type of Quiz",
+        "categoryTitle": "Category",
+        "applyButton": "Apply",
+        "quizTypes": {
+            "all": "All",
+            "personality": "Personality",
+            "image": "Image",
+            "rightAndWrong": "Right and Wrong"
+        }
+    },
+    "configPage": {
+        "metadataTitle": "Settings",
+        "main": {
+            "subscriptionsTitle": "Subscriptions"
+        },
+        "updateForm": {
+            "mainTitle": "Configurations",
+            "saveWarning": "Don’t forget to <bold>save</bold> before leaving the page.",
+            "saveButton": "Save",
+            "accountInfoTitle": "Account Info",
+            "labels": {
+                "username": "Username",
+                "email": "Email Address",
+                "password": "Password"
+            },
+            "profileImageTitle": "Profile Image",
+            "profileImageSubtitle": "Update your profile image",
+            "successMessage": "Saved successfully!"
+        },
+        "subscriptionContainer": {
+            "activeTitle": "Active ({count})",
+            "vortexPlus": {
+                "title": "VortexPlus",
+                "price": "$2.50/month",
+                "subscribeButton": "Subscribe",
+                "unsubscribeButton": "Unsubscribe"
+            },
+            "vortexPlusUsage": {
+                "title": "VortexPlus Usage ({count})",
+                "price": "$1.99/use",
+                "buyButton": "Buy"
+            }
+        },
+        "accountWidget": {
+            "deleteButton": "Delete Account",
+            "confirmation": {
+                "title": "Are you sure?",
+                "confirmButton": "Yes, delete my account",
+                "cancelButton": "No, don’t delete my account"
+            }
+        }
+    },
+    "userQuizzesContainer": {
+        "titles": {
+            "public": "Your public quizzes ({count})",
+            "private": "Your private quizzes ({count})",
+            "draft": "Your draft quizzes ({count})",
+            "saved": "Your saved quizzes ({count})"
+        },
+        "seeMoreButton": {
+            "more": "See more",
+            "less": "See less"
+        }
+    },
+    "explorePage": {
+        "metadataTitle": "Explore Quizzes",
+        "mainTitle": "Explore already created quizzes",
+        "featuredTitle": "Most Popular",
+        "buttons": {
+            "seeMore": "See more",
+            "seeLess": "See less"
+        }
+    },
+    "quizCard": {
+        "loading": "Loading...",
+        "createdBy": "Created by",
+        "actions": {
+            "quizPage": "Quiz Page",
+            "takeQuiz": "Take The Quiz",
+            "editQuiz": "Edit Quiz"
+        }
+    },
+    "quizLayout": {
+        "nav": {
+            "info": "Quiz info",
+            "comments": "Comments",
+            "leaderboard": "Leaderboard"
+        }
+    },
+    "quizInfoPage": {
+        "title": "Quiz info",
+        "details": {
+            "createdBy": "Created by:",
+            "creationDate": "Creation Date:",
+            "lastUpdated": "Updated:",
+            "participants": "Participants:",
+            "category": "Category:",
+            "tags": "Tags:",
+            "participantsSpan": "users responded to this quiz"
+        },
+        "ctaButton": "Take the quiz"
+    },
+    "quizActions": {
+        "saveWidget": {
+            "save": "Save",
+            "remove": "Remove"
+        },
+        "share": {
+            "button": "Share Quiz",
+            "title": "Share with your friends",
+            "whatsappMessage": "Take this quiz!",
+            "copyLinkButton": "Copy link",
+            "copySuccessMessage": "Link copied successfully!"
+        }
+    },
+    "commentsSection": {
+        "title": "{count, plural, =0 {No Comments} =1 {1 Comment} other {# Comments}}",
+        "noComments": "Be the first to comment!",
+        "form": {
+            "label": "Comment as <span>@{username}</span>",
+            "placeholder": "Write your comment...",
+            "errors": {
+                "maxLength": "The maximum number of characters is 2000!"
+            }
+        },
+        "actions": {
+            "reply": "Reply",
+            "more": "More",
+            "edit": "Edit",
+            "remove": "Remove"
+        },
+        "body": {
+            "showReplies": "{count, plural, =0 {Show answers} =1 {Show 1 answer} other {Show # answers}}"
+        },
+        "text": {
+            "showMore": "Show more",
+            "showLess": "Show less"
+        }
+    },
+    "leaderboardPage": {
+        "metadataTitle": "Leaderboard",
+        "noResults": "No one has answered this quiz yet.",
+        "userAnswers": {
+            "attempts": "Attempts:",
+            "correctTitle": "Correct Answers:",
+            "incorrectTitle": "Incorrect Answers:",
+            "questionLabel": "Question:",
+            "answerLabel": "User Answer:"
+        }
+    },
+    "publicProfile":{
+        "customTitle": "Public quizzes from this user"
+    },
+    "createQuizFlow": {
+        "layout": {
+            "metadataTitle": "Create your Quiz"
+        },
+        "selectTypePage": {
+            "title": "Create your quiz",
+            "subtitle": "To start creating your quiz, personality test or list, simply click on the respective button below and get started right now.",
+            "descriptions": {
+                "rightAndWrongTitle": "Right and Wrong Quiz",
+                "rightAndWrongText": "This is the type of quiz where the objective is to get all the answers correct. This type of test is widely used to measure your knowledge on a particular subject. It's a favorite for those fans who want to challenge their friends to see who knows the most about a certain topic. Additionally, many teachers create this type of interactive test as an educational quiz to assess their students' knowledge. It is also known as a question and answer quiz.",
+                "personalityTitle": "Personality Quiz",
+                "personalityText": "This is a type of test in which you answer some questions and, depending on your answers, the quiz will give you the result that best aligns with your personality. This is not a quiz to measure your knowledge, but rather to determine which result you are most compatible with. If you want to create a quiz with titles like: \"Who would you be in ____?\", \"What kind of ____ are you?\", \"Which ____ suits you best?\", \"Can we guess ____?\", then this is it. the type of quiz you should create!",
+                "imageTitle": "Image Quiz",
+                "imageText": "This is the type of quiz where the objective is to get all the answers correct based on images. Additionally, many teachers create this type of interactive test as an educational quiz to assess their students' visual comprehension. It is also known as a visual interpretation quiz, where each question is presented exclusively through images, with no text involved."
+            }
+        },
+        "formPage": {
+            "saveDraftInfo": "After completing this step, your content will automatically be saved in <drafts>Drafts</drafts>."
+        },
+        "formComponent": {
+            "serverError": "Server Error",
+            "labels": {
+                "title": "Title",
+                "description": "Description",
+                "category": "Category",
+                "tags": "Tags",
+                "visibility": "Visibility",
+                "idiom": "Idiom",
+                "finalMessages": "Appearance of message at the end of the Quiz:"
+            },
+            "placeholders": {
+                "title": "Ex: Do you know everything about football?",
+                "description": "Here you write the description of your quiz.",
+                "tags": "Write and use \",\" to separate tags"
+            },
+            "selects": {
+                "chooseCategory": "Choose a category",
+                "public": "Public",
+                "private": "Private",
+                "en": "English",
+                "pt": "Portuguese"
+            },
+            "buttons": {
+                "back": "Back",
+                "saveDraft": "Save as Draft",
+                "continue": "Continue"
+            }
+        }
+    },
+    "creatingQuiz": {
+        "nav": {
+            "cover": "Quiz Cover",
+            "questions": "Questions"
+        },
+        "finalMessages": {
+            "defaultButton": "Default",
+            "customButton": "Customizable",
+            "defaults": {
+                "allCorrect": "Congratulations! You got all the questions right!",
+                "aboveEighty": "Great job! You got more than 80% of the questions right.",
+                "aboveFifty": "Good job! You got more than 50% of the questions right.",
+                "belowFifty": "You got less than 50% of the questions right. Keep practicing!",
+                "allWrong": "Too bad! You got all the questions wrong. Don't give up and try again!"
+            }
+        },
+        "questionsPage": {
+            "alternativesAppearance": "Appearance of quiz alternatives:",
+            "toggleMode": {
+                "textOnly": "Text only",
+                "textAndImage": "Text and image"
+            },
+            "premiumWarning": {
+                "popupText": "The 'Text and Image' option is available for our premium users. To enable it, subscribe to <vortexplus>vortexplus</vortexplus> for unlimited access or purchase a single-use pass for this quiz."
+            }
+        }
+    },
+    "editQuizFlow": {
+        "metadataTitle": "Edit your quiz",
+        "page": {
+            "title": "Edit your quiz",
+            "subtitle": "Once you're done with your changes, click 'Save Changes' to apply them. Need to edit the questions? Simply click 'Edit Questions'."
+        },
+        "form": {
+            "successMessage": "Quiz edited successfully!",
+            "buttons": {
+                "editQuestions": "Edit Questions",
+                "saveChanges": "Save Changes"
+            }
+        }
+    }
+}

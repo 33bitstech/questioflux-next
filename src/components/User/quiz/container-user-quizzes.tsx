@@ -7,6 +7,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { IUser } from '@/interfaces/IUser'
 import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl' // 1. Importar o hook
 
 interface IProps{
     styles: TStyles,
@@ -16,6 +17,7 @@ interface IProps{
 }
 
 export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP}: IProps) {
+    const t = useTranslations('userQuizzesContainer'); // 2. Inicializar o hook
     const {token, user} = useUser(),
         {userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes} = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
@@ -58,76 +60,60 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                         },
                     }
                 }
-    
-                await actions[quizzes_type].action()
+                // A lógica de busca de dados permanece a mesma
+                if (actions[quizzes_type]) {
+                    await actions[quizzes_type].action();
+                }
             }
         }
-
         get()
+    }, [user, token])
 
-    }, [token, user])
+    // 3. Lógica de tradução do título
+    const title = customTitle 
+        ? `${customTitle} (${quizzes?.length || 0})` 
+        : t(`titles.${quizzes_type}`, { count: quizzes?.length || 0 });
 
 
     if(quizzes_type == 'public' || quizzes_type == 'private'){
         return (
             <>
-                <h2>
-                    {`${customTitle 
-                        ? `${customTitle}` 
-                        : `Your ${quizzes_type} quizzes`} 
-                    
-                    (${quizzes?.length || 0})`}
-                </h2>
+                <h2>{title}</h2>
                 <section className={styles.quizes}>
-                        {user && Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
-                            <QuizCard 
-                                key={index} 
-                                quiz={quiz}
-                            />
-                        ))}
-                    </section>
+                    {user && Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
+                        <QuizCard key={index} quiz={quiz}/>
+                    ))}
+                </section>
 
-                    {Array.isArray(quizzes) && quizzes?.length > 3 && (
-                        <button onClick={()=>setViewQuizzes(!viewQuizzes)} 
-                        className={`${styles.seemore_button} ${viewQuizzes ? styles.active : ''}`}>
-                            <p>
-                                See {viewQuizzes ? 'less': 'more'}
-                            </p>
-                            <ArrowSvg/>
-                        </button>
-                    )}
-                    {viewQuizzes && (
-                        <div className={styles.more_content}>
-                            <section className={styles.quizes}>
-                                {user && Array.isArray(quizzes) && quizzes?.slice(3,).map((quiz, index)=>(
-                                    <QuizCard 
-                                        key={index} 
-                                        quiz={quiz}
-                                    />
-                                ))}
-                            </section>
-                            <div className={styles.end_of_content}></div>
-                        </div>
-                    )}
+                {Array.isArray(quizzes) && quizzes?.length > 3 && (
+                    <button onClick={()=>setViewQuizzes(!viewQuizzes)} className={`${styles.seemore_button} ${viewQuizzes ? styles.active : ''}`}>
+                        <p>
+                            {/* 4. Tradução do botão "Ver mais/menos" */}
+                            {viewQuizzes ? t('seeMoreButton.less') : t('seeMoreButton.more')}
+                        </p>
+                        <ArrowSvg/>
+                    </button>
+                )}
+                {viewQuizzes && (
+                    <div className={styles.more_content}>
+                        <section className={styles.quizes}>
+                            {user && Array.isArray(quizzes) && quizzes?.slice(3,).map((quiz, index)=>(
+                                <QuizCard key={index} quiz={quiz} />
+                            ))}
+                        </section>
+                        <div className={styles.end_of_content}></div>
+                    </div>
+                )}
             </>
         )
     }
     if(quizzes_type == 'draft' || quizzes_type == 'saved'){
         return (
             <>
-                <h1>
-                    {`${customTitle 
-                        ? `${customTitle}` 
-                        : `Your ${quizzes_type} quizzes`} 
-                    
-                    (${quizzes?.length || 0})`}
-                </h1>
+                <h1>{title}</h1>
                 <div className={styles.quizes_container}>
                     {quizzes?.map((quiz, index)=>(
-                        <QuizCard
-                            key={index} 
-                            quiz={quiz}
-                        />
+                        <QuizCard key={index} quiz={quiz} />
                     ))}
                 </div>
             </>

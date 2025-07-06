@@ -5,7 +5,7 @@ import { IUser } from "@/interfaces/IUser"
 import React from 'react'
 import { useGlobalMessage } from "./globalMessageContext"
 import useCustomCookies from "@/hooks/useCustomCookies"
-import { useRouter } from "next/navigation"
+import { useRouter } from "@/i18n/navigation"
 
 interface IUserContext {
     user: IUser | null,

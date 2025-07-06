@@ -1,6 +1,6 @@
 import { IUser } from '@/interfaces/IUser'
 import { TStyles } from '@/types/stylesType'
-import Link from 'next/link'
+import {Link} from '@/i18n/navigation'
 import React from 'react'
 import UserProfileImgRender from '../ImagesRender/user-profile-img-render'
 import LeaderboardTop from '../Icons/Badges/LeaderboardTop'
@@ -16,9 +16,10 @@ interface IProps{
     index: number,
     quiz: IQuizes,
     quizLb: TLeaderboard
+    locale:string
 }
 
-export default function LbUser({styles, userLb, index, quiz, quizLb}: IProps) {
+export default function LbUser({styles, userLb, index, quiz, quizLb, locale}: IProps) {
     return (
         <>
             <div className={styles.user}>
@@ -30,7 +31,7 @@ export default function LbUser({styles, userLb, index, quiz, quizLb}: IProps) {
                         <UserProfileImgRender user={userLb} />
                     </div>
                 </div>
-                <Link href={`/user/${userLb.userId}`}>{userLb.name}</Link>
+                <Link locale={locale} href={`/user/${userLb.userId}`}>{userLb.name}</Link>
             </div>
             <div className={styles.result}>
                 <HandleAnswers 

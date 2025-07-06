@@ -1,0 +1,17 @@
+@use '../../../assets/styles/vars.scss';
+
+.container {
+  @extend %container-default; 
+  justify-content: center;
+  gap: 1rem;
+
+  header {
+    @extend %header-position;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .container{
+      padding: .5rem;
+  }
+}

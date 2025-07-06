@@ -1,5 +1,5 @@
 'use client'
-import { verifyUserPremium } from '@/app/(quizGroup)/profile/config/actions';
+import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions';
 import { useEffect, useState } from 'react';

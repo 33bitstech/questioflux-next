@@ -2,6 +2,7 @@
 import { useFilters } from '@/contexts/filtersContext'
 import { TFilter } from '@/types/filtersType'
 import { TStyles } from '@/types/stylesType'
+import { useLocale } from 'next-intl'
 import React, { useEffect, useState } from 'react'
 
 interface IProps {
@@ -11,7 +12,9 @@ interface IProps {
 }
 
 export default function CategoriesList({styles, filters, setFilters}:IProps) {
-    const {filters: categories} = useFilters()
+    const {filters: categories, filtersPt} = useFilters()
+
+    const locale = useLocale()
 
     const verifyFilterSelect = (category:TFilter) =>{
         return filters.find(filter=>filter == category)
@@ -29,9 +32,17 @@ export default function CategoriesList({styles, filters, setFilters}:IProps) {
 
     return (
         <ul>
-            {categories.map((categorie, index)=>(
-                <li key={index} className={verifyFilterSelect(categorie) ? styles.active_li : ''} onClick={()=>handleFilterSelected(categorie)}>{categorie}</li>
-            ))}
+            {locale == 'pt' 
+                ? <>
+                    {filtersPt.map((categorie, index)=>(
+                        <li key={index} className={verifyFilterSelect(categories[index]) ? styles.active_li : ''} onClick={()=>handleFilterSelected(categories[index])}>{categorie}</li>
+                    ))}
+                </> 
+                : <>
+                    {categories.map((categorie, index)=>(
+                        <li key={index} className={verifyFilterSelect(categorie) ? styles.active_li : ''} onClick={()=>handleFilterSelected(categorie)}>{categorie}</li>
+                    ))}
+                </>}
         </ul>
     )
 }

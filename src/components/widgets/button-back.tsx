@@ -1,6 +1,6 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import React from 'react'
 
 interface IProps{

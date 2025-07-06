@@ -261,7 +261,10 @@
 
     input[type="submit"][value="Login"],
     input[type="submit"][value="Send"],
-    input[type="submit"][value="Loading"] {
+    input[type="submit"][value="Loading"],
+    input[type="submit"][value="Entrar"],
+    input[type="submit"][value="Enviar"],
+    input[type="submit"][value="Carregando"] {
       margin-top: 20px !important;
       width: 100%;
       max-width: 150px;

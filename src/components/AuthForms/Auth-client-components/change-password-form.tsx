@@ -5,56 +5,60 @@ import ProfileSvg from '@/components/Icons/ProfileSvg'
 import useErrors, { ErrorsState } from '@/hooks/useErrors'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { validEmail } from '@/utils/FormatText'
-import { changePasswordByToken } from '@/app/(auth)/login/recovery/[token]/action'
-import { useRouter } from 'next/navigation'
+import { changePasswordByToken } from '@/app/[locale]/(auth)/login/recovery/[token]/action'
+import { useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
-    token: string
+    token: string,
+    locale: string
 }
 
-export default function ChangePassworForm({token}:IProps) {
-    const {setError, getError, concatErrors,hasErrors} = useErrors(),
+export default function ChangePasswordForm({token,locale}:IProps) {
+    const t = useTranslations('rescuePasswordFlow');
+
+    const {setError, getError, concatErrors, hasErrors} = useErrors(),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
         [confirmPassword, setConfirmPassword] = useState<string>(''),
         [loading, setLoading] = useState<boolean>(false),
-
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
         {setSucess, setError: setGlobalError} = useGlobalMessage(),
         route = useRouter()
-    
-
 
     useEffect(()=>{
         if (email){
-            if (!validEmail(email)) return setError('email', 'Enter a valid email address')
+            if (!validEmail(email)) return setError('email', t('shared.errors.invalidEmail'));
             return setError('email', '')
         }
         return setError('email', '')
-    }, [email])
+    }, [email, setError, t])
+
     useEffect(()=>{
         if (erroAuth) {
-            setError(erroAuth.type, erroAuth.message)
+            if (locale === 'en'){
+                setError(erroAuth.type, erroAuth.message)
+            }else{
+                setError(erroAuth.type, erroAuth.messagePt)
+            }
         }
-    }, [erroAuth])
+    }, [erroAuth, setError])
+
     useEffect(()=>{
         if (confirmPassword && password) {
-            if (confirmPassword !== password) return setError('confirmPassword', 'Passwords do not match')
+            if (confirmPassword !== password) return setError('confirmPassword', t('shared.errors.passwordsDoNotMatch'));
             return setError('confirmPassword', '')
         }
         return setError('confirmPassword', '')
-    },[confirmPassword, password])
-
+    },[confirmPassword, password, setError, t])
 
     const handleSubmit = (e:FormEvent)=>{
         e.preventDefault()
         setLoading(true)
-
         let errors: ErrorsState = {}
-                
-        if (!email) errors.email = "Email is required"
-        if (!password) errors.password = "Password is required"
-        if (!confirmPassword) errors.confirmPassword = "Repeat your password"
+        if (!email) errors.email = t('shared.errors.emailRequired');
+        if (!password) errors.password = t('shared.errors.passwordRequired');
+        if (!confirmPassword) errors.confirmPassword = t('shared.errors.confirmPasswordRequired');
 
         concatErrors(errors)
         if (hasErrors(errors)) return setLoading(false)
@@ -62,24 +66,23 @@ export default function ChangePassworForm({token}:IProps) {
         changePasswordByToken(email, token, password).then(res=>{
             if (res.err) return setGlobalError(res.err.message)
             if(res.ok) {
-                setSucess('Password changed!')
+                setSucess(t('changePasswordPage.successMessage'))
                 setTimeout(() => {
                     setLoading(false)
                     route.push('/login')
                 }, 2000);
             }
-        }).finally(()=>setLoading(false))
-
+        }).catch(()=>setLoading(false)) // Changed finally to catch to avoid issues
     }
+    
     return (
         <form onSubmit={handleSubmit} className='forgotpass-form'>
             <div className="first-part-section">
-
-                <label htmlFor="email-id">Enter your email.</label>
+                <label htmlFor="email-id">{t('changePasswordPage.labels.email')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}
                     type='email'
-                    placeholder='email@gmail.com'
+                    placeholder={t('shared.placeholderEmail')}
                     onChange={e=>setEmail(e.target.value)}
                     value={email}
                     id='email-id'
@@ -87,30 +90,29 @@ export default function ChangePassworForm({token}:IProps) {
                     error={getError('email')}
                 />
 
-                <label htmlFor="password-id">Enter your new password.</label>
+                <label htmlFor="password-id">{t('changePasswordPage.labels.newPassword')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}
                     type='password'
                     value={password}
-                    placeholder='*********'
+                    placeholder={t('shared.placeholderPassword')}
                     onChange={e=>setPassword(e.target.value)}
                     id='password-id'
                     error={getError('password')}
                 />
                 
-                <label htmlFor="confirmPassword-id">Confirm your password.</label>
+                <label htmlFor="confirmPassword-id">{t('changePasswordPage.labels.confirmPassword')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}
                     type='password'
                     value={confirmPassword}
-                    placeholder='*********'
+                    placeholder={t('shared.placeholderConfirmPassword')}
                     onChange={e=>setConfirmPassword(e.target.value)}
                     id='confirmPassword-id'
                     error={getError('confirmPassword')}
                 />
-
             </div>
-            <input type="submit" value={loading ? 'Loading' : 'Send'} disabled={loading} />
+            <input type="submit" value={loading ? t('shared.buttonLoading') : t('shared.buttonSend')} disabled={loading} />
         </form>
     )
 }

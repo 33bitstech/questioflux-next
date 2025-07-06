@@ -1,10 +1,11 @@
 'use client'
-import { verifyUserPremium } from '@/app/(quizGroup)/profile/config/actions'
+import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useUser } from '@/contexts/userContext'
 import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
 import PopupWarningGamepass from './popup-warning-gamepass'
+import { useTranslations } from 'next-intl' // Importar
 
 interface IProps{
     styles : TStyles,
@@ -13,6 +14,7 @@ interface IProps{
 }
 
 export default function ToggleQuizMode({styles, setTextMode, textMode}: IProps) {
+    const t = useTranslations('creatingQuiz.questionsPage.toggleMode'); // Inicializar hook
     const [showPopup, setShowPopup] = useState<boolean>(false),
         {token} = useUser(),
         {setError} = useGlobalMessage()
@@ -21,7 +23,6 @@ export default function ToggleQuizMode({styles, setTextMode, textMode}: IProps) 
         verifyUserPremium(`${token}`).then(res=>{
             if(res.err) setError(res.err)
             const {premium, specialCount} = res.premium
-
             if(!premium && !specialCount) {
                 setTextMode(true)
                 setShowPopup(true)
@@ -38,14 +39,14 @@ export default function ToggleQuizMode({styles, setTextMode, textMode}: IProps) 
                     e.preventDefault()
                     setTextMode(true)
                 }}
-            >Text only</button>
+            >{t('textOnly')}</button>
 
             <button className={`${!textMode ? styles.actived : ''}`}
                 onClick={(e)=>{
                     e.preventDefault()
                     handleSetImageMode()
                 }}
-            >Text and image</button>
+            >{t('textAndImage')}</button>
 
             {showPopup && <>
                 <PopupWarningGamepass

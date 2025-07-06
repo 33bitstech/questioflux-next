@@ -1,31 +1,37 @@
-import Link from 'next/link'
+import {Link} from '@/i18n/navigation'
 import React from 'react'
 import styles from './contextual-header-action.module.scss'
 import ToggleFilterContainer from './filtersWidgets/toggle-filter-container'
 import {getCookie} from 'cookies-next/server'
 import { cookies } from 'next/headers'
+import { getTranslations } from 'next-intl/server' // 1. Importar
 
 interface IProps {
-    page: 'home' | 'explore' | 'quiz'
+    page: 'home' | 'explore' | 'quiz',
+    locale: string
 }
 
-export default async function ContextualHeaderActions({page} : IProps) {
+export default async function ContextualHeaderActions({page, locale} : IProps) {
+    // 2. Buscar as traduções
+    const t = await getTranslations({ locale, namespace: 'contextualHeader' });
     const token = await getCookie('token', {cookies})
+
     return (
         <div className={`${styles.nav_actions}`}>
-            <Link href={'/create/quiz'}>Create Quiz</Link>
+            {/* 3. Usar as traduções */}
+            <Link locale={locale} href={'/create/quiz'}>{t('createQuiz')}</Link>
 
             {page === 'home' && (
-                <Link href={'/explore'}>Explore Quizzes</Link>
+                <Link locale={locale} href={'/explore'}>{t('exploreQuizzes')}</Link>
             )}
             {page === 'explore' && (
                 <ToggleFilterContainer styles={styles}/>
             )}
             {page === 'quiz' && token && (
-                <Link href={'/home'}>Home</Link>
+                <Link locale={locale} href={'/home'}>{t('home')}</Link>
             )}
             {page === 'quiz' && !token && (
-                <Link href={'/explore'}>Explore</Link>
+                <Link locale={locale} href={'/explore'}>{t('explore')}</Link>
             )}
         </div>
     )

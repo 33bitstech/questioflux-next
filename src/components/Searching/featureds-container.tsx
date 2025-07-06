@@ -6,12 +6,15 @@ import { useSearchParams } from 'next/navigation'
 import useGettingQuiz from '@/hooks/requests/quiz-requests/useGettingQuiz'
 import IQuizes from '@/interfaces/IQuizes'
 import { useFilters } from '@/contexts/filtersContext'
+import { useTranslations } from 'next-intl' // Importar
 
 interface IProps{
     styles: TStyles
 }
 
 export default function FeaturedsContainer({styles}: IProps) {
+    const t = useTranslations('explorePage'); // Inicializar hook
+
     const sp = useSearchParams(),
         isSearching = sp.size > 0,
         {featuredQuizzes} = useGettingQuiz(),
@@ -33,7 +36,8 @@ export default function FeaturedsContainer({styles}: IProps) {
     if(isSearching || filtersSelected.length > 0) return null
     return (
         <div className={styles.results}>
-            <h3>Most Popular</h3>
+            {/* Usar a tradução */}
+            <h3>{t('featuredTitle')}</h3>
             <div className={styles.quizes_container}>
                 {popular?.slice(0,3).map((quiz, index)=>(
                     <QuizCard 

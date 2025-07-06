@@ -2,74 +2,74 @@
 import MailSvg from '@/components/Icons/MailSvg'
 import PadlockSvg from '@/components/Icons/PadlockSvg'
 import useErrors, { ErrorsState } from '@/hooks/useErrors'
-import Link from 'next/link'
-import {useRouter} from 'next/navigation'
+import {Link} from '@/i18n/navigation'
+import {useRouter} from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 import CheckboxComponent from './checkbox-component'
 import InputComponent from './input-component'
-
 import { validEmail } from '@/utils/FormatText'
 import '@/assets/styles/auth.scss'
 import useLogin from '@/hooks/requests/auth-requests/useLogin'
 import { useUser } from '@/contexts/userContext'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
+    locale: string
 }
 
-export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...props}: IProps) {
+export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale, ...props}: IProps) {
+    const t = useTranslations('loginPage.form');
+    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [remember, setRemember] = useState(false)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const {getError, setError, concatErrors, hasErrors, resetErrors, inputsErrors} = useErrors()
+    const {getError, setError, concatErrors, hasErrors} = useErrors()
     const [erroAuth, setErroAuth] = useState<ErrorsState>()
     const {setUserAccess} = useUser()
-
     const {login} = useLogin()
-
     const router = useRouter()
 
     useEffect(()=>{
         if (email){
-            if (!validEmail(email)) return setError('email', 'Enter a valid email address')
-                return setError('email', '')
+            if (!validEmail(email)) return setError('email', t('errors.invalidEmail'));
+            return setError('email', '')
         }
         return setError('email', '')
-    }, [email, setError])
+    }, [email, setError, t])
+
     useEffect(()=>{
         if (password) setError('password', '')
     },[password, setError])
+
     useEffect(()=>{
         if (erroAuth) {
-            setError(erroAuth.type, erroAuth.message)
+            if (locale == 'en') {
+                setError(erroAuth.type, erroAuth.message)
+            }else{
+                setError(erroAuth.type, erroAuth.messagePt)
+            }
         }
-    }, [erroAuth])
-    
-    
+    }, [erroAuth, setError])
     
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
         setLoading(true)
         let errors: ErrorsState = {}
 
-        if (!email) errors.email = "Email is required"
-        if (!password) errors.password = 'Password is required'
+        if (!email) errors.email = t('errors.emailRequired');
+        if (!password) errors.password = t('errors.passwordRequired');
 
         concatErrors(errors)
         if (hasErrors(errors)) return setLoading(false)
 
-        const UserObject = {
-            user:{
-                email, password
-            }
-        }
+        const UserObject = { user:{ email, password } }
         
         login(JSON.stringify(UserObject))
             .then(res=>{
                 setUserAccess(res.token)
-                
                 if (handleRegisterAndFinishQuiz) return handleRegisterAndFinishQuiz()
                 else router.push('/home')
             })
@@ -79,26 +79,24 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
             .finally(()=>{
                 setLoading(false)
             })
-
     }
     
-
     return (
         <form {...props} className='login-form' onSubmit={handleSubmit}>
             <div className="first-part-section">
                 <InputComponent
                     type="email"
-                    placeholder="email@gmail.com"
+                    placeholder={t('placeholders.email')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     error={getError('email')}
                     icon={<MailSvg />}
                     autoFocus
                     autoComplete='email'
-                    />
+                />
                 <InputComponent
                     type='password'
-                    placeholder='********'
+                    placeholder={t('placeholders.password')}
                     value={password}
                     onChange={(e)=>setPassword(e.target.value)}
                     error={getError('password')}
@@ -108,14 +106,14 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, ...prop
             </div>
             <div className="footer-form">
                 <CheckboxComponent 
-                    label="Remember me"
+                    label={t('rememberMeLabel')}
                     checked={remember}
                     onChange={() => setRemember(!remember)}
                 />
-                <Link href='/rescuepassword'>Forgot Password?</Link>
+                <Link href='/rescuepassword'>{t('forgotPasswordLink')}</Link>
             </div>
             
-            <input type="submit" value="Login" disabled={loading}/>
+            <input type="submit" value={t('submitButton')} disabled={loading}/>
         </form>
     )
 }

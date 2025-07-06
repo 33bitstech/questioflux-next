@@ -7,6 +7,7 @@ import { handleCopyUrl } from '@/utils/handleCopy'
 import WhatsappSvg from '../Icons/Logos/WhatsappSvg'
 import FacebookSvg from '../Icons/Logos/FacebookSvg'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { useLocale, useTranslations } from 'next-intl' // Importar
 
 interface IProps {
     quizId: string,
@@ -14,15 +15,22 @@ interface IProps {
 }
 
 export default function ShareContainer({closeShareContainer, quizId}:IProps) {
+    const t = useTranslations('quizActions.share'); // Inicializar hook
+    const locale = useLocale()
     const {setSucess} = useGlobalMessage()
+
+    // Mensagem traduzida e formatada para URL
+    const whatsappText = encodeURIComponent(t('whatsappMessage'));
+
     return (
         <div className={styles.share}>
             
             {closeShareContainer && <div className={styles.close} onClick={closeShareContainer}><CloseSvg/></div>}
-            <h3>Share with your friends</h3>
+            <h3>{t('title')}</h3>
 
             <section className={styles.apps_share}>
-                <a href={`whatsapp://send?text=Faça esse quiz! https://www.quizvortex.site/quiz/${quizId}`} target='_blank' className={styles.app}>
+                {/* Link do Whatsapp agora usa o texto traduzido */}
+                <a href={`whatsapp://send?text=${whatsappText} https://www.quizvortex.site/quiz/${quizId}`} target='_blank' className={styles.app}>
                     <WhatsappSvg/>
                     <p>Whatsapp</p>
                 </a>
@@ -33,11 +41,11 @@ export default function ShareContainer({closeShareContainer, quizId}:IProps) {
             </section>
             <button 
                 onClick={()=>{
-                    handleCopyUrl(`quiz/${quizId}`)
-                        .then(()=>setSucess('Link copied successfully !'))
+                    handleCopyUrl(`/${locale}/quiz/${quizId}`)
+                        .then(()=>setSucess(t('copySuccessMessage')))
                 }}>
                 <CopyIcon />
-                Copy link
+                {t('copyLinkButton')}
             </button>
         </div>
     )

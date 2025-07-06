@@ -1,14 +1,20 @@
+'use client'
+
 import React from 'react'
 import NavLink from '../widgets/NavLink'
 import styles from './nav-creating-quiz.module.scss'
+import { useTranslations } from 'next-intl'
 
 interface IProps{
     isBlock?: boolean
     quizId?: string
     isBacking?: boolean
+    locale: string
 }
-                    
-export default function NavCreatinQuiz({isBlock, quizId, isBacking}: IProps) {
+                
+export default function NavCreatinQuiz({isBlock, quizId, isBacking, locale}: IProps) {
+    const t = useTranslations('creatingQuiz.nav' );
+
     return (
         <nav className={styles.navQuiz}>
             <ul>
@@ -18,7 +24,8 @@ export default function NavCreatinQuiz({isBlock, quizId, isBacking}: IProps) {
                         className={styles.link}  
                         styles={styles}
                     >
-                        Quiz Cover {'>'}
+                        {/* Usar as traduções */}
+                        {t('cover')} {'>'}
                     </NavLink>
                 </li>
                 <li>
@@ -28,7 +35,7 @@ export default function NavCreatinQuiz({isBlock, quizId, isBacking}: IProps) {
                         isBlock={isBlock}
                         styles={styles}
                     >
-                        Questions {'>'}
+                        {t('questions')} {'>'}
                     </NavLink>
                 </li>
             </ul>

@@ -4,10 +4,10 @@ import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
-import { takeQuiz } from '@/app/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
+import { takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
 import { useUser } from '@/contexts/userContext'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next/client'
 
 interface IProps{

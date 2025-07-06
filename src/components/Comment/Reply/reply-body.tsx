@@ -7,8 +7,8 @@ import TextComment from '../excerpts-comments/text-comment'
 import EditForm from '../excerpts-comments/edit-form'
 import ActionsComment from '../excerpts-comments/actions-comment'
 import ReplyForm from '../excerpts-comments/reply-form'
-import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
-import { useRouter } from 'next/navigation'
+import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
+import { useRouter } from '@/i18n/navigation'
 
 interface IProps{
     styles: TStyles

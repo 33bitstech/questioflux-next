@@ -4,24 +4,22 @@ import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
-
 import styles from './quiz-card.module.scss'
 import CardActions from './hover/card-actions'
+import { useTranslations } from 'next-intl' // Importar
 
 interface IProps{
     quiz: IQuizes
 }
 
 export default function QuizCard({quiz}: IProps) {
-    const [imageLoading, setImageLoading] = useState(true),
-        [imageBackup, setImageBackup] = useState(false),
-
-        isMobile = useMediaQuery({ maxWidth: 860 }),
-        [isMobileMenuActive, setIsMobileMenuActive] = useState(false),
-
-        mobileActiveClass = isMobile && isMobileMenuActive ? styles.mobile_active : '',
-
-        {theme} = useTheme()
+    const t = useTranslations('quizCard'); // Inicializar hook
+    const [imageLoading, setImageLoading] = useState(true);
+    const [imageBackup, setImageBackup] = useState(false);
+    const isMobile = useMediaQuery({ maxWidth: 860 });
+    const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
+    const mobileActiveClass = isMobile && isMobileMenuActive ? styles.mobile_active : '';
+    const {theme} = useTheme();
 
     const handleContainerClick = () => {
         if (isMobile) {
@@ -35,6 +33,7 @@ export default function QuizCard({quiz}: IProps) {
             onClick={handleContainerClick} 
         >
             <div className={styles.title_area}>
+                {/* O título e a descrição vêm do objeto 'quiz', então não são traduzidos aqui */}
                 <h1>{quiz.title}</h1>
                 <h2>{quiz.description}</h2>
             </div>
@@ -42,8 +41,7 @@ export default function QuizCard({quiz}: IProps) {
                 <div className={styles.img_container}>
                     {imageLoading && (
                         <div className={styles.img_loading}>
-                            {/* <LoadingComp /> */}
-                            <p>carregando...</p>
+                            <p>{t('loading')}</p>
                         </div>
                     )}
                     
@@ -57,7 +55,7 @@ export default function QuizCard({quiz}: IProps) {
                         }
                         width={400}
                         height={400}
-                        alt={quiz.description}
+                        alt={quiz.description} // O alt text também é dinâmico
                         onLoad={() => setImageLoading(false)}
                         onError={() => {
                             setImageLoading(false);
@@ -70,7 +68,7 @@ export default function QuizCard({quiz}: IProps) {
                         </div>
                         <div>
                             <p>
-                                Created by
+                                {t('createdBy')}
                                 <span className={styles.container_span}>
                                     <span> @{quiz.userCreatorName}</span>
                                 </span>
