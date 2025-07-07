@@ -47,7 +47,7 @@ export function UserProvider({children} : {children : ReactNode}){
             })
             const res = await resJson.json()
 
-            if(!resJson.ok) throw { response: { data: res } }
+            if(!resJson.ok) throw { response: { data: res, status: resJson.status} }
 
             return res
         } catch (err:any) {
@@ -65,9 +65,9 @@ export function UserProvider({children} : {children : ReactNode}){
                     const {user} = await getUser(token)
                     
                     setUser(user)
-                } catch (err) {
+                } catch (err:any) {
                     console.error(err)
-                    logout()
+                    if(err.response.status == 401) logout()
                 }
             }else{
                 setUser(null)

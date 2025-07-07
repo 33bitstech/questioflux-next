@@ -7,6 +7,7 @@ import useUpdate from '@/hooks/requests/auth-requests/useUpdate'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useTranslations } from 'next-intl'
 import { TStyles } from '@/types/stylesType'
+import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles
@@ -24,7 +25,8 @@ export default function FormsUpdataUser({styles}: IProps) {
         [imageValue, setImageValue] = useState<File | null>(),
         [editUsername, setEditUsername] = useState<boolean>(false),
         [editEmail, setEditEmail] = useState<boolean>(false),
-        [editPassword, setEditPassword] = useState<boolean>(false)
+        [editPassword, setEditPassword] = useState<boolean>(false),
+        [loading, setLoading] = useState(false)
 
     const preventSubmit = (e:FormEvent) => e.preventDefault(),
         onFileChange = (file: File | null) => setImageValue(file),
@@ -35,6 +37,7 @@ export default function FormsUpdataUser({styles}: IProps) {
         },
         handleSaveConfig = () => {
             if(!token) return
+            setLoading(true)
             if(username || email || password) {
                 const user = { userName: username, userEmail: email, password }
                 type UserKey = keyof typeof user;
@@ -47,7 +50,10 @@ export default function FormsUpdataUser({styles}: IProps) {
                 updateUser(JSON.stringify({user:userObject}), token).then(res=>{
                     setUserAccess(res.token)
                     setSucess(t('successMessage'))
-                }).finally(handleResetInputs)
+                }).finally(()=>{
+                    handleResetInputs()
+                    if(!imageValue) setLoading(false)
+                })
             }
 
             if(!imageValue) return
@@ -56,6 +62,8 @@ export default function FormsUpdataUser({styles}: IProps) {
             updateUserProfile(formData, token).then(res=>{
                 setUserAccess(res.token)
                 setSucess(t('successMessage'))
+            }).finally(()=>{
+                setLoading(false)
             })
         }
 
@@ -68,6 +76,8 @@ export default function FormsUpdataUser({styles}: IProps) {
                 </span>
                 <button onClick={handleSaveConfig}>{t('saveButton')}</button>
             </div>
+
+            {loading && <LoadingReq loading={loading}/>}
 
             <div className={styles.account_info}>
                 <h2>{t('accountInfoTitle')}</h2>

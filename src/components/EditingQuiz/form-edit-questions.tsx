@@ -14,6 +14,7 @@ import WarningReset from '../widgets/warning-reset'
 import QuestionInputImage from '../CreatingQuiz/Questions/question-input-image'
 import { updateQuestionsImage } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/questions/action'
 import { useTranslations } from 'next-intl'
+import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles,
@@ -32,9 +33,7 @@ export interface IArraysToUpdate{
 }
 
 export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
-    const t = useTranslations('editQuizFlow'); // Inicializar hook com o namespace principal
-    const tSharedButtons = useTranslations('creatingQuiz.questionsForm.textInput'); // Hook para botões reutilizados
-
+    const t = useTranslations('editQuizFlow')
 
     const router = useRouter(),
         {token} = useUser(),
@@ -47,7 +46,6 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
             removeAlternative, removeQuestion, setQuestions
         } = useQuestions(quiz?.type === 'default/RW', `${token}`),
 
-        [initialQuestions, setInitialQuestions] = useState<ILocalQuestions[]>(),
 
         [loading, setLoading] = useState<boolean>(false),
         prevQuestionsLengthRef = useRef(questions.length)
@@ -187,7 +185,6 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                     }
                 })
                 setQuestions(newQuestions)
-                setInitialQuestions(newQuestions)
             
                 prevQuestionsLengthRef.current = newQuestions.length
             }else{
@@ -207,7 +204,6 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                     }
                 })
                 setQuestions(newQuestions)
-                setInitialQuestions(newQuestions)
             
                 prevQuestionsLengthRef.current = newQuestions.length
             }
@@ -239,6 +235,8 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                 />
                 <div className={styles.overlay_warning}/>
             </>}
+
+            {loading && <LoadingReq loading={loading}/>}
             
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr)=>{

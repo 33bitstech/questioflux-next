@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive'
 import styles from './quiz-card.module.scss'
 import CardActions from './hover/card-actions'
 import { useTranslations } from 'next-intl' // Importar
+import Skeleton from '../Loading/skeleton'
 
 interface IProps{
     quiz: IQuizes
@@ -26,22 +27,20 @@ export default function QuizCard({quiz}: IProps) {
             setIsMobileMenuActive(prevState => !prevState); 
         }
     }
-
     return (
         <article
             className={`${styles.quiz_container} ${isMobile ? styles.mobile_version : styles.desktop_version} ${mobileActiveClass}`}
             onClick={handleContainerClick} 
         >
             <div className={styles.title_area}>
-                {/* O título e a descrição vêm do objeto 'quiz', então não são traduzidos aqui */}
                 <h1>{quiz.title}</h1>
                 <h2>{quiz.description}</h2>
             </div>
             <div className={styles.container_transition_hover}>
                 <div className={styles.img_container}>
                     {imageLoading && (
-                        <div className={styles.img_loading}>
-                            <p>{t('loading')}</p>
+                        <div className={styles.skeleton_wrapper}>
+                            <Skeleton />
                         </div>
                     )}
                     
@@ -55,7 +54,8 @@ export default function QuizCard({quiz}: IProps) {
                         }
                         width={400}
                         height={400}
-                        alt={quiz.description} // O alt text também é dinâmico
+                        className={imageLoading ? styles.image_loading : styles.image_loaded}
+                        alt={quiz.description} 
                         onLoad={() => setImageLoading(false)}
                         onError={() => {
                             setImageLoading(false);

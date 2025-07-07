@@ -7,6 +7,7 @@ import { validEmail } from '@/utils/FormatText'
 import { sendRecoveryEmail } from '@/app/[locale]/(auth)/rescuepassword/action'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useTranslations } from 'next-intl'
+import LoadingReq from '@/components/Loading/loading-req'
 
 export default function RescuePasswordForm({locale}:{locale:string}) {
     const t = useTranslations('rescuePasswordFlow');
@@ -51,6 +52,9 @@ export default function RescuePasswordForm({locale}:{locale:string}) {
 
     return (
         <form onSubmit={handleSubmit} className='forgotpass-form'>
+
+            {loading && <LoadingReq loading={loading} />}
+
             <div className="first-part-section">
                 <label htmlFor="email-id">{t('rescueForm.label')}</label>
                 <InputComponent 

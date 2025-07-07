@@ -32,7 +32,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.questionsPage' });
     const quiz = await getQuiz(quizId);
     return {
-        // Título dinâmico para SEO: "Editar Perguntas - Nome do Quiz"
         title: `${t('metadataTitle')} - ${quiz?.title || ''}`
     }
 }

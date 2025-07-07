@@ -15,6 +15,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import RegisterComponent from '../AuthForms/register-component'
 import usePopupAuth from '@/hooks/usePopupAuth'
 import LoginComponent from '../AuthForms/login-component'
+import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles
@@ -60,6 +61,7 @@ export default function FormCreateQuiz({styles}:IProps) {
 
     const sendDatas = (acessToken?: string)=>{
         if(!token && !acessToken) return
+        setLoading(true)
 
         let tempToken = token ? token : `Bearer ${acessToken}`
 
@@ -137,6 +139,8 @@ export default function FormCreateQuiz({styles}:IProps) {
                     />
                 }
             </div>)}
+
+            {loading && <LoadingReq loading={loading}/>}
 
             <form className={styles.form} onSubmit={handleSubmit}>
 

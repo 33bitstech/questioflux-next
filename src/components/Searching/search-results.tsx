@@ -7,16 +7,16 @@ import QuizCard from '../Card/quiz-card'
 import ArrowSvg from '../Icons/ArrowSvg'
 import { useFilters } from '@/contexts/filtersContext'
 import { useSearchParams } from 'next/navigation'
-import { useTranslations } from 'next-intl' // Importar
+import { useTranslations } from 'next-intl' 
+import LoadingQuizzes from '../Loading/loading-quizzes'
 
 interface IProps {
     styles : TStyles
 }
 
 export default function SearchResults({styles} : IProps) {
-    const t = useTranslations('explorePage.buttons'); // Inicializar hook, com namespace específico
+    const t = useTranslations('explorePage.buttons'); 
     
-    // ... (toda a sua lógica de hooks e states permanece a mesma)
     const {publicQuizzes} = useGettingQuiz(),
         {filtersSelected} = useFilters(),
         {searchQuiz} = useGettingQuiz(),
@@ -27,7 +27,9 @@ export default function SearchResults({styles} : IProps) {
         searchParams = useSearchParams(),
         title = searchParams.get('title') || '',
         tags = searchParams.get('tags') || '',
-        categories = searchParams.get('categories') || ''
+        categories = searchParams.get('categories') || '',
+
+        [loading, setLoading] = useState(true)
 
     const handleViewMore = ()=>{ setVisibleQuizzesQtd(()=>visibleQuizzesQtd+9) },
         handleViewLess = ()=>{ setVisibleQuizzesQtd(9); setViewAllExplore(false) },
@@ -39,8 +41,10 @@ export default function SearchResults({styles} : IProps) {
                 const res = await publicQuizzes()
                 setQuizzes(res.quizzes)
                 setResults(res.quizzes)
+                setLoading(false)
             } catch (err) {
                 console.log(err)
+                setLoading(false)
             }
         }
         get()
@@ -58,8 +62,10 @@ export default function SearchResults({styles} : IProps) {
                 try {
                     const res = await searchQuiz(title, categories, tags)
                     setResults(res.quizzes)
+                    setLoading(false)
                 } catch (err) {
                     console.log(err)
+                    setLoading(false)
                 }
             }
             get()
@@ -71,6 +77,9 @@ export default function SearchResults({styles} : IProps) {
 
     return (
         <>
+            <LoadingQuizzes 
+                loading={loading}
+            />
             <div className={styles.quizes_container}>
                 {results?.slice(0,9).map((quiz, index)=>(
                     <QuizCard key={index} quiz={quiz} />

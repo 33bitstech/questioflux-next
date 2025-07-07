@@ -4,6 +4,8 @@ import React from 'react'
 
 import styles from './home.module.scss'
 import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
+import Skeleton from '@/components/Loading/skeleton'
+import LoadingReq from '@/components/Loading/loading-req'
 
 interface IProps{
     params: Promise<{

@@ -11,6 +11,7 @@ import { createQuestionsImage, createQuestionsText } from '@/app/[locale]/(quizG
 import useQuestions from '@/hooks/useQuestions'
 import QuestionInputImage from './question-input-image'
 import { useLocale, useTranslations } from 'next-intl'
+import LoadingReq from '@/components/Loading/loading-req'
 
 interface IProps{
     styles: TStyles
@@ -149,6 +150,8 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
+
+            {loading && <LoadingReq loading={loading}/>}
 
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr)=>{

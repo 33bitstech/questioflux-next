@@ -1,0 +1,39 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .31rem;
+    .header{
+        height: 23rem;
+        width: 100%;
+        border-radius: .3125rem;
+    }
+    .middle{
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        div{
+            border-radius: 100%;
+            width: 21.375px;
+            height: 21.375px;
+        }
+    }
+    .questions{
+        width: 98%;
+        max-width: 38rem;
+        height: 600px;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        div{
+            grid-column: span 1 / span 1;
+            grid-row: span 1 / span 1;
+        }
+        div:nth-child(1){
+            grid-column: span 2 / span 1 !important;
+            grid-row: span 1 / span 1 !important;
+        }
+    }
+}

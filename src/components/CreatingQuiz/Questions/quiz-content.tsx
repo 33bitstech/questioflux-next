@@ -5,7 +5,7 @@ import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
 import FormCreateQuestions from './form-create-questions'
 import NavCreatinQuiz from '../nav-creating-quiz'
-import { useLocale, useTranslations } from 'next-intl' // Importar useTranslations
+import { useLocale, useTranslations } from 'next-intl' 
 
 interface IProps{
     styles: TStyles
@@ -13,7 +13,7 @@ interface IProps{
 }
 
 export default function QuizContent({styles, quizId}:IProps) {
-    const t = useTranslations('creatingQuiz.questionsPage'); // Inicializar hook
+    const t = useTranslations('creatingQuiz.questionsPage'); 
     const [textMode, setTextMode] = useState<boolean>(true);
     const locale = useLocale();
 
@@ -26,7 +26,6 @@ export default function QuizContent({styles, quizId}:IProps) {
                     locale={locale}
                 />
                 <p>
-                    {/* Usar tradução */}
                     {t('alternativesAppearance')}
                 </p>
                 <div className={styles.actions}>
@@ -37,7 +36,6 @@ export default function QuizContent({styles, quizId}:IProps) {
                     />
                 </div>
             </div>
-            {/* Se FormCreateQuestions tiver texto, também precisará ser traduzido internamente */}
             <FormCreateQuestions 
                 styles={styles}
                 textMode={textMode}

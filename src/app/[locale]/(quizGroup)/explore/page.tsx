@@ -8,6 +8,7 @@ import { env } from '@/env'
 import { generateQuizSchema } from '@/utils/generateSchemas'
 import { getTranslations } from 'next-intl/server' // Importar
 import { Metadata } from 'next'
+import Skeleton from '@/components/Loading/skeleton'
 
 interface IProps {
     params: Promise<{
@@ -64,7 +65,7 @@ export default async function Explore({ params }: IProps) {
             />
 
             <FeaturedsContainer styles={styles}/>
-
+            
             <div className={styles.results}>
                 {/* Usar a tradução */}
                 <h1>{t('mainTitle')}</h1>

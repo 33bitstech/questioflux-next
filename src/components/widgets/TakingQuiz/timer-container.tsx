@@ -1,10 +1,12 @@
 'use client'
+import Skeleton from '@/components/Loading/skeleton'
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
 import { getTimeObject } from '@/utils/FormatTime'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import stylesS from '@/components/ImagesRender/user-profile-img-render.module.scss'
 
 interface IProps{
     styles: TStyles,
@@ -17,6 +19,7 @@ interface IProps{
 export default function TimerContainer({styles, quiz, setStarted, started, initialTime}:IProps) {
     const [passedTime, setPassedTime] = useState<number>(0)
     const t = useTranslations('takingPage')
+    const [loading, setLoading] = useState(true)
 
     type TimeKey = 'hours' | 'minutes' | 'seconds' | 'miliseconds';
     const formatTimeValue = (typeTime: TimeKey) =>{
@@ -37,7 +40,9 @@ export default function TimerContainer({styles, quiz, setStarted, started, initi
     
     return (
         <div className={styles.img_quiz_container}>
+            {loading && <Skeleton/>}
             <Image 
+                className={loading ? stylesS.image_loading : stylesS.image_loaded}
                 src={quiz?.quizThumbnail !== 'default' 
                     ? quiz?.quizThumbnail 
                     : '/imageQuizDefault.jpg'} 
@@ -45,6 +50,8 @@ export default function TimerContainer({styles, quiz, setStarted, started, initi
                 width={800}
                 height={800}
                 quality={100}
+                onLoad={()=>setLoading(false)}
+                onError={()=>setLoading(false)}
             />
             <div className={styles.time}>
                 <div className={styles.timer}>

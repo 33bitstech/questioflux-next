@@ -8,6 +8,7 @@ import { validEmail } from '@/utils/FormatText'
 import { changePasswordByToken } from '@/app/[locale]/(auth)/login/recovery/[token]/action'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import LoadingReq from '@/components/Loading/loading-req'
 
 interface IProps{
     token: string,
@@ -72,12 +73,15 @@ export default function ChangePasswordForm({token,locale}:IProps) {
                     route.push('/login')
                 }, 2000);
             }
-        }).catch(()=>setLoading(false)) // Changed finally to catch to avoid issues
+        }).catch(()=>setLoading(false))
     }
     
     return (
         <form onSubmit={handleSubmit} className='forgotpass-form'>
             <div className="first-part-section">
+
+                {loading && <LoadingReq loading={loading} />}
+
                 <label htmlFor="email-id">{t('changePasswordPage.labels.email')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}

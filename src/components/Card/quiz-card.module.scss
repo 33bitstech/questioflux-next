@@ -51,15 +51,34 @@
                 background-size: contain;
                 object-fit: cover;
             }
-            .img_loading{
-                display: flex;
-                height: 50%;
-                width: 40%;
-                position: relative;
-                top: 40%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+            .skeleton_wrapper {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 3; // Garante que o skeleton fique por cima de tudo
+                // Adicione aqui o estilo de fundo que você desejar para o skeleton
+                background-color: var(--quiz-card-bg); 
             }
+
+            // Estilo da imagem ENQUANTO está carregando
+            .image_loading {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                opacity: 0; // Começa invisível
+            }
+
+            // Estilo da imagem DEPOIS de carregar
+            .image_loaded {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                opacity: 1; // Fica totalmente visível
+                transition: opacity 0.3s ease-in-out; // Efeito de fade-in suave
+            }
+
             .footerImg {
                 position: absolute;
                 right: 0;

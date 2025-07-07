@@ -13,8 +13,9 @@ import useRegister from '@/hooks/requests/auth-requests/useRegister'
 import { useRouter } from '@/i18n/navigation'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useUser } from '@/contexts/userContext'
-import { useTranslations } from 'next-intl' // 1. Importar o hook
+import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
+import LoadingReq from '@/components/Loading/loading-req'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: (token:string) => void,
@@ -24,7 +25,7 @@ interface IProps{
 
 export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLogin, absolute, ...props}: IProps) {
     const locale = useLocale()
-    const t = useTranslations('registerForm'); // 2. Inicializar o hook com o nosso namespace
+    const t = useTranslations('registerForm');
 
     const {getError, setError, concatErrors, hasErrors} = useErrors(),
         [name, setName] = useState(''),
@@ -50,7 +51,6 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         }
     }, [erroAuth])
 
-    // 3. Traduzir as mensagens de erro na lógica
     useEffect(()=>{
         if (confirmPassword && password) {
             if (confirmPassword !== password) return setError('confirmPassword', t('errors.passwordsDoNotMatch'));
@@ -109,8 +109,10 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
     }
 
     return (
-        // 4. Traduzir os textos no JSX
         <form onSubmit={handleSubmit} className='formularioAuth' {...props}>
+
+            {loading && <LoadingReq loading={loading} />}
+            
             <div className="first-part-section">
                 <InputComponent
                     type="text"

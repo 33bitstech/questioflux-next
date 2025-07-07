@@ -24,7 +24,7 @@ export default function TakingComponent({quiz, styles}:IProps) {
         }>(),
         {token} = useUser(),
         {setError} = useGlobalMessage(),
-        [loading, setLoading] = useState<boolean>(false),
+        [loadingReq, setLoadingReq] = useState<boolean>(false),
         route = useRouter()
 
 
@@ -48,7 +48,7 @@ export default function TakingComponent({quiz, styles}:IProps) {
                 })
                 .catch(console.log)
                 .finally(()=>{
-                    setLoading(false)
+                    setLoadingReq(false)
                 })
         }
     },[result, quiz])
@@ -79,7 +79,7 @@ export default function TakingComponent({quiz, styles}:IProps) {
                     started={started} 
                     setStarted={setStarted}
                     setResult={setResult}
-                    startLoading={()=>{setLoading(true)}}
+                    startLoading={()=>{setLoadingReq(true)}}
                 />}
             </div>
         </>

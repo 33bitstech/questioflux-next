@@ -7,6 +7,8 @@ import { IUser } from '@/interfaces/IUser';
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
 import IComment from '@/interfaces/IComment';
 import IReplies from '@/interfaces/IReplies';
+import styles from './user-profile-img-render.module.scss'
+import Skeleton from '../Loading/skeleton';
 
 interface IProps{
     width?: number,
@@ -16,29 +18,39 @@ interface IProps{
 }
 
 export default function UserProfileImgRender({height=500, width=500, user, quality=50}: IProps) {
-    const [imageError, setImageError] = useState<boolean>(false)
+    const [imageError, setImageError] = useState<boolean>(false),
+        [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         setImageError(false);
     }, [user?.profileImg]);
 
+
+    const hasValidImage = user && user?.profileImg && user.profileImg !== 'default' && !imageError;
+
+    if (!hasValidImage) {
+        return <DefaultProfileImg />;
+    }
+
+
     return (
         <>
-            {user && user.profileImg && user.profileImg !== 'default' && !imageError ? (
-                <Image
-                    src={user.profileImg}
-                    alt="Foto de perfil"
-                    onError={(err) => {
-                        console.log('imagem ta dando erro na home', err)
-                        setImageError(true)
-                    }}
-                    width={width}
-                    height={height}
-                    quality={quality}
-                />
-            ) : (
-                <DefaultProfileImg />
-            )}
+            {isLoading && <Skeleton/>}
+            <Image
+                className={isLoading ? styles.image_loading : styles.image_loaded}
+                src={user.profileImg!}
+                alt="Foto de perfil"
+                onError={() => {
+                    setIsLoading(false);
+                    setImageError(true);
+                }}
+                onLoad={() => {
+                    setIsLoading(false);
+                }}
+                width={width}
+                height={height}
+                quality={quality}
+            />
 
         </>
     )

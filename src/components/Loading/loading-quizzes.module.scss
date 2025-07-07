@@ -1,0 +1,14 @@
+.loading_container{
+    display: flex;
+    gap: .62rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    div{
+        width: 20rem;
+        min-width: 20rem;
+        border-radius: .9375rem;
+        height: 320px;
+    }
+}

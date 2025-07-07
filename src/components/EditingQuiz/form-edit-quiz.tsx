@@ -15,6 +15,7 @@ import {Link} from '@/i18n/navigation'
 import IQuizes from '@/interfaces/IQuizes'
 import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 import { useLocale, useTranslations } from 'next-intl'
+import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles,
@@ -50,6 +51,8 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
     const handleSubmit = (e:FormEvent)=>{
         e.preventDefault()
         if (!token || !quiz) return
+
+        setLoading(true)
 
         const isPrivate = visibility == 'public' ? false : true,
             tags = tagsString.split(',').map(tag=>tag.trim())
@@ -112,6 +115,8 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
     },[quiz])
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
+
+            {loading && <LoadingReq loading={loading}/>}
 
             <div className={styles.image_container}>
                 <InputImageQuiz

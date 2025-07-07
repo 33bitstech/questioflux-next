@@ -50,7 +50,8 @@ export default function QuestionsContainer({
         {token} = useUser(),
         {registering, toLogin, toRegister} = usePopupAuth()
     const t = useTranslations('takingPage'),
-        locale = useLocale()
+        locale = useLocale(),
+        blurLoading ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88eJ1PQAI/gMrw32C7wAAAABJRU5ErkJggg=='
 
     const verifyActualQuestion = (indexQuestion:number) =>{
         return indexQuestion+1 == actualQuestion
@@ -224,6 +225,8 @@ export default function QuestionsContainer({
                             width={900}
                             height={900}
                             quality={100}
+                            placeholder='blur'
+                            blurDataURL={blurLoading}
                         />
                     </div>
                     <div className={styles.footer_question}>
@@ -245,7 +248,10 @@ export default function QuestionsContainer({
                                     width={600}
                                     height={600} 
                                     src={typeof answer === 'object' && answer !== null && 'thumbnail' in answer ? answer.thumbnail : ''} 
-                                    alt={t('imageAlts.alternative')} />
+                                    alt={t('imageAlts.alternative')} 
+                                    placeholder='blur'
+                                    blurDataURL={blurLoading}   
+                                />
                             </div>
                             <div className={styles.footer_question}>
                                 <p>{t('imageLabels.alternative', { number: i+1 })}</p>

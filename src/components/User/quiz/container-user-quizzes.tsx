@@ -7,7 +7,9 @@ import IQuizes from '@/interfaces/IQuizes'
 import { IUser } from '@/interfaces/IUser'
 import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl' // 1. Importar o hook
+import { useTranslations } from 'next-intl' 
+import Skeleton from '@/components/Loading/skeleton'
+import LoadingQuizzes from '@/components/Loading/loading-quizzes'
 
 interface IProps{
     styles: TStyles,
@@ -17,11 +19,12 @@ interface IProps{
 }
 
 export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP}: IProps) {
-    const t = useTranslations('userQuizzesContainer'); // 2. Inicializar o hook
+    const t = useTranslations('userQuizzesContainer'); 
     const {token, user} = useUser(),
         {userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes} = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
-        [viewQuizzes, setViewQuizzes] = useState<boolean>(false)
+        [viewQuizzes, setViewQuizzes] = useState<boolean>(false),
+        [loading, setLoading] = useState<boolean>(true)
 
     useEffect(()=>{
         const get = async ()=>{
@@ -32,11 +35,13 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                             if(userP && userP.userId){
                                 const res = await userPublicQuizzes(userP.userId)
                                 if (res) setQuizzes(res.quizes)
+                                setLoading(false)
                                 return
                             }
                             if (user.userId) {
                                 const res = await userPublicQuizzes(user.userId)
                                 if (res) setQuizzes(res.quizes)
+                                setLoading(false)
                                 return
                             } 
                         },
@@ -45,22 +50,24 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                         action: async () => {
                             const res = await userPrivateQuizzes(token)
                             if (res) setQuizzes(res.quizzes)
+                            setLoading(false)
                         },
                     },
                     draft: {
                         action: async () => {
                             const res = await userDraftsQuizzes(token)
                             if (res) setQuizzes(res.quizzes)
+                            setLoading(false)
                         },
                     },
                     saved: {
                         action: async () => {
                             const res = await userSavesQuizzes(token)
                             if (res) setQuizzes(res.quizzes)
+                            setLoading(false)
                         },
                     }
                 }
-                // A lógica de busca de dados permanece a mesma
                 if (actions[quizzes_type]) {
                     await actions[quizzes_type].action();
                 }
@@ -69,7 +76,6 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
         get()
     }, [user, token])
 
-    // 3. Lógica de tradução do título
     const title = customTitle 
         ? `${customTitle} (${quizzes?.length || 0})` 
         : t(`titles.${quizzes_type}`, { count: quizzes?.length || 0 });
@@ -79,6 +85,10 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
         return (
             <>
                 <h2>{title}</h2>
+                <LoadingQuizzes 
+                    loading={loading}
+                />
+
                 <section className={styles.quizes}>
                     {user && Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
                         <QuizCard key={index} quiz={quiz}/>
@@ -111,6 +121,10 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
         return (
             <>
                 <h1>{title}</h1>
+                <LoadingQuizzes 
+                    loading={loading}
+                />
+
                 <div className={styles.quizes_container}>
                     {quizzes?.map((quiz, index)=>(
                         <QuizCard key={index} quiz={quiz} />
