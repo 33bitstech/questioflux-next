@@ -500,5 +500,14 @@
             "totalTime": "Time in total",
             "viewLeaderboard": "View leaderboard"
         }
+    },
+    "SubscriptionPage":{
+        "metadataTitle": "Subscription | {type}",
+        "descriptionPlus":"subscription - $2.50/month",
+        "descriptionUsage":"usage - $1,99/use",
+        "textChooseMethod": "Choose a payment method",
+        "buttons":{
+            "creditCard": "Credit Card"
+        }
     }
 }

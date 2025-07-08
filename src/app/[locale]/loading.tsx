@@ -1,6 +1,5 @@
 import LoadingComp from '@/components/Loading/loading-component'
 import styles from './loading.module.scss'
-import './globals.scss'
 
 const Loading = () => {
     return (

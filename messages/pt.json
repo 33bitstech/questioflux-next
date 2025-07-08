@@ -500,6 +500,14 @@
             "totalTime": "Tempo total",
             "viewLeaderboard": "Ver o ranking"
         }
+    },
+    "SubscriptionPage":{
+        "metadataTitle": "Assinatura | {type}",
+        "descriptionPlus":"assinatura - R$2,50/mês",
+        "descriptionUsage":"usage - R$1,99/uso",
+        "textChooseMethod": "Escolha a forma de pagamento",
+        "buttons":{
+            "creditCard": "Cartão de credito"
+        }
     }
-
 }
