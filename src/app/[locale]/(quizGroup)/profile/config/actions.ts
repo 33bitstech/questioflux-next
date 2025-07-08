@@ -5,7 +5,7 @@ import IReplies from "@/interfaces/IReplies"
 import { CookieValueTypes } from "cookies-next"
 import { revalidatePath } from "next/cache"
 
-export async function verifyUserPremium(token:string) {
+export async function verifyUserPremium(token:string, revalidate: boolean = true) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/verify-premium`, {
         method: 'GET',
         headers: {
@@ -17,7 +17,7 @@ export async function verifyUserPremium(token:string) {
 
     if (!response.ok) return {err: res.message}
 
-    revalidatePath(`/profile/config`)
+    if (revalidate) revalidatePath(`/profile/config`)
 
     return {premium: res}
 }

@@ -1,0 +1,15 @@
+@use '../../../assets/styles/vars.scss';
+
+.botao{
+    width: 100%;
+    background: #30313d;
+    @include vars.styleTexto(branco, 1.1rem, 700);
+    text-transform: uppercase;
+    padding: .6rem 1.8rem;
+    border-radius: .5rem;
+    border: none;
+    cursor: pointer;
+    &:hover{
+        background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+    }
+}

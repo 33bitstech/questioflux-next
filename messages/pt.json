@@ -508,6 +508,15 @@
         "textChooseMethod": "Escolha a forma de pagamento",
         "buttons":{
             "creditCard": "Cartão de credito"
-        }
+        },
+        "inputs":{
+            "send": "Comprar",
+            "loading": "Carregando..."
+        },
+        "hasPremium": "Você já tem uma assinatura ativa",
+        "errors":{
+            "email": "O email tem que estar preenchido corretamente"
+        },
+        "sucess":"Pagamento realizado com sucesso!"
     }
 }

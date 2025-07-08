@@ -508,6 +508,15 @@
         "textChooseMethod": "Choose a payment method",
         "buttons":{
             "creditCard": "Credit Card"
-        }
+        },
+        "inputs":{
+            "send": "Pay",
+            "loading": "Loading..."
+        },
+        "hasPremium": "You already have an active subscription",
+        "errors":{
+            "email": "The email must be filled out correctly"
+        },
+        "sucess":"Payment successfully!"
     }
 }
