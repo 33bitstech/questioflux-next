@@ -1,0 +1,144 @@
+@use '../../assets/styles/vars.scss';
+
+// Remova o @use antigo se as variáveis de cor não forem mais necessárias diretamente aqui.
+// Ou mantenha se ainda usar mixins ou outras variáveis de `vars.scss`.
+
+// Estilo base para os botões de ação (ex: botões de tema/idioma)
+%button-actions-default {
+  display: flex;
+  height: 3.125rem;
+  width: 50%;
+  padding: 0.625rem;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  // O mixin agora usa as variáveis CSS
+  @include vars.styleTexto(var(--theme-button-text), .9rem, 700);
+  border: 1px solid var(--theme-button-border);
+  background-color: transparent;
+}
+
+// Efeito de hover permanece o mesmo
+%button-hover-default {
+  transition: .2s ease-out;
+  cursor: pointer;
+  opacity: .93;
+}
+
+// Pop-ups de Configuração e Menu
+#pop-up-config,
+#pop-up-menu {
+  margin-top: 1rem;
+  position: absolute;
+  top: 100%;
+  z-index: 10;
+
+  .not-logged{
+    align-items: flex-end !important;
+  }
+  .logged, .not-logged {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    align-items: flex-start;
+    width: 15rem;
+  }
+  li{
+    width: 100%;
+  }
+
+  .active{
+    background-color: var(--background-button) !important;  
+    color: var(--button-text-color) !important;
+    outline: 1px solid var(--button-text-color) !important;
+    border: none !important;
+  }
+
+  li a, #link button, .leave button {
+    @include vars.styleTexto(var(--fixed), 1.4rem, 700);
+    text-transform: uppercase;
+    width: 100%; // Usar 100% para preencher o container do pop-up
+    padding: 0.5rem;
+    border-radius: 0.56rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--popup-action-button-bg);
+    border: none;
+    
+
+    &:hover {
+      @extend %button-hover-default;
+    }
+  }
+
+  #link {
+    position: relative;
+    width: 100%; 
+    .gamepass-vortexplus {
+      position: absolute;
+      top: 0;
+      left: 105%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+  #themes{
+    width: 75%;
+  }
+  #langs{
+    width: 60%;
+  }
+  // Estilo para os seletores de tema e idioma
+  #themes, #langs {
+    display: flex;
+    height: auto;
+
+    button {
+      @extend %button-actions-default;
+
+      &:hover {
+        @extend %button-hover-default;
+      }
+    }
+    
+    button:nth-child(1) {
+      border-radius: 0.4rem 0 0 0.4rem;
+    }
+    
+    button:nth-child(2) {
+      border-radius: 0 0.4rem 0.4rem 0;
+    }
+    
+    // O seletor .active agora é único e funciona para ambos os temas
+    .active {
+      background-color: var(--theme-button-active-bg) !important;
+      color: var(--theme-button-active-text) !important;
+      outline: 1px solid var(--theme-button-active-outline) !important;
+      border: none !important;
+      z-index: 11;
+    }
+  }
+}
+
+// Posicionamento específico para cada pop-up
+#pop-up-config {
+  right: 0;
+}
+
+#pop-up-menu {
+  left: 0;
+}
+
+// Media query permanece a mesma
+@media screen and (max-width: 860px) {
+  #pop-up-menu, #pop-up-config {
+    #link .gamepass-vortexplus {
+      position: absolute !important;
+      top: 110% !important;
+      left: 0 !important;
+      z-index: 12;
+    }
+  }
+}
