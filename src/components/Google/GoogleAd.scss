@@ -1,0 +1,31 @@
+.adsbygoogle{
+    width: 80%;
+    height: fit-content;
+    max-width: 95% !important;
+    margin: auto;
+    z-index: 3 !important;
+    align-self: center;
+    justify-content: center;
+    max-height: 35vh !important;
+}
+.left{
+    position:fixed;
+    top:15%;
+    left:50px;
+    width:200px;
+    @media screen and (max-width: 1270px){
+        position: relative !important;
+        width: unset;
+
+    }
+} 
+.rigth{
+    position:fixed;
+    top:15%;
+    right:50px;
+    width:200px;
+    @media screen and (max-width: 1270px){
+        position: relative !important;
+        width: unset;
+    }
+}
