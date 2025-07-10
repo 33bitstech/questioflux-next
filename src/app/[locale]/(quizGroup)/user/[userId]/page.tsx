@@ -114,6 +114,7 @@ export default async function User({params}:IProps) {
             "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${user?.userId}#person`,
             "name": user?.name,
             "email": user?.email,
+            "mainEntityOfPage": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${user?.userId}`,
             "finished_quizzes": user?.finishedQuizzes?.length // pro paulo coisa dps
         },
         "hasPart": createdQuizzes

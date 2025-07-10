@@ -19,7 +19,7 @@ import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles,
-    quiz: IQuizes | undefined
+    quiz: IQuizes | undefined | any
 }
 
 export default function FormEditQuiz({styles, quiz}:IProps) {
@@ -28,7 +28,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
         {filters, filtersPt} = useFilters(),
         router = useRouter(),
         {token} = useUser()
-
+    
     const t = useTranslations('editQuizFlow.form');
     const tShared = useTranslations('createQuizFlow.formComponent');
     const locale = useLocale()
@@ -100,7 +100,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
     }, [errorQuiz])
 
     useEffect(()=>{
-        if(quiz){
+        if(!quiz.err && quiz){
             setTitle(quiz.title)
             setDesc(quiz.description)
             setCategory(quiz.category)
@@ -113,6 +113,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
             setOriginalImage(quiz.quizThumbnail)
         }
     },[quiz])
+
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
 

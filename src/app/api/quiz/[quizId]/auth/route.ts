@@ -1,24 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-export async function POST(request: Request, {params}: {params:Promise<{quizId:string}>}) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ quizId: string }> }) {
     try {
-        const Headers = request.headers,
-            token = Headers.get('Authorization'),
-            {quizId} = await params,
-            body = await request.json()
+        const { quizId } = await params;
+        const Headers = request.headers;
+        const token = Headers.get('Authorization')
     
+
         if (!token || !token.startsWith('Bearer ')) return NextResponse.json(
                 { type: 'global', message: 'no valid token' },
                 { status: 401 } 
             );
 
         const externalApiResponse = await ApiData({
-            path: `answer-quiz/${quizId}`, 
-            method: 'POST',
-            body: JSON.stringify(body),
-            headerKey: ['Authorization', 'Content-Type'],
-            headerValue: [token, 'application/json'],
+            path: `authenticate-quiz/${quizId}`, 
+            method: 'GET',
+            headerKey: 'Authorization',
+            headerValue: token,
             cache: {cache: 'no-store'}
         })
 
@@ -28,11 +27,10 @@ export async function POST(request: Request, {params}: {params:Promise<{quizId:s
             return NextResponse.json(responseData, { status: externalApiResponse.status });
         }
         
-
         return NextResponse.json(responseData, { status: 200 });
 
     } catch (error) {
-        console.error('[API ROUTE /api/quiz/answer] Erro inesperado:', error);
+        console.error('[API ROUTE /api/quiz/auth] Erro inesperado:', error);
         return NextResponse.json(
             { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' }, 
             { status: 500 }

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-export async function GET(request: Request, {params}: {params:{quizId:string}}) {
+export async function GET(request: Request, {params}: {params:Promise<{quizId:string}>}) {
     try {
         const {quizId} = await params
     

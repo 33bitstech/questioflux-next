@@ -13,12 +13,12 @@ import { createQuestionsText } from '@/app/[locale]/(quizGroup)/(createQuiz)/cre
 import WarningReset from '../widgets/warning-reset'
 import QuestionInputImage from '../CreatingQuiz/Questions/question-input-image'
 import { updateQuestionsImage } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/questions/action'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles,
-    quiz: IQuizes | undefined,
+    quiz: IQuizes | undefined | any,
     quizId: string
 }
 export interface IArraysToUpdate{
@@ -34,6 +34,7 @@ export interface IArraysToUpdate{
 
 export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
     const t = useTranslations('editQuizFlow')
+    const locale = useLocale()
 
     const router = useRouter(),
         {token} = useUser(),
@@ -86,7 +87,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
         }else{
             cancel = false
         }
-        quiz?.questions?.forEach((q, i)=>{
+        quiz?.questions?.forEach((q:any, i:any)=>{
             if(q.answers.length + (quiz.type=== 'default/RW'? 1 : 0) != questions[i].alternatives.length){
                 cancel=true
             }else{
@@ -169,7 +170,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
     useEffect(()=>{
         if(quiz && quiz.questions){
             if(quiz.type === 'default/RW'){
-                const newQuestions : ILocalQuestions[] = quiz.questions?.map(q=>{
+                const newQuestions : ILocalQuestions[] = quiz.questions?.map((q:any)=>{
                     const ans = [q.correctAnswer, ...q.answers],
                         alternatives = ans.map((a, i) => ({
                             id: `a-${Date.now()}${i+1}`,
@@ -188,8 +189,8 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
             
                 prevQuestionsLengthRef.current = newQuestions.length
             }else{
-                const newQuestions : ILocalQuestions[] = quiz.questions?.map(q=>{
-                    const alternatives = q.answers.map((a, i) => ({
+                const newQuestions : ILocalQuestions[] = quiz.questions?.map((q:any)=>{
+                    const alternatives = q.answers.map((a:any, i:any) => ({
                             id: typeof a === 'string' ? a : (a?.answer ?? ''),
                             thumbnail: typeof a === 'string' ? a : (a?.thumbnail ?? ''),
                             isNew: false
@@ -218,6 +219,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
 
         prevQuestionsLengthRef.current = currentLength
     },[questions?.length])
+
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
 

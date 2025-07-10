@@ -4,9 +4,9 @@ import styles from './questions.module.scss'
 import QuizContent from '@/components/CreatingQuiz/Questions/quiz-content'
 
 interface IProps {
-    params:{
+    params:Promise<{
         quizId: string
-    }
+    }>
 }
 
 export default async function QuestionsPage({params} : IProps) {

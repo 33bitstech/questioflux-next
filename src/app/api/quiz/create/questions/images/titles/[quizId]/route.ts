@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData'; 
 
-export async function PUT(request: Request, {params}: {params:{quizId:string}}) {
+export async function PUT(request: Request, {params}: {params:Promise<{quizId:string}>}) {
     try {
         const body = await request.json(),
             Headers = request.headers,

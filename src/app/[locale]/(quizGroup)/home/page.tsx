@@ -7,6 +7,7 @@ import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 import Skeleton from '@/components/Loading/skeleton'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAd from '@/components/Google/GoogleAd'
+import { getUsers, getAllQuizzes} from '@/app/actions'
 
 interface IProps{
     params: Promise<{
@@ -16,6 +17,7 @@ interface IProps{
 
 export default async function Home({params}:IProps) {
     const {locale} = await params
+
     return (
         <>
             <main className={styles.content}>

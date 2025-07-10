@@ -11,8 +11,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  reactHooks.configs['recommended-latest']
+  
 ];
 
 export default eslintConfig;

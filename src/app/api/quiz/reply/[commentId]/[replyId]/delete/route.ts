@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-export async function DELETE(request: Request, {params}: {params:{commentId:string, replyId:string}}) {
+export async function DELETE(request: Request, {params}: {params:Promise<{commentId:string, replyId:string}>}) {
     try {
         const Headers = request.headers,
             token = Headers.get('Authorization'),

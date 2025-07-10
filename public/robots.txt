@@ -1,0 +1,11 @@
+Sitemap: https://www.quizvortex.site/sitemap.xml
+
+User-agent: *
+Allow: /
+
+Disallow: /img/Logo.png
+Allow: .css
+Allow: .js
+
+Disallow: /api/
+Disallow: /quiz/*/taking

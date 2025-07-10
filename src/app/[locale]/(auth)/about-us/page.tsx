@@ -9,7 +9,6 @@ interface IProps{
         locale:string
     }>
 }
-// `generateMetadata` também pode buscar traduções
 export async function generateMetadata({params}:IProps) : Promise<Metadata> {
     const {locale} = await params
     const t = await getTranslations({locale, namespace: 'aboutPage'});

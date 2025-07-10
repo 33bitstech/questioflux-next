@@ -66,12 +66,12 @@ export default async function Subscription({params}:IProps) {
                     {t('hasPremium')}
                 </p>}
 
-                <SubscriptionForm 
+                {!premium && <SubscriptionForm 
                     publicKey={publicKey}
                     styles={styles}
                     token={`${token}`}
                     type={type}
-                />
+                />}
 
             </main>
 

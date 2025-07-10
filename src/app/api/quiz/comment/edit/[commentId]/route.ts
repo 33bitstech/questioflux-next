@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-export async function PUT(request: Request, {params}: {params:{commentId:string}}) {
+export async function PUT(request: Request, {params}: {params:Promise<{commentId:string}>}) {
     try {
         const Headers = request.headers,
             token = Headers.get('Authorization'),
