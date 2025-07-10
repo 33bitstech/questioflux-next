@@ -9,6 +9,7 @@ import {CookieValueTypes, getCookie} from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
+import GoogleAd from '@/components/Google/GoogleAd';
 
 interface IProps {
     params: Promise<{
@@ -18,11 +19,39 @@ interface IProps {
 }
 export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     const {quizId, locale} = await params
-    const t = await getTranslations({ locale, namespace: 'leaderboardPage' });
-    const quiz = await getQuiz(quizId);
-    // Título dinâmico: "Ranking - Nome do Quiz"
+    const t = await getTranslations({ locale, namespace: 'leaderboardPage.metadata' });
+    const quiz = await getQuiz(quizId)
+
+    const langs = {
+        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/leaderboard`,
+        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}/leaderboard`,
+        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/leaderboard`
+    },
+    names = {
+        quiz_name: quiz?.title ?? ''
+    }
+
     return {
-        title: `${t('metadataTitle')} - ${quiz?.title || ''}`
+        title: t('title', names),
+        description: t('desc', names),
+        robots: 'index, follow',
+        keywords: "quiz, ranking, leaderboard, lb, users, answers",
+        alternates:{
+            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}/leaderboard`,
+            languages: langs
+        },
+        openGraph: {
+            title: t('title', names),
+            description: t('desc', names),
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}/leaderboard`, 
+            siteName: 'Quiz Vortex',
+            images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/trofeu.png`,
+        },
+        twitter: {
+            title: t('title', names),
+            description: t('desc', names),
+            images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/trofeu.png`],
+        }
     }
 }
 
@@ -82,8 +111,28 @@ export default async function Leaderboard({params}:IProps) {
         userInLeaderboard = quizLb?.find(lbUser => lbUser.userId === user?.userId),
         userPosition = (quizLb && userInLeaderboard) ? quizLb.indexOf(userInLeaderboard) : 999
 
+
+    const leaderboardSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": t('metadata.schemaName', {quiz_name: quiz?.title ?? ''}),
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "itemListElement": quizLb?.map((player, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+                "@type": "Person",
+                "name": player.name,
+                "url": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${player.userId}`
+            }
+        }))
+    }
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(leaderboardSchema) }}
+            />
             {!quizLb && (
                 <p>{t('noResults')}</p>
             )}
@@ -115,6 +164,8 @@ export default async function Leaderboard({params}:IProps) {
             </div>
             
             <ShareButton quizId={quizId} styles={styles}/>
+
+            <GoogleAd/>
         </>
     )
 }

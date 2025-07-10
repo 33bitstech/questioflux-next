@@ -6,6 +6,7 @@ import styles from './home.module.scss'
 import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 import Skeleton from '@/components/Loading/skeleton'
 import LoadingReq from '@/components/Loading/loading-req'
+import GoogleAd from '@/components/Google/GoogleAd'
 
 interface IProps{
     params: Promise<{
@@ -30,6 +31,8 @@ export default async function Home({params}:IProps) {
                         quizzes_type='private'
                     />
                 </div>
+
+                <GoogleAd/>
                 
                 <div className={styles.quiz_area}>
                     <ContainerUserQuizzes
@@ -37,7 +40,7 @@ export default async function Home({params}:IProps) {
                         quizzes_type='public'
                     />
                 </div>
-
+                <GoogleAd/>
             </main>
         </>
     )

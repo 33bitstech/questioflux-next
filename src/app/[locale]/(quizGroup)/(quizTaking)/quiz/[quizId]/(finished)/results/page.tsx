@@ -5,6 +5,7 @@ import styles from './results.module.scss'
 import { getTimeString } from '@/utils/FormatTime'
 import {Link} from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server' // Importar
+import GoogleAd from '@/components/Google/GoogleAd'
 
 // Atualizar IProps para incluir locale
 interface IProps{
@@ -60,6 +61,8 @@ export default async function Results({params}:IProps) {
                 href={`/quiz/${quizId}/lb`} 
                 className={styles.link_leaderboard}
             >{t('viewLeaderboard')}</Link>
+
+            <GoogleAd/>
             
         </>
     )

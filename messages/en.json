@@ -10,7 +10,7 @@
         "hero": {
             "titleLine1": "Create your <bold>custom quiz</bold> and share",
             "titleLine2": "it with your friends using <bold>Quiz vortex</bold>",
-            "subtitle": "Make a variety of quiz styles and have fun sharing with your friends - which one suits you best?",
+            "subtitle": "Quiz Vortex: Free Quiz Maker - Create Fun Quizzes with Images",
             "ctaButton": "Start Now",
             "exploreButton": "Explore"
         },
@@ -64,10 +64,12 @@
     },
     "registerPage": {
         "metadataTitle": "Register",
+        "metadataDesc": "Sign up for Quiz Vortex to create and take quizzes, track your scores, and join our community of quiz enthusiasts. Registration is quick and easy.",
         "title": "Welcome to <bold>QuizVortex</bold>"
     },
     "loginPage": {
         "metadataTitle": "Login",
+        "metadataDesc": "Log in to your Quiz Vortex account to access your quizzes, track your progress, and enjoy personalized features. Don’t have an account? Register now to get started!",
         "registerPrompt": "Haven't an account?",
         "navButtons": {
             "register": "Register",
@@ -136,7 +138,8 @@
             "profile": "Profile",
             "saves": "Saves",
             "drafts": "Drafts",
-            "config": "Settings"
+            "config": "Settings",
+            "about": "About-us"
         },
         "themeWidget": {
             "light": "Light",
@@ -234,7 +237,8 @@
         }
     },
     "explorePage": {
-        "metadataTitle": "Explore Quizzes",
+        "metadataTitle": "Explore Popular Quizzes - Discover and Play on Quiz Vortex",
+        "metadataDesc":"Explore and play thousands of quizzes made by users on any topic you can think of. Discover top-rated and trending quizzes, challenge your friends, and put your knowledge to the test.",
         "mainTitle": "Explore already created quizzes",
         "featuredTitle": "Most Popular",
         "buttons": {
@@ -259,6 +263,13 @@
         }
     },
     "quizInfoPage": {
+        "metadata":{
+            "title": "{quiz_name} | Quiz Vortex",
+            "desc": "Test your knowledge with this quiz {quiz_name} from {name}!",
+            "actions":{
+                "take": "Take The Quiz"
+            }
+        },
         "title": "Quiz info",
         "details": {
             "createdBy": "Created by:",
@@ -309,7 +320,11 @@
         }
     },
     "leaderboardPage": {
-        "metadataTitle": "Leaderboard",
+        "metadata": {
+            "title": "{quiz_name} Leaderboard - See the Top Scores",
+            "desc": "See who's on top! Check the {quiz_name} leaderboard to see the players with the highest scores. Can you make it to the top?",
+            "schemaName": "{quiz_name} Participant Leaderboard"
+        },
         "noResults": "No one has answered this quiz yet.",
         "userAnswers": {
             "attempts": "Attempts:",
@@ -320,14 +335,20 @@
         }
     },
     "publicProfile":{
-        "customTitle": "Public quizzes from this user"
+        "customTitle": "Public quizzes from this user",
+        "metadata":{
+            "title":"{name_user}'s Profile | Quizzes on QuizVortex",
+            "desc": "View {name_user}'s profile on QuizVortex. Check out all the quizzes they've created, their high scores, and their activity on the platform.",
+            "createdQuizzesName": "Quizzes created by {name_user}"
+        }
     },
     "createQuizFlow": {
         "layout": {
-            "metadataTitle": "Create your Quiz"
+            "metadataTitle": "Quiz Vortex Quiz Creator - Create a New Quiz"
         },
         "selectTypePage": {
             "title": "Create your quiz",
+            "desc" : "Build your own custom quiz in minutes with the Quiz Vortex creator. Add questions, answers, and images, and then share it with everyone or friends. It's time to get creative!",
             "subtitle": "To start creating your quiz, personality test or list, simply click on the respective button below and get started right now.",
             "descriptions": {
                 "rightAndWrongTitle": "Right and Wrong Quiz",
@@ -518,5 +539,14 @@
             "email": "The email must be filled out correctly"
         },
         "sucess":"Payment successfully!"
+    },
+    "mainMetadata":{
+        "desc": "Create your own quiz with Quiz Vortex! A powerful and fun quiz maker to build and share tests with friends. Add images, customize questions, and see who reaches the top of the leaderboard. Start creating today!",
+        "title":"Quiz Vortex - Quiz Maker",
+        "query_inputs":{
+            "searchByTitle": "Search for a quiz with a specific title.",
+            "searchByTags": "Filter quizzes by tags (e.g., 'movies', 'history').",
+            "searchByCategories": "Filter quizzes by categories (e.g., 'general-knowledge', 'pop-culture')."
+        }
     }
 }

@@ -1,14 +1,6 @@
 import NavbarQuizgroup from '@/components/NavbarQuizgroup/navbar'
 import React, { ReactNode } from 'react'
 import styles from './layout.module.scss'
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-    title: {
-        template:'%s',
-        default: 'Quiz Vortex'
-    }
-};
 
 interface IProps{
     params: Promise<{

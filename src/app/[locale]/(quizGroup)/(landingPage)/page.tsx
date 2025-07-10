@@ -9,12 +9,20 @@ import WorldSvg from "@/components/Icons/WorldSvg";
 import Wave from "@/components/wave";
 import RegisterComponent from '@/components/AuthForms/register-component';
 import { getTranslations } from 'next-intl/server'; // Importar a função
+import GoogleAd from '@/components/Google/GoogleAd';
+import type { Metadata } from "next";
 
 interface IProps{
     params: Promise<{
         locale: string
     }>
 }
+
+
+export const metadata: Metadata = {
+    robots: 'index, follow',
+    keywords: "quiz, landing_page, quiz_maker, create_quiz"
+};
 
 export default async function LandingPage({params}:IProps) {
     const {locale} = await params
@@ -71,6 +79,8 @@ export default async function LandingPage({params}:IProps) {
                     <Link href='/create/quiz' locale={locale} className={styles.button_link}>{t('stylesSection.ctaButton')}</Link>
                 </section>
 
+                <GoogleAd/>
+
                 <section id='quiz_exploration_section' className={styles.quiz_exploration_section}>
                     <div className={`${styles.title_section} ${styles.subtitle}`}>
                         <h2>{t('explorationSection.title')}</h2>
@@ -90,6 +100,8 @@ export default async function LandingPage({params}:IProps) {
 
                 <div className={styles.wave}><Wave/></div>
 
+                <GoogleAd/>
+
                 <section id='register_comp_section' className={styles.register_comp_section}>
                     <RegisterComponent 
                         absolute={false}
@@ -98,6 +110,8 @@ export default async function LandingPage({params}:IProps) {
                     />
                 </section>
             </main>
+
+            <GoogleAd/>
 
             <footer className={styles.footer}>
                 <Link locale={locale} href={'/about-us'}>{t('footer.aboutLink')}</Link>

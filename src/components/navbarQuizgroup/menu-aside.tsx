@@ -7,7 +7,7 @@ import ThemeWidget from './client/theme-widget'
 import GamepassWidget from './client/gamepass-widget'
 import './menu-aside.scss'
 import LinkProfile from './client/link-profile'
-import { useTranslations } from 'next-intl' // Importar
+import { useTranslations } from 'next-intl' 
 
 interface IProps{
     auth: CookieValueTypes | undefined
@@ -24,9 +24,9 @@ export default function MenuAside({auth}: IProps) {
                         <>
                             <li><NavLink href='/home'>{t('home')}</NavLink></li>
                             <li><NavLink href='/explore'>{t('explore')}</NavLink></li>
-                            {/* Assumindo que GamepassWidget também será traduzido */}
                             <GamepassWidget /> 
                             <li><NavLink href='/create/quiz'>{t('createQuiz')}</NavLink></li>
+                            <li><NavLink href='/about-us'>{t('about')}</NavLink></li>
                             <li><LinkProfile/></li>
                             <li><NavLink href={`/saves`}>{t('saves')}</NavLink></li>
                             <li><NavLink href={`/drafts`}>{t('drafts')}</NavLink></li>

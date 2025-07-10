@@ -5,6 +5,7 @@ import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import { getLeaderboard, getQuiz, getUser } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 import LbUser from '@/components/Leaderboard/lb-user'
+import GoogleAd from '@/components/Google/GoogleAd'
 
 interface IProps {
     params: Promise<{
@@ -56,6 +57,8 @@ export default async function LB({params}:IProps) {
             </div>
             
             <ShareButton quizId={quizId} styles={styles}/>
+
+            <GoogleAd/>
         </>
     )
 }

@@ -11,11 +11,17 @@
     .create_quiz_types{
         width: 70%;
         height: auto;
-        h1{
-            @include vars.styleTexto(var(--text-primary), 1.55rem, 700); 
-        }
-        p{
-            @include vars.styleTexto(var(--text-primary), .9rem, 400); 
+        div{
+            display: flex;
+            flex-direction: column;
+            gap: .7rem;
+            h1{
+                @include vars.styleTexto(var(--text-primary), 1.55rem, 700); 
+            }
+            p, h2{
+                @include vars.styleTexto(var(--text-primary), .9rem, 400); 
+            }
+
         }
         ul nav{
             margin-top: 1.25rem;

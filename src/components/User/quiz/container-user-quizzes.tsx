@@ -15,10 +15,11 @@ interface IProps{
     styles: TStyles,
     quizzes_type: 'public' | 'private' | 'draft' | 'saved',
     customTitle?: string,
-    userP?: IUser
+    userP?: IUser,
+    canGetPublic?: boolean
 }
 
-export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP}: IProps) {
+export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP, canGetPublic}: IProps) {
     const t = useTranslations('userQuizzesContainer'); 
     const {token, user} = useUser(),
         {userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes} = useGettingQuiz(),
@@ -28,17 +29,17 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
 
     useEffect(()=>{
         const get = async ()=>{
-            if(user && token){
+            if((user && token) || canGetPublic){
                 const actions = {
                     public:{
                         action: async () => {
-                            if(userP && userP.userId){
-                                const res = await userPublicQuizzes(userP.userId)
+                            if((userP && userP.userId) || canGetPublic){
+                                const res = await userPublicQuizzes(userP?.userId!)
                                 if (res) setQuizzes(res.quizes)
                                 setLoading(false)
                                 return
                             }
-                            if (user.userId) {
+                            if (user && user.userId) {
                                 const res = await userPublicQuizzes(user.userId)
                                 if (res) setQuizzes(res.quizes)
                                 setLoading(false)
@@ -48,21 +49,21 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                     },
                     private: {
                         action: async () => {
-                            const res = await userPrivateQuizzes(token)
+                            const res = await userPrivateQuizzes(token!)
                             if (res) setQuizzes(res.quizzes)
                             setLoading(false)
                         },
                     },
                     draft: {
                         action: async () => {
-                            const res = await userDraftsQuizzes(token)
+                            const res = await userDraftsQuizzes(token!)
                             if (res) setQuizzes(res.quizzes)
                             setLoading(false)
                         },
                     },
                     saved: {
                         action: async () => {
-                            const res = await userSavesQuizzes(token)
+                            const res = await userSavesQuizzes(token!)
                             if (res) setQuizzes(res.quizzes)
                             setLoading(false)
                         },
@@ -90,7 +91,7 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                 />
 
                 <section className={styles.quizes}>
-                    {user && Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
+                    {Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
                         <QuizCard key={index} quiz={quiz}/>
                     ))}
                 </section>
@@ -107,7 +108,7 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                 {viewQuizzes && (
                     <div className={styles.more_content}>
                         <section className={styles.quizes}>
-                            {user && Array.isArray(quizzes) && quizzes?.slice(3,).map((quiz, index)=>(
+                            {Array.isArray(quizzes) && quizzes?.slice(3,).map((quiz, index)=>(
                                 <QuizCard key={index} quiz={quiz} />
                             ))}
                         </section>

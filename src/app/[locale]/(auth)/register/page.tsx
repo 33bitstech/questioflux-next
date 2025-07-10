@@ -3,6 +3,8 @@ import '@/assets/styles/auth.scss'
 import { Metadata } from 'next'
 import RegisterFormComponent from '@/components/AuthForms/Auth-client-components/register-form-component'
 import { getTranslations } from 'next-intl/server';
+import GoogleAd from '@/components/Google/GoogleAd';
+import { env } from '@/env';
 
 interface IProps{
     params: Promise<{
@@ -10,16 +12,43 @@ interface IProps{
     }>
 }
 
-// 1. Atualizar generateMetadata para buscar o título traduzido
 export async function generateMetadata({params}:IProps): Promise<Metadata> {
     const {locale} = await params
     const t = await getTranslations({ locale, namespace: 'registerPage' });
+
+    const langs = {
+        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/register`,
+        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/register`,
+        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/register`
+    }
+
     return {
-        title: t('metadataTitle')
+        title: t('metadataTitle'),
+        description: t('metadataDesc'),
+        robots: 'index, follow',
+        keywords: "quiz, register",
+        alternates:{
+            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/register`,
+            languages: langs
+        },
+        openGraph: {
+            title: t('metadataTitle'),
+            description: t('metadataDesc'),
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/register`, 
+            images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
+            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            type: 'website',
+            siteName: 'Quiz Vortex',
+        },
+        twitter: {
+            title: t('metadataTitle'),
+            description: t('metadataDesc'),
+            card: 'summary_large_image',
+            images: [`${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`]
+        }
     }
 }
 
-// 2. A página agora é 'async' e recebe o 'locale'
 export default async function Register({params}:IProps) {
     const {locale} = await params
     const t = await getTranslations({ locale, namespace: 'registerPage' });
@@ -28,7 +57,6 @@ export default async function Register({params}:IProps) {
         <div className={`container-section`}>
             <section className='register-section'>
                 <div className='title-register'>
-                    {/* 4. Usar t.rich para renderizar o título com negrito */}
                     <h1>
                         {t.rich('title', {
                             bold: (chunks) => <strong>{chunks}</strong>
@@ -38,10 +66,8 @@ export default async function Register({params}:IProps) {
 
                 <RegisterFormComponent 
                     absolute={false}
-                    // Não precisamos passar a prop 'toLogin' aqui,
-                    // pois com 'absolute={false}', o componente já renderiza
-                    // um <Link> para a página de login.
                 />
+                <GoogleAd/>
             </section>
         </div>
     )

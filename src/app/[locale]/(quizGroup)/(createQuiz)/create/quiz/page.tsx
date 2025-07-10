@@ -7,9 +7,48 @@ import SoonSvg from '@/components/Icons/SoonSvg'
 import ListSvg from '@/components/Icons/ListSvg'
 import StrokeProfileSvg from '@/components/Icons/StrokeProfileSvg'
 import { getTranslations } from 'next-intl/server'
+import { Metadata } from 'next'
+import { env } from '@/env'
 
 interface IProps {
     params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const {locale} = await params
+    const t = await getTranslations({ locale, namespace: 'createQuizFlow' });
+
+    const langs = {
+        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz`,
+        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/create/quiz`,
+        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz`
+    }
+
+    return {
+        title: t('layout.metadataTitle'),
+        description: t('selectTypePage.desc'),
+        robots: 'index, follow',
+        keywords: "quiz, create, type",
+        alternates:{
+            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz`,
+            languages: langs
+        },
+        openGraph: {
+            title: t('layout.metadataTitle'),
+            description: t('selectTypePage.desc'),
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/create/quiz`, 
+            siteName: 'Quiz Vortex',
+            images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
+            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: t('layout.metadataTitle'),
+            description: t('selectTypePage.desc'),
+            images: [`${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
+        }
+    }
 }
 
 export default async function CreateQuizPage({ params }: IProps) {
@@ -20,8 +59,11 @@ export default async function CreateQuizPage({ params }: IProps) {
     return (
         <main className={styles.content}>
             <div className={styles.create_quiz_types}>
-                <h1>{t('title')}</h1>
-                <p>{t('subtitle')}</p>
+                <div>
+                    <h1>{t('title')}</h1>
+                    <h2>{t('desc')}</h2>
+                    <p>{t('subtitle')}</p>
+                </div>
                 <ul>
                     <nav>
                         <li className={styles.type_actived}>
