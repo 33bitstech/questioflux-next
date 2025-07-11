@@ -8,6 +8,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { useFilters } from '@/contexts/filtersContext'
 import { useTranslations } from 'next-intl' 
 import LoadingQuizzes from '../Loading/loading-quizzes'
+import { getFeaturedsQuizzes } from '@/app/[locale]/(quizGroup)/explore/page'
 
 interface IProps{
     styles: TStyles
@@ -18,7 +19,6 @@ export default function FeaturedsContainer({styles}: IProps) {
 
     const sp = useSearchParams(),
         isSearching = sp.size > 0,
-        {featuredQuizzes} = useGettingQuiz(),
         [popular, setPopular] = useState<IQuizes[]>(),
         {filtersSelected} = useFilters(),
         [loading, setLoading] = useState(true)
@@ -26,8 +26,8 @@ export default function FeaturedsContainer({styles}: IProps) {
     useEffect(()=>{
         const get = async() =>{
             try {
-                const res = await featuredQuizzes()
-                setPopular(res.quizzesSort)
+                const quizzes = await getFeaturedsQuizzes()
+                setPopular(quizzes)
                 setLoading(false)
             } catch (err) {
                 console.log(err)
