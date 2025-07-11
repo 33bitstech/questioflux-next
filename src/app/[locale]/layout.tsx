@@ -134,7 +134,7 @@ export default async function RootLayout({
                 />
                 <Script
                     async
-                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
+                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7383504438544213`}
                     strategy="afterInteractive" 
                     crossOrigin="anonymous"
                 />
