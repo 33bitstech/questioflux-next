@@ -1,26 +1,34 @@
 'use client'
-import { Adsense } from '@ctrl/react-adsense';
+import { env } from '@/env';
 import './GoogleAd.scss'
-import Script from 'next/script';
+
+import { Adsense } from '@ctrl/react-adsense';
+import { useEffect } from 'react';
+
+
+declare global {
+    interface Window {
+        adsbygoogle?: any[];
+    }
+}
 
 const GoogleAdV = ({left=false, rigth=false}) => {
-    return null
-    /* return (<Script
-        async
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7383504438544213`}
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-        slot='6282931841'
-        className={`adsbygoogle ${left ? 'left' : ''} ${rigth ? 'rigth' : ''}`}
-    />) */
 
-    /* return (<Adsense
+    useEffect(() => {
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
+
+    return (<Adsense
         className={`adsbygoogle ${left ? 'left' : ''} ${rigth ? 'rigth' : ''}`}
-        client='ca-pub-7383504438544213'
+        client={env.NEXT_PUBLIC_ADSENSE_CLIENT}
         slot={'6584414246'}
         responsive='true'
         format={'vertical'}
-    />) */
+    />)
 }
 
 export default GoogleAdV

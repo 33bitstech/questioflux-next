@@ -4,7 +4,8 @@ const envSchema = z.object({
     NEXT_PUBLIC_DOMAIN_API: z.string().url(),
     NEXT_PUBLIC_DOMAIN_FRONT: z.string().url(),
     ENV_PAGBANK: z.string(),
-    OWN_API_KEY: z.string()
+    OWN_API_KEY: z.string(),
+    NEXT_PUBLIC_ADSENSE_CLIENT: z.string()
 })
 
 const parsedEnv = envSchema.safeParse(process.env)

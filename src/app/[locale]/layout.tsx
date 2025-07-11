@@ -11,7 +11,7 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import { getMessages, getTranslations } from "next-intl/server";
 import { env } from "@/env";
-import AdGlobal from "@/components/Google/ad-global";
+import Script from "next/script";
 
 export async function generateMetadata({params}:{params:Promise<{locale:string}>}) : Promise<Metadata> {
     const {locale} = await params
@@ -132,6 +132,12 @@ export default async function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(generateGlobalSchema(t)) }}
                 />
+                <Script
+                    async
+                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
+                    strategy="afterInteractive" 
+                    crossOrigin="anonymous"
+                />
             </head>
 
             <body>
@@ -141,7 +147,6 @@ export default async function RootLayout({
                             <ProviderTheme attribute="data-theme" defaultTheme="system" enableSystem>
                                 <FilterProvider>
                                     <GlobalMessageWidget />
-                                    <AdGlobal/>
                                     {children}
                                 </FilterProvider>
                             </ProviderTheme>
