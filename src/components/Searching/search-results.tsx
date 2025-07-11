@@ -12,10 +12,11 @@ import LoadingQuizzes from '../Loading/loading-quizzes'
 import { getQuizzes } from '@/app/[locale]/(quizGroup)/explore/actions'
 
 interface IProps {
-    styles : TStyles
+    styles : TStyles,
+    defaultQuizzes: IQuizes[]
 }
 
-export default function SearchResults({styles} : IProps) {
+export default function SearchResults({styles, defaultQuizzes} : IProps) {
     const t = useTranslations('explorePage.buttons'); 
     
     
@@ -30,13 +31,13 @@ export default function SearchResults({styles} : IProps) {
         tags = searchParams.get('tags') || '',
         categories = searchParams.get('categories') || '',
 
-        [loading, setLoading] = useState(true)
+        [loading, setLoading] = useState(false)
 
     const handleViewMore = ()=>{ setVisibleQuizzesQtd(()=>visibleQuizzesQtd+9) },
         handleViewLess = ()=>{ setVisibleQuizzesQtd(9); setViewAllExplore(false) },
         handleFilteringQuizzes = () =>{ setResults(results?.filter(quiz=>filtersSelected.includes(quiz.category))) }
 
-     useEffect(()=>{
+   /*  useEffect(()=>{
         const get = async ()=>{
             try {
                 const quizzes = await getQuizzes()
@@ -50,7 +51,7 @@ export default function SearchResults({styles} : IProps) {
             }
         }
         get()
-    },[])
+    },[]) */
     useEffect(()=>{
         if(filtersSelected.length > 0) {
             handleFilteringQuizzes()
@@ -72,10 +73,18 @@ export default function SearchResults({styles} : IProps) {
             }
             get()
         }else{
+            console.log(quizzes)
             setResults(quizzes)
         }
-        
     }, [title, tags, categories])
+
+
+    useEffect(()=>{
+        if(defaultQuizzes){
+            setResults(defaultQuizzes)
+            setQuizzes(defaultQuizzes)
+        }
+    },[defaultQuizzes]) 
 
     return (
         <>

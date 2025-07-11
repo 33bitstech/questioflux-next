@@ -9,7 +9,7 @@ import { generateExploreQuizSchema } from '@/utils/generateSchemas'
 import { getTranslations } from 'next-intl/server' 
 import { Metadata } from 'next'
 import GoogleAd from '@/components/Google/GoogleAd'
-import { getQuizzes } from './actions'
+import { getQuizzes, getFeaturedsQuizzes} from './actions'
 
 interface IProps {
     params: Promise<{
@@ -57,8 +57,11 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 
 export default async function Explore({ params }: IProps) {
     const { locale } = await params;
-    const t = await getTranslations({ locale, namespace: 'explorePage' }); // Buscar traduções
-    const quizzes = await getQuizzes();
+    const t = await getTranslations({ locale, namespace: 'explorePage' });
+    const [quizzes, popularQuizzes] = await Promise.all([
+        await getQuizzes(),
+        await getFeaturedsQuizzes()
+    ])
     const baseUrl = `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`;
 
     const itemListSchema = {
@@ -82,14 +85,14 @@ export default async function Explore({ params }: IProps) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
             />
 
-            <FeaturedsContainer styles={styles}/>
+            <FeaturedsContainer styles={styles} defaultQuizzes={popularQuizzes!}/>
 
             <GoogleAd/>
             
             <div className={styles.results}>
                 {/* Usar a tradução */}
                 <h1>{t('mainTitle')}</h1>
-                <SearchResults styles={styles}/>
+                <SearchResults styles={styles} defaultQuizzes={quizzes!}/>
             </div>
             <GoogleAd/>
         </main>
