@@ -73,6 +73,7 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                 if (actions[quizzes_type]) {
                     if(defaultQuizzes){
                         setQuizzes(defaultQuizzes)
+                        setLoading(false)
                     }else{
                         await actions[quizzes_type].action();
                     }
