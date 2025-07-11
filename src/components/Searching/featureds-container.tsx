@@ -11,19 +11,26 @@ import LoadingQuizzes from '../Loading/loading-quizzes'
 import { getFeaturedsQuizzes } from '@/app/[locale]/(quizGroup)/explore/actions'
 
 interface IProps{
-    styles: TStyles
+    styles: TStyles,
+    defaultQuizzes: IQuizes[]
 }
 
-export default function FeaturedsContainer({styles}: IProps) {
+export default function FeaturedsContainer({styles, defaultQuizzes}: IProps) {
     const t = useTranslations('explorePage'); 
 
     const sp = useSearchParams(),
         isSearching = sp.size > 0,
         [popular, setPopular] = useState<IQuizes[]>(),
         {filtersSelected} = useFilters(),
-        [loading, setLoading] = useState(true)
+        [loading, setLoading] = useState(false)
 
     useEffect(()=>{
+        if(defaultQuizzes){
+            setPopular(defaultQuizzes)
+        }
+    },[defaultQuizzes])
+
+    /* useEffect(()=>{
         const get = async() =>{
             try {
                 const quizzes = await getFeaturedsQuizzes()
@@ -35,7 +42,7 @@ export default function FeaturedsContainer({styles}: IProps) {
             }
         }
         get()
-    },[])
+    },[]) */
 
     if(isSearching || filtersSelected.length > 0) return null
     return (
