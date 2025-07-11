@@ -1,4 +1,3 @@
-'use server'
 import React from 'react'
 import styles from './explore.module.scss'
 import ContextualHeaderActions from '@/components/NavigateWidgets/contextual-header-action'
