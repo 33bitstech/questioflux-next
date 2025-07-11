@@ -24,7 +24,7 @@ const GoogleAd = () => {
 
     return (
         <Adsense
-            client={env.NEXT_PUBLIC_ADSENSE_CLIENT!}
+            client='ca-pub-7383504438544213'
             slot='6282931841' 
             responsive='true'
             format={'horizontal'}
