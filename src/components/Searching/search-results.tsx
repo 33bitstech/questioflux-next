@@ -9,6 +9,7 @@ import { useFilters } from '@/contexts/filtersContext'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl' 
 import LoadingQuizzes from '../Loading/loading-quizzes'
+import { getQuizzes } from '@/app/[locale]/(quizGroup)/explore/page'
 
 interface IProps {
     styles : TStyles
@@ -17,8 +18,8 @@ interface IProps {
 export default function SearchResults({styles} : IProps) {
     const t = useTranslations('explorePage.buttons'); 
     
-    const {publicQuizzes} = useGettingQuiz(),
-        {filtersSelected} = useFilters(),
+    
+    const {filtersSelected} = useFilters(),
         {searchQuiz} = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
         [results, setResults] = useState<IQuizes[]>(),
@@ -38,9 +39,10 @@ export default function SearchResults({styles} : IProps) {
      useEffect(()=>{
         const get = async ()=>{
             try {
-                const res = await publicQuizzes()
-                setQuizzes(res.quizzes)
-                setResults(res.quizzes)
+                const quizzes = await getQuizzes()
+                
+                setQuizzes(quizzes)
+                setResults(quizzes)
                 setLoading(false)
             } catch (err) {
                 console.log(err)

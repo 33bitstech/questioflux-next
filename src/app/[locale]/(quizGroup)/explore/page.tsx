@@ -53,13 +53,26 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-async function getQuizzes(): Promise<IQuizes[] | undefined> {
+export async function getQuizzes(): Promise<IQuizes[] | undefined> {
+    'use server'
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/public`, {
             method: 'GET',
         });
         const res = await response.json();
         return res.quizzes;
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+export async function getFeaturedsQuizzes(): Promise<IQuizes[] | undefined> {
+    'use server'
+    try {
+        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/featured`, {
+            method: 'GET',
+        });
+        const res = await response.json();
+        return res.quizzesSort;
     } catch (err: any) {
         console.log(err)
     }
