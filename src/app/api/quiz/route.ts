@@ -29,11 +29,12 @@ export async function POST(request: Request) {
 
         if (!externalApiResponse.ok) return NextResponse.json(responseData, { status: externalApiResponse.status });
 
-        if (!imageFile || !(imageFile instanceof File)) return NextResponse.json({data:responseData}, { status: 200 })
+        const file = imageFile as File
+        if (!file || file.size === 0) return NextResponse.json({data:responseData}, { status: 200 })
 
         const imageFormData = new FormData()
 
-        imageFormData.append('quizImg', imageFile, imageFile.name)
+        imageFormData.append('quizImg', file, file.name)
         
         const externalApiResponseImage = await ApiData({
             path: `quiz-thumbnail/${responseData.quizId}`, 

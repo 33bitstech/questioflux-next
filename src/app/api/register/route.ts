@@ -23,11 +23,12 @@ export async function POST(request: Request) {
 
         if (!externalApiResponse.ok) return NextResponse.json(responseData, { status: externalApiResponse.status });
 
-        if (!imageFile || !(imageFile instanceof File)) return NextResponse.json(responseData, { status: 200 })
+        const file = imageFile as File
+        if (!file || file.size === 0) return NextResponse.json(responseData, { status: 200 })
 
         const imageFormData = new FormData()
 
-        imageFormData.append('profileImg', imageFile, imageFile.name)
+        imageFormData.append('profileImg', file, file.name)
         
         const externalApiResponseImage = await ApiData({
             path: 'img-profile', 

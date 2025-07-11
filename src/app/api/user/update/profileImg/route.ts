@@ -12,14 +12,15 @@ export async function PUT(request: Request) {
             { type: 'global', message: 'no valid token' },
             { status: 401 } 
         )
-        if (!imageFile || !(imageFile instanceof File)) return NextResponse.json(
+        const file = imageFile as File;
+        if (!file || file.size === 0) return NextResponse.json(
             { type: 'global', message: 'no valid image' },
             { status: 401 }
         )
         
         const imageFormData = new FormData()
 
-        imageFormData.append('profileImg', imageFile, imageFile.name)
+        imageFormData.append('profileImg', file, file.name)
 
         const externalApiResponse = await ApiData({
             path: `img-profile`, 
