@@ -1,3 +1,4 @@
+'use server'
 import React from 'react'
 import styles from './explore.module.scss'
 import ContextualHeaderActions from '@/components/NavigateWidgets/contextual-header-action'
@@ -54,7 +55,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 }
 
 export async function getQuizzes(): Promise<IQuizes[] | undefined> {
-    'use server'
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/public`, {
             method: 'GET',
@@ -66,7 +66,6 @@ export async function getQuizzes(): Promise<IQuizes[] | undefined> {
     }
 }
 export async function getFeaturedsQuizzes(): Promise<IQuizes[] | undefined> {
-    'use server'
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/featured`, {
             method: 'GET',
