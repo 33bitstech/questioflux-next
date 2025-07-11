@@ -56,7 +56,7 @@ export default function CommentFormComponent({styles, user, quizId, token}: IPro
                         onChange={e=>setCommentValue(e.target.value)} 
                         maxLength={2000}
                     />
-                    <button disabled={loading}><Send/></button>
+                    <button type='submit' disabled={loading}><Send/></button>
                 </div>
             </div>
         </form>

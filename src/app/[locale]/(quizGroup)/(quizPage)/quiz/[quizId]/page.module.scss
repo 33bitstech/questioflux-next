@@ -43,6 +43,10 @@
     flex-direction: column;
     gap: 1rem;
     margin-bottom: 3rem;
+
+    @media screen and (max-width: 800px) {
+        width: 99% !important;
+    }
     .info{
         width: 100%;
         height: auto;   
@@ -129,12 +133,4 @@
     height: 6.9375rem;
     box-shadow: 0px 0px 39.3px -13px rgba(0, 0, 0, 0.25);
     background-color: var(--background-divs);
-}
-@media screen and (max-width: 860px) {
-    .content{
-        width: 93% !important;
-        .quiz-details{
-            width: 93% !important;
-        }
-    }
 }

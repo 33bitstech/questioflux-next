@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './About.module.scss'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 
 
 interface IProps{
