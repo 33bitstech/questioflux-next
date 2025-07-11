@@ -9,6 +9,7 @@ import { generateExploreQuizSchema } from '@/utils/generateSchemas'
 import { getTranslations } from 'next-intl/server' 
 import { Metadata } from 'next'
 import GoogleAd from '@/components/Google/GoogleAd'
+import { getQuizzes } from './actions'
 
 interface IProps {
     params: Promise<{
@@ -53,28 +54,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-export async function getQuizzes(): Promise<IQuizes[] | undefined> {
-    try {
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/public`, {
-            method: 'GET',
-        });
-        const res = await response.json();
-        return res.quizzes;
-    } catch (err: any) {
-        console.log(err)
-    }
-}
-export async function getFeaturedsQuizzes(): Promise<IQuizes[] | undefined> {
-    try {
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/featured`, {
-            method: 'GET',
-        });
-        const res = await response.json();
-        return res.quizzesSort;
-    } catch (err: any) {
-        console.log(err)
-    }
-}
 
 export default async function Explore({ params }: IProps) {
     const { locale } = await params;

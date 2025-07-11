@@ -8,7 +8,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { useFilters } from '@/contexts/filtersContext'
 import { useTranslations } from 'next-intl' 
 import LoadingQuizzes from '../Loading/loading-quizzes'
-import { getFeaturedsQuizzes } from '@/app/[locale]/(quizGroup)/explore/page'
+import { getFeaturedsQuizzes } from '@/app/[locale]/(quizGroup)/explore/actions'
 
 interface IProps{
     styles: TStyles

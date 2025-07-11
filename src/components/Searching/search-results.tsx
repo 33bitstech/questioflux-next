@@ -9,7 +9,7 @@ import { useFilters } from '@/contexts/filtersContext'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl' 
 import LoadingQuizzes from '../Loading/loading-quizzes'
-import { getQuizzes } from '@/app/[locale]/(quizGroup)/explore/page'
+import { getQuizzes } from '@/app/[locale]/(quizGroup)/explore/actions'
 
 interface IProps {
     styles : TStyles
