@@ -16,10 +16,11 @@ interface IProps{
     quizzes_type: 'public' | 'private' | 'draft' | 'saved',
     customTitle?: string,
     userP?: IUser,
-    canGetPublic?: boolean
+    canGetPublic?: boolean,
+    defaultQuizzes?: IQuizes[]
 }
 
-export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP, canGetPublic}: IProps) {
+export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP, canGetPublic, defaultQuizzes}: IProps) {
     const t = useTranslations('userQuizzesContainer'); 
     const {token, user} = useUser(),
         {userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes} = useGettingQuiz(),
@@ -70,7 +71,11 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                     }
                 }
                 if (actions[quizzes_type]) {
-                    await actions[quizzes_type].action();
+                    if(defaultQuizzes){
+                        setQuizzes(defaultQuizzes)
+                    }else{
+                        await actions[quizzes_type].action();
+                    }
                 }
             }
         }

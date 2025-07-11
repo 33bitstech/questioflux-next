@@ -10,6 +10,7 @@ import { getTranslations } from 'next-intl/server'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { Metadata } from 'next'
 import IQuizes from '@/interfaces/IQuizes'
+import { publicQuizzes } from '../action'
 
 interface IProps{
     params:Promise<{
@@ -29,22 +30,6 @@ async function getUser(userId:string) : Promise<IUser | undefined>{
     } catch (err) {
         console.log(err)
     }   
-}
-async function publicQuizzes(userId:string) : Promise<IQuizes[] | undefined>{
-    try {
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/public/${userId}`, {
-            method: 'GET',
-        });
-
-        const res = await response.json();
-
-        if (!response.ok) throw { response: { data: res } }
-
-        return res.quizes;
-
-    } catch (err: any) {
-        console.log(err)
-    }
 }
 
 export async function generateMetadata({ params}: IProps): Promise<Metadata> {
@@ -139,6 +124,7 @@ export default async function User({params}:IProps) {
                         customTitle={t('customTitle')}
                         userP={user}
                         canGetPublic={true}
+                        defaultQuizzes={quizzes}
                     />
                 </div>
 
