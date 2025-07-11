@@ -131,6 +131,11 @@ export default async function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(generateGlobalSchema(t)) }}
                 />
+                <script
+                    async 
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7383504438544213"
+                    crossOrigin="anonymous"
+                />
             </head>
 
             <body>
