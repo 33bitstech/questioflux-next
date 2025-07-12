@@ -9,22 +9,22 @@ type PublicRoute = {
     actionWhenAuth: 'next' | 'redirect';
 };
 
-const publicRoutes: PublicRoute[] = [    
-    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/user\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/create\/quiz$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
-]
+const publicRoutes: PublicRoute[] = [
+    { src: /^\/((en|pt)\/)?$/, actionWhenAuth: 'redirect' },
+    { src: /^\/((en|pt)\/)?login$/, actionWhenAuth: 'redirect' },
+    { src: /^\/((en|pt)\/)?register$/, actionWhenAuth: 'redirect' },
+    { src: /^\/((en|pt)\/)?about-us$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?rescuepassword$/, actionWhenAuth: 'redirect' },
+    { src: /^\/((en|pt)\/)?login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?user\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?explore$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?create\/quiz$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?create\/quiz\/cover$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?quiz\/.+\/taking$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?quiz\/.+\/comments$/, actionWhenAuth: 'next' },
+    { src: /^\/((en|pt)\/)?quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
+];
 
 export function middleware(req: NextRequest) {
     let path = req.nextUrl.pathname; 

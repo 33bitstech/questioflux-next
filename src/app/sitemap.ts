@@ -3,25 +3,31 @@ import { getAllQuizzes, getUsers } from './actions';
 import IQuizes from '@/interfaces/IQuizes';
 import { IUser } from '@/interfaces/IUser';
 
-const createUrlObject = (
+const createLocalizedUrls = (
     baseUrl: string,
     locales: string[],
     path: string,
     lastModified: Date,
     changeFrequency: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never',
     priority: number
-) => {
-    return {
-        url: `${baseUrl}${path}`,
-        lastModified,
-        changeFrequency,
-        priority,
-        alternates: {
-            languages: Object.fromEntries(
-                locales.map((locale) => [locale, `${baseUrl}/${locale}${path === '/' ? '' : path}`])
-            ),
-        },
-    };
+): MetadataRoute.Sitemap => {
+    const localizedPath = path === '/' ? '' : path;
+
+    const alternateUrls = Object.fromEntries(
+        locales.map((altLocale) => [altLocale, `${baseUrl}/${altLocale}${localizedPath}`])
+    );
+
+    return locales.map((locale) => {
+        return {
+            url: `${baseUrl}/${locale}${localizedPath}`,
+            lastModified,
+            changeFrequency,
+            priority,
+            alternates: {
+                languages: alternateUrls,
+            },
+        };
+    });
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -42,12 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { url: '/subscription/vortexplususage', priority: 0.6, changeFrequency: 'yearly' as const },
     ];
 
-    const staticUrls = staticRoutes.map(route => 
-        createUrlObject(baseUrl, locales, route.url, now, route.changeFrequency, route.priority)
-    );
+    const staticUrls = staticRoutes.flatMap(route => 
+        createLocalizedUrls(baseUrl, locales, route.url, now, route.changeFrequency, route.priority)
+    )
 
     const quizzes = await getAllQuizzes();
-    console.log(quizzes, "akldfjlf quizzes !!!!!")
+
     const quizUrls = quizzes.flatMap((quiz: IQuizes) => {
         const quizPaths = [
             { path: `/quiz/${quiz.quizId}`, priority: 0.9, changefreq: 'weekly' as const },
@@ -59,17 +65,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         
         const lastModified = new Date(quiz.updated_at);
 
-        return quizPaths.map(p => 
-            createUrlObject(baseUrl, locales, p.path, lastModified, p.changefreq, p.priority)
+        return quizPaths.flatMap(p => 
+            createLocalizedUrls(baseUrl, locales, p.path, lastModified, p.changefreq, p.priority)
         );
     });
 
     const users = await getUsers();
-    console.log(users, 'users ajfklajflkfja|||||!!!')
-    const userUrls = users.map((user: IUser) => {
+
+    const userUrls = users.flatMap((user: IUser) => {
         const path = `/user/${user.userId}`;
         const lastModified = new Date(user.updated_at ?? Date.now());
-        return createUrlObject(baseUrl, locales, path, lastModified, 'monthly', 0.6);
+        return createLocalizedUrls(baseUrl, locales, path, lastModified, 'monthly', 0.6);
     });
     
     return [...staticUrls, ...quizUrls, ...userUrls];
