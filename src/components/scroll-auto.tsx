@@ -1,14 +1,14 @@
 'use client'
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { usePathname } from '@/i18n/navigation'; 
 
 export default function ScrollToTop() {
     const pathname = usePathname(); 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         window.scrollTo(0, 0);
-    }, [pathname]);
+    }, []);
 
     return null;
 }

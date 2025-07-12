@@ -9,6 +9,7 @@ import { useUser } from '@/contexts/userContext'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next/client'
+import LoadingReq from '../Loading/loading-req'
 
 interface IProps{
     styles: TStyles,
@@ -55,6 +56,7 @@ export default function TakingComponent({quiz, styles}:IProps) {
 
     return (
         <>
+            {loadingReq && <LoadingReq loading={loadingReq}/>}
             <div className={styles.header_quiz}>
                 <h1>{quiz?.title}</h1>
 

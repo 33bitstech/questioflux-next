@@ -5,7 +5,7 @@ import { useRouter } from '@/i18n/navigation'
 import React from 'react'
 
 interface IProps {
-    styles: TStyles,
+    styles?: TStyles,
     text:string
 }
 
@@ -14,7 +14,7 @@ export default function LogoutWidget({styles, text}:IProps) {
     
     return (
         <button 
-            className={`${styles.second_button}`} 
+            className={`${styles?.second_button}`} 
             onClick={()=>{
                 logout()
             }}

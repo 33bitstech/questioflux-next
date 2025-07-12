@@ -262,7 +262,13 @@ export default function QuestionsContainer({
                 <div className={styles.answers_actions}>
                     <button className={actualQuestion === 1 ? `${styles.hidden_button}` :''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
                     {actualQuestion === qtdQuestions ? (
-                        <button onClick={handleResult}>{t('navigation.results')}</button>
+                        <>
+                            {Object.keys(selectedAnswers).length == qtdQuestions &&
+                                <button onClick={handleResult}>
+                                    {t('navigation.results')}
+                                </button>
+                            }
+                        </>
                     ) : (
                         <button onClick={handleNextQuestion}>{t('navigation.next')}</button>
                     )}
