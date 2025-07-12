@@ -9,46 +9,58 @@ type PublicRoute = {
     actionWhenAuth: 'next' | 'redirect';
 };
 
-const publicRoutes: PublicRoute[] = [    
-    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/user\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/create\/quiz$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
-]
+const publicRoutes: PublicRoute[] = [
+    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' }, 
+    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' }, 
+    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' }, 
+    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' }, 
+    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/user\/[^/]+$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/create\/quiz$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' }, 
+];
 
 export function middleware(req: NextRequest) {
-    let path = req.nextUrl.pathname; 
+
+    const { pathname } = req.nextUrl;
+    const locales = ['en', 'pt'];
+
+    const pathnameHasLocale = locales.some(
+        (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    );
+
+    if (!pathnameHasLocale) {
+        const url = req.nextUrl.clone();
+        url.pathname = `/en${pathname}`;
+        return NextResponse.redirect(url);
+    }
+
+
     const authToken = req.cookies.get('token');
     const requestHeaders = new Headers(req.headers)
-    const locale = path.split('/')[1] == 'en' || path.split('/')[1] == 'pt' ? path.split('/')[1] : 'en'
+    const locale = pathname.split('/')[1]
 
     const defaultPrivateRoute = `/${locale}/home`; 
     const defaultPublicRoute = `/${locale}/login`;
 
-    if(path == '/' || path == '') path = `/${locale}`
-
-    requestHeaders.set('x-pathname', path)
+    requestHeaders.set('x-pathname', pathname)
 
     const publicRoute = publicRoutes.find(route => {
         if (route.src instanceof RegExp) {
-            return route.src.test(path);
+            return route.src.test(pathname);
         }
-        return route.src === path;
+        return route.src === pathname;
     });
 
-    if(path == `/${locale}` && !authToken){
+    if(pathname == `/${locale}` && !authToken){
         const url = req.nextUrl.clone()
-        url.pathname = path
+        url.pathname = pathname
         return NextResponse.rewrite(url);
     }
 
@@ -67,6 +79,8 @@ export function middleware(req: NextRequest) {
     if (publicRoute && authToken && publicRoute.actionWhenAuth === 'redirect') {
         const redirectUrl = req.nextUrl.clone();
         redirectUrl.pathname = defaultPrivateRoute;
+        
+        console.log(redirectUrl)
         return NextResponse.redirect(redirectUrl);
     }
 
