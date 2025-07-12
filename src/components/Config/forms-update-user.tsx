@@ -31,6 +31,9 @@ export default function FormsUpdataUser({styles}: IProps) {
     const preventSubmit = (e:FormEvent) => e.preventDefault(),
         onFileChange = (file: File | null) => setImageValue(file),
         handleResetInputs = ()=>{
+            setUsername('')
+            setEmail('')
+            setPassword('')
             setEditUsername(false)
             setEditEmail(false)
             setEditPassword(false)
@@ -74,7 +77,10 @@ export default function FormsUpdataUser({styles}: IProps) {
                     <h2>{t('mainTitle')}</h2>
                     <p>{t.rich('saveWarning', { bold: (chunks) => <span>{chunks}</span> })}</p>
                 </span>
-                <button onClick={handleSaveConfig}>{t('saveButton')}</button>
+                {(username || password || email || imageValue) && <>
+                    <button onClick={handleSaveConfig}>{t('saveButton')}</button>
+                </>}
+                
             </div>
 
             {loading && <LoadingReq loading={loading}/>}
@@ -84,7 +90,10 @@ export default function FormsUpdataUser({styles}: IProps) {
                 <form className={styles.form_account} onSubmit={preventSubmit}>
                     <InputEdit 
                         styles={styles} 
-                        toggleEditing={()=>setEditUsername(state=>!state)} 
+                        toggleEditing={()=>setEditUsername(state=>{
+                            setUsername('')
+                            return !state
+                        })} 
                         isEditing={editUsername} 
                         label='username' 
                         spanValue={user?.name} 
@@ -96,7 +105,10 @@ export default function FormsUpdataUser({styles}: IProps) {
                     />
                     <InputEdit 
                         styles={styles} 
-                        toggleEditing={()=>setEditEmail(state=>!state)} 
+                        toggleEditing={()=>setEditEmail(state=>{
+                            setEmail('')
+                            return !state
+                        })} 
                         isEditing={editEmail} label='email' 
                         spanValue={user?.email} 
                         value={email} 
@@ -107,7 +119,10 @@ export default function FormsUpdataUser({styles}: IProps) {
                     />
                     <InputEdit 
                         styles={styles} 
-                        toggleEditing={()=>setEditPassword(state=>!state)} 
+                        toggleEditing={()=>setEditPassword(state=>{
+                            setPassword('')
+                            return !state
+                        })} 
                         isEditing={editPassword} 
                         label='password' 
                         spanValue={'********'} 

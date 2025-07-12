@@ -548,5 +548,9 @@
             "searchByTags": "Filtra quizzes por tags (ex: 'cinema', 'historia').",
             "searchByCategories": "Filtra quizzes por categorias (ex: 'conhecimentos-gerais', 'cultura-pop')."
         }
+    },
+    "badgesDesc":{
+        "vortexplus":"Assinante Vortexplus! Crie quizzes sem limitações com acesso a todos os benefícios premium.",
+        "vortexplususage":"Uso Premium: {qtd} uso(s) disponível(is) para criar seu próximo quiz."
     }
 }

@@ -7,6 +7,7 @@ import IQuizes from '@/interfaces/IQuizes';
 import QuizPageImgContainer from '@/components/ImagesRender/quiz-page-img-render';
 import NavLink from '@/components/widgets/NavLink';
 import { getTranslations } from 'next-intl/server'; // Importar
+import ScrollToTop from '@/components/scroll-auto';
 
 interface IProps {
     children: ReactNode,
@@ -38,6 +39,9 @@ export default async function LayoutQuizGroup({children, params}: IProps) {
 
     return (
         <main className={styles.content}>
+
+            <ScrollToTop />
+
             <ContextualHeaderActions page='quiz' locale={locale}/>
 
             <div className={styles.image_quiz_container}>
