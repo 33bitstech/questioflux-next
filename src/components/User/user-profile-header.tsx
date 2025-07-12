@@ -22,17 +22,26 @@ export default function UserProfileHeader({userP}: IProps) {
     
 
     useEffect(()=>{
-        const get = async() =>{
-            try {
-                const res = await verifyUserPremium(`${token}`)
-                if(res.err) return setError(res.err)
-                setPremiumStatus(res.premium)
-            } catch (err) {
-                console.log(err)
+        if(!userP){
+            const get = async() =>{
+                try {
+                    
+                    const res = await verifyUserPremium(`${token}`)
+                    if(res.err) return setError(res.err)
+                    setPremiumStatus(res.premium)
+                } catch (err) {
+                    console.log(err)
+                }
             }
+            get()
+        }else{
+            setPremiumStatus({
+                premium: userP.premium ?? false,
+                specialCount: userP.specialCount ?? 0
+            })
         }
-        get()
     },[])
+
     return (
         <div className={styles.profile_container}>
             <div className={styles.image_container}>
