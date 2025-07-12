@@ -19,8 +19,6 @@ export default function BadgeContainer({children, premiumStatus, typeBadge}:IPro
         Vortexplususage: t('vortexplususage', {qtd:premiumStatus.specialCount})
     }
 
-    console.log(premiumStatus)
-
     return (
         <div className={styles.badge_container}>
             {children}
