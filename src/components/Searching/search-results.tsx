@@ -20,7 +20,7 @@ export default function SearchResults({styles, defaultQuizzes} : IProps) {
     const t = useTranslations('explorePage.buttons'); 
     
     
-    const {filtersSelected} = useFilters(),
+    const {filtersSelected, typeQuizSelected} = useFilters(),
         {searchQuiz} = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
         [results, setResults] = useState<IQuizes[]>(),
@@ -35,23 +35,9 @@ export default function SearchResults({styles, defaultQuizzes} : IProps) {
 
     const handleViewMore = ()=>{ setVisibleQuizzesQtd(()=>visibleQuizzesQtd+9) },
         handleViewLess = ()=>{ setVisibleQuizzesQtd(9); setViewAllExplore(false) },
-        handleFilteringQuizzes = () =>{ setResults(results?.filter(quiz=>filtersSelected.includes(quiz.category))) }
+        handleFilteringQuizzes = () =>{ setResults(results?.filter(quiz=>filtersSelected.includes(quiz.category))) },
+        handleFilterImageQuizzes = ()=>{ setResults(results?.filter(quiz=>quiz.type === 'image/RW')) }
 
-   /*  useEffect(()=>{
-        const get = async ()=>{
-            try {
-                const quizzes = await getQuizzes()
-                
-                setQuizzes(quizzes)
-                setResults(quizzes)
-                setLoading(false)
-            } catch (err) {
-                console.log(err)
-                setLoading(false)
-            }
-        }
-        get()
-    },[]) */
     useEffect(()=>{
         if(filtersSelected.length > 0) {
             handleFilteringQuizzes()
@@ -59,6 +45,13 @@ export default function SearchResults({styles, defaultQuizzes} : IProps) {
             setResults(quizzes)
         }
     },[filtersSelected])
+    useEffect(()=>{
+        if(typeQuizSelected === 'Image') {
+            handleFilterImageQuizzes()
+        }if (typeQuizSelected === 'All' ){
+            setResults(quizzes)
+        }
+    },[typeQuizSelected])
     useEffect(()=>{
         if(title || tags || categories){
             const get = async () =>{

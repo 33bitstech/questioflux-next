@@ -21,7 +21,7 @@ export default function FeaturedsContainer({styles, defaultQuizzes}: IProps) {
     const sp = useSearchParams(),
         isSearching = sp.size > 0,
         [popular, setPopular] = useState<IQuizes[]>(),
-        {filtersSelected} = useFilters(),
+        {filtersSelected, typeQuizSelected} = useFilters(),
         [loading, setLoading] = useState(false)
 
     useEffect(()=>{
@@ -44,7 +44,7 @@ export default function FeaturedsContainer({styles, defaultQuizzes}: IProps) {
         get()
     },[]) */
 
-    if(isSearching || filtersSelected.length > 0) return null
+    if(isSearching || filtersSelected.length > 0 || typeQuizSelected !== 'All') return null
     return (
         <div className={styles.results}>
             <h3>{t('featuredTitle')}</h3>
