@@ -5,6 +5,8 @@ import { TFilter } from '@/types/filtersType'
 import CategoriesList from './categories-list'
 import { useFilters } from '@/contexts/filtersContext'
 import { useTranslations } from 'next-intl' // 1. Importar o hook
+import { TTypeQuiz } from '@/types/quizzesType'
+import TypesList from './types-list'
 
 interface IProps{
     setFilterClicked: () => void
@@ -12,14 +14,15 @@ interface IProps{
 
 export default function FiltersContainer({setFilterClicked}: IProps) {
     const t = useTranslations('filters'); // 2. Inicializar o hook
-    const {selectFilters, filtersSelected} = useFilters();
-    const [filters, setFilters] = useState<TFilter[]>(filtersSelected);
+    const {selectFilters, filtersSelected, typeQuizSelected, selectType} = useFilters();
+
+    const [filters, setFilters] = useState<TFilter[]>(filtersSelected),
+        [typeQ, setTypeQ] = useState<TTypeQuiz>(typeQuizSelected)
 
     const handleApply = ()=>{
-        if (filters) {
-            selectFilters(filters)
-            setFilterClicked()
-        }
+        if (filters) selectFilters(filters)
+        if (typeQ) selectType(typeQ)
+        setFilterClicked()
     }
 
     return (
@@ -28,16 +31,14 @@ export default function FiltersContainer({setFilterClicked}: IProps) {
                 {/* 3. Usar as traduções */}
                 <div className={styles.quiz_types}>
                     <p>{t('quizTypeTitle')}</p>
-                    <ul>
-                        <li className={styles.active_li}>{t('quizTypes.all')}</li>
-                        <li className={`${styles.types_soon}`}>{t('quizTypes.personality')}</li>
-                        <li className={`${styles.types_soon}`}>{t('quizTypes.image')}</li>
-                        <li className={`${styles.types_soon}`}>{t('quizTypes.rightAndWrong')}</li>
-                    </ul>
+                    <TypesList
+                        setTypeQ={setTypeQ}
+                        styles={styles}
+                        typeQ={typeQ}
+                    />
                 </div>
                 <div className={styles.categories}>
                     <p>{t('categoryTitle')}</p>
-                    {/* O componente CategoriesList é renderizado aqui */}
                     <CategoriesList styles={styles} filters={filters} setFilters={setFilters}/>
                 </div>
             </div>

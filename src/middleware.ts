@@ -78,9 +78,7 @@ export function middleware(req: NextRequest) {
     // Ação: Redireciona para a página principal do usuário logado (ex: /home)
     if (publicRoute && authToken && publicRoute.actionWhenAuth === 'redirect') {
         const redirectUrl = req.nextUrl.clone();
-        redirectUrl.pathname = defaultPrivateRoute;
-        
-        console.log(redirectUrl)
+        redirectUrl.pathname = defaultPrivateRoute;        
         return NextResponse.redirect(redirectUrl);
     }
 

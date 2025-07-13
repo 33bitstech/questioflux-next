@@ -2,12 +2,17 @@
 
 import { createContext, ReactNode, useContext, useState } from "react"
 import { TFilter, TFilterPt } from "@/types/filtersType"
+import { TTypeQuiz, TTypeQuizPt } from "@/types/quizzesType"
 
 interface IFiltersContext {
     filters: TFilter[]
     filtersPt: TFilterPt[],
     filtersSelected: TFilter[],
-    selectFilters: (filters: TFilter[]) => void
+    selectFilters: (filters: TFilter[]) => void,
+    typesQuiz: TTypeQuiz[],
+    typesQuizPt: TTypeQuizPt[],
+    typeQuizSelected: TTypeQuiz,
+    selectType: (type: TTypeQuiz) => void
 }
 
 const FiltersContext = createContext({} as IFiltersContext)
@@ -21,13 +26,25 @@ export function FilterProvider({children} : {children : ReactNode}){
     ],
     [filtersSelected, setFiltersSelected] = useState<TFilter[]>([]),
 
+    typesQuiz: TTypeQuiz[] = [
+        'All', "Personality", "Image", "Right and Wrong"
+    ],
+    typesQuizPt: TTypeQuizPt[] = [
+        'Todos', "Personalidade", "Imagem", "Certo e Errado"
+    ],
+    [typeQuizSelected, setTypeQuizSelected] = useState<TTypeQuiz>('All'),
+
     selectFilters = (filters: TFilter[]) => {
         setFiltersSelected(filters)
+    },
+    selectType = (type: TTypeQuiz)=>{
+        setTypeQuizSelected(type)
     }
 
     return (
         <FiltersContext.Provider value={{
-            filters, filtersSelected, selectFilters, filtersPt
+            filters, filtersSelected, selectFilters, filtersPt,
+            selectType, typeQuizSelected, typesQuiz, typesQuizPt
         }}>
             {children}
         </FiltersContext.Provider>
