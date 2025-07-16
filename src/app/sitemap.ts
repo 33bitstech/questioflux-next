@@ -44,8 +44,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { url: '/about-us', priority: 0.8, changeFrequency: 'monthly' as const },
         { url: '/create/quiz', priority: 0.9, changeFrequency: 'monthly' as const },
         { url: '/create/quiz/cover', priority: 0.7, changeFrequency: 'yearly' as const },
-        { url: '/subscription/vortexplus', priority: 0.6, changeFrequency: 'yearly' as const },
-        { url: '/subscription/vortexplususage', priority: 0.6, changeFrequency: 'yearly' as const },
     ];
 
     const staticUrls = staticRoutes.flatMap(route => 
@@ -57,10 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const quizUrls = quizzes.flatMap((quiz: IQuizes) => {
         const quizPaths = [
             { path: `/quiz/${quiz.quizId}`, priority: 0.9, changefreq: 'weekly' as const },
-            { path: `/quiz/${quiz.quizId}/taking`, priority: 0.6, changefreq: 'weekly' as const },
-            { path: `/quiz/${quiz.quizId}/comments`, priority: 0.6, changefreq: 'weekly' as const },
             { path: `/quiz/${quiz.quizId}/leaderboard`, priority: 0.6, changefreq: 'weekly' as const },
-            { path: `/quiz/${quiz.quizId}/results`, priority: 0.6, changefreq: 'weekly' as const },
         ];
         
         const lastModified = new Date(quiz.updated_at);

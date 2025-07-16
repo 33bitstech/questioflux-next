@@ -54,7 +54,7 @@ export default async function Subscription({params}:IProps) {
                         <h1>{type}</h1>
                         <p>
                             {
-                                type == 'vortexplususage'
+                                type == 'questioplususage'
                                     ? t('descriptionUsage')
                                     : t('descriptionPlus')
                             }

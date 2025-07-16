@@ -21,7 +21,7 @@ const VortexPlusUniqueUse = () => {
                 <span>{t('singleUse.price')}</span>
 
                 <a 
-                    href={`/${locale}/subscription/vortexplususage` }
+                    href={`/${locale}/subscription/questioplususage` }
                     target='_blank'
                     rel="noopener noreferrer"
                     className={styles.link}

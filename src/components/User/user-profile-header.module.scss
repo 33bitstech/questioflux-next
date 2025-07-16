@@ -58,7 +58,7 @@
         }
     }
     .profile_actions{
-        p{
+        h1{
             @include vars.styleTexto(var(--text-primary), 1.875rem, 700);
         }
     }

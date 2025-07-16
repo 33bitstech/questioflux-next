@@ -38,7 +38,7 @@ export async function generateMetadata({params}:IProps): Promise<Metadata> {
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             locale: locale == 'pt' ? 'pt_BR' : 'en_US',
             type: 'website',
-            siteName: 'Quiz Vortex',
+            siteName: 'QuestioFlux',
         },
         twitter: {
             title: t('metadataTitle'),

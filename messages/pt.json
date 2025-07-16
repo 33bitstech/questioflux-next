@@ -9,8 +9,8 @@
     "landingPage": {
         "hero": {
             "titleLine1": "Crie seu <bold>quiz personalizado</bold> e compartilhe",
-            "titleLine2": "com seus amigos usando o <bold>Quiz vortex</bold>",
-            "subtitle": "Quiz Vortex: Criador de Quiz Grátis - Crie Quizzes Divertidos com Imagens",
+            "titleLine2": "com seus amigos usando o <bold>QuestioFlux</bold>",
+            "subtitle": "QuestioFlux: Criador de Quiz Grátis - Crie Quizzes Divertidos com Imagens",
             "ctaButton": "Comece Agora",
             "exploreButton": "Explorar"
         },
@@ -64,7 +64,7 @@
     },
     "registerPage": {
         "metadataTitle": "Registre-se",
-        "metadataDesc": "Cadastre-se no Quiz Vortex para criar e responder a quizzes, acompanhar suas pontuações e juntar-se à nossa comunidade de entusiastas de quizzes. O cadastro é rápido e fácil.",
+        "metadataDesc": "Cadastre-se no QuestioFlux para criar e responder a quizzes, acompanhar suas pontuações e juntar-se à nossa comunidade de entusiastas de quizzes. O cadastro é rápido e fácil.",
         "title": "Bem-vindo(a) ao <bold>QuizVortex</bold>"
     },
     "loginPage": {
@@ -154,7 +154,7 @@
             "feature4": "Até 15 alternativas para suas perguntas"
         },
         "subscription": {
-            "title": "Melhore sua experiência com o VortexPlus",
+            "title": "Melhore sua experiência com o QuestioPlus",
             "price": "R$ 2,50/mês",
             "ctaButton": "Assine Agora"
         },
@@ -204,13 +204,13 @@
         "subscriptionContainer": {
             "activeTitle": "Ativas ({count})",
             "vortexPlus": {
-                "title": "VortexPlus",
+                "title": "QuestioPlus",
                 "price": "R$ 2,50/mês",
                 "subscribeButton": "Assinar",
                 "unsubscribeButton": "Cancelar Assinatura"
             },
             "vortexPlusUsage": {
-                "title": "Uso de VortexPlus ({count})",
+                "title": "Uso de QuestioPlus ({count})",
                 "price": "R$ 1,99/uso",
                 "buyButton": "Comprar"
             }
@@ -237,7 +237,7 @@
         }
     },
     "explorePage": {
-        "metadataTitle": "Explorar Quizzes Populares - Descubra e Jogue no Quiz Vortex",
+        "metadataTitle": "Explorar Quizzes Populares - Descubra e Jogue no QuestioFlux",
         "metadataDesc":"Navegue e descubra milhares de quizzes criados por usuários sobre todos os tópicos imagináveis. Encontre os quizzes mais populares e em alta, desafie seus amigos e teste seu conhecimento.",
         "mainTitle": "Explore quizzes já criados",
         "featuredTitle": "Mais Populares",
@@ -264,7 +264,7 @@
     },
     "quizInfoPage": {
         "metadata":{
-            "title": "Um Quiz de {quiz_name} no Quiz Vortex",
+            "title": "Um Quiz de {quiz_name} no QuestioFlux",
             "desc": "Faça este quiz {quiz_name} criado por {name} e teste seu conhecimento!",
             "actions":{
                 "take": "Fazer o Quiz"
@@ -338,13 +338,13 @@
         "customTitle": "Quizzes publicos desse usuário",
         "metadata":{
             "title":"Perfil e Quizzes de {name_user} no QuizVortex",
-            "desc": "Veja o perfil de {name_user} no Quiz Vortex. Confira todos os quizzes que ele(a) criou, suas pontuações mais altas e sua atividade na plataforma",
+            "desc": "Veja o perfil de {name_user} no QuestioFlux. Confira todos os quizzes que ele(a) criou, suas pontuações mais altas e sua atividade na plataforma",
             "createdQuizzesName": "Quizzes criados por {name_user}"
         }
     },
     "createQuizFlow": {
         "layout": {
-            "metadataTitle": "Crie um Novo Quiz - Criador de Quizzes Quiz Vortex"
+            "metadataTitle": "Crie um Novo Quiz - Criador de Quizzes QuestioFlux"
         },
         "selectTypePage": {
             "title": "Crie seu quiz",
@@ -415,7 +415,7 @@
                 "textAndImage": "Texto e Imagem"
             },
             "premiumWarning": {
-                "popupText": "A opção 'Texto e Imagem' está disponível para nossos usuários premium. Para habilitá-la, assine o <vortexplus>vortexplus</vortexplus> para acesso ilimitado ou compre um passe de uso único para este quiz."
+                "popupText": "A opção 'Texto e Imagem' está disponível para nossos usuários premium. Para habilitá-la, assine o <vortexplus>QuestioPlus</vortexplus> para acesso ilimitado ou compre um passe de uso único para este quiz."
             }
         },
         "questionsForm": {
@@ -541,8 +541,8 @@
         "sucess":"Pagamento realizado com sucesso!"
     },
     "mainMetadata":{
-        "desc": "Crie seu próprio quiz com o Quiz Vortex! Um criador de quizzes poderoso e divertido para construir e compartilhar testes com amigos. Adicione imagens, personalize perguntas e veja quem chega ao topo do ranking. Comece a criar hoje!",
-        "title":"Quiz Vortex - Criador de Quiz",
+        "desc": "Crie seu próprio quiz com o QuestioFlux! Um criador de quizzes poderoso e divertido para construir e compartilhar testes com amigos. Adicione imagens, personalize perguntas e veja quem chega ao topo do ranking. Comece a criar hoje!",
+        "title":"QuestioFlux - Criador de Quiz",
         "query_inputs":{
             "searchByTitle": "Busca por um quiz com um título específico.",
             "searchByTags": "Filtra quizzes por tags (ex: 'cinema', 'historia').",
@@ -550,7 +550,7 @@
         }
     },
     "badgesDesc":{
-        "vortexplus":"Assinante Vortexplus! Crie quizzes sem limitações com acesso a todos os benefícios premium.",
-        "vortexplususage":"Uso Premium: {qtd} uso(s) disponível(is) para criar seu próximo quiz."
+        "questioplus":"Assinante QuestioPlus! Crie quizzes sem limitações com acesso a todos os benefícios premium.",
+        "questioplususage":"Uso Premium: {qtd} uso(s) disponível(is) para criar seu próximo quiz."
     }
 }

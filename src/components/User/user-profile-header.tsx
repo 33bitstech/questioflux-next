@@ -51,14 +51,14 @@ export default function UserProfileHeader({userP}: IProps) {
             </div>
             <div className={styles.profile_actions}>
                 <div className={styles.Username}>
-                    <p>{userP?.name || user?.name || ''}</p>
+                    <h1>{userP?.name || user?.name || ''}</h1>
                 </div>
                 <div className={styles.badges}>
                     {premiumStatus && <>
                         {premiumStatus.premium && 
                             <BadgeContainer 
                                 premiumStatus={premiumStatus}
-                                typeBadge='Vortexplus'
+                                typeBadge='Questioplus'
                             >
                                 <VortexplusBadge/>
                             </BadgeContainer>
@@ -67,7 +67,7 @@ export default function UserProfileHeader({userP}: IProps) {
                         {premiumStatus.specialCount > 0 && 
                             <BadgeContainer 
                                 premiumStatus={premiumStatus}
-                                typeBadge='Vortexplususage'
+                                typeBadge='Questioplususage'
                             >
                                 <VortexplususageBadge/>
                             </BadgeContainer>
