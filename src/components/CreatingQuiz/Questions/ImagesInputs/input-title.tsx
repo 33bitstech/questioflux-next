@@ -3,6 +3,7 @@ import UploadImageSvg from '@/components/Icons/UploadImageSvg'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions'
 import { TStyles } from '@/types/stylesType'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
@@ -14,7 +15,9 @@ interface IProps{
 
 export default function InputTitle({styles, onQuestionImageChange, question}:IProps) {
     const [questionDraft, setQuestionDraft] = useState<string>(''),
-        {setError} = useGlobalMessage()
+        {setError} = useGlobalMessage(),
+
+        t = useTranslations('profileUpload')
 
     const handleImageQuestion = (e:ChangeEvent<HTMLInputElement>) =>{
         const files = e.target.files
@@ -22,7 +25,7 @@ export default function InputTitle({styles, onQuestionImageChange, question}:IPr
         
         let image = files[0]
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
-            setError('Invalid file type!')
+            setError(t('errorInvalidType'))
             return 
         }
         setQuestionDraft(URL.createObjectURL(image))

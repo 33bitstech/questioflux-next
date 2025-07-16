@@ -52,6 +52,8 @@ export default function TimerContainer({styles, quiz, setStarted, started, initi
                 quality={100}
                 onLoad={()=>setLoading(false)}
                 onError={()=>setLoading(false)}
+                fetchPriority='high'
+                loading='lazy'
             />
             <div className={styles.time}>
                 <div className={styles.timer}>

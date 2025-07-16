@@ -43,6 +43,8 @@ export default function QuizPageImgRender({quiz}: {quiz:IQuizes}) {
                     setIsLoading(false)
                 }}
                 src={imageSrc}
+                fetchPriority='high'
+                loading='lazy'
             />
         </>
     )

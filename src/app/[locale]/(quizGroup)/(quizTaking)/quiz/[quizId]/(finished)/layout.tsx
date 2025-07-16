@@ -47,6 +47,8 @@ export default async function LayoutTaking({children, params}: IProps) {
                         width={800}
                         height={800}
                         quality={100}
+                        fetchPriority='high'
+                        loading='lazy'
                     />
                 </div>
 
