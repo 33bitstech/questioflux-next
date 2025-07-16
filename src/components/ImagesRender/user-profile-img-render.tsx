@@ -50,6 +50,8 @@ export default function UserProfileImgRender({height=500, width=500, user, quali
                 width={width}
                 height={height}
                 quality={quality}
+                fetchPriority='high'
+                loading='lazy'
             />
 
         </>

@@ -12,6 +12,13 @@ import {routing} from '@/i18n/routing';
 import { getMessages, getTranslations } from "next-intl/server";
 import { env } from "@/env";
 import Script from "next/script";
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-inter',
+});
 
 export async function generateMetadata({params}:{params:Promise<{locale:string}>}) : Promise<Metadata> {
     const {locale} = await params
@@ -125,7 +132,7 @@ export default async function RootLayout({
     const t = await getTranslations({locale, namespace: "mainMetadata"})
 
     return (
-        <html lang={locale} suppressHydrationWarning>
+        <html lang={locale} className={inter.variable} suppressHydrationWarning>
 
             <head>
                 <script

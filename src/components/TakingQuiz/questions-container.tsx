@@ -227,6 +227,8 @@ export default function QuestionsContainer({
                             quality={100}
                             placeholder='blur'
                             blurDataURL={blurLoading}
+                            fetchPriority='high'
+                            loading='lazy'
                         />
                     </div>
                     <div className={styles.footer_question}>
@@ -250,7 +252,9 @@ export default function QuestionsContainer({
                                     src={typeof answer === 'object' && answer !== null && 'thumbnail' in answer ? answer.thumbnail : ''} 
                                     alt={t('imageAlts.alternative')} 
                                     placeholder='blur'
-                                    blurDataURL={blurLoading}   
+                                    blurDataURL={blurLoading} 
+                                    fetchPriority='high'
+                                    loading='lazy'  
                                 />
                             </div>
                             <div className={styles.footer_question}>

@@ -55,6 +55,8 @@ export default function ProfileUploadComponent({ onFileChange }: ImageUploaderPr
                             quality={10}
                             width={400}
                             height={400}
+                            fetchPriority='high'
+                            loading='lazy'
                         />
                     ) : (
                         <UploadImageSvg />
