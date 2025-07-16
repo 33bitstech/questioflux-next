@@ -30,11 +30,11 @@ export default function ShareContainer({closeShareContainer, quizId}:IProps) {
 
             <section className={styles.apps_share}>
                 {/* Link do Whatsapp agora usa o texto traduzido */}
-                <a href={`whatsapp://send?text=${whatsappText} https://www.quizvortex.site/quiz/${quizId}`} target='_blank' className={styles.app}>
+                <a href={`whatsapp://send?text=${whatsappText} https://www.questioflux.com/${locale}/quiz/${quizId}`} target='_blank' className={styles.app}>
                     <WhatsappSvg/>
                     <p>Whatsapp</p>
                 </a>
-                <a target='_blank' href={`https://www.facebook.com/sharer/sharer.php?u=https://www.quizvortex.site/quiz/${quizId}`} className={styles.app}>
+                <a target='_blank' href={`https://www.facebook.com/sharer/sharer.php?u=https://www.questioflux.com/${locale}/quiz/${quizId}`} className={styles.app}>
                     <FacebookSvg/>
                     <p>Facebook</p>
                 </a>
