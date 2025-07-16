@@ -41,7 +41,7 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
             title: t('title'),
             description: t('desc'),
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`, 
-            siteName: 'Quiz Vortex',
+            siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             locale: locale == 'pt' ? 'pt_BR' : 'en_US',
             type: 'website',
@@ -56,7 +56,7 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
 }
 
 const siteConfig = {
-    name: "Quiz Vortex",
+    name: "QuestioFlux",
     domain: `${env.NEXT_PUBLIC_DOMAIN_FRONT}`,
     logo: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/site-icon-dark.svg`,
 }

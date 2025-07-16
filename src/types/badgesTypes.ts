@@ -1,3 +1,3 @@
 export type TBadges = 
-    | 'Vortexplus'
-    | 'Vortexplususage'
+    | 'Questioplus'
+    | 'Questioplususage'

@@ -59,7 +59,7 @@ export async function generateMetadata({params}: IProps) : Promise<Metadata> {
     return {
         title: t('title', names),
         description: t('desc', names),
-        robots: `${quiz.isPrivate ? '': 'index, follow'}`,
+        robots: `${quiz.isPrivate ? 'noindex': 'index, follow'}`,
         keywords: "quiz, user, take, save, share",
         alternates:{
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
@@ -69,8 +69,9 @@ export async function generateMetadata({params}: IProps) : Promise<Metadata> {
             title: t('title', names),
             description: t('desc', names),
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`, 
-            siteName: 'Quiz Vortex',
+            siteName: 'QuestioFlux',
             images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
+            type: 'website'
         },
         twitter: {
             title: t('title', names),

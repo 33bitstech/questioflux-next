@@ -21,7 +21,7 @@ const VortexPlus = () => {
                 <span>{t('subscription.price')}</span>
                 
                 <a 
-                    href={`/${locale}/subscription/vortexplus` }
+                    href={`/${locale}/subscription/questioplus` }
                     target='_blank'
                     rel="noopener noreferrer"
                     className={styles.link}

@@ -15,8 +15,8 @@ export default function BadgeContainer({children, premiumStatus, typeBadge}:IPro
     const t = useTranslations('badgesDesc')
 
     const descriptions = {
-        Vortexplus: t('vortexplus'),
-        Vortexplususage: t('vortexplususage', {qtd:premiumStatus.specialCount})
+        Questioplus: t('questioplus'),
+        Questioplususage: t('questioplususage', {qtd:premiumStatus.specialCount})
     }
 
     return (

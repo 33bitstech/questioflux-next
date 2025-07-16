@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         openGraph: {
             title: t('layout.metadataTitle'),
             description: t('selectTypePage.desc'),
-            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/create/quiz`, 
-            siteName: 'Quiz Vortex',
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz`, 
+            siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             locale: locale == 'pt' ? 'pt_BR' : 'en_US',
             type: 'website',

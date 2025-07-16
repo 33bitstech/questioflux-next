@@ -12,7 +12,7 @@ export default function GamepassWidget() {
                 onClick={() => setOpenVortexPlus(!openVortexPlus)}
                 className={openVortexPlus ? 'active' : ''}
             >
-                VortexPlus
+                QuestioPlus
             </button>
             {openVortexPlus && (
                 <div className='gamepass-vortexplus'>

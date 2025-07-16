@@ -59,8 +59,9 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
             title: t('title', names),
             description: t('desc', names),
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${userId}`, 
-            siteName: 'Quiz Vortex',
+            siteName: 'QuestioFlux',
             images: user?.profileImg != 'default' && user?.profileImg ? user?.profileImg : `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
+            type: 'website'
         },
         twitter: {
             title: t('title', names),
