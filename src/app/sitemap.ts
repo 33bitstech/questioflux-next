@@ -31,7 +31,7 @@ const createLocalizedUrls = (
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://www.quizvortex.site';
+    const baseUrl = 'https://www.questioflux.com';
     const locales = ['en', 'pt'];
     const now = new Date();
 

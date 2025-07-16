@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /api/
 Disallow: /quiz/*/taking
 
-Sitemap: https://www.quizvortex.site/sitemap.xml
+Sitemap: https://www.questioflux.com/sitemap.xml
