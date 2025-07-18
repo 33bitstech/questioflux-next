@@ -29,7 +29,7 @@ export default function InputImageQuiz({ onFileChange, originalImage}: ImageUplo
         if (!image.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)) {
             setError(t('sharedErrors.invalidFileType'))
             onFileChange(null); 
-        return;
+            return;
         }
 
         setDraftImage(URL.createObjectURL(image));

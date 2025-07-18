@@ -5,6 +5,7 @@ import RescuePasswordForm from '@/components/AuthForms/Auth-client-components/re
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
+import { env } from '@/env'
 
 interface IProps {
     params: Promise<{ locale: string }>;
@@ -13,8 +14,19 @@ interface IProps {
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const {locale} = await params
     const t = await getTranslations({ locale, namespace: 'rescuePasswordFlow.rescuePage' });
+
+    const langs = {
+        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz/cover`,
+        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/create/quiz/cover`,
+        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz/cover`
+    }
+
     return {
-        title: t('metadataTitle')
+        title: t('metadataTitle'),
+        alternates:{
+            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz/cover`,
+            languages: langs
+        }
     }
 }
 

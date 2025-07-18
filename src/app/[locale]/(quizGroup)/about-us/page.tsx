@@ -3,6 +3,7 @@ import styles from './About.module.scss'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import { env } from '@/env';
 
 
 interface IProps{
@@ -13,8 +14,19 @@ interface IProps{
 export async function generateMetadata({params}:IProps) : Promise<Metadata> {
     const {locale} = await params
     const t = await getTranslations({locale, namespace: 'aboutPage'});
+    
+    const langs = {
+        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/about-us`,
+        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/about-us`,
+        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/about-us`
+    }
+
     return {
-        title: t('metadataTitle')
+        title: t('metadataTitle'),
+        alternates:{
+            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/about-us`,
+            languages: langs
+        }
     }
 }
 
