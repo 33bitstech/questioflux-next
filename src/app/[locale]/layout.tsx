@@ -33,6 +33,7 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
     return {
         title: t('title'),
         description: t('desc'),
+        robots: `noindex`,
         alternates:{
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`,
             languages: langs
