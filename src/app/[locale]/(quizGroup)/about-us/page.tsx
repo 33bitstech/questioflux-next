@@ -23,6 +23,7 @@ export async function generateMetadata({params}:IProps) : Promise<Metadata> {
 
     return {
         title: t('metadataTitle'),
+        robots: `index, follow`,
         alternates:{
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/about-us`,
             languages: langs
