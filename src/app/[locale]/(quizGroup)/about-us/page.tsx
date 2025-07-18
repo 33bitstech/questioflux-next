@@ -26,6 +26,13 @@ export async function generateMetadata({params}:IProps) : Promise<Metadata> {
         alternates:{
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/about-us`,
             languages: langs
+        },
+        openGraph: {
+            title: t('metadataTitle'),
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`, 
+        },
+        twitter: {
+            title: t('metadataTitle'),
         }
     }
 }
