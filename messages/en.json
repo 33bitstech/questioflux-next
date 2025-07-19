@@ -298,6 +298,7 @@
     "commentsSection": {
         "title": "{count, plural, =0 {No Comments} =1 {1 Comment} other {# Comments}}",
         "noComments": "Be the first to comment!",
+        "noCommentsNoUser": "Log in or create an account to comment",
         "form": {
             "label": "Comment as <span>@{username}</span>",
             "placeholder": "Write your comment...",

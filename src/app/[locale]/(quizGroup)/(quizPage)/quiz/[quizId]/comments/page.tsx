@@ -55,6 +55,8 @@ export default async function Comment({params}: IProps) {
         getComments(quizId)
     ]);
 
+    const isCommentsEmpty = !comments || comments.length === 0
+
     return (
         <div className={styles.comment_area}>
             {/* Usar a tradução com pluralização */}
@@ -67,9 +69,10 @@ export default async function Comment({params}: IProps) {
                 token={token}
             />}
 
-            {!comments || comments.length === 0 && (<p className={styles.no_comment}>{t('noComments')}</p>)}
+            {isCommentsEmpty && user && (<p className={styles.no_comment}>{t('noComments')}</p>)}
+            {isCommentsEmpty && !user && (<p className={styles.no_comment}>{t('noCommentsNoUser')}</p>)}
 
-            {comments && comments.length > 0 && <div className={styles.comments}>
+            {!isCommentsEmpty && <div className={styles.comments}>
                 {comments?.map((com, index)=>(
                     <div key={index}>
                         {com && <CommentContainer
