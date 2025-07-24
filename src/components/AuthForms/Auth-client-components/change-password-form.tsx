@@ -25,6 +25,8 @@ export default function ChangePasswordForm({token,locale}:IProps) {
         [loading, setLoading] = useState<boolean>(false),
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
         {setSucess, setError: setGlobalError} = useGlobalMessage(),
+        [isPasswordHidden, setIsPasswordHidden] = useState(true),
+        [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true),
         route = useRouter()
 
     useEffect(()=>{
@@ -73,7 +75,7 @@ export default function ChangePasswordForm({token,locale}:IProps) {
                     route.push('/login')
                 }, 2000);
             }
-        }).catch(()=>setLoading(false))
+        }).catch(()=>setLoading(false)).finally(()=>setLoading(false))
     }
     
     return (
@@ -97,23 +99,27 @@ export default function ChangePasswordForm({token,locale}:IProps) {
                 <label htmlFor="password-id">{t('changePasswordPage.labels.newPassword')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}
-                    type='password'
+                    type={isPasswordHidden ? 'password' : 'text'}
                     value={password}
                     placeholder={t('shared.placeholderPassword')}
                     onChange={e=>setPassword(e.target.value)}
                     id='password-id'
                     error={getError('password')}
+                    onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
+                    isPasswordHidden={isPasswordHidden}
                 />
                 
                 <label htmlFor="confirmPassword-id">{t('changePasswordPage.labels.confirmPassword')}</label>
                 <InputComponent 
                     icon={<ProfileSvg/>}
-                    type='password'
+                    type={isConfirmPasswordHidden ? 'password' : 'text'}
                     value={confirmPassword}
                     placeholder={t('shared.placeholderConfirmPassword')}
                     onChange={e=>setConfirmPassword(e.target.value)}
                     id='confirmPassword-id'
                     error={getError('confirmPassword')}
+                    onToggleHidePassword={()=>setIsConfirmPasswordHidden(state=>!state)}
+                    isPasswordHidden={isConfirmPasswordHidden}
                 />
             </div>
             <input type="submit" value={loading ? t('shared.buttonLoading') : t('shared.buttonSend')} disabled={loading} />

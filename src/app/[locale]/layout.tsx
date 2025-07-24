@@ -52,6 +52,9 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
             title: t('title'),
             description: t('desc'),
             images: [`${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
+        },
+        other:{
+            'google': 'notranslate'
         }
     }
 }

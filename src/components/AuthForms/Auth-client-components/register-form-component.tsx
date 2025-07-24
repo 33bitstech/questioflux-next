@@ -39,6 +39,8 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         {register} = useRegister(),
         {setUserAccess} = useUser(),
         router = useRouter(),
+        [isPasswordHidden, setIsPasswordHidden] = useState(true),
+        [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true),
         {setError:setGlobalError} = useGlobalMessage()
         
     useEffect(()=>{
@@ -133,22 +135,26 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     autoComplete='email'
                 />
                 <InputComponent
-                    type='password'
+                    type={isPasswordHidden ? 'password' : 'text'}
                     placeholder={t('placeholders.password')}
                     value={password}
                     onChange={(e)=>setPassword(e.target.value)}
                     error={getError('password')}
                     icon={<PadlockSvg/>}
                     autoComplete='current-password'
+                    onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
+                    isPasswordHidden={isPasswordHidden}
                 />
                 <InputComponent
-                    type='password'
+                    type={isConfirmPasswordHidden ? 'password' : 'text'}
                     placeholder={t('placeholders.confirmPassword')}
                     value={confirmPassword}
                     onChange={(e)=>setConfirmPassword(e.target.value)}
                     error={getError('confirmPassword')}
                     icon={<PadlockSvg/>}
                     autoComplete='current-password'
+                    onToggleHidePassword={()=>setIsConfirmPasswordHidden(state=>!state)}
+                    isPasswordHidden={isConfirmPasswordHidden}
                 />
                 
                 <div className='footer-form'>

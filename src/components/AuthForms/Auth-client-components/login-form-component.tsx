@@ -26,6 +26,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
     const [password, setPassword] = useState('')
     const [remember, setRemember] = useState(false)
     const [loading, setLoading] = useState<boolean>(false)
+    const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
     const {getError, setError, concatErrors, hasErrors} = useErrors()
     const [erroAuth, setErroAuth] = useState<ErrorsState>()
@@ -102,13 +103,15 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
                     autoComplete='email'
                 />
                 <InputComponent
-                    type='password'
+                    type={isPasswordHidden ? 'password' : 'text'}
                     placeholder={t('placeholders.password')}
                     value={password}
                     onChange={(e)=>setPassword(e.target.value)}
                     error={getError('password')}
                     icon={<PadlockSvg/>}
                     autoComplete='current-password'
+                    onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
+                    isPasswordHidden={isPasswordHidden}
                 />
             </div>
             <div className="footer-form">

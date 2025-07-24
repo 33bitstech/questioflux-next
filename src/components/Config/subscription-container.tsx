@@ -43,7 +43,7 @@ export default function SubscriptionContainer({styles}:IProps) {
             }
         }
         get()
-    },[])
+    },[cancelSubscription, user])
 
     return (
         <div className={styles.planos}>
