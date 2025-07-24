@@ -54,21 +54,23 @@ export default async function Register({params}:IProps) {
     const t = await getTranslations({ locale, namespace: 'registerPage' });
 
     return (
-        <div className={`container-section`}>
-            <section className='register-section'>
-                <div className='title-register'>
-                    <h1>
-                        {t.rich('title', {
-                            bold: (chunks) => <strong>{chunks}</strong>
-                        })}
-                    </h1>
-                </div>
+        <>
+            <div className={`container-section`}>
+                <section className='register-section'>
+                    <div className='title-register'>
+                        <h1>
+                            {t.rich('title', {
+                                bold: (chunks) => <strong>{chunks}</strong>
+                            })}
+                        </h1>
+                    </div>
 
-                <RegisterFormComponent 
-                    absolute={false}
-                />
-                <GoogleAd/>
-            </section>
-        </div>
+                    <RegisterFormComponent 
+                        absolute={false}
+                    />
+                </section>
+            </div>
+            <GoogleAd/>
+        </>
     )
 }
