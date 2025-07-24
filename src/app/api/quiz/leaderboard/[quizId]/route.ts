@@ -8,7 +8,7 @@ export async function GET(request: Request, {params}: {params:Promise<{quizId:st
         const externalApiResponse = await ApiData({
             path: `leaderboard/${quizId}`, 
             method: 'GET',
-            cache: {next:{revalidate: 60 * 20}}
+            cache: {cache: 'no-store'}
         })
 
         const responseData = await externalApiResponse.json();
