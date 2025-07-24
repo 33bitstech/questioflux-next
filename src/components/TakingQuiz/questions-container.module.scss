@@ -61,6 +61,7 @@
         width:90%;
         h3{
             @include vars.styleTexto(var(--text-primary), 1rem, 700);
+            white-space: pre-wrap;
         }
         .answers{
             display: flex;
