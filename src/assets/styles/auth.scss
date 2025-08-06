@@ -124,9 +124,41 @@
       }
     }
   }
-
+  .guess-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    .guess-separator{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      width: 98%;
+      span{
+        border-radius: 100%;
+        flex: 1;
+        height: 1px;
+        background-color: var(--text-description);
+      }
+    }
+    .guess-button{
+      padding: .6rem;
+      text-transform: uppercase;
+      width: 100%;
+      min-height: 2rem;
+      border-radius: .3rem;
+      outline:none;
+      border: 2px solid var(--text-primary);
+      cursor: pointer;
+      @include vars.styleTexto( var(--text-primary), 1rem, 800);
+      background-color: transparent
+    }
+  }
   // Estilos base para as seções de formulário
-  .register-section, .login-section, .forgotpass-section {
+  .register-section, .login-section, .forgotpass-section, .guest-section{
     @extend %sections-default;
     position: relative;
     background: var(--background-divs); // Fundo do card
@@ -157,15 +189,33 @@
   p {
     @include vars.styleTexto(var(--text-description), 1rem, 400);
   }
-
+  .guest-section{
+    max-width: 30rem;
+  }
   // Formulários
   form, .formularioAuth {
     @extend %form-default;
     flex-direction: row;
 
-    .first-part-section {
+    .first-part-section, .guest-first-part-section{
       @extend %part1section-default;
     }
+
+    .guest-first-part-section{
+      flex: 1 !important;
+      .guest-footer-description{
+        display: flex;
+        gap: .4rem;
+        align-items: center;
+        @include vars.styleTexto( var(--text-description), .9rem, 400);
+        span{
+          color: var(--primary-icon-color);
+          cursor: pointer;
+        }
+      }
+      
+    }
+    
 
     .input-error-message {
       width: 100%;
@@ -281,7 +331,7 @@
     }
 
     // Botões de Submit
-    input[type="submit"] {
+    input[type="submit"], .guest-footer-button{
       @extend %input-submit-default; // Herda os estilos base do botão
       margin-top: 10px;
     }

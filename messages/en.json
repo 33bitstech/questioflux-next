@@ -35,7 +35,18 @@
     },
     "registerComponent": {
         "title": "Create your account",
-        "subtitle": "Start by creating your own quiz now"
+        "subtitle": "Start by creating your own quiz now",
+        "guess":{
+            "separator": "Or",
+            "button": "Enter as a Guess"
+        }
+    },
+    "guestComponent":{
+        "title": "Guest",
+        "placeholder": "Your name...",
+        "button": "Send",
+        "description": "If you want to create an account, click here:",
+        "link": "register"
     },
     "registerForm": {
         "placeholders": {
@@ -553,5 +564,15 @@
     "badgesDesc":{
         "questioplus":"QuestioPlus Subscriber! Enjoy unlimited quiz creation with full access to all premium benefits.",
         "questioplususage":"Premium Usage: {qtd} use(s) available to create your next quiz."
+    },
+    "deleteQuiz":{
+        "button": "Delete quiz",
+        "sucess": "Quiz deleted sucessfully !",
+        "menu":{
+            "title": "Danger zone !",
+            "desc": "You are about to delete this quiz, are you sure about that ?",
+            "confirm": "Yes, delete",
+            "cancel": "No, cancel"
+        }
     }
 }

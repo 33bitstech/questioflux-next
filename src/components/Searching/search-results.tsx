@@ -66,7 +66,6 @@ export default function SearchResults({styles, defaultQuizzes} : IProps) {
             }
             get()
         }else{
-            console.log(quizzes)
             setResults(quizzes)
         }
     }, [title, tags, categories])

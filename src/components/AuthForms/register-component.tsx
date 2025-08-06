@@ -3,15 +3,15 @@ import React from 'react';
 import '@/assets/styles/auth.scss';
 import ClosePopupAuth from './Auth-client-components/close-popup-auth';
 import RegisterFormComponent from './Auth-client-components/register-form-component';
-import { getTranslations } from 'next-intl/server'; // 1. Importar a função
 import { useTranslations } from 'next-intl';
 
 interface IPropsRegister {
     handleRegisterAndFinishQuiz?: (token:string) => void;
     toLogin: () => void;
+    toGuest?: ()=>void;
     show_pop_up?: React.Dispatch<React.SetStateAction<boolean>>;
     absolute: boolean;
-    locale: string; // A prop já estava aqui, ótimo!
+    locale: string; 
 }
 
 // 2. Transformar em 'async' e receber 'locale'
@@ -20,7 +20,8 @@ export default function RegisterComponent({
     toLogin, 
     show_pop_up, 
     absolute, 
-    locale 
+    locale ,
+    toGuest
 }: IPropsRegister) {
     // 3. Buscar as traduções para o namespace, passando o locale
     const t = useTranslations('registerComponent')
@@ -40,6 +41,18 @@ export default function RegisterComponent({
                     toLogin={toLogin}
                     absolute={absolute}
                 />
+                <div className='guess-container'>
+                    <div className='guess-separator'>
+                        <span></span>
+                        <p>{t('guess.separator')}</p>
+                        <span></span>
+                    </div>
+                    <button className='guess-button'
+                        onClick={toGuest}
+                    >
+                        {t('guess.button')}
+                    </button>
+                </div>
             </section>
         </div>
     );

@@ -15,8 +15,8 @@ const WarningReset = ({title, description, cancelValue, confirmValue, confirmFun
             <h3>{title}</h3>
             <p>{description}</p>
             <div className={styles.actions}>
-                <button onClick={cancelFunction}>{cancelValue}</button>
-                <button onClick={confirmFunction}>{confirmValue}</button>
+                <button type='button' onClick={cancelFunction}>{cancelValue}</button>
+                <button type='button' onClick={confirmFunction}>{confirmValue}</button>
             </div>
         </div>
     )

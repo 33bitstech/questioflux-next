@@ -40,7 +40,7 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
         {
             questions, addAlternative, addQuestion,
             handleAlternativeChange, handleQuestionChange, removeAlternative,
-            removeQuestion, hasImages
+            removeQuestion, hasImages, handleMultipleImageUpload
         } = useQuestions(textMode, `${token}`),
 
         prevQuestionsLengthRef = useRef(questions.length)
@@ -181,6 +181,7 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
                             onTitleChange={(title:string)=>handleQuestionChange(q.id, 'title', title)}
                             onQuestionImageChange={(file:string | File)=> handleQuestionChange(q.id, 'image', file)}
                             onAlternativeImageChange={(altIndex: number, file: File | string)=>handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
+                            onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
                         />
                     }
                 })}

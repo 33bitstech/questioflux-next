@@ -16,6 +16,7 @@ import RegisterComponent from '../AuthForms/register-component'
 import usePopupAuth from '@/hooks/usePopupAuth'
 import LoginComponent from '../AuthForms/login-component'
 import LoadingReq from '../Loading/loading-req'
+import GuestForm from '../AuthForms/Guest/guest-form'
 
 interface IProps{
     styles: TStyles
@@ -46,7 +47,7 @@ export default function FormCreateQuiz({styles}:IProps) {
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
 
         [canShowRegister, setCanShowRegister] = useState<boolean>(false),
-        {registering, toLogin, toRegister} = usePopupAuth()
+        {typePopup, toGuest, toLogin, toRegister} = usePopupAuth()
 
     useEffect(()=>{
         if (errorQuiz) {
@@ -99,7 +100,6 @@ export default function FormCreateQuiz({styles}:IProps) {
                     if(savingAsDraft) {
                         router.push('/home')
                     }else{
-                        console.log(res)
                         router.push(`/create/quiz/questions/${res.quizId}`)
                     }
                 }
@@ -123,16 +123,26 @@ export default function FormCreateQuiz({styles}:IProps) {
     return (
         <>
             {!token && canShowRegister && (<div>
-                {registering 
-                    ? <RegisterComponent
+                {typePopup === 'register' 
+                    && <RegisterComponent
                         locale={locale}
                         absolute={true}
                         toLogin={toLogin}
+                        toGuest={toGuest}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
                     /> 
-                    : <LoginComponent
+                }
+                {typePopup === 'login' && 
+                    <LoginComponent
                         locale={locale}
+                        toRegister={toRegister}
+                        handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
+                        show_pop_up={setCanShowRegister}
+                    />
+                }
+                {typePopup === 'guest' && 
+                    <GuestForm
                         toRegister={toRegister}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
