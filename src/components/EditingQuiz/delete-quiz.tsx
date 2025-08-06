@@ -29,12 +29,11 @@ export default function DeleteQuiz({quizId}: IProps) {
         setLoading(true)
         deleteQuiz(quizId, String(token))
             .then(res=>{
-                console.log(res)
                 setSucess(t('sucess'))
                 router.push('/')
             })
-            .catch(err=>{
-                setError(err)
+            .catch((err)=>{
+                setError(err.message)
             })
             .finally(()=>{
                 setLoading(false)
