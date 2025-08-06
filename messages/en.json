@@ -574,5 +574,12 @@
             "confirm": "Yes, delete",
             "cancel": "No, cancel"
         }
+    },
+    "deleteMultiple":{
+        "mainbutton": "Delete all drafts",
+        "message": "You are about to delete all your drafts, are you sure?",
+        "confirm":"Yes, delete",
+        "cancel":"No, cancel",
+        "sucess": "Quizzes deleted sucessfully !"
     }
 }

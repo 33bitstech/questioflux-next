@@ -574,5 +574,12 @@
             "confirm": "Sim, apagar",
             "cancel": "Não, cancelar"
         }
+    },
+    "deleteMultiple":{
+        "mainbutton": "Apagar os rascunhos",
+        "message": "Você está para deletar todos os seus rascunhos, tem certeza ?",
+        "confirm":"Sim, apagar",
+        "cancel":"Não, cancelar",
+        "sucess":"Quizzes apagados com sucesso !"
     }
 }
