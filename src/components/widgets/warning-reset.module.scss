@@ -47,10 +47,10 @@
             min-width: 6rem;
             @include vars.styleTexto(vars.$cor-branco, 1rem, 700);
             &:nth-child(1){
-                background-color: vars.$cor-incorrect;
+                background-color: vars.$cor-incorrect !important;
             }
             &:nth-child(2){
-                background-color: vars.$cor-correct;
+                background-color: vars.$cor-correct !important;
             }
         }
     }

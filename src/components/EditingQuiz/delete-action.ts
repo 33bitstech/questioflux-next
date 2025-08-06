@@ -12,7 +12,7 @@ export const deleteQuiz = async (quizId: string, token: string) => {
             cache: {cache: 'no-store'}
         })
         console.log(externalApiResponse)
-        if(!externalApiResponse.ok) throw externalApiResponse.text
+        if(!externalApiResponse.ok) throw await externalApiResponse.text()
 
         const response = await externalApiResponse.json()
     
