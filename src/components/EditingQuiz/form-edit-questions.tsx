@@ -134,9 +134,6 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                     }
                 })
             })
-            console.log(questions, 'localquestions1111111')
-            console.log(questionsObj, 'questionsObj22222222')
-            console.log(dataToSubmit, 'datatosubmit3333333')
             updateQuestionsImage(`${token}`, quizId, questions, questionsObj, dataToSubmit)
                 .then(({res})=>{
                     if(res) {
