@@ -1,25 +1,27 @@
 'use client'
 import { useState } from 'react';
 
-// (Opcional, mas recomendado) Definir uma interface para o valor de retorno do hook
+type TPopup = 'register' | 'login' | "guest"
 interface UsePopupAuthReturn {
-    registering: boolean;
+    typePopup: TPopup
     toLogin: () => void;
     toRegister: () => void;
+    toGuest: () => void
 }
 
 const usePopupAuth = (): UsePopupAuthReturn => {
-    const [registering, setRegistering] = useState<boolean>(true);
+    const [typePopup, setTypePopup] = useState<TPopup>('register')
     
     const toLogin = (): void => {
-        setRegistering(false);
+        setTypePopup('login');
     };
-    
     const toRegister = (): void => {
-        setRegistering(true);
+        setTypePopup('register');
     };
-
-    return { toLogin, toRegister, registering };
+    const toGuest = (): void=>{
+        setTypePopup('guest')
+    }
+    return { toLogin, toRegister, typePopup, toGuest};
 };
 
 export default usePopupAuth;

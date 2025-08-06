@@ -126,6 +126,41 @@ const useQuestions = (textMode: boolean, token: string) => {
             })
         )
     },
+    handleMultipleImageUpload = (questionId: string, files: FileList) => {
+        if (!files || files.length === 0) return;
+        
+        handleQuestionChange(questionId, 'image', files[0]);
+
+        const alternativeFiles = Array.from(files).slice(1);
+
+        setQuestions(prevQuestions => {
+            return prevQuestions.map(q => {
+                if (q.id === questionId) {
+                    const newAlternatives = [...q.alternatives];
+
+                    alternativeFiles.forEach((file, index) => {
+                        if (newAlternatives[index]) {
+                            newAlternatives[index] = {
+                                ...newAlternatives[index],
+                                thumbnail: file,
+                                isNew: true
+                            };
+                        } else {
+                            newAlternatives.push({
+                                id: `a-${Date.now()}_${index}`,
+                                answer: '',
+                                thumbnail: file,
+                                isNew: true
+                            });
+                        }
+                    });
+
+                    return { ...q, alternatives: newAlternatives, isNew: true };
+                }
+                return q;
+            });
+        });
+    },
     hasImages = ()=>{
         return questions.every(q=>{
             const hasQuestionImage = !!q.image
@@ -146,7 +181,7 @@ const useQuestions = (textMode: boolean, token: string) => {
     return{
         questions, handleQuestionChange, addQuestion, removeQuestion,
         handleAlternativeChange, addAlternative, removeAlternative,
-        setQuestions, hasImages
+        setQuestions, handleMultipleImageUpload, hasImages
     }
 };
 

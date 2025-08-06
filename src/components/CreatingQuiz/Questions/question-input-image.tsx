@@ -19,12 +19,14 @@ interface IProps{
     onAddQuestion: () => void
     onRemoveAlternative: (altIndex: number) => void
     onRemoveQuestion: () => void
+    onMultipleImageUpload: (files: FileList) => void
 }
 
 export default function QuestionInputImage({
     onAddAlternative, onAddQuestion, onAlternativeImageChange,
     onRemoveAlternative, onRemoveQuestion, onTitleChange,
-    position, question, questions, onQuestionImageChange
+    position, question, questions, onQuestionImageChange,
+    onMultipleImageUpload
 }:IProps) {
     const t = useTranslations('creatingQuiz.questionsForm')
     return (
@@ -38,6 +40,7 @@ export default function QuestionInputImage({
                     styles={styles}
                     question={question}
                     onQuestionImageChange={onQuestionImageChange}
+                    onMultipleImageUpload={onMultipleImageUpload}
                 />
 
                 <div className={styles.footer_input}>

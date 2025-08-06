@@ -44,7 +44,8 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
         {
             questions, addAlternative, addQuestion,
             handleAlternativeChange, handleQuestionChange, 
-            removeAlternative, removeQuestion, setQuestions
+            removeAlternative, removeQuestion, setQuestions,
+            handleMultipleImageUpload
         } = useQuestions(quiz?.type === 'default/RW', `${token}`),
 
 
@@ -87,6 +88,10 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
         }else{
             cancel = false
         }
+        if(quiz.questions.length !== questions.length){
+            return setShowWarning(true)
+        }
+
         quiz?.questions?.forEach((q:any, i:any)=>{
             if(q.answers.length + (quiz.type=== 'default/RW'? 1 : 0) != questions[i].alternatives.length){
                 cancel=true
@@ -94,12 +99,9 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                 cancel=false
             }
         })
-        if (cancel) {
-            setShowWarning(true)
-        }else{
-            setShowWarning(false)
-            sendDatas()
-        }
+        
+        setShowWarning(cancel)
+        if(!cancel) return sendDatas()
     }
 
     const handleSubmit = (e:FormEvent)=>{
@@ -109,29 +111,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
     },
     sendDatas = () =>{
         setLoading(true)
-        if(quiz?.type === 'default/RW'){
-            const questionsFormated = handleFormatTextMode(),
-                questionsObj = {
-                    questions: [...questionsFormated]
-                }
-            
-            createQuestionsText(`${token}`, JSON.stringify(questionsObj), quiz.quizId)
-                .then(({err, res})=>{
-                    if(err) {
-                        if(err.data.type == 'global' || err.data.type == 'server') setError('')
-                        if(err.data.invalidQuestions) {
-                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePt:string})=>{
-                                handleQuestionChange(q.questionId, 'errorMessage', q.message)
-                            })
-                        }
-                    }else{
-                        if (res) setSucess(t('form.successMessage'))
-                    }
-                })
-                .finally(()=>{
-                    setLoading(false)
-                })
-        }else{
+        if(quiz?.type === 'image/RW'){
             const questionsFormated = handleFormatImageMode(),
                 questionsObj = {
                     questions: [...questionsFormated]
@@ -154,6 +134,9 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                     }
                 })
             })
+            console.log(questions, 'localquestions1111111')
+            console.log(questionsObj, 'questionsObj22222222')
+            console.log(dataToSubmit, 'datatosubmit3333333')
             updateQuestionsImage(`${token}`, quizId, questions, questionsObj, dataToSubmit)
                 .then(({res})=>{
                     if(res) {
@@ -164,31 +147,34 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                 .finally(()=>{
                     setLoading(false)
                 })
+        }else{
+            const questionsFormated = handleFormatTextMode(),
+                questionsObj = {
+                    questions: [...questionsFormated]
+                }
+            
+            createQuestionsText(`${token}`, JSON.stringify(questionsObj), quiz.quizId)
+                .then(({err, res})=>{
+                    if(err) {
+                        if(err.data.type == 'global' || err.data.type == 'server') setError('')
+                        if(err.data.invalidQuestions) {
+                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePt:string})=>{
+                                handleQuestionChange(q.questionId, 'errorMessage', q.message)
+                            })
+                        }
+                    }else{
+                        if (res) setSucess(t('form.successMessage'))
+                    }
+                })
+                .finally(()=>{
+                    setLoading(false)
+                })
         }
     }
 
     useEffect(()=>{
         if(quiz && quiz.questions){
-            if(quiz.type === 'default/RW'){
-                const newQuestions : ILocalQuestions[] = quiz.questions?.map((q:any)=>{
-                    const ans = [q.correctAnswer, ...q.answers],
-                        alternatives = ans.map((a, i) => ({
-                            id: `a-${Date.now()}${i+1}`,
-                            answer: typeof a === 'string' ? a : (a?.answer ?? ''),
-                            isNew: false
-                        }))
-                    return {
-                        id: q.questionId,
-                        type: quiz.type === 'default/RW' ? 'text':'image',
-                        title: q.question,
-                        isNew: false,
-                        alternatives
-                    }
-                })
-                setQuestions(newQuestions)
-            
-                prevQuestionsLengthRef.current = newQuestions.length
-            }else{
+            if(quiz.type === 'image/RW'){
                 const newQuestions : ILocalQuestions[] = quiz.questions?.map((q:any)=>{
                     const alternatives = q.answers.map((a:any, i:any) => ({
                             id: typeof a === 'string' ? a : (a?.answer ?? ''),
@@ -207,10 +193,30 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                 setQuestions(newQuestions)
             
                 prevQuestionsLengthRef.current = newQuestions.length
+            }else{
+                const newQuestions : ILocalQuestions[] = quiz.questions?.map((q:any)=>{
+                    const ans = [q.correctAnswer, ...q.answers],
+                        alternatives = ans.map((a, i) => ({
+                            id: `a-${Date.now()}${i+1}`,
+                            answer: typeof a === 'string' ? a : (a?.answer ?? ''),
+                            isNew: false
+                        }))
+                    return {
+                        id: q.questionId,
+                        type: quiz.type === 'default/RW' ? 'text':'image',
+                        title: q.question,
+                        isNew: false,
+                        alternatives
+                    }
+                })
+
+                if (newQuestions.length > 0) setQuestions(newQuestions)
+                if (newQuestions.length <= 0) return
+            
+                prevQuestionsLengthRef.current = newQuestions.length
             }
         }
     },[quiz, setQuestions])
-
 
     useLayoutEffect(()=>{
         const currentLength = questions.length
@@ -242,20 +248,7 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
             
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr)=>{
-                    if (quiz?.type === 'default/RW'){
-                        return <QuestionInput 
-                            key={q.id}
-                            question={q}
-                            questions={arr}
-                            position={i+1}
-                            onTitleChange={(title:string) => handleQuestionChange(q.id, 'title', title)}
-                            onAddAlternative={()=> addAlternative(q.id)}
-                            onAddQuestion={()=>addQuestion()}
-                            onRemoveAlternative={(altIndex: number)=>removeAlternative(q.id, altIndex)}
-                            onRemoveQuestion={()=>removeQuestion(q.id)}  
-                            onAlternativeChange={(altIndex: number, answer:string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}  
-                            />
-                    }else{
+                    if (quiz?.type === 'image/RW'){
                         return <QuestionInputImage 
                             key={q.id}
                             question={q}
@@ -268,6 +261,21 @@ export default function FormEditQuestions({styles, quiz, quizId}: IProps) {
                             onTitleChange={(title:string)=>handleQuestionChange(q.id, 'title', title)}
                             onQuestionImageChange={(file:string | File)=> handleQuestionChange(q.id, 'image', file)}
                             onAlternativeImageChange={(altIndex: number, file: File | string)=>handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
+                            onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
+
+                        />
+                    }else{
+                        return <QuestionInput 
+                            key={q.id}
+                            question={q}
+                            questions={arr}
+                            position={i+1}
+                            onTitleChange={(title:string) => handleQuestionChange(q.id, 'title', title)}
+                            onAddAlternative={()=> addAlternative(q.id)}
+                            onAddQuestion={()=>addQuestion()}
+                            onRemoveAlternative={(altIndex: number)=>removeAlternative(q.id, altIndex)}
+                            onRemoveQuestion={()=>removeQuestion(q.id)}  
+                            onAlternativeChange={(altIndex: number, answer:string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}  
                         />
                     }
                 })}

@@ -22,7 +22,6 @@ export async function POST(request: Request, {params}: {params:Promise<{quizId:s
             headerValue: [token],
             cache: { cache: 'no-store' },
         });
-        console.log(externalApiResponse)
         const responseData = await externalApiResponse.json();
 
         if (!externalApiResponse.ok) return NextResponse.json({data:responseData}, { status: externalApiResponse.status });

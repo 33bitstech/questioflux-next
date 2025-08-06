@@ -9,6 +9,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import usePopupAuth from '@/hooks/usePopupAuth'
 import RegisterComponent from '../AuthForms/register-component'
 import LoginComponent from '../AuthForms/login-component'
+import GuestForm from '../AuthForms/Guest/guest-form'
 
 interface IProps{
     qtdQuestions: number
@@ -23,6 +24,7 @@ interface IProps{
     setResult: React.Dispatch<React.SetStateAction<{
         quizAnswer: any;
         timing: number;
+        guest?: string
     } | undefined>>
 }
 interface ISelectedAnswers{
@@ -48,7 +50,10 @@ export default function QuestionsContainer({
         [finalTime, setFinalTime] = useState(0),
         {setError} = useGlobalMessage(),
         {token} = useUser(),
-        {registering, toLogin, toRegister} = usePopupAuth()
+        {toGuest, typePopup, toLogin, toRegister} = usePopupAuth(),
+
+        [guestName, setGuestName] = useState('')
+
     const t = useTranslations('takingPage'),
         locale = useLocale(),
         blurLoading ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88eJ1PQAI/gMrw32C7wAAAABJRU5ErkJggg=='
@@ -82,9 +87,10 @@ export default function QuestionsContainer({
             [actualQuestion-1]:index
         })
     },
-    handleRegisterAndFinishQuiz = (token:string) =>{
+    handleRegisterAndFinishQuiz = (name:string) =>{
         setCanShowRegister(false); 
         if(selectedValuesCopy) setSelectedValues(selectedValuesCopy)
+        if(name) setGuestName(name)
     },
     handleSelectValues = ()=>{
         if (typeOfQuiz === 'default/RW'){
@@ -155,12 +161,12 @@ export default function QuestionsContainer({
         if (!token && canShowRegister) {
             const savedResults = localStorage.getItem('quizAnswers')
             if (savedResults) {
-                setResult({ quizAnswer: JSON.parse(savedResults), timing: finalTime - initialTime })
+                setResult({ quizAnswer: JSON.parse(savedResults), timing: finalTime - initialTime, guest: guestName})
             }
         } else if (selectedValues && verifyAllAnswered()) {
-            setResult({ quizAnswer: selectedValues, timing: finalTime - initialTime })
+            setResult({ quizAnswer: selectedValues, timing: finalTime - initialTime, guest: guestName})
         }
-    }, [selectedValues])
+    }, [selectedValues, guestName])
 
     return (
         <div className={`${styles.Answering}`}>
@@ -199,16 +205,26 @@ export default function QuestionsContainer({
 
 
             {!token && canShowRegister && (<div>
-                {registering 
-                    ? <RegisterComponent
+                {typePopup === 'register' 
+                    && <RegisterComponent
                         locale={locale}
                         absolute={true}
                         toLogin={toLogin}
+                        toGuest={toGuest}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
                     /> 
-                    : <LoginComponent
+                }
+                {typePopup === 'login' && 
+                    <LoginComponent
                         locale={locale}
+                        toRegister={toRegister}
+                        handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
+                        show_pop_up={setCanShowRegister}
+                    />
+                }
+                {typePopup === 'guest' && 
+                    <GuestForm
                         toRegister={toRegister}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}

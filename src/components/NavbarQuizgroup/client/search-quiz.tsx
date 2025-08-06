@@ -3,17 +3,20 @@ import SearchSvg from '@/components/Icons/Search'
 import { useFilters } from '@/contexts/filtersContext'
 import { TStyles } from '@/types/stylesType'
 import {useSearchParams } from 'next/navigation'
-import { useRouter } from '@/i18n/navigation'
+import { usePathname, useRouter } from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 
 interface IProps{
     styles: TStyles,
-    placeholder:string
+    placeholder:string,
+    pagesWithSearchInput: string[]
 }
 
-export default function SearchQuiz({styles, placeholder}: IProps) {
+export default function SearchQuiz({styles, placeholder, pagesWithSearchInput}: IProps) {
     const searchParams = useSearchParams() 
-    
+    const pathname = usePathname()
+    const isSearchVisible = pagesWithSearchInput?.includes(pathname)
+
     const getInitialSearchValue = () => {
         const title = searchParams.get('title') || ''
         const tags = searchParams.get('tags') || ''
@@ -60,15 +63,19 @@ export default function SearchQuiz({styles, placeholder}: IProps) {
         setSearchValue(getInitialSearchValue())
     }, [searchParams])
 
-    return (
-        <form className={styles.search} onSubmit={handleSubmit}>
-            <SearchSvg />
-            <input 
-                type="search" 
-                placeholder={placeholder}
-                value={searchValue} 
-                onChange={e => setSearchValue(e.target.value)} 
-            />
-        </form>
-    )
+    if(isSearchVisible){
+        return (
+            <form className={styles.search} onSubmit={handleSubmit}>
+                <SearchSvg />
+                <input 
+                    type="search" 
+                    placeholder={placeholder}
+                    value={searchValue} 
+                    onChange={e => setSearchValue(e.target.value)} 
+                />
+            </form>
+        )
+    }else{
+        return null
+    }
 }

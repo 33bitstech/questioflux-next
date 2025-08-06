@@ -35,7 +35,18 @@
     },
     "registerComponent": {
         "title": "Crie sua conta",
-        "subtitle": "Comece a criar seu próprio quiz agora"
+        "subtitle": "Comece a criar seu próprio quiz agora",
+        "guess":{
+            "separator": "Ou",
+            "button": "Entre como visitante"
+        }
+    },
+    "guestComponent":{
+        "title": "Visitante",
+        "placeholder": "Seu nome...",
+        "button": "Enviar",
+        "description": "Se deseja criar uma conta clique aqui:",
+        "link": "registre-se"
     },
     "registerForm": {
         "placeholders": {
@@ -553,5 +564,15 @@
     "badgesDesc":{
         "questioplus":"Assinante QuestioPlus! Crie quizzes sem limitações com acesso a todos os benefícios premium.",
         "questioplususage":"Uso Premium: {qtd} uso(s) disponível(is) para criar seu próximo quiz."
+    },
+    "deleteQuiz":{
+        "button": "Apagar quiz",
+        "sucess": "Quiz apagado com sucesso !",
+        "menu":{
+            "title": "Area perigosa !",
+            "desc": "Você está para deletar este quiz, você tem certeza disso ?",
+            "confirm": "Sim, apagar",
+            "cancel": "Não, cancelar"
+        }
     }
 }

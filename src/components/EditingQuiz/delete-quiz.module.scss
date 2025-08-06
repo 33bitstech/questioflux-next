@@ -1,0 +1,7 @@
+@use '../../assets/styles/vars.scss';
+
+.delete_button{
+    cursor: default;
+    background-color: vars.$cor-incorrect !important;
+    border-color: vars.$cor-incorrect !important;
+}

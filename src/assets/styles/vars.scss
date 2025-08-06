@@ -65,7 +65,7 @@ $container-maxwidth: 64.4rem;
 
 %content-default{
   height: auto;
-  max-width: $container-maxwidth - 1rem;
+  max-width: $container-maxwidth - 1rem ;
   width: 100%;
   @media screen and (max-width: 860px) {
     margin-top: 5rem !important;
@@ -74,7 +74,7 @@ $container-maxwidth: 64.4rem;
 
 %container-default{
   width: 100%;
-  min-height: 100vh;
+  min-height: 100vh !important;
   display: flex;
   align-items: center;
   flex-direction: column;

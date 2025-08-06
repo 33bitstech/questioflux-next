@@ -21,7 +21,8 @@ export default function TakingComponent({quiz, styles}:IProps) {
         [initialTime, setInitialTime] = useState<number>(0),
         [result, setResult] = useState<{
             quizAnswer: any,
-            timing: number
+            timing: number,
+            guest?: string
         }>(),
         {token} = useUser(),
         {setError} = useGlobalMessage(),
@@ -39,11 +40,12 @@ export default function TakingComponent({quiz, styles}:IProps) {
 
     useEffect(()=>{
         if(result && quiz){
-            takeQuiz(quiz.quizId, result, `${token}`)
+            takeQuiz(quiz.quizId, result)
                 .then(({err, res})=>{
                     if(err) return setError(err)
                     if(res){
                         setCookie('quizResults', JSON.stringify(res))
+                        if(result.guest) return route.push(`/quiz/${quiz.quizId}/leaderboard`)
                         route.push(`/quiz/${quiz.quizId}/results`)
                     }
                 })

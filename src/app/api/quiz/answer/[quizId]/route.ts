@@ -3,22 +3,16 @@ import ApiData from '@/utils/ApiData';
 
 export async function POST(request: Request, {params}: {params:Promise<{quizId:string}>}) {
     try {
-        const Headers = request.headers,
-            token = Headers.get('Authorization'),
-            {quizId} = await params,
+        const {quizId} = await params,
             body = await request.json()
     
-        if (!token || !token.startsWith('Bearer ')) return NextResponse.json(
-                { type: 'global', message: 'no valid token' },
-                { status: 401 } 
-            );
 
         const externalApiResponse = await ApiData({
             path: `answer-quiz/${quizId}`, 
             method: 'POST',
             body: JSON.stringify(body),
-            headerKey: ['Authorization', 'Content-Type'],
-            headerValue: [token, 'application/json'],
+            headerKey: ['Content-Type'],
+            headerValue: ['application/json'],
             cache: {cache: 'no-store'}
         })
 

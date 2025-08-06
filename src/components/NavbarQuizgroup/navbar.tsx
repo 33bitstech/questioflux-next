@@ -18,10 +18,12 @@ interface IProps {
 // O componente do layout que renderiza a Navbar passará os params
 export default async function NavbarQuizgroup({ locale }: IProps) {
     const t = await getTranslations({ locale, namespace: 'navbar' });
-
-    const { device } = userAgent({ headers: await headers() });
+    const headerList = await headers()
+    const { device } = userAgent({ headers: headerList });
     const isMobile = device.type === 'mobile';
     const token = await getCookie('token', { cookies });
+
+    const pagesWithSearchInput = ['/explore']
 
     return (
         <nav className={styles.navbar}>
@@ -37,11 +39,14 @@ export default async function NavbarQuizgroup({ locale }: IProps) {
                 </>)}
             </ul>
             <ul className={styles.actions}>
+                <SearchQuiz 
+                    styles={styles} 
+                    placeholder={t('searchPlaceholder')} 
+                    pagesWithSearchInput={pagesWithSearchInput}
+                />
                 {token ? (
                     <>
                         {!isMobile && <>
-                            {/* Assumindo que SearchQuiz receberá o placeholder como prop */}
-                            <SearchQuiz styles={styles} placeholder={t('searchPlaceholder')} />
                             <li>
                                 <Link locale={locale} href='/create/quiz' className={`${styles.button} ${styles.first_button}`}>{t('createQuiz')}</Link>
                             </li>

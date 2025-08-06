@@ -16,6 +16,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
+import DeleteQuiz from './delete-quiz'
 
 interface IProps{
     styles: TStyles,
@@ -95,6 +96,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
 
     useEffect(()=>{
         if (errorQuiz) {
+            console.log(errorQuiz)
             setError(errorQuiz.type, errorQuiz.message)
         }
     }, [errorQuiz])
@@ -235,6 +237,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                         e.preventDefault()
                         router.back()
                     }}>{tShared('buttons.back')}</button>
+                    <DeleteQuiz quizId={quiz?.quizId}/>
                 </div>
                 <div className={styles.save}>
                     {quiz && <Link href={`/quiz/edit/questions/${quiz?.quizId}`}>{t('buttons.editQuestions')}</Link>}
