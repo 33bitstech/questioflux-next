@@ -189,7 +189,7 @@ export default function FormCreateQuestions({styles, textMode, quizId}:IProps) {
 
             <footer className={styles.footer}>
                 <div className={styles.actions}>
-                    <button onClick={()=>router.back()}>{t('backButton')}</button>
+                    <button onClick={()=>router.push(`/quiz/edit/${quizId}`)}>{t('backButton')}</button>
                 </div>
                 <div className={styles.save}>
                     <input type='submit' value={t('saveDraftButton')} disabled={loading} />

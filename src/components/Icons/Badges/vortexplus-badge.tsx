@@ -5,11 +5,11 @@ export default function VortexplusBadge() {
         <>
             <svg width="76" height="77" viewBox="0 0 76 77" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <g filter="url(#filter0_d_558_1867)">
-                <rect x="8" y="8.5" width="60" height="60" fill="url(#pattern0_558_1867)" shape-rendering="crispEdges"/>
+                <rect x="8" y="8.5" width="60" height="60" fill="url(#pattern0_558_1867)" shapeRendering="crispEdges"/>
             </g>
             <defs>
-                    <filter id="filter0_d_558_1867" x="0" y="0.5" width="76" height="76" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <filter id="filter0_d_558_1867" x="0" y="0.5" width="76" height="76" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                         <feOffset/>
                         <feGaussianBlur stdDeviation="4"/>
