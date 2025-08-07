@@ -25,7 +25,6 @@ export default function UserProfileHeader({userP}: IProps) {
         if(!userP){
             const get = async() =>{
                 try {
-                    
                     const res = await verifyUserPremium(`${token}`)
                     if(res.err) return setError(res.err)
                     setPremiumStatus(res.premium)
@@ -41,11 +40,6 @@ export default function UserProfileHeader({userP}: IProps) {
             })
         }
     },[])
-
-    useEffect(()=>{
-        console.log(premiumStatus, 'ksadjflaksjf')
-        console.log(userP)
-    },[premiumStatus])
 
     return (
         <div className={styles.profile_container}>
