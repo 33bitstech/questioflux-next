@@ -44,6 +44,7 @@ export default function UserProfileHeader({userP}: IProps) {
 
     useEffect(()=>{
         console.log(premiumStatus, 'ksadjflaksjf')
+        console.log(userP)
     },[premiumStatus])
 
     return (
