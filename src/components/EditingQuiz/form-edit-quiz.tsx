@@ -24,7 +24,7 @@ interface IProps{
 }
 
 export default function FormEditQuiz({styles, quiz}:IProps) {
-    const {getError, setError} = useErrors(),
+    const {getError, setError, resetErrors} = useErrors(),
         {setError: setGlobalError, setSucess} = useGlobalMessage(),
         {filters, filtersPt} = useFilters(),
         router = useRouter(),
@@ -51,6 +51,7 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
 
     const handleSubmit = (e:FormEvent)=>{
         e.preventDefault()
+        setErrorQuiz(undefined)
         if (!token || !quiz) return
 
         setLoading(true)
@@ -96,8 +97,18 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
 
     useEffect(()=>{
         if (errorQuiz) {
-            console.log(errorQuiz)
-            setError(errorQuiz.type, errorQuiz.message)
+            switch (locale) {
+                case 'pt':
+                    setError(errorQuiz.type, errorQuiz.messagePT)
+                    break;
+                case 'en':
+                    setError(errorQuiz.type, errorQuiz.message)
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            resetErrors()
         }
     }, [errorQuiz])
 
