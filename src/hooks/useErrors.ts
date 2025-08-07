@@ -28,6 +28,13 @@ const useErrors = () => {
         setInputErrors({});
     }, []);
 
+    const resetTypeError = (useCallback((type:string)=>{
+        setInputErrors(state=>{
+            state[type] = ''
+            return state
+        })
+    }, []))
+
     return {
         setError,
         getError,
@@ -35,6 +42,7 @@ const useErrors = () => {
         inputsErrors,
         hasErrors,
         resetErrors,
+        resetTypeError
     };
 };
 
