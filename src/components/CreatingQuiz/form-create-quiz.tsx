@@ -25,7 +25,7 @@ interface IProps{
 export default function FormCreateQuiz({styles}:IProps) {
     const t = useTranslations('createQuizFlow.formComponent')
     const locale = useLocale()
-    const {getError, setError} = useErrors(),
+    const {getError, setError, resetErrors} = useErrors(),
         {setError: setGlobalError} = useGlobalMessage(),
         {filters, filtersPt} = useFilters(),
         router = useRouter(),
@@ -51,17 +51,25 @@ export default function FormCreateQuiz({styles}:IProps) {
 
     useEffect(()=>{
         if (errorQuiz) {
-            if(locale == 'pt'){
-                setError(errorQuiz.type, errorQuiz.messagePT)
-            }else{
-                setError(errorQuiz.type, errorQuiz.message)
+            switch (locale) {
+                case 'pt':
+                    setError(errorQuiz.type, errorQuiz.messagePT)
+                    break;
+                case 'en':
+                    setError(errorQuiz.type, errorQuiz.message)
+                    break;
+                default:
+                    break;
             }
+        }else{
+            resetErrors()
         }
     }, [errorQuiz])
     
 
     const sendDatas = (acessToken?: string)=>{
         if(!token && !acessToken) return
+        setErrorQuiz(undefined)
         setLoading(true)
 
         let tempToken = token ? token : `Bearer ${acessToken}`
