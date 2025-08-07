@@ -24,7 +24,7 @@ interface IProps{
 }
 
 export default function FormEditQuiz({styles, quiz}:IProps) {
-    const {getError, setError, resetErrors} = useErrors(),
+    const {getError, setError, resetErrors, resetTypeError} = useErrors(),
         {setError: setGlobalError, setSucess} = useGlobalMessage(),
         {filters, filtersPt} = useFilters(),
         router = useRouter(),
@@ -150,7 +150,10 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                     id="title" 
                     placeholder={tShared('placeholders.title')}
                     value={title}
-                    onChange={(e)=>setTitle(e.target.value)}    
+                    onChange={(e)=>{
+                        setTitle(e.target.value)
+                        resetTypeError('title')
+                    }}   
                 />
             </InputTextQuiz>
 
@@ -165,7 +168,10 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                     id="desc" 
                     placeholder={tShared('placeholders.description')}
                     value={desc}
-                    onChange={(e)=>setDesc(e.target.value)}
+                    onChange={(e)=>{
+                        setDesc(e.target.value)
+                        resetTypeError('description')
+                    }}
                 ></textarea>
             </InputTextQuiz>
             
@@ -175,7 +181,10 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
                 labelFor='category'
                 labelValue={tShared('labels.category')}
             >
-                <select id="category" value={category} onChange={e=>setCategory(e.target.value)}> 
+                <select id="category" value={category} onChange={e=>{
+                    setCategory(e.target.value)
+                    resetTypeError('category')
+                }}> 
                     <option value="" disabled>{tShared('selects.chooseCategory')}</option>
                     {locale == 'pt'
                         ? filtersPt.map((categorie, index)=>(

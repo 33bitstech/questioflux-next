@@ -25,7 +25,7 @@ interface IProps{
 export default function FormCreateQuiz({styles}:IProps) {
     const t = useTranslations('createQuizFlow.formComponent')
     const locale = useLocale()
-    const {getError, setError, resetErrors} = useErrors(),
+    const {getError, setError, resetErrors, resetTypeError} = useErrors(),
         {setError: setGlobalError} = useGlobalMessage(),
         {filters, filtersPt} = useFilters(),
         router = useRouter(),
@@ -179,7 +179,10 @@ export default function FormCreateQuiz({styles}:IProps) {
                         id="title" 
                         placeholder={t('placeholders.title')} 
                         value={title}
-                        onChange={(e)=>setTitle(e.target.value)}    
+                        onChange={(e)=>{
+                            setTitle(e.target.value)
+                            resetTypeError('title')
+                        }}    
                     />
                 </InputTextQuiz>
 
@@ -193,7 +196,10 @@ export default function FormCreateQuiz({styles}:IProps) {
                         id="desc" 
                         placeholder={t('placeholders.description')}
                         value={desc}
-                        onChange={(e)=>setDesc(e.target.value)}
+                        onChange={(e)=>{
+                            setDesc(e.target.value)
+                            resetTypeError('description')
+                        }}
                     ></textarea>
                 </InputTextQuiz>
                 
@@ -203,7 +209,10 @@ export default function FormCreateQuiz({styles}:IProps) {
                     labelFor='category'
                     labelValue={t('labels.category')}
                 >
-                    <select id="category" value={category} onChange={e=>setCategory(e.target.value)}> 
+                    <select id="category" value={category} onChange={e=>{
+                        setCategory(e.target.value)
+                        resetTypeError('category')
+                    }}> 
                         <option value="" disabled>{t('selects.chooseCategory')}</option>
                         {locale == 'pt'
                             ? filtersPt.map((categorie, index)=>(
