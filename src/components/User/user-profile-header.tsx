@@ -42,6 +42,10 @@ export default function UserProfileHeader({userP}: IProps) {
         }
     },[])
 
+    useEffect(()=>{
+        console.log(premiumStatus, 'ksadjflaksjf')
+    },[premiumStatus])
+
     return (
         <div className={styles.profile_container}>
             <div className={styles.image_container}>
