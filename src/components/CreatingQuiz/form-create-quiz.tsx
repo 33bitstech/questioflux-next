@@ -36,7 +36,7 @@ export default function FormCreateQuiz({styles}:IProps) {
         [desc, setDesc] = useState<string>(''),
         [category, setCategory] = useState<string>(''),
         [tagsString, setTagsString] = useState<string>(''),
-        [visibility, setVisibility] = useState<string>(''),
+        [visibility, setVisibility] = useState<'public'|'private'>('private'),
         [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>(locale == 'pt' ? 'PT-BR':'EN-US'),
 
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
@@ -248,7 +248,7 @@ export default function FormCreateQuiz({styles}:IProps) {
                     <select 
                         id="visibility" 
                         value={visibility} 
-                        onChange={e=>setVisibility(e.target.value)}
+                        onChange={e=>setVisibility(e.target.value as 'public' | 'private')}
                     >
                         <option value="public">{t('selects.public')}</option>
                         <option value="private">{t('selects.private')}</option>
