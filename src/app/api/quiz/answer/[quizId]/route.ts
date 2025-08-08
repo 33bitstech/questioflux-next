@@ -6,13 +6,15 @@ export async function POST(request: Request, {params}: {params:Promise<{quizId:s
         const {quizId} = await params,
             body = await request.json()
     
+        const Headers = request.headers,
+            token = Headers.get('Authorization')
 
         const externalApiResponse = await ApiData({
             path: `answer-quiz/${quizId}`, 
             method: 'POST',
             body: JSON.stringify(body),
-            headerKey: ['Content-Type'],
-            headerValue: ['application/json'],
+            headerKey: ['Content-Type', 'Authorization'],
+            headerValue: ['application/json', token || ''],
             cache: {cache: 'no-store'}
         })
 
