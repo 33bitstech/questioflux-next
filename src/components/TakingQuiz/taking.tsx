@@ -40,7 +40,7 @@ export default function TakingComponent({quiz, styles}:IProps) {
 
     useEffect(()=>{
         if(result && quiz){
-            takeQuiz(quiz.quizId, result, String(token))
+            takeQuiz(quiz.quizId, result, token ? String(token) : undefined)
                 .then(({err, res})=>{
                     if(err) return setError(err)
                     if(res){

@@ -2,13 +2,13 @@
 
 import { env } from "@/env"
 
-export async function takeQuiz(quizId: string, results: object, token:string) {
+export async function takeQuiz(quizId: string, results: object, token:string|undefined) {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/answer/${quizId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': token
+                'Authorization': token || ''
             },
             body: JSON.stringify(results)
         })
