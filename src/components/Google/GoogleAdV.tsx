@@ -14,13 +14,13 @@ declare global {
 
 const GoogleAdV = ({left=false, rigth=false}) => {
 
-    useEffect(() => {
+    /* useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (err) {
             console.error(err);
         }
-    }, []);
+    }, []); */
 
     return (<Adsense
         className={`adsbygoogle ${left ? 'left' : ''} ${rigth ? 'rigth' : ''}`}
