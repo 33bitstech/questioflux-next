@@ -6,6 +6,8 @@ import { cookies } from 'next/headers'
 import { getLeaderboard, getQuiz, getUser } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 import LbUser from '@/components/Leaderboard/lb-user'
 import GoogleAd from '@/components/Google/GoogleAd'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 
 interface IProps {
     params: Promise<{
@@ -17,6 +19,7 @@ interface IProps {
 export default async function LB({params}:IProps) {
     const {quizId, locale} = await params,
         token = await getCookie('token', {cookies}),
+        t = await getTranslations('leaderboardPage'),
 
         [quizLb, quiz, user] = await Promise.all([
             getLeaderboard(quizId),
@@ -56,7 +59,12 @@ export default async function LB({params}:IProps) {
                     )}
             </div>
             
-            <ShareButton quizId={quizId} styles={styles}/>
+            <Link 
+                className={styles.share_quiz}
+                href={`/quiz/${quizId}`}
+            >
+                {t('home')}
+            </Link>
 
             <GoogleAd/>
         </>

@@ -344,7 +344,8 @@
             "incorrectTitle": "Respostas Incorretas:",
             "questionLabel": "Pergunta:",
             "answerLabel": "Resposta do Usuário:"
-        }
+        },
+        "home": "Ver Quiz"
     },
     "publicProfile":{
         "customTitle": "Quizzes publicos desse usuário",
