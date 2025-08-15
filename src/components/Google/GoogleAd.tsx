@@ -13,13 +13,13 @@ declare global {
 }
 
 const GoogleAd = () => {
-    useEffect(() => {
+    /* useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (err) {
             console.error(err);
         }
-    }, []);
+    }, []); */
 
 
     return (
