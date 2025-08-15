@@ -41,7 +41,7 @@ export default function ShareContainer({closeShareContainer, quizId}:IProps) {
             </section>
             <button 
                 onClick={()=>{
-                    handleCopyUrl(`/${locale}/quiz/${quizId}`)
+                    handleCopyUrl(`${locale}/quiz/${quizId}`)
                         .then(()=>setSucess(t('copySuccessMessage')))
                 }}>
                 <CopyIcon />
