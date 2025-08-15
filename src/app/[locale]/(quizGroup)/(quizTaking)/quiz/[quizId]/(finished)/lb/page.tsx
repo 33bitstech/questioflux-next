@@ -66,7 +66,7 @@ export default async function LB({params}:IProps) {
                 {t('home')}
             </Link>
 
-            <GoogleAd/>
+            <GoogleAd slot='5791876907'/>
         </>
     )
 }

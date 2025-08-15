@@ -86,14 +86,14 @@ export default async function Explore({ params }: IProps) {
 
             <FeaturedsContainer styles={styles} defaultQuizzes={popularQuizzes!}/>
 
-            <GoogleAd/>
+            <GoogleAd slot='9817632261'/>
             
             <div className={styles.results}>
                 {/* Usar a tradução */}
                 <h1>{t('mainTitle')}</h1>
                 <SearchResults styles={styles} defaultQuizzes={quizzes!}/>
             </div>
-            <GoogleAd/>
+            <GoogleAd slot='3850989716'/>
         </main>
     )   
 }

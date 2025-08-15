@@ -62,7 +62,7 @@ export default async function Results({params}:IProps) {
                 className={styles.link_leaderboard}
             >{t('viewLeaderboard')}</Link>
 
-            <GoogleAd/>
+            <GoogleAd slot='8751962602'/>
             
         </>
     )

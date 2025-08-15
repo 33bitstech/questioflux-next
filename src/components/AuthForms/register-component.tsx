@@ -41,18 +41,21 @@ export default function RegisterComponent({
                     toLogin={toLogin}
                     absolute={absolute}
                 />
-                <div className='guess-container'>
-                    <div className='guess-separator'>
-                        <span></span>
-                        <p>{t('guess.separator')}</p>
-                        <span></span>
+
+                {absolute && (
+                    <div className='guess-container'>
+                        <div className='guess-separator'>
+                            <span></span>
+                            <p>{t('guess.separator')}</p>
+                            <span></span>
+                        </div>
+                        <button className='guess-button'
+                            onClick={toGuest}
+                        >
+                            {t('guess.button')}
+                        </button>
                     </div>
-                    <button className='guess-button'
-                        onClick={toGuest}
-                    >
-                        {t('guess.button')}
-                    </button>
-                </div>
+                )}
             </section>
         </div>
     );

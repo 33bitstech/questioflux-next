@@ -129,7 +129,7 @@ export default async function User({params}:IProps) {
                     />
                 </div>
 
-                <GoogleAd/>
+                <GoogleAd slot='5678559785'/>
 
             </main>
         </>

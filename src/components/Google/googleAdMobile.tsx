@@ -7,9 +7,10 @@ import GoogleAdV from './GoogleAdV'
 interface IProps{
     left?:boolean
     right?:boolean
+    slot: string
 }
 
-export default function GoogleAdMobile({left, right}:IProps) {
+export default function GoogleAdMobile({left, right, slot}:IProps) {
     const isMobileAd = useMediaQuery({maxWidth: 1270})
     const [client, setClient] = useState(false)
 
@@ -18,7 +19,10 @@ export default function GoogleAdMobile({left, right}:IProps) {
     },[])
     return (
         <>
-            {client && isMobileAd ? <GoogleAd/> : <GoogleAdV left={left} rigth={right}/>}
+            {client && isMobileAd 
+                ? <GoogleAd slot={slot}/> 
+                : <GoogleAdV left={!!left} rigth={!!right} slot={slot} />
+            }
         </>
     )
 }
