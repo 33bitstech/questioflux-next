@@ -24,6 +24,8 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' }, 
     { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' }, 
     { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/quiz\/.+\/results$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' }, 
 ];
 
 export function middleware(req: NextRequest) {

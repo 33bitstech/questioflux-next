@@ -45,7 +45,6 @@ export default function TakingComponent({quiz, styles}:IProps) {
                     if(err) return setError(err)
                     if(res){
                         setCookie('quizResults', JSON.stringify(res))
-                        if(result.guest) return route.push(`/quiz/${quiz.quizId}/leaderboard`)
                         route.push(`/quiz/${quiz.quizId}/results`)
                     }
                 })
