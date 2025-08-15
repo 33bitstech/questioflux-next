@@ -166,7 +166,7 @@ export default async function Leaderboard({params}:IProps) {
             
             <ShareButton quizId={quizId} styles={styles}/>
 
-            <GoogleAd/>
+            <GoogleAd slot='6282931841'/>
         </>
     )
 }

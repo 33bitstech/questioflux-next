@@ -70,7 +70,6 @@ export default async function Register({params}:IProps) {
                     />
                 </section>
             </div>
-            <GoogleAd/>
         </>
     )
 }

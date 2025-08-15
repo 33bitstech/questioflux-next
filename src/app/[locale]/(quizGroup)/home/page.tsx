@@ -34,7 +34,7 @@ export default async function Home({params}:IProps) {
                     />
                 </div>
 
-                <GoogleAd/>
+                <GoogleAd slot='8200781349'/>
                 
                 <div className={styles.quiz_area}>
                     <ContainerUserQuizzes
@@ -42,7 +42,7 @@ export default async function Home({params}:IProps) {
                         quizzes_type='public'
                     />
                 </div>
-                <GoogleAd/>
+                <GoogleAd slot='8384614175'/>
             </main>
         </>
     )

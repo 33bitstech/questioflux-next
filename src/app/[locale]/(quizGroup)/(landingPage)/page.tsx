@@ -79,8 +79,6 @@ export default async function LandingPage({params}:IProps) {
                     <Link href='/create/quiz' locale={locale} className={styles.button_link}>{t('stylesSection.ctaButton')}</Link>
                 </section>
 
-                <GoogleAd/>
-
                 <section id='quiz_exploration_section' className={styles.quiz_exploration_section}>
                     <div className={`${styles.title_section} ${styles.subtitle}`}>
                         <h2>{t('explorationSection.title')}</h2>
@@ -100,8 +98,6 @@ export default async function LandingPage({params}:IProps) {
 
                 <div className={styles.wave}><Wave/></div>
 
-                <GoogleAd/>
-
                 <section id='register_comp_section' className={styles.register_comp_section}>
                     <RegisterComponent 
                         absolute={false}
@@ -110,8 +106,6 @@ export default async function LandingPage({params}:IProps) {
                     />
                 </section>
             </main>
-
-            <GoogleAd/>
 
             <footer className={styles.footer}>
                 <Link locale={locale} href={'/about-us'}>{t('footer.aboutLink')}</Link>

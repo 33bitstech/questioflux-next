@@ -111,7 +111,7 @@ export default async function Quiz({params}: IProps) {
 
     return (
         <>
-            <GoogleAdMobile left={true}/>
+            <GoogleAdMobile left={true} slot='6584414246'/>
 
             <script
                 type="application/ld+json"
@@ -153,7 +153,7 @@ export default async function Quiz({params}: IProps) {
                     <h2>{quiz?.description}</h2>
                 </div>
             </div>
-            <GoogleAdMobile right={true} />
+            <GoogleAdMobile right={true} slot='2713167869' />
             
             <footer className={styles.footer}></footer>
         </>
