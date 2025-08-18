@@ -58,7 +58,8 @@ export async function generateMetadata({params}: IProps) : Promise<Metadata> {
 
     return {
         title: t('title', names),
-        description: t('desc', names),
+        //description: t('desc', names),
+        description: quiz.description,
         robots: `${quiz.isPrivate ? 'noindex': 'index, follow'}`,
         keywords: "quiz, user, take, save, share",
         alternates:{
