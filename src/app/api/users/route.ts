@@ -9,7 +9,6 @@ export async function GET(request: Request) {
             method: 'GET',
             cache: { cache: 'no-store' },
         });
-        console.log(externalApiResponse)
         const responseData = await externalApiResponse.json();
 
         if (!externalApiResponse.ok) {
