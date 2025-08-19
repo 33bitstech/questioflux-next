@@ -21,8 +21,8 @@ const GoogleAd = ({slot}: {slot: string}) => {
         }
     }, []); */
 
-
-    return (
+    return null
+    /* return (
         <Adsense
             client={'ca-pub-7383504438544213'}
             slot={slot} 
@@ -30,7 +30,7 @@ const GoogleAd = ({slot}: {slot: string}) => {
             format={'horizontal'}
             className={`adsbygoogle`}
         />
-    );
+    ); */
 }
 
 export default GoogleAd;

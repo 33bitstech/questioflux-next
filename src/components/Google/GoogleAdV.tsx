@@ -22,13 +22,14 @@ const GoogleAdV = ({left=false, rigth=false, slot}: {left: boolean, rigth: boole
         }
     }, []); */
 
-    return (<Adsense
+    return null
+    /* return (<Adsense
         className={`adsbygoogle ${left ? 'left' : ''} ${rigth ? 'rigth' : ''}`}
         client='ca-pub-7383504438544213'
         slot={slot}
         responsive='true'
         format={'vertical'}
-    />)
+    />) */
 }
 
 export default GoogleAdV

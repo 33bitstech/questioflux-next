@@ -72,7 +72,7 @@ export default function SubscriptionContainer({styles}:IProps) {
                             </span>
                         </div>
                     </div>
-                    <Link href='/subscription/vortexplususage'>{t('vortexPlusUsage.buyButton')}</Link>
+                    <Link href='/subscription/questioplususage'>{t('vortexPlusUsage.buyButton')}</Link>
                 </article>
             </section>
         </div>
