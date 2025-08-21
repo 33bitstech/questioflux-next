@@ -101,6 +101,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
                     icon={<MailSvg />}
                     autoFocus
                     autoComplete='email'
+                    name='email'
                 />
                 <InputComponent
                     type={isPasswordHidden ? 'password' : 'text'}
@@ -112,6 +113,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
                     autoComplete='current-password'
                     onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
                     isPasswordHidden={isPasswordHidden}
+                    name={locale === 'pt' ? 'senha' : 'password'}
                 />
             </div>
             <div className="footer-form">

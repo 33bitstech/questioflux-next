@@ -124,6 +124,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     error={getError('name')}
                     icon={<ProfileSvg />}
                     autoComplete='username'
+                    name='username'
                 />
                 <InputComponent
                     type="email"
@@ -133,6 +134,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     error={getError('email')}
                     icon={<MailSvg />}
                     autoComplete='email'
+                    name='email'
                 />
                 <InputComponent
                     type={isPasswordHidden ? 'password' : 'text'}
@@ -144,6 +146,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     autoComplete='current-password'
                     onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
                     isPasswordHidden={isPasswordHidden}
+                    name={locale === 'pt' ? 'senha' : 'password'}
                 />
                 <InputComponent
                     type={isConfirmPasswordHidden ? 'password' : 'text'}
@@ -155,6 +158,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     autoComplete='current-password'
                     onToggleHidePassword={()=>setIsConfirmPasswordHidden(state=>!state)}
                     isPasswordHidden={isConfirmPasswordHidden}
+                    name={locale === 'pt' ? 'confirmar_senha' : 'confirm_password'}
                 />
                 
                 <div className='footer-form'>

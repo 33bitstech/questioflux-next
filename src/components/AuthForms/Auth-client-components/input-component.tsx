@@ -11,12 +11,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string | null;
 }
 
-export default function InputComponent({isPasswordHidden, onToggleHidePassword, icon, error, ...props }: InputProps) {
+export default function InputComponent({isPasswordHidden, onToggleHidePassword, icon, error, name, ...props }: InputProps) {
     return (
         <div className={'input-error-message'}>
             <div className={error ? `input-class input-erro` : 'input-class'}>
                 {icon}
-                <input {...props} />
+                <input {...props} name={name} />
+
+                <label className="label-hidden" htmlFor={name}>{name}</label>
             
                 {onToggleHidePassword && (
                     <span
