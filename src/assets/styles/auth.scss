@@ -24,6 +24,12 @@
   align-items: center;
   gap: 7px;
   border-radius: 11px;
+  .label-hidden{
+    @extend %sr-only;
+  }
+  @media screen and (max-width: 860px) {
+    padding: 0.6625rem 0.625rem;
+  }
 }
 
 %inputelement-default {
@@ -433,4 +439,15 @@
       cursor: pointer;
     }
   }
+}
+@media screen and (max-width: 860px) {
+    .formularioAuth{
+        flex-direction: column-reverse !important;
+    }
+    .second-part-section{
+        justify-content: center !important;
+    }
+    .login-section{
+        width: 93% !important;
+    }
 }
