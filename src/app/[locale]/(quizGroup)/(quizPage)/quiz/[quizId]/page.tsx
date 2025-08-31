@@ -2,11 +2,11 @@ import React from 'react'
 import styles from './page.module.scss'
 import IQuizes from '@/interfaces/IQuizes';
 import { env } from '@/env';
-import {Link} from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
 import Participants from '@/components/widgets/participants';
 import SaveQuizWidget from '@/components/widgets/save-quiz-widget';
 import ShareButton from '@/components/widgets/share-button';
-import { getTranslations } from 'next-intl/server'; 
+import { getTranslations } from 'next-intl/server';
 import QuizCategoryContainer from '@/components/widgets/quiz-category-container';
 import GoogleAdMobile from '@/components/Google/googleAdMobile';
 import { Metadata } from 'next';
@@ -18,19 +18,19 @@ interface IProps {
     }>
 }
 
-const transformData = (datatime: Date, locale:string) => {
-        return new Intl.DateTimeFormat(locale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        }).format(new Date(datatime));
-    }
+const transformData = (datatime: Date, locale: string) => {
+    return new Intl.DateTimeFormat(locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    }).format(new Date(datatime));
+}
 
-async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
+async function getQuiz(quizId: string): Promise<IQuizes | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
             method: 'GET',
-            next:{revalidate: 60*5}
+            next: { revalidate: 60 * 5 }
         });
         const res = await response.json();
         return res.quiz;
@@ -39,9 +39,9 @@ async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
     }
 }
 
-export async function generateMetadata({params}: IProps) : Promise<Metadata> {
-    const {locale, quizId} = await params
-    const t = await getTranslations({locale, namespace: 'quizInfoPage.metadata'})
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const { locale, quizId } = await params
+    const t = await getTranslations({ locale, namespace: 'quizInfoPage.metadata' })
     const quiz = await getQuiz(quizId)
 
     const langs = {
@@ -49,27 +49,27 @@ export async function generateMetadata({params}: IProps) : Promise<Metadata> {
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}`
     },
-    names = {
-        name:quiz?.userCreatorName ?? '',
-        quiz_name: quiz?.title ?? ''
-    }
+        names = {
+            name: quiz?.userCreatorName ?? '',
+            quiz_name: quiz?.title ?? ''
+        }
 
-    if(!quiz) return {title: 'null'}
+    if (!quiz) return { title: 'null' }
 
     return {
         title: t('title', names),
         //description: t('desc', names),
         description: quiz.description,
-        robots: `${quiz.isPrivate ? 'noindex': 'index, follow'}`,
+        robots: `${quiz.isPrivate ? 'noindex' : 'index, follow'}`,
         keywords: "quiz, user, take, save, share",
-        alternates:{
+        alternates: {
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
             languages: langs
         },
         openGraph: {
             title: t('title', names),
             description: t('desc', names),
-            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`, 
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
             siteName: 'QuestioFlux',
             images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             type: 'website'
@@ -82,12 +82,12 @@ export async function generateMetadata({params}: IProps) : Promise<Metadata> {
     }
 }
 
-export default async function Quiz({params}: IProps) {
-    const {quizId, locale} = await params;
+export default async function Quiz({ params }: IProps) {
+    const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'quizInfoPage' });
     const quiz = await getQuiz(quizId);
 
-    if(!quiz) return null
+    if (!quiz) return null
 
     const quizSchema = {
         "@context": "https://schema.org",
@@ -95,6 +95,9 @@ export default async function Quiz({params}: IProps) {
         "mainEntityOfPage": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}` },
         "name": quiz.title,
         "description": quiz.description,
+        "image": [
+            quiz.quizThumbnail || `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`
+        ],
         "author": {
             "@type": "Person",
             "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${quiz?.userCreatorId}#person`,
@@ -112,7 +115,7 @@ export default async function Quiz({params}: IProps) {
 
     return (
         <>
-            <GoogleAdMobile left={true} slot='6584414246'/>
+            <GoogleAdMobile left={true} slot='6584414246' />
 
             <script
                 type="application/ld+json"
@@ -128,18 +131,18 @@ export default async function Quiz({params}: IProps) {
                                 <li>{t('details.createdBy')} <Link href={`/user/${quiz?.userCreatorId}`}>{quiz.userCreatorName}</Link></li>
                                 <li>{t('details.creationDate')} <time dateTime={quiz.created_at.toString()}>{transformData(quiz.created_at, locale)}</time></li>
                                 <li>{t('details.lastUpdated')} <time dateTime={quiz.updated_at.toString()}>{transformData(quiz.updated_at, locale)}</time></li>
-                                <li>{t('details.participants')} <Participants quiz={quiz} styles={styles}/></li>
-                                <li>{t('details.category')} 
+                                <li>{t('details.participants')} <Participants quiz={quiz} styles={styles} /></li>
+                                <li>{t('details.category')}
                                     <QuizCategoryContainer
                                         quiz={quiz}
                                     />
                                 </li>
                                 {quiz?.tags && quiz.tags.length > 0 ? <li>
-                                    {t('details.tags')} { quiz.tags?.map((tag, i)=>(
+                                    {t('details.tags')} {quiz.tags?.map((tag, i) => (
                                         <span key={i}>
-                                            <strong>{tag}</strong>{quiz.tags && i < (quiz.tags.length-1) ? ', ' : ''}
+                                            <strong>{tag}</strong>{quiz.tags && i < (quiz.tags.length - 1) ? ', ' : ''}
                                         </span>
-                                    )) }
+                                    ))}
                                 </li> : <></>}
                             </>
                         )}
@@ -148,14 +151,14 @@ export default async function Quiz({params}: IProps) {
                 <div className={styles.actions}>
                     <Link locale={locale} href={`/quiz/${quizId}/taking`}>{t('ctaButton')}</Link>
                     <SaveQuizWidget quizId={quizId} />
-                    <ShareButton styles={styles} quizId={quizId}/>
+                    <ShareButton styles={styles} quizId={quizId} />
                 </div>
                 <div className={styles.description_container}>
                     <h2>{quiz?.description}</h2>
                 </div>
             </div>
             <GoogleAdMobile right={true} slot='2713167869' />
-            
+
             <footer className={styles.footer}></footer>
         </>
     )
