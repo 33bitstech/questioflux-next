@@ -10,6 +10,7 @@ import { getTranslations } from 'next-intl/server';
 import QuizCategoryContainer from '@/components/widgets/quiz-category-container';
 import GoogleAdMobile from '@/components/Google/googleAdMobile';
 import { Metadata } from 'next';
+import Script from 'next/script'
 
 interface IProps {
     params: Promise<{
@@ -39,6 +40,34 @@ async function getQuiz(quizId: string): Promise<IQuizes | undefined> {
     }
 }
 
+function generateQuizSchema(t: any, quiz: IQuizes, locale: string) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "Quiz",
+        "mainEntityOfPage": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quiz.quizId}` },
+        "name": quiz.title,
+        "description": quiz.description,
+        "image": {
+            "@context": "https://schema.org",
+            "@type": "ImageObject",
+            "url": quiz.quizThumbnail || `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`
+        },
+        "author": {
+            "@type": "Person",
+            "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${quiz?.userCreatorId}#person`,
+            "name": quiz.userCreatorName
+        },
+        "publisher": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/#organization` },
+        "potentialAction": [
+            {
+                "@type": "TakeAction",
+                "name": t('metadata.actions.take'),
+                "target": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quiz.quizId}/taking`
+            }
+        ]
+    }
+}
+
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const { locale, quizId } = await params
     const t = await getTranslations({ locale, namespace: 'quizInfoPage.metadata' })
@@ -55,6 +84,8 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         }
 
     if (!quiz) return { title: 'null' }
+
+    const quizSchema = generateQuizSchema(t, quiz, locale)
 
     return {
         title: t('title', names),
@@ -78,6 +109,9 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             title: t('title', names),
             description: t('desc', names),
             images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
+        },
+        other: {
+            'application/ld+json': JSON.stringify(quizSchema)
         }
     }
 }
@@ -89,38 +123,23 @@ export default async function Quiz({ params }: IProps) {
 
     if (!quiz) return null
 
-    const quizSchema = {
-        "@context": "https://schema.org",
-        "@type": "Quiz",
-        "mainEntityOfPage": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}` },
-        "name": quiz.title,
-        "description": quiz.description,
-        "image": [
-            quiz.quizThumbnail || `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`
-        ],
-        "author": {
-            "@type": "Person",
-            "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${quiz?.userCreatorId}#person`,
-            "name": quiz.userCreatorName
-        },
-        "publisher": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/#organization` },
-        "potentialAction": [
-            {
-                "@type": "TakeAction",
-                "name": t('metadata.actions.take'),
-                "target": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quiz.quizId}/taking`
-            }
-        ]
-    }
+    const quizSchema = generateQuizSchema(t, quiz, locale)
 
     return (
         <>
             <GoogleAdMobile left={true} slot='6584414246' />
 
-            <script
+
+            {/* <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
+            /> */}
+            <Script
+                id='schema'
+                type='application/ld+json'
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
             />
+
 
             <div className={styles.quiz_details}>
                 <div className={styles.info}>
