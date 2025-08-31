@@ -85,8 +85,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 
     if (!quiz) return { title: 'null' }
 
-    const quizSchema = generateQuizSchema(t, quiz, locale)
-
     return {
         title: t('title', names),
         //description: t('desc', names),
@@ -109,9 +107,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             title: t('title', names),
             description: t('desc', names),
             images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
-        },
-        other: {
-            'application/ld+json': JSON.stringify(quizSchema)
         }
     }
 }
@@ -138,6 +133,7 @@ export default async function Quiz({ params }: IProps) {
                 id='schema'
                 type='application/ld+json'
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
+                strategy='beforeInteractive'
             />
 
 
