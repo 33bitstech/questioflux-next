@@ -130,7 +130,7 @@ export default async function Quiz({ params }: IProps) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
             /> */}
             <Script
-                id='schema'
+                id='quiz-json-schema'
                 type='application/ld+json'
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
                 strategy='beforeInteractive'
