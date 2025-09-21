@@ -36,12 +36,12 @@
     "registerComponent": {
         "title": "Create your account",
         "subtitle": "Start by creating your own quiz now",
-        "guess":{
+        "guess": {
             "separator": "Or",
             "button": "Enter as a Guess"
         }
     },
-    "guestComponent":{
+    "guestComponent": {
         "title": "Guest",
         "placeholder": "Your name...",
         "button": "Send",
@@ -76,7 +76,7 @@
     "registerPage": {
         "metadataTitle": "Register",
         "metadataDesc": "Sign up for QuestioFlux to create and take quizzes, track your scores, and join our community of quiz enthusiasts. Registration is quick and easy.",
-        "title": "Welcome to <bold>QuizVortex</bold>"
+        "title": "Welcome to <bold>QuestioFlux</bold>"
     },
     "loginPage": {
         "metadataTitle": "Login",
@@ -249,7 +249,7 @@
     },
     "explorePage": {
         "metadataTitle": "Explore Popular Quizzes - Discover and Play on QuestioFlux",
-        "metadataDesc":"Explore and play thousands of quizzes made by users on any topic you can think of. Discover top-rated and trending quizzes, challenge your friends, and put your knowledge to the test.",
+        "metadataDesc": "Explore and play thousands of quizzes made by users on any topic you can think of. Discover top-rated and trending quizzes, challenge your friends, and put your knowledge to the test.",
         "mainTitle": "Explore already created quizzes",
         "featuredTitle": "Most Popular",
         "buttons": {
@@ -274,10 +274,10 @@
         }
     },
     "quizInfoPage": {
-        "metadata":{
+        "metadata": {
             "title": "{quiz_name} | QuestioFlux",
             "desc": "Test your knowledge with this quiz {quiz_name} from {name}!",
-            "actions":{
+            "actions": {
                 "take": "Take The Quiz"
             }
         },
@@ -347,11 +347,11 @@
         },
         "home": "View Quiz"
     },
-    "publicProfile":{
+    "publicProfile": {
         "customTitle": "Public quizzes from this user",
-        "metadata":{
-            "title":"{name_user}'s Profile | Quizzes on QuizVortex",
-            "desc": "View {name_user}'s profile on QuizVortex. Check out all the quizzes they've created, their high scores, and their activity on the platform.",
+        "metadata": {
+            "title": "{name_user}'s Profile | Quizzes on QuestioFlux",
+            "desc": "View {name_user}'s profile on QuestioFlux. Check out all the quizzes they've created, their high scores, and their activity on the platform.",
             "createdQuizzesName": "Quizzes created by {name_user}"
         }
     },
@@ -361,7 +361,7 @@
         },
         "selectTypePage": {
             "title": "Create your quiz",
-            "desc" : "Build your own custom quiz in minutes with the QuestioFlux creator. Add questions, answers, and images, and then share it with everyone or friends. It's time to get creative!",
+            "desc": "Build your own custom quiz in minutes with the QuestioFlux creator. Add questions, answers, and images, and then share it with everyone or friends. It's time to get creative!",
             "subtitle": "To start creating your quiz, personality test or list, simply click on the respective button below and get started right now.",
             "descriptions": {
                 "rightAndWrongTitle": "Right and Wrong Quiz",
@@ -502,9 +502,9 @@
         "viewQuizButton": "View Quiz",
         "homeButton": "Home"
     },
-    "takingPage":{
+    "takingPage": {
         "buttonStart": "Start",
-        "errors":{
+        "errors": {
             "resAll": "You have to answer all the questions; make sure you didn't miss any"
         },
         "navigation": {
@@ -535,52 +535,52 @@
             "viewLeaderboard": "View leaderboard"
         }
     },
-    "SubscriptionPage":{
+    "SubscriptionPage": {
         "metadataTitle": "Subscription | {type}",
-        "descriptionPlus":"subscription - $2.50/month",
-        "descriptionUsage":"usage - $1,99/use",
+        "descriptionPlus": "subscription - $2.50/month",
+        "descriptionUsage": "usage - $1,99/use",
         "textChooseMethod": "Choose a payment method",
-        "buttons":{
+        "buttons": {
             "creditCard": "Credit Card"
         },
-        "inputs":{
+        "inputs": {
             "send": "Pay",
             "loading": "Loading..."
         },
         "hasPremium": "You already have an active subscription",
-        "errors":{
+        "errors": {
             "email": "The email must be filled out correctly"
         },
-        "sucess":"Payment successfully!"
+        "sucess": "Payment successfully!"
     },
-    "mainMetadata":{
+    "mainMetadata": {
         "desc": "Create your own quiz with QuestioFlux! A powerful and fun quiz maker to build and share tests with friends. Add images, customize questions, and see who reaches the top of the leaderboard. Start creating today!",
-        "title":"QuestioFlux - Quiz Maker",
-        "query_inputs":{
+        "title": "QuestioFlux - Quiz Maker",
+        "query_inputs": {
             "searchByTitle": "Search for a quiz with a specific title.",
             "searchByTags": "Filter quizzes by tags (e.g., 'movies', 'history').",
             "searchByCategories": "Filter quizzes by categories (e.g., 'general-knowledge', 'pop-culture')."
         }
     },
-    "badgesDesc":{
-        "questioplus":"QuestioPlus Subscriber! Enjoy unlimited quiz creation with full access to all premium benefits.",
-        "questioplususage":"Premium Usage: {qtd} use(s) available to create your next quiz."
+    "badgesDesc": {
+        "questioplus": "QuestioPlus Subscriber! Enjoy unlimited quiz creation with full access to all premium benefits.",
+        "questioplususage": "Premium Usage: {qtd} use(s) available to create your next quiz."
     },
-    "deleteQuiz":{
+    "deleteQuiz": {
         "button": "Delete quiz",
         "sucess": "Quiz deleted sucessfully !",
-        "menu":{
+        "menu": {
             "title": "Danger zone !",
             "desc": "You are about to delete this quiz, are you sure about that ?",
             "confirm": "Yes, delete",
             "cancel": "No, cancel"
         }
     },
-    "deleteMultiple":{
+    "deleteMultiple": {
         "mainbutton": "Delete all drafts",
         "message": "You are about to delete all your drafts, are you sure?",
-        "confirm":"Yes, delete",
-        "cancel":"No, cancel",
+        "confirm": "Yes, delete",
+        "cancel": "No, cancel",
         "sucess": "Quizzes deleted sucessfully !"
     }
 }

@@ -12,7 +12,7 @@ declare global {
     }
 }
 
-const GoogleAdV = ({left=false, rigth=false, slot}: {left: boolean, rigth: boolean, slot:string}) => {
+const GoogleAdV = ({ left = false, rigth = false, slot }: { left: boolean, rigth: boolean, slot: string }) => {
 
     /* useEffect(() => {
         try {
@@ -22,14 +22,13 @@ const GoogleAdV = ({left=false, rigth=false, slot}: {left: boolean, rigth: boole
         }
     }, []); */
 
-    return null
-    /* return (<Adsense
+    return (<Adsense
         className={`adsbygoogle ${left ? 'left' : ''} ${rigth ? 'rigth' : ''}`}
         client='ca-pub-7383504438544213'
         slot={slot}
         responsive='true'
         format={'vertical'}
-    />) */
+    />)
 }
 
 export default GoogleAdV
