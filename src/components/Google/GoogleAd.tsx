@@ -12,7 +12,7 @@ declare global {
     }
 }
 
-const GoogleAd = ({slot}: {slot: string}) => {
+const GoogleAd = ({ slot }: { slot: string }) => {
     /* useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -21,16 +21,16 @@ const GoogleAd = ({slot}: {slot: string}) => {
         }
     }, []); */
 
-    return null
-    /* return (
+
+    return (
         <Adsense
             client={'ca-pub-7383504438544213'}
-            slot={slot} 
+            slot={slot}
             responsive='true'
             format={'horizontal'}
             className={`adsbygoogle`}
         />
-    ); */
+    );
 }
 
 export default GoogleAd;
