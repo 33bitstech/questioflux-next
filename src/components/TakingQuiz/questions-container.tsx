@@ -288,7 +288,7 @@ export default function QuestionsContainer({
                     {actualQuestion === qtdQuestions ? (
                         <>
                             {Object.keys(selectedAnswers).length == qtdQuestions &&
-                                <button onClick={handleResult}>
+                                <button onClick={handleResult} style={{ zIndex: 7 }}>
                                     {t('navigation.results')}
                                 </button>
                             }

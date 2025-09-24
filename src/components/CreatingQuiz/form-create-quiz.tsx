@@ -3,7 +3,7 @@ import { TStyles } from '@/types/stylesType'
 import React, { FormEvent, useEffect, useState } from 'react'
 import InputImageQuiz from './input-image-quiz'
 import InputTextQuiz from './input-text-quiz'
-import useErrors, {ErrorsState}from '@/hooks/useErrors'
+import useErrors, { ErrorsState } from '@/hooks/useErrors'
 import { useFilters } from '@/contexts/filtersContext'
 import IFinalMessages from '@/interfaces/IFinalMessages'
 import InputFinalMessages from './input-final-messages'
@@ -18,26 +18,26 @@ import LoginComponent from '../AuthForms/login-component'
 import LoadingReq from '../Loading/loading-req'
 import GuestForm from '../AuthForms/Guest/guest-form'
 
-interface IProps{
+interface IProps {
     styles: TStyles
 }
 
-export default function FormCreateQuiz({styles}:IProps) {
+export default function FormCreateQuiz({ styles }: IProps) {
     const t = useTranslations('createQuizFlow.formComponent')
     const locale = useLocale()
-    const {getError, setError, resetErrors, resetTypeError} = useErrors(),
-        {setError: setGlobalError} = useGlobalMessage(),
-        {filters, filtersPt} = useFilters(),
+    const { getError, setError, resetErrors, resetTypeError } = useErrors(),
+        { setError: setGlobalError } = useGlobalMessage(),
+        { filters, filtersPt } = useFilters(),
         router = useRouter(),
-        {token} = useUser()
+        { token } = useUser()
 
     const [imageData, setImageData] = useState<File | null>(null),
         [title, setTitle] = useState<string>(''),
         [desc, setDesc] = useState<string>(''),
         [category, setCategory] = useState<string>(''),
         [tagsString, setTagsString] = useState<string>(''),
-        [visibility, setVisibility] = useState<'public'|'private'>('private'),
-        [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>(locale == 'pt' ? 'PT-BR':'EN-US'),
+        [visibility, setVisibility] = useState<'public' | 'private'>('private'),
+        [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>(locale == 'pt' ? 'PT-BR' : 'EN-US'),
 
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
 
@@ -47,9 +47,9 @@ export default function FormCreateQuiz({styles}:IProps) {
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
 
         [canShowRegister, setCanShowRegister] = useState<boolean>(false),
-        {typePopup, toGuest, toLogin, toRegister} = usePopupAuth()
+        { typePopup, toGuest, toLogin, toRegister } = usePopupAuth()
 
-    useEffect(()=>{
+    useEffect(() => {
         if (errorQuiz) {
             switch (locale) {
                 case 'pt':
@@ -61,22 +61,22 @@ export default function FormCreateQuiz({styles}:IProps) {
                 default:
                     break;
             }
-        }else{
+        } else {
             resetErrors()
         }
     }, [errorQuiz])
-    
 
-    const sendDatas = (acessToken?: string)=>{
-        if(!token && !acessToken) return
+
+    const sendDatas = (acessToken?: string) => {
+        if (!token && !acessToken) return
         setErrorQuiz(undefined)
         setLoading(true)
 
         let tempToken = token ? token : `Bearer ${acessToken}`
 
         const isPrivate = visibility == 'public' ? false : true,
-            tags = tagsString.split(',').map(tag=>tag.trim())
-        
+            tags = tagsString.split(',').map(tag => tag.trim())
+
         const quizObject = {
             quizData: {
                 title,
@@ -89,59 +89,58 @@ export default function FormCreateQuiz({styles}:IProps) {
                 resultMessages: finalMessages
             }
         }
-        
+
         const formData = new FormData()
 
         formData.append('quizDatas', JSON.stringify(quizObject))
         if (imageData) formData.append('quizImg', imageData)
 
         createQuiz(formData, tempToken)
-            .then(({res, err, warning})=>{
+            .then(({ res, err, warning }) => {
                 if (warning) setGlobalError(warning ?? t('serverError'))
-                if(err) {
-                    if(err.type == undefined || err.type == null) {
+                if (err) {
+                    if (err.type == undefined || err.type == null) {
                         setGlobalError(err.message)
-                    }else{
+                    } else {
                         setErrorQuiz(err)
                     }
-                }else{
-                    if(savingAsDraft) {
+                } else {
+                    if (savingAsDraft) {
                         router.push('/home')
-                    }else{
+                    } else {
                         router.push(`/create/quiz/questions/${res.quizId}`)
                     }
                 }
             })
-            .finally(()=>{
+            .finally(() => {
                 setLoading(false)
-            }) 
+            })
     }
-    const handleSubmit = (e:FormEvent)=>{
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
 
-        if(!token) return setCanShowRegister(true)
+        if (!token) return setCanShowRegister(true)
 
         sendDatas()
     },
-    handleRegisterAndFinishQuiz = (token:string)=>{
-        setCanShowRegister(false)
-        sendDatas(token)
-    }
+        handleRegisterAndFinishQuiz = (token: string) => {
+            setCanShowRegister(false)
+            sendDatas(token)
+        }
 
     return (
         <>
             {!token && canShowRegister && (<div>
-                {typePopup === 'register' 
+                {typePopup === 'register'
                     && <RegisterComponent
                         locale={locale}
                         absolute={true}
                         toLogin={toLogin}
-                        toGuest={toGuest}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
-                    /> 
+                    />
                 }
-                {typePopup === 'login' && 
+                {typePopup === 'login' &&
                     <LoginComponent
                         locale={locale}
                         toRegister={toRegister}
@@ -149,16 +148,9 @@ export default function FormCreateQuiz({styles}:IProps) {
                         show_pop_up={setCanShowRegister}
                     />
                 }
-                {typePopup === 'guest' && 
-                    <GuestForm
-                        toRegister={toRegister}
-                        handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
-                        show_pop_up={setCanShowRegister}
-                    />
-                }
             </div>)}
 
-            {loading && <LoadingReq loading={loading}/>}
+            {loading && <LoadingReq loading={loading} />}
 
             <form className={styles.form} onSubmit={handleSubmit}>
 
@@ -174,15 +166,15 @@ export default function FormCreateQuiz({styles}:IProps) {
                     labelValue={t('labels.title')}
                     error={getError('title')}
                 >
-                    <input 
-                        type="text" 
-                        id="title" 
-                        placeholder={t('placeholders.title')} 
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder={t('placeholders.title')}
                         value={title}
-                        onChange={(e)=>{
+                        onChange={(e) => {
                             setTitle(e.target.value)
                             resetTypeError('title')
-                        }}    
+                        }}
                     />
                 </InputTextQuiz>
 
@@ -192,33 +184,33 @@ export default function FormCreateQuiz({styles}:IProps) {
                     styles={styles}
                     error={getError('description')}
                 >
-                    <textarea 
-                        id="desc" 
+                    <textarea
+                        id="desc"
                         placeholder={t('placeholders.description')}
                         value={desc}
-                        onChange={(e)=>{
+                        onChange={(e) => {
                             setDesc(e.target.value)
                             resetTypeError('description')
                         }}
                     ></textarea>
                 </InputTextQuiz>
-                
+
                 <InputTextQuiz
                     error={getError('category')}
                     styles={styles}
                     labelFor='category'
                     labelValue={t('labels.category')}
                 >
-                    <select id="category" value={category} onChange={e=>{
+                    <select id="category" value={category} onChange={e => {
                         setCategory(e.target.value)
                         resetTypeError('category')
-                    }}> 
+                    }}>
                         <option value="" disabled>{t('selects.chooseCategory')}</option>
                         {locale == 'pt'
-                            ? filtersPt.map((categorie, index)=>(
+                            ? filtersPt.map((categorie, index) => (
                                 <option key={categorie} value={filters[filtersPt.indexOf(categorie)]}>{categorie}</option>
-                            )) 
-                            : filters.map((categorie)=>(
+                            ))
+                            : filters.map((categorie) => (
                                 <option key={categorie} value={categorie}>{categorie}</option>
                             ))
                         }
@@ -231,12 +223,12 @@ export default function FormCreateQuiz({styles}:IProps) {
                     labelFor='tags'
                     labelValue={t('labels.tags')}
                 >
-                    <input 
+                    <input
                         id='tags'
-                        type="text" 
+                        type="text"
                         placeholder={t('placeholders.tags')}
                         value={tagsString}
-                        onChange={(e)=>setTagsString(e.target.value)}
+                        onChange={(e) => setTagsString(e.target.value)}
                     />
                 </InputTextQuiz>
 
@@ -245,10 +237,10 @@ export default function FormCreateQuiz({styles}:IProps) {
                     labelFor='visibility'
                     labelValue={t('labels.visibility')}
                 >
-                    <select 
-                        id="visibility" 
-                        value={visibility} 
-                        onChange={e=>setVisibility(e.target.value as 'public' | 'private')}
+                    <select
+                        id="visibility"
+                        value={visibility}
+                        onChange={e => setVisibility(e.target.value as 'public' | 'private')}
                     >
                         <option value="public">{t('selects.public')}</option>
                         <option value="private">{t('selects.private')}</option>
@@ -260,10 +252,10 @@ export default function FormCreateQuiz({styles}:IProps) {
                     labelFor='lang'
                     labelValue={t('labels.idiom')}
                 >
-                    <select 
-                        id="lang" 
-                        value={idiom} 
-                        onChange={e=>setIdiom(e.target.value as 'PT-BR' | 'EN-US')}
+                    <select
+                        id="lang"
+                        value={idiom}
+                        onChange={e => setIdiom(e.target.value as 'PT-BR' | 'EN-US')}
                     >
                         <option value='EN-US'>{t('selects.en')}</option>
                         <option value='PT-BR'>{t('selects.pt')}</option>
@@ -280,13 +272,13 @@ export default function FormCreateQuiz({styles}:IProps) {
 
                 <footer className={styles.footer}>
                     <div className={styles.actions}>
-                        <button onClick={(e)=>{
+                        <button onClick={(e) => {
                             e.preventDefault()
                             router.back()
                         }}>{t('buttons.back')}</button>
                     </div>
                     <div className={styles.save}>
-                        <input disabled={loading} type='submit' value={t('buttons.saveDraft')} onClick={()=>setSavingAsDraft(true)}/>
+                        <input disabled={loading} type='submit' value={t('buttons.saveDraft')} onClick={() => setSavingAsDraft(true)} />
                         <input disabled={loading} type="submit" value={t('buttons.continue')} />
                     </div>
                 </footer>
