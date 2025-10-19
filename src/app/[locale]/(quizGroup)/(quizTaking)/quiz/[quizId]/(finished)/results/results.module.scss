@@ -1,26 +1,30 @@
 @use '../../../../../../../../assets/styles/vars.scss';
 
-.container_results{
+.container_results {
     display: flex;
     width: 100%;
     flex-direction: column;
     gap: .8rem;
     align-items: center;
-    .message_result{
+
+    .message_result {
         width: 70%;
-        h3{
+
+        h3 {
             width: 100%;
             text-align: center;
             @include vars.styleTexto(var(--text-primary), 1rem, 700);
             text-transform: capitalize;
         }
     }
-    .results_values{
+
+    .results_values {
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
         justify-content: center;
-        .value{
+
+        .value {
             background-color: var(--background-divs);
             width: 12rem;
             height: 8rem;
@@ -31,10 +35,12 @@
             padding: 1.94rem 1.44rem;
             border-radius: 0.91556rem;
             box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
-            h2{
+
+            h2 {
                 @include vars.styleTexto(var(--text-primary), 1.875rem, 700);
             }
-            p{
+
+            p {
                 @include vars.styleTexto(var(--text-primary), .75rem, 500);
                 text-align: center;
                 text-transform: capitalize;
@@ -43,11 +49,40 @@
     }
 
 }
-.link_leaderboard{
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.link_leaderboard {
     padding: 0.875rem 1.625rem;
     border-radius: 0.6875rem;
     text-transform: capitalize;
     @include vars.styleTexto(var(--text-primary), 1rem, 700);
     border: 1px solid var(--text-primary);
     background-color: transparent;
+}
+
+.check_score {
+    cursor: pointer;
+    padding: 0.6rem 1rem;
+    border: 2px solid transparent;
+    border-radius: 0.6875rem;
+
+    background-image:
+        linear-gradient(var(--background-primary), var(--background-primary)),
+        linear-gradient(180deg, vars.$cor-azulEscuro, vars.$cor-ciano);
+
+    background-origin:
+        padding-box,
+        border-box;
+
+    background-clip:
+        padding-box,
+        border-box;
+
+    text-transform: capitalize;
+    @include vars.styleTexto(var(--text-primary), .97rem, 400);
 }

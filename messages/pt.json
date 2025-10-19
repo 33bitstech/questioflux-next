@@ -532,7 +532,8 @@
             "totalQuestions": "Perguntas no total",
             "correctAnswers": "Respostas corretas",
             "totalTime": "Tempo total",
-            "viewLeaderboard": "Ver o ranking"
+            "viewLeaderboard": "Ver o ranking",
+            "viewAnswers": "Veja seu resultado"
         }
     },
     "SubscriptionPage": {

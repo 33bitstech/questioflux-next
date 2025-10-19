@@ -3,37 +3,44 @@ import { cookies } from 'next/headers'
 import React from 'react'
 import styles from './results.module.scss'
 import { getTimeString } from '@/utils/FormatTime'
-import {Link} from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server' // Importar
 import GoogleAd from '@/components/Google/GoogleAd'
+import { getLeaderboard, getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
+import ButtonSeeScore from '@/components/Leaderboard/button-see-score'
 
 // Atualizar IProps para incluir locale
-interface IProps{
+interface IProps {
     params: Promise<{
         quizId: string,
         locale: string
     }>
 }
 
-export default async function Results({params}:IProps) {
-    const {quizId, locale} = await params;
-    const t = await getTranslations({ locale, namespace: 'quizResultsPage.results' });
-    const res = await getCookie('quizResults', {cookies});
+export default async function Results({ params }: IProps) {
+    const { quizId, locale } = await params;
+
+    const [t, res, leaderboard, quiz] = await Promise.all([
+        getTranslations({ locale, namespace: 'quizResultsPage.results' }),
+        getCookie('quizResults', { cookies }),
+        getLeaderboard(quizId),
+        getQuiz(quizId)
+    ])
 
     if (!res) {
         return <div>{t('noResults')}</div>;
     }
     const results = JSON.parse(res as string);
 
-    const getResultsFormated = ()=>{
+    const getResultsFormated = () => {
         const totalQuestions = results.userForLeaderBoard.score.split('/')[1],
             correctQuestions = results.userForLeaderBoard.result.correctAnswers.length,
             time = getTimeString(results.userForLeaderBoard.timing)
-        return {totalQuestions, correctQuestions, time}
+        return { totalQuestions, correctQuestions, time }
     }
 
-    if(!quizId) return null; // Retornar nulo se não houver quizId
-    
+    if (!quizId) return null; // Retornar nulo se não houver quizId
+
     return (
         <>
             <div className={styles.container_results}>
@@ -56,14 +63,24 @@ export default async function Results({params}:IProps) {
                     </div>
                 </div>
             </div>
-            <Link 
-                locale={locale}
-                href={`/quiz/${quizId}/lb`} 
-                className={styles.link_leaderboard}
-            >{t('viewLeaderboard')}</Link>
 
-            <GoogleAd slot='8751962602'/>
-            
+            <div className={styles.actions}>
+                <ButtonSeeScore
+                    className={styles.check_score}
+                    leaderboard={leaderboard!}
+                    quiz={quiz!}
+                >
+                    {t('viewAnswers')}
+                </ButtonSeeScore>
+                <Link
+                    locale={locale}
+                    href={`/quiz/${quizId}/lb`}
+                    className={styles.link_leaderboard}
+                >{t('viewLeaderboard')}</Link>
+            </div>
+
+            <GoogleAd slot='8751962602' />
+
         </>
     )
 }

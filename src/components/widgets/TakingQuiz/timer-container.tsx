@@ -14,14 +14,10 @@ interface IProps {
     started: boolean,
     setStarted: () => void,
     initialTime: number
-    result: undefined | {
-        quizAnswer: any,
-        timing: number,
-        guest?: string
-    }
+    finalTime: number
 }
 
-export default function TimerContainer({ styles, quiz, setStarted, started, initialTime, result }: IProps) {
+export default function TimerContainer({ styles, quiz, setStarted, started, initialTime, finalTime }: IProps) {
     const [passedTime, setPassedTime] = useState<number>(0)
     const t = useTranslations('takingPage')
     const [loading, setLoading] = useState(true)
@@ -68,7 +64,7 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
                     <span>:</span>
                     <span>{formatTimeValue('miliseconds')}</span>
                 </div>
-                {!result &&
+                {!finalTime &&
                     <div className={styles.time_action}>
                         <button
                             onClick={setStarted}

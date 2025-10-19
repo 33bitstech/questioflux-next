@@ -8,38 +8,39 @@ import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
 import UserAnswers from './user-answers'
 
-interface IProps{
+interface IProps {
     styles: TStyles
     userLb: IUserLeaderBoardScore,
     quiz: IQuizes,
     quizLb: TLeaderboard
 }
 
-export default function HandleAnswers({styles, userLb, quiz, quizLb}: IProps) {
-    const {user} = useUser(),
+export default function HandleAnswers({ styles, userLb, quiz, quizLb }: IProps) {
+    const { user } = useUser(),
         userCanSeeAnswers = user?.userId === quiz?.userCreatorId,
-        canSeeAllAnswers = userCanSeeAnswers || userLb.userId === user?.userId,
+        userInLb = quizLb.find(lb => lb.userId === user?.userId),
+        canSeeAllAnswers = userCanSeeAnswers || userInLb,
         [showUserAnswers, setShowUserAnswers] = useState<boolean>(false)
 
     return (
         <>
-            <span 
-                onClick={()=>{
-                    if (canSeeAllAnswers) 
-                        setShowUserAnswers(state=>!state)
-                }} 
+            <span
+                onClick={() => {
+                    if (canSeeAllAnswers)
+                        setShowUserAnswers(state => !state)
+                }}
                 className={`${styles.score} ${canSeeAllAnswers ? styles.canHover : ''}`}
             >
                 {userLb.score}
             </span>
 
             {showUserAnswers && <>
-                <UserAnswers 
+                <UserAnswers
                     userLb={userLb}
                     quiz={quiz}
-                    closeAnswers={()=>{setShowUserAnswers(false)}}
+                    closeAnswers={() => { setShowUserAnswers(false) }}
                 />
-                <div onClick={()=>setShowUserAnswers(false)} className={styles.overlay_result}></div>
+                <div onClick={() => setShowUserAnswers(false)} className={styles.overlay_result}></div>
             </>}
         </>
     )
