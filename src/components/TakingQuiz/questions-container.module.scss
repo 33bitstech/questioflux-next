@@ -1,18 +1,20 @@
 @use '../../assets/styles/vars.scss';
 
-.Answering{
+.Answering {
     display: flex;
     flex-direction: column;
     gap: .94rem;
     align-items: center;
     justify-content: center;
     width: 100%;
-    .questions_amount{
+
+    .questions_amount {
         display: flex;
         align-items: center;
         gap: .75rem;
 
-        .circle_background, .question_actived{
+        .circle_background,
+        .question_actived {
             background: vars.$cor-cinza8;
             width: 1.625rem;
             height: 1.625rem;
@@ -20,7 +22,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            .circle_container{
+
+            .circle_container {
                 width: calc(100% - 3px);
                 height: calc(100% - 3px);
                 border-radius: 100%;
@@ -29,8 +32,8 @@
                 justify-content: center;
                 background-color: var(--reverse-primary);
 
-                span{
-                    @include vars.styleTexto(vars.$cor-cinza8, .8rem, 1000); 
+                span {
+                    @include vars.styleTexto(vars.$cor-cinza8, .8rem, 1000);
                     width: 1rem;
                     text-align: center;
 
@@ -41,62 +44,71 @@
             }
         }
 
-        .circle_background.question_actived{
+        .circle_background.question_actived {
             background: var(--background-blue-to-gradient);
-            .circle_container{
-                    
-                span{
+
+            .circle_container {
+
+                span {
                     background-clip: text !important;
                     background: var(--background-blue-to-gradient);
                 }
             }
         }
     }
-    .question_answering{
+
+    .question_answering {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1.25rem;
 
-        width:90%;
-        h3{
+        width: 90%;
+
+        h3 {
             @include vars.styleTexto(var(--text-primary), 1rem, 700);
             white-space: pre-wrap;
         }
-        .answers{
+
+        .answers {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: .62rem;
             width: 100%;
-            .answer_container{
+
+            .answer_container {
                 width: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 border-radius: 0.8rem;
-                &.answer_input_selected{
+
+                &.answer_input_selected {
                     background: linear-gradient(90deg, #0047FF 0%, #00E4FF 100%);
                 }
             }
-            .answer_input{
+
+            .answer_input {
                 margin: 2px;
                 width: 100%;
                 padding: .8rem 1.2rem;
                 border-radius: 0.6875rem;
                 background-color: var(--background-dark);
                 cursor: pointer;
-                p{
+
+                p {
                     @include vars.styleTexto(vars.$cor-branco, .75rem, 400);
-                    text-transform: capitalize;
                 }
             }
-            .answers_actions{
+
+            .answers_actions {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 width: 100%;
-                button{
+
+                button {
                     @include vars.styleTexto(var(--text-primary), 1rem, 700);
                     border: 1px solid var(--text-primary);
                     text-transform: uppercase;
@@ -105,20 +117,23 @@
                     background-color: transparent;
                     cursor: pointer;
                 }
-                .hidden_button{
+
+                .hidden_button {
                     @extend %hidden-element;
                     cursor: auto;
                 }
             }
         }
     }
-    .question_answering_image{
+
+    .question_answering_image {
         display: flex;
         flex-direction: column;
         gap: .8rem;
         width: 100%;
         height: auto;
-        .taking_image_container{
+
+        .taking_image_container {
             display: flex;
             flex-direction: column;
             border-radius: 0.9375rem;
@@ -126,7 +141,8 @@
             overflow: hidden;
             height: 20rem;
             width: 100%;
-            .image{
+
+            .image {
                 width: 100%;
                 height: 85%;
                 display: flex;
@@ -134,14 +150,16 @@
                 justify-content: center;
                 cursor: pointer;
                 overflow: hidden;
-                img{
+
+                img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
                     background-size: contain;
                 }
             }
-            .footer_question{
+
+            .footer_question {
                 display: flex;
                 gap: .62rem;
                 align-items: center;
@@ -150,35 +168,42 @@
                 width: 100%;
                 height: 15%;
                 position: relative;
-                p{
+
+                p {
                     @include vars.styleTexto(var(--text-primary), .85rem, 400);
-                    span{
+
+                    span {
                         font-weight: 700;
                     }
                 }
             }
-            &.answer_input_selected{
+
+            &.answer_input_selected {
                 border: 3px solid vars.$cor-azulEscuro;
             }
         }
-        .answers_container{
+
+        .answers_container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             gap: 1.5rem;
             width: 100%;
-            .taking_image_container{
+
+            .taking_image_container {
                 width: 48%;
                 min-width: 17rem;
             }
         }
-        .answers_actions{
+
+        .answers_actions {
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            button{
+
+            button {
                 @include vars.styleTexto(var(--text-primary), 1rem, 700);
                 border: 1px solid var(--text-primary);
                 text-transform: uppercase;
@@ -187,7 +212,8 @@
                 background-color: transparent;
                 cursor: pointer;
             }
-            .hidden_button{
+
+            .hidden_button {
                 @extend %hidden-element;
                 cursor: auto;
             }

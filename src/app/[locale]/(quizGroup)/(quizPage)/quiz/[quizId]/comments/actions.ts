@@ -17,7 +17,7 @@ export async function createComment(quizId: string, data: object, token: CookieV
 
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
     revalidatePath(`/quiz/${quizId}/comments`)
 }
@@ -33,7 +33,7 @@ export async function deleteComment(quizId: string, commentId: string, data: obj
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
     revalidatePath(`/quiz/${quizId}/comments`)
 }
@@ -49,7 +49,7 @@ export async function editComment(quizId: string, commentId: string, data: objec
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
     revalidatePath(`/quiz/${quizId}/comments`)
 }
@@ -63,7 +63,7 @@ export async function likeComment(commentId: string, token: CookieValueTypes) {
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
 }
 export async function dislikeComment(commentId: string, token: CookieValueTypes) {
@@ -76,10 +76,10 @@ export async function dislikeComment(commentId: string, token: CookieValueTypes)
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
 }
-export async function replyComment(quizId:string, commentId: string, data: object, token: CookieValueTypes) {
+export async function replyComment(quizId: string, commentId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}`, {
         method: 'POST',
         headers: {
@@ -91,21 +91,21 @@ export async function replyComment(quizId:string, commentId: string, data: objec
 
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
     revalidatePath(`/quiz/${quizId}/comments`)
 }
 
-export async function repliesFromComment(quizId:string, commentId: string) : Promise<IReplies[]|undefined>{
+export async function repliesFromComment(quizId: string, commentId: string): Promise<IReplies[] | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}`, {
             method: 'GET'
         })
-        
+
         if (!response.ok) throw new Error('Ocorreu um erro')
 
         const res = await response.json()
-    
+
         return res.repliesMargedArray
     } catch (err) {
         console.log(err)
@@ -113,7 +113,7 @@ export async function repliesFromComment(quizId:string, commentId: string) : Pro
 }
 
 
-export async function deleteReply(quizId: string, commentId: string, replyId:string, data: object, token: CookieValueTypes) {
+export async function deleteReply(quizId: string, commentId: string, replyId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/delete`, {
         method: 'DELETE',
         headers: {
@@ -124,11 +124,11 @@ export async function deleteReply(quizId: string, commentId: string, replyId:str
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
     revalidatePath(`/quiz/${quizId}/comments`)
 }
-export async function editReply(quizId: string, commentId: string,replyId:string, data: object, token: CookieValueTypes) {
+export async function editReply(quizId: string, commentId: string, replyId: string, data: object, token: CookieValueTypes) {
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/edit`, {
         method: 'PUT',
@@ -140,11 +140,11 @@ export async function editReply(quizId: string, commentId: string,replyId:string
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
     revalidatePath(`/quiz/${quizId}/comments`)
 }
-export async function likeReply(commentId: string, replyId:string, token: CookieValueTypes) {
+export async function likeReply(commentId: string, replyId: string, token: CookieValueTypes) {
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/like`, {
         method: 'PUT',
@@ -154,10 +154,10 @@ export async function likeReply(commentId: string, replyId:string, token: Cookie
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
 }
-export async function dislikeReply(commentId: string, replyId:string, token: CookieValueTypes) {
+export async function dislikeReply(commentId: string, replyId: string, token: CookieValueTypes) {
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/dislike`, {
         method: 'DELETE',
@@ -167,6 +167,6 @@ export async function dislikeReply(commentId: string, replyId:string, token: Coo
     })
     const res = await response.json()
 
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 
 }
