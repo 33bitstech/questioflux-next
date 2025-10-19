@@ -8,27 +8,32 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import stylesS from '@/components/ImagesRender/user-profile-img-render.module.scss'
 
-interface IProps{
+interface IProps {
     styles: TStyles,
     quiz: IQuizes,
     started: boolean,
-    setStarted: ()=>void,
+    setStarted: () => void,
     initialTime: number
+    result: undefined | {
+        quizAnswer: any,
+        timing: number,
+        guest?: string
+    }
 }
 
-export default function TimerContainer({styles, quiz, setStarted, started, initialTime}:IProps) {
+export default function TimerContainer({ styles, quiz, setStarted, started, initialTime, result }: IProps) {
     const [passedTime, setPassedTime] = useState<number>(0)
     const t = useTranslations('takingPage')
     const [loading, setLoading] = useState(true)
 
     type TimeKey = 'hours' | 'minutes' | 'seconds' | 'miliseconds';
-    const formatTimeValue = (typeTime: TimeKey) =>{
+    const formatTimeValue = (typeTime: TimeKey) => {
         return String(getTimeObject(passedTime)[typeTime]).padStart(2, '0')
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         let interval: NodeJS.Timeout | undefined
-        if(started){
+        if (started) {
             interval = setInterval(() => {
                 setPassedTime(Date.now() - initialTime)
             }, 20);
@@ -37,21 +42,21 @@ export default function TimerContainer({styles, quiz, setStarted, started, initi
             if (interval) clearInterval(interval)
         }
     }, [started, initialTime])
-    
+
     return (
         <div className={styles.img_quiz_container}>
-            {loading && <Skeleton/>}
-            <Image 
+            {loading && <Skeleton />}
+            <Image
                 className={loading ? stylesS.image_loading : stylesS.image_loaded}
-                src={quiz?.quizThumbnail !== 'default' 
-                    ? quiz?.quizThumbnail 
-                    : '/imageQuizDefault.jpg'} 
-                alt="quiz image" 
+                src={quiz?.quizThumbnail !== 'default'
+                    ? quiz?.quizThumbnail
+                    : '/imageQuizDefault.jpg'}
+                alt="quiz image"
                 width={800}
                 height={800}
                 quality={100}
-                onLoad={()=>setLoading(false)}
-                onError={()=>setLoading(false)}
+                onLoad={() => setLoading(false)}
+                onError={() => setLoading(false)}
                 fetchPriority='high'
                 loading='lazy'
             />
@@ -63,12 +68,14 @@ export default function TimerContainer({styles, quiz, setStarted, started, initi
                     <span>:</span>
                     <span>{formatTimeValue('miliseconds')}</span>
                 </div>
-                <div className={styles.time_action}>
-                    <button 
-                        onClick={setStarted} 
-                        className={started ? styles.button_started : ''}
-                    >{t('buttonStart')}</button>
-                </div>
+                {!result &&
+                    <div className={styles.time_action}>
+                        <button
+                            onClick={setStarted}
+                            className={started ? styles.button_started : ''}
+                        >{t('buttonStart')}</button>
+                    </div>
+                }
             </div>
         </div>
     )

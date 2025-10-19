@@ -11,12 +11,12 @@ import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next/client'
 import LoadingReq from '../Loading/loading-req'
 
-interface IProps{
+interface IProps {
     styles: TStyles,
     quiz: IQuizes
 }
 
-export default function TakingComponent({quiz, styles}:IProps) {
+export default function TakingComponent({ quiz, styles }: IProps) {
     const [started, setStarted] = useState<boolean>(false),
         [initialTime, setInitialTime] = useState<number>(0),
         [result, setResult] = useState<{
@@ -24,65 +24,66 @@ export default function TakingComponent({quiz, styles}:IProps) {
             timing: number,
             guest?: string
         }>(),
-        {token} = useUser(),
-        {setError} = useGlobalMessage(),
+        { token } = useUser(),
+        { setError } = useGlobalMessage(),
         [loadingReq, setLoadingReq] = useState<boolean>(false),
         route = useRouter()
 
 
-    const handleStart = () =>{
+    const handleStart = () => {
         setInitialTime(Date.now())
         setStarted(true)
     },
-    handleScroll = ()=>{
-        window.scrollTo({top: 350, behavior:'smooth'})
-    }
+        handleScroll = () => {
+            window.scrollTo({ top: 350, behavior: 'smooth' })
+        }
 
-    useEffect(()=>{
-        if(result && quiz){
+    useEffect(() => {
+        if (result && quiz) {
             takeQuiz(quiz.quizId, result, token ? String(token) : undefined)
-                .then(({err, res})=>{
-                    if(err) return setError(err)
-                    if(res){
+                .then(({ err, res }) => {
+                    if (err) return setError(err)
+                    if (res) {
                         setCookie('quizResults', JSON.stringify(res))
                         route.push(`/quiz/${quiz.quizId}/results`)
                     }
                 })
                 .catch(console.log)
-                .finally(()=>{
+                .finally(() => {
                     setLoadingReq(false)
                 })
         }
-    },[result, quiz])
+    }, [result, quiz])
 
     return (
         <>
-            {loadingReq && <LoadingReq loading={loadingReq}/>}
+            {loadingReq && <LoadingReq loading={loadingReq} />}
             <div className={styles.header_quiz}>
                 <h1>{quiz?.title}</h1>
 
-                <TimerContainer 
+                <TimerContainer
                     quiz={quiz}
                     styles={styles}
                     setStarted={handleStart}
+                    result={result}
                     started={started}
                     initialTime={initialTime}
                 />
             </div>
             <div className={styles.containerStart}>
                 <div className={started ? styles.start : styles.block}></div>
-                
-                {quiz.questions && quiz.type && <QuestionsContainer 
-                    qtdQuestions={quiz?.qtdQuestions} 
-                    questions={quiz?.questions} 
-                    quizId={quiz.quizId} 
-                    initialTime={initialTime} 
-                    typeOfQuiz={quiz?.type} 
-                    handleScroll={handleScroll} 
-                    started={started} 
+
+                {quiz.questions && quiz.type && <QuestionsContainer
+                    qtdQuestions={quiz?.qtdQuestions}
+                    questions={quiz?.questions}
+                    quizId={quiz.quizId}
+                    initialTime={initialTime}
+                    typeOfQuiz={quiz?.type}
+                    handleScroll={handleScroll}
+                    started={started}
                     setStarted={setStarted}
                     setResult={setResult}
-                    startLoading={()=>{setLoadingReq(true)}}
+                    startLoading={() => { setLoadingReq(true) }}
                 />}
             </div>
         </>
