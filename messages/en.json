@@ -532,7 +532,8 @@
             "totalQuestions": "Questions in total",
             "correctAnswers": "Correct answers",
             "totalTime": "Time in total",
-            "viewLeaderboard": "View leaderboard"
+            "viewLeaderboard": "View leaderboard",
+            "viewAnswers": "Check your score"
         }
     },
     "SubscriptionPage": {

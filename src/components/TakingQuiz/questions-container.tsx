@@ -26,6 +26,8 @@ interface IProps {
         timing: number;
         guest?: string
     } | undefined>>
+    finalTime: number,
+    setFinalTime: React.Dispatch<React.SetStateAction<number>>
 }
 interface ISelectedAnswers {
     [questionId: string | number]: string | number
@@ -39,7 +41,7 @@ export default function QuestionsContainer({
     handleScroll, initialTime, qtdQuestions,
     questions, quizId, setStarted,
     started, typeOfQuiz, setResult,
-    startLoading
+    startLoading, finalTime, setFinalTime
 }: IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
         [answerArray, setAnswerArray] = useState<IQuestion[]>([]),
@@ -47,7 +49,6 @@ export default function QuestionsContainer({
         [selectedValues, setSelectedValues] = useState<any>(),
         [selectedValuesCopy, setSelectedValuesCopy] = useState<any>(),
         [canShowRegister, setCanShowRegister] = useState(false),
-        [finalTime, setFinalTime] = useState(0),
         { setError } = useGlobalMessage(),
         { token } = useUser(),
         { toGuest, typePopup, toLogin, toRegister } = usePopupAuth(),
@@ -199,7 +200,12 @@ export default function QuestionsContainer({
                     <div className={styles.answers_actions}>
                         <button className={actualQuestion === 1 ? `${styles.hidden_button}` : ''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
                         {actualQuestion === qtdQuestions ? (
-                            <button onClick={handleResult}>{t('navigation.results')}</button>
+                            <button
+                                style={{ zIndex: 7 }}
+                                onClick={handleResult}
+                            >
+                                {t('navigation.results')}
+                            </button>
                         ) : (
                             <button onClick={handleNextQuestion}>{t('navigation.next')}</button>
                         )}

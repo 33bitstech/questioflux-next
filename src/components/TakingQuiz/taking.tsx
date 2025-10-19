@@ -27,7 +27,8 @@ export default function TakingComponent({ quiz, styles }: IProps) {
         { token } = useUser(),
         { setError } = useGlobalMessage(),
         [loadingReq, setLoadingReq] = useState<boolean>(false),
-        route = useRouter()
+        route = useRouter(),
+        [finalTime, setFinalTime] = useState(0)
 
 
     const handleStart = () => {
@@ -65,7 +66,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                     quiz={quiz}
                     styles={styles}
                     setStarted={handleStart}
-                    result={result}
+                    finalTime={finalTime}
                     started={started}
                     initialTime={initialTime}
                 />
@@ -84,6 +85,8 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                     setStarted={setStarted}
                     setResult={setResult}
                     startLoading={() => { setLoadingReq(true) }}
+                    finalTime={finalTime}
+                    setFinalTime={setFinalTime}
                 />}
             </div>
         </>
