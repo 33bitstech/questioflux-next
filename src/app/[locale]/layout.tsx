@@ -1,14 +1,14 @@
 import "../globals.scss";
 import type { Metadata } from "next";
-import { ProviderTheme} from "@/contexts/themeContext";
+import { ProviderTheme } from "@/contexts/themeContext";
 import { GlobalMessageProvider } from "@/contexts/globalMessageContext";
 import { FilterProvider } from "@/contexts/filtersContext";
 import GlobalMessageWidget from "@/components/HandlerMessage/global-message-widget";
 import { UserProvider } from "@/contexts/userContext";
 import { ReactNode } from "react";
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+import { NextIntlClientProvider, hasLocale } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { routing } from '@/i18n/routing';
 import { getMessages, getTranslations } from "next-intl/server";
 import { env } from "@/env";
 import Script from "next/script";
@@ -20,9 +20,9 @@ const inter = Inter({
     variable: '--font-inter',
 });
 
-export async function generateMetadata({params}:{params:Promise<{locale:string}>}) : Promise<Metadata> {
-    const {locale} = await params
-    const t = await getTranslations({locale, namespace: 'mainMetadata'});
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params
+    const t = await getTranslations({ locale, namespace: 'mainMetadata' });
 
     const langs = {
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en`,
@@ -31,17 +31,24 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
     }
 
     return {
+
+        icons: {
+            icon: [
+                { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
+            ],
+        },
+
         title: t('title'),
         description: t('desc'),
         robots: `noindex`,
-        alternates:{
+        alternates: {
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`,
             languages: langs
         },
         openGraph: {
             title: t('title'),
             description: t('desc'),
-            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`, 
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`,
             siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             locale: locale == 'pt' ? 'pt_BR' : 'en_US',
@@ -53,7 +60,7 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
             description: t('desc'),
             images: [`${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
         },
-        other:{
+        other: {
             'google': 'notranslate'
         }
     }
@@ -65,12 +72,12 @@ const siteConfig = {
     logo: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/site-icon-dark.svg`,
 }
 
-const generateGlobalSchema = (t:any)=> ({
+const generateGlobalSchema = (t: any) => ({
     "@context": "https://schema.org",
     "@graph": [
         {
             "@type": "Organization",
-            "@id": `${siteConfig.domain}/#organization`, 
+            "@id": `${siteConfig.domain}/#organization`,
             "name": siteConfig.name,
             "url": siteConfig.domain,
             "logo": siteConfig.logo
@@ -88,13 +95,13 @@ const generateGlobalSchema = (t:any)=> ({
             "@type": "WebSite",
             "url": siteConfig.domain,
             "name": siteConfig.name,
-            "publisher": { 
-                "@id": `${siteConfig.domain}/#organization` 
+            "publisher": {
+                "@id": `${siteConfig.domain}/#organization`
             },
             "potentialAction": {
                 "@type": "SearchAction",
                 "target": `${siteConfig.domain}/explore?title={title_query}&tags={tags_query}&categories={categories_query}`,
-                
+
                 "query-input": [
                     {
                         "@type": "PropertyValueSpecification",
@@ -104,7 +111,7 @@ const generateGlobalSchema = (t:any)=> ({
                     },
                     {
                         "@type": "PropertyValueSpecification",
-                        "valueName": "tags_query", 
+                        "valueName": "tags_query",
                         "description": t('query_inputs.searchByTags'),
                         "valueRequired": "http://schema.org/False"
                     },
@@ -125,15 +132,15 @@ export default async function RootLayout({
     params
 }: {
     children: ReactNode;
-    params: Promise<{locale: string}>;
+    params: Promise<{ locale: string }>;
 }) {
-    const {locale} = await params;
-    const messages = await getMessages({locale})
+    const { locale } = await params;
+    const messages = await getMessages({ locale })
     if (!hasLocale(routing.locales, locale)) {
         notFound();
     }
 
-    const t = await getTranslations({locale, namespace: "mainMetadata"})
+    const t = await getTranslations({ locale, namespace: "mainMetadata" })
 
     return (
         <html lang={locale} className={inter.variable} suppressHydrationWarning>
@@ -146,7 +153,7 @@ export default async function RootLayout({
                 <Script
                     async
                     src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7383504438544213`}
-                    strategy="afterInteractive" 
+                    strategy="afterInteractive"
                     crossOrigin="anonymous"
                 />
             </head>
