@@ -34,13 +34,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
         icons: {
             icon: [
-                { url: '/favicon.ico', sizes: 'any' }, // O fallback .ico
-                { url: '/icon.svg', type: 'image/svg+xml' }, // O SVG moderno
-            ],
-            apple: {
-                url: '/apple-icon.png',
-                sizes: '180x180',
-            },
+                { url: '/favicon.ico', sizes: 'any' },
+                { url: '/icon.svg', type: 'image/svg+xml' },
+            ]
         },
         manifest: '/site.webmanifest',
 
