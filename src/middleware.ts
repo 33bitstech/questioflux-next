@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
+import { routing } from './i18n/routing';
 
 export default createMiddleware(routing);
 
@@ -10,22 +10,22 @@ type PublicRoute = {
 };
 
 const publicRoutes: PublicRoute[] = [
-    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' }, 
-    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' }, 
-    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' }, 
-    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' }, 
-    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/user\/[^/]+$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/create\/quiz$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/quiz\/.+\/results$/, actionWhenAuth: 'next' }, 
-    { src: /^\/(en|pt)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' }, 
+    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/user\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/create\/quiz$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
 ];
 
 export function middleware(req: NextRequest) {
@@ -48,7 +48,7 @@ export function middleware(req: NextRequest) {
     const requestHeaders = new Headers(req.headers)
     const locale = pathname.split('/')[1]
 
-    const defaultPrivateRoute = `/${locale}/home`; 
+    const defaultPrivateRoute = `/${locale}/home`;
     const defaultPublicRoute = `/${locale}/login`;
 
     requestHeaders.set('x-pathname', pathname)
@@ -60,7 +60,7 @@ export function middleware(req: NextRequest) {
         return route.src === pathname;
     });
 
-    if(pathname == `/${locale}` && !authToken){
+    if (pathname == `/${locale}` && !authToken) {
         const url = req.nextUrl.clone()
         url.pathname = pathname
         return NextResponse.rewrite(url);
@@ -80,7 +80,7 @@ export function middleware(req: NextRequest) {
     // Ação: Redireciona para a página principal do usuário logado (ex: /home)
     if (publicRoute && authToken && publicRoute.actionWhenAuth === 'redirect') {
         const redirectUrl = req.nextUrl.clone();
-        redirectUrl.pathname = defaultPrivateRoute;        
+        redirectUrl.pathname = defaultPrivateRoute;
         return NextResponse.redirect(redirectUrl);
     }
 
@@ -91,7 +91,7 @@ export function middleware(req: NextRequest) {
         redirectUrl.pathname = defaultPublicRoute;
         return NextResponse.redirect(redirectUrl);
     }
-    
+
     // Para os casos restantes:
     // - Rota pública, logado e actionWhenAuth: 'next' -> Permite acesso
     // - Rota privada e logado -> Permite acesso (aqui você pode adicionar a verificação de expiração do token)
@@ -107,6 +107,6 @@ export function middleware(req: NextRequest) {
 export const config = {
     matcher: [
 
-        '/((?!api|_next/static|_next/image|icon.svg|favicon.ico|sitemap.xml|robots.txt|ads.txt|quiz_padrao_.+\.png).*)',
+        '/((?!api|_next/static|_next/image|icon.svg|favicon.ico|favicon.png|sitemap.xml|robots.txt|ads.txt|quiz_padrao_.+\.png).*)',
     ],
 };
