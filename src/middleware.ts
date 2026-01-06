@@ -40,7 +40,7 @@ export function middleware(req: NextRequest) {
     if (!pathnameHasLocale) {
         const url = req.nextUrl.clone();
         url.pathname = `/en${pathname}`;
-        return NextResponse.redirect(url);
+        return NextResponse.redirect(url, { status: 308 });
     }
 
 
