@@ -7,16 +7,23 @@ import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 import Skeleton from '@/components/Loading/skeleton'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAd from '@/components/Google/GoogleAd'
-import { getUsers, getAllQuizzes} from '@/app/actions'
+import { getUsers, getAllQuizzes } from '@/app/actions'
+import { Metadata } from 'next'
 
-interface IProps{
+interface IProps {
     params: Promise<{
-        locale:string
+        locale: string
     }>
 }
 
-export default async function Home({params}:IProps) {
-    const {locale} = await params
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        robots: `noindex`,
+    }
+}
+
+export default async function Home({ params }: IProps) {
+    const { locale } = await params
 
     return (
         <>
@@ -24,7 +31,7 @@ export default async function Home({params}:IProps) {
                 <UserProfileHeader />
 
                 <nav className={styles.div_buttons_links}>
-                    <ContextualHeaderActions page='home' locale={locale}/>
+                    <ContextualHeaderActions page='home' locale={locale} />
                 </nav>
 
                 <div className={styles.quiz_area}>
@@ -34,15 +41,15 @@ export default async function Home({params}:IProps) {
                     />
                 </div>
 
-                <GoogleAd slot='8200781349'/>
-                
+                <GoogleAd slot='8200781349' />
+
                 <div className={styles.quiz_area}>
                     <ContainerUserQuizzes
                         styles={styles}
                         quizzes_type='public'
                     />
                 </div>
-                <GoogleAd slot='8384614175'/>
+                <GoogleAd slot='8384614175' />
             </main>
         </>
     )
