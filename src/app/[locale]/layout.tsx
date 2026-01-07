@@ -34,9 +34,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
         icons: {
             icon: [
-                { url: '/favicon.png', sizes: 'any' },
+                { url: '/favicon.ico', sizes: 'any' },
                 { url: '/icon.svg', type: 'image/svg+xml' },
-            ]
+                { url: '/icon.png', type: 'image/png', sizes: '192x192' },
+            ],
+            apple: [
+                { url: '/apple-icon.png', sizes: '192x192', type: 'image/png' },
+            ],
         },
         manifest: '/site.webmanifest',
 
