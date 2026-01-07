@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
             icon: [
                 { url: '/favicon.ico', sizes: 'any' },
                 { url: '/icon.svg', type: 'image/svg+xml' },
-                { url: '/icon.png', type: 'image/png', sizes: '192x192' },
+                { url: '/iconv2.png', type: 'image/png', sizes: '192x192' },
             ],
             apple: [
                 { url: '/apple-icon.png', sizes: '192x192', type: 'image/png' },
