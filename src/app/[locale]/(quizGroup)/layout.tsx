@@ -2,17 +2,17 @@ import NavbarQuizgroup from '@/components/NavbarQuizgroup/navbar'
 import React, { ReactNode } from 'react'
 import styles from './layout.module.scss'
 
-interface IProps{
+interface IProps {
     params: Promise<{
-        locale:string
+        locale: string
     }>
     children: ReactNode
 }
 
-export default async function LayoutQuizGroup({children, params}:IProps) {
-    const {locale} = await params
+export default async function LayoutQuizGroup({ children, params }: IProps) {
+    const { locale } = await params
     return (
-        <div className={styles.container}>
+        <div className={styles.container} >
             <header>
                 <NavbarQuizgroup
                     locale={locale}

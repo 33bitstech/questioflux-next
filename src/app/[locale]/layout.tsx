@@ -149,7 +149,7 @@ export default async function RootLayout({
     const t = await getTranslations({ locale, namespace: "mainMetadata" })
 
     return (
-        <html lang={locale} className={inter.variable} suppressHydrationWarning>
+        <html lang={locale} className={inter.variable} suppressHydrationWarning translate="no">
 
             <head>
                 <script
