@@ -5,19 +5,17 @@ import SearchResults from '@/components/Searching/search-results'
 import FeaturedsContainer from '@/components/Searching/featureds-container'
 import { env } from '@/env'
 import { generateExploreQuizSchema } from '@/utils/generateSchemas'
-import { getTranslations } from 'next-intl/server' 
+import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 import GoogleAd from '@/components/Google/GoogleAd'
-import { getQuizzes, getFeaturedsQuizzes} from './actions'
+import { getQuizzes, getFeaturedsQuizzes } from './actions'
 
 interface IProps {
-    params: Promise<{
-        locale: string
-    }>
+    params: Promise<{ locale: string }>
 }
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
-    const {locale} = await params
+    const { locale } = await params
     const t = await getTranslations({ locale, namespace: 'explorePage' });
 
     const langs = {
@@ -31,14 +29,14 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         description: t('metadataDesc'),
         robots: 'index, follow',
         keywords: "quiz, explore, play",
-        alternates:{
+        alternates: {
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/explore`,
             languages: langs
         },
         openGraph: {
             title: t('metadataTitle'),
             description: t('metadataDesc'),
-            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/explore`, 
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/explore`,
             siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             locale: locale == 'pt' ? 'pt_BR' : 'en_US',
@@ -53,30 +51,37 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-
 export default async function Explore({ params }: IProps) {
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: 'explorePage' });
-    const [quizzes, popularQuizzes] = await Promise.all([
-        await getQuizzes(),
-        await getFeaturedsQuizzes()
+
+    const [paginatedData, popularQuizzes] = await Promise.all([
+        getQuizzes(1),
+        getFeaturedsQuizzes()
     ])
+    console.log(paginatedData)
+    const quizzes = paginatedData?.quizzes ?? []
+    const totalPages = paginatedData?.totalPages ?? 1
+    const total = paginatedData?.total ?? quizzes.length
     const baseUrl = `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`;
 
     const itemListSchema = {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
-        'itemListElement': quizzes?.slice(0,30).map((quiz, index) => ({
+        'name': t('metadataTitle'),
+        'description': t('metadataDesc'),
+        'numberOfItems': total,
+        'itemListElement': quizzes.map((quiz, index) => ({
             '@type': 'ListItem',
             'position': index + 1,
-            'item': generateExploreQuizSchema(quiz, baseUrl, env.NEXT_PUBLIC_DOMAIN_FRONT) 
+            'item': generateExploreQuizSchema(quiz, baseUrl, env.NEXT_PUBLIC_DOMAIN_FRONT)
         })),
     };
 
     return (
         <main className={styles.content}>
             <nav className={styles.div_buttons_links}>
-                <ContextualHeaderActions page='explore' locale={locale}/>
+                <ContextualHeaderActions page='explore' locale={locale} />
             </nav>
 
             <script
@@ -84,16 +89,19 @@ export default async function Explore({ params }: IProps) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
             />
 
-            <FeaturedsContainer styles={styles} defaultQuizzes={popularQuizzes!}/>
+            <FeaturedsContainer styles={styles} defaultQuizzes={popularQuizzes ?? []} />
 
-            <GoogleAd slot='9817632261'/>
-            
+            <GoogleAd slot='9817632261' />
+
             <div className={styles.results}>
-                {/* Usar a tradução */}
                 <h1>{t('mainTitle')}</h1>
-                <SearchResults styles={styles} defaultQuizzes={quizzes!}/>
+                <SearchResults
+                    styles={styles}
+                    defaultQuizzes={quizzes}
+                    totalPages={totalPages}
+                />
             </div>
-            <GoogleAd slot='3850989716'/>
+            <GoogleAd slot='3850989716' />
         </main>
-    )   
+    )
 }
