@@ -155,6 +155,7 @@ export default async function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(generateGlobalSchema(t)) }}
+                    suppressHydrationWarning
                 />
                 <Script
                     async
@@ -164,7 +165,7 @@ export default async function RootLayout({
                 />
             </head>
 
-            <body>
+            <body suppressHydrationWarning>
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <GlobalMessageProvider>
                         <UserProvider>

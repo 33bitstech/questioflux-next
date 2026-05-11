@@ -11,6 +11,7 @@ import GoogleAd from '@/components/Google/GoogleAd'
 import { Metadata } from 'next'
 import IQuizes from '@/interfaces/IQuizes'
 import { publicQuizzes } from '../action'
+import { notFound } from 'next/navigation'
 
 interface IProps{
     params:Promise<{
@@ -19,23 +20,40 @@ interface IProps{
     }>
 }
 
-async function getUser(userId:string) : Promise<IUser | undefined>{
+async function getUser(userId: string): Promise<IUser | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/${userId}`, {
             method: 'GET',
-        });
+        })
 
-        const res = await response.json();
-        return res;
+        // Sem isso, um 404 da API chegava aqui como undefined
+        // mas o componente continuava renderizando uma página vazia
+        if (!response.ok) return undefined
+
+        const res = await response.json()
+
+        // Garante que o objeto retornado é de fato um usuário válido
+        if (!res?.userId) return undefined
+
+        return res
     } catch (err) {
         console.log(err)
-    }   
+        return undefined
+    }
 }
 
 export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     const {userId, locale} = await params
     const t = await getTranslations({ locale, namespace: 'publicProfile.metadata' });
     const user = await getUser(userId)
+
+    // Sem usuário → página indexada como noindex para não vazar 404 no sitemap
+    if (!user) {
+        return {
+            title: 'User not found',
+            robots: 'noindex, nofollow',
+        }
+    }
 
     const langs = {
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/user/${userId}`,
@@ -75,12 +93,28 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     }
 }
 
-export default async function User({params}:IProps) {
-    const {userId, locale} = await params,
-        user = await getUser(userId),
-        t = await getTranslations({ locale, namespace: 'publicProfile' });
+const formatMemberSince = (date: Date | undefined, locale: string) => {
+    if (!date) return null
+    return new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
+        month: 'long',
+        year: 'numeric',
+    }).format(new Date(date))
+}
 
-        const quizzes = await publicQuizzes(userId)
+export default async function User({params}:IProps) {
+    const {userId, locale} = await params
+
+    const [user, t, quizzes] = await Promise.all([
+        getUser(userId),
+        getTranslations({ locale, namespace: 'publicProfile' }),
+        publicQuizzes(userId)
+    ])
+
+    if (!user) notFound()
+
+    const memberSince = formatMemberSince(user.created_at, locale)
+    const quizzesCount = quizzes?.length ?? 0
+    const completedCount = user.finishedQuizzes?.length ?? 0
 
     const createdQuizzes = {
         "@type": "ItemList",
@@ -99,12 +133,11 @@ export default async function User({params}:IProps) {
             "@type": "Person",
             "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${user?.userId}#person`,
             "name": user?.name,
-            "email": user?.email,
             "mainEntityOfPage": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${user?.userId}`,
-            "finished_quizzes": user?.finishedQuizzes?.length // pro paulo coisa dps
         },
         "hasPart": createdQuizzes
     }
+
     return (
         <>
             <script
@@ -113,6 +146,40 @@ export default async function User({params}:IProps) {
             />
             <main className={styles.content}>
                 <UserProfileHeader userP={user} />
+
+                {/* Stats bar — enriquece o conteúdo da página */}
+                <div style={{
+                    display: 'flex',
+                    gap: '2rem',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    width: '100%',
+                    padding: '1rem',
+                    borderRadius: '0.9375rem',
+                    boxShadow: '0px 0px 7px 0px rgba(0,0,0,0.10)',
+                    backgroundColor: 'var(--background-primary)',
+                }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{quizzesCount}</p>
+                        <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
+                            {locale === 'pt' ? 'Quizzes criados' : 'Quizzes created'}
+                        </p>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{completedCount}</p>
+                        <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
+                            {locale === 'pt' ? 'Quizzes jogados' : 'Quizzes played'}
+                        </p>
+                    </div>
+                    {memberSince && (
+                        <div style={{ textAlign: 'center' }}>
+                            <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>{memberSince}</p>
+                            <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
+                                {locale === 'pt' ? 'Membro desde' : 'Member since'}
+                            </p>
+                        </div>
+                    )}
+                </div>
 
                 <nav className={styles.div_buttons_links}>
                     <ContextualHeaderActions page='home' locale={locale}/>
@@ -130,7 +197,6 @@ export default async function User({params}:IProps) {
                 </div>
 
                 <GoogleAd slot='5678559785'/>
-
             </main>
         </>
     )

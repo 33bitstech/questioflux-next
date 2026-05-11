@@ -8,91 +8,62 @@ import { revalidatePath } from "next/cache"
 export async function createComment(quizId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}/comment`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${token}` },
         body: JSON.stringify(data)
     })
-
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
     revalidatePath(`/quiz/${quizId}/comments`)
 }
-export async function deleteComment(quizId: string, commentId: string, data: object, token: CookieValueTypes) {
 
+export async function deleteComment(quizId: string, commentId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/delete/${commentId}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${token}` },
         body: JSON.stringify(data)
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
     revalidatePath(`/quiz/${quizId}/comments`)
 }
-export async function editComment(quizId: string, commentId: string, data: object, token: CookieValueTypes) {
 
+export async function editComment(quizId: string, commentId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/edit/${commentId}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${token}` },
         body: JSON.stringify(data)
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
     revalidatePath(`/quiz/${quizId}/comments`)
 }
-export async function likeComment(commentId: string, token: CookieValueTypes) {
 
+export async function likeComment(commentId: string, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/like/${commentId}`, {
         method: 'PUT',
-        headers: {
-            'Authorization': `${token}`
-        },
+        headers: { 'Authorization': `${token}` },
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
 }
-export async function dislikeComment(commentId: string, token: CookieValueTypes) {
 
+export async function dislikeComment(commentId: string, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/dislike/${commentId}`, {
         method: 'DELETE',
-        headers: {
-            'Authorization': `${token}`
-        },
+        headers: { 'Authorization': `${token}` },
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
 }
+
 export async function replyComment(quizId: string, commentId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${token}` },
         body: JSON.stringify(data)
     })
-
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
     revalidatePath(`/quiz/${quizId}/comments`)
 }
 
@@ -101,72 +72,53 @@ export async function repliesFromComment(quizId: string, commentId: string): Pro
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}`, {
             method: 'GET'
         })
-
         if (!response.ok) throw new Error('Ocorreu um erro')
-
         const res = await response.json()
-
         return res.repliesMargedArray
     } catch (err) {
         console.log(err)
     }
 }
 
-
 export async function deleteReply(quizId: string, commentId: string, replyId: string, data: object, token: CookieValueTypes) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/delete`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${token}` },
         body: JSON.stringify(data)
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
     revalidatePath(`/quiz/${quizId}/comments`)
 }
+
 export async function editReply(quizId: string, commentId: string, replyId: string, data: object, token: CookieValueTypes) {
-
-    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/edit`, {
+    // CORREÇÃO: havia "/api/quiz//reply/..." (barra dupla) — causava 404 silencioso
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/edit`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `${token}` },
         body: JSON.stringify(data)
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
     revalidatePath(`/quiz/${quizId}/comments`)
 }
+
 export async function likeReply(commentId: string, replyId: string, token: CookieValueTypes) {
-
-    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/like`, {
+    // CORREÇÃO: mesma barra dupla
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/like`, {
         method: 'PUT',
-        headers: {
-            'Authorization': `${token}`
-        },
+        headers: { 'Authorization': `${token}` },
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
 }
-export async function dislikeReply(commentId: string, replyId: string, token: CookieValueTypes) {
 
-    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz//reply/${commentId}/${replyId}/dislike`, {
+export async function dislikeReply(commentId: string, replyId: string, token: CookieValueTypes) {
+    // CORREÇÃO: mesma barra dupla
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/dislike`, {
         method: 'DELETE',
-        headers: {
-            'Authorization': `${token}`
-        },
+        headers: { 'Authorization': `${token}` },
     })
     const res = await response.json()
-
     if (!response.ok) return { err: res.message }
-
 }

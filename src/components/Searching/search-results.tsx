@@ -7,115 +7,124 @@ import QuizCard from '../Card/quiz-card'
 import ArrowSvg from '../Icons/ArrowSvg'
 import { useFilters } from '@/contexts/filtersContext'
 import { useSearchParams } from 'next/navigation'
-import { useTranslations } from 'next-intl' 
+import { useTranslations } from 'next-intl'
 import LoadingQuizzes from '../Loading/loading-quizzes'
-import { getQuizzes } from '@/app/[locale]/(quizGroup)/explore/actions'
+
+const ITEMS_PER_VIEW = 9
 
 interface IProps {
-    styles : TStyles,
+    styles: TStyles
     defaultQuizzes: IQuizes[]
+    totalPages: number
 }
 
-export default function SearchResults({styles, defaultQuizzes} : IProps) {
-    const t = useTranslations('explorePage.buttons'); 
-    
-    
-    const {filtersSelected, typeQuizSelected} = useFilters(),
-        {searchQuiz} = useGettingQuiz(),
-        [quizzes, setQuizzes] = useState<IQuizes[]>(),
-        [results, setResults] = useState<IQuizes[]>(),
-        [visibleQuizzesQtd, setVisibleQuizzesQtd] = useState(9),
-        [viewAllExplore, setViewAllExplore] = useState(false),
-        searchParams = useSearchParams(),
-        title = searchParams.get('title') || '',
-        tags = searchParams.get('tags') || '',
-        categories = searchParams.get('categories') || '',
+export default function SearchResults({ styles, defaultQuizzes, totalPages }: IProps) {
+    const t = useTranslations('explorePage.buttons')
+    const { filtersSelected, typeQuizSelected } = useFilters()
+    const { searchQuiz } = useGettingQuiz()
 
-        [loading, setLoading] = useState(false)
+    const [allQuizzes, setAllQuizzes] = useState<IQuizes[]>(defaultQuizzes)
+    const [searchResults, setSearchResults] = useState<IQuizes[] | null>(null)
+    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_VIEW)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [loadingMore, setLoadingMore] = useState(false)
+    const [searchLoading, setSearchLoading] = useState(false)
 
-    const handleViewMore = ()=>{ setVisibleQuizzesQtd(()=>visibleQuizzesQtd+9) },
-        handleViewLess = ()=>{ setVisibleQuizzesQtd(9); setViewAllExplore(false) },
-        handleFilteringQuizzes = () =>{ setResults(results?.filter(quiz=>filtersSelected.includes(quiz.category))) },
-        handleFilterImageQuizzes = ()=>{ setResults(results?.filter(quiz=>quiz.type === 'image/RW')) }
+    const searchParams = useSearchParams()
+    const title = searchParams.get('title') || ''
+    const tags = searchParams.get('tags') || ''
+    const categories = searchParams.get('categories') || ''
+    const hasSearchParams = !!(title || tags || categories)
 
-    useEffect(()=>{
-        if(filtersSelected.length > 0) {
-            handleFilteringQuizzes()
-        }else{
-            setResults(quizzes)
-        }
-    },[filtersSelected])
-    useEffect(()=>{
-        if(typeQuizSelected === 'Image') {
-            handleFilterImageQuizzes()
-        }if (typeQuizSelected === 'All' ){
-            setResults(quizzes)
-        }
-    },[typeQuizSelected])
-    useEffect(()=>{
-        if(title || tags || categories){
-            const get = async () =>{
+    const getFilteredQuizzes = () => {
+        let filtered = [...allQuizzes]
+        if (filtersSelected.length > 0)
+            filtered = filtered.filter(q => filtersSelected.includes(q.category))
+        if (typeQuizSelected === 'Image')
+            filtered = filtered.filter(q => q.type === 'image/RW')
+        return filtered
+    }
+
+    const allFiltered = hasSearchParams ? (searchResults ?? []) : getFilteredQuizzes()
+    const displayedResults = allFiltered.slice(0, visibleCount)
+
+    const hasMore = !hasSearchParams && (
+        allFiltered.length > visibleCount || currentPage < totalPages
+    )
+
+    useEffect(() => {
+        if (hasSearchParams) {
+            setSearchLoading(true)
+            const search = async () => {
                 try {
                     const res = await searchQuiz(title, categories, tags)
-                    setResults(res.quizzes)
-                    setLoading(false)
+                    setSearchResults(res?.quizzes ?? [])
                 } catch (err) {
                     console.log(err)
-                    setLoading(false)
+                } finally {
+                    setSearchLoading(false)
                 }
             }
-            get()
-        }else{
-            setResults(quizzes)
+            search()
+        } else {
+            setSearchResults(null)
         }
     }, [title, tags, categories])
 
-
-    useEffect(()=>{
-        if(defaultQuizzes){
-            setResults(defaultQuizzes)
-            setQuizzes(defaultQuizzes)
+    useEffect(() => {
+        if (defaultQuizzes) {
+            setAllQuizzes(defaultQuizzes)
+            setVisibleCount(ITEMS_PER_VIEW)
+            setCurrentPage(1)
         }
-    },[defaultQuizzes]) 
+    }, [defaultQuizzes])
+
+    const handleLoadMore = async () => {
+        const nextVisible = visibleCount + ITEMS_PER_VIEW
+
+        if (nextVisible <= allQuizzes.length) {
+            setVisibleCount(nextVisible)
+            return
+        }
+
+        if (currentPage < totalPages) {
+            setLoadingMore(true)
+            try {
+                const response = await fetch(`/api/quizzes/public?page=${currentPage + 1}`)
+                const data = await response.json()
+                if (data?.quizzes) {
+                    setAllQuizzes(prev => [...prev, ...data.quizzes])
+                    setCurrentPage(prev => prev + 1)
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoadingMore(false)
+            }
+        }
+
+        setVisibleCount(nextVisible)
+    }
 
     return (
         <>
-            <LoadingQuizzes 
-                loading={loading}
-            />
+            <LoadingQuizzes loading={searchLoading || loadingMore} />
             <div className={styles.quizes_container}>
-                {results?.slice(0,9).map((quiz, index)=>(
-                    <QuizCard key={index} quiz={quiz} />
+                {displayedResults.map((quiz, index) => (
+                    <QuizCard key={quiz.quizId ?? index} quiz={quiz} />
                 ))}
             </div>
-            
-            {Array.isArray(results) && results?.length > visibleQuizzesQtd && (
-                <button onClick={()=>setViewAllExplore(!viewAllExplore)} className={`${styles.seemore_button} ${viewAllExplore ? styles.active : ''}`}>
-                    <p>
-                        {/* Usar traduções */}
-                        {viewAllExplore ? t('seeLess'): t('seeMore')}
-                    </p>
-                    <ArrowSvg/>
+
+            {hasMore && (
+                <button
+                    onClick={handleLoadMore}
+                    disabled={loadingMore}
+                    className={styles.seemore_button}
+                >
+                    <p>{t('seeMore')}</p>
+                    <ArrowSvg />
                 </button>
             )}
-            {viewAllExplore && <div className={styles.more_content}>
-                <div className={styles.quizes_container}>
-                    {results?.slice(9, visibleQuizzesQtd+9).map((quiz, index)=>(
-                        <QuizCard key={index} quiz={quiz} />
-                    ))}
-                </div>    
-                {Array.isArray(results) && results?.length > visibleQuizzesQtd + 9 ? <>
-                    <button onClick={()=>{ setViewAllExplore(true); handleViewMore() }} className={`${styles.seemore_button}`}>
-                        <p>{t('seeMore')}</p>
-                        <ArrowSvg/>
-                    </button>
-                </> : <>
-                    <button onClick={()=>{ setViewAllExplore(true); handleViewLess() }} className={`${styles.seemore_button} ${styles.active}`}>
-                        <p>{t('seeLess')}</p>
-                        <ArrowSvg/>
-                    </button>
-                </>}
-            </div>}
         </>
     )
 }
