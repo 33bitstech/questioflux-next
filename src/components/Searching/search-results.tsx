@@ -10,6 +10,8 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import LoadingQuizzes from '../Loading/loading-quizzes'
 
+const ITEMS_PER_VIEW = 9
+
 interface IProps {
     styles: TStyles
     defaultQuizzes: IQuizes[]
@@ -23,6 +25,7 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
 
     const [allQuizzes, setAllQuizzes] = useState<IQuizes[]>(defaultQuizzes)
     const [searchResults, setSearchResults] = useState<IQuizes[] | null>(null)
+    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_VIEW)
     const [currentPage, setCurrentPage] = useState(1)
     const [loadingMore, setLoadingMore] = useState(false)
     const [searchLoading, setSearchLoading] = useState(false)
@@ -33,25 +36,22 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
     const categories = searchParams.get('categories') || ''
     const hasSearchParams = !!(title || tags || categories)
 
-    // Resultados computados: nunca ficam desatualizados
     const getFilteredQuizzes = () => {
         let filtered = [...allQuizzes]
-        if (filtersSelected.length > 0) {
+        if (filtersSelected.length > 0)
             filtered = filtered.filter(q => filtersSelected.includes(q.category))
-        }
-        if (typeQuizSelected === 'Image') {
+        if (typeQuizSelected === 'Image')
             filtered = filtered.filter(q => q.type === 'image/RW')
-        }
         return filtered
     }
 
-    const displayedResults = hasSearchParams
-        ? (searchResults ?? [])
-        : getFilteredQuizzes()
+    const allFiltered = hasSearchParams ? (searchResults ?? []) : getFilteredQuizzes()
+    const displayedResults = allFiltered.slice(0, visibleCount)
 
-    const canLoadMore = !hasSearchParams && currentPage < totalPages
+    const hasMore = !hasSearchParams && (
+        allFiltered.length > visibleCount || currentPage < totalPages
+    )
 
-    // Busca via search endpoint (independente da paginação)
     useEffect(() => {
         if (hasSearchParams) {
             setSearchLoading(true)
@@ -71,29 +71,39 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
         }
     }, [title, tags, categories])
 
-    // Resetar quando os quizzes iniciais mudarem (ex: navegação)
     useEffect(() => {
         if (defaultQuizzes) {
             setAllQuizzes(defaultQuizzes)
+            setVisibleCount(ITEMS_PER_VIEW)
             setCurrentPage(1)
         }
     }, [defaultQuizzes])
 
     const handleLoadMore = async () => {
-        if (loadingMore || currentPage >= totalPages) return
-        setLoadingMore(true)
-        try {
-            const response = await fetch(`/api/quizzes/public?page=${currentPage + 1}`)
-            const data = await response.json()
-            if (data?.quizzes) {
-                setAllQuizzes(prev => [...prev, ...data.quizzes])
-                setCurrentPage(prev => prev + 1)
-            }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoadingMore(false)
+        const nextVisible = visibleCount + ITEMS_PER_VIEW
+
+        if (nextVisible <= allQuizzes.length) {
+            setVisibleCount(nextVisible)
+            return
         }
+
+        if (currentPage < totalPages) {
+            setLoadingMore(true)
+            try {
+                const response = await fetch(`/api/quizzes/public?page=${currentPage + 1}`)
+                const data = await response.json()
+                if (data?.quizzes) {
+                    setAllQuizzes(prev => [...prev, ...data.quizzes])
+                    setCurrentPage(prev => prev + 1)
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoadingMore(false)
+            }
+        }
+
+        setVisibleCount(nextVisible)
     }
 
     return (
@@ -105,7 +115,7 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
                 ))}
             </div>
 
-            {canLoadMore && !searchLoading && (
+            {hasMore && (
                 <button
                     onClick={handleLoadMore}
                     disabled={loadingMore}
