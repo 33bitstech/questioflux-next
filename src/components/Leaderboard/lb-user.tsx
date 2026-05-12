@@ -31,7 +31,10 @@ export default function LbUser({ styles, userLb, index, quiz, quizLb, locale }: 
                         <UserProfileImgRender user={userLb} />
                     </div>
                 </div>
-                <Link locale={locale} href={`/user/${userLb.userId}`}>{userLb.name}</Link>
+                {userLb.isGuest 
+                    ? <p>{userLb.name}</p> 
+                    : <Link locale={locale} href={`/user/${userLb.userId}`}>{userLb.name}</Link>}
+
             </div>
             <div className={styles.result}>
                 <HandleAnswers

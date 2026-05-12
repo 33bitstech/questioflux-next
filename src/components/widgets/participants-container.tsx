@@ -25,7 +25,9 @@ export default function ParticipantsContainer({users, closeParticipants, locale}
                     <div className={styles.profileImg}>
                         <UserProfileImgRender user={user} />
                     </div>
-                    <Link locale={locale} href={`/user/${user.userId}`}>{user.name}</Link>
+                    {user.isGuest 
+                        ? <p>{user.name}</p> 
+                        : <Link locale={locale} href={`/user/${user.userId}`}>{user.name}</Link>}
                 </div>))}
             </div>
         </div>

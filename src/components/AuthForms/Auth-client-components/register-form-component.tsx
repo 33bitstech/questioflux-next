@@ -31,7 +31,6 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         [name, setName] = useState(''),
         [email, setEmail] = useState(''),
         [password, setPassword] = useState(''),
-        [confirmPassword, setConfirmPassword] = useState(''),
         [remember, setRemember] = useState(false),
         [loading, setLoading] = useState<boolean>(false),
         [profileImageFile, setProfileImageFile] = useState<File | null>(null),
@@ -40,7 +39,6 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         {setUserAccess} = useUser(),
         router = useRouter(),
         [isPasswordHidden, setIsPasswordHidden] = useState(true),
-        [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true),
         {setError:setGlobalError} = useGlobalMessage()
         
     useEffect(()=>{
@@ -52,14 +50,6 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
             }
         }
     }, [erroAuth])
-
-    useEffect(()=>{
-        if (confirmPassword && password) {
-            if (confirmPassword !== password) return setError('confirmPassword', t('errors.passwordsDoNotMatch'));
-            return setError('confirmPassword', '')
-        }
-        return setError('confirmPassword', '')
-    },[confirmPassword, password])
 
     useEffect(()=>{
         if (email){
@@ -82,7 +72,6 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         if (!name) errors.name = t('errors.nameRequired');
         if (!email) errors.email = t('errors.emailRequired');
         if (!password) errors.password = t('errors.passwordRequired');
-        if (!confirmPassword) errors.confirmPassword = t('errors.confirmPasswordRequired');
 
         concatErrors(errors)
         if (hasErrors(errors)) return setLoading(false)
@@ -147,18 +136,6 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
                     isPasswordHidden={isPasswordHidden}
                     name={locale === 'pt' ? 'senha' : 'password'}
-                />
-                <InputComponent
-                    type={isConfirmPasswordHidden ? 'password' : 'text'}
-                    placeholder={t('placeholders.confirmPassword')}
-                    value={confirmPassword}
-                    onChange={(e)=>setConfirmPassword(e.target.value)}
-                    error={getError('confirmPassword')}
-                    icon={<PadlockSvg/>}
-                    autoComplete='current-password'
-                    onToggleHidePassword={()=>setIsConfirmPasswordHidden(state=>!state)}
-                    isPasswordHidden={isConfirmPasswordHidden}
-                    name={locale === 'pt' ? 'confirmar_senha' : 'confirm_password'}
                 />
                 
                 <div className='footer-form'>

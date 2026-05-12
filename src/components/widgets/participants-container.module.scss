@@ -57,7 +57,7 @@
                     object-fit: cover;
                 }
             }
-            a{
+            a, p{
                 @include vars.styleTexto(#ffffff, 1rem, 700);
                 text-transform: capitalize;
                 text-overflow: ellipsis;

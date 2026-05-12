@@ -37,8 +37,8 @@ const PayButton = ({type_subs, email}: IProps) => {
                 return
             }
 
-            if (type_subs === 'vortexplus') subscribe(result.session.id, `${token}`)
-            if (type_subs === 'vortexplususage') payOnce(result.session.id, `${token}`)
+            if (type_subs === 'questioplus') subscribe(result.session.id, `${token}`)
+            if (type_subs === 'questioplususage') payOnce(result.session.id, `${token}`)
 
             setSucess('')
             setLoading(false);

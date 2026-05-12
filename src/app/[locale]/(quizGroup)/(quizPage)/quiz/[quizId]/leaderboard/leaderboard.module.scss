@@ -73,7 +73,7 @@
                     }
                 }
             }
-            a{
+            a, p{
                 @include vars.styleTexto(vars.$cor-branco, 1rem, 700);
                 text-transform: capitalize;
                 text-overflow: ellipsis;
