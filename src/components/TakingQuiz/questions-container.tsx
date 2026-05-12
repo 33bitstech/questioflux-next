@@ -150,7 +150,7 @@ export default function QuestionsContainer({
             if (typeOfQuiz === 'default/RW') {
                 answersArray = questions.map((question, indexQ) => ({
                     ...question,
-                    answers: ShuffleArray([...questions[indexQ]?.answers, questions[indexQ]?.correctAnswer])
+                    answers: ShuffleArray([...questions[indexQ]?.answers, ...(questions[indexQ]?.correctAnswer ? [questions[indexQ]?.correctAnswer] : [])])
                 }))
             } else if (typeOfQuiz === 'image/RW') {
                 answersArray = questions.map((question) => ({
