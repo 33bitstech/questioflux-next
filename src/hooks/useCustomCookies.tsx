@@ -1,6 +1,6 @@
 'use client'
 
-import {getCookie, setCookie, deleteCookie, OptionsType, CookieValueTypes} from 'cookies-next/client';
+import {getCookie, setCookie, deleteCookie, OptionsType} from 'cookies-next';
 import { useCallback, useState } from 'react';
 type CookieValue = string | undefined;
 

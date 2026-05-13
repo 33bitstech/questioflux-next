@@ -4,8 +4,6 @@ import FormEditQuiz from '@/components/EditingQuiz/form-edit-quiz'
 import IQuizes from '@/interfaces/IQuizes'
 import { env } from '@/env'
 import { getTranslations } from 'next-intl/server'
-import { Metadata } from 'next'
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 
 // Atualizar IProps para incluir locale
@@ -35,7 +33,9 @@ async function getQuiz(quizId:string, token:string) : Promise<IQuizes|undefined|
 export default async function EditingQuiz({params}:IProps) {
     const {quizId, locale} = await params;
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.page' });
-    const token = await getCookie('token', {cookies})
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get('token')?.value;
     const quiz = await getQuiz(quizId, `${token}`);
 
     return (

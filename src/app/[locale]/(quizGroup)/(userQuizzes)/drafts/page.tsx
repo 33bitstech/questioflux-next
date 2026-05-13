@@ -2,7 +2,6 @@ import React from 'react'
 import styles from '../layout.module.scss'
 import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 import DeleteContainer from '@/components/EditingQuiz/multipleDelete/delete-container'
-import {getCookie} from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import { env } from '@/env'
 
@@ -24,7 +23,9 @@ async function getDrafts (token: string) {
 }
 
 export default async function Drafts() {
-    const token = await getCookie('token', {cookies})
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get('token')?.value;
     const drafts = await getDrafts(String(token))
 
     return (

@@ -1,12 +1,10 @@
 import React from 'react'
 import styles from '../../../../../(createQuiz)/create/quiz/questions/[quizId]/questions.module.scss'
-import FormEditQuiz from '@/components/EditingQuiz/form-edit-quiz'
 import IQuizes from '@/interfaces/IQuizes'
 import { env } from '@/env'
 import FormEditQuestions from '@/components/EditingQuiz/form-edit-questions'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 
 interface IProps{
@@ -36,7 +34,9 @@ async function getQuiz(quizId:string, token:string) : Promise<IQuizes|undefined|
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const {locale, quizId} = await params
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.questionsPage' });
-    const token = await getCookie('token', {cookies})
+    const cookieStore = await cookies();
+
+const token = cookieStore.get('token')?.value;
     const quiz = await getQuiz(quizId, `${token}`)
 
     if ('err' in (quiz ?? {})) {
@@ -52,7 +52,9 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 
 export default async function EditingQuiz({params}:IProps) {
     const {quizId, locale} = await params
-    const token = await getCookie('token', {cookies})
+    const cookieStore = await cookies();
+
+const token = cookieStore.get('token')?.value;
     const quiz = await getQuiz(quizId, `${token}`)    
 
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.questionsPage' })

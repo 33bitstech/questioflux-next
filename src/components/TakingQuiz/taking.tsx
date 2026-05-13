@@ -8,7 +8,7 @@ import { takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/
 import { useUser } from '@/contexts/userContext'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
-import { setCookie } from 'cookies-next/client'
+import { setCookie } from 'cookies-next'
 import LoadingReq from '../Loading/loading-req'
 
 interface IProps {

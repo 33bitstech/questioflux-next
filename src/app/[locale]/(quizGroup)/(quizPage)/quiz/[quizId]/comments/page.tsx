@@ -3,7 +3,6 @@ import styles from './comments.module.scss'
 import { IUser } from '@/interfaces/IUser'
 import { CookieValueTypes } from 'cookies-next'
 import { env } from '@/env'
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import CommentFormComponent from '@/components/Comment/comment-form-component'
 import IComment from '@/interfaces/IComment'
@@ -49,7 +48,9 @@ export default async function Comment({params}: IProps) {
     // Receber locale e buscar traduções
     const {quizId, locale} = await params;
     const t = await getTranslations({ locale, namespace: 'commentsSection' });
-    const token = await getCookie('token', {cookies});
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get('token')?.value;;
     const [user, comments] = await Promise.all([
         getUser(token),
         getComments(quizId)
