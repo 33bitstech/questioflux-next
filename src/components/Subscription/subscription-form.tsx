@@ -18,16 +18,21 @@ interface IProps {
 
 export default function SubscriptionForm({publicKey, styles, token, type}:IProps){
 
-    const fetchClientSecret = useCallback(() => {
-        return fetch('/api/subscription/create-checkout-session', {
+    const fetchClientSecret = useCallback(async () => {
+        const res = await fetch('/api/subscription/create-checkout-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ type, token }),
         })
-        .then((res) => res.json())
-        .then((data) => data.clientSecret);
+        const data = await res.json()
+
+        if (!res.ok || !data?.clientSecret) {
+            throw new Error(data?.error || 'Falha ao obter client secret do Stripe.')
+        }
+
+        return data.clientSecret
     }, [type, token])
 
     const options = {

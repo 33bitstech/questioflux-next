@@ -69,7 +69,7 @@ export default async function Aboutus({params}: IProps) {
                 </article>
                 <div className={styles.end_of_content}></div>
                 <article>
-                    <p>{t('supportLabel')} <span>33bitstech@gmail.com</span></p>
+                    <p>{t('supportLabel')} <span>support.questioflux@gmail.com</span></p>
                 </article>
             </section>
         </div>

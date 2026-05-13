@@ -8,5 +8,6 @@ export default interface IUserLeaderBoardScore {
     attempts?: number
     name: string;
     profileImg: string;
+    isGuest?: boolean
 }
 

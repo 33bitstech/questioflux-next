@@ -35,8 +35,10 @@ export default async function Subscription({params}:IProps) {
 
     const publicKey = await getKey(`${token}`)
 
-    const res = await verifyUserPremium(`${token}`, false),
-        {premium} = res.premium
+    const res = await verifyUserPremium(`${token}`, false)
+    const premium = res.err ? false : res.premium?.premium || false
+
+    console.log('premium status:', premium, 'res:', res)
 
 
 

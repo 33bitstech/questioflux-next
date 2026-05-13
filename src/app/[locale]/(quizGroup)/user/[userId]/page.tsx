@@ -159,7 +159,7 @@ export default async function User({params}:IProps) {
                     boxShadow: '0px 0px 7px 0px rgba(0,0,0,0.10)',
                     backgroundColor: 'var(--background-primary)',
                 }}>
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center', alignItems:'center'}}>
                         <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{quizzesCount}</p>
                         <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
                             {locale === 'pt' ? 'Quizzes criados' : 'Quizzes created'}
@@ -172,8 +172,8 @@ export default async function User({params}:IProps) {
                         </p>
                     </div>
                     {memberSince && (
-                        <div style={{ textAlign: 'center' }}>
-                            <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>{memberSince}</p>
+                        <div style={{ textAlign: 'center', display:'flex', flexDirection:'column', justifyContent:'space-around' }}>
+                            <p style={{ textTransform:'capitalize',fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>{memberSince}</p>
                             <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
                                 {locale === 'pt' ? 'Membro desde' : 'Member since'}
                             </p>

@@ -16,12 +16,12 @@ export async function POST(request: NextRequest) {
 
         // A lógica foi movida do seu componente de servidor para esta rota de API.
         switch (type) {
-            case 'vortexplus':
+            case 'questioplus':
                 const { res: resAss, err: errAss } = await clientSessionAss(token);
                 if (errAss) throw errAss;
                 clientSecret = resAss.client_secret;
                 break;
-            case 'vortexplususage':
+            case 'questioplususage':
                 const { res, err } = await clientSecretUsage(token);
                 if (err) throw err;
                 clientSecret = res.client_secret;
