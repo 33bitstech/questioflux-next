@@ -1,7 +1,5 @@
-import ShareButton from '@/components/widgets/share-button'
 import React from 'react'
 import styles from '../../../../../(quizPage)/quiz/[quizId]/leaderboard/leaderboard.module.scss'
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import { getLeaderboard, getQuiz, getUser } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 import LbUser from '@/components/Leaderboard/lb-user'
@@ -18,7 +16,8 @@ interface IProps {
 
 export default async function LB({params}:IProps) {
     const {quizId, locale} = await params,
-        token = await getCookie('token', {cookies}),
+        cookieStore = await cookies(),
+        token = cookieStore.get('token')?.value,
         t = await getTranslations('leaderboardPage'),
 
         [quizLb, quiz, user] = await Promise.all([

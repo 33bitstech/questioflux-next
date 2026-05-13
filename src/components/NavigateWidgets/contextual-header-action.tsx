@@ -2,7 +2,6 @@ import {Link} from '@/i18n/navigation'
 import React from 'react'
 import styles from './contextual-header-action.module.scss'
 import ToggleFilterContainer from './filtersWidgets/toggle-filter-container'
-import {getCookie} from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import { getTranslations } from 'next-intl/server' // 1. Importar
 
@@ -14,7 +13,9 @@ interface IProps {
 export default async function ContextualHeaderActions({page, locale} : IProps) {
     // 2. Buscar as traduções
     const t = await getTranslations({ locale, namespace: 'contextualHeader' });
-    const token = await getCookie('token', {cookies})
+    const cookieStore = await cookies();
+
+const token = cookieStore.get('token')?.value;
 
     return (
         <div className={`${styles.nav_actions}`}>

@@ -5,7 +5,6 @@ import ShareButton from '@/components/widgets/share-button';
 import { TLeaderboard } from '@/types/leaderboardTypes';
 import IQuizes from '@/interfaces/IQuizes';
 import { IUser } from '@/interfaces/IUser';
-import {CookieValueTypes, getCookie} from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
@@ -82,7 +81,7 @@ export async function getLeaderboard(quizId:string) : Promise<TLeaderboard | und
         console.log(err)
     }
 }
-export async function getUser(token:CookieValueTypes) : Promise<IUser | undefined>{
+export async function getUser(token:String | undefined) : Promise<IUser | undefined>{
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user`, {
             method: 'GET',
@@ -100,7 +99,9 @@ export async function getUser(token:CookieValueTypes) : Promise<IUser | undefine
 
 export default async function Leaderboard({params}:IProps) {
     const {quizId, locale} = await params,
-        token = await getCookie('token', {cookies}),
+        cookieStore = await cookies(),
+
+        token = cookieStore.get('token')?.value,
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
         [quizLb, quiz, user] = await Promise.all([

@@ -3,7 +3,6 @@ import styles from './subscription.module.scss'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'
 import { clientSecretUsage, clientSessionAss, getPublicKey } from './actions'
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import SubscriptionForm from '@/components/Subscription/subscription-form'
 import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions'
@@ -27,12 +26,13 @@ async function getKey(token:string) {
 
 export default async function Subscription({params}:IProps) {
     const {locale, type} = await params
-    const [tNav, t, token] = await Promise.all([
+    const [tNav, t, cookieStore] = await Promise.all([
         getTranslations({locale, namespace: 'navbar.asideMenu'}),
         getTranslations({locale, namespace: "SubscriptionPage"}),
-        getCookie('token', { cookies })
+        cookies()
     ])
 
+    const token = cookieStore.get('token')?.value;
     const publicKey = await getKey(`${token}`)
 
     const res = await verifyUserPremium(`${token}`, false)

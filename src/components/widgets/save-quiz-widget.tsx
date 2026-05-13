@@ -1,7 +1,7 @@
 'use client'
 import { useUser } from '@/contexts/userContext'
 import useQuizActions from '@/hooks/requests/quiz-requests/useQuizActions'
-import { getCookie } from 'cookies-next/client'
+import { getCookie } from 'cookies-next'
 import React from 'react'
 import { useTranslations } from 'next-intl' // Importar
 

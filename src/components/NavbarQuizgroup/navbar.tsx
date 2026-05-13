@@ -3,7 +3,6 @@ import styles from './navbar.module.scss'
 import { userAgent } from 'next/server'
 import { Link } from '@/i18n/navigation'
 import QuizIcon from '../Icons/QuizIcon'
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import ToggleMenuAsideContainer from './client/toggle-menu-aside-container'
 import LogoutWidget from './client/logout-widget'
@@ -21,7 +20,9 @@ export default async function NavbarQuizgroup({ locale }: IProps) {
     const headerList = await headers()
     const { device } = userAgent({ headers: headerList });
     const isMobile = device.type === 'mobile';
-    const token = await getCookie('token', { cookies });
+    const cookieStore = await cookies();
+    
+    const token = cookieStore.get('token')?.value;
 
     const pagesWithSearchInput = ['/explore']
 

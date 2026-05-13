@@ -1,4 +1,3 @@
-import { getCookie } from 'cookies-next/server'
 import { cookies } from 'next/headers'
 import React from 'react'
 import styles from './results.module.scss'
@@ -20,12 +19,13 @@ interface IProps {
 export default async function Results({ params }: IProps) {
     const { quizId, locale } = await params;
 
-    const [t, res, leaderboard, quiz] = await Promise.all([
+    const [t, cookieStore, leaderboard, quiz] = await Promise.all([
         getTranslations({ locale, namespace: 'quizResultsPage.results' }),
-        getCookie('quizResults', { cookies }),
+        cookies(),
         getLeaderboard(quizId),
         getQuiz(quizId)
     ])
+    const res = cookieStore.get('quizResults')?.value;
 
     if (!res) {
         return <div>{t('noResults')}</div>;
