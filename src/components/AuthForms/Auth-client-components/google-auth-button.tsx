@@ -41,19 +41,19 @@ export default function GoogleAuthButton({ locale, separatorBelow = false }: IGo
                     gap: 10px;
                     width: 100%;
                 }
-
+ 
                 .google-separator-line {
                     flex: 1;
                     height: 1px;
-                    background-color: var(--background-secondary);
+                    background-color: var(--horizontal-rule-color);
                     border-radius: 99px;
                 }
-
+ 
                 .google-separator-text {
-                    font-family: 'Inter', sans-serif;
+                    font-family: var(--font-inter), 'Inter', sans-serif;
                     font-size: 0.78rem;
                     font-weight: 400;
-                    color: #a0a0a0;
+                    color: var(--text-description);
                     white-space: nowrap;
                     text-transform: lowercase;
                     letter-spacing: 0.02em;
@@ -85,50 +85,52 @@ export default function GoogleAuthButton({ locale, separatorBelow = false }: IGo
                     width: 100%;
                     padding: 0.65rem 0;
                     border-radius: 10px;
-                    border: 1.5px solid rgba(255, 255, 255, 0.12);
-                    background-color: rgba(255, 255, 255, 0.06);
+                    border: 1.5px solid var(--border-input-color);
+                    background-color: var(--background-divs);
                     cursor: pointer;
-                    transition: background-color 0.18s ease, border-color 0.18s ease,
-                    transform 0.12s ease;
-                    font-family: 'Inter', sans-serif;
+                    transition: background-color 0.18s ease,
+                                border-color 0.18s ease,
+                                transform 0.12s ease;
+                    font-family: var(--font-inter), 'Inter', sans-serif;
                     font-size: 1rem;
                     font-weight: 600;
-                    color: #e8e8e8;
+                    color: var(--text-primary);
                     letter-spacing: 0.01em;
                     outline: none;
                 }
-
+ 
                 .google-btn:hover:not(:disabled) {
-                    background-color: rgba(255, 255, 255, 0.11);
-                    border-color: rgba(255, 255, 255, 0.22);
+                    background-color: var(--background-secondary);
+                    border-color: var(--text-placeholder);
                     transform: translateY(-1px);
                 }
-
+ 
                 .google-btn:active:not(:disabled) {
                     transform: translateY(0px);
-                    background-color: rgba(255, 255, 255, 0.08);
+                    background-color: var(--background-secondary);
                 }
-
+ 
                 .google-btn:disabled {
                     opacity: 0.55;
                     cursor: not-allowed;
                 }
-
+ 
                 .google-btn--loading {
                     pointer-events: none;
                 }
-
+ 
+                /* ── Spinner ── */
                 .google-btn__spinner {
                     display: inline-block;
                     width: 18px;
                     height: 18px;
-                    border: 2px solid rgba(255, 255, 255, 0.2);
-                    border-top-color: #fff;
+                    border: 2px solid var(--text-placeholder);
+                    border-top-color: var(--text-primary);
                     border-radius: 50%;
                     animation: google-spin 0.7s linear infinite;
                     flex-shrink: 0;
                 }
-
+ 
                 @keyframes google-spin {
                     to { transform: rotate(360deg); }
                 }
