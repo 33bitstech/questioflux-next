@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 interface IGoogleAuthButtonProps {
     locale?: string
-    separatorBelow: boolean
+    separatorBelow?: boolean
 }
 
 export default function GoogleAuthButton({ locale, separatorBelow = false }: IGoogleAuthButtonProps) {
