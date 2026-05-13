@@ -583,5 +583,10 @@
         "confirm": "Yes, delete",
         "cancel": "No, cancel",
         "sucess": "Quizzes deleted sucessfully !"
+    },
+    "googleAuth": {
+        "separator": "or",
+        "button": "Continue with Google",
+        "loading": "Loading..."
     }
 }

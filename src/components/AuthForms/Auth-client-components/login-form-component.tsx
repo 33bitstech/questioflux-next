@@ -13,6 +13,7 @@ import useLogin from '@/hooks/requests/auth-requests/useLogin'
 import { useUser } from '@/contexts/userContext'
 import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
+import GoogleAuthButton from './google-auth-button'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: (token:string) => void,
@@ -90,6 +91,8 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
         <form {...props} className='login-form' onSubmit={handleSubmit}>
 
             {loading && <LoadingReq loading={loading} />}
+
+            <GoogleAuthButton locale={locale} separatorBelow />
 
             <div className="first-part-section">
                 <InputComponent

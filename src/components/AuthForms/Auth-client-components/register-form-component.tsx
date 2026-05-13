@@ -16,6 +16,7 @@ import { useUser } from '@/contexts/userContext'
 import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
+import GoogleAuthButton from './google-auth-button'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: (token:string) => void,
@@ -152,6 +153,8 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                 </div>
 
                 <input type="submit" value={t('submitButton')} disabled={loading} />
+
+                <GoogleAuthButton locale={locale} />
             </div>
             <div className='second-part-section'>
                 <ProfileUploadComponent
