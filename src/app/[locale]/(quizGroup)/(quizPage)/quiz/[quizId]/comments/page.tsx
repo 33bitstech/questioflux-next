@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './comments.module.scss'
 import { IUser } from '@/interfaces/IUser'
-import { CookieValueTypes } from 'cookies-next'
 import { env } from '@/env'
 import { cookies } from 'next/headers'
 import CommentFormComponent from '@/components/Comment/comment-form-component'
@@ -17,7 +16,7 @@ interface IProps {
     }>
 }
 
-async function getUser(token:CookieValueTypes) : Promise<IUser | undefined>{
+async function getUser(token:string|undefined) : Promise<IUser | undefined>{
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user`, {
             method: 'GET',

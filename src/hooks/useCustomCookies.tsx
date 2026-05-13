@@ -9,7 +9,7 @@ interface UseCustomCookiesReturn {
     createCookie: (cookieValue: CookieValue) => void,
     removeCookie: () => void,
     setToken: (token: string) => void,
-    refreshCookie: () => void
+    refreshCookie: () => Promise<void>
 }
 
 const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
@@ -22,7 +22,7 @@ const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
         sameSite: 'strict' */
     };
 
-    const [cookie, setInternalCookie] = useState<CookieValue>(() => getCookie(cookieName, cookieOptions))
+    const [cookie, setInternalCookie] = useState<CookieValue>(() => getCookie(cookieName, cookieOptions) as CookieValue)
     
     const createCookie = useCallback((cookieValue: CookieValue): void => {
         setCookie(cookieName, cookieValue, cookieOptions);
@@ -39,8 +39,8 @@ const useCustomCookies = (cookieName: string): UseCustomCookiesReturn => {
         setInternalCookie(`Bearer ${token}`)
     }, [])
 
-    const refreshCookie = useCallback(() => {
-        const newCookieValue = getCookie(cookieName);
+    const refreshCookie = useCallback(async (): Promise<void> => {
+        const newCookieValue = await getCookie(cookieName, cookieOptions) as CookieValue;
         setInternalCookie(newCookieValue);
     }, [cookieName])
 
