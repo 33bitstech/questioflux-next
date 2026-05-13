@@ -583,5 +583,10 @@
         "confirm": "Sim, apagar",
         "cancel": "Não, cancelar",
         "sucess": "Quizzes apagados com sucesso !"
+    },
+    "googleAuth": {
+        "separator": "ou",
+        "button": "Continuar com Google",
+        "loading": "Carregando..."
     }
 }
