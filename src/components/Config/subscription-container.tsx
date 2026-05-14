@@ -14,16 +14,16 @@ interface IProps{
 
 export default function SubscriptionContainer({styles}:IProps) {
     const t = useTranslations('configPage.subscriptionContainer');
-    const {user, token} = useUser(),
+    const {user} = useUser(),
         {setError} = useGlobalMessage(),
         [premium, setPremium] = useState<boolean>(false),
         [specialCount, setSpecialCount] = useState<number>(0)
 
     const handleUnsub = ()=>{
         if (premium){
-            verifyUserPremium(`${token}`).then(res=>{
+            verifyUserPremium().then(res=>{
                 if(res.premium.premium){
-                    cancelSubscription(`${token}`).then(res=>{
+                    cancelSubscription().then(res=>{
                         if(res?.err) setError(res.err)
                     })
                 } 
@@ -34,7 +34,7 @@ export default function SubscriptionContainer({styles}:IProps) {
     useEffect(()=>{
         const get = async() =>{
             try {
-                const res = await verifyUserPremium(`${token}`)
+                const res = await verifyUserPremium()
                 if(res.err) return setError(res.err)
                 setPremium(res.premium.premium)
                 setSpecialCount(res.premium.specialCount)

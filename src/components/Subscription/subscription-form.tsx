@@ -12,11 +12,10 @@ const getStripe = (publicKey: string) => {
 interface IProps {
     publicKey: string;
     type: string;
-    token: string;
     styles: TStyles; 
 }
 
-export default function SubscriptionForm({publicKey, styles, token, type}:IProps){
+export default function SubscriptionForm({publicKey, styles, type}:IProps){
 
     const fetchClientSecret = useCallback(async () => {
         const res = await fetch('/api/subscription/create-checkout-session', {
@@ -24,7 +23,7 @@ export default function SubscriptionForm({publicKey, styles, token, type}:IProps
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ type, token }),
+            body: JSON.stringify({ type }),
         })
         const data = await res.json()
 
@@ -33,7 +32,7 @@ export default function SubscriptionForm({publicKey, styles, token, type}:IProps
         }
 
         return data.clientSecret
-    }, [type, token])
+    }, [type])
 
     const options = {
         fetchClientSecret,

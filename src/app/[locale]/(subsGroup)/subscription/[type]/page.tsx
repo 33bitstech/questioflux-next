@@ -71,7 +71,6 @@ export default async function Subscription({params}:IProps) {
                 {!premium && <SubscriptionForm 
                     publicKey={publicKey}
                     styles={styles}
-                    token={`${token}`}
                     type={type}
                 />}
 
