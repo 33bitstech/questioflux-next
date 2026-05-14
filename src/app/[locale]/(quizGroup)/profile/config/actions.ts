@@ -1,49 +1,44 @@
 'use server'
 
 import { env } from "@/env"
-import IReplies from "@/interfaces/IReplies"
-import { CookieValueTypes } from "cookies-next"
+import { getCookieHeader } from "@/utils/getCookieHeader"
 import { revalidatePath } from "next/cache"
 
-export async function verifyUserPremium(token:string, revalidate: boolean = true) {
+export async function verifyUserPremium(revalidate: boolean = true) {
+    const cookieHeader = await getCookieHeader()
+
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/verify-premium`, {
         method: 'GET',
-        headers: {
-            'Authorization': `${token}`
-        }
+        headers: { 'cookie': cookieHeader },
     })
 
     const res = await response.json()
-
-    if (!response.ok) return {err: res.message}
-
-    if (revalidate) revalidatePath(`/profile/config`)
-
-    return {premium: res}
+    if (!response.ok) return { err: res.message }
+    if (revalidate) revalidatePath('/profile/config')
+    return { premium: res }
 }
-export async function cancelSubscription(token:string) {
+
+export async function cancelSubscription() {
+    const cookieHeader = await getCookieHeader()
+
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/cancel-subscription`, {
         method: 'DELETE',
-        headers: {
-            'Authorization': `${token}`
-        }
+        headers: { 'cookie': cookieHeader },
     })
 
     const res = await response.json()
-
-    if (!response.ok) return {err: res.message}
-
-    revalidatePath(`/profile/config`)
+    if (!response.ok) return { err: res.message }
+    revalidatePath('/profile/config')
 }
-export async function deleteUser(token:string) {
+
+export async function deleteUser() {
+    const cookieHeader = await getCookieHeader()
+
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/delete`, {
         method: 'DELETE',
-        headers: {
-            'Authorization': `${token}`
-        }
+        headers: { 'cookie': cookieHeader },
     })
 
     const res = await response.json()
-
-    if (!response.ok) return {err: res.message}
+    if (!response.ok) return { err: res.message }
 }

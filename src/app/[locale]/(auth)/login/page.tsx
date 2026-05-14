@@ -1,6 +1,7 @@
 import LoginFormComponent from '@/components/AuthForms/Auth-client-components/login-form-component'
 import NavButtonLogReg from '@/components/AuthForms/Auth-client-components/nav-button-log-reg'
 import React from 'react'
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'

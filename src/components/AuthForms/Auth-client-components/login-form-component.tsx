@@ -8,6 +8,7 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import CheckboxComponent from './checkbox-component'
 import InputComponent from './input-component'
 import { validEmail } from '@/utils/FormatText'
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss'
 import useLogin from '@/hooks/requests/auth-requests/useLogin'
 import { useUser } from '@/contexts/userContext'
@@ -16,7 +17,7 @@ import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
 
 interface IProps{
-    handleRegisterAndFinishQuiz?: (token:string) => void,
+    handleRegisterAndFinishQuiz?: () => void,
     locale: string
 }
 
@@ -31,7 +32,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
 
     const {getError, setError, concatErrors, hasErrors} = useErrors()
     const [erroAuth, setErroAuth] = useState<ErrorsState>()
-    const {setUserAccess} = useUser()
+    const { fetchUser } = useUser()
     const {login} = useLogin()
     const router = useRouter()
 
@@ -71,11 +72,11 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
         const UserObject = { user:{ email, password } }
         
         login(JSON.stringify(UserObject))
-            .then(res=>{
-                setUserAccess(res.token)
-                if (handleRegisterAndFinishQuiz)  {
+            .then(async () => {
+                await fetchUser()  // busca o user após cookie ser setado
+                if (handleRegisterAndFinishQuiz) {
                     router.refresh()
-                    return handleRegisterAndFinishQuiz(res.token)
+                    return handleRegisterAndFinishQuiz()  // sem token
                 }
                 else router.push('/home')
             })

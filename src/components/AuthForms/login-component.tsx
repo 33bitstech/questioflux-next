@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss'
 import NavButtonLogReg from './Auth-client-components/nav-button-log-reg'
 import ClosePopupAuth from './Auth-client-components/close-popup-auth'
@@ -7,7 +8,7 @@ import LoginFormComponent from './Auth-client-components/login-form-component'
 import { useTranslations } from 'next-intl'
 
 interface IPropsLogin{
-    handleRegisterAndFinishQuiz: (token:string) => void,
+    handleRegisterAndFinishQuiz: () => void,
     toRegister: () => void,
     show_pop_up: React.Dispatch<React.SetStateAction<boolean>>
     locale:string
