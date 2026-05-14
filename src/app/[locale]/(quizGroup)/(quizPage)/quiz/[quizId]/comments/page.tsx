@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './comments.module.scss'
 import { IUser } from '@/interfaces/IUser'
 import { env } from '@/env'
-import { cookies } from 'next/headers'
+import { getCookieHeader } from '@/utils/getCookieHeader'
 import CommentFormComponent from '@/components/Comment/comment-form-component'
 import IComment from '@/interfaces/IComment'
 import CommentContainer from '@/components/Comment/comment-container'
@@ -16,20 +16,17 @@ interface IProps {
     }>
 }
 
-async function getUser(token:string|undefined) : Promise<IUser | undefined>{
+async function getUser(cookieHeader: string): Promise<IUser | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user`, {
             method: 'GET',
-            headers:{
-                'Authorization': `${token}`
-            }
+            headers: { 'cookie': cookieHeader },
         });
-
         const res = await response.json();
         return res.user;
     } catch (err) {
         console.log(err)
-    }   
+    }
 }
 async function getComments(quizId: string) : Promise<IComment[] | undefined>{
     try {
@@ -47,11 +44,10 @@ export default async function Comment({params}: IProps) {
     // Receber locale e buscar traduções
     const {quizId, locale} = await params;
     const t = await getTranslations({ locale, namespace: 'commentsSection' });
-    const cookieStore = await cookies();
+    const cookieHeader = await getCookieHeader()
 
-    const token = cookieStore.get('token')?.value;;
     const [user, comments] = await Promise.all([
-        getUser(token),
+        getUser(cookieHeader),
         getComments(quizId)
     ]);
 
@@ -59,14 +55,12 @@ export default async function Comment({params}: IProps) {
 
     return (
         <div className={styles.comment_area}>
-            {/* Usar a tradução com pluralização */}
             <p>{t('title', {count: comments?.length || 0})}</p>
 
             {user && <CommentFormComponent
                 styles={styles}
                 user={user}
                 quizId={quizId}
-                token={token}
             />}
 
             {isCommentsEmpty && user && (<p className={styles.no_comment}>{t('noComments')}</p>)}

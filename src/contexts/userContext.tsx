@@ -4,82 +4,67 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useState 
 import { IUser } from "@/interfaces/IUser"
 import React from 'react'
 import { useGlobalMessage } from "./globalMessageContext"
-import useCustomCookies from "@/hooks/useCustomCookies"
 import { useRouter } from "@/i18n/navigation"
 
 interface IUserContext {
     user: IUser | null,
-    token: string | undefined
     updateUser: (userObj: IUser | null) => void,
-    logout: ()=>void,
-    setUserAccess: (token: string) =>void
+    logout: () => void,
+    fetchUser: () => Promise<void>
 }
 
 const UserContext = createContext({} as IUserContext)
 
-export function UserProvider({children} : {children : ReactNode}){
-    const [user, setUser] = useState<IUser | null>(null),
-    {setError} = useGlobalMessage(),
-    {cookie: token, removeCookie, setToken} = useCustomCookies('token'),
-    router = useRouter()
+export function UserProvider({ children }: { children: ReactNode }) {
+    const [user, setUser] = useState<IUser | null>(null)
+    const { setError } = useGlobalMessage()
+    const router = useRouter()
 
-    const updateUser = useCallback((userObj: IUser | null)=>{
+    const updateUser = useCallback((userObj: IUser | null) => {
         setUser(userObj)
-    }, []),
-    logout = useCallback(()=>{
-        router.push('/')
-
-        removeCookie()
-        router.refresh()
-        setUser(null)
-    },[]),
-    setUserAccess = useCallback((token:string) =>{
-        setToken(token)
     }, [])
 
-    async function getUser(token: string) {
+    const fetchUser = useCallback(async () => {
         try {
-            const resJson = await fetch('/api/user',{
+            const res = await fetch('/api/user', {
                 method: 'GET',
-                headers: {
-                    'Authorization': token
-                }, 
+                credentials: 'include'
             })
-            const res = await resJson.json()
-
-            if(!resJson.ok) throw { response: { data: res, status: resJson.status} }
-
-            return res
-        } catch (err:any) {
-            const {type} = err.response.data
-            if (type == 'global'  ) return setError(err.response.data.message)
-                
-            throw err.response.data
-        } 
-    }
-
-    useEffect(()=>{
-        const checkToken = async () =>{
-            if(token){
-                try {
-                    const {user} = await getUser(token)
-                    
-                    setUser(user)
-                } catch (err:any) {
-                    console.error(err)
-                    if(err.response.status == 401) logout()
-                }
-            }else{
+            console.log(res)
+            if (!res.ok) {
                 setUser(null)
+                return
             }
+
+            const data = await res.json()
+            setUser(data.user ?? null)
+        } catch (err) {
+            console.error(err)
+            setUser(null)
         }
-        checkToken()
-    }, [token])
+    }, [])
+
+    const logout = useCallback(async () => {
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setUser(null)
+            router.push('/')
+            router.refresh()
+        }
+    }, [router])
+
+    useEffect(() => {
+        fetchUser()
+    }, [fetchUser])
 
     return (
-        <UserContext.Provider value={{
-            user, token, updateUser, logout, setUserAccess
-        }}>
+        <UserContext.Provider value={{ user, updateUser, logout, fetchUser }}>
             {children}
         </UserContext.Provider>
     )

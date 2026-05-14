@@ -19,7 +19,6 @@ export default function GoogleAuthButton({ locale, separatorBelow = false }: IGo
             // Wire up your Google OAuth provider here.
             // Example with NextAuth: signIn('google', { callbackUrl: `/${locale}/home` })
             // Example with custom OAuth: window.location.href = '/api/auth/google'
-            console.log('Google sign-in triggered')
         } catch (err) {
             console.error(err)
         } finally {

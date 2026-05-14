@@ -1,6 +1,7 @@
 "use client";
 
 import { InputHTMLAttributes, ReactNode } from "react";
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss'
 import { Eye, EyeClosed } from "lucide-react";
 

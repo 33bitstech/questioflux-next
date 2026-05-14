@@ -1,21 +1,15 @@
 import { NextResponse } from 'next/server';
-import ApiData from '@/utils/ApiData'; 
+import ApiData from '@/utils/ApiData';
 
 export async function DELETE(request: Request) {
     try {
-        const Headers = request.headers,
-            token = Headers.get('Authorization')
-    
-        if (!token || !token.startsWith('Bearer ')) return NextResponse.json(
-                { type: 'global', message: 'no valid token' },
-                { status: 401 } 
-            );
+        const cookieHeader = request.headers.get('cookie') || '';
 
         const externalApiResponse = await ApiData({
-            path: 'user', 
+            path: 'user',
             method: 'DELETE',
-            headerKey: 'Authorization',
-            headerValue: token,
+            headerKey: 'Cookie',
+            headerValue: cookieHeader,
             cache: { cache: 'no-store' },
         });
 
@@ -24,12 +18,14 @@ export async function DELETE(request: Request) {
         if (!externalApiResponse.ok) {
             return NextResponse.json(responseData, { status: externalApiResponse.status });
         }
-        return NextResponse.json(responseData, { status: 200 });
 
+        const response = NextResponse.json(responseData, { status: 200 });
+        response.cookies.set('logged_in', '', { path: '/', maxAge: 0 });
+        return response;
     } catch (error) {
         console.error('[API ROUTE /api/user/delete] Erro inesperado:', error);
         return NextResponse.json(
-            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' }, 
+            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' },
             { status: 500 }
         );
     }

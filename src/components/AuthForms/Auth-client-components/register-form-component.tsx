@@ -19,7 +19,7 @@ import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
 
 interface IProps{
-    handleRegisterAndFinishQuiz?: (token:string) => void,
+    handleRegisterAndFinishQuiz?: () => void,
     toLogin?: () => void,
     absolute: boolean
 }
@@ -37,7 +37,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         [profileImageFile, setProfileImageFile] = useState<File | null>(null),
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
         {register} = useRegister(),
-        {setUserAccess} = useUser(),
+        {fetchUser} = useUser(),
         router = useRouter(),
         [isPasswordHidden, setIsPasswordHidden] = useState(true),
         {setError:setGlobalError} = useGlobalMessage()
@@ -83,12 +83,12 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         if (profileImageFile) formData.append('image', profileImageFile)
 
         register(formData)
-            .then(res=>{
-                setUserAccess(res.token || res.res.token)
+            .then(async (res) => {
                 if (res.errImage) setGlobalError(res.errImage.message)
-                if (handleRegisterAndFinishQuiz){
+                await fetchUser() 
+                if (handleRegisterAndFinishQuiz) {
                     router.refresh()
-                    return handleRegisterAndFinishQuiz(res.token || res.res.token)
+                    return handleRegisterAndFinishQuiz()
                 }
                 else router.push('/home')
             })

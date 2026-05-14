@@ -1,5 +1,6 @@
 'use client'
 
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss';
 import { useTranslations } from 'next-intl';
 import ClosePopupAuth from '../Auth-client-components/close-popup-auth';

@@ -1,5 +1,6 @@
 'use client';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss'
 import Image from 'next/image';
 import { useUser } from '@/contexts/userContext';

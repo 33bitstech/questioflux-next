@@ -16,7 +16,7 @@ interface IProps {
 }
 
 export default function UserProfileHeader({userP}: IProps) {
-    const {user, token} = useUser(),
+    const {user} = useUser(),
         {setError} = useGlobalMessage(),
         [premiumStatus, setPremiumStatus] = useState<IPremium>() 
     
@@ -25,7 +25,7 @@ export default function UserProfileHeader({userP}: IProps) {
         if(!userP){
             const get = async() =>{
                 try {
-                    const res = await verifyUserPremium(`${token}`)
+                    const res = await verifyUserPremium()
                     if(res.err) return setError(res.err)
                     setPremiumStatus(res.premium)
                 } catch (err) {

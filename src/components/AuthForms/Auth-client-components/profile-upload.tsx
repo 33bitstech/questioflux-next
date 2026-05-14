@@ -2,6 +2,7 @@
 
 import UploadImageSvg from '@/components/Icons/UploadImageSvg';
 import { ChangeEvent, useRef, useState } from 'react';
+// @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss'
 import Image from 'next/image';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';

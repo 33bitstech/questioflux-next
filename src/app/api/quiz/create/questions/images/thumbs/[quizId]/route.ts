@@ -1,75 +1,62 @@
 import { NextResponse } from 'next/server';
-import ApiData from '@/utils/ApiData'; 
+import ApiData from '@/utils/ApiData';
 
-export async function POST(request: Request, {params}: {params:Promise<{quizId:string}>}) {
+export async function POST(request: Request, { params }: { params: Promise<{ quizId: string }> }) {
     try {
-        const body = await request.formData(),
-            Headers = request.headers,
-            token = Headers.get('Authorization'),
-            {quizId} = await params
+        const cookieHeader = request.headers.get('cookie') || '';
+        const body = await request.formData();
+        const { quizId } = await params;
 
-
-        if (!token || !token.startsWith('Bearer ')) return NextResponse.json(
-            { type: 'global', message: 'no valid token' },
-            { status: 401 } 
-        );
-        
         const externalApiResponse = await ApiData({
-            path: `questions-thumbnail/${quizId}`, 
+            path: `questions-thumbnail/${quizId}`,
             method: 'POST',
-            body: body, 
-            headerKey: [ 'Authorization'],
-            headerValue: [token],
+            body,
+            headerKey: 'Cookie',
+            headerValue: cookieHeader,
             cache: { cache: 'no-store' },
         });
+
         const responseData = await externalApiResponse.json();
 
-        if (!externalApiResponse.ok) return NextResponse.json({data:responseData}, { status: externalApiResponse.status });
-        
-        return NextResponse.json({data:responseData}, { status: 200 });
-
-    } catch (err:any) {
-        console.error('[API ROUTE /quiz/create/questions] Erro inesperado:', err);
+        if (!externalApiResponse.ok) {
+            return NextResponse.json({ data: responseData }, { status: externalApiResponse.status });
+        }
+        return NextResponse.json({ data: responseData }, { status: 200 });
+    } catch (err: any) {
+        console.error('[API ROUTE /quiz/create/questions/thumbs] Erro inesperado:', err);
         return NextResponse.json(
-            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' }, 
+            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' },
             { status: 500 }
         );
-    } 
+    }
 }
 
-export async function PUT(request: Request, {params}: {params:Promise<{quizId:string}>}) {
+export async function PUT(request: Request, { params }: { params: Promise<{ quizId: string }> }) {
     try {
-        const body = await request.formData(),
-            Headers = request.headers,
-            token = Headers.get('Authorization'),
-            {quizId} = await params
+        const cookieHeader = request.headers.get('cookie') || '';
+        const body = await request.formData();
+        const { quizId } = await params;
 
-
-        if (!token || !token.startsWith('Bearer ')) return NextResponse.json(
-            { type: 'global', message: 'no valid token' },
-            { status: 401 } 
-        );
-        
         const externalApiResponse = await ApiData({
-            path: `questions-thumbnail/${quizId}`, 
+            path: `questions-thumbnail/${quizId}`,
             method: 'PUT',
-            body: body, 
-            headerKey: [ 'Authorization'],
-            headerValue: [token],
+            body,
+            headerKey: 'Cookie',
+            headerValue: cookieHeader,
             cache: { cache: 'no-store' },
         });
-        console.log(externalApiResponse)
+
         const responseData = await externalApiResponse.json();
 
-        if (!externalApiResponse.ok) return NextResponse.json({data:responseData}, { status: externalApiResponse.status });
-        
-        return NextResponse.json({data:responseData}, { status: 200 });
-
-    } catch (err:any) {
-        console.error('[API ROUTE /quiz/create/questions] Erro inesperado:', err);
+        if (!externalApiResponse.ok) {
+            return NextResponse.json({ data: responseData }, { status: externalApiResponse.status });
+        }
+        return NextResponse.json({ data: responseData }, { status: 200 });
+    } catch (err: any) {
+        console.error('[API ROUTE /quiz/create/questions/thumbs] Erro inesperado:', err);
         return NextResponse.json(
-            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' }, 
+            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' },
             { status: 500 }
         );
-    } 
+    }
 }

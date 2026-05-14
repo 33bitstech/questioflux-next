@@ -5,7 +5,7 @@ import ShareButton from '@/components/widgets/share-button';
 import { TLeaderboard } from '@/types/leaderboardTypes';
 import IQuizes from '@/interfaces/IQuizes';
 import { IUser } from '@/interfaces/IUser';
-import { cookies } from 'next/headers'
+import { getCookieHeader } from '@/utils/getCookieHeader'
 import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
 import GoogleAd from '@/components/Google/GoogleAd';
@@ -81,33 +81,28 @@ export async function getLeaderboard(quizId:string) : Promise<TLeaderboard | und
         console.log(err)
     }
 }
-export async function getUser(token:String | undefined) : Promise<IUser | undefined>{
+export async function getUser(cookieHeader: string): Promise<IUser | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user`, {
             method: 'GET',
-            headers:{
-                'Authorization': `${token}`
-            }
+            headers: { 'cookie': cookieHeader },
         });
-
         const res = await response.json();
         return res.user;
     } catch (err) {
         console.log(err)
-    }   
+    }
 }
 
 export default async function Leaderboard({params}:IProps) {
     const {quizId, locale} = await params,
-        cookieStore = await cookies(),
-
-        token = cookieStore.get('token')?.value,
+        cookieHeader = await getCookieHeader(),
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
         [quizLb, quiz, user] = await Promise.all([
             getLeaderboard(quizId),
             getQuiz(quizId),
-            getUser(token)
+            getUser(cookieHeader)
         ]),
         
         userInLeaderboard = quizLb?.find(lbUser => lbUser.userId === user?.userId),

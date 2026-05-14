@@ -29,7 +29,6 @@ const publicRoutes: PublicRoute[] = [
 ];
 
 export function middleware(req: NextRequest) {
-
     const { pathname } = req.nextUrl;
     const locales = ['en', 'pt'];
 
@@ -43,8 +42,8 @@ export function middleware(req: NextRequest) {
         return NextResponse.redirect(url, { status: 308 });
     }
 
-
-    const authToken = req.cookies.get('token');
+    // Agora verificamos o cookie 'logged_in' ao invés do token Bearer
+    const isLoggedIn = req.cookies.get('logged_in');
     const requestHeaders = new Headers(req.headers)
     const locale = pathname.split('/')[1]
 
@@ -54,59 +53,37 @@ export function middleware(req: NextRequest) {
     requestHeaders.set('x-pathname', pathname)
 
     const publicRoute = publicRoutes.find(route => {
-        if (route.src instanceof RegExp) {
-            return route.src.test(pathname);
-        }
+        if (route.src instanceof RegExp) return route.src.test(pathname);
         return route.src === pathname;
     });
 
-    if (pathname == `/${locale}` && !authToken) {
+    if (pathname == `/${locale}` && !isLoggedIn) {
         const url = req.nextUrl.clone()
         url.pathname = pathname
         return NextResponse.rewrite(url);
     }
 
-    // 1. Rota pública e usuário NÃO está logado
-    // Ação: Permite o acesso
-    if (publicRoute && !authToken) {
-        return NextResponse.next({
-            request: {
-                headers: requestHeaders,
-            },
-        })
+    if (publicRoute && !isLoggedIn) {
+        return NextResponse.next({ request: { headers: requestHeaders } })
     }
 
-    // 2. Rota pública, usuário ESTÁ logado e a ação é 'redirect'
-    // Ação: Redireciona para a página principal do usuário logado (ex: /home)
-    if (publicRoute && authToken && publicRoute.actionWhenAuth === 'redirect') {
+    if (publicRoute && isLoggedIn && publicRoute.actionWhenAuth === 'redirect') {
         const redirectUrl = req.nextUrl.clone();
         redirectUrl.pathname = defaultPrivateRoute;
         return NextResponse.redirect(redirectUrl);
     }
 
-    // 3. Rota privada e usuário NÃO está logado
-    // Ação: Redireciona para a página de login
-    if (!publicRoute && !authToken) {
+    if (!publicRoute && !isLoggedIn) {
         const redirectUrl = req.nextUrl.clone();
         redirectUrl.pathname = defaultPublicRoute;
         return NextResponse.redirect(redirectUrl);
     }
 
-    // Para os casos restantes:
-    // - Rota pública, logado e actionWhenAuth: 'next' -> Permite acesso
-    // - Rota privada e logado -> Permite acesso (aqui você pode adicionar a verificação de expiração do token)
-    // - etc.
-    // Ação: Permite o acesso
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders,
-        },
-    })
+    return NextResponse.next({ request: { headers: requestHeaders } })
 }
 
 export const config = {
     matcher: [
-
         '/((?!api|_next/static|_next/image|icon.svg|favicon.ico|iconv2.png|favicon.png|sitemap.xml|robots.txt|ads.txt|quiz_padrao_.+\.png).*)',
     ],
 };
