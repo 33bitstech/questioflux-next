@@ -6,6 +6,7 @@ import LbUser from '@/components/Leaderboard/lb-user'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { getCookieHeader } from '@/utils/getCookieHeader'
 
 interface IProps {
     params: Promise<{
@@ -16,14 +17,13 @@ interface IProps {
 
 export default async function LB({params}:IProps) {
     const {quizId, locale} = await params,
-        cookieStore = await cookies(),
-        token = cookieStore.get('token')?.value,
+        cookieHeader = await getCookieHeader(),
         t = await getTranslations('leaderboardPage'),
 
         [quizLb, quiz, user] = await Promise.all([
             getLeaderboard(quizId),
             getQuiz(quizId),
-            getUser(token)
+            getUser(cookieHeader)
         ]),
         
         userInLeaderboard = quizLb?.find(lbUser => lbUser.userId === user?.userId),
