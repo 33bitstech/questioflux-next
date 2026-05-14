@@ -3,10 +3,12 @@
 import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { BodyInit } from "@/types/fetchTypes"
+import { cookies } from "next/headers"
 
 export async function createQuiz(quiz: BodyInit) {
     try {
-        const cookieHeader = await getCookieHeader()
+        const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz`, {
             method: 'POST',

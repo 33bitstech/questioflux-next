@@ -5,10 +5,12 @@ import { env } from "@/env"
 import { ILocalQuestions } from "@/interfaces/ILocalQuestions"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { BodyInit } from "@/types/fetchTypes"
+import { cookies } from "next/headers"
 
 export async function createQuestionsText(questions: BodyInit, quizId: string) {
     try {
-        const cookieHeader = await getCookieHeader()
+        const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/${quizId}`, {
             method: 'PUT',
@@ -26,7 +28,8 @@ export async function createQuestionsText(questions: BodyInit, quizId: string) {
 
 export async function createQuestionsImage(quizId: string, questions: ILocalQuestions[], questionsFormated: { questions: IFormatedImageQuestions[] }) {
     try {
-        const cookieHeader = await getCookieHeader()
+        const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/titles/${quizId}`, {
             method: 'PUT',

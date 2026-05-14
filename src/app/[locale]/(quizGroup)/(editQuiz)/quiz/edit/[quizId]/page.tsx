@@ -5,6 +5,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { env } from '@/env'
 import { getTranslations } from 'next-intl/server'
 import { getCookieHeader } from '@/utils/getCookieHeader'
+import { cookies } from 'next/headers'
 
 interface IProps {
     params: Promise<{ quizId: string; locale: string }>
@@ -27,7 +28,8 @@ async function getQuiz(quizId: string, cookieHeader: string): Promise<IQuizes | 
 export default async function EditingQuiz({ params }: IProps) {
     const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.page' });
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const quiz = await getQuiz(quizId, cookieHeader);
 
     return (

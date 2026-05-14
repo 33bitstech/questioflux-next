@@ -14,6 +14,7 @@ import ArrowSvg from '../Icons/ArrowSvg'
 import ReplyContainer from './Reply/reply-container'
 import { useTranslations } from 'next-intl';
 import { getCookieHeader } from '@/utils/getCookieHeader'
+import { cookies } from 'next/headers'
 
 interface IProps{
     styles: TStyles,
@@ -23,8 +24,9 @@ interface IProps{
 
 export default async function CommentBody({styles, comment, quizId}:IProps) {
     const {user} = useUser(),
-        {setError} = useGlobalMessage(),
-        token = await getCookieHeader()
+        {setError} = useGlobalMessage()
+    const cookieStore = await cookies()
+    const token = getCookieHeader(cookieStore.getAll())
         
 
     const t = useTranslations('commentsSection');

@@ -7,6 +7,7 @@ import CommentFormComponent from '@/components/Comment/comment-form-component'
 import IComment from '@/interfaces/IComment'
 import CommentContainer from '@/components/Comment/comment-container'
 import { getTranslations } from 'next-intl/server' // Importar
+import { cookies } from 'next/headers'
 
 // Adicionar locale aos IProps
 interface IProps {
@@ -44,7 +45,8 @@ export default async function Comment({params}: IProps) {
     // Receber locale e buscar traduções
     const {quizId, locale} = await params;
     const t = await getTranslations({ locale, namespace: 'commentsSection' });
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
     const [user, comments] = await Promise.all([
         getUser(cookieHeader),

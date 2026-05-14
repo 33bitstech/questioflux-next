@@ -12,6 +12,7 @@ import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/[locale]/
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { getCookieHeader } from '@/utils/getCookieHeader'
+import { cookies } from 'next/headers'
 
 interface IProps{
     styles: TStyles
@@ -23,8 +24,9 @@ interface IProps{
 export default async function ReplyBody({quizId, reply, styles, commentId}: IProps) {
     const {user} = useUser(),
         {setError} = useGlobalMessage(),
-        router = useRouter(),
-        token = await getCookieHeader()
+        router = useRouter()
+    const cookieStore = await cookies()
+    const token = getCookieHeader(cookieStore.getAll())
 
     const t = useTranslations('creation')
     

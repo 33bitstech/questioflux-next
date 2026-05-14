@@ -3,9 +3,11 @@
 import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 
 export async function verifyUserPremium(revalidate: boolean = true) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/verify-premium`, {
         method: 'GET',
@@ -19,7 +21,8 @@ export async function verifyUserPremium(revalidate: boolean = true) {
 }
 
 export async function cancelSubscription() {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/cancel-subscription`, {
         method: 'DELETE',
@@ -32,7 +35,8 @@ export async function cancelSubscription() {
 }
 
 export async function deleteUser() {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/delete`, {
         method: 'DELETE',

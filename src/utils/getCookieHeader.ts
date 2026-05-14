@@ -1,8 +1,14 @@
-import { cookies } from 'next/headers';
+type RequestCookie = {
+    name: string;
+    value: string;
+};
 
-export async function getCookieHeader(): Promise<string> {
-    const cookieStore = await cookies();
-    return cookieStore.getAll()
-        .map(c => `${c.name}=${c.value}`)
+export function getCookieHeader(cookiesList: RequestCookie[]): string {
+    if (!cookiesList || cookiesList.length === 0) {
+        return '';
+    }
+
+    return cookiesList
+        .map(cookie => `${cookie.name}=${cookie.value}`)
         .join('; ');
 }
