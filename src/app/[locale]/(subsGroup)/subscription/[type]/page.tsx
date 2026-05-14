@@ -35,7 +35,7 @@ export default async function Subscription({params}:IProps) {
     const token = cookieStore.get('token')?.value;
     const publicKey = await getKey(`${token}`)
 
-    const res = await verifyUserPremium(`${token}`, false)
+    const res = await verifyUserPremium(false)
     const premium = res.err ? false : res.premium?.premium || false
 
     console.log('premium status:', premium, 'res:', res)
