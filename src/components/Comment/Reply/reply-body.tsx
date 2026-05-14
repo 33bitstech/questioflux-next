@@ -12,16 +12,16 @@ import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/[locale]/
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { getCookieHeader } from '@/utils/getCookieHeader'
-import { cookies } from 'next/headers'
 
 interface IProps{
     styles: TStyles
     reply: IReplies
     quizId: string
     commentId: string
+    cookies: any
 }
 
-export default async function ReplyBody({quizId, reply, styles, commentId}: IProps) {
+export default async function ReplyBody({quizId, reply, styles, commentId, cookies}: IProps) {
     const {user} = useUser(),
         {setError} = useGlobalMessage(),
         router = useRouter()
