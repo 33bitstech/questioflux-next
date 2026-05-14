@@ -5,7 +5,6 @@ import IComment from '@/interfaces/IComment'
 import UserProfileImgRender from '../ImagesRender/user-profile-img-render'
 import { getTimeSinceDate } from '@/utils/FormatTime'
 import CommentBody from './comment-body'
-import { cookies } from 'next/headers'
 
 interface IProps {
     quizId: string,
@@ -30,7 +29,6 @@ export default async function CommentContainer({quizId, comment, locale}:IProps)
                     comment={comment}
                     styles={styles}
                     quizId={quizId}
-                    cookies={cookies}
                 />
             </div>
         </div>

@@ -13,10 +13,9 @@ interface IProps{
     reply: IReplies
     quizId: string
     commentId: string
-    cookies: any
 }
 
-export default function ReplyContainer({reply, styles, quizId, commentId, cookies}:IProps) {
+export default function ReplyContainer({reply, styles, quizId, commentId}:IProps) {
     const locale = useLocale()
     const {displayText, isoDate} = getTimeSinceDate(reply.created_at, locale)
     
@@ -35,7 +34,6 @@ export default function ReplyContainer({reply, styles, quizId, commentId, cookie
                     styles={styles}
                     quizId={quizId}
                     commentId={commentId}
-                    cookies={cookies}
                 />
             </div>
         </div>
