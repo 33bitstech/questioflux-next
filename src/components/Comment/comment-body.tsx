@@ -14,15 +14,15 @@ import ArrowSvg from '../Icons/ArrowSvg'
 import ReplyContainer from './Reply/reply-container'
 import { useTranslations } from 'next-intl';
 import { getCookieHeader } from '@/utils/getCookieHeader'
-import { cookies } from 'next/headers'
 
 interface IProps{
     styles: TStyles,
     comment: IComment,
-    quizId: string
+    quizId: string,
+    cookies: any
 }
 
-export default async function CommentBody({styles, comment, quizId}:IProps) {
+export default async function CommentBody({styles, comment, quizId, cookies}:IProps) {
     const {user} = useUser(),
         {setError} = useGlobalMessage()
     const cookieStore = await cookies()
@@ -171,6 +171,8 @@ export default async function CommentBody({styles, comment, quizId}:IProps) {
                                     reply={rep}
                                     styles={styles}
                                     commentId={comment.commentId}
+                                    cookies={cookies}
+
                                 />
                             ))}
                         </div>}
