@@ -4,9 +4,11 @@ import { env } from "@/env"
 import IReplies from "@/interfaces/IReplies"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 
 export async function createComment(quizId: string, data: object) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}/comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'cookie': cookieHeader },
@@ -18,7 +20,8 @@ export async function createComment(quizId: string, data: object) {
 }
 
 export async function deleteComment(quizId: string, commentId: string, data: object) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/delete/${commentId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json', 'cookie': cookieHeader },
@@ -30,7 +33,8 @@ export async function deleteComment(quizId: string, commentId: string, data: obj
 }
 
 export async function editComment(quizId: string, commentId: string, data: object) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/edit/${commentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'cookie': cookieHeader },
@@ -42,7 +46,8 @@ export async function editComment(quizId: string, commentId: string, data: objec
 }
 
 export async function likeComment(commentId: string) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/like/${commentId}`, {
         method: 'PUT',
         headers: { 'cookie': cookieHeader },
@@ -52,7 +57,8 @@ export async function likeComment(commentId: string) {
 }
 
 export async function dislikeComment(commentId: string) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comment/dislike/${commentId}`, {
         method: 'DELETE',
         headers: { 'cookie': cookieHeader },
@@ -62,7 +68,8 @@ export async function dislikeComment(commentId: string) {
 }
 
 export async function replyComment(quizId: string, commentId: string, data: object) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'cookie': cookieHeader },
@@ -85,7 +92,8 @@ export async function repliesFromComment(quizId: string, commentId: string): Pro
 }
 
 export async function deleteReply(quizId: string, commentId: string, replyId: string, data: object) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/delete`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json', 'cookie': cookieHeader },
@@ -97,7 +105,8 @@ export async function deleteReply(quizId: string, commentId: string, replyId: st
 }
 
 export async function editReply(quizId: string, commentId: string, replyId: string, data: object) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/edit`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'cookie': cookieHeader },
@@ -109,7 +118,8 @@ export async function editReply(quizId: string, commentId: string, replyId: stri
 }
 
 export async function likeReply(commentId: string, replyId: string) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/like`, {
         method: 'PUT',
         headers: { 'cookie': cookieHeader },
@@ -119,7 +129,8 @@ export async function likeReply(commentId: string, replyId: string) {
 }
 
 export async function dislikeReply(commentId: string, replyId: string) {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/reply/${commentId}/${replyId}/dislike`, {
         method: 'DELETE',
         headers: { 'cookie': cookieHeader },

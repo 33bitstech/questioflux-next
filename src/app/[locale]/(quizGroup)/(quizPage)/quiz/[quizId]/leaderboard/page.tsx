@@ -9,6 +9,7 @@ import { getCookieHeader } from '@/utils/getCookieHeader'
 import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
 import GoogleAd from '@/components/Google/GoogleAd';
+import { cookies } from 'next/headers';
 
 interface IProps {
     params: Promise<{
@@ -95,8 +96,9 @@ export async function getUser(cookieHeader: string): Promise<IUser | undefined> 
 }
 
 export default async function Leaderboard({params}:IProps) {
-    const {quizId, locale} = await params,
-        cookieHeader = await getCookieHeader(),
+    const {quizId, locale} = await params
+        const cookieStore = await cookies()
+const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
         [quizLb, quiz, user] = await Promise.all([

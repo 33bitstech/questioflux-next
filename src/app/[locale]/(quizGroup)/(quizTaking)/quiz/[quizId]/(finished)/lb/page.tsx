@@ -16,8 +16,9 @@ interface IProps {
 }
 
 export default async function LB({params}:IProps) {
-    const {quizId, locale} = await params,
-        cookieHeader = await getCookieHeader(),
+    const {quizId, locale} = await params
+    const cookieStore = await cookies()
+    const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations('leaderboardPage'),
 
         [quizLb, quiz, user] = await Promise.all([

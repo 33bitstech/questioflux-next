@@ -4,6 +4,7 @@ import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 import DeleteContainer from '@/components/EditingQuiz/multipleDelete/delete-container'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { env } from '@/env'
+import { cookies } from 'next/headers'
 
 async function getDrafts(cookieHeader: string) {
     try {
@@ -20,7 +21,8 @@ async function getDrafts(cookieHeader: string) {
 }
 
 export default async function Drafts() {
-    const cookieHeader = await getCookieHeader()
+    const cookieStore = await cookies()
+const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const drafts = await getDrafts(cookieHeader)
 
     return (
