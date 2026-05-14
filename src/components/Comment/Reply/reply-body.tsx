@@ -11,6 +11,7 @@ import ReplyForm from '../excerpts-comments/reply-form'
 import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import { getCookieHeader } from '@/utils/getCookieHeader'
 
 interface IProps{
     styles: TStyles
@@ -19,10 +20,11 @@ interface IProps{
     commentId: string
 }
 
-export default function ReplyBody({quizId, reply, styles, commentId}: IProps) {
-    const {user, token} = useUser(),
-            {setError} = useGlobalMessage(),
-            router = useRouter()
+export default async function ReplyBody({quizId, reply, styles, commentId}: IProps) {
+    const {user} = useUser(),
+        {setError} = useGlobalMessage(),
+        router = useRouter(),
+        token = await getCookieHeader()
 
     const t = useTranslations('creation')
     
@@ -47,7 +49,7 @@ export default function ReplyBody({quizId, reply, styles, commentId}: IProps) {
     },
     handleRemove = ()=>{
         const data = {comment:reply.body}
-        deleteReply(quizId, commentId, reply.replyId, data, token).then(res=>{
+        deleteReply(quizId, commentId, reply.replyId, data).then(res=>{
             if(res?.err) setError(res.err)
             else router.refresh()
         })
@@ -61,7 +63,7 @@ export default function ReplyBody({quizId, reply, styles, commentId}: IProps) {
         const data = {
             reply: {...reply, body:replyValueEdited, quizId},
         }
-        editReply(quizId, commentId, reply.replyId, data, token).then(res=>{
+        editReply(quizId, commentId, reply.replyId, data).then(res=>{
             if(res?.err) setError(res.err)
         }).finally(()=>{
             setEditing(false)
@@ -74,13 +76,13 @@ export default function ReplyBody({quizId, reply, styles, commentId}: IProps) {
         if (liked){
             setLiked(false)
             setLikeCount(state => (state ?? 0) - 1)
-            dislikeReply(commentId, reply.replyId, token).then(res=>{
+            dislikeReply(commentId, reply.replyId).then(res=>{
                 if(res?.err) setError(res.err)
             })
         } else{
             setLiked(true)
             setLikeCount(state=> (state ?? 0) + 1)
-            likeReply(commentId, reply.replyId, token).then(res=>{
+            likeReply(commentId, reply.replyId).then(res=>{
                 if(res?.err) setError(res.err)
             })
         }
