@@ -58,12 +58,14 @@ export async function middleware(req: NextRequest) {
     if (isHome) {
         if (!isLoggedIn){
             const responseJson = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/authenticate-user`, {
-                credentials: 'include',
+                headers: {
+                    cookie: req.headers.get('cookie') ?? '',
+                },
                 method: "get"
             })
-            const res = responseJson.json()
+            const res = await responseJson.json()
 
-            if (!responseJson.ok) return NextResponse.redirect(defaultPublicRoute)
+            if (!responseJson.ok) return NextResponse.redirect(new URL(defaultPublicRoute, req.url))
 
             const response = NextResponse.json(res, { status: 200 });
             const setCookies = responseJson.headers.getSetCookie();
@@ -74,6 +76,7 @@ export async function middleware(req: NextRequest) {
                 'Set-Cookie',
                 'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800'
             );
+            return response;
         }
     }
 
