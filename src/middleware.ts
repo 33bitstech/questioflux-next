@@ -63,7 +63,6 @@ export async function middleware(req: NextRequest) {
                 },
                 method: "get"
             })
-            const res = await responseJson.json()
 
             if (!responseJson.ok) return NextResponse.redirect(new URL(defaultPublicRoute, req.url))
 
