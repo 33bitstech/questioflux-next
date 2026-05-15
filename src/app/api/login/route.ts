@@ -4,6 +4,7 @@ import ApiData from '@/utils/ApiData';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
+        
         const cookieHeader = request.headers.get('cookie') || '';
 
         const externalApiResponse = await ApiData({
@@ -23,13 +24,14 @@ export async function POST(request: Request) {
 
         const response = NextResponse.json(responseData, { status: 200 });
 
-        // Repassa todos os Set-Cookie da API externa pro browser
-        const setCookie = externalApiResponse.headers.get('set-cookie');
-        if (setCookie) {
-            response.headers.set('set-cookie', setCookie);
+        const setCookies = externalApiResponse.headers.getSetCookie();
+        
+        if (setCookies && setCookies.length > 0) {
+            setCookies.forEach(cookie => {
+                response.headers.append('Set-Cookie', cookie);
+            });
         }
 
-        // Cookie indicador para o middleware (não-HttpOnly, apenas booleano)
         response.cookies.set('logged_in', 'true', {
             path: '/',
             sameSite: 'lax',
