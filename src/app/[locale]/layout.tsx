@@ -1,3 +1,4 @@
+// @ts-ignore: SCSS module declarations are handled by Next.js config
 import "../globals.scss";
 import type { Metadata } from "next";
 import { ProviderTheme } from "@/contexts/themeContext";

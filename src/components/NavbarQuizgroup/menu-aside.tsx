@@ -5,6 +5,7 @@ import React from 'react'
 import LangsWidget from './client/langs-widget'
 import ThemeWidget from './client/theme-widget'
 import GamepassWidget from './client/gamepass-widget'
+// @ts-ignore: SCSS module declaration is handled externally
 import './menu-aside.scss'
 import LinkProfile from './client/link-profile'
 import { useTranslations } from 'next-intl' 

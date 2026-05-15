@@ -15,7 +15,7 @@ export default async function ContextualHeaderActions({page, locale} : IProps) {
     const t = await getTranslations({ locale, namespace: 'contextualHeader' });
     const cookieStore = await cookies();
 
-const token = cookieStore.get('token')?.value;
+    const isLoggedIn = cookieStore.get('logged_in')?.value;
 
     return (
         <div className={`${styles.nav_actions}`}>
@@ -28,10 +28,10 @@ const token = cookieStore.get('token')?.value;
             {page === 'explore' && (
                 <ToggleFilterContainer styles={styles}/>
             )}
-            {page === 'quiz' && token && (
+            {page === 'quiz' && isLoggedIn && (
                 <Link locale={locale} href={'/home'}>{t('home')}</Link>
             )}
-            {page === 'quiz' && !token && (
+            {page === 'quiz' && !isLoggedIn && (
                 <Link locale={locale} href={'/explore'}>{t('explore')}</Link>
             )}
         </div>
