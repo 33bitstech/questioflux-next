@@ -25,6 +25,7 @@ export async function POST(request: Request) {
         const response = NextResponse.json(responseData, { status: 200 });
 
         const setCookies = externalApiResponse.headers.getSetCookie();
+        console.log('[LOGIN] cookies recebidos do backend:', setCookies); // ← adiciona isso
         
         if (setCookies && setCookies.length > 0) {
             setCookies.forEach(cookie => {
