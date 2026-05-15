@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
+import { env } from "./env";
 
 export default createMiddleware(routing);
 
@@ -28,7 +29,7 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
 ];
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const locales = ['en', 'pt'];
 
@@ -51,6 +52,31 @@ export function middleware(req: NextRequest) {
     const defaultPublicRoute = `/${locale}/login`;
 
     requestHeaders.set('x-pathname', pathname)
+
+    const isHome = pathname === `/${locale}/home`
+    
+    if (isHome) {
+        if (!isLoggedIn){
+            const responseJson = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/authenticate-user`, {
+                credentials: 'include',
+                method: "get"
+            })
+            const res = responseJson.json()
+
+            if (!responseJson.ok) return NextResponse.redirect(defaultPublicRoute)
+
+            const response = NextResponse.json(res, { status: 200 });
+            const setCookies = responseJson.headers.getSetCookie();
+            setCookies.forEach(cookie => {
+                response.headers.append('Set-Cookie', cookie);
+            });
+            response.headers.append(
+                'Set-Cookie',
+                'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800'
+            );
+        }
+    }
+
 
     const publicRoute = publicRoutes.find(route => {
         if (route.src instanceof RegExp) return route.src.test(pathname);
