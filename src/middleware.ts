@@ -67,7 +67,7 @@ export async function middleware(req: NextRequest) {
 
             if (!responseJson.ok) return NextResponse.redirect(new URL(defaultPublicRoute, req.url))
 
-            const response = NextResponse.json(res, { status: 200 });
+            const response = NextResponse.next({ request: { headers: requestHeaders } });
             const setCookies = responseJson.headers.getSetCookie();
             setCookies.forEach(cookie => {
                 response.headers.append('Set-Cookie', cookie);
@@ -76,7 +76,7 @@ export async function middleware(req: NextRequest) {
                 'Set-Cookie',
                 'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800'
             );
-            return response;
+            return response
         }
     }
 
