@@ -7,7 +7,7 @@ import RegisterFormComponent from './Auth-client-components/register-form-compon
 import { useTranslations } from 'next-intl';
 
 interface IPropsRegister {
-    handleRegisterAndFinishQuiz?: () => void;
+    handleRegisterAndFinishQuiz?: (name?: string) => void;
     toLogin: () => void;
     toGuest?: () => void;
     show_pop_up?: React.Dispatch<React.SetStateAction<boolean>>;

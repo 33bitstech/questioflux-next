@@ -1,36 +1,32 @@
 'use client'
 import { useUser } from '@/contexts/userContext'
 import useQuizActions from '@/hooks/requests/quiz-requests/useQuizActions'
-import { getCookie } from 'cookies-next'
 import React from 'react'
-import { useTranslations } from 'next-intl' // Importar
+import { useTranslations } from 'next-intl'
 
 interface IProps {
     quizId: string
 }
 
-export default function SaveQuizWidget({quizId}: IProps) {
-    const t = useTranslations('quizActions.saveWidget'); // Inicializar hook
-    const { user, setUserAccess} = useUser(),
-        token = getCookie('token'),
-        {saveQuiz, unsaveQuiz, verifySave} = useQuizActions(user?.savedQuizzes)
+export default function SaveQuizWidget({ quizId }: IProps) {
+    const t = useTranslations('quizActions.saveWidget')
+    const { user, fetchUser } = useUser()
+    const { saveQuiz, unsaveQuiz, verifySave } = useQuizActions(user?.savedQuizzes)
 
-    const handleSave = ()=>{
+    const handleSave = async () => {
         if (verifySave(quizId)) return
-        saveQuiz(quizId, `${token}`).then(res=>{
-            setUserAccess(res.token)
-        })
-    },
-    handleUnsave = ()=>{
-        if (!verifySave(quizId)) return
-        unsaveQuiz(quizId, `${token}`).then(res=>{
-            setUserAccess(res.token)
-        })
+        await saveQuiz(quizId)
+        await fetchUser()
     }
-    
+
+    const handleUnsave = async () => {
+        if (!verifySave(quizId)) return
+        await unsaveQuiz(quizId)
+        await fetchUser()
+    }
+
     return (
         <>
-            {/* Usar as traduções */}
             {verifySave(quizId) && <button onClick={handleUnsave}>{t('remove')}</button>}
             {!verifySave(quizId) && <button onClick={handleSave}>{t('save')}</button>}
         </>

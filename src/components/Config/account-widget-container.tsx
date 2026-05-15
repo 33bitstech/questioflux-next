@@ -7,20 +7,20 @@ import { useRouter } from '@/i18n/navigation'
 import React, { useState } from 'react'
 import { useTranslations } from 'next-intl'
 
-interface IProps{
+interface IProps {
     styles: TStyles
 }
 
-export default function AccountWidgetContainer({styles}:IProps) {
+export default function AccountWidgetContainer({ styles }: IProps) {
     const t = useTranslations('configPage.accountWidget');
     const [verifyDeleteAcc, setVerifyDeleteAcc] = useState<boolean>(false),
-        {token, logout} = useUser(),
-        {setError} = useGlobalMessage(),
+        { logout } = useUser(),
+        { setError } = useGlobalMessage(),
         router = useRouter()
 
-    const handleDeleteAccount = () =>{
-        deleteUser(`${token}`).then(res=>{
-            if(res?.err) return setError(res.err)
+    const handleDeleteAccount = () => {
+        deleteUser().then(res => {
+            if (res?.err) return setError(res.err)
             logout()
             router.push('/')
         })
@@ -28,13 +28,13 @@ export default function AccountWidgetContainer({styles}:IProps) {
 
     return (
         <div className={styles.delete_area}>
-            <button className={styles.delete} onClick={()=>setVerifyDeleteAcc(true)}>{t('deleteButton')}</button>
+            <button className={styles.delete} onClick={() => setVerifyDeleteAcc(true)}>{t('deleteButton')}</button>
             {verifyDeleteAcc && (<>
                 <div className={styles.optionsDelete}>
                     <span>{t('confirmation.title')}</span>
                     <div className={styles.actions}>
                         <button onClick={handleDeleteAccount}>{t('confirmation.confirmButton')}</button>
-                        <button onClick={()=>setVerifyDeleteAcc(false)}>{t('confirmation.cancelButton')}</button>
+                        <button onClick={() => setVerifyDeleteAcc(false)}>{t('confirmation.cancelButton')}</button>
                     </div>
                 </div>
             </>)}

@@ -8,7 +8,7 @@ import LoginFormComponent from './Auth-client-components/login-form-component'
 import { useTranslations } from 'next-intl'
 
 interface IPropsLogin{
-    handleRegisterAndFinishQuiz: () => void,
+    handleRegisterAndFinishQuiz: (name?:string) => void,
     toRegister: () => void,
     show_pop_up: React.Dispatch<React.SetStateAction<boolean>>
     locale:string

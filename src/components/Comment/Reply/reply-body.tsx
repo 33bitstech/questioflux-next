@@ -11,131 +11,92 @@ import ReplyForm from '../excerpts-comments/reply-form'
 import { deleteReply, dislikeReply, editReply, likeReply } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { getCookieHeader } from '@/utils/getCookieHeader'
 
-interface IProps{
+interface IProps {
     styles: TStyles
     reply: IReplies
     quizId: string
     commentId: string
-    cookies: any
 }
 
-export default async function ReplyBody({quizId, reply, styles, commentId, cookies}: IProps) {
-    const {user} = useUser(),
-        {setError} = useGlobalMessage(),
+export default function ReplyBody({ quizId, reply, styles, commentId }: IProps) {
+    const { user } = useUser(),
+        { setError } = useGlobalMessage(),
         router = useRouter()
-    const cookieStore = await cookies()
-    const token = getCookieHeader(cookieStore.getAll())
 
     const t = useTranslations('creation')
-    
     const arrayLikes = reply.userLikes
 
     const [editing, setEditing] = useState<boolean>(false),
-        [replying, setReplying] = useState<boolean>(false), 
+        [replying, setReplying] = useState<boolean>(false),
         [liked, setLiked] = useState<boolean>(false),
         [likeCount, setLikeCount] = useState(arrayLikes?.length),
-
-
         [replyValueEdited, setReplyValueEdited] = useState<string>(''),
-    
         [loadingEdit, setLoadingEdit] = useState<boolean>(false)
 
-    const handleEdit = ()=>{
-        setEditing(!editing)
-        setReplyValueEdited(reply.body)
-    },
-    handleReply = () =>{
-        setReplying(state=>!state)
-    },
-    handleRemove = ()=>{
-        const data = {comment:reply.body}
-        deleteReply(quizId, commentId, reply.replyId, data).then(res=>{
-            if(res?.err) setError(res.err)
+    const handleEdit = () => { setEditing(!editing); setReplyValueEdited(reply.body) }
+    const handleReply = () => setReplying(state => !state)
+
+    const handleRemove = () => {
+        const data = { comment: reply.body }
+        deleteReply(quizId, commentId, reply.replyId, data).then(res => {
+            if (res?.err) setError(res.err)
             else router.refresh()
         })
-    },
-    handleSubmitEdit = (e:FormEvent)=>{
+    }
+
+    const handleSubmitEdit = (e: FormEvent) => {
         setLoadingEdit(true)
         e.preventDefault()
-
-        if(!replyValueEdited) return
+        if (!replyValueEdited) return
         if (replyValueEdited.length > 2000) return setError(t('sharedErrors.maxLength'))
-        const data = {
-            reply: {...reply, body:replyValueEdited, quizId},
-        }
-        editReply(quizId, commentId, reply.replyId, data).then(res=>{
-            if(res?.err) setError(res.err)
-        }).finally(()=>{
+        const data = { reply: { ...reply, body: replyValueEdited, quizId } }
+        editReply(quizId, commentId, reply.replyId, data).then(res => {
+            if (res?.err) setError(res.err)
+        }).finally(() => {
             setEditing(false)
             setLoadingEdit(false)
             router.refresh()
         })
-    },
-    handleLikeComment = () =>{
-        if(!user) return
-        if (liked){
+    }
+
+    const handleLikeComment = () => {
+        if (!user) return
+        if (liked) {
             setLiked(false)
             setLikeCount(state => (state ?? 0) - 1)
-            dislikeReply(commentId, reply.replyId).then(res=>{
-                if(res?.err) setError(res.err)
-            })
-        } else{
+            dislikeReply(commentId, reply.replyId).then(res => { if (res?.err) setError(res.err) })
+        } else {
             setLiked(true)
-            setLikeCount(state=> (state ?? 0) + 1)
-            likeReply(commentId, reply.replyId).then(res=>{
-                if(res?.err) setError(res.err)
-            })
+            setLikeCount(state => (state ?? 0) + 1)
+            likeReply(commentId, reply.replyId).then(res => { if (res?.err) setError(res.err) })
         }
     }
 
     return (
         <>
             <div className={styles.content_comment}>
-                {!editing && 
-                    <TextComment
-                        comment={reply}
-                        isReply={true}
-                        styles={styles}
-                    />
-                }
-                {editing && 
-                    <EditForm
-                        placeholder={replyValueEdited} 
-                        value={replyValueEdited} 
-                        onChange={e=>setReplyValueEdited(e.target.value)}
-                        styles={styles}
-                        handleEdit={handleEdit}
-                        loadingEdit={loadingEdit}
-                        handleSubmitEdit={handleSubmitEdit}
-                    />
-                }
+                {!editing && <TextComment comment={reply} isReply={true} styles={styles} />}
+                {editing && <EditForm
+                    placeholder={replyValueEdited} value={replyValueEdited}
+                    onChange={e => setReplyValueEdited(e.target.value)}
+                    styles={styles} handleEdit={handleEdit}
+                    loadingEdit={loadingEdit} handleSubmitEdit={handleSubmitEdit}
+                />}
             </div>
             <div className={styles.actions_comment}>
                 <ActionsComment
-                    commentOrReply={reply}
-                    handleEdit={handleEdit}
-                    handleRemove={handleRemove}
-                    handleReply={handleReply}
-                    likeCount={likeCount}
-                    styles={styles}
-                    toggleLike={handleLikeComment}
-                    token={token}
-                    user={user}
-                    liked={liked}
-                    setLiked={setLiked}
+                    commentOrReply={reply} handleEdit={handleEdit} handleRemove={handleRemove}
+                    handleReply={handleReply} likeCount={likeCount} styles={styles}
+                    toggleLike={handleLikeComment} user={user}
+                    liked={liked} setLiked={setLiked}
                 />
             </div>
             {replying && <>
                 <div className={styles.dynamic_itens}>
                     <ReplyForm
-                        commentId={commentId}
-                        commentOrReply={reply}
-                        quizId={quizId}
-                        resetReplying={()=>setReplying(false)}
-                        styles={styles}
-                        token={token}
+                        commentId={commentId} commentOrReply={reply} quizId={quizId}
+                        resetReplying={() => setReplying(false)} styles={styles}
                     />
                 </div>
             </>}

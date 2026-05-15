@@ -29,12 +29,9 @@ interface IProps {
     finalTime: number,
     setFinalTime: React.Dispatch<React.SetStateAction<number>>
 }
+
 interface ISelectedAnswers {
     [questionId: string | number]: string | number
-}
-interface ISelectedValues {
-    questionId: any,
-    answerId: any
 }
 
 export default function QuestionsContainer({
@@ -50,99 +47,96 @@ export default function QuestionsContainer({
         [selectedValuesCopy, setSelectedValuesCopy] = useState<any>(),
         [canShowRegister, setCanShowRegister] = useState(false),
         { setError } = useGlobalMessage(),
-        { token } = useUser(),
+        { user } = useUser(),  // ← was: { token }
         { toGuest, typePopup, toLogin, toRegister } = usePopupAuth(),
-
         [guestName, setGuestName] = useState('')
 
     const t = useTranslations('takingPage'),
         locale = useLocale(),
         blurLoading = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88eJ1PQAI/gMrw32C7wAAAABJRU5ErkJggg=='
 
-    const verifyActualQuestion = (indexQuestion: number) => {
-        return indexQuestion + 1 == actualQuestion
-    },
-        verifySelectedAnswer = (indexAnswer: number | string) => {
-            return selectedAnswers[actualQuestion - 1] == indexAnswer
-        },
-        ShuffleArray = (arr: Array<any>) => {
-            return arr.sort(() => Math.random() - 0.5)
-        },
-        handleNextQuestion = () => {
-            if (!started) return
-            if (actualQuestion === qtdQuestions) return
-            handleScroll()
-            setActualQuestion(actualQuestion + 1)
-        },
-        handlePreviusQuestion = () => {
-            if (!started) return
-            if (actualQuestion === 1) return
-            handleScroll()
-            setActualQuestion(actualQuestion - 1)
-        },
-        handleSelectAnswer = (index: number | string) => {
-            if (!started) return
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-            setSelectedAnswers({
-                ...selectedAnswers,
-                [actualQuestion - 1]: index
-            })
-        },
-        handleRegisterAndFinishQuiz = (name: string) => {
-            setCanShowRegister(false);
-            if (selectedValuesCopy) setSelectedValues(selectedValuesCopy)
-            if (name) setGuestName(name)
-        },
-        handleSelectValues = () => {
-            if (typeOfQuiz === 'default/RW') {
-                setSelectedValues(Object.entries(selectedAnswers).map((ans) => {
-                    const [questionIndex, answerIndex] = ans
+    const verifyActualQuestion = (indexQuestion: number) =>
+        indexQuestion + 1 == actualQuestion
 
-                    return { answer: answerArray[Number(questionIndex)].answers[Number(answerIndex)], questionId: questions[Number(questionIndex)].questionId }
-                }))
-            } else if (typeOfQuiz === 'image/RW') {
-                setSelectedValues(Object.entries(selectedAnswers).map((ans) => {
-                    const [questionIndex, answerIndex] = ans
+    const verifySelectedAnswer = (indexAnswer: number | string) =>
+        selectedAnswers[actualQuestion - 1] == indexAnswer
 
-                    return { answer: answerIndex, questionId: questions[Number(questionIndex)].questionId }
-                }))
-            }
-        },
-        handleSelectValuesCopy = () => {
-            if (typeOfQuiz === 'default/RW') {
-                setSelectedValuesCopy(Object.entries(selectedAnswers).map((ans) => {
-                    const [questionIndex, answerIndex] = ans
+    const ShuffleArray = (arr: Array<any>) =>
+        arr.sort(() => Math.random() - 0.5)
 
-                    return { answer: answerArray[Number(questionIndex)].answers[Number(answerIndex)], questionId: questions[Number(questionIndex)].questionId }
-                }))
-            } else if (typeOfQuiz === 'image/RW') {
-                setSelectedValuesCopy(Object.entries(selectedAnswers).map((ans) => {
-                    const [questionIndex, answerIndex] = ans
+    const handleNextQuestion = () => {
+        if (!started) return
+        if (actualQuestion === qtdQuestions) return
+        handleScroll()
+        setActualQuestion(actualQuestion + 1)
+    }
 
-                    return { answer: answerIndex, questionId: questions[Number(questionIndex)].questionId }
-                }))
-            }
-        },
-        handleResult = () => {
-            if (Object.keys(selectedAnswers).length < qtdQuestions) return setError(t('errors.resAll'))
+    const handlePreviusQuestion = () => {
+        if (!started) return
+        if (actualQuestion === 1) return
+        handleScroll()
+        setActualQuestion(actualQuestion - 1)
+    }
 
-            setStarted(false)
-            setFinalTime(Date.now())
+    const handleSelectAnswer = (index: number | string) => {
+        if (!started) return
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+        setSelectedAnswers({ ...selectedAnswers, [actualQuestion - 1]: index })
+    }
 
-            handleSelectValuesCopy()
+    const handleRegisterAndFinishQuiz = (name?: string) => {
+        setCanShowRegister(false)
+        if (selectedValuesCopy) setSelectedValues(selectedValuesCopy)
+        if (name) setGuestName(name)
+    }
 
-            if (!token) return setCanShowRegister(true)
-
-            handleSelectValues()
-            startLoading()
-        },
-        verifyAllAnswered = () => {
-            return Object.keys(selectedValues).length === Object.keys(answerArray).length
+    const handleSelectValues = () => {
+        if (typeOfQuiz === 'default/RW') {
+            setSelectedValues(Object.entries(selectedAnswers).map((ans) => {
+                const [questionIndex, answerIndex] = ans
+                return { answer: answerArray[Number(questionIndex)].answers[Number(answerIndex)], questionId: questions[Number(questionIndex)].questionId }
+            }))
+        } else if (typeOfQuiz === 'image/RW') {
+            setSelectedValues(Object.entries(selectedAnswers).map((ans) => {
+                const [questionIndex, answerIndex] = ans
+                return { answer: answerIndex, questionId: questions[Number(questionIndex)].questionId }
+            }))
         }
+    }
 
-    useEffect(() => {
-        toGuest()
-    }, [])
+    const handleSelectValuesCopy = () => {
+        if (typeOfQuiz === 'default/RW') {
+            setSelectedValuesCopy(Object.entries(selectedAnswers).map((ans) => {
+                const [questionIndex, answerIndex] = ans
+                return { answer: answerArray[Number(questionIndex)].answers[Number(answerIndex)], questionId: questions[Number(questionIndex)].questionId }
+            }))
+        } else if (typeOfQuiz === 'image/RW') {
+            setSelectedValuesCopy(Object.entries(selectedAnswers).map((ans) => {
+                const [questionIndex, answerIndex] = ans
+                return { answer: answerIndex, questionId: questions[Number(questionIndex)].questionId }
+            }))
+        }
+    }
+
+    const handleResult = () => {
+        if (Object.keys(selectedAnswers).length < qtdQuestions)
+            return setError(t('errors.resAll'))
+
+        setStarted(false)
+        setFinalTime(Date.now())
+        handleSelectValuesCopy()
+
+        // ← was: if (!token) return setCanShowRegister(true)
+        if (!user) return setCanShowRegister(true)
+
+        handleSelectValues()
+        startLoading()
+    }
+
+    const verifyAllAnswered = () =>
+        Object.keys(selectedValues).length === Object.keys(answerArray).length
+
+    useEffect(() => { toGuest() }, [])
 
     useEffect(() => {
         if (questions) {
@@ -163,7 +157,8 @@ export default function QuestionsContainer({
     }, [questions])
 
     useEffect(() => {
-        if (!token && canShowRegister) {
+        // ← was: if (!token && canShowRegister)
+        if (!user && canShowRegister) {
             const savedResults = localStorage.getItem('quizAnswers')
             if (savedResults) {
                 setResult({ quizAnswer: JSON.parse(savedResults), timing: finalTime - initialTime, guest: guestName })
@@ -175,7 +170,6 @@ export default function QuestionsContainer({
 
     return (
         <div className={`${styles.Answering}`}>
-
             <div className={styles.questions_amount}>
                 {Array.from({ length: qtdQuestions }, (_, index) => (
                     <div key={index} className={`${styles.circle_background} 
@@ -200,10 +194,7 @@ export default function QuestionsContainer({
                     <div className={styles.answers_actions}>
                         <button className={actualQuestion === 1 ? `${styles.hidden_button}` : ''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
                         {actualQuestion === qtdQuestions ? (
-                            <button
-                                style={{ zIndex: 7 }}
-                                onClick={handleResult}
-                            >
+                            <button style={{ zIndex: 7 }} onClick={handleResult}>
                                 {t('navigation.results')}
                             </button>
                         ) : (
@@ -213,8 +204,8 @@ export default function QuestionsContainer({
                 </div>
             </div>}
 
-
-            {!token && canShowRegister && (<div>
+            {/* ← was: {!token && canShowRegister && ... } */}
+            {!user && canShowRegister && (<div>
                 {typePopup === 'register'
                     && <RegisterComponent
                         locale={locale}
@@ -248,13 +239,9 @@ export default function QuestionsContainer({
                         <Image
                             src={questions[actualQuestion - 1].image || '/quiz_padrao_preto.png'}
                             alt={t('imageAlts.question')}
-                            width={900}
-                            height={900}
-                            quality={100}
-                            placeholder='blur'
-                            blurDataURL={blurLoading}
-                            fetchPriority='high'
-                            loading='lazy'
+                            width={900} height={900} quality={100}
+                            placeholder='blur' blurDataURL={blurLoading}
+                            fetchPriority='high' loading='lazy'
                         />
                     </div>
                     <div className={styles.footer_question}>
@@ -266,21 +253,17 @@ export default function QuestionsContainer({
                         <div
                             className={`${styles.taking_image_container} 
                                 ${verifySelectedAnswer(typeof answer === 'object' && answer !== null && 'answer' in answer ? answer.answer : answer)
-                                    ? styles.answer_input_selected : ''} 
-                                `}
+                                    ? styles.answer_input_selected : ''}`}
                             key={i}
                             onClick={() => handleSelectAnswer(typeof answer === 'object' && answer !== null && 'answer' in answer ? answer.answer : answer)}
                         >
                             <div className={styles.image}>
                                 <Image
-                                    width={600}
-                                    height={600}
+                                    width={600} height={600}
                                     src={typeof answer === 'object' && answer !== null && 'thumbnail' in answer ? answer.thumbnail : ''}
                                     alt={t('imageAlts.alternative')}
-                                    placeholder='blur'
-                                    blurDataURL={blurLoading}
-                                    fetchPriority='high'
-                                    loading='lazy'
+                                    placeholder='blur' blurDataURL={blurLoading}
+                                    fetchPriority='high' loading='lazy'
                                 />
                             </div>
                             <div className={styles.footer_question}>
@@ -304,8 +287,6 @@ export default function QuestionsContainer({
                     )}
                 </div>
             </div>}
-
-
         </div>
     )
 }

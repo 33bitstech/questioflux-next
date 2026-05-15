@@ -3,33 +3,30 @@ import { TStyles } from '@/types/stylesType'
 import React, { FormEvent, useEffect, useState } from 'react'
 import InputImageQuiz from '../CreatingQuiz/input-image-quiz'
 import InputTextQuiz from '../CreatingQuiz/input-text-quiz'
-import useErrors, {ErrorsState}from '@/hooks/useErrors'
+import useErrors, { ErrorsState } from '@/hooks/useErrors'
 import { useFilters } from '@/contexts/filtersContext'
 import IFinalMessages from '@/interfaces/IFinalMessages'
 import InputFinalMessages from '../CreatingQuiz/input-final-messages'
 import { useRouter } from '@/i18n/navigation'
-import { useUser } from '@/contexts/userContext'
-import { createQuiz } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/cover/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
-import {Link} from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import IQuizes from '@/interfaces/IQuizes'
 import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 import DeleteQuiz from './delete-quiz'
 
-interface IProps{
+interface IProps {
     styles: TStyles,
     quiz: IQuizes | undefined | any
 }
 
-export default function FormEditQuiz({styles, quiz}:IProps) {
-    const {getError, setError, resetErrors, resetTypeError} = useErrors(),
-        {setError: setGlobalError, setSucess} = useGlobalMessage(),
-        {filters, filtersPt} = useFilters(),
-        router = useRouter(),
-        {token} = useUser()
-    
+export default function FormEditQuiz({ styles, quiz }: IProps) {
+    const { getError, setError, resetErrors, resetTypeError } = useErrors(),
+        { setError: setGlobalError, setSucess } = useGlobalMessage(),
+        { filters, filtersPt } = useFilters(),
+        router = useRouter()
+
     const t = useTranslations('editQuizFlow.form');
     const tShared = useTranslations('createQuizFlow.formComponent');
     const locale = useLocale()
@@ -42,23 +39,19 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
         [visibility, setVisibility] = useState<string>(''),
         [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>('EN-US'),
         [originalImage, setOriginalImage] = useState<string>(''),
-
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
-
         [loading, setLoading] = useState<boolean>(false),
-
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>()
 
-    const handleSubmit = (e:FormEvent)=>{
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        setErrorQuiz(undefined)
-        if (!token || !quiz) return
+        if (!quiz) return
 
         setLoading(true)
 
         const isPrivate = visibility == 'public' ? false : true,
-            tags = tagsString.split(',').map(tag=>tag.trim())
-        
+            tags = tagsString.split(',').map(tag => tag.trim())
+
         const quizObject = {
             quizData: {
                 title,
@@ -72,171 +65,95 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
             }
         }
         const formData = new FormData()
-
         formData.append('quizDatas', JSON.stringify(quizObject))
         if (imageData) formData.append('quizImg', imageData)
 
-
-        editQuiz(formData, token, quiz.quizId)
-            .then(({res, err, warning})=>{
+        editQuiz(formData, quiz.quizId)
+            .then(({ res, err, warning }) => {
                 if (warning) setGlobalError(warning ?? tShared('serverError'))
-                if(err) {
-                    if(err.type == undefined || err.type == null) {
+                if (err) {
+                    if (err.type == undefined || err.type == null) {
                         setGlobalError(err.message)
-                    }else{
+                    } else {
                         setErrorQuiz(err.message)
                     }
-                }else{
+                } else {
                     setSucess(t('successMessage'))
                 }
             })
-            .finally(()=>{
-                setLoading(false)
-            }) 
+            .finally(() => setLoading(false))
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (errorQuiz) {
             switch (locale) {
-                case 'pt':
-                    setError(errorQuiz.type, errorQuiz.messagePT)
-                    break;
-                case 'en':
-                    setError(errorQuiz.type, errorQuiz.message)
-                    break;
-                default:
-                    break;
+                case 'pt': setError(errorQuiz.type, errorQuiz.messagePT); break;
+                case 'en': setError(errorQuiz.type, errorQuiz.message); break;
             }
-        }else{
+        } else {
             resetErrors()
         }
     }, [errorQuiz])
 
-    useEffect(()=>{
-        if(!quiz.err && quiz){
+    useEffect(() => {
+        if (!quiz.err && quiz) {
             setTitle(quiz.title)
             setDesc(quiz.description)
             setCategory(quiz.category)
             setTagsString((quiz.tags ?? []).join(', '))
             setVisibility(quiz.isPrivate ? 'private' : 'public')
             setIdiom(quiz.idiom as "PT-BR" | "EN-US")
-
             setFinalMessages(quiz.resultMessages)
-
             setOriginalImage(quiz.quizThumbnail)
         }
-    },[quiz])
+    }, [quiz])
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
-
-            {loading && <LoadingReq loading={loading}/>}
+            {loading && <LoadingReq loading={loading} />}
 
             <div className={styles.image_container}>
-                <InputImageQuiz
-                    onFileChange={setImageData}
-                    originalImage={originalImage}
-                />
+                <InputImageQuiz onFileChange={setImageData} originalImage={originalImage} />
             </div>
 
-            <InputTextQuiz
-                styles={styles}
-                labelFor='title'
-                labelValue={tShared('labels.title')}
-                error={getError('title')}
-            >
-                <input 
-                    type="text" 
-                    id="title" 
-                    placeholder={tShared('placeholders.title')}
-                    value={title}
-                    onChange={(e)=>{
-                        setTitle(e.target.value)
-                        resetTypeError('title')
-                    }}   
-                />
+            <InputTextQuiz styles={styles} labelFor='title' labelValue={tShared('labels.title')} error={getError('title')}>
+                <input type="text" id="title" placeholder={tShared('placeholders.title')} value={title}
+                    onChange={(e) => { setTitle(e.target.value); resetTypeError('title') }} />
             </InputTextQuiz>
 
-
-            <InputTextQuiz
-                labelFor='desc'
-                labelValue={tShared('labels.description')}
-                styles={styles}
-                error={getError('description')}
-            >
-                <textarea 
-                    id="desc" 
-                    placeholder={tShared('placeholders.description')}
-                    value={desc}
-                    onChange={(e)=>{
-                        setDesc(e.target.value)
-                        resetTypeError('description')
-                    }}
-                ></textarea>
+            <InputTextQuiz labelFor='desc' labelValue={tShared('labels.description')} styles={styles} error={getError('description')}>
+                <textarea id="desc" placeholder={tShared('placeholders.description')} value={desc}
+                    onChange={(e) => { setDesc(e.target.value); resetTypeError('description') }}></textarea>
             </InputTextQuiz>
-            
-            <InputTextQuiz
-                error={getError('category')}
-                styles={styles}
-                labelFor='category'
-                labelValue={tShared('labels.category')}
-            >
-                <select id="category" value={category} onChange={e=>{
-                    setCategory(e.target.value)
-                    resetTypeError('category')
-                }}> 
+
+            <InputTextQuiz error={getError('category')} styles={styles} labelFor='category' labelValue={tShared('labels.category')}>
+                <select id="category" value={category} onChange={e => { setCategory(e.target.value); resetTypeError('category') }}>
                     <option value="" disabled>{tShared('selects.chooseCategory')}</option>
                     {locale == 'pt'
-                        ? filtersPt.map((categorie, index)=>(
+                        ? filtersPt.map((categorie) => (
                             <option key={categorie} value={filters[filtersPt.indexOf(categorie)]}>{categorie}</option>
-                        )) 
-                        : filters.map((categorie)=>(
+                        ))
+                        : filters.map((categorie) => (
                             <option key={categorie} value={categorie}>{categorie}</option>
                         ))
                     }
                 </select>
             </InputTextQuiz>
 
-            <InputTextQuiz
-                error={getError('tags')}
-                styles={styles}
-                labelFor='tags'
-                labelValue={tShared('labels.tags')}
-            >
-                <input 
-                    id='tags'
-                    type="text" 
-                    placeholder={tShared('placeholders.tags')}
-                    value={tagsString}
-                    onChange={(e)=>setTagsString(e.target.value)}
-                />
+            <InputTextQuiz error={getError('tags')} styles={styles} labelFor='tags' labelValue={tShared('labels.tags')}>
+                <input id='tags' type="text" placeholder={tShared('placeholders.tags')} value={tagsString}
+                    onChange={(e) => setTagsString(e.target.value)} />
             </InputTextQuiz>
 
-            <InputTextQuiz
-                styles={styles}
-                labelFor='visibility'
-                labelValue={tShared('labels.visibility')}
-            >
-                <select 
-                    id="visibility" 
-                    value={visibility} 
-                    onChange={e=>setVisibility(e.target.value)}
-                >
+            <InputTextQuiz styles={styles} labelFor='visibility' labelValue={tShared('labels.visibility')}>
+                <select id="visibility" value={visibility} onChange={e => setVisibility(e.target.value)}>
                     <option value="public">{tShared('selects.public')}</option>
                     <option value="private">{tShared('selects.private')}</option>
                 </select>
             </InputTextQuiz>
 
-            <InputTextQuiz
-                styles={styles}
-                labelFor='lang'
-                labelValue={tShared('labels.idiom')}
-            >
-                <select 
-                    id="lang" 
-                    value={idiom} 
-                    onChange={e=>setIdiom(e.target.value as 'PT-BR' | 'EN-US')}
-                >
+            <InputTextQuiz styles={styles} labelFor='lang' labelValue={tShared('labels.idiom')}>
+                <select id="lang" value={idiom} onChange={e => setIdiom(e.target.value as 'PT-BR' | 'EN-US')}>
                     <option value='EN-US'>{tShared('selects.en')}</option>
                     <option value='PT-BR'>{tShared('selects.pt')}</option>
                 </select>
@@ -244,20 +161,13 @@ export default function FormEditQuiz({styles, quiz}:IProps) {
 
             <div className={styles.messages}>
                 <label>{tShared('labels.finalMessages')}</label>
-                <InputFinalMessages
-                    styles={styles}
-                    messagesChanged={setFinalMessages}
-                    finalMessages={finalMessages}
-                />
+                <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} finalMessages={finalMessages} />
             </div>
 
             <footer className={styles.footer}>
                 <div className={styles.actions}>
-                    <button onClick={(e)=>{
-                        e.preventDefault()
-                        router.back()
-                    }}>{tShared('buttons.back')}</button>
-                    <DeleteQuiz quizId={quiz?.quizId}/>
+                    <button onClick={(e) => { e.preventDefault(); router.back() }}>{tShared('buttons.back')}</button>
+                    <DeleteQuiz quizId={quiz?.quizId} />
                 </div>
                 <div className={styles.save}>
                     {quiz && <Link href={`/quiz/edit/questions/${quiz?.quizId}`}>{t('buttons.editQuestions')}</Link>}
