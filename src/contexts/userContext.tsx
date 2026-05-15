@@ -53,8 +53,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
             console.error(err)
         } finally {
             setUser(null)
-            router.push('/')
-            router.refresh()
+            window.location.href = '/'
         }
     }, [router])
 
