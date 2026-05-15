@@ -7,11 +7,10 @@ import IQuizes from '@/interfaces/IQuizes'
 import { IUser } from '@/interfaces/IUser'
 import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl' 
-import Skeleton from '@/components/Loading/skeleton'
+import { useTranslations } from 'next-intl'
 import LoadingQuizzes from '@/components/Loading/loading-quizzes'
 
-interface IProps{
+interface IProps {
     styles: TStyles,
     quizzes_type: 'public' | 'private' | 'draft' | 'saved',
     customTitle?: string,
@@ -20,21 +19,21 @@ interface IProps{
     defaultQuizzes?: IQuizes[]
 }
 
-export default function ContainerUserQuizzes({styles, quizzes_type, customTitle, userP, canGetPublic, defaultQuizzes}: IProps) {
-    const t = useTranslations('userQuizzesContainer'); 
-    const {token, user} = useUser(),
-        {userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes} = useGettingQuiz(),
+export default function ContainerUserQuizzes({ styles, quizzes_type, customTitle, userP, canGetPublic, defaultQuizzes }: IProps) {
+    const t = useTranslations('userQuizzesContainer')
+    const { user } = useUser(),
+        { userPublicQuizzes, userPrivateQuizzes, userDraftsQuizzes, userSavesQuizzes } = useGettingQuiz(),
         [quizzes, setQuizzes] = useState<IQuizes[]>(),
         [viewQuizzes, setViewQuizzes] = useState<boolean>(false),
         [loading, setLoading] = useState<boolean>(true)
 
-    useEffect(()=>{
-        const get = async ()=>{
-            if((user && token) || canGetPublic){
+    useEffect(() => {
+        const get = async () => {
+            if (user || canGetPublic) {
                 const actions = {
-                    public:{
+                    public: {
                         action: async () => {
-                            if((userP && userP.userId) || canGetPublic){
+                            if ((userP && userP.userId) || canGetPublic) {
                                 const res = await userPublicQuizzes(userP?.userId!)
                                 if (res) setQuizzes(res.quizes)
                                 setLoading(false)
@@ -44,77 +43,68 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
                                 const res = await userPublicQuizzes(user.userId)
                                 if (res) setQuizzes(res.quizes)
                                 setLoading(false)
-                                return
-                            } 
+                            }
                         },
                     },
                     private: {
                         action: async () => {
-                            const res = await userPrivateQuizzes(token!)
+                            const res = await userPrivateQuizzes()
                             if (res) setQuizzes(res.quizzes)
                             setLoading(false)
                         },
                     },
                     draft: {
                         action: async () => {
-                            const res = await userDraftsQuizzes(token!)
+                            const res = await userDraftsQuizzes()
                             if (res) setQuizzes(res.quizzes)
                             setLoading(false)
                         },
                     },
                     saved: {
                         action: async () => {
-                            const res = await userSavesQuizzes(token!)
+                            const res = await userSavesQuizzes()
                             if (res) setQuizzes(res.quizzes)
                             setLoading(false)
                         },
                     }
                 }
                 if (actions[quizzes_type]) {
-                    if(defaultQuizzes){
+                    if (defaultQuizzes) {
                         setQuizzes(defaultQuizzes)
                         setLoading(false)
-                    }else{
-                        await actions[quizzes_type].action();
+                    } else {
+                        await actions[quizzes_type].action()
                     }
                 }
             }
         }
         get()
-    }, [user, token])
+    }, [user])
 
-    const title = customTitle 
-        ? `${customTitle} (${quizzes?.length || 0})` 
+    const title = customTitle
+        ? `${customTitle} (${quizzes?.length || 0})`
         : t(`titles.${quizzes_type}`, { count: quizzes?.length || 0 });
 
-
-    if(quizzes_type == 'public' || quizzes_type == 'private'){
+    if (quizzes_type == 'public' || quizzes_type == 'private') {
         return (
             <>
                 <h2>{title}</h2>
-                <LoadingQuizzes 
-                    loading={loading}
-                />
-
+                <LoadingQuizzes loading={loading} />
                 <section className={styles.quizes}>
-                    {Array.isArray(quizzes) && quizzes?.slice(0,3).map((quiz, index)=>(
-                        <QuizCard key={index} quiz={quiz}/>
+                    {Array.isArray(quizzes) && quizzes?.slice(0, 3).map((quiz, index) => (
+                        <QuizCard key={index} quiz={quiz} />
                     ))}
                 </section>
-
                 {Array.isArray(quizzes) && quizzes?.length > 3 && (
-                    <button onClick={()=>setViewQuizzes(!viewQuizzes)} className={`${styles.seemore_button} ${viewQuizzes ? styles.active : ''}`}>
-                        <p>
-                            {/* 4. Tradução do botão "Ver mais/menos" */}
-                            {viewQuizzes ? t('seeMoreButton.less') : t('seeMoreButton.more')}
-                        </p>
-                        <ArrowSvg/>
+                    <button onClick={() => setViewQuizzes(!viewQuizzes)} className={`${styles.seemore_button} ${viewQuizzes ? styles.active : ''}`}>
+                        <p>{viewQuizzes ? t('seeMoreButton.less') : t('seeMoreButton.more')}</p>
+                        <ArrowSvg />
                     </button>
                 )}
                 {viewQuizzes && (
                     <div className={styles.more_content}>
                         <section className={styles.quizes}>
-                            {Array.isArray(quizzes) && quizzes?.slice(3,).map((quiz, index)=>(
+                            {Array.isArray(quizzes) && quizzes?.slice(3,).map((quiz, index) => (
                                 <QuizCard key={index} quiz={quiz} />
                             ))}
                         </section>
@@ -124,16 +114,14 @@ export default function ContainerUserQuizzes({styles, quizzes_type, customTitle,
             </>
         )
     }
-    if(quizzes_type == 'draft' || quizzes_type == 'saved'){
+
+    if (quizzes_type == 'draft' || quizzes_type == 'saved') {
         return (
             <>
                 <h1>{title}</h1>
-                <LoadingQuizzes 
-                    loading={loading}
-                />
-
+                <LoadingQuizzes loading={loading} />
                 <div className={styles.quizes_container}>
-                    {quizzes?.map((quiz, index)=>(
+                    {quizzes?.map((quiz, index) => (
                         <QuizCard key={index} quiz={quiz} />
                     ))}
                 </div>

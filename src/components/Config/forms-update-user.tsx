@@ -9,16 +9,16 @@ import { useTranslations } from 'next-intl'
 import { TStyles } from '@/types/stylesType'
 import LoadingReq from '../Loading/loading-req'
 
-interface IProps{
+interface IProps {
     styles: TStyles
 }
 
-export default function FormsUpdataUser({styles}: IProps) {
+export default function FormsUpdataUser({ styles }: IProps) {
     const t = useTranslations('configPage.updateForm');
-    
-    const {user, token, setUserAccess} = useUser(),
-        {updateUser, updateUserProfile} = useUpdate(),
-        {setSucess} = useGlobalMessage(),
+
+    const { user, fetchUser } = useUser(),
+        { updateUser, updateUserProfile } = useUpdate(),
+        { setSucess } = useGlobalMessage(),
         [username, setUsername] = useState<string>(''),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -28,9 +28,9 @@ export default function FormsUpdataUser({styles}: IProps) {
         [editPassword, setEditPassword] = useState<boolean>(false),
         [loading, setLoading] = useState(false)
 
-    const preventSubmit = (e:FormEvent) => e.preventDefault(),
+    const preventSubmit = (e: FormEvent) => e.preventDefault(),
         onFileChange = (file: File | null) => setImageValue(file),
-        handleResetInputs = ()=>{
+        handleResetInputs = () => {
             setUsername('')
             setEmail('')
             setPassword('')
@@ -38,36 +38,36 @@ export default function FormsUpdataUser({styles}: IProps) {
             setEditEmail(false)
             setEditPassword(false)
         },
-        handleSaveConfig = () => {
-            if(!token) return
+        handleSaveConfig = async () => {
             setLoading(true)
-            if(username || email || password) {
-                const user = { userName: username, userEmail: email, password }
-                type UserKey = keyof typeof user;
-                const userObject = Object.keys(user).reduce((prev, actual) => {
-                    const key = actual as UserKey;
-                    if (user[key]) prev[key] = user[key];
-                    return prev;
-                }, {} as Partial<typeof user>);
-                
-                updateUser(JSON.stringify({user:userObject}), token).then(res=>{
-                    setUserAccess(res.token)
-                    setSucess(t('successMessage'))
-                }).finally(()=>{
-                    handleResetInputs()
-                    if(!imageValue) setLoading(false)
-                })
-            }
+            try {
+                if (username || email || password) {
+                    const userObj = { userName: username, userEmail: email, password }
+                    type UserKey = keyof typeof userObj;
+                    const userObject = Object.keys(userObj).reduce((prev, actual) => {
+                        const key = actual as UserKey;
+                        if (userObj[key]) prev[key] = userObj[key];
+                        return prev;
+                    }, {} as Partial<typeof userObj>);
 
-            if(!imageValue) return
-            const formData = new FormData()
-            formData.append('profileImg', imageValue)
-            updateUserProfile(formData, token).then(res=>{
-                setUserAccess(res.token)
-                setSucess(t('successMessage'))
-            }).finally(()=>{
+                    await updateUser(JSON.stringify({ user: userObject }))
+                    setSucess(t('successMessage'))
+                    handleResetInputs()
+                }
+
+                if (imageValue) {
+                    const formData = new FormData()
+                    formData.append('profileImg', imageValue)
+                    await updateUserProfile(formData)
+                    setSucess(t('successMessage'))
+                }
+
+                await fetchUser()
+            } catch (err) {
+                console.error(err)
+            } finally {
                 setLoading(false)
-            })
+            }
         }
 
     return (
@@ -80,57 +80,48 @@ export default function FormsUpdataUser({styles}: IProps) {
                 {(username || password || email || imageValue) && <>
                     <button onClick={handleSaveConfig}>{t('saveButton')}</button>
                 </>}
-                
             </div>
 
-            {loading && <LoadingReq loading={loading}/>}
+            {loading && <LoadingReq loading={loading} />}
 
             <div className={styles.account_info}>
                 <h2>{t('accountInfoTitle')}</h2>
                 <form className={styles.form_account} onSubmit={preventSubmit}>
-                    <InputEdit 
-                        styles={styles} 
-                        toggleEditing={()=>setEditUsername(state=>{
-                            setUsername('')
-                            return !state
-                        })} 
-                        isEditing={editUsername} 
-                        label='username' 
-                        spanValue={user?.name} 
-                        value={username} 
-                        onChange={e=>setUsername(e.target.value)} 
-                        placeholder={user?.name} 
-                        labelValue={t('labels.username')} 
-                        autoFocus 
+                    <InputEdit
+                        styles={styles}
+                        toggleEditing={() => setEditUsername(state => { setUsername(''); return !state })}
+                        isEditing={editUsername}
+                        label='username'
+                        spanValue={user?.name}
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        placeholder={user?.name}
+                        labelValue={t('labels.username')}
+                        autoFocus
                     />
-                    <InputEdit 
-                        styles={styles} 
-                        toggleEditing={()=>setEditEmail(state=>{
-                            setEmail('')
-                            return !state
-                        })} 
-                        isEditing={editEmail} label='email' 
-                        spanValue={user?.email} 
-                        value={email} 
-                        onChange={e=>setEmail(e.target.value)} 
-                        placeholder={user?.email} 
-                        labelValue={t('labels.email')} 
-                        autoFocus 
+                    <InputEdit
+                        styles={styles}
+                        toggleEditing={() => setEditEmail(state => { setEmail(''); return !state })}
+                        isEditing={editEmail}
+                        label='email'
+                        spanValue={user?.email}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder={user?.email}
+                        labelValue={t('labels.email')}
+                        autoFocus
                     />
-                    <InputEdit 
-                        styles={styles} 
-                        toggleEditing={()=>setEditPassword(state=>{
-                            setPassword('')
-                            return !state
-                        })} 
-                        isEditing={editPassword} 
-                        label='password' 
-                        spanValue={'********'} 
-                        value={password} 
-                        onChange={e=>setPassword(e.target.value)} 
-                        placeholder={'********'} 
-                        labelValue={t('labels.password')} 
-                        autoFocus 
+                    <InputEdit
+                        styles={styles}
+                        toggleEditing={() => setEditPassword(state => { setPassword(''); return !state })}
+                        isEditing={editPassword}
+                        label='password'
+                        spanValue={'********'}
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        placeholder={'********'}
+                        labelValue={t('labels.password')}
+                        autoFocus
                     />
                 </form>
             </div>

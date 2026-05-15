@@ -6,44 +6,41 @@ import IComment from '@/interfaces/IComment'
 import IReplies from '@/interfaces/IReplies'
 import { TStyles } from '@/types/stylesType'
 import { useRouter } from '@/i18n/navigation'
-import React, { FormEvent, TextareaHTMLAttributes, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { useTranslations } from 'next-intl'
 
-interface IProps{
+interface IProps {
     styles: TStyles,
-    resetReplying: ()=>void,
+    resetReplying: () => void,
     commentOrReply: IComment | IReplies,
     isReply?: boolean,
-    token: string | undefined,
     quizId: string,
     commentId: string
 }
 
-export default function ReplyForm({styles, resetReplying, commentOrReply, token, commentId, quizId}:IProps) {
+export default function ReplyForm({ styles, resetReplying, commentOrReply, commentId, quizId }: IProps) {
     const [replyValue, setReplyValue] = useState<string>(''),
         [loadingReply, setLoadingReply] = useState<boolean>(false),
-        {setError} = useGlobalMessage(),
+        { setError } = useGlobalMessage(),
         router = useRouter()
 
     const t = useTranslations('creation')
 
-    const handleSubmitReply = async(e:FormEvent)=>{
+    const handleSubmitReply = async (e: FormEvent) => {
         e.preventDefault()
         setLoadingReply(true)
-        if(replyValue.length > 2000) {
+        if (replyValue.length > 2000) {
             setError(t('sharedErrors.maxLength'))
             setLoadingReply(false)
+            return
         }
-        const data = {
-            comment:{body:replyValue}, 
-            replyTo:commentOrReply.userId
-        }
-        replyComment(quizId, commentId, data, token)
-            .then(res=>{
-                if(res?.err) setError(res.err)
+        const data = { comment: { body: replyValue }, replyTo: commentOrReply.userId }
+        replyComment(quizId, commentId, data)
+            .then(res => {
+                if (res?.err) setError(res.err)
                 else router.refresh()
             })
-            .finally(()=>{
+            .finally(() => {
                 resetReplying()
                 setReplyValue('')
                 setLoadingReply(false)
@@ -51,16 +48,9 @@ export default function ReplyForm({styles, resetReplying, commentOrReply, token,
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmitReply} className={styles.form_reply}>
-                <textarea 
-                    value={replyValue} 
-                    onChange={e=>setReplyValue(e.target.value)} 
-                    autoFocus 
-                    maxLength={2000}
-                />  
-                <button type='submit' disabled={loadingReply}><Send/></button>  
-            </form>
-        </>
+        <form onSubmit={handleSubmitReply} className={styles.form_reply}>
+            <textarea value={replyValue} onChange={e => setReplyValue(e.target.value)} autoFocus maxLength={2000} />
+            <button type='submit' disabled={loadingReply}><Send /></button>
+        </form>
     )
 }

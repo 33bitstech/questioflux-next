@@ -1,93 +1,87 @@
 'use server'
 
 import { env } from "@/env"
+import { getCookieHeader } from "@/utils/getCookieHeader"
+import { cookies } from "next/headers"
 
-export async function getPublicKey(token: string) {
+async function getCookies() {
+    const cookieStore = await cookies()
+    return getCookieHeader(cookieStore.getAll())
+}
+
+export async function getPublicKey() {
     try {
+        const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/public-key`, {
             method: 'GET',
-            headers: {
-                'Authorization': `${token}`
-            }
+            headers: { 'cookie': cookieHeader }
         })
         const res = await response.json()
-
-        if (!response.ok) return {err:res}
-        return {res}
-    
-    } catch (err:any) {
+        if (!response.ok) return { err: res }
+        return { res }
+    } catch (err: any) {
         throw err
     }
 }
-export async function clientSecretUsage(token: string) {
+
+export async function clientSecretUsage() {
     try {
+        const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/client-secret`, {
             method: 'POST',
-            headers: {
-                'Authorization': `${token}`
-            }
+            headers: { 'cookie': cookieHeader }
         })
         const res = await response.json()
-
-        if (!response.ok) return {err:res}
-        return {res}
-    
-    } catch (err:any) {
+        if (!response.ok) return { err: res }
+        return { res }
+    } catch (err: any) {
         throw err
     }
 }
-export async function clientSessionAss(token: string) {
+
+export async function clientSessionAss() {
     try {
+        const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/client-session`, {
             method: 'POST',
-            headers: {
-                'Authorization': `${token}`
-            }
+            headers: { 'cookie': cookieHeader }
         })
         const res = await response.json()
-
-        if (!response.ok) return {err:res}
-        return {res}
-    
-    } catch (err:any) {
+        if (!response.ok) return { err: res }
+        return { res }
+    } catch (err: any) {
         throw err
     }
 }
-export async function subscribe(sessionId:string, token: string) {
+
+export async function subscribe(sessionId: string) {
     try {
+        const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/subscribe`, {
             method: 'POST',
-            headers: {
-                'Authorization': `${token}`,
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify({sessionId})
+            headers: { 'cookie': cookieHeader, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId })
         })
         const res = await response.json()
-
-        if (!response.ok) return {err:res}
-        return {res}
-    
-    } catch (err:any) {
+        if (!response.ok) return { err: res }
+        return { res }
+    } catch (err: any) {
         throw err
     }
 }
-export async function payOnce(sessionId:string, token: string) {
+
+export async function payOnce(sessionId: string) {
     try {
+        const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/pay-once`, {
             method: 'POST',
-            headers: {
-                'Authorization': `${token}`,
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify({sessionId})
+            headers: { 'cookie': cookieHeader, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId })
         })
         const res = await response.json()
-
-        if (!response.ok) return {err:res}
-        return {res}
-    
-    } catch (err:any) {
+        if (!response.ok) return { err: res }
+        return { res }
+    } catch (err: any) {
         throw err
     }
 }

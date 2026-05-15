@@ -22,7 +22,7 @@ export default async function NavbarQuizgroup({ locale }: IProps) {
     const isMobile = device.type === 'mobile';
     const cookieStore = await cookies();
     
-    const token = cookieStore.get('token')?.value;
+    const isLoggedIn = cookieStore.get('logged_in')?.value;
 
     const pagesWithSearchInput = ['/explore']
 
@@ -31,12 +31,12 @@ export default async function NavbarQuizgroup({ locale }: IProps) {
             <ul className={styles.menus}>
                 {/* A lógica de renderização mobile/desktop permanece a mesma */}
                 {isMobile && (<>
-                    {!token && <li><Link href='/' locale={locale}><QuizIcon/></Link></li>}
-                    {token && <ToggleMenuAsideContainer styles={styles} token={token} className='menu_button_container'/>}
+                    {!isLoggedIn && <li><Link href='/' locale={locale}><QuizIcon/></Link></li>}
+                    {isLoggedIn && <ToggleMenuAsideContainer styles={styles} token={isLoggedIn} className='menu_button_container'/>}
                 </>)}
                 {!isMobile && (<>
-                    <li><Link locale={locale} href={token ? '/home' : '/'}><QuizIcon/></Link></li>
-                    {token && <ToggleMenuAsideContainer styles={styles} token={token} className='menu_button_container'/>}
+                    <li><Link locale={locale} href={isLoggedIn ? '/home' : '/'}><QuizIcon/></Link></li>
+                    {isLoggedIn && <ToggleMenuAsideContainer styles={styles} token={isLoggedIn} className='menu_button_container'/>}
                 </>)}
             </ul>
             <ul className={styles.actions}>
@@ -45,7 +45,7 @@ export default async function NavbarQuizgroup({ locale }: IProps) {
                     placeholder={t('searchPlaceholder')} 
                     pagesWithSearchInput={pagesWithSearchInput}
                 />
-                {token ? (
+                {isLoggedIn ? (
                     <>
                         {!isMobile && <>
                             <li>

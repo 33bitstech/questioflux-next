@@ -3,22 +3,22 @@ import UserProfileImgRender from '@/components/ImagesRender/user-profile-img-ren
 import IReplies from '@/interfaces/IReplies'
 import { TStyles } from '@/types/stylesType'
 import { getTimeSinceDate } from '@/utils/FormatTime'
-import {Link} from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import React from 'react'
 import ReplyBody from './reply-body'
 import { useLocale } from 'next-intl'
 
-interface IProps{
+interface IProps {
     styles: TStyles
     reply: IReplies
     quizId: string
     commentId: string
 }
 
-export default function ReplyContainer({reply, styles, quizId, commentId}:IProps) {
+export default function ReplyContainer({ reply, styles, quizId, commentId }: IProps) {
     const locale = useLocale()
-    const {displayText, isoDate} = getTimeSinceDate(reply.created_at, locale)
-    
+    const { displayText, isoDate } = getTimeSinceDate(reply.created_at, locale)
+
     return (
         <div className={`${styles.comment}`}>
             <Link locale={locale} href={`/user/${reply.userId}`} className={styles.image_comment_container}>

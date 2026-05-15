@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
 import { takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
-import { useUser } from '@/contexts/userContext'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
@@ -19,29 +18,22 @@ interface IProps {
 export default function TakingComponent({ quiz, styles }: IProps) {
     const [started, setStarted] = useState<boolean>(false),
         [initialTime, setInitialTime] = useState<number>(0),
-        [result, setResult] = useState<{
-            quizAnswer: any,
-            timing: number,
-            guest?: string
-        }>(),
-        { token } = useUser(),
+        [result, setResult] = useState<{ quizAnswer: any, timing: number, guest?: string }>(),
         { setError } = useGlobalMessage(),
         [loadingReq, setLoadingReq] = useState<boolean>(false),
         route = useRouter(),
         [finalTime, setFinalTime] = useState(0)
 
-
     const handleStart = () => {
         setInitialTime(Date.now())
         setStarted(true)
-    },
-        handleScroll = () => {
-            window.scrollTo({ top: 350, behavior: 'smooth' })
-        }
+    }
+
+    const handleScroll = () => window.scrollTo({ top: 350, behavior: 'smooth' })
 
     useEffect(() => {
         if (result && quiz) {
-            takeQuiz(quiz.quizId, result, token ? String(token) : undefined)
+            takeQuiz(quiz.quizId, result)
                 .then(({ err, res }) => {
                     if (err) return setError(err)
                     if (res) {
@@ -50,9 +42,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                     }
                 })
                 .catch(console.log)
-                .finally(() => {
-                    setLoadingReq(false)
-                })
+                .finally(() => setLoadingReq(false))
         }
     }, [result, quiz])
 
@@ -61,19 +51,14 @@ export default function TakingComponent({ quiz, styles }: IProps) {
             {loadingReq && <LoadingReq loading={loadingReq} />}
             <div className={styles.header_quiz}>
                 <h1>{quiz?.title}</h1>
-
                 <TimerContainer
-                    quiz={quiz}
-                    styles={styles}
-                    setStarted={handleStart}
-                    finalTime={finalTime}
-                    started={started}
-                    initialTime={initialTime}
+                    quiz={quiz} styles={styles}
+                    setStarted={handleStart} finalTime={finalTime}
+                    started={started} initialTime={initialTime}
                 />
             </div>
             <div className={styles.containerStart}>
                 <div className={started ? styles.start : styles.block}></div>
-
                 {quiz.questions && quiz.type && <QuestionsContainer
                     qtdQuestions={quiz?.qtdQuestions}
                     questions={quiz?.questions}
@@ -84,7 +69,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                     started={started}
                     setStarted={setStarted}
                     setResult={setResult}
-                    startLoading={() => { setLoadingReq(true) }}
+                    startLoading={() => setLoadingReq(true)}
                     finalTime={finalTime}
                     setFinalTime={setFinalTime}
                 />}

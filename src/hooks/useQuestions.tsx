@@ -5,7 +5,7 @@ import { ILocalQuestions } from '@/interfaces/ILocalQuestions';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
-const useQuestions = (textMode: boolean, token: string) => {
+const useQuestions = (textMode: boolean) => {
     const t = useTranslations('creation')
 
     const createInitialQuestion = (isTextMode: boolean): ILocalQuestions[] => {
@@ -15,76 +15,77 @@ const useQuestions = (textMode: boolean, token: string) => {
             isNew: true,
             type: isTextMode ? 'text' : 'image',
             alternatives: [
-                { id: `a-${Date.now()}1`, answer: '', isNew: true},
-                { id: `a-${Date.now()}2`, answer: '', isNew: true}
+                { id: `a-${Date.now()}1`, answer: '', isNew: true },
+                { id: `a-${Date.now()}2`, answer: '', isNew: true }
             ]
         }]
     }
 
-    const [questions, setQuestions] = useState<ILocalQuestions[]>(()=> createInitialQuestion(textMode)),
-        {setError} = useGlobalMessage()
+    const [questions, setQuestions] = useState<ILocalQuestions[]>(() => createInitialQuestion(textMode))
+    const { setError } = useGlobalMessage()
 
-    const handleQuestionChange = (questionId: string, field:string, value: string | File) => {
-            if(field === 'errorMessage'){
-                setQuestions(prevQuestions =>
-                    prevQuestions?.map(q =>
-                        q.id === questionId ? { ...q, [field]: typeof value === 'string' ? value : '' } : q
-                    )
+    const handleQuestionChange = (questionId: string, field: string, value: string | File) => {
+        if (field === 'errorMessage') {
+            setQuestions(prevQuestions =>
+                prevQuestions?.map(q =>
+                    q.id === questionId ? { ...q, [field]: typeof value === 'string' ? value : '' } : q
                 )
-            }else{
-                setQuestions(prevQuestions =>
-                    prevQuestions?.map(q =>
-                        q.id === questionId ? { ...q, [field]: value, isNew:true} : q
-                    )
+            )
+        } else {
+            setQuestions(prevQuestions =>
+                prevQuestions?.map(q =>
+                    q.id === questionId ? { ...q, [field]: value, isNew: true } : q
                 )
-            }
-    },
-    addQuestion = async() => {
+            )
+        }
+    }
+
+    const addQuestion = async () => {
         if ((questions?.length ?? 0) > 9) {
             try {
-                const res = await verifyUserPremium(`${token}`)
-
+                const res = await verifyUserPremium()
                 if (res.err) return setError(res.err)
-
                 const { premium, specialCount } = res.premium
                 if (!premium && !specialCount) return setError(t('questionHook.questionLimitError'))
-
             } catch (err) {
                 console.log(err)
                 return setError(t('sharedErrors.serverError'))
             }
         }
-        const newQuestion : ILocalQuestions = {
+        const newQuestion: ILocalQuestions = {
             id: `q-${Date.now()}`,
             title: '',
             type: textMode ? 'text' : 'image',
             isNew: true,
             alternatives: [
-                { id: `a-${Date.now()}_1`, answer: '', isNew: true},
-                { id: `a-${Date.now()}_2`, answer: '', isNew: true}
+                { id: `a-${Date.now()}_1`, answer: '', isNew: true },
+                { id: `a-${Date.now()}_2`, answer: '', isNew: true }
             ]
         }
         setQuestions(prev => [...(prev ?? []), newQuestion])
-    },
-    removeQuestion = (questionId:string) => {
+    }
+
+    const removeQuestion = (questionId: string) => {
         if ((questions?.length ?? 0) > 1) {
             setQuestions(prev => (prev ?? []).filter(q => q.id !== questionId))
         }
-    },
-    handleAlternativeChange = (questionId: string, altIndex:number, field: string, value: string | File) => {
+    }
+
+    const handleAlternativeChange = (questionId: string, altIndex: number, field: string, value: string | File) => {
         setQuestions(prevQuestions =>
             prevQuestions?.map(q => {
                 if (q.id === questionId) {
                     const updatedAlternatives = [...q.alternatives]
-                    updatedAlternatives[altIndex] = { ...updatedAlternatives[altIndex], [field]: value, isNew:true}
-                    return { ...q, alternatives: updatedAlternatives}
+                    updatedAlternatives[altIndex] = { ...updatedAlternatives[altIndex], [field]: value, isNew: true }
+                    return { ...q, alternatives: updatedAlternatives }
                 }
                 return q
             })
         )
-    },
-    addAlternative = async (questionId: string) => {
-        const q = questions?.find(q=>q.id === questionId)
+    }
+
+    const addAlternative = async (questionId: string) => {
+        const q = questions?.find(q => q.id === questionId)
         if (!q) return
 
         const currentAltsCount = q.alternatives.length,
@@ -93,29 +94,27 @@ const useQuestions = (textMode: boolean, token: string) => {
 
         if (currentAltsCount >= PREMIUM_LIMIT) return setError(t('questionHook.alternativeLimitError'))
 
-        if (currentAltsCount >= FREE_LIMIT){
+        if (currentAltsCount >= FREE_LIMIT) {
             try {
-                const res = await verifyUserPremium(`${token}`)
-
+                const res = await verifyUserPremium()
                 if (res.err) return setError(res.err)
-
                 const { premium, specialCount } = res.premium
                 if (!premium && !specialCount) return setError(t('questionHook.alternativeLimitError'))
-
             } catch (err) {
                 console.log(err)
                 return setError(t('sharedErrors.serverError'))
             }
         }
-        setQuestions(prevQuestions => 
-            prevQuestions?.map(q => 
+        setQuestions(prevQuestions =>
+            prevQuestions?.map(q =>
                 q.id === questionId
-                    ? { ...q, alternatives: [...q.alternatives, {answer: '', id:`a-${Date.now()}`, isNew: true}]} 
-                    : q 
+                    ? { ...q, alternatives: [...q.alternatives, { answer: '', id: `a-${Date.now()}`, isNew: true }] }
+                    : q
             )
         )
-    },
-    removeAlternative = (questionId:string, altIndex: number) => {
+    }
+
+    const removeAlternative = (questionId: string, altIndex: number) => {
         setQuestions(prevQuestions =>
             prevQuestions?.map(q => {
                 if (q.id === questionId && q.alternatives.length > 2) {
@@ -125,60 +124,41 @@ const useQuestions = (textMode: boolean, token: string) => {
                 return q
             })
         )
-    },
-    handleMultipleImageUpload = (questionId: string, files: FileList) => {
+    }
+
+    const handleMultipleImageUpload = (questionId: string, files: FileList) => {
         if (!files || files.length === 0) return;
-        
         handleQuestionChange(questionId, 'image', files[0]);
-
         const alternativeFiles = Array.from(files).slice(1);
-
         setQuestions(prevQuestions => {
             return prevQuestions.map(q => {
                 if (q.id === questionId) {
                     const newAlternatives = [...q.alternatives];
-
                     alternativeFiles.forEach((file, index) => {
                         if (newAlternatives[index]) {
-                            newAlternatives[index] = {
-                                ...newAlternatives[index],
-                                thumbnail: file,
-                                isNew: true
-                            };
+                            newAlternatives[index] = { ...newAlternatives[index], thumbnail: file, isNew: true };
                         } else {
-                            newAlternatives.push({
-                                id: `a-${Date.now()}_${index}`,
-                                answer: '',
-                                thumbnail: file,
-                                isNew: true
-                            });
+                            newAlternatives.push({ id: `a-${Date.now()}_${index}`, answer: '', thumbnail: file, isNew: true });
                         }
                     });
-
                     return { ...q, alternatives: newAlternatives, isNew: true };
                 }
                 return q;
             });
         });
-    },
-    hasImages = ()=>{
-        return questions.every(q=>{
-            const hasQuestionImage = !!q.image
+    }
 
-            const hasAllThumbnails = q.alternatives.every(a=>{
-                return !!a.thumbnail
-            })
-
-            return hasQuestionImage && hasAllThumbnails
+    const hasImages = () => {
+        return questions.every(q => {
+            return !!q.image && q.alternatives.every(a => !!a.thumbnail)
         })
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setQuestions(createInitialQuestion(textMode))
-    },[textMode])
+    }, [textMode])
 
-
-    return{
+    return {
         questions, handleQuestionChange, addQuestion, removeQuestion,
         handleAlternativeChange, addAlternative, removeAlternative,
         setQuestions, handleMultipleImageUpload, hasImages

@@ -11,7 +11,7 @@ interface IProps {
     params: Promise<{ quizId: string; locale: string }>
 }
 
-async function getQuiz(quizId: string, cookieHeader: string): Promise<IQuizes | undefined | { err: any }> {
+export async function getQuiz(quizId: string, cookieHeader: string): Promise<IQuizes | undefined | { err: any }> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}/auth`, {
             method: 'GET',
@@ -29,7 +29,7 @@ export default async function EditingQuiz({ params }: IProps) {
     const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.page' });
     const cookieStore = await cookies()
-const cookieHeader = await getCookieHeader(cookieStore.getAll())
+    const cookieHeader = await getCookieHeader(cookieStore.getAll())
     const quiz = await getQuiz(quizId, cookieHeader);
 
     return (
