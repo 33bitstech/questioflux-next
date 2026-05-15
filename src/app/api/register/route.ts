@@ -25,39 +25,48 @@ export async function POST(request: Request) {
             return NextResponse.json(responseData, { status: externalApiResponse.status });
         }
 
-        // Upload de imagem se existir
+        const setCookies = externalApiResponse.headers.getSetCookie();
+
         const file = imageFile as File;
         if (!file || file.size === 0) {
             const response = NextResponse.json(responseData, { status: 200 });
-            const setCookie = externalApiResponse.headers.get('set-cookie');
-            if (setCookie) response.headers.set('set-cookie', setCookie);
-            response.cookies.set('logged_in', 'true', { path: '/', sameSite: 'lax', maxAge: 60 * 60 * 24 * 7 });
+
+            setCookies.forEach(cookie => response.headers.append('Set-Cookie', cookie));
+            response.headers.append('Set-Cookie', 'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800');
+
             return response;
         }
 
         const imageFormData = new FormData();
         imageFormData.append('profileImg', file, file.name);
 
+        const cookieValues = setCookies
+            .map(cookie => cookie.split(';')[0])
+            .join('; ');
+
         const externalApiResponseImage = await ApiData({
             path: 'img-profile',
             method: 'POST',
             body: imageFormData,
             headerKey: 'Cookie',
-            headerValue: externalApiResponse.headers.get('set-cookie') || cookieHeader,
+            headerValue: cookieValues || cookieHeader,
             cache: { cache: 'no-store' },
         });
 
         const resImage = await externalApiResponseImage.json();
+
         const finalResponse = NextResponse.json(
-            externalApiResponseImage.ok ? resImage : { res: responseData, errImage: resImage },
+            externalApiResponseImage.ok
+                ? resImage
+                : { res: responseData, errImage: resImage },
             { status: 200 }
         );
 
-        const setCookie = externalApiResponse.headers.get('set-cookie');
-        if (setCookie) finalResponse.headers.set('set-cookie', setCookie);
-        finalResponse.cookies.set('logged_in', 'true', { path: '/', sameSite: 'lax', maxAge: 60 * 60 * 24 * 7 });
+        setCookies.forEach(cookie => finalResponse.headers.append('Set-Cookie', cookie));
+        finalResponse.headers.append('Set-Cookie', 'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800');
 
         return finalResponse;
+
     } catch (err: any) {
         console.error('[API ROUTE /api/register] Erro inesperado:', err);
         return NextResponse.json(

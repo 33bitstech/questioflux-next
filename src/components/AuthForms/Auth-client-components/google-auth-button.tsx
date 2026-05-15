@@ -16,9 +16,8 @@ export default function GoogleAuthButton({ locale, separatorBelow = false }: IGo
     const handleGoogleSignIn = async () => {
         try {
             setLoading(true)
-            // Wire up your Google OAuth provider here.
-            // Example with NextAuth: signIn('google', { callbackUrl: `/${locale}/home` })
-            // Example with custom OAuth: window.location.href = '/api/auth/google'
+            window.location.href='https://api.questioflux.com/oauth/link'
+            setLoading(false)
         } catch (err) {
             console.error(err)
         } finally {
