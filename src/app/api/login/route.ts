@@ -25,19 +25,16 @@ export async function POST(request: Request) {
         const response = NextResponse.json(responseData, { status: 200 });
 
         const setCookies = externalApiResponse.headers.getSetCookie();
-        console.log('[LOGIN] cookies recebidos do backend:', setCookies); // ← adiciona isso
-        
         if (setCookies && setCookies.length > 0) {
             setCookies.forEach(cookie => {
                 response.headers.append('Set-Cookie', cookie);
             });
         }
 
-        response.cookies.set('logged_in', 'true', {
-            path: '/',
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 7, // 7 dias
-        });
+        response.headers.append(
+            'Set-Cookie',
+            'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800'
+        );
 
         return response;
     } catch (error) {
