@@ -30,7 +30,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
                 method: 'GET',
                 credentials: 'include'
             })
-            console.log(res)
             if (!res.ok) {
                 setUser(null)
                 return
