@@ -25,12 +25,10 @@ export async function POST(request: Request) {
             { path: '/' },
             { path: '/', domain: request.headers.get('host')?.split(':')[0] ?? undefined },
         ];
-
+        console.log('[logout] cookies na requisição:', cookieHeader);
         for (const name of authCookieNames) {
             for (const opts of cookieOptions) {
-                setTimeout(() => {
-                    response.cookies.set(name, '', { ...opts, maxAge: 0 });
-                }, 2000);
+                response.cookies.set(name, '', { ...opts, maxAge: 0 });
             }
         }
 
