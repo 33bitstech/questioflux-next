@@ -26,13 +26,13 @@ export async function POST(request: Request) {
             { path: '/', domain: request.headers.get('host')?.split(':')[0] ?? undefined },
         ];
 
-        setTimeout(() => {
-            for (const name of authCookieNames) {
-                for (const opts of cookieOptions) {
+        for (const name of authCookieNames) {
+            for (const opts of cookieOptions) {
+                setTimeout(() => {
                     response.cookies.set(name, '', { ...opts, maxAge: 0 });
-                }
+                }, 2000);
             }
-        }, 2000);
+        }
 
     } catch (error) {
         console.error('[API ROUTE /api/auth/logout] Erro inesperado:', error);
