@@ -114,6 +114,10 @@ button:hover, input[type='submit']:hover, .button:hover {
   --quiz-card-gradient-text: linear-gradient(90deg, #00E4FF 47.52%, #0047FF 99.95%);
   --quiz-card-hover-gradient: linear-gradient(180deg, #FFFFFF 26%, transparent 100%);
 
+  --google-btn-bg: var(--background-secondary); /* Puxa o seu cinza #D9D9D9 */
+  --google-btn-border: var(--border-color);     /* Puxa o seu cinza #c1c1c1 */
+  --google-btn-text: var(--text-primary);       /* Texto preto */
+  --google-btn-hover-bg: #C8C8C8;
 }
 
 [data-theme='dark'] {
@@ -202,6 +206,11 @@ button:hover, input[type='submit']:hover, .button:hover {
   --quiz-card-gradient-text: linear-gradient(90deg, #0047FF 0%, #00E4FF 100%);
   --quiz-card-hover-gradient: linear-gradient(180deg, #242526 26%, transparent 100%);
 
+
+  --google-btn-bg: rgba(255, 255, 255, 0.06);     /* Fundo transparente original */
+  --google-btn-border: rgba(255, 255, 255, 0.12); /* Borda transparente original */
+  --google-btn-text: #e8e8e8;                     /* Texto claro original */
+  --google-btn-hover-bg: rgba(255, 255, 255, 0.11);
 }
 
 html {
