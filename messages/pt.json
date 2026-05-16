@@ -345,7 +345,11 @@
             "questionLabel": "Pergunta:",
             "answerLabel": "Resposta do Usuário:"
         },
-        "home": "Ver Quiz"
+        "home": "Ver Quiz",
+        "sections":{
+            "registered":"Ranking dos usuários",
+            "guests":"Ranking dos visitantes"
+        }
     },
     "publicProfile": {
         "customTitle": "Quizzes publicos desse usuário",

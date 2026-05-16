@@ -5,40 +5,40 @@ import { TLeaderboard } from '@/types/leaderboardTypes'
 import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
 import UserAnswers from './user-answers'
-
+import { useTranslations } from 'next-intl' // Importar
 interface IProps {
     styles: TStyles
     userLb: IUserLeaderBoardScore
     quiz: IQuizes
     quizLb: TLeaderboard
-    canSeeAttempts: boolean
+    canSeeAnswers: boolean  // dono do quiz ou a própria pessoa — controla o clique
 }
 
-export default function HandleAnswers({ styles, userLb, quiz, quizLb, canSeeAttempts }: IProps) {
+export default function HandleAnswers({ styles, userLb, quiz, quizLb, canSeeAnswers }: IProps) {
     const [showUserAnswers, setShowUserAnswers] = useState(false)
-
+    const t = useTranslations('leaderboardPage.userAnswers'); 
     return (
         <>
             <div className={styles.attempts_wrapper}>
+                {/* Score — hover sempre mostra tentativas; clique só se canSeeAnswers */}
                 <span
-                    onClick={() => canSeeAttempts && setShowUserAnswers(s => !s)}
+                    onClick={() => canSeeAnswers && setShowUserAnswers(s => !s)}
                     className={[
                         styles.score,
                         styles.attempts_trigger,
-                        canSeeAttempts ? styles['attempts_trigger--interactive'] : '',
+                        styles['attempts_trigger--interactive'], // hover ativo pra todos
+                        canSeeAnswers ? styles.canHover : '',
                     ].filter(Boolean).join(' ')}
                 >
                     {userLb.score}
                 </span>
 
-                {canSeeAttempts && (
-                    <div className={styles.attempts_tooltip}>
-                        <p className={styles.attempts_tooltip_title}>Tentativas</p>
-                        <p className={styles.attempts_empty}>
-                            {userLb.attempts ?? 0} tentativa{userLb.attempts !== 1 ? 's' : ''}
-                        </p>
-                    </div>
-                )}
+                {/* Tooltip de tentativas — visível no hover para qualquer pessoa */}
+                <div className={styles.attempts_tooltip}>
+                    <p className={styles.attempts_empty}>
+                        {t('attempts')} {userLb.attempts ?? 0}
+                    </p>
+                </div>
             </div>
 
             {showUserAnswers && (

@@ -186,7 +186,8 @@ export default async function Leaderboard({ params }: IProps) {
                                     quiz={quiz}
                                     quizLb={registeredLb}
                                     // true se é o próprio usuário OU se é o dono do quiz
-                                    canSeeAttempts={isQuizOwner || userLb.userId === user?.userId}
+                                    canSeeAnswers={isQuizOwner || userLb.userId === user?.userId}
+                                    
                                 />
                             </div>
                         ))}
@@ -201,7 +202,8 @@ export default async function Leaderboard({ params }: IProps) {
                                     userLb={userInRegistered}
                                     quiz={quiz}
                                     quizLb={registeredLb}
-                                    canSeeAttempts={true} // sempre pode ver as próprias
+                                    canSeeAnswers={true} // sempre pode ver as próprias
+                                    
                                 />
                             </div>
                         )}
@@ -228,7 +230,8 @@ export default async function Leaderboard({ params }: IProps) {
                                     quizLb={guestLb}
                                     // Guests nunca são o "usuário logado",
                                     // mas o dono do quiz pode ver tudo
-                                    canSeeAttempts={isQuizOwner}
+                                    
+                                    canSeeAnswers={isQuizOwner}
                                 />
                             </div>
                         ))}
@@ -243,7 +246,8 @@ export default async function Leaderboard({ params }: IProps) {
                                     userLb={userInGuests}
                                     quiz={quiz}
                                     quizLb={guestLb}
-                                    canSeeAttempts={isQuizOwner || userInGuests.userId === user?.userId}
+                                    canSeeAnswers={isQuizOwner || userInGuests.userId === user?.userId}
+                                    
                                 />
                             </div>
                         )}
