@@ -1,0 +1,88 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.separatorLine {
+    flex: 1;
+    height: 1px;
+    background-color: var(--background-secondary);
+    border-radius: 99px;
+}
+
+.separatorText {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--text-secondary); /* Atualizado para se adaptar ao tema */
+    white-space: nowrap;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0.65rem 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    outline: none;
+
+    /* Cores puxadas das variáveis CSS (Adaptam-se sozinhas ao tema) */
+    background-color: var(--google-btn-bg);
+    border: 1.5px solid var(--google-btn-border);
+    color: var(--google-btn-text);
+
+    &:hover:not(:disabled) {
+        background-color: var(--google-btn-hover-bg);
+        transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0px);
+        /* Usar filter brightness permite um feedback visual sem precisar de nova variável */
+        filter: brightness(0.9);
+    }
+
+    &:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+}
+
+.btnLoading {
+    pointer-events: none;
+}
+
+.btnSpinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--google-btn-text); /* Spinner adapta a cor do texto */
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
