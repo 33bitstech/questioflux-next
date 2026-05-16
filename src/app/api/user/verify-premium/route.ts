@@ -12,7 +12,6 @@ export async function GET(request: Request) {
             headerValue: cookieHeader,
             cache: { cache: 'no-store' },
         });
-        console.log(cookieHeader)
 
         const responseData = await externalApiResponse.json();
 

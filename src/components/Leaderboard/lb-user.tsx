@@ -15,33 +15,54 @@ interface IProps {
     userLb: IUserLeaderBoardScore,
     index: number,
     quiz: IQuizes,
-    quizLb: TLeaderboard
-    locale: string
+    quizLb: TLeaderboard,
+    locale: string,
+    canSeeAttempts: boolean
 }
 
-export default function LbUser({ styles, userLb, index, quiz, quizLb, locale }: IProps) {
+/**
+ * Retorna true se a entrada é de um guest, cobrindo dois cenários:
+ *  - Sistema novo: chave `isGuest` existe → usa o valor dela
+ *  - Sistema antigo: chave `isGuest` não existe → verifica prefixo "guest_"
+ */
+function isGuestEntry(userLb: IUserLeaderBoardScore): boolean {
+    if ('isGuest' in userLb) {
+        return userLb.isGuest === true
+    }
+    return userLb.name.startsWith('guest_')
+}
+
+export default function LbUser({ styles, userLb, index, quiz, quizLb, locale, canSeeAttempts }: IProps) {
+    const guest = isGuestEntry(userLb)
+
     return (
         <>
             <div className={styles.user}>
                 <div className={styles.user_images}>
                     <div className={styles.rank}>
-                        {index <= 2 ? <LeaderboardTop position={index} /> : <span>{index > 9 ? '+' : ''}{index + 1}</span>}
+                        {index <= 2
+                            ? <LeaderboardTop position={index} />
+                            : <span>{index > 9 ? '+' : ''}{index + 1}</span>
+                        }
                     </div>
                     <div className={styles.profileImg}>
                         <UserProfileImgRender user={userLb} />
                     </div>
                 </div>
-                {userLb.isGuest 
-                    ? <p>{userLb.name}</p> 
-                    : <Link locale={locale} href={`/user/${userLb.userId}`}>{userLb.name}</Link>}
 
+                {guest
+                    ? <p>{userLb.name}</p>
+                    : <Link locale={locale} href={`/user/${userLb.userId}`}>{userLb.name}</Link>
+                }
             </div>
+
             <div className={styles.result}>
                 <HandleAnswers
                     quiz={quiz}
                     quizLb={quizLb}
                     styles={styles}
                     userLb={userLb}
+                    canSeeAttempts={canSeeAttempts}
                 />
                 <span className={styles.time}>{getTimeString(userLb.timing)}</span>
             </div>
