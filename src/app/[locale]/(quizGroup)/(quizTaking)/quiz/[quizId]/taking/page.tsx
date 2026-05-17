@@ -3,7 +3,6 @@ import styles from './taking.module.scss'
 import TakingComponent from '@/components/TakingQuiz/taking'
 import { getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 
-
 interface IProps{
     params:Promise<{quizId: string}>
 }
@@ -11,7 +10,6 @@ interface IProps{
 export default async function Taking({params}:IProps) {
     const {quizId} = await params
     const quiz = await getQuiz(quizId)
-    console.log(quiz)
     return (
         <>
             {quiz && <Suspense>
@@ -20,9 +18,6 @@ export default async function Taking({params}:IProps) {
                     styles={styles}
                 />
             </Suspense>}
-
-            
-
         </>
     )
 }

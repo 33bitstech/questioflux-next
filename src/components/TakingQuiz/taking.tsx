@@ -37,7 +37,8 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                 .then(({ err, res }) => {
                     if (err) return setError(err)
                     if (res) {
-                        setCookie('quizResults', JSON.stringify(res))
+                        const safeCookieValue = encodeURIComponent(JSON.stringify(res));
+                        setCookie('quizResults', safeCookieValue);
                         route.push(`/quiz/${quiz.quizId}/results`)
                     }
                 })

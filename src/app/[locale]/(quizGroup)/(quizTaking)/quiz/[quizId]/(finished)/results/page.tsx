@@ -8,7 +8,6 @@ import GoogleAd from '@/components/Google/GoogleAd'
 import { getLeaderboard, getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 import ButtonSeeScore from '@/components/Leaderboard/button-see-score'
 
-// Atualizar IProps para incluir locale
 interface IProps {
     params: Promise<{
         quizId: string,
@@ -25,27 +24,38 @@ export default async function Results({ params }: IProps) {
         getLeaderboard(quizId),
         getQuiz(quizId)
     ])
-    const res = cookieStore.get('quizResults')?.value;
+    const rawCookie = cookieStore.get('quizResults')?.value;
 
-    if (!res) {
+    if (!rawCookie) {
         return <div>{t('noResults')}</div>;
     }
-    const results = JSON.parse(res as string);
 
-    const getResultsFormated = () => {
-        const totalQuestions = results.userForLeaderBoard.score.split('/')[1],
-            correctQuestions = results.userForLeaderBoard.result.correctAnswers.length,
-            time = getTimeString(results.userForLeaderBoard.timing)
-        return { totalQuestions, correctQuestions, time }
+    let results;
+    try {
+        results = JSON.parse(decodeURIComponent(rawCookie));
+    } catch (error) {
+        console.error("[Results Page] Falha ao fazer o parse do cookie de resultados:", error);
+        return <div>{t('noResults')}</div>;
     }
 
-    if (!quizId) return null; // Retornar nulo se não houver quizId
+    const getResultsFormated = () => {
+        if (!results?.userForLeaderBoard?.score) {
+            return { totalQuestions: 0, correctQuestions: 0, time: "00:00" };
+        }
+
+        const totalQuestions = results.userForLeaderBoard.score.split('/')[1];
+        const correctQuestions = results.userForLeaderBoard.result.correctAnswers.length;
+        const time = getTimeString(results.userForLeaderBoard.timing);
+        
+        return { totalQuestions, correctQuestions, time };
+    }
+
+    if (!quizId) return null; 
 
     return (
         <>
             <div className={styles.container_results}>
                 <div className={styles.message_result}>
-                    {/* A mensagem de resultado é dinâmica, então não é traduzida aqui */}
                     <h3>{results.message}</h3>
                 </div>
                 <div className={styles.results_values}>
