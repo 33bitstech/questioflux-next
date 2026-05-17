@@ -6,6 +6,7 @@ import CheckoutForm from './checkout-form'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { useTheme } from 'next-themes'
+import { CheckoutElementsProvider } from '@stripe/react-stripe-js/checkout'
 
 interface IProps {
     styles: TStyles
@@ -88,9 +89,9 @@ export default function ChooseMethod({ styles, type, publicKey }: IProps) {
                 <div className={styles.form}>
                     {/* Renderiza o fluxo de checkout apenas quando os dados síncronos existirem */}
                     {stripeData && providerOptions && (
-                        <Elements stripe={getStripe(publicKey)} options={providerOptions}>
+                        <CheckoutElementsProvider stripe={getStripe(publicKey)} options={providerOptions}>
                             <CheckoutForm type_subs={type} sessionId={stripeData.sessionId} />
-                        </Elements>
+                        </CheckoutElementsProvider>
                     )}
                 </div>
             </div>

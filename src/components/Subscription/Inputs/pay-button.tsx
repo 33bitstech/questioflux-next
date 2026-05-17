@@ -6,22 +6,22 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext';
 import LoadingReq from '@/components/Loading/loading-req';
 import { useTranslations } from 'next-intl';
 import { payOnce, subscribe } from '@/app/[locale]/(subsGroup)/subscription/[type]/actions';
+import { useCheckoutElements } from '@stripe/react-stripe-js/checkout';
 
 interface IProps {
     type_subs: string,
     email: string,
     sessionId: string 
 }
-
 const PayButton = ({ type_subs, email, sessionId }: IProps) => {
     const stripe = useStripe();
-    const elements = useElements();
+    const checkoutState = useCheckoutElements();
     const [loading, setLoading] = useState(false);
     const { setError, setSucess } = useGlobalMessage()
     const t = useTranslations('SubscriptionPage')
 
     const handleClick = async () => {
-        if (!stripe || !elements) return;
+        if (!stripe || checkoutState.type !== 'success') return;
 
         setLoading(true);
 
@@ -31,16 +31,11 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
             setLoading(false)
             return;
         }
+        const { checkout } = checkoutState;
 
         try {
-            const { error: submitError } = await elements.submit();
-            if (submitError) {
-                setError(submitError.message || 'Verifique os dados informados.');
-                setLoading(false);
-                return;
-            }
-
-            const result = await stripe.confirmPayment({
+            const result = await checkout.confirm({ redirect: "if_required" })
+            /* const result = await stripe.confirmPayment({
                 elements,
                 confirmParams: {
                     payment_method_data: {
@@ -50,18 +45,19 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
                     }
                 },
                 redirect: "if_required"
-            });
+            }); */
 
-            if (result.error) {
+            if (result.type === 'error') {
                 setError(result.error.message || 'Erro ao processar o pagamento.');
                 setLoading(false);
                 return;
             }
 
-            if (type_subs === 'questioplus') subscribe(sessionId)
-            if (type_subs === 'questioplususage') payOnce(sessionId)
-
-            setSucess('')
+            // Sucesso
+            if (type_subs === 'questioplus') subscribe(sessionId);
+            if (type_subs === 'questioplususage') payOnce(sessionId);
+            
+            setSucess('');
         } catch (error: any) {
             setError('Ocorreu um erro inesperado.');
         } finally {
@@ -72,7 +68,7 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
     return (
         <>
             {loading && <LoadingReq loading={loading} />}
-            <button className={styles.botao} disabled={loading || !stripe || !elements} onClick={handleClick}>
+            <button className={styles.botao} disabled={loading || !stripe || checkoutState.type !== 'success'} onClick={handleClick}>
                 {loading ? t('inputs.loading') : t('inputs.send')}
             </button>
         </>
