@@ -48,7 +48,7 @@ export default async function LB({ params }: IProps) {
         <>
             {/* ── Leaderboard de usuários registrados ── */}
             {registeredLb.length > 0 && (
-                <section className={styles.lb_section}>
+                <section className={`${styles.lb_section} ${styles["lb_section--wide"]}`}>
                     <h2 className={styles.lb_section_title}>
                         {t('sections.registered')}
                     </h2>
@@ -86,7 +86,7 @@ export default async function LB({ params }: IProps) {
 
             {/* ── Leaderboard de guests ── */}
             {guestLb.length > 0 && (
-                <section className={styles.lb_section}>
+                <section className={`${styles.lb_section} ${styles["lb_section--wide"]}`}>
                     <h2 className={styles.lb_section_title}>
                         {t('sections.guests')}
                     </h2>
