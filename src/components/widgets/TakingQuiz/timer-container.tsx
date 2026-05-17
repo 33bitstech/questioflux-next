@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import stylesS from '@/components/ImagesRender/user-profile-img-render.module.scss'
+import { useTheme } from 'next-themes'
 
 interface IProps {
     styles: TStyles,
@@ -21,6 +22,17 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
     const [passedTime, setPassedTime] = useState<number>(0)
     const t = useTranslations('takingPage')
     const [loading, setLoading] = useState(true)
+    const { theme } = useTheme()
+    const defaultThumbnail = theme === 'light' ? '/quiz_padrao_branco.png' : '/quiz_padrao_preto.png'
+    const [imgSrc, setImgSrc] = useState<string>(
+        quiz?.quizThumbnail !== 'default' ? quiz?.quizThumbnail : defaultThumbnail
+    )
+
+    useEffect(() => {
+        if (!quiz?.quizThumbnail || quiz.quizThumbnail === 'default') {
+            setImgSrc(defaultThumbnail)
+        }
+    }, [theme])
 
     type TimeKey = 'hours' | 'minutes' | 'seconds' | 'miliseconds';
     const formatTimeValue = (typeTime: TimeKey) => {
@@ -44,15 +56,16 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
             {loading && <Skeleton />}
             <Image
                 className={loading ? stylesS.image_loading : stylesS.image_loaded}
-                src={quiz?.quizThumbnail !== 'default'
-                    ? quiz?.quizThumbnail
-                    : '/imageQuizDefault.jpg'}
+                src={imgSrc}
                 alt="quiz image"
                 width={800}
                 height={800}
                 quality={100}
                 onLoad={() => setLoading(false)}
-                onError={() => setLoading(false)}
+                onError={() => {
+                    setImgSrc(defaultThumbnail)
+                    setLoading(false)
+                }}
                 fetchPriority='high'
                 loading='lazy'
             />

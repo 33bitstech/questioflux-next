@@ -17,7 +17,6 @@ interface IProps {
 
 export default function TakingComponent({ quiz, styles }: IProps) {
     const [started, setStarted] = useState<boolean>(false),
-        // initialTime is kept only for the visual timer display — NOT sent to the server
         [initialTime, setInitialTime] = useState<number>(0),
         [result, setResult] = useState<{ quizAnswer: any; guest?: string }>(),
         { setError } = useGlobalMessage(),

@@ -8,17 +8,13 @@ const START_COOKIE   = (id: string) => `quiz_start_${id}`
 const ELAPSED_COOKIE = (id: string) => `quiz_elapsed_${id}`
 const COOKIE_OPTIONS = { httpOnly: true, sameSite: 'strict' as const, path: '/', maxAge: 60 * 60 }
 
-/** Called when the user clicks "Start" — records the real start timestamp. */
 export async function startQuiz(quizId: string): Promise<{ ok: boolean }> {
     const cookieStore = await cookies()
     cookieStore.set(START_COOKIE(quizId), String(Date.now()), COOKIE_OPTIONS)
     return { ok: true }
 }
 
-/**
- * Called the instant the user finishes answering (before the login/guest popup).
- * Freezes the elapsed time server-side so the popup delay is never counted.
- */
+
 export async function pauseQuiz(quizId: string): Promise<{ ok: boolean }> {
     const cookieStore = await cookies()
     const startCookie = cookieStore.get(START_COOKIE(quizId))
@@ -31,7 +27,6 @@ export async function pauseQuiz(quizId: string): Promise<{ ok: boolean }> {
     return { ok: true }
 }
 
-/** Called after login/guest — submits answers with the frozen timing. */
 export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest?: string }) {
     try {
         const cookieStore = await cookies()

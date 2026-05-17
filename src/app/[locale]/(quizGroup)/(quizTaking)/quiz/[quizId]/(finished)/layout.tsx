@@ -1,13 +1,11 @@
 import React, { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import { Metadata } from 'next';
-import TimerContainer from '@/components/widgets/TakingQuiz/timer-container';
-import Image from 'next/image';
 import NavLink from '@/components/widgets/NavLink';
 import { getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page';
-import { getTranslations } from 'next-intl/server'; // Importar
+import { getTranslations } from 'next-intl/server';
+import QuizThumbnail from './quiz-thumbnail';
 
-// Atualizar IProps para incluir locale
 interface IProps {
     children: ReactNode,
     params: Promise<{
@@ -16,7 +14,6 @@ interface IProps {
     }>
 }
 
-// Atualizar generateMetadata para ser dinâmico
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const { locale, quizId } = await params;
     const t = await getTranslations({ locale, namespace: 'quizResultsPage.layout' });
@@ -31,7 +28,7 @@ export default async function LayoutTaking({children, params}: IProps) {
     const t = await getTranslations({ locale, namespace: 'quizResultsPage.layout' });
     const quiz = await getQuiz(quizId);
 
-    if(!quiz) return null; // Retornar nulo se o quiz não for encontrado
+    if(!quiz) return null; 
 
     return (
         <>
@@ -39,16 +36,11 @@ export default async function LayoutTaking({children, params}: IProps) {
                 <h1>{quiz?.title}</h1>
 
                 <div className={styles.img_quiz_container}>
-                    <Image
-                        src={quiz?.quizThumbnail !== 'default' 
-                            ? quiz?.quizThumbnail 
-                            : '/imageQuizDefault.jpg'} 
-                        alt={t('altQuizImage')} 
-                        width={800}
-                        height={800}
-                        quality={100}
-                        fetchPriority='high'
-                        loading='lazy'
+                    <QuizThumbnail
+                        src={quiz?.quizThumbnail !== 'default'
+                            ? quiz?.quizThumbnail
+                            : '/imageQuizDefault.jpg'}
+                        alt={t('altQuizImage')}
                     />
                 </div>
 
