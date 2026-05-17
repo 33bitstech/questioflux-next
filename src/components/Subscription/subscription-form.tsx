@@ -23,6 +23,7 @@ export default function SubscriptionForm({ publicKey, styles, type }: IProps) {
         })
         const data = await res.json()
         if (!res.ok || !data?.clientSecret) throw new Error(data?.error || 'Falha ao obter client secret.')
+        console.log(data)
         return data.clientSecret
     }, [type])
 
