@@ -4,7 +4,7 @@ import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
-import { takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
+import { startQuiz, takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
@@ -17,14 +17,17 @@ interface IProps {
 
 export default function TakingComponent({ quiz, styles }: IProps) {
     const [started, setStarted] = useState<boolean>(false),
+        // initialTime is kept only for the visual timer display — NOT sent to the server
         [initialTime, setInitialTime] = useState<number>(0),
-        [result, setResult] = useState<{ quizAnswer: any, timing: number, guest?: string }>(),
+        [result, setResult] = useState<{ quizAnswer: any; guest?: string }>(),
         { setError } = useGlobalMessage(),
         [loadingReq, setLoadingReq] = useState<boolean>(false),
         route = useRouter(),
         [finalTime, setFinalTime] = useState(0)
 
-    const handleStart = () => {
+    const handleStart = async () => {
+        const { ok } = await startQuiz(quiz.quizId)
+        if (!ok) return setError('Could not start the quiz. Please try again.')
         setInitialTime(Date.now())
         setStarted(true)
     }

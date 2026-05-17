@@ -10,6 +10,7 @@ import usePopupAuth from '@/hooks/usePopupAuth'
 import RegisterComponent from '../AuthForms/register-component'
 import LoginComponent from '../AuthForms/login-component'
 import GuestForm from '../AuthForms/Guest/guest-form'
+import { pauseQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
 
 interface IProps {
     qtdQuestions: number
@@ -23,7 +24,6 @@ interface IProps {
     setStarted: React.Dispatch<React.SetStateAction<boolean>>
     setResult: React.Dispatch<React.SetStateAction<{
         quizAnswer: any;
-        timing: number;
         guest?: string
     } | undefined>>
     finalTime: number,
@@ -47,7 +47,7 @@ export default function QuestionsContainer({
         [selectedValuesCopy, setSelectedValuesCopy] = useState<any>(),
         [canShowRegister, setCanShowRegister] = useState(false),
         { setError } = useGlobalMessage(),
-        { user } = useUser(),  // ← was: { token }
+        { user } = useUser(),
         { toGuest, typePopup, toLogin, toRegister } = usePopupAuth(),
         [guestName, setGuestName] = useState('')
 
@@ -118,15 +118,17 @@ export default function QuestionsContainer({
         }
     }
 
-    const handleResult = () => {
+    const handleResult = async () => {
         if (Object.keys(selectedAnswers).length < qtdQuestions)
             return setError(t('errors.resAll'))
 
+        await pauseQuiz(quizId)
+
         setStarted(false)
-        setFinalTime(Date.now())
+        setFinalTime(Date.now()) 
+
         handleSelectValuesCopy()
 
-        // ← was: if (!token) return setCanShowRegister(true)
         if (!user) return setCanShowRegister(true)
 
         handleSelectValues()
@@ -157,14 +159,15 @@ export default function QuestionsContainer({
     }, [questions])
 
     useEffect(() => {
-        // ← was: if (!token && canShowRegister)
         if (!user && canShowRegister) {
             const savedResults = localStorage.getItem('quizAnswers')
             if (savedResults) {
-                setResult({ quizAnswer: JSON.parse(savedResults), timing: finalTime - initialTime, guest: guestName })
+                // timing omitted — the server calculates it from the httpOnly cookie
+                setResult({ quizAnswer: JSON.parse(savedResults), guest: guestName })
             }
         } else if (selectedValues && verifyAllAnswered()) {
-            setResult({ quizAnswer: selectedValues, timing: finalTime - initialTime, guest: guestName })
+            // timing omitted — the server calculates it from the httpOnly cookie
+            setResult({ quizAnswer: selectedValues, guest: guestName })
         }
     }, [selectedValues, guestName])
 
@@ -204,7 +207,6 @@ export default function QuestionsContainer({
                 </div>
             </div>}
 
-            {/* ← was: {!token && canShowRegister && ... } */}
             {!user && canShowRegister && (<div>
                 {typePopup === 'register'
                     && <RegisterComponent
