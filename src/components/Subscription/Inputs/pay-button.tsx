@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
 import styles from './pay-button.module.scss'
-import { useCheckout } from '@stripe/react-stripe-js';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
 import LoadingReq from '@/components/Loading/loading-req';
 import { useTranslations } from 'next-intl';
@@ -9,16 +9,20 @@ import { payOnce, subscribe } from '@/app/[locale]/(subsGroup)/subscription/[typ
 
 interface IProps {
     type_subs: string,
-    email: string
+    email: string,
+    sessionId: string 
 }
 
-const PayButton = ({ type_subs, email }: IProps) => {
-    const { confirm } = useCheckout();
+const PayButton = ({ type_subs, email, sessionId }: IProps) => {
+    const stripe = useStripe();
+    const elements = useElements();
     const [loading, setLoading] = useState(false);
     const { setError, setSucess } = useGlobalMessage()
     const t = useTranslations('SubscriptionPage')
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        if (!stripe || !elements) return;
+
         setLoading(true);
 
         const emailIsValid = email.match(/^\S+@\S+\.\S+$/)
@@ -28,25 +32,47 @@ const PayButton = ({ type_subs, email }: IProps) => {
             return;
         }
 
-        confirm({ redirect: "if_required" }).then((result) => {
-            if (result.type == 'error') {
-                setError(result.error.message)
-                setLoading(false)
-                return
+        try {
+            const { error: submitError } = await elements.submit();
+            if (submitError) {
+                setError(submitError.message || 'Verifique os dados informados.');
+                setLoading(false);
+                return;
             }
 
-            if (type_subs === 'questioplus') subscribe(result.session.id)
-            if (type_subs === 'questioplususage') payOnce(result.session.id)
+            const result = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    payment_method_data: {
+                        billing_details: {
+                            email: email, 
+                        }
+                    }
+                },
+                redirect: "if_required"
+            });
+
+            if (result.error) {
+                setError(result.error.message || 'Erro ao processar o pagamento.');
+                setLoading(false);
+                return;
+            }
+
+            if (type_subs === 'questioplus') subscribe(sessionId)
+            if (type_subs === 'questioplususage') payOnce(sessionId)
 
             setSucess('')
+        } catch (error: any) {
+            setError('Ocorreu um erro inesperado.');
+        } finally {
             setLoading(false);
-        }).finally(() => setLoading(false))
+        }
     };
 
     return (
         <>
             {loading && <LoadingReq loading={loading} />}
-            <button className={styles.botao} disabled={loading} onClick={handleClick}>
+            <button className={styles.botao} disabled={loading || !stripe || !elements} onClick={handleClick}>
                 {loading ? t('inputs.loading') : t('inputs.send')}
             </button>
         </>

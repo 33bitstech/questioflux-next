@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from 'react';
-import { useCheckout } from '@stripe/react-stripe-js';
 import styles from './email-input.module.scss';
 
 interface IProps {
@@ -8,12 +7,9 @@ interface IProps {
 }
 
 const EmailInput = ({ onEmailChange, emailValue}: IProps) => {
-    const checkout = useCheckout();
-
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         const email = e.target.value;
         onEmailChange(email);
-        checkout.updateEmail(email);
     };
 
     return (
