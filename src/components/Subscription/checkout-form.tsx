@@ -1,24 +1,13 @@
 'use client'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState } from 'react'
-import {PaymentElement, useCheckout} from '@stripe/react-stripe-js'
+import {PaymentElement} from '@stripe/react-stripe-js'
 import EmailInput from './Inputs/email-input'
 import PayButton from './Inputs/pay-button'
 
 export default function CheckoutForm({type_subs} : {type_subs: string}) {
-    const {theme} = useTheme(),
-        checkout = useCheckout(),
-        [email, setEmail] = useState<string>('')
-        
+    const [email, setEmail] = useState<string>('')
 
-    useEffect(()=>{
-        checkout.changeAppearance({
-            theme: theme == 'light' ? 'stripe' : 'night',
-            variables: {
-                colorPrimary: '#00E4FF'
-            }
-        })
-    },[])
 
     return (
         <>
