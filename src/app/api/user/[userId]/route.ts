@@ -9,7 +9,7 @@ export async function GET(request: Request, {params}: {params:Promise<{userId:st
         const externalApiResponse = await ApiData({
             path: `user/${userId}`, 
             method: 'GET',
-            cache: {next:{revalidate: 60 * 60}}
+            cache: {cache: 'no-store'}
         })
 
         const responseData = await externalApiResponse.json();

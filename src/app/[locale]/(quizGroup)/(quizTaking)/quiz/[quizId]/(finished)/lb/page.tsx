@@ -36,12 +36,12 @@ export default async function LB({ params }: IProps) {
     const isQuizOwner = !!user && !!quiz && user.userId === quiz.userCreatorId
 
     const registeredLb = quizLb?.filter(entry => !isGuestEntry(entry)) ?? []
-    const guestLb      = quizLb?.filter(entry =>  isGuestEntry(entry)) ?? []
+    const guestLb = quizLb?.filter(entry => isGuestEntry(entry)) ?? []
 
     const userInRegistered = registeredLb.find(lb => lb.userId === user?.userId)
-    const userPositionReg  = userInRegistered ? registeredLb.indexOf(userInRegistered) : 999
+    const userPositionReg = userInRegistered ? registeredLb.indexOf(userInRegistered) : 999
 
-    const userInGuests   = guestLb.find(lb => lb.userId === user?.userId)
+    const userInGuests = guestLb.find(lb => lb.userId === user?.userId)
     const userPositionGst = userInGuests ? guestLb.indexOf(userInGuests) : 999
 
     return (
@@ -55,30 +55,28 @@ export default async function LB({ params }: IProps) {
 
                     <div className={styles.leaderboard_container}>
                         {quiz && registeredLb.slice(0, 10).map((userLb, index) => (
-                            <div className={styles.user_results} key={index}>
-                                <LbUser
-                                    index={index}
-                                    styles={styles}
-                                    userLb={userLb}
-                                    quiz={quiz}
-                                    quizLb={registeredLb}
-                                    locale={locale}
-                                    canSeeAnswers={isQuizOwner || userLb.userId === user?.userId}
-                                />
-                            </div>
+                            <LbUser
+                                key={index}
+                                index={index}
+                                styles={styles}
+                                userLb={userLb}
+                                quiz={quiz}
+                                quizLb={registeredLb}
+                                locale={locale}
+                                canSeeAnswers={isQuizOwner || userLb.userId === user?.userId}
+                            />
                         ))}
+
                         {quiz && userInRegistered && userPositionReg >= 10 && (
-                            <div className={styles.user_results}>
-                                <LbUser
-                                    index={userPositionReg}
-                                    styles={styles}
-                                    userLb={userInRegistered}
-                                    quiz={quiz}
-                                    quizLb={registeredLb}
-                                    locale={locale}
-                                    canSeeAnswers={true}
-                                />
-                            </div>
+                            <LbUser
+                                index={userPositionReg}
+                                styles={styles}
+                                userLb={userInRegistered}
+                                quiz={quiz}
+                                quizLb={registeredLb}
+                                locale={locale}
+                                canSeeAnswers={true}
+                            />
                         )}
                     </div>
                 </section>
@@ -93,30 +91,28 @@ export default async function LB({ params }: IProps) {
 
                     <div className={`${styles.leaderboard_container} ${styles.leaderboard_container__guest}`}>
                         {quiz && guestLb.slice(0, 10).map((userLb, index) => (
-                            <div className={styles.user_results} key={index}>
-                                <LbUser
-                                    index={index}
-                                    styles={styles}
-                                    userLb={userLb}
-                                    quiz={quiz}
-                                    quizLb={guestLb}
-                                    locale={locale}
-                                    canSeeAnswers={isQuizOwner}
-                                />
-                            </div>
+                            <LbUser
+                                key={index}
+                                index={index}
+                                styles={styles}
+                                userLb={userLb}
+                                quiz={quiz}
+                                quizLb={guestLb}
+                                locale={locale}
+                                canSeeAnswers={isQuizOwner}
+                            />
                         ))}
+
                         {quiz && userInGuests && userPositionGst >= 10 && (
-                            <div className={styles.user_results}>
-                                <LbUser
-                                    index={userPositionGst}
-                                    styles={styles}
-                                    userLb={userInGuests}
-                                    quiz={quiz}
-                                    quizLb={guestLb}
-                                    locale={locale}
-                                    canSeeAnswers={isQuizOwner || userInGuests.userId === user?.userId}
-                                />
-                            </div>
+                            <LbUser
+                                index={userPositionGst}
+                                styles={styles}
+                                userLb={userInGuests}
+                                quiz={quiz}
+                                quizLb={guestLb}
+                                locale={locale}
+                                canSeeAnswers={isQuizOwner || userInGuests.userId === user?.userId}
+                            />
                         )}
                     </div>
                 </section>

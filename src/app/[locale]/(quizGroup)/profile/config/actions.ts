@@ -22,7 +22,7 @@ export async function verifyUserPremium(revalidate: boolean = true) {
 
 export async function cancelSubscription() {
     const cookieStore = await cookies()
-const cookieHeader = await getCookieHeader(cookieStore.getAll())
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/cancel-subscription`, {
         method: 'DELETE',
@@ -36,7 +36,7 @@ const cookieHeader = await getCookieHeader(cookieStore.getAll())
 
 export async function deleteUser() {
     const cookieStore = await cookies()
-const cookieHeader = await getCookieHeader(cookieStore.getAll())
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
 
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/delete`, {
         method: 'DELETE',

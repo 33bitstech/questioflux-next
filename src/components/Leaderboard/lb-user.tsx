@@ -114,7 +114,6 @@ export default function LbUser({ styles, userLb, index, quiz, locale, canSeeAnsw
             return
         }
 
-        // Mobile/tablet: se não tem permissão, o toque mostra só as tentativas.
         if (lastPointerType.current !== 'mouse') {
             showAttemptsTemporarily()
         }
