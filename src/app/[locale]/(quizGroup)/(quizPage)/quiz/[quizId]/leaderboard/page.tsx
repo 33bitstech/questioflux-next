@@ -162,32 +162,28 @@ export default async function Leaderboard({ params }: IProps) {
 
                     <div className={styles.leaderboard_container}>
                         {quiz && registeredLb.slice(0, 10).map((userLb, index) => (
-                            <div className={styles.user_results} key={index}>
-                                <LbUser
-                                    locale={locale}
-                                    index={index}
-                                    styles={styles}
-                                    userLb={userLb}
-                                    quiz={quiz}
-                                    quizLb={registeredLb}
-                                    canSeeAnswers={isQuizOwner || userLb.userId === user?.userId}
-                                    
-                                />
-                            </div>
+                            <LbUser
+                                key={index}
+                                locale={locale}
+                                index={index}
+                                styles={styles}
+                                userLb={userLb}
+                                quiz={quiz}
+                                quizLb={registeredLb}
+                                canSeeAnswers={isQuizOwner || userLb.userId === user?.userId}
+                            />
                         ))}
 
                         {quiz && userInRegistered && userPositionReg >= 10 && (
-                            <div className={styles.user_results}>
-                                <LbUser
-                                    locale={locale}
-                                    index={userPositionReg}
-                                    styles={styles}
-                                    userLb={userInRegistered}
-                                    quiz={quiz}
-                                    quizLb={registeredLb}
-                                    canSeeAnswers={true} 
-                                />
-                            </div>
+                            <LbUser
+                                locale={locale}
+                                index={userPositionReg}
+                                styles={styles}
+                                userLb={userInRegistered}
+                                quiz={quiz}
+                                quizLb={registeredLb}
+                                canSeeAnswers={true}
+                            />
                         )}
                     </div>
                 </section>
@@ -202,32 +198,28 @@ export default async function Leaderboard({ params }: IProps) {
 
                     <div className={`${styles.leaderboard_container} ${styles.leaderboard_container__guest}`}>
                         {quiz && guestLb.slice(0, 10).map((userLb, index) => (
-                            <div className={styles.user_results} key={index}>
-                                <LbUser
-                                    locale={locale}
-                                    index={index}
-                                    styles={styles}
-                                    userLb={userLb}
-                                    quiz={quiz}
-                                    quizLb={guestLb}
-                                    canSeeAnswers={isQuizOwner}
-                                />
-                            </div>
+                            <LbUser
+                                key={index}
+                                locale={locale}
+                                index={index}
+                                styles={styles}
+                                userLb={userLb}
+                                quiz={quiz}
+                                quizLb={guestLb}
+                                canSeeAnswers={isQuizOwner}
+                            />
                         ))}
 
                         {quiz && userInGuests && userPositionGst >= 10 && (
-                            <div className={styles.user_results}>
-                                <LbUser
-                                    locale={locale}
-                                    index={userPositionGst}
-                                    styles={styles}
-                                    userLb={userInGuests}
-                                    quiz={quiz}
-                                    quizLb={guestLb}
-                                    canSeeAnswers={isQuizOwner || userInGuests.userId === user?.userId}
-                                    
-                                />
-                            </div>
+                            <LbUser
+                                locale={locale}
+                                index={userPositionGst}
+                                styles={styles}
+                                userLb={userInGuests}
+                                quiz={quiz}
+                                quizLb={guestLb}
+                                canSeeAnswers={isQuizOwner || userInGuests.userId === user?.userId}
+                            />
                         )}
                     </div>
                 </section>

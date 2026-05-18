@@ -84,7 +84,17 @@
         border-radius: 0.3125rem;
         background-color: var(--background-dark);
 
-        // ── User info (left side) ────────────────────────────────────────────
+        &.user_results__can_open {
+            cursor: pointer;
+        }
+
+        &.user_results__show_attempts {
+            .attempts_tooltip {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
         .user {
             display: flex;
             align-items: center;
@@ -98,11 +108,13 @@
                 align-items: center;
 
                 .rank {
-                    svg, span {
+                    svg,
+                    span {
                         display: block;
                         width: 2.2rem;
                         height: 2.2rem;
                     }
+
                     span {
                         @include vars.styleTexto(vars.$cor-cinza9, 1rem, 400);
                         display: flex;
@@ -117,11 +129,13 @@
                     height: 2.1875rem;
                     border-radius: 100%;
 
-                    img, svg {
+                    img,
+                    svg {
                         height: 100%;
                         width: 100%;
                         border-radius: 100%;
                     }
+
                     img {
                         background-size: contain;
                         object-fit: cover;
@@ -129,11 +143,16 @@
                 }
             }
 
-            a, p {
+            a,
+            p {
                 @include vars.styleTexto(vars.$cor-branco, 1rem, 700);
                 text-overflow: ellipsis;
                 overflow: hidden;
                 max-width: 70%;
+            }
+
+            .lb_user_name {
+                cursor: default;
 
                 &:hover {
                     background: linear-gradient(vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
@@ -142,9 +161,12 @@
                     -webkit-background-clip: text;
                 }
             }
+
+            a.lb_user_name {
+                cursor: pointer;
+            }
         }
 
-        // ── Result + attempts tooltip (right side) ───────────────────────────
         .result {
             display: flex;
             gap: 1.19rem;
@@ -155,55 +177,24 @@
                 @include vars.styleTexto(vars.$cor-branco, 1rem, 500);
             }
 
-            .canHover {
-                &:hover {
-                    cursor: pointer;
-                    background: linear-gradient(vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
-                    background-clip: content-box;
-                    -webkit-text-fill-color: transparent;
-                    -webkit-background-clip: text;
-                }
-            }
-
-            // Wrapper com o tooltip de tentativas
             .attempts_wrapper {
                 position: relative;
                 display: flex;
                 align-items: center;
 
-                // Botão / score clicável que dispara o tooltip
                 .attempts_trigger {
                     @include vars.styleTexto(vars.$cor-branco, 1rem, 500);
-                    cursor: default;
+                    cursor: inherit;
                     user-select: none;
-
-                    // Quando canSeeAttempts === true, fica clicável
-                    &--interactive {
-                        cursor: pointer;
-
-                        &:hover {
-                            background: linear-gradient(vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
-                            background-clip: content-box;
-                            -webkit-text-fill-color: transparent;
-                            -webkit-background-clip: text;
-
-                            ~ .attempts_tooltip {
-                                opacity: 1;
-                                pointer-events: auto;
-                                transform: translateY(0);
-                            }
-                        }
-                    }
                 }
 
-                // Tooltip com as tentativas
                 .attempts_tooltip {
                     position: absolute;
                     bottom: calc(100% + 0.5rem);
                     right: 0;
                     z-index: 30;
 
-                    min-width: 14rem;
+                    min-width: 8rem;
                     max-width: 22rem;
                     padding: 0.75rem 1rem;
                     border-radius: 0.5rem;
@@ -217,59 +208,29 @@
                     transform: translateY(4px);
                     transition: opacity 0.18s ease, transform 0.18s ease;
 
-                    // Setinha apontando para baixo
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        bottom: -6px;
-                        right: 0.75rem;
-                        width: 10px;
-                        height: 10px;
-                        background-color: var(--background-primary);
-                        border-right: 1px solid var(--background-dark);
-                        border-bottom: 1px solid var(--background-dark);
-                        transform: rotate(45deg);
+                    &.attempts_tooltip__visible {
+                        opacity: 1;
+                        pointer-events: auto;
+                        transform: translateY(0);
                     }
 
-                    .attempts_tooltip_title {
-                        @include vars.styleTexto(vars.$cor-cinza9, 0.75rem, 700);
-                        text-transform: uppercase;
-                        letter-spacing: 0.06em;
-                        margin-bottom: 0.5rem;
+                    &.attempts_tooltip__floating {
+                        position: fixed;
+                        top: var(--attempts-tooltip-y);
+                        left: var(--attempts-tooltip-x);
+                        right: auto;
+                        bottom: auto;
+                        pointer-events: none;
+                        transform: translate(12px, 14px);
                     }
 
-                    .attempts_list {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 0.3rem;
-                        max-height: 12rem;
-                        overflow-y: auto;
-
-                        .attempt_item {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            gap: 1rem;
-
-                            .attempt_index {
-                                @include vars.styleTexto(vars.$cor-cinza9, 0.8rem, 400);
-                                min-width: 1.5rem;
-                            }
-
-                            .attempt_score {
-                                @include vars.styleTexto(vars.$cor-branco, 0.85rem, 700);
-                                margin-left: auto;
-                            }
-
-                            .attempt_date {
-                                @include vars.styleTexto(vars.$cor-cinza9, 0.75rem, 400);
-                                white-space: nowrap;
-                            }
-                        }
+                    &.attempts_tooltip__floating.attempts_tooltip__visible {
+                        transform: translate(12px, 14px);
                     }
-
+                    
                     .attempts_empty {
-                        @include vars.styleTexto(vars.$cor-cinza9, 0.85rem, 400);
+                        @include vars.styleTexto(vars.$cor-branco, 0.9rem, 600);
+                        white-space: nowrap;
                     }
                 }
             }
