@@ -15,13 +15,15 @@ import { useUser } from '@/contexts/userContext'
 import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
+import { useGlobalMessage } from '@/contexts/globalMessageContext'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
-    locale: string
+    locale: string,
+    oauthError?: { code?: string; msgEN?: string; msgPT?: string }
 }
 
-export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale, ...props}: IProps) {
+export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthError, locale, ...props}: IProps) {
     const t = useTranslations('loginPage.form');
     
     const [email, setEmail] = useState('')
@@ -35,6 +37,14 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, locale,
     const { fetchUser } = useUser()
     const {login} = useLogin()
     const router = useRouter()
+
+    const { setError: setGlobalError } = useGlobalMessage()
+
+    useEffect(() => {
+        if (!oauthError?.code) return
+        const msg = locale === 'pt' ? oauthError.msgPT : oauthError.msgEN
+        if (msg) setGlobalError(decodeURIComponent(msg))
+    }, [])
 
     useEffect(()=>{
         if (email){

@@ -9,6 +9,7 @@ import { env } from '@/env'
 
 interface IProps {
     params: Promise<{ locale: string }>;
+    searchParams: Promise<{ code?: string; msgEN?: string; msgPT?: string }>;
 }
 
 export async function generateMetadata({ params}: IProps): Promise<Metadata> {
@@ -48,15 +49,16 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     }
 }
 
-export default async function Login({ params}: IProps) {
+export default async function Login({ params, searchParams}: IProps) {
     const {locale} = await params
     const t = await getTranslations({ locale, namespace: 'loginPage' });
-
+    const { code, msgEN, msgPT } = await searchParams
     return (
         <div className={`container-section`}>
             <section className='login-section'>
                 <LoginFormComponent
                     locale={locale}
+                    oauthError={code ? { code, msgEN, msgPT } : undefined}
                 />
                 <p>{t('registerPrompt')} <NavButtonLogReg isLogin={true}/></p>
             </section>
