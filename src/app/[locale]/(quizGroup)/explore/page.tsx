@@ -12,6 +12,12 @@ import { getQuizzes, getFeaturedsQuizzes } from './actions'
 
 interface IProps {
     params: Promise<{ locale: string }>
+    searchParams?: Promise<{
+        title?: string
+        tags?: string
+        categories?: string
+        typeQuiz?: string
+    }>
 }
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
@@ -51,15 +57,23 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-export default async function Explore({ params }: IProps) {
+export default async function Explore({ params, searchParams }: IProps) {
     const { locale } = await params;
+    const query = await searchParams;
+
     const t = await getTranslations({ locale, namespace: 'explorePage' });
 
     const [paginatedData, popularQuizzes] = await Promise.all([
-        getQuizzes(1),
+        getQuizzes({
+            page: 1,
+            title: query?.title,
+            tags: query?.tags,
+            categories: query?.categories,
+            typeQuiz: query?.typeQuiz,
+        }),
         getFeaturedsQuizzes()
     ])
-    console.log(paginatedData)
+
     const quizzes = paginatedData?.quizzes ?? []
     const totalPages = paginatedData?.totalPages ?? 1
     const total = paginatedData?.total ?? quizzes.length

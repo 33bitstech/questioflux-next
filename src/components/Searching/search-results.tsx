@@ -1,8 +1,8 @@
 'use client'
-import useGettingQuiz from '@/hooks/requests/quiz-requests/useGettingQuiz'
+
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import QuizCard from '../Card/quiz-card'
 import ArrowSvg from '../Icons/ArrowSvg'
 import { useFilters } from '@/contexts/filtersContext'
@@ -10,107 +10,176 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import LoadingQuizzes from '../Loading/loading-quizzes'
 
-const ITEMS_PER_VIEW = 9
-
 interface IProps {
     styles: TStyles
     defaultQuizzes: IQuizes[]
     totalPages: number
 }
 
+interface IPaginatedQuizzes {
+    quizzes: IQuizes[]
+    total?: number
+    totalPages?: number
+    page?: number
+}
+
 export default function SearchResults({ styles, defaultQuizzes, totalPages }: IProps) {
     const t = useTranslations('explorePage.buttons')
     const { filtersSelected, typeQuizSelected } = useFilters()
-    const { searchQuiz } = useGettingQuiz()
 
-    const [allQuizzes, setAllQuizzes] = useState<IQuizes[]>(defaultQuizzes)
-    const [searchResults, setSearchResults] = useState<IQuizes[] | null>(null)
-    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_VIEW)
+    const searchParams = useSearchParams()
+
+    const title = searchParams.get('title')?.trim() || ''
+    const tags = searchParams.get('tags')?.trim() || ''
+    const categoriesFromUrl = searchParams.get('categories')?.trim() || ''
+
+    const [quizzes, setQuizzes] = useState<IQuizes[]>(defaultQuizzes)
     const [currentPage, setCurrentPage] = useState(1)
+    const [totalPagesState, setTotalPagesState] = useState(totalPages)
     const [loadingMore, setLoadingMore] = useState(false)
     const [searchLoading, setSearchLoading] = useState(false)
 
-    const searchParams = useSearchParams()
-    const title = searchParams.get('title') || ''
-    const tags = searchParams.get('tags') || ''
-    const categories = searchParams.get('categories') || ''
-    const hasSearchParams = !!(title || tags || categories)
+    const firstRender = useRef(true)
 
-    const getFilteredQuizzes = () => {
-        let filtered = [...allQuizzes]
-        if (filtersSelected.length > 0)
-            filtered = filtered.filter(q => filtersSelected.includes(q.category))
-        if (typeQuizSelected === 'Image')
-            filtered = filtered.filter(q => q.type === 'image/RW')
-        return filtered
+    const categoriesToSearch = useMemo(() => {
+        const urlCategories = categoriesFromUrl
+            ? categoriesFromUrl.split(',').map(category => category.trim()).filter(Boolean)
+            : []
+
+        return Array.from(new Set([...urlCategories, ...filtersSelected]))
+    }, [categoriesFromUrl, filtersSelected])
+
+    const hasBackendSearch = useMemo(() => {
+        return Boolean(
+            title ||
+            tags ||
+            categoriesToSearch.length > 0 ||
+            typeQuizSelected !== 'All'
+        )
+    }, [title, tags, categoriesToSearch, typeQuizSelected])
+
+    const buildSearchUrl = (page: number) => {
+        const params = new URLSearchParams()
+
+        params.set('page', String(page))
+
+        if (title) params.set('title', title)
+        if (tags) params.set('tags', tags)
+
+        if (categoriesToSearch.length > 0) {
+            params.set('categories', categoriesToSearch.join(','))
+        }
+
+        if (typeQuizSelected !== 'All') {
+            params.set('typeQuiz', typeQuizSelected)
+        }
+
+        if (hasBackendSearch) {
+            return `/api/quizzes/search?${params.toString()}`
+        }
+
+        return `/api/quizzes/public?page=${page}`
     }
 
-    const allFiltered = hasSearchParams ? (searchResults ?? []) : getFilteredQuizzes()
-    const displayedResults = allFiltered.slice(0, visibleCount)
+    const fetchQuizzes = async (page: number, replace: boolean) => {
+        const response = await fetch(buildSearchUrl(page), {
+            method: 'GET',
+            cache: 'no-store',
+        })
 
-    const hasMore = !hasSearchParams && (
-        allFiltered.length > visibleCount || currentPage < totalPages
-    )
+        const data: IPaginatedQuizzes = await response.json()
+
+        if (!response.ok) {
+            throw data
+        }
+
+        setQuizzes(prev => {
+            if (replace) return data.quizzes ?? []
+            return [...prev, ...(data.quizzes ?? [])]
+        })
+
+        setCurrentPage(data.page ?? page)
+        setTotalPagesState(data.totalPages ?? 1)
+    }
 
     useEffect(() => {
-        if (hasSearchParams) {
-            setSearchLoading(true)
-            const search = async () => {
-                try {
-                    const res = await searchQuiz(title, categories, tags)
-                    setSearchResults(res?.quizzes ?? [])
-                } catch (err) {
-                    console.log(err)
-                } finally {
-                    setSearchLoading(false)
-                }
-            }
-            search()
-        } else {
-            setSearchResults(null)
-        }
-    }, [title, tags, categories])
+        setQuizzes(defaultQuizzes)
+        setCurrentPage(1)
+        setTotalPagesState(totalPages)
+    }, [defaultQuizzes, totalPages])
 
     useEffect(() => {
-        if (defaultQuizzes) {
-            setAllQuizzes(defaultQuizzes)
-            setVisibleCount(ITEMS_PER_VIEW)
-            setCurrentPage(1)
-        }
-    }, [defaultQuizzes])
-
-    const handleLoadMore = async () => {
-        const nextVisible = visibleCount + ITEMS_PER_VIEW
-
-        if (nextVisible <= allQuizzes.length) {
-            setVisibleCount(nextVisible)
+        if (firstRender.current) {
+            firstRender.current = false
             return
         }
 
-        if (currentPage < totalPages) {
-            setLoadingMore(true)
+        let ignore = false
+
+        const search = async () => {
+            setSearchLoading(true)
+
             try {
-                const response = await fetch(`/api/quizzes/public?page=${currentPage + 1}`)
-                const data = await response.json()
-                if (data?.quizzes) {
-                    setAllQuizzes(prev => [...prev, ...data.quizzes])
-                    setCurrentPage(prev => prev + 1)
+                const response = await fetch(buildSearchUrl(1), {
+                    method: 'GET',
+                    cache: 'no-store',
+                })
+
+                const data: IPaginatedQuizzes = await response.json()
+
+                if (!response.ok) {
+                    throw data
+                }
+
+                if (!ignore) {
+                    setQuizzes(data.quizzes ?? [])
+                    setCurrentPage(data.page ?? 1)
+                    setTotalPagesState(data.totalPages ?? 1)
                 }
             } catch (err) {
                 console.log(err)
+
+                if (!ignore) {
+                    setQuizzes([])
+                    setCurrentPage(1)
+                    setTotalPagesState(1)
+                }
             } finally {
-                setLoadingMore(false)
+                if (!ignore) {
+                    setSearchLoading(false)
+                }
             }
         }
 
-        setVisibleCount(nextVisible)
+        search()
+
+        return () => {
+            ignore = true
+        }
+    }, [title, tags, categoriesToSearch, typeQuizSelected])
+
+    const handleLoadMore = async () => {
+        if (currentPage >= totalPagesState) return
+
+        setLoadingMore(true)
+
+        try {
+            await fetchQuizzes(currentPage + 1, false)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoadingMore(false)
+        }
     }
+
+    const hasMore = currentPage < totalPagesState
 
     return (
         <>
             <LoadingQuizzes loading={searchLoading || loadingMore} />
+
             <div className={styles.quizes_container}>
-                {displayedResults.map((quiz, index) => (
+                {quizzes.map((quiz, index) => (
                     <QuizCard key={quiz.quizId ?? index} quiz={quiz} />
                 ))}
             </div>
@@ -118,7 +187,7 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
             {hasMore && (
                 <button
                     onClick={handleLoadMore}
-                    disabled={loadingMore}
+                    disabled={loadingMore || searchLoading}
                     className={styles.seemore_button}
                 >
                     <p>{t('seeMore')}</p>

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData'; 
-import { z } from 'zod';
 
 export async function GET(request: NextRequest) {
     try {
