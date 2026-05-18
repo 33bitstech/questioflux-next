@@ -43,7 +43,7 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
                 return;
             }
 
-            if (type_subs === 'questioplus') subscribe(sessionId);
+            //if (type_subs === 'questioplus') subscribe(sessionId);
             if (type_subs === 'questioplususage') payOnce(sessionId);
 
             setSucess('');
