@@ -40,29 +40,45 @@ export default function FormsUpdataUser({ styles }: IProps) {
         },
         handleSaveConfig = async () => {
             setLoading(true)
+
             try {
+                let updated = false
+
                 if (username || email || password) {
                     const userObj = { userName: username, userEmail: email, password }
-                    type UserKey = keyof typeof userObj;
+
+                    type UserKey = keyof typeof userObj
+
                     const userObject = Object.keys(userObj).reduce((prev, actual) => {
-                        const key = actual as UserKey;
-                        if (userObj[key]) prev[key] = userObj[key];
-                        return prev;
-                    }, {} as Partial<typeof userObj>);
+                        const key = actual as UserKey
+
+                        if (userObj[key]) {
+                            prev[key] = userObj[key]
+                        }
+
+                        return prev
+                    }, {} as Partial<typeof userObj>)
 
                     await updateUser(JSON.stringify({ user: userObject }))
-                    setSucess(t('successMessage'))
-                    handleResetInputs()
+
+                    updated = true
                 }
 
                 if (imageValue) {
                     const formData = new FormData()
                     formData.append('profileImg', imageValue)
+
                     await updateUserProfile(formData)
-                    setSucess(t('successMessage'))
+
+                    updated = true
+                    setImageValue(null)
                 }
 
-                await fetchUser()
+                if (updated) {
+                    await fetchUser()
+                    setSucess(t('successMessage'))
+                    handleResetInputs()
+                }
             } catch (err) {
                 console.error(err)
             } finally {
