@@ -10,6 +10,7 @@ interface IProps {
 
 export default function SubscriptionForm({ publicKey, styles, type }: IProps) {
     return (
-        <ChooseMethod styles={styles} type={type} publicKey={publicKey} />
+        //<ChooseMethod styles={styles} type={type} publicKey={publicKey} />
+        <></>
     )
 }
