@@ -16,7 +16,7 @@ export async function PUT(request: Request) {
         });
 
         const responseData = await externalApiResponse.json();
-        console.log(responseData)
+
         if (!externalApiResponse.ok) {
             return NextResponse.json(responseData, { status: externalApiResponse.status });
         }

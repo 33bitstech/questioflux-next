@@ -2,9 +2,29 @@
 
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { BodyInit } from '@/types/fetchTypes'
+import { useLocale } from 'next-intl'
 
 const useUpdate = () => {
     const { setError } = useGlobalMessage()
+    const locale = useLocale()
+
+    const getErrorMessage = (data: any) => {
+        const isPt = locale === 'pt' || locale === 'pt-BR'
+
+        if (isPt) {
+            return data?.messagePT || data?.message || 'Erro ao atualizar usuário'
+        }
+
+        return data?.message || data?.messagePT || 'Error updating user'
+    }
+
+    const handleError = (err: any): never => {
+        const data = err?.response?.data || err
+
+        setError(getErrorMessage(data))
+
+        throw data
+    }
 
     async function updateUser(body: BodyInit) {
         try {
@@ -12,18 +32,18 @@ const useUpdate = () => {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: body,
-            });
+                body,
+            })
 
-            const res = await response.json();
+            const res = await response.json()
 
-            if (!response.ok) throw { response: { data: res } }
+            if (!response.ok) {
+                throw { response: { data: res } }
+            }
 
-            return res;
+            return res
         } catch (err: any) {
-            const { type, message } = err.response.data;
-            if (type === 'global') return setError(message);
-            throw err.response.data;
+            handleError(err)
         }
     }
 
@@ -32,22 +52,22 @@ const useUpdate = () => {
             const response = await fetch('/api/user/update/profileImg', {
                 method: 'PUT',
                 credentials: 'include',
-                body: body,
-            });
+                body,
+            })
 
-            const res = await response.json();
+            const res = await response.json()
 
-            if (!response.ok) throw { response: { data: res } }
+            if (!response.ok) {
+                throw { response: { data: res } }
+            }
 
-            return res;
+            return res
         } catch (err: any) {
-            const { type, message } = err.response.data;
-            if (type === 'global') return setError(message);
-            throw err.response.data;
+            handleError(err)
         }
     }
 
-    return { updateUser, updateUserProfile };
+    return { updateUser, updateUserProfile }
 }
 
-export default useUpdate;
+export default useUpdate
