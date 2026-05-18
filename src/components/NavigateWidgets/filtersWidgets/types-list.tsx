@@ -10,43 +10,60 @@ interface IProps {
     setTypeQ: React.Dispatch<React.SetStateAction<TTypeQuiz>>
 }
 
-export default function TypesList({setTypeQ, styles, typeQ}:IProps) {
-    const locale = useLocale(),
-        {typesQuiz, typesQuizPt} = useFilters()
+export default function TypesList({ setTypeQ, styles, typeQ }: IProps) {
+    const locale = useLocale()
+    const { typesQuiz, typesQuizPt } = useFilters()
 
-
-    const verifyTypeSelect = (type:TTypeQuiz) =>{
+    const verifyTypeSelect = (type: TTypeQuiz) => {
         return type === typeQ
-    },
-    isTypeInactive = (type:TTypeQuiz)=>{
-        return type === 'Personality' || type === 'Right and Wrong'
     }
+
+    const isTypeInactive = (type: TTypeQuiz) => {
+        return type === 'Personality'
+    }
+
+    const handleSelectType = (type: TTypeQuiz) => {
+        if (isTypeInactive(type)) return
+
+        setTypeQ(type)
+    }
+
+    const renderType = (type: TTypeQuiz, label: string, index: number) => {
+        const inactive = isTypeInactive(type)
+        const active = !inactive && verifyTypeSelect(type)
+
+        return (
+            <li
+                key={index}
+                aria-disabled={inactive}
+                className={`
+                    ${inactive ? styles.types_soon : ''}
+                    ${active ? styles.active_li : ''}
+                `}
+                onClick={() => handleSelectType(type)}
+            >
+                {label}
+            </li>
+        )
+    }
+
     return (
         <>
-            {locale == 'pt' && <ul>
-                {typesQuizPt.map((typePt, index)=>(
-                    <li 
-                        key={index} 
-                        className={`
-                            ${isTypeInactive(typesQuiz[index]) ? styles.types_soon: ''}    
-                            ${verifyTypeSelect(typesQuiz[index]) ? styles.active_li: ''}    
-                        `} 
-                        onClick={()=>setTypeQ(typesQuiz[index])}
-                    >{typePt}</li>
-                ))}
-            </ul>}
-            {locale == 'en' && <ul>
-                {typesQuiz.map((type, index)=>(
-                    <li 
-                        key={index} 
-                        className={`
-                            ${isTypeInactive(type) ? styles.types_soon: ''}    
-                            ${verifyTypeSelect(type) ? styles.active_li: ''}    
-                        `} 
-                        onClick={()=>setTypeQ(type)}
-                    >{type}</li>
-                ))}
-            </ul>}
+            {locale == 'pt' && (
+                <ul>
+                    {typesQuizPt.map((typePt, index) =>
+                        renderType(typesQuiz[index], typePt, index)
+                    )}
+                </ul>
+            )}
+
+            {locale == 'en' && (
+                <ul>
+                    {typesQuiz.map((type, index) =>
+                        renderType(type, type, index)
+                    )}
+                </ul>
+            )}
         </>
     )
 }

@@ -23,6 +23,13 @@ interface IPaginatedQuizzes {
     page?: number
 }
 
+const getApiTypeQuiz = (typeQuiz: string) => {
+    if (typeQuiz === 'Image') return 'image/RW'
+    if (typeQuiz === 'Right and Wrong') return 'default/RW'
+
+    return ''
+}
+
 export default function SearchResults({ styles, defaultQuizzes, totalPages }: IProps) {
     const t = useTranslations('explorePage.buttons')
     const { filtersSelected, typeQuizSelected } = useFilters()
@@ -41,6 +48,8 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
 
     const firstRender = useRef(true)
 
+    const apiTypeQuizSelected = getApiTypeQuiz(typeQuizSelected)
+
     const categoriesToSearch = useMemo(() => {
         const urlCategories = categoriesFromUrl
             ? categoriesFromUrl.split(',').map(category => category.trim()).filter(Boolean)
@@ -54,9 +63,9 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
             title ||
             tags ||
             categoriesToSearch.length > 0 ||
-            typeQuizSelected !== 'All'
+            apiTypeQuizSelected
         )
-    }, [title, tags, categoriesToSearch, typeQuizSelected])
+    }, [title, tags, categoriesToSearch, apiTypeQuizSelected])
 
     const buildSearchUrl = (page: number) => {
         const params = new URLSearchParams()
@@ -70,8 +79,8 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
             params.set('categories', categoriesToSearch.join(','))
         }
 
-        if (typeQuizSelected !== 'All') {
-            params.set('typeQuiz', typeQuizSelected)
+        if (apiTypeQuizSelected) {
+            params.set('typeQuiz', apiTypeQuizSelected)
         }
 
         if (hasBackendSearch) {

@@ -18,12 +18,22 @@ interface IGetQuizzesParams {
     typeQuiz?: string
 }
 
+function getApiTypeQuiz(typeQuiz?: string) {
+    if (typeQuiz === 'Image') return 'image/RW'
+    if (typeQuiz === 'Right and Wrong') return 'default/RW'
+
+    if (typeQuiz === 'image/RW') return 'image/RW'
+    if (typeQuiz === 'default/RW') return 'default/RW'
+
+    return ''
+}
+
 function hasSearchParams(params: IGetQuizzesParams) {
     return Boolean(
         params.title ||
         params.tags ||
         params.categories ||
-        (params.typeQuiz && params.typeQuiz !== 'All')
+        getApiTypeQuiz(params.typeQuiz)
     )
 }
 
@@ -36,8 +46,10 @@ function buildQueryParams(params: IGetQuizzesParams) {
     if (params.tags) searchParams.set('tags', params.tags)
     if (params.categories) searchParams.set('categories', params.categories)
 
-    if (params.typeQuiz && params.typeQuiz !== 'All') {
-        searchParams.set('typeQuiz', params.typeQuiz)
+    const apiTypeQuiz = getApiTypeQuiz(params.typeQuiz)
+
+    if (apiTypeQuiz) {
+        searchParams.set('typeQuiz', apiTypeQuiz)
     }
 
     return searchParams.toString()
@@ -61,10 +73,10 @@ export async function getQuizzes(
         const response = await fetch(
             `${env.NEXT_PUBLIC_DOMAIN_FRONT}${endpoint}`,
             { method: 'GET', cache: 'no-store' }
-        );
+        )
 
-        const res = await response.json();
-        return res;
+        const res = await response.json()
+        return res
     } catch (err: any) {
         console.log(err)
     }
@@ -75,9 +87,10 @@ export async function getFeaturedsQuizzes(): Promise<IQuizes[] | undefined> {
         const response = await fetch(
             `${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quizzes/featured`,
             { method: 'GET' }
-        );
-        const res = await response.json();
-        return res.quizzes;
+        )
+
+        const res = await response.json()
+        return res.quizzes
     } catch (err: any) {
         console.log(err)
     }
