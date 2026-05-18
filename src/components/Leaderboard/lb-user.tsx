@@ -2,7 +2,7 @@
 
 import { TStyles } from '@/types/stylesType'
 import { Link } from '@/i18n/navigation'
-import React, { CSSProperties, useRef, useState } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import UserProfileImgRender from '../ImagesRender/user-profile-img-render'
 import LeaderboardTop from '../Icons/Badges/LeaderboardTop'
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore'
@@ -37,6 +37,31 @@ export default function LbUser({ styles, userLb, index, quiz, locale, canSeeAnsw
 
     const lastPointerType = useRef('mouse')
     const attemptsTooltipId = `lb-user-attempts-${userLb.userId}-${index}`
+
+    const attemptsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+    const showAttemptsTemporarily = () => {
+        if (attemptsTimerRef.current) {
+            clearTimeout(attemptsTimerRef.current)
+        }
+
+        setShowAttempts(true)
+        setIsAttemptsTooltipFloating(false)
+
+        attemptsTimerRef.current = setTimeout(() => {
+            setShowAttempts(false)
+            setIsAttemptsTooltipFloating(false)
+            attemptsTimerRef.current = null
+        }, 2000)
+    }
+
+    useEffect(() => {
+        return () => {
+            if (attemptsTimerRef.current) {
+                clearTimeout(attemptsTimerRef.current)
+            }
+        }
+    }, [])
 
     const isNameTarget = (target: EventTarget | null) => {
         return target instanceof HTMLElement && !!target.closest(`.${styles.lb_user_name}`)
@@ -91,7 +116,7 @@ export default function LbUser({ styles, userLb, index, quiz, locale, canSeeAnsw
 
         // Mobile/tablet: se não tem permissão, o toque mostra só as tentativas.
         if (lastPointerType.current !== 'mouse') {
-            setShowAttempts(show => !show)
+            showAttemptsTemporarily()
         }
     }
 
