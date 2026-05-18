@@ -2,8 +2,6 @@
 
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react"
 import { IUser } from "@/interfaces/IUser"
-import React from 'react'
-import { useGlobalMessage } from "./globalMessageContext"
 import { useRouter } from "@/i18n/navigation"
 
 interface IUserContext {
@@ -17,7 +15,6 @@ const UserContext = createContext({} as IUserContext)
 
 export function UserProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<IUser | null>(null)
-    const { setError } = useGlobalMessage()
     const router = useRouter()
 
     const updateUser = useCallback((userObj: IUser | null) => {
