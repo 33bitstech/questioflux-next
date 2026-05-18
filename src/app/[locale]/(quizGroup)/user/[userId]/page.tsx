@@ -9,7 +9,6 @@ import { IUser } from '@/interfaces/IUser'
 import { getTranslations } from 'next-intl/server'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { Metadata } from 'next'
-import IQuizes from '@/interfaces/IQuizes'
 import { publicQuizzes } from '../action'
 import { notFound } from 'next/navigation'
 
@@ -26,13 +25,10 @@ async function getUser(userId: string): Promise<IUser | undefined> {
             method: 'GET',
         })
 
-        // Sem isso, um 404 da API chegava aqui como undefined
-        // mas o componente continuava renderizando uma página vazia
         if (!response.ok) return undefined
 
         const res = await response.json()
 
-        // Garante que o objeto retornado é de fato um usuário válido
         if (!res?.userId) return undefined
 
         return res
@@ -47,7 +43,6 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'publicProfile.metadata' });
     const user = await getUser(userId)
 
-    // Sem usuário → página indexada como noindex para não vazar 404 no sitemap
     if (!user) {
         return {
             title: 'User not found',

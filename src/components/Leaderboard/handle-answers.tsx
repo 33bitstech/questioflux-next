@@ -41,7 +41,7 @@ export default function HandleAnswers({
                 style={attemptsTooltipStyle}
             >
                 <p className={styles.attempts_empty}>
-                    {t('attempts')} {userLb.attempts ?? 0}
+                    {t('attempts')} {userLb.attempts ?? 1}
                 </p>
             </div>
         </div>
