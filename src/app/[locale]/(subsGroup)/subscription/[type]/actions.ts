@@ -85,3 +85,27 @@ export async function payOnce(sessionId: string) {
         throw err
     }
 }
+
+export async function getCheckoutSessionStatus(sessionId: string) {
+    try {
+        const cookieHeader = await getCookies()
+
+        const response = await fetch(
+            `${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/checkout-session-status?session_id=${sessionId}`,
+            {
+                method: 'GET',
+                headers: {
+                    cookie: cookieHeader
+                }
+            }
+        )
+
+        const res = await response.json()
+
+        if (!response.ok) return { err: res }
+
+        return { res }
+    } catch (err: any) {
+        throw err
+    }
+}
