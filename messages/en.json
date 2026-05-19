@@ -556,7 +556,17 @@
         "errors": {
             "email": "The email must be filled out correctly"
         },
-        "sucess": "Payment successfully!"
+        "sucess": "Payment successfully!",
+        "messages": {
+            "paymentSessionNotFound": "Payment session not found.",
+            "invalidEmail": "Invalid email.",
+            "paymentProcessError": "Error processing payment.",
+            "confirmPaymentStatusError": "Could not confirm payment status.",
+            "paymentNotConfirmed": "The payment has not been confirmed yet.",
+            "subscriptionSuccess": "Subscription activated successfully.",
+            "paymentSuccess": "Payment confirmed successfully.",
+            "unexpectedError": "An unexpected error occurred."
+        }
     },
     "mainMetadata": {
         "desc": "Create your own quiz with QuestioFlux! A powerful and fun quiz maker to build and share tests with friends. Add images, customize questions, and see who reaches the top of the leaderboard. Start creating today!",

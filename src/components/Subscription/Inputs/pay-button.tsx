@@ -6,7 +6,7 @@ import styles from './pay-button.module.scss'
 import { useCheckoutElements } from '@stripe/react-stripe-js/checkout'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import LoadingReq from '@/components/Loading/loading-req'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { getCheckoutSessionStatus } from '@/app/[locale]/(subsGroup)/subscription/[type]/actions'
 
 interface IProps {
@@ -15,18 +15,54 @@ interface IProps {
     sessionId: string
 }
 
+type ApiError = {
+    message?: string
+    messagePT?: string
+    error?: string
+}
+
 const PayButton = ({ type_subs, email, sessionId }: IProps) => {
     const checkoutState = useCheckoutElements()
     const [loading, setLoading] = useState(false)
     const { setError, setSucess } = useGlobalMessage()
     const t = useTranslations('SubscriptionPage')
+    const locale = useLocale()
     const router = useRouter()
+
+    const isPt = locale.toLowerCase().startsWith('pt')
+
+    const getApiErrorMessage = (
+        error: ApiError | string | undefined | null,
+        fallbackKey: string
+    ) => {
+        const fallbackMessage = t(fallbackKey)
+
+        if (!error) return fallbackMessage
+
+        if (typeof error === 'string') return error
+
+        if (isPt) {
+            return (
+                error.messagePT ||
+                error.message ||
+                error.error ||
+                fallbackMessage
+            )
+        }
+
+        return (
+            error.message ||
+            error.messagePT ||
+            error.error ||
+            fallbackMessage
+        )
+    }
 
     const handleClick = async () => {
         if (checkoutState.type !== 'success') return
 
         if (!sessionId) {
-            setError('Sessão de pagamento não encontrada.')
+            setError(t('messages.paymentSessionNotFound'))
             return
         }
 
@@ -37,7 +73,11 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
         const emailResult = await checkout.updateEmail(email)
 
         if (emailResult.type === 'error') {
-            setError(emailResult.error.message)
+            setError(
+                emailResult.error.message ||
+                t('messages.invalidEmail')
+            )
+
             setLoading(false)
             return
         }
@@ -46,7 +86,11 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
             const result = await checkout.confirm({ redirect: 'if_required' })
 
             if (result.type === 'error') {
-                setError(result.error.message || 'Erro ao processar o pagamento.')
+                setError(
+                    result.error.message ||
+                    t('messages.paymentProcessError')
+                )
+
                 setLoading(false)
                 return
             }
@@ -55,34 +99,39 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
 
             if (err) {
                 setError(
-                    err.messagePT ||
-                    err.message ||
-                    'Não foi possível confirmar o status do pagamento.'
+                    getApiErrorMessage(
+                        err,
+                        'messages.confirmPaymentStatusError'
+                    )
                 )
+
                 setLoading(false)
                 return
             }
 
             if (!res?.success) {
-                setError('O pagamento ainda não foi confirmado.')
+                setError(t('messages.paymentNotConfirmed'))
                 setLoading(false)
                 return
             }
 
             if (type_subs === 'questioplus') {
-                setSucess('Assinatura ativada com sucesso.')
+                setSucess(t('messages.subscriptionSuccess'))
             }
 
             if (type_subs === 'questioplususage') {
-                setSucess('Pagamento confirmado com sucesso.')
+                setSucess(t('messages.paymentSuccess'))
             }
 
-            router.refresh()
+            setTimeout(() => {
+                router.push('/home')
+            }, 3000)
         } catch (error: any) {
             setError(
-                error?.messagePT ||
-                error?.message ||
-                'Ocorreu um erro inesperado.'
+                getApiErrorMessage(
+                    error,
+                    'messages.unexpectedError'
+                )
             )
         } finally {
             setLoading(false)
