@@ -220,7 +220,7 @@
                 "subscribeButton": "Assinar",
                 "unsubscribeButton": "Cancelar Assinatura",
                 "loadingButton": "Carregando...",
-                "cancelAlreadyScheduledButton": "Cancelamento agendado",
+                "cancelAlreadyScheduledButton": "Já Cancelado",
                 "cancelScheduled": "Sua assinatura vence em {date}"
             },
             "vortexPlusUsage": {

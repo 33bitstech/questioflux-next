@@ -131,6 +131,18 @@ export default function SubscriptionContainer({ styles }: IProps) {
         }
     }
 
+    const isSubscriptionCanceledButStillActive = () => {
+        if (!cancelAtPeriodEnd || !currentPeriodEnd) return false
+
+        const endDate = new Date(currentPeriodEnd)
+
+        if (Number.isNaN(endDate.getTime())) return false
+
+        return endDate > new Date()
+    }
+    const canceledButStillActive = isSubscriptionCanceledButStillActive()
+
+
     useEffect(() => {
         const get = async () => {
             try {
@@ -183,11 +195,11 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         {premium && (
                             <button
                                 onClick={handleOpenCancelPopup}
-                                disabled={loadingCancelInfo || canceling}
+                                disabled={loadingCancelInfo || canceling || canceledButStillActive}
                             >
                                 {loadingCancelInfo
                                     ? t('vortexPlus.loadingButton')
-                                    : cancelAtPeriodEnd
+                                    : canceledButStillActive
                                         ? t('vortexPlus.cancelAlreadyScheduledButton')
                                         : t('vortexPlus.unsubscribeButton')}
                             </button>

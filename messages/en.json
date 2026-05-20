@@ -220,7 +220,7 @@
                 "subscribeButton": "Subscribe",
                 "unsubscribeButton": "Cancel Subscription",
                 "loadingButton": "Loading...",
-                "cancelAlreadyScheduledButton": "Cancellation scheduled",
+                "cancelAlreadyScheduledButton": "Already Cancelled",
                 "cancelScheduled": "Your subscription ends on {date}"
             },
             "vortexPlusUsage": {
