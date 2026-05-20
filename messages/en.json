@@ -566,6 +566,10 @@
             "subscriptionSuccess": "Subscription activated successfully.",
             "paymentSuccess": "Payment confirmed successfully.",
             "unexpectedError": "An unexpected error occurred."
+        },
+        "maintenance": {
+            "title": "Payments temporarily unavailable",
+            "description": "We are changing our payment gateway. Please come back later."
         }
     },
     "mainMetadata": {

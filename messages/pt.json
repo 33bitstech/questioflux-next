@@ -566,6 +566,10 @@
             "subscriptionSuccess": "Assinatura ativada com sucesso.",
             "paymentSuccess": "Pagamento confirmado com sucesso.",
             "unexpectedError": "Ocorreu um erro inesperado."
+        },
+        "maintenance": {
+            "title": "Pagamentos temporariamente indisponíveis",
+            "description": "Estamos mudando de gateway de pagamentos. Volte novamente mais tarde."
         }
     },
     "mainMetadata": {
