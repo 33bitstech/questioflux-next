@@ -10,9 +10,9 @@ interface IProps {
 }
 
 export default function SubscriptionForm({ publicKey, styles, type }: IProps) {
-    /* return (
+    return (
         <ChooseMethod styles={styles} type={type} publicKey={publicKey} />
-    ) */
+    )
 
-    return <PaymentMaintenanceMessage />
+    //return <PaymentMaintenanceMessage />
 }
