@@ -3,6 +3,7 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react"
 import { IUser } from "@/interfaces/IUser"
 import { useRouter } from "@/i18n/navigation"
+import { useLocale } from "next-intl"
 
 interface IUserContext {
     user: IUser | null,
@@ -16,6 +17,7 @@ const UserContext = createContext({} as IUserContext)
 export function UserProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<IUser | null>(null)
     const router = useRouter()
+    const locale = useLocale()
 
     const updateUser = useCallback((userObj: IUser | null) => {
         setUser(userObj)
@@ -50,7 +52,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
             console.error(err)
         } finally {
             setUser(null)
-            window.location.href = '/'
+            window.location.href = `/${locale}`
         }
     }, [router])
 

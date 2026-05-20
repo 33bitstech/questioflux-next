@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import styles from './pay-button.module.scss'
 import { useCheckoutElements } from '@stripe/react-stripe-js/checkout'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
