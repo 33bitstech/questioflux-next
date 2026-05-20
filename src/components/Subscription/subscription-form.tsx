@@ -1,6 +1,7 @@
 'use client'
 import { TStyles } from '@/types/stylesType';
 import ChooseMethod from './choose-method';
+import PaymentMaintenanceMessage from './payment-maintenance-message';
 
 interface IProps {
     publicKey: string;
@@ -9,7 +10,9 @@ interface IProps {
 }
 
 export default function SubscriptionForm({ publicKey, styles, type }: IProps) {
-    return (
+    /* return (
         <ChooseMethod styles={styles} type={type} publicKey={publicKey} />
-    )
+    ) */
+
+    return <PaymentMaintenanceMessage />
 }

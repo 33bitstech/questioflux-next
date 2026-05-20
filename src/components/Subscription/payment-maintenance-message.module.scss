@@ -1,0 +1,41 @@
+.container {
+    width: 100%;
+    min-height: 220px;
+    padding: 2rem;
+    border: 1px solid rgba(0, 228, 255, 0.25);
+    border-radius: 18px;
+    background: rgba(0, 228, 255, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.icon {
+    min-width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 228, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #00e4ff;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
+        line-height: 1.5;
+        opacity: 0.85;
+    }
+}
