@@ -46,7 +46,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
         return new Intl.DateTimeFormat(locale, {
             day: '2-digit',
             month: 'long',
-            year: 'numeric'
+            year: '2-digit'
         }).format(parsedDate)
     }
 
@@ -73,6 +73,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 res.premium?.subscription?.currentPeriodEnd ??
                 res.premium?.current_period_end ??
                 res.premium?.subscription?.current_period_end ??
+                currentPeriodEnd ??
                 null
 
             const cancelAtPeriodEndFromApi =
@@ -80,10 +81,12 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 res.premium?.subscription?.cancelAtPeriodEnd ??
                 res.premium?.cancel_at_period_end ??
                 res.premium?.subscription?.cancel_at_period_end ??
+                cancelAtPeriodEnd ??
                 false
 
             setCurrentPeriodEnd(currentPeriodEndFromApi)
             setCancelAtPeriodEnd(cancelAtPeriodEndFromApi)
+
             setShowCancelPopup(true)
         } catch (err) {
             console.log(err)
@@ -163,17 +166,10 @@ export default function SubscriptionContainer({ styles }: IProps) {
                             <div className={styles.gamepass_details_infos}>
                                 <span>
                                     <h3>{t('vortexPlus.title')}</h3>
+
                                     <span className={styles.desc}>
                                         {t('vortexPlus.price')}
                                     </span>
-
-                                    {premium && cancelAtPeriodEnd && (
-                                        <span className={styles.desc}>
-                                            {t('vortexPlus.cancelScheduled', {
-                                                date: formatDate(currentPeriodEnd)
-                                            })}
-                                        </span>
-                                    )}
                                 </span>
                             </div>
                         </div>
@@ -187,7 +183,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         {premium && (
                             <button
                                 onClick={handleOpenCancelPopup}
-                                disabled={loadingCancelInfo || cancelAtPeriodEnd}
+                                disabled={loadingCancelInfo || canceling}
                             >
                                 {loadingCancelInfo
                                     ? t('vortexPlus.loadingButton')

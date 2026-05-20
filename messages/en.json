@@ -235,7 +235,8 @@
                 "confirmButton": "Yes, cancel",
                 "cancelingButton": "Canceling...",
                 "noDate": "the expiration date",
-                "error": "Unable to cancel the subscription."
+                "error": "Unable to cancel the subscription.",
+                "success": "Subscription successfully cancelled. You will continue to have access until {date}."
             }
         },
         "accountWidget": {

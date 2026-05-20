@@ -235,7 +235,8 @@
                 "confirmButton": "Sim, cancelar",
                 "cancelingButton": "Cancelando...",
                 "noDate": "a data de vencimento",
-                "error": "Não foi possível cancelar a assinatura."
+                "error": "Não foi possível cancelar a assinatura.",
+                "success": "Assinatura cancelada com sucesso. Você continuará com acesso até {date}."
             }
         },
         "accountWidget": {
