@@ -30,8 +30,14 @@ export async function cancelSubscription() {
     })
 
     const res = await response.json()
-    if (!response.ok) return { err: res.message }
+
+    if (!response.ok) {
+        return { err: res.message }
+    }
+
     revalidatePath('/profile/config')
+
+    return { data: res }
 }
 
 export async function deleteUser() {

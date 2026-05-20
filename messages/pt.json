@@ -218,12 +218,24 @@
                 "title": "QuestioPlus",
                 "price": "R$ 2,50/mês",
                 "subscribeButton": "Assinar",
-                "unsubscribeButton": "Cancelar Assinatura"
+                "unsubscribeButton": "Cancelar Assinatura",
+                "loadingButton": "Carregando...",
+                "cancelAlreadyScheduledButton": "Cancelamento agendado",
+                "cancelScheduled": "Sua assinatura vence em {date}"
             },
             "vortexPlusUsage": {
                 "title": "Uso de QuestioPlus ({count})",
                 "price": "R$ 1,99/uso",
                 "buyButton": "Comprar"
+            },
+            "cancelPopup": {
+                "title": "Cancelar assinatura?",
+                "description": "Tem certeza que deseja cancelar sua assinatura? Você continuará com acesso ao QuestioPlus até {date}. Depois dessa data, a renovação será encerrada.",
+                "keepButton": "Manter assinatura",
+                "confirmButton": "Sim, cancelar",
+                "cancelingButton": "Cancelando...",
+                "noDate": "a data de vencimento",
+                "error": "Não foi possível cancelar a assinatura."
             }
         },
         "accountWidget": {

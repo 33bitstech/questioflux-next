@@ -215,15 +215,27 @@
         "subscriptionContainer": {
             "activeTitle": "Active ({count})",
             "vortexPlus": {
-                "title": "VortexPlus",
+                "title": "QuestioPlus",
                 "price": "$2.50/month",
                 "subscribeButton": "Subscribe",
-                "unsubscribeButton": "Unsubscribe"
+                "unsubscribeButton": "Cancel Subscription",
+                "loadingButton": "Loading...",
+                "cancelAlreadyScheduledButton": "Cancellation scheduled",
+                "cancelScheduled": "Your subscription ends on {date}"
             },
             "vortexPlusUsage": {
-                "title": "VortexPlus Usage ({count})",
+                "title": "QuestioPlus Usage ({count})",
                 "price": "$1.99/use",
                 "buyButton": "Buy"
+            },
+            "cancelPopup": {
+                "title": "Cancel subscription?",
+                "description": "Are you sure you want to cancel your subscription? You will keep access to QuestioPlus until {date}. After that date, the renewal will be stopped.",
+                "keepButton": "Keep subscription",
+                "confirmButton": "Yes, cancel",
+                "cancelingButton": "Canceling...",
+                "noDate": "the expiration date",
+                "error": "Unable to cancel the subscription."
             }
         },
         "accountWidget": {

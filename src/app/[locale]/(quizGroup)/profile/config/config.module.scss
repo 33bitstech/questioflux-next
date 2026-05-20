@@ -260,7 +260,85 @@
         }
     }
 }
+.cancel-subscription-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.55);
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+}
+
+.cancel-subscription-popup {
+  width: min(100%, 420px);
+  background: var(--background-divs);
+  color: var(--text-primary);
+
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+
+  padding: 1.5rem;
+
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cancel-subscription-popup h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.cancel-subscription-popup p {
+  color: var(--text-description);
+  line-height: 1.5;
+}
+
+.cancel-subscription-popup-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.cancel-subscription-popup-actions button {
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cancel-subscription-popup-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.cancel-subscription-popup-secondary {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+.cancel-subscription-popup-danger {
+  background: var(--status-error);
+  color: #ffffff;
+}
+
+@media (max-width: 480px) {
+  .cancel-subscription-popup-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-subscription-popup-actions button {
+    width: 100%;
+  }
+}
 @media screen and (max-width: 860px) {
     .content{
         width: 93% !important;
