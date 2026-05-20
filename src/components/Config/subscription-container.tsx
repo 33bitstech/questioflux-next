@@ -11,6 +11,7 @@ import {
 } from '@/app/[locale]/(quizGroup)/profile/config/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useLocale, useTranslations } from 'next-intl'
+import CancelSubscriptionPopup from './cancel-subscription-popup'
 
 interface IProps {
     styles: TStyles
@@ -21,7 +22,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const locale = useLocale()
 
     const { user } = useUser()
-    const { setError } = useGlobalMessage()
+    const { setError, setSucess} = useGlobalMessage()
 
     const [premium, setPremium] = useState<boolean>(false)
     const [specialCount, setSpecialCount] = useState<number>(0)
@@ -33,14 +34,20 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const [loadingCancelInfo, setLoadingCancelInfo] = useState<boolean>(false)
     const [canceling, setCanceling] = useState<boolean>(false)
 
-    const formatDate = (date: string | null) => {
+    const formatDate = (date: string | Date | null | undefined) => {
         if (!date) return t('cancelPopup.noDate')
+
+        const parsedDate = new Date(date)
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return t('cancelPopup.noDate')
+        }
 
         return new Intl.DateTimeFormat(locale, {
             day: '2-digit',
             month: 'long',
             year: 'numeric'
-        }).format(new Date(date))
+        }).format(parsedDate)
     }
 
     const handleOpenCancelPopup = async () => {
@@ -61,8 +68,22 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 return
             }
 
-            setCurrentPeriodEnd(res.premium.currentPeriodEnd ?? null)
-            setCancelAtPeriodEnd(res.premium.cancelAtPeriodEnd ?? false)
+            const currentPeriodEndFromApi =
+                res.premium?.currentPeriodEnd ??
+                res.premium?.subscription?.currentPeriodEnd ??
+                res.premium?.current_period_end ??
+                res.premium?.subscription?.current_period_end ??
+                null
+
+            const cancelAtPeriodEndFromApi =
+                res.premium?.cancelAtPeriodEnd ??
+                res.premium?.subscription?.cancelAtPeriodEnd ??
+                res.premium?.cancel_at_period_end ??
+                res.premium?.subscription?.cancel_at_period_end ??
+                false
+
+            setCurrentPeriodEnd(currentPeriodEndFromApi)
+            setCancelAtPeriodEnd(cancelAtPeriodEndFromApi)
             setShowCancelPopup(true)
         } catch (err) {
             console.log(err)
@@ -85,9 +106,20 @@ export default function SubscriptionContainer({ styles }: IProps) {
 
             const data = res?.data
 
+            const endDate =
+                data?.currentPeriodEnd ??
+                data?.subscription?.currentPeriodEnd ??
+                currentPeriodEnd
+
             setCancelAtPeriodEnd(data?.cancelAtPeriodEnd ?? true)
-            setCurrentPeriodEnd(data?.currentPeriodEnd ?? currentPeriodEnd)
+            setCurrentPeriodEnd(endDate)
             setShowCancelPopup(false)
+
+            setSucess(
+                t('cancelPopup.success', {
+                    date: formatDate(endDate)
+                })
+            )
         } catch (err) {
             console.log(err)
             setError(t('cancelPopup.error'))
@@ -192,39 +224,22 @@ export default function SubscriptionContainer({ styles }: IProps) {
             </div>
 
             {showCancelPopup && (
-                <div className="cancel-subscription-popup-overlay">
-                    <div className="cancel-subscription-popup">
-                        <h3>{t('cancelPopup.title')}</h3>
-
-                        <p>
-                            {t('cancelPopup.description', {
-                                date: formatDate(currentPeriodEnd)
-                            })}
-                        </p>
-
-                        <div className="cancel-subscription-popup-actions">
-                            <button
-                                type="button"
-                                className="cancel-subscription-popup-secondary"
-                                onClick={() => setShowCancelPopup(false)}
-                                disabled={canceling}
-                            >
-                                {t('cancelPopup.keepButton')}
-                            </button>
-
-                            <button
-                                type="button"
-                                className="cancel-subscription-popup-danger"
-                                onClick={handleConfirmCancel}
-                                disabled={canceling}
-                            >
-                                {canceling
-                                    ? t('cancelPopup.cancelingButton')
-                                    : t('cancelPopup.confirmButton')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <CancelSubscriptionPopup
+                    styles={styles}
+                    title={t('cancelPopup.title')}
+                    description={t('cancelPopup.description', {
+                        date: formatDate(currentPeriodEnd)
+                    })}
+                    keepButtonText={t('cancelPopup.keepButton')}
+                    confirmButtonText={
+                        canceling
+                            ? t('cancelPopup.cancelingButton')
+                            : t('cancelPopup.confirmButton')
+                    }
+                    canceling={canceling}
+                    onClose={() => setShowCancelPopup(false)}
+                    onConfirm={handleConfirmCancel}
+                />
             )}
         </>
     )
