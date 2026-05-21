@@ -39,7 +39,7 @@ export default function ChooseMethod({ styles, type, publicKey }: IProps) {
                 credentials: 'include',
                 body: JSON.stringify({ type, locale}),
             })
-            console.log(await res.text())
+
             const data = await res.json()
             if (!res.ok || !data?.clientSecret || !data?.id) {
                 throw new Error(data?.error || 'Falha ao obter parâmetros do Stripe.')
