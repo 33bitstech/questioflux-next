@@ -18,9 +18,8 @@ export async function POST(request: NextRequest) {
 
         switch (type) {
             case 'questioplus': {
-                const { res, err } = await clientSessionAss(locale)
+                const { res, err } = await clientSessionAss({locale})
 
-                console.log(res, "<  ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   >", err)
                 if (err) throw err
 
                 clientSecret = res.client_secret
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
             }
 
             case 'questioplususage': {
-                const { res, err } = await clientSecretUsage(locale)
+                const { res, err } = await clientSecretUsage({locale})
 
                 if (err) throw err
 
