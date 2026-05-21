@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-export async function POST(request: Request) {
+export async function POST(request: Request, {params}: {params: Promise<{locale: 'en' | 'pt'}>}) {
     try {
         const cookieHeader = request.headers.get('cookie') || '';
+        const {locale} = await params
 
+        const currency = {
+            en: 'USD',
+            pt: 'BRL'
+        } 
         const externalApiResponse = await ApiData({
-            path: 'create-stripe-subscription-session',
+            path: `create-stripe-subscription-session/${currency[locale]}`,
             method: 'POST',
             headerKey: 'Cookie',
             headerValue: cookieHeader,

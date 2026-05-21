@@ -24,7 +24,7 @@ export async function getPublicKey() {
     }
 }
 
-export async function clientSecretUsage() {
+export async function clientSecretUsage({locale}:{locale:string}) {
     try {
         const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/client-secret`, {
@@ -39,10 +39,10 @@ export async function clientSecretUsage() {
     }
 }
 
-export async function clientSessionAss() {
+export async function clientSessionAss({locale}:{locale:string}) {
     try {
         const cookieHeader = await getCookies()
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/client-session`, {
+        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/client-session/${locale}`, {
             method: 'POST',
             headers: { 'cookie': cookieHeader }
         })
