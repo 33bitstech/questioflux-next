@@ -54,6 +54,8 @@ export default async function ApiData({
     if (includeCredentials) {
         config.credentials = 'include';
     }
+    console.log(baseUrl, 'URLLL')
+    console.log(config, 'configuraçãooooooakfaafjlafkafjasljslk')
     
     return await fetch(baseUrl, config);
 }

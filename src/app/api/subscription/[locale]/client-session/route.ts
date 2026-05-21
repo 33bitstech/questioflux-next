@@ -41,7 +41,6 @@ export async function POST(
             cache: { cache: 'no-store' },
         });
 
-        console.log(externalApiResponse)
         const responseData = await externalApiResponse.json();
 
         if (!externalApiResponse.ok) {
