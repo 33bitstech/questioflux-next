@@ -34,6 +34,21 @@ interface ISelectedAnswers {
     [questionId: string | number]: string | number
 }
 
+type ImageAnswer = {
+    answer: string | number
+    thumbnail: string
+}
+
+const isValidImageAnswer = (answer: unknown): answer is ImageAnswer => {
+    return (
+        typeof answer === 'object' &&
+        answer !== null &&
+        !Array.isArray(answer) &&
+        'answer' in answer &&
+        'thumbnail' in answer
+    )
+}
+
 export default function QuestionsContainer({
     handleScroll, initialTime, qtdQuestions,
     questions, quizId, setStarted,
@@ -149,10 +164,16 @@ export default function QuestionsContainer({
                     answers: ShuffleArray([...questions[indexQ]?.answers, ...(questions[indexQ]?.correctAnswer ? [questions[indexQ]?.correctAnswer] : [])])
                 }))
             } else if (typeOfQuiz === 'image/RW') {
-                answersArray = questions.map((question) => ({
-                    ...question,
-                    answers: ShuffleArray([...question.answers])
-                }))
+                answersArray = questions.map((question) => {
+                    const imageAnswers = Array.isArray(question.answers)
+                        ? question.answers
+                        : []
+
+                    return {
+                        ...question,
+                        answers: ShuffleArray(imageAnswers.filter(isValidImageAnswer))
+                    }
+                })
             }
             setAnswerArray(answersArray ?? [])
         }

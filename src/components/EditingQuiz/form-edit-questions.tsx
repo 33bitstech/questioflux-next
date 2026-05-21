@@ -26,6 +26,38 @@ export interface IArraysToUpdate {
     alternativesToUpdate: { id: string, file: File | string, questionId: string }[]
 }
 
+type ApiImageAnswer = {
+    answer: string
+    thumbnail: string
+}
+
+type LocalImageAlternative = {
+    id: string
+    thumbnail: string | File
+    isNew?: boolean
+    [key: string]: any
+}
+
+const isValidApiImageAnswer = (answer: unknown): answer is ApiImageAnswer => {
+    return (
+        typeof answer === 'object' &&
+        answer !== null &&
+        !Array.isArray(answer) &&
+        'answer' in answer &&
+        'thumbnail' in answer
+    )
+}
+
+const isValidLocalImageAlternative = (alternative: unknown): alternative is LocalImageAlternative => {
+    return (
+        typeof alternative === 'object' &&
+        alternative !== null &&
+        !Array.isArray(alternative) &&
+        'id' in alternative &&
+        'thumbnail' in alternative
+    )
+}
+
 export default function FormEditQuestions({ styles, quiz, quizId }: IProps) {
     const t = useTranslations('editQuizFlow')
     const locale = useLocale()
@@ -52,30 +84,52 @@ export default function FormEditQuestions({ styles, quiz, quizId }: IProps) {
         })
     }
 
-    const handleFormatImageMode = () => {
-        return questions?.map(q => {
-            const answers = q.alternatives?.map(ans => ({
+    const handleFormatImageMode = (questionsToFormat: ILocalQuestions[] = questions) => {
+        return questionsToFormat?.map(q => {
+            const alternatives = Array.isArray(q.alternatives)
+                ? q.alternatives.filter(isValidLocalImageAlternative)
+                : []
+
+            const answers = alternatives.map(ans => ({
                 answer: ans.id,
                 thumbnail: typeof ans.thumbnail === 'string' ? ans.thumbnail : ''
             }))
+
             return {
                 questionId: q.id,
                 title: q.title || '',
                 answers,
-                correctAnswer: q.alternatives[0].id || '',
+                correctAnswer: alternatives[0]?.id || '',
                 image: typeof q.image === 'string' ? q.image : ''
             }
         })
-    }
+    }   
 
     const willResetLb = () => {
         let cancel = false
+
         if (quiz?.questions?.length != questions.length) cancel = true
         else {
             quiz?.questions?.forEach((q: any, i: any) => {
-                if (q.answers.length + (quiz.type === 'default/RW' ? 1 : 0) != questions[i].alternatives.length) cancel = true
+                if (quiz.type === 'image/RW') {
+                    const apiAnswers = Array.isArray(q.answers) ? q.answers : []
+                    const localAlternatives = Array.isArray(questions[i]?.alternatives)
+                        ? questions[i].alternatives
+                        : []
+
+                    const oldLength = apiAnswers.filter(isValidApiImageAnswer).length
+                    const currentLength = localAlternatives.filter(isValidLocalImageAlternative).length
+
+                    if (oldLength != currentLength) cancel = true
+                    return
+                }
+
+                if (q.answers.length + (quiz.type === 'default/RW' ? 1 : 0) != questions[i].alternatives.length) {
+                    cancel = true
+                }
             })
         }
+
         setShowWarning(cancel)
         if (!cancel) return sendDatas()
     }
@@ -88,20 +142,32 @@ export default function FormEditQuestions({ styles, quiz, quizId }: IProps) {
     const sendDatas = () => {
         setLoading(true)
         if (quiz?.type === 'image/RW') {
-            const questionsFormated = handleFormatImageMode(),
+            const questionsToSend = questions.map(q => ({
+                ...q,
+                alternatives: Array.isArray(q.alternatives)
+                    ? q.alternatives.filter(isValidLocalImageAlternative)
+                    : []
+            }))
+
+            const questionsFormated = handleFormatImageMode(questionsToSend),
                 questionsObj = { questions: [...questionsFormated] },
                 dataToSubmit: IArraysToUpdate = { questionsToUpdate: [], alternativesToUpdate: [] }
 
-            questions.forEach(q => {
+            questionsToSend.forEach(q => {
                 if (q.isNew) dataToSubmit.questionsToUpdate.push({ questionId: q.id })
+
                 q.alternatives.forEach(a => {
                     if (a.isNew && a.thumbnail instanceof File) {
-                        dataToSubmit.alternativesToUpdate.push({ id: a.id, file: a.thumbnail, questionId: q.id })
+                        dataToSubmit.alternativesToUpdate.push({
+                            id: a.id,
+                            file: a.thumbnail,
+                            questionId: q.id
+                        })
                     }
                 })
             })
 
-            updateQuestionsImage(quizId, questions, questionsObj, dataToSubmit)
+            updateQuestionsImage(quizId, questionsToSend, questionsObj, dataToSubmit)
                 .then(({ res }) => { if (res) setSucess(t('form.successMessage')) })
                 .finally(() => setLoading(false))
         } else {
@@ -129,13 +195,26 @@ export default function FormEditQuestions({ styles, quiz, quizId }: IProps) {
         if (quiz && quiz.questions) {
             if (quiz.type === 'image/RW') {
                 const newQuestions: ILocalQuestions[] = quiz.questions?.map((q: any) => {
-                    const alternatives = q.answers.map((a: any) => ({
-                        id: typeof a === 'string' ? a : (a?.answer ?? ''),
-                        thumbnail: typeof a === 'string' ? a : (a?.thumbnail ?? ''),
-                        isNew: false
-                    }))
-                    return { id: q.questionId, type: 'image', title: q.title ?? '', image: q.image, isNew: false, alternatives }
+                    const apiAnswers = Array.isArray(q.answers) ? q.answers : []
+
+                    const alternatives = apiAnswers
+                        .filter(isValidApiImageAnswer)
+                        .map((a: any) => ({
+                            id: a.answer ?? '',
+                            thumbnail: a.thumbnail ?? '',
+                            isNew: false
+                        }))
+
+                    return {
+                        id: q.questionId,
+                        type: 'image',
+                        title: q.title ?? '',
+                        image: q.image,
+                        isNew: false,
+                        alternatives
+                    }
                 })
+
                 setQuestions(newQuestions)
                 prevQuestionsLengthRef.current = newQuestions.length
             } else {
