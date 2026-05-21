@@ -35,7 +35,7 @@ interface ISelectedAnswers {
 }
 
 type ImageAnswer = {
-    answer: string | number
+    answer: string
     thumbnail: string
 }
 
@@ -45,7 +45,9 @@ const isValidImageAnswer = (answer: unknown): answer is ImageAnswer => {
         answer !== null &&
         !Array.isArray(answer) &&
         'answer' in answer &&
-        'thumbnail' in answer
+        'thumbnail' in answer &&
+        typeof (answer as any).answer === 'string' &&
+        typeof (answer as any).thumbnail === 'string'
     )
 }
 
@@ -150,6 +152,7 @@ export default function QuestionsContainer({
         startLoading()
     }
 
+    const hasAnsweredAllQuestions = () => Object.keys(selectedAnswers).length === qtdQuestions
     const verifyAllAnswered = () =>
         Object.keys(selectedValues).length === Object.keys(answerArray).length
 
@@ -217,13 +220,15 @@ export default function QuestionsContainer({
                     ))}
                     <div className={styles.answers_actions}>
                         <button className={actualQuestion === 1 ? `${styles.hidden_button}` : ''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
-                        {actualQuestion === qtdQuestions ? (
-                            <button style={{ zIndex: 7 }} onClick={handleResult}>
+                        {hasAnsweredAllQuestions() ? (
+                            <button onClick={handleResult} style={{ zIndex: 7 }}>
                                 {t('navigation.results')}
                             </button>
-                        ) : (
-                            <button onClick={handleNextQuestion}>{t('navigation.next')}</button>
-                        )}
+                        ) : actualQuestion !== qtdQuestions ? (
+                            <button onClick={handleNextQuestion}>
+                                {t('navigation.next')}
+                            </button>
+                        ) : null}
                     </div>
                 </div>
             </div>}
@@ -272,42 +277,49 @@ export default function QuestionsContainer({
                     </div>
                 </div>
                 <div className={styles.answers_container}>
-                    {answerArray.length > 0 && answerArray[actualQuestion - 1].answers.map((answer, i) => (
-                        <div
-                            className={`${styles.taking_image_container} 
-                                ${verifySelectedAnswer(typeof answer === 'object' && answer !== null && 'answer' in answer ? answer.answer : answer)
-                                    ? styles.answer_input_selected : ''}`}
-                            key={i}
-                            onClick={() => handleSelectAnswer(typeof answer === 'object' && answer !== null && 'answer' in answer ? answer.answer : answer)}
-                        >
-                            <div className={styles.image}>
-                                <Image
-                                    width={600} height={600}
-                                    src={typeof answer === 'object' && answer !== null && 'thumbnail' in answer ? answer.thumbnail : ''}
-                                    alt={t('imageAlts.alternative')}
-                                    placeholder='blur' blurDataURL={blurLoading}
-                                    fetchPriority='high' loading='lazy'
-                                />
-                            </div>
-                            <div className={styles.footer_question}>
-                                <p>{t('imageLabels.alternative', { number: i + 1 })}</p>
-                            </div>
-                        </div>
-                    ))}
+                    {answerArray.length > 0 && answerArray[actualQuestion - 1]?.answers
+                        ?.filter(isValidImageAnswer)
+                        .map((answer, i) => {
+                            const answerId = answer.answer
+
+                            return (
+                                <div
+                                    className={`${styles.taking_image_container} 
+                                        ${verifySelectedAnswer(answerId) ? styles.answer_input_selected : ''}`}
+                                    key={answerId}
+                                    onClick={() => handleSelectAnswer(answerId)}
+                                >
+                                    <div className={styles.image}>
+                                        <Image
+                                            width={600}
+                                            height={600}
+                                            src={answer.thumbnail || '/quiz_padrao_preto.png'}
+                                            alt={t('imageAlts.alternative')}
+                                            placeholder='blur'
+                                            blurDataURL={blurLoading}
+                                            fetchPriority='high'
+                                            loading='lazy'
+                                        />
+                                    </div>
+
+                                    <div className={styles.footer_question}>
+                                        <p>{t('imageLabels.alternative', { number: i + 1 })}</p>
+                                    </div>
+                                </div>
+                            )
+                        })}
                 </div>
                 <div className={styles.answers_actions}>
                     <button className={actualQuestion === 1 ? `${styles.hidden_button}` : ''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
-                    {actualQuestion === qtdQuestions ? (
-                        <>
-                            {Object.keys(selectedAnswers).length == qtdQuestions &&
-                                <button onClick={handleResult} style={{ zIndex: 7 }}>
-                                    {t('navigation.results')}
-                                </button>
-                            }
-                        </>
-                    ) : (
-                        <button onClick={handleNextQuestion}>{t('navigation.next')}</button>
-                    )}
+                    {hasAnsweredAllQuestions() ? (
+                        <button onClick={handleResult} style={{ zIndex: 7 }}>
+                            {t('navigation.results')}
+                        </button>
+                    ) : actualQuestion !== qtdQuestions ? (
+                        <button onClick={handleNextQuestion}>
+                            {t('navigation.next')}
+                        </button>
+                    ) : null}
                 </div>
             </div>}
         </div>
