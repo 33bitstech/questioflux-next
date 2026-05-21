@@ -8,6 +8,7 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
         const { type, locale} = body
+        console.log(locale)
 
         if (!type) {
             return NextResponse.json({ error: 'Tipo ausente' }, { status: 400 })
