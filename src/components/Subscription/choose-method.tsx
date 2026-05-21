@@ -1,11 +1,12 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import React, { useState } from 'react'
 import CheckoutForm from './checkout-form'
 import { CheckoutElementsProvider } from '@stripe/react-stripe-js/checkout'
 import { loadStripe } from '@stripe/stripe-js'
 import { useTheme } from 'next-themes'
+import { locales } from 'zod/v4'
 
 interface IProps {
     styles: TStyles
@@ -17,6 +18,7 @@ const getStripe = (publicKey: string) => loadStripe(publicKey);
 
 export default function ChooseMethod({ styles, type, publicKey }: IProps) {
     const t = useTranslations('SubscriptionPage'),
+        locale = useLocale(),
         [paymentMethod, setPaymentMethod] = useState<'CREDIT_CARD' | 'DEBIT_CARD' | 'PIX'>(),
         [showDynamic, setShowDynamic] = useState(false),
         [stripeData, setStripeData] = useState<{ clientSecret: string; sessionId: string } | null>(null),
@@ -35,7 +37,7 @@ export default function ChooseMethod({ styles, type, publicKey }: IProps) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ type }),
+                body: JSON.stringify({ type, locale}),
             })
 
             const data = await res.json()
