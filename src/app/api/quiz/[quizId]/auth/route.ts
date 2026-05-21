@@ -5,9 +5,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     try {
         const { quizId } = await params;
         const cookieHeader = request.headers.get('cookie') || '';
-        console.log(quizId)
+
         const externalApiResponse = await ApiData({
-            path: `/quiz/edit/${quizId}`,
+            path: `quiz/edit/${quizId}`,
             method: 'GET',
             headerKey: 'Cookie',
             headerValue: cookieHeader,
