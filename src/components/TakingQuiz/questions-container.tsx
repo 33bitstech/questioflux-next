@@ -153,8 +153,8 @@ export default function QuestionsContainer({
     }
 
     const hasAnsweredAllQuestions = () => Object.keys(selectedAnswers).length === qtdQuestions
-    const verifyAllAnswered = () =>
-        Object.keys(selectedValues).length === Object.keys(answerArray).length
+    const shouldShowResultsButton = () => actualQuestion === qtdQuestions || Object.keys(selectedAnswers).length === qtdQuestions
+    const verifyAllAnswered = () => Object.keys(selectedValues).length === Object.keys(answerArray).length
 
     useEffect(() => { toGuest() }, [])
 
@@ -219,16 +219,22 @@ export default function QuestionsContainer({
                         </div>
                     ))}
                     <div className={styles.answers_actions}>
-                        <button className={actualQuestion === 1 ? `${styles.hidden_button}` : ''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
-                        {hasAnsweredAllQuestions() ? (
+                        <button
+                            className={actualQuestion === 1 ? `${styles.hidden_button}` : ''}
+                            onClick={handlePreviusQuestion}
+                        >
+                            {t('navigation.previous')}
+                        </button>
+
+                        {shouldShowResultsButton() ? (
                             <button onClick={handleResult} style={{ zIndex: 7 }}>
                                 {t('navigation.results')}
                             </button>
-                        ) : actualQuestion !== qtdQuestions ? (
+                        ) : (
                             <button onClick={handleNextQuestion}>
                                 {t('navigation.next')}
                             </button>
-                        ) : null}
+                        )}
                     </div>
                 </div>
             </div>}
@@ -310,16 +316,22 @@ export default function QuestionsContainer({
                         })}
                 </div>
                 <div className={styles.answers_actions}>
-                    <button className={actualQuestion === 1 ? `${styles.hidden_button}` : ''} onClick={handlePreviusQuestion}>{t('navigation.previous')}</button>
-                    {hasAnsweredAllQuestions() ? (
+                    <button
+                        className={actualQuestion === 1 ? `${styles.hidden_button}` : ''}
+                        onClick={handlePreviusQuestion}
+                    >
+                        {t('navigation.previous')}
+                    </button>
+
+                    {shouldShowResultsButton() ? (
                         <button onClick={handleResult} style={{ zIndex: 7 }}>
                             {t('navigation.results')}
                         </button>
-                    ) : actualQuestion !== qtdQuestions ? (
+                    ) : (
                         <button onClick={handleNextQuestion}>
                             {t('navigation.next')}
                         </button>
-                    ) : null}
+                    )}
                 </div>
             </div>}
         </div>
