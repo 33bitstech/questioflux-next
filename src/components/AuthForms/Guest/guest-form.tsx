@@ -2,11 +2,12 @@
 
 // @ts-ignore: SCSS side-effect import declaration
 import '@/assets/styles/auth.scss';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import ClosePopupAuth from '../Auth-client-components/close-popup-auth';
 import InputComponent from '../Auth-client-components/input-component';
 import { FormEvent, useState } from 'react';
 import ProfileSvg from '@/components/Icons/ProfileSvg';
+import GoogleAuthButton from '../Auth-client-components/google-auth-button';
 
 
 interface IPropsGuest {
@@ -18,6 +19,7 @@ interface IPropsGuest {
 export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show_pop_up}: IPropsGuest) {
 
     const t = useTranslations('guestComponent')
+    const locale = useLocale()
     
     const [name, setName] = useState<string>('')
 
@@ -65,7 +67,7 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
                                 onClick={toRegister}
                             >{t('link')}</span>
                         </p>
-
+                        <GoogleAuthButton locale={locale} />
                     </div>
                     
                 </form>
