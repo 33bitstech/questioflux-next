@@ -6,7 +6,7 @@ export interface IUser {
     premium?: boolean,
     specialCount?: number,
     savedQuizzes?: Array<{id: string}>;
-    finishedQuizzes?: Array<{id: string, time: number}>;
+    finishedQuizzes?: Array<{id?: string, quizId?: string, time: number}>;
     created_at?: Date;
     updated_at?: Date;
 }

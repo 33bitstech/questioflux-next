@@ -109,7 +109,12 @@ export default async function User({params}:IProps) {
 
     const memberSince = formatMemberSince(user.created_at, locale)
     const quizzesCount = quizzes?.length ?? 0
-    const completedCount = user.finishedQuizzes?.length ?? 0
+
+    const completedCount = new Set(
+        (user.finishedQuizzes ?? [])
+            .map((finishedQuiz) => finishedQuiz.quizId)
+            .filter((quizId): quizId is string => Boolean(quizId))
+    ).size
 
     const createdQuizzes = {
         "@type": "ItemList",
