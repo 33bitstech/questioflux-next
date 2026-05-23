@@ -4,7 +4,11 @@ import { TStyles } from '@/types/stylesType'
 import { useRouter } from '@/i18n/navigation'
 import React, { FormEvent, useLayoutEffect, useRef, useState } from 'react'
 import QuestionInput from './question-input'
-import { createQuestionsImage, createQuestionsText } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
+import {
+    createQuestionsImageTitles,
+    createQuestionsText,
+    uploadOneQuestionImage
+} from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
 import useQuestions from '@/hooks/useQuestions'
 import QuestionInputImage from './question-input-image'
 import { useLocale, useTranslations } from 'next-intl'
@@ -46,63 +50,106 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         })
     }
 
-    const handleFormatImageMode = (): IFormatedImageQuestions[] => {
-        return questions?.map(q => {
-            const answers = q.alternatives?.map(ans => ({ answer: ans.id, thumbnail: '' }))
-            return { questionId: q.id, title: q.title || '', answers, correctAnswer: q.alternatives[0].id || '' }
+    const handleFormatImageMode = (questionsToFormat = questions): IFormatedImageQuestions[] => {
+        return questionsToFormat?.map(q => {
+            const answers = q.alternatives?.map(ans => ({
+                answer: ans.id,
+                thumbnail: ''
+            }))
+
+            return {
+                questionId: q.id,
+                title: q.title || '',
+                answers,
+                correctAnswer: q.alternatives[0].id || ''
+            }
         })
     }
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
         setLoading(true)
 
-        if (textMode) {
-            const questionsFormated = handleFormatTextMode(),
-                questionsObj = { questions: [...questionsFormated] }
+        const handleApiError = (err: any) => {
+            let hasMessage = false
 
-            createQuestionsText(JSON.stringify(questionsObj), quizId)
-                .then(({ err, res }) => {
-                    if (err) {
-                        if (err.data.type == 'global' || err.data.type == 'server') setError('')
-                        if (err.data.invalidQuestions) {
-                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePT: string }) => {
-                                locale == 'pt'
-                                    ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
-                                    : handleQuestionChange(q.questionId, 'errorMessage', q.message)
-                            })
-                        }
-                    } else {
-                        if (res) router.push(`/create/quiz/completed/${quizId}`)
-                    }
+            if (err?.data?.type === 'global' || err?.data?.type === 'server') {
+                hasMessage = true
+
+                setError(
+                    locale === 'pt'
+                        ? err.data.messagePT || err.data.message
+                        : err.data.message
+                )
+            }
+
+            if (err?.data?.invalidQuestions) {
+                hasMessage = true
+
+                err.data.invalidQuestions.forEach((q: {
+                    questionId: string
+                    message: string
+                    messagePT: string
+                }) => {
+                    locale === 'pt'
+                        ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
+                        : handleQuestionChange(q.questionId, 'errorMessage', q.message)
                 })
-                .finally(() => setLoading(false))
-        } else {
-            const questionsFormated = handleFormatImageMode(),
-                questionsObj = { questions: [...questionsFormated] },
-                canSend = hasImages()
+            }
 
-            if (!canSend) return setError(t('errors'))
+            if (!hasMessage) {
+                setError(t('errors'))
+            }
+        }
 
-            createQuestionsImage(quizId, questions, questionsObj)
-                .then(({ err, res }) => {
-                    if (err) {
-                        if (err.data.type == 'global' || err.data.type == 'server') setError('')
-                        if (err.data.invalidQuestions) {
-                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePT: string }) => {
-                                locale == 'pt'
-                                    ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
-                                    : handleQuestionChange(q.questionId, 'errorMessage', q.message)
-                            })
-                        }
-                    } else {
-                        const results = res?.map(r => {
-                            if (r.data.type) { setError(r.data.message); return 1 } else { return 0 }
-                        })
-                        if (!results?.some(r => r === 1)) router.push(`/create/quiz/completed/${quizId}`)
-                    }
-                })
-                .finally(() => setLoading(false))
+        try {
+            if (textMode) {
+                const questionsFormated = handleFormatTextMode()
+                const questionsObj = { questions: [...questionsFormated] }
+
+                const { err, res } = await createQuestionsText(JSON.stringify(questionsObj), quizId)
+
+                if (err) {
+                    handleApiError(err)
+                    return
+                }
+
+                if (res) {
+                    router.push(`/create/quiz/completed/${quizId}`)
+                }
+
+                return
+            }
+
+            const canSend = hasImages()
+
+            if (!canSend) {
+                setError(t('errors'))
+                return
+            }
+
+            const questionsFormated = handleFormatImageMode()
+            const questionsObj = { questions: [...questionsFormated] }
+
+            const titlesResult = await createQuestionsImageTitles(quizId, questionsObj)
+
+            if (titlesResult.err) {
+                handleApiError(titlesResult.err)
+                return
+            }
+
+            for (const question of questions) {
+                const uploadResult = await uploadOneQuestionImage(quizId, question)
+
+                if (uploadResult.err) {
+                    handleApiError(uploadResult.err)
+                    return
+                }
+            }
+
+            router.push(`/create/quiz/completed/${quizId}`)
+        } finally {
+            setLoading(false)
         }
     }
 
