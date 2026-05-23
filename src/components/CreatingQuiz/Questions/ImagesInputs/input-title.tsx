@@ -106,6 +106,7 @@ export default function InputTitle({
 
     return (
         <label
+            className={styles.dropLabel}
             onDragEnter={handleDragEnter}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}

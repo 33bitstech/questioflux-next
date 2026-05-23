@@ -103,6 +103,7 @@ export default function InputAlternative({
 
     return (
         <label
+            className={styles.dropLabel}
             onDragEnter={handleDragEnter}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -114,12 +115,7 @@ export default function InputAlternative({
                 onChange={handleImageAlternative}
             />
 
-            <div
-                className={`
-                    ${styles.image_label_containers}
-                    ${isDragging ? styles.dragging : ''}
-                `}
-            >
+            <div className={`${styles.image_label_containers} ${isDragging ? styles.dragging : ''}`}>
                 {preview && (
                     <Image
                         src={preview}
