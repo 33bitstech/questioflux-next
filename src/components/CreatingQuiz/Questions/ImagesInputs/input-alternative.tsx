@@ -54,25 +54,25 @@ export default function InputAlternative({
         e.target.value = ''
     }
 
-    const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
+    const handleDragEnter = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
         setIsDragging(true)
     }
 
-    const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    const handleDragOver = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
         setIsDragging(true)
     }
 
-    const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    const handleDragLeave = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
         setIsDragging(false)
     }
 
-    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
 
@@ -102,7 +102,12 @@ export default function InputAlternative({
     }, [alternative.thumbnail])
 
     return (
-        <label>
+        <label
+            onDragEnter={handleDragEnter}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
             <input
                 type="file"
                 accept="image/*"
@@ -114,10 +119,6 @@ export default function InputAlternative({
                     ${styles.image_label_containers}
                     ${isDragging ? styles.dragging : ''}
                 `}
-                onDragEnter={handleDragEnter}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
             >
                 {preview && (
                     <Image

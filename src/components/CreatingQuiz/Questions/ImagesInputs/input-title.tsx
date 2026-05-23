@@ -27,15 +27,14 @@ export default function InputTitle({
     const { setError } = useGlobalMessage()
     const t = useTranslations('profileUpload')
 
-    const isValidImage = (file: File) => {
-        return file.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)
-    }
-
     const handleFiles = (files: FileList | null) => {
         if (!files || files.length === 0) return
 
         const filesArray = Array.from(files)
-        const hasInvalidFile = filesArray.some(file => !isValidImage(file))
+
+        const hasInvalidFile = filesArray.some(file => {
+            return !file.name.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/i)
+        })
 
         if (hasInvalidFile) {
             setError(t('errorInvalidType'))
@@ -58,30 +57,34 @@ export default function InputTitle({
         e.target.value = ''
     }
 
-    const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
+    const handleDragEnter = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
         setIsDragging(true)
     }
 
-    const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    const handleDragOver = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
         setIsDragging(true)
     }
 
-    const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    const handleDragLeave = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
         setIsDragging(false)
     }
 
-    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
         e.preventDefault()
         e.stopPropagation()
-
         setIsDragging(false)
-        handleFiles(e.dataTransfer.files)
+
+        const files = e.dataTransfer.files
+
+        if (!files || files.length === 0) return
+
+        handleFiles(files)
     }
 
     useEffect(() => {
@@ -102,7 +105,12 @@ export default function InputTitle({
     }, [question.image])
 
     return (
-        <label>
+        <label
+            onDragEnter={handleDragEnter}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
             <input
                 type="file"
                 accept="image/*"
@@ -110,23 +118,14 @@ export default function InputTitle({
                 onChange={handleImageQuestion}
             />
 
-            <div
-                className={`
-                    ${styles.image_label_container} 
-                    ${styles.questionImage}
-                    ${isDragging ? styles.dragging : ''}
-                `}
-                onDragEnter={handleDragEnter}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-            >
+            <div className={`${styles.image_label_container} ${styles.questionImage} ${isDragging ? styles.dragging : ''}`}>
                 {questionDraft && (
                     <Image
                         width={500}
                         height={500}
                         src={questionDraft}
                         alt="Imagem da questão"
+                        draggable={false}
                     />
                 )}
 
