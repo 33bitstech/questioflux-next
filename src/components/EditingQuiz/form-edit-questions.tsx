@@ -16,9 +16,10 @@ import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 
 interface IProps {
-    styles: TStyles,
-    quiz: IQuizes | undefined | any,
+    styles: TStyles
+    quiz: IQuizes | undefined | any
     quizId: string
+    textMode?: boolean
 }
 
 export interface IArraysToUpdate {
@@ -58,7 +59,7 @@ const isValidLocalImageAlternative = (alternative: unknown): alternative is Loca
     )
 }
 
-export default function FormEditQuestions({ styles, quiz, quizId }: IProps) {
+export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}: IProps) {
     const t = useTranslations('editQuizFlow')
     const locale = useLocale()
 
@@ -71,7 +72,7 @@ export default function FormEditQuestions({ styles, quiz, quizId }: IProps) {
             handleAlternativeChange, handleQuestionChange,
             removeAlternative, removeQuestion, setQuestions,
             handleMultipleImageUpload
-        } = useQuestions(quiz?.type === 'default/RW'),
+        } = useQuestions(textMode),
 
         [loading, setLoading] = useState<boolean>(false),
         prevQuestionsLengthRef = useRef(questions.length)

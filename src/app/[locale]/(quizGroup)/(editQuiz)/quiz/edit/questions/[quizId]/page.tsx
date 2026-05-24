@@ -2,11 +2,11 @@ import React from 'react'
 import styles from '../../../../../(createQuiz)/create/quiz/questions/[quizId]/questions.module.scss'
 import IQuizes from '@/interfaces/IQuizes'
 import { env } from '@/env'
-import FormEditQuestions from '@/components/EditingQuiz/form-edit-questions'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { cookies } from 'next/headers'
 import { getCookieHeader } from '@/utils/getCookieHeader'
+import EditQuizContent from '@/components/EditingQuiz/edit-quiz-content'
 
 interface IProps{
     params:Promise<{
@@ -62,7 +62,7 @@ export default async function EditingQuiz({params}:IProps) {
                 <p>{t('subtitle')}</p>
             </div>
 
-            <FormEditQuestions 
+            <EditQuizContent
                 styles={styles}
                 quiz={quiz}
                 quizId={quizId}
