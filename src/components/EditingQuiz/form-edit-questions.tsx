@@ -8,7 +8,11 @@ import { useRouter } from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import QuestionInput from '../CreatingQuiz/Questions/question-input'
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions'
-import { createQuestionsText } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
+import {
+    createQuestionsText,
+    createQuestionsImageTitles,
+    uploadOneQuestionImage
+} from '@/app/[locale]/(quizGroup)/(createQuiz)/create/quiz/questions/[quizId]/actions'
 import WarningReset from '../widgets/warning-reset'
 import QuestionInputImage from '../CreatingQuiz/Questions/question-input-image'
 import { updateQuestionsImage } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/questions/action'
@@ -63,6 +67,14 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
     const t = useTranslations('editQuizFlow')
     const locale = useLocale()
 
+    const hasQuizQuestions =
+        Array.isArray(quiz?.questions) &&
+        quiz.questions.length > 0
+
+    const isImageMode = hasQuizQuestions
+        ? quiz?.type === 'image/RW'
+        : !textMode
+
     const router = useRouter(),
         { setError, setSucess } = useGlobalMessage(),
         [showWarning, setShowWarning] = useState<boolean>(false),
@@ -71,7 +83,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
             questions, addAlternative, addQuestion,
             handleAlternativeChange, handleQuestionChange,
             removeAlternative, removeQuestion, setQuestions,
-            handleMultipleImageUpload
+            handleMultipleImageUpload, hasImages
         } = useQuestions(textMode),
 
         [loading, setLoading] = useState<boolean>(false),
@@ -109,6 +121,11 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
     const willResetLb = () => {
         let cancel = false
 
+        if (!hasQuizQuestions) {
+            sendDatas()
+            return
+        }
+
         if (quiz?.questions?.length != questions.length) cancel = true
         else {
             quiz?.questions?.forEach((q: any, i: any) => {
@@ -140,55 +157,139 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
         willResetLb()
     }
 
-    const sendDatas = () => {
+    const sendDatas = async () => {
         setLoading(true)
-        if (quiz?.type === 'image/RW') {
-            const questionsToSend = questions.map(q => ({
-                ...q,
-                alternatives: Array.isArray(q.alternatives)
-                    ? q.alternatives.filter(isValidLocalImageAlternative)
-                    : []
-            }))
 
-            const questionsFormated = handleFormatImageMode(questionsToSend),
-                questionsObj = { questions: [...questionsFormated] },
-                dataToSubmit: IArraysToUpdate = { questionsToUpdate: [], alternativesToUpdate: [] }
+        const handleApiError = (err: any) => {
+            let hasMessage = false
 
-            questionsToSend.forEach(q => {
-                if (q.isNew) dataToSubmit.questionsToUpdate.push({ questionId: q.id })
+            if (err?.data?.type === 'global' || err?.data?.type === 'server') {
+                hasMessage = true
 
-                q.alternatives.forEach(a => {
-                    if (a.isNew && a.thumbnail instanceof File) {
-                        dataToSubmit.alternativesToUpdate.push({
-                            id: a.id,
-                            file: a.thumbnail,
-                            questionId: q.id
-                        })
-                    }
+                setError(
+                    locale === 'pt'
+                        ? err.data.messagePT || err.data.message
+                        : err.data.message
+                )
+            }
+
+            if (err?.data?.invalidQuestions) {
+                hasMessage = true
+
+                err.data.invalidQuestions.forEach((q: {
+                    questionId: string
+                    message: string
+                    messagePT?: string
+                    messagePt?: string
+                }) => {
+                    handleQuestionChange(
+                        q.questionId,
+                        'errorMessage',
+                        locale === 'pt'
+                            ? q.messagePT || q.messagePt || q.message
+                            : q.message
+                    )
                 })
-            })
+            }
 
-            updateQuestionsImage(quizId, questionsToSend, questionsObj, dataToSubmit)
-                .then(({ res }) => { if (res) setSucess(t('form.successMessage')) })
-                .finally(() => setLoading(false))
-        } else {
-            const questionsFormated = handleFormatTextMode(),
-                questionsObj = { questions: [...questionsFormated] }
+            if (!hasMessage) {
+                setError(t('form.errorMessage') || '')
+            }
+        }
 
-            createQuestionsText(JSON.stringify(questionsObj), quiz.quizId)
-                .then(({ err, res }) => {
-                    if (err) {
-                        if (err.data.type == 'global' || err.data.type == 'server') setError('')
-                        if (err.data.invalidQuestions) {
-                            err.data.invalidQuestions.forEach((q: { questionId: string; message: string, messagePt: string }) => {
-                                handleQuestionChange(q.questionId, 'errorMessage', q.message)
+        try {
+            if (isImageMode) {
+                const canSend = hasImages()
+
+                if (!canSend) {
+                    setError(t('form.errorMessage') || '')
+                    return
+                }
+
+                const questionsToSend = questions.map(q => ({
+                    ...q,
+                    alternatives: Array.isArray(q.alternatives)
+                        ? q.alternatives.filter(isValidLocalImageAlternative)
+                        : []
+                }))
+
+                const questionsFormated = handleFormatImageMode(questionsToSend)
+                const questionsObj = { questions: [...questionsFormated] }
+
+                if (!hasQuizQuestions) {
+                    const titlesResult = await createQuestionsImageTitles(quizId, questionsObj)
+
+                    if (titlesResult.err) {
+                        handleApiError(titlesResult.err)
+                        return
+                    }
+
+                    for (const question of questionsToSend) {
+                        const uploadResult = await uploadOneQuestionImage(quizId, question)
+
+                        if (uploadResult.err) {
+                            handleApiError(uploadResult.err)
+                            return
+                        }
+                    }
+
+                    setSucess(t('form.successMessage'))
+                    return
+                }
+
+                const dataToSubmit: IArraysToUpdate = {
+                    questionsToUpdate: [],
+                    alternativesToUpdate: []
+                }
+
+                questionsToSend.forEach(q => {
+                    if (q.isNew) {
+                        dataToSubmit.questionsToUpdate.push({ questionId: q.id })
+                    }
+
+                    q.alternatives.forEach(a => {
+                        if (a.isNew && a.thumbnail instanceof File) {
+                            dataToSubmit.alternativesToUpdate.push({
+                                id: a.id,
+                                file: a.thumbnail,
+                                questionId: q.id
                             })
                         }
-                    } else {
-                        if (res) setSucess(t('form.successMessage'))
-                    }
+                    })
                 })
-                .finally(() => setLoading(false))
+
+                const { res } = await updateQuestionsImage(
+                    quizId,
+                    questionsToSend,
+                    questionsObj,
+                    dataToSubmit
+                )
+
+                if (res) {
+                    setSucess(t('form.successMessage'))
+                }
+
+                return
+            }
+
+            const questionsFormated = handleFormatTextMode()
+            const questionsObj = { questions: [...questionsFormated] }
+
+            const { err, res } = await createQuestionsText(
+                JSON.stringify(questionsObj),
+                quiz?.quizId || quizId
+            )
+
+            if (err) {
+                handleApiError(err)
+                return
+            }
+
+            if (res) {
+                setSucess(t('form.successMessage'))
+            }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -258,7 +359,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
 
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr) => {
-                    if (quiz?.type === 'image/RW') {
+                    if (isImageMode) {
                         return <QuestionInputImage
                             key={q.id} question={q} position={i + 1} questions={arr}
                             onAddAlternative={() => addAlternative(q.id)}
