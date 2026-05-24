@@ -151,6 +151,13 @@ export default function QuestionsContainer({
         handleSelectValues()
         startLoading()
     }
+    const handleGoToQuestion = (questionNumber: number) => {
+        if (!started) return
+        if (questionNumber === actualQuestion) return
+
+        handleScroll()
+        setActualQuestion(questionNumber)
+    }
 
     const hasAnsweredAllQuestions = () => Object.keys(selectedAnswers).length === qtdQuestions
     const shouldShowResultsButton = () => actualQuestion === qtdQuestions || Object.keys(selectedAnswers).length === qtdQuestions
@@ -198,14 +205,29 @@ export default function QuestionsContainer({
     return (
         <div className={`${styles.Answering}`}>
             <div className={styles.questions_amount}>
-                {Array.from({ length: qtdQuestions }, (_, index) => (
-                    <div key={index} className={`${styles.circle_background} 
-                    ${verifyActualQuestion(index) ? styles.question_actived : ''}`}>
-                        <div className={styles.circle_container}>
-                            <span>{index + 1}</span>
+                {Array.from({ length: qtdQuestions }, (_, index) => {
+                    const questionNumber = index + 1
+
+                    return (
+                        <div
+                            key={index}
+                            role="button"
+                            tabIndex={started ? 0 : -1}
+                            className={`${styles.circle_background} 
+                            ${verifyActualQuestion(index) ? styles.question_actived : ''}`}
+                            onClick={() => handleGoToQuestion(questionNumber)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    handleGoToQuestion(questionNumber)
+                                }
+                            }}
+                        >
+                            <div className={styles.circle_container}>
+                                <span>{questionNumber}</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
 
             {typeOfQuiz === 'default/RW' && <div className={styles.question_answering}>

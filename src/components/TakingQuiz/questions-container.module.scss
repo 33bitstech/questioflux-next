@@ -22,6 +22,34 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+
+            transition: 
+                transform .2s ease,
+                box-shadow .2s ease,
+                background .2s ease,
+                opacity .2s ease;
+
+            &:hover {
+                transform: translateY(-3px) scale(1.08);
+                background: var(--background-blue-to-gradient);
+
+            }
+
+            &:hover .circle_container {
+                background-color: var(--reverse-primary);
+            }
+
+            &:hover span {
+                background: var(--background-blue-to-gradient);
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            &:active {
+                transform: scale(.96);
+                box-shadow: none;
+            }
 
             .circle_container {
                 width: calc(100% - 3px);
@@ -40,15 +68,17 @@
                     -webkit-text-fill-color: transparent;
                     background-color: vars.$cor-cinza8;
                     background-clip: text;
+
+                    transition: background .2s ease;
                 }
             }
         }
 
         .circle_background.question_actived {
             background: var(--background-blue-to-gradient);
+            transform: scale(1.08);
 
             .circle_container {
-
                 span {
                     background-clip: text !important;
                     background: var(--background-blue-to-gradient);
