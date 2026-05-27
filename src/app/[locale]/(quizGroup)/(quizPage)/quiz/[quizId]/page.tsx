@@ -97,7 +97,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         },
         openGraph: {
             title: t('title', names),
-            description: t('desc', names),
+            description: quiz.description,
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
             siteName: 'QuestioFlux',
             images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
@@ -105,7 +105,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         },
         twitter: {
             title: t('title', names),
-            description: t('desc', names),
+            description: quiz.description,
             images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
         }
     }
