@@ -240,7 +240,7 @@
 
 .leaderboard_container__owner_extra {
     .user_results {
-        border-left: 3px solid rgba(vars.$cor-cinzaSearch, 0.65);
+        border-left: 3px solid rgba(vars.$cor-cinzaSearch, 0.65) !important;
     }
 }
 .show_more_lb_button {
@@ -250,7 +250,7 @@
 
     min-width: 3rem;
     height: 2rem;
-    padding: 0 1rem;
+    padding: 0.5rem 1.2rem;
     margin-top: 0.35rem;
 
     border: 1px solid rgba(vars.$cor-ciano, 0.35);
@@ -260,7 +260,7 @@
     color: vars.$cor-branco;
 
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1;
 
     cursor: pointer;
