@@ -71,7 +71,7 @@ export default function OwnerExtraLeaderboard({
                     aria-label={showMoreLabel}
                     title={showMoreLabel}
                 >
-                    ...
+                    {showMoreLabel}
                 </button>
             )}
         </section>
