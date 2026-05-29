@@ -11,6 +11,7 @@ import { Metadata } from 'next';
 import GoogleAd from '@/components/Google/GoogleAd';
 import { cookies } from 'next/headers';
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
+import OwnerExtraLeaderboard from '@/components/Leaderboard/owner-extra-leaderboard';
 
 interface IProps {
     params: Promise<{
@@ -126,6 +127,26 @@ export default async function Leaderboard({ params }: IProps) {
 
     const isQuizOwner = !!user && !!quiz && user.userId === quiz.userCreatorId;
 
+    const alreadyVisibleEntries = new Set<IUserLeaderBoardScore>([
+        ...registeredLb.slice(0, 10),
+        ...guestLb.slice(0, 10),
+    ]);
+
+    if (userInRegistered && userPositionReg >= 10) {
+        alreadyVisibleEntries.add(userInRegistered);
+    }
+
+    if (userInGuests && userPositionGst >= 10) {
+        alreadyVisibleEntries.add(userInGuests);
+    }
+
+    const ownerExtraLb = quizLb
+        ?.map((userLb, index) => ({
+            userLb,
+            index,
+        }))
+        .filter(({ userLb }) => !alreadyVisibleEntries.has(userLb)) ?? [];
+
     const leaderboardSchema = {
         "@context": "https://schema.org",
         "@type": "ItemList",
@@ -152,6 +173,8 @@ export default async function Leaderboard({ params }: IProps) {
             {!quizLb && (
                 <p>{t('noResults')}</p>
             )}
+
+            <GoogleAd slot='6282931841' />
 
             {/* ── Leaderboard de usuários registrados ── */}
             {registeredLb.length > 0 && (
@@ -225,9 +248,18 @@ export default async function Leaderboard({ params }: IProps) {
                 </section>
             )}
 
-            <ShareButton quizId={quizId} styles={styles} />
+            {isQuizOwner && quiz && ownerExtraLb.length > 0 && (
+                <OwnerExtraLeaderboard
+                    styles={styles}
+                    items={ownerExtraLb}
+                    quiz={quiz}
+                    locale={locale}
+                    title={t('sections.others')}
+                    showMoreLabel={t('showMoreOthers')}
+                />
+            )}
 
-            <GoogleAd slot='6282931841' />
+            <ShareButton quizId={quizId} styles={styles} />
         </>
     )
 }

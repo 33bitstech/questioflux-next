@@ -361,8 +361,10 @@
         "home": "View Quiz",
         "sections":{
             "registered":"User's Leaderboard",
-            "guests":"Guest's Leaderboard"
-        }
+            "guests":"Guest's Leaderboard",
+            "others": "Other results"
+        },
+        "showMoreOthers": "Show 10 more results"
     },
     "publicProfile": {
         "customTitle": "Public quizzes from this user",
