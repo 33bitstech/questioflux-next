@@ -206,13 +206,13 @@
         .save{
             display: flex;
             gap: .8rem;
-            input:nth-child(1), a{
+            button:nth-child(1), input:nth-child(1), a{
                 color: var(--text-primary);
                 border: 1px solid var(--text-primary);
                 background-color: var(--background-divs);
                 padding: 0.88rem 2.80rem;
             }
-            input:nth-child(2){
+            button:nth-child(2), input:nth-child(2){
                 color: var(--button-text-color);
                 border: 1px solid var(--background-button);
                 background-color: var(--background-button);
