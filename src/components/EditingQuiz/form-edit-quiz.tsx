@@ -43,57 +43,78 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [loading, setLoading] = useState<boolean>(false),
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>()
 
-    const handleSubmit = (e: FormEvent) => {
+    const getErrorMessageByLocale = (error: ErrorsState) => {
+        return locale === 'pt' ? error.messagePT : error.message
+    }
+
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
+
         if (!quiz) return
 
+        setErrorQuiz(undefined)
         setLoading(true)
 
-        const isPrivate = visibility == 'public' ? false : true,
-            tags = tagsString.split(',').map(tag => tag.trim())
+        try {
+            const isPrivate = visibility !== 'public'
 
-        const quizObject = {
-            quizData: {
-                title,
-                description: desc,
-                category,
-                tags,
-                isPrivate,
-                draft: false,
-                idiom,
-                resultMessages: finalMessages
+            const tags = tagsString
+                .split(',')
+                .map(tag => tag.trim())
+                .filter(Boolean)
+
+            const quizObject = {
+                quizData: {
+                    title,
+                    description: desc,
+                    category,
+                    tags,
+                    isPrivate,
+                    draft: false,
+                    idiom,
+                    resultMessages: finalMessages,
+                },
             }
-        }
-        const formData = new FormData()
-        formData.append('quizDatas', JSON.stringify(quizObject))
-        if (imageData) formData.append('quizImg', imageData)
 
-        editQuiz(formData, quiz.quizId)
-            .then(({ res, err, warning }) => {
-                if (warning) setGlobalError(warning ?? tShared('serverError'))
-                if (err) {
-                    if (err.type == undefined || err.type == null) {
-                        setGlobalError(err.message)
-                    } else {
-                        setErrorQuiz(err.message)
-                    }
+            const formData = new FormData()
+            formData.append('quizDatas', JSON.stringify(quizObject))
+
+            if (imageData) {
+                formData.append('quizImg', imageData)
+            }
+
+            const result = await editQuiz(formData, quiz.quizId)
+
+            if (!result.ok) {
+                if (!result.error.type || result.error.type === 'global') {
+                    setGlobalError(getErrorMessageByLocale(result.error))
                 } else {
-                    setSucess(t('successMessage'))
+                    setErrorQuiz(result.error)
                 }
-            })
-            .finally(() => setLoading(false))
+
+                return
+            }
+
+            if (result.warning) {
+                setGlobalError(getErrorMessageByLocale(result.warning))
+            }
+
+            setSucess(t('successMessage'))
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
         if (errorQuiz) {
-            switch (locale) {
-                case 'pt': setError(errorQuiz.type, errorQuiz.messagePT); break;
-                case 'en': setError(errorQuiz.type, errorQuiz.message); break;
-            }
+            setError(
+                errorQuiz.type,
+                locale === 'pt' ? errorQuiz.messagePT : errorQuiz.message
+            )
         } else {
             resetErrors()
         }
-    }, [errorQuiz])
+    }, [errorQuiz, locale, setError, resetErrors])
 
     useEffect(() => {
         if (!quiz.err && quiz) {
