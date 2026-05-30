@@ -38,11 +38,10 @@ export default function FormCreateQuiz({ styles }: IProps) {
         [visibility, setVisibility] = useState<'public' | 'private'>('private'),
         [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>(locale == 'pt' ? 'PT-BR' : 'EN-US'),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
-        [savingAsDraft, setSavingAsDraft] = useState<boolean>(false),
         [loading, setLoading] = useState<boolean>(false),
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
         [canShowRegister, setCanShowRegister] = useState<boolean>(false),
-        { typePopup, toGuest, toLogin, toRegister } = usePopupAuth()
+        { typePopup, toLogin, toRegister } = usePopupAuth()
 
     useEffect(() => {
         if (errorQuiz) {
@@ -55,46 +54,89 @@ export default function FormCreateQuiz({ styles }: IProps) {
         }
     }, [errorQuiz])
 
-    const sendDatas = () => {
+    const getErrorMessageByLocale = (error: ErrorsState) => {
+        return locale === 'pt' ? error.messagePT : error.message
+    }
+
+    const sendDatas = async (saveAsDraft: boolean) => {
         if (!user) return
+
         setErrorQuiz(undefined)
         setLoading(true)
 
-        const isPrivate = visibility == 'public' ? false : true,
-            tags = tagsString.split(',').map(tag => tag.trim())
+        try {
+            const isPrivate = visibility !== 'public'
 
-        const quizObject = {
-            quizData: { title, description: desc, category, tags, isPrivate, draft: true, idiom, resultMessages: finalMessages }
-        }
+            const tags = tagsString
+                .split(',')
+                .map(tag => tag.trim())
+                .filter(Boolean)
 
-        const formData = new FormData()
-        formData.append('quizDatas', JSON.stringify(quizObject))
-        if (imageData) formData.append('quizImg', imageData)
+            const quizObject = {
+                quizData: {
+                    title,
+                    description: desc,
+                    category,
+                    tags,
+                    isPrivate,
+                    draft: true,
+                    idiom,
+                    resultMessages: finalMessages,
+                },
+            }
 
-        createQuiz(formData)
-            .then(({ res, err, warning }) => {
-                if (warning) setGlobalError(warning ?? t('serverError'))
-                if (err) {
-                    if (err.type == undefined || err.type == null) setGlobalError(err.message)
-                    else setErrorQuiz(err)
+            const formData = new FormData()
+            formData.append('quizDatas', JSON.stringify(quizObject))
+
+            if (imageData) {
+                formData.append('quizImg', imageData)
+            }
+
+            const result = await createQuiz(formData)
+
+            if (!result.ok) {
+                if (!result.error.type || result.error.type === 'global') {
+                    setGlobalError(getErrorMessageByLocale(result.error))
                 } else {
-                    if (savingAsDraft) router.push('/home')
-                    else router.push(`/create/quiz/questions/${res.quizId}`)
+                    setErrorQuiz(result.error)
                 }
-            })
-            .finally(() => setLoading(false))
+
+                return
+            }
+
+            if (result.warning) {
+                setGlobalError(getErrorMessageByLocale(result.warning))
+            }
+
+            if (saveAsDraft) {
+                router.push('/home')
+                return
+            }
+
+            router.push(`/create/quiz/questions/${result.data.quizId}`)
+        } finally {
+            setLoading(false)
+        }
     }
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!user) return setCanShowRegister(true)
-        sendDatas()
+
+        if (!user) {
+            setCanShowRegister(true)
+            return
+        }
+
+        const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLInputElement | null
+        const intent = submitter?.value
+
+        await sendDatas(intent === 'draft')
     }
 
     const handleRegisterAndFinishQuiz = async () => {
         setCanShowRegister(false)
         await fetchUser()
-        sendDatas()
+        await sendDatas(false)
     }
 
     return (
@@ -172,8 +214,23 @@ export default function FormCreateQuiz({ styles }: IProps) {
                         <button onClick={(e) => { e.preventDefault(); router.back() }}>{t('buttons.back')}</button>
                     </div>
                     <div className={styles.save}>
-                        <input disabled={loading} type='submit' value={t('buttons.saveDraft')} onClick={() => setSavingAsDraft(true)} />
-                        <input disabled={loading} type="submit" value={t('buttons.continue')} />
+                        <button
+                            type="submit"
+                            name="intent"
+                            value="draft"
+                            disabled={loading}
+                        >
+                            {t('buttons.saveDraft')}
+                        </button>
+
+                        <button
+                            type="submit"
+                            name="intent"
+                            value="continue"
+                            disabled={loading}
+                        >
+                            {t('buttons.continue')}
+                        </button>
                     </div>
                 </footer>
             </form>
