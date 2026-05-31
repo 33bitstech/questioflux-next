@@ -8,6 +8,8 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore'
+import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popup'
+import { getQuizRecommendationAction } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/action'
 
 interface IProps {
     params: Promise<{
@@ -27,10 +29,11 @@ export default async function LB({ params }: IProps) {
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations('leaderboardPage'),
 
-        [quizLb, quiz, user] = await Promise.all([
+        [quizLb, quiz, user, recommendedQuiz] = await Promise.all([
             getLeaderboard(quizId),
             getQuiz(quizId),
-            getUser(cookieHeader)
+            getUser(cookieHeader),
+            getQuizRecommendationAction(quizId)
         ])
 
     const isQuizOwner = !!user && !!quiz && user.userId === quiz.userCreatorId
@@ -116,6 +119,16 @@ export default async function LB({ params }: IProps) {
                         )}
                     </div>
                 </section>
+            )}
+
+            {recommendedQuiz && (
+                <RecommendedQuizPopup
+                    quiz={recommendedQuiz}
+                    locale={locale}
+                    recommendationLabel={t('recommendationPopup.title')}
+                    minimizeLabel={t('recommendationPopup.minimize')}
+                    maximizeLabel={t('recommendationPopup.maximize')}
+                />
             )}
 
             <Link
