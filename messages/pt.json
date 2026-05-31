@@ -364,7 +364,12 @@
             "guests":"Ranking dos visitantes",
             "others": "Outros resultados"
         },
-        "showMoreOthers": "Mostrar mais 10 resultados"
+        "showMoreOthers": "Mostrar mais 10 resultados",
+        "recommendationPopup": {
+            "title": "Recomendação",
+            "minimize": "Minimizar recomendação",
+            "maximize": "Abrir recomendação"
+        }
     },
     "publicProfile": {
         "customTitle": "Quizzes publicos desse usuário",

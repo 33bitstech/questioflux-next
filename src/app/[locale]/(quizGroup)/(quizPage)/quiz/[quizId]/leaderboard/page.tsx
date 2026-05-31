@@ -12,6 +12,8 @@ import GoogleAd from '@/components/Google/GoogleAd';
 import { cookies } from 'next/headers';
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
 import OwnerExtraLeaderboard from '@/components/Leaderboard/owner-extra-leaderboard';
+import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popup';
+import { getQuizRecommendationAction } from './action';
 
 interface IProps {
     params: Promise<{
@@ -110,10 +112,11 @@ export default async function Leaderboard({ params }: IProps) {
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
-        [quizLb, quiz, user] = await Promise.all([
+        [quizLb, quiz, user, recommendedQuiz] = await Promise.all([
             getLeaderboard(quizId),
             getQuiz(quizId),
-            getUser(cookieHeader)
+            getUser(cookieHeader),
+            getQuizRecommendationAction(quizId)
         ])
 
     const registeredLb = quizLb?.filter(entry => !isGuestEntry(entry)) ?? [];
@@ -256,6 +259,16 @@ export default async function Leaderboard({ params }: IProps) {
                     locale={locale}
                     title={t('sections.others')}
                     showMoreLabel={t('showMoreOthers')}
+                />
+            )}
+
+            {recommendedQuiz && (
+                <RecommendedQuizPopup
+                    quiz={recommendedQuiz}
+                    locale={locale}
+                    recommendationLabel={t('recommendationPopup.title')}
+                    minimizeLabel={t('recommendationPopup.minimize')}
+                    maximizeLabel={t('recommendationPopup.maximize')}
                 />
             )}
 
