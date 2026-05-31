@@ -100,6 +100,14 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
             })
         })
     }    
+    const clearQuestionsErrors = () => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(question => ({
+                ...question,
+                errorMessage: ''
+            }))
+        )
+    }
 
     const handleFormatTextMode = () => {
         return questions?.map(q => {
@@ -170,6 +178,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
     }
 
     const sendDatas = async () => {
+        clearQuestionsErrors()
         setLoading(true)
 
         const handleApiError = (err: any) => {

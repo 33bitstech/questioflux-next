@@ -36,7 +36,8 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         {
             questions, addAlternative, addQuestion,
             handleAlternativeChange, handleQuestionChange, removeAlternative,
-            removeQuestion, hasImages, handleMultipleImageUpload
+            removeQuestion, hasImages, handleMultipleImageUpload,
+            setQuestions
         } = useQuestions(textMode),
 
         [loading, setLoading] = useState<boolean>(false),
@@ -50,7 +51,14 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
             return { questionId: q.id, question: q.title || '', answers, correctAnswer: q.alternatives[0].answer || '' }
         })
     }
-
+    const clearQuestionsErrors = () => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(question => ({
+                ...question,
+                errorMessage: ''
+            }))
+        )
+    }
     const handleFormatImageMode = (questionsToFormat = questions): IFormatedImageQuestions[] => {
         return questionsToFormat?.map(q => {
             const answers = q.alternatives?.map(ans => ({
@@ -80,6 +88,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
+        clearQuestionsErrors()
         setLoading(true)
 
         const handleApiError = (err: any) => {
