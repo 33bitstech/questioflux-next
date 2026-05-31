@@ -11,15 +11,13 @@ interface IProps {
 }
 
 export default async function ContextualHeaderActions({page, locale} : IProps) {
-    // 2. Buscar as traduções
     const t = await getTranslations({ locale, namespace: 'contextualHeader' });
-    const cookieStore = await cookies();
+    /* const cookieStore = await cookies();
 
-    const isLoggedIn = cookieStore.get('logged_in')?.value;
+    const isLoggedIn = cookieStore.get('logged_in')?.value; */
 
     return (
         <div className={`${styles.nav_actions}`}>
-            {/* 3. Usar as traduções */}
             <Link locale={locale} href={'/create/quiz'}>{t('createQuiz')}</Link>
 
             {page === 'home' && (
@@ -28,10 +26,7 @@ export default async function ContextualHeaderActions({page, locale} : IProps) {
             {page === 'explore' && (
                 <ToggleFilterContainer styles={styles}/>
             )}
-            {page === 'quiz' && isLoggedIn && (
-                <Link locale={locale} href={'/home'}>{t('home')}</Link>
-            )}
-            {page === 'quiz' && !isLoggedIn && (
+            {page === 'quiz' && (
                 <Link locale={locale} href={'/explore'}>{t('explore')}</Link>
             )}
         </div>
