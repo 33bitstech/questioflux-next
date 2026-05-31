@@ -40,7 +40,8 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         } = useQuestions(textMode),
 
         [loading, setLoading] = useState<boolean>(false),
-        prevQuestionsLengthRef = useRef(questions.length)
+        prevQuestionsLengthRef = useRef(questions.length),
+        questionRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
     const handleFormatTextMode = () => {
         return questions?.map(q => {
@@ -66,6 +67,17 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         })
     }
 
+    const scrollToQuestionError = (questionId?: string) => {
+        if (!questionId) return
+
+        requestAnimationFrame(() => {
+            questionRefs.current[questionId]?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+        })
+    }
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
         setLoading(true)
@@ -86,15 +98,19 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
             if (err?.data?.invalidQuestions) {
                 hasMessage = true
 
-                err.data.invalidQuestions.forEach((q: {
+                const invalidQuestions = err.data.invalidQuestions as {
                     questionId: string
                     message: string
                     messagePT: string
-                }) => {
+                }[]
+
+                invalidQuestions.forEach((q) => {
                     locale === 'pt'
                         ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
                         : handleQuestionChange(q.questionId, 'errorMessage', q.message)
                 })
+
+                scrollToQuestionError(invalidQuestions[0]?.questionId)
             }
 
             if (!hasMessage) {
@@ -166,27 +182,51 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr) => {
                     if (textMode) {
-                        return <QuestionInput
-                            key={q.id} question={q} position={i + 1} questions={arr}
-                            onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
-                            onAddAlternative={() => addAlternative(q.id)}
-                            onAddQuestion={() => addQuestion()}
-                            onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
-                            onRemoveQuestion={() => removeQuestion(q.id)}
-                            onAlternativeChange={(altIndex: number, answer: string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}
-                        />
+                        return (
+                            <div
+                                key={q.id}
+                                ref={(el) => {
+                                    questionRefs.current[q.id] = el
+                                }}
+                                style={{ scrollMarginTop: '6rem' }}
+                            >
+                                <QuestionInput
+                                    question={q}
+                                    position={i + 1}
+                                    questions={arr}
+                                    onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
+                                    onAddAlternative={() => addAlternative(q.id)}
+                                    onAddQuestion={() => addQuestion()}
+                                    onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
+                                    onRemoveQuestion={() => removeQuestion(q.id)}
+                                    onAlternativeChange={(altIndex: number, answer: string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}
+                                />
+                            </div>
+                        )
                     } else {
-                        return <QuestionInputImage
-                            key={q.id} question={q} position={i + 1} questions={arr}
-                            onAddAlternative={() => addAlternative(q.id)}
-                            onAddQuestion={() => addQuestion()}
-                            onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
-                            onRemoveQuestion={() => removeQuestion(q.id)}
-                            onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
-                            onQuestionImageChange={(file: string | File) => handleQuestionChange(q.id, 'image', file)}
-                            onAlternativeImageChange={(altIndex: number, file: File | string) => handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
-                            onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
-                        />
+                        return (
+                            <div
+                                key={q.id}
+                                ref={(el) => {
+                                    questionRefs.current[q.id] = el
+                                }}
+                                style={{ scrollMarginTop: '6rem' }}
+                            >
+                                <QuestionInputImage
+                                    question={q}
+                                    position={i + 1}
+                                    questions={arr}
+                                    onAddAlternative={() => addAlternative(q.id)}
+                                    onAddQuestion={() => addQuestion()}
+                                    onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
+                                    onRemoveQuestion={() => removeQuestion(q.id)}
+                                    onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
+                                    onQuestionImageChange={(file: string | File) => handleQuestionChange(q.id, 'image', file)}
+                                    onAlternativeImageChange={(altIndex: number, file: File | string) => handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
+                                    onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
+                                />
+                            </div>
+                        )
                     }
                 })}
             </div>
