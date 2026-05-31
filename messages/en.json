@@ -465,7 +465,8 @@
                 "placeholder": "Question N°{position}",
                 "alternativeLabel": "Alternative N°{number}"
             },
-            "errors": "Choose the images of the questions/alternatives"
+            "errors": "Choose the images of the questions/alternatives",
+            "validationError": "Please complete the highlighted questions before continuing."
         }
     },
     "editQuizFlow": {
@@ -479,7 +480,9 @@
             "buttons": {
                 "editQuestions": "Edit Questions",
                 "saveChanges": "Save Changes"
-            }
+            },
+            "validationError": "Please complete the highlighted questions before saving.",
+            "unexpectedError": "Something went wrong while saving your changes. Please try again."
         },
         "questionsPage": {
             "metadataTitle": "Edit Questions",

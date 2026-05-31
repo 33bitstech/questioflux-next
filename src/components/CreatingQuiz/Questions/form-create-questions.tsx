@@ -83,39 +83,41 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         setLoading(true)
 
         const handleApiError = (err: any) => {
-            let hasMessage = false
+            const invalidQuestions = err?.data?.invalidQuestions as
+                | {
+                    questionId: string
+                    message: string
+                    messagePT: string
+                }[]
+                | undefined
+
+            if (Array.isArray(invalidQuestions) && invalidQuestions.length > 0) {
+                invalidQuestions.forEach((q) => {
+                    handleQuestionChange(
+                        q.questionId,
+                        'errorMessage',
+                        locale === 'pt' ? q.messagePT || q.message : q.message
+                    )
+                })
+
+                setError(t('validationError'))
+
+                scrollToQuestionError(invalidQuestions[0]?.questionId)
+
+                return
+            }
 
             if (err?.data?.type === 'global' || err?.data?.type === 'server') {
-                hasMessage = true
-
                 setError(
                     locale === 'pt'
                         ? err.data.messagePT || err.data.message
                         : err.data.message
                 )
+
+                return
             }
 
-            if (err?.data?.invalidQuestions) {
-                hasMessage = true
-
-                const invalidQuestions = err.data.invalidQuestions as {
-                    questionId: string
-                    message: string
-                    messagePT: string
-                }[]
-
-                invalidQuestions.forEach((q) => {
-                    locale === 'pt'
-                        ? handleQuestionChange(q.questionId, 'errorMessage', q.messagePT)
-                        : handleQuestionChange(q.questionId, 'errorMessage', q.message)
-                })
-
-                scrollToQuestionError(invalidQuestions[0]?.questionId)
-            }
-
-            if (!hasMessage) {
-                setError(t('errors'))
-            }
+            setError(t('errors'))
         }
 
         try {
