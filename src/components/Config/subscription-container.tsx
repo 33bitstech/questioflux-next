@@ -187,7 +187,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         </div>
 
                         {!premium && (
-                            <Link href="/subscription/vortexplus">
+                            <Link href="/subscription/questioplus">
                                 {t('vortexPlus.subscribeButton')}
                             </Link>
                         )}

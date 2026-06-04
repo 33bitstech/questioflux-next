@@ -11,10 +11,8 @@ interface IProps{
 }
 
 export default function InputFinalMessages({styles, messagesChanged, finalMessages}:IProps) {
-    const t = useTranslations('creatingQuiz.finalMessages'); // Inicializar hook
+    const t = useTranslations('creatingQuiz.finalMessages');
 
-    // Criar o objeto de mensagens padrão usando as traduções
-    // useMemo evita que o objeto seja recriado em cada renderização
     const defaultMessages: IFinalMessages = useMemo(() => ({
         allCorrect: t('defaults.allCorrect'),
         aboveEighty: t('defaults.aboveEighty'),

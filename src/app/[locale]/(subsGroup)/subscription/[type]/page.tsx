@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './subscription.module.scss'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'

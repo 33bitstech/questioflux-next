@@ -1,12 +1,11 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
 import { useLocale, useTranslations } from 'next-intl'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CheckoutForm from './checkout-form'
 import { CheckoutElementsProvider } from '@stripe/react-stripe-js/checkout'
 import { loadStripe } from '@stripe/stripe-js'
 import { useTheme } from 'next-themes'
-import { locales } from 'zod/v4'
 
 interface IProps {
     styles: TStyles
@@ -33,13 +32,14 @@ export default function ChooseMethod({ styles, type, publicKey }: IProps) {
 
         setLoadingSession(true)
         try {
+            console.log(type, locale)
             const res = await fetch('/api/subscription/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({ type, locale}),
             })
-
+            
             const data = await res.json()
             if (!res.ok || !data?.clientSecret || !data?.id) {
                 throw new Error(data?.error || 'Falha ao obter parâmetros do Stripe.')
@@ -57,7 +57,6 @@ export default function ChooseMethod({ styles, type, publicKey }: IProps) {
         }
     }
 
-    // appearance agora fica dentro de elementsOptions (nova API do Stripe)
     const providerOptions = stripeData ? {
         clientSecret: stripeData.clientSecret,
         elementsOptions: {

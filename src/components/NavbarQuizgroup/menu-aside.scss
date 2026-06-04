@@ -13,8 +13,8 @@
   align-items: center;
   text-transform: uppercase;
   // O mixin agora usa as variáveis CSS
-  @include vars.styleTexto(var(--theme-button-text), .9rem, 700);
-  border: 1px solid var(--theme-button-border);
+  @include vars.styleTexto(#FFFFFF, .9rem, 700);
+  border: 1px solid #FFFFFF;
   background-color: transparent;
 }
 
