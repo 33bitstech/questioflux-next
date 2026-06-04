@@ -1,0 +1,640 @@
+{
+    "aboutPage": {
+        "metadataTitle": "Sobre nosotros",
+        "mainTitle": "<highlight>Sobre nosotros</highlight> y Soporte",
+        "description": "Un sitio de quizzes personalizados es una plataforma interactiva donde los usuarios tienen la libertad de crear sus propios quizzes de forma simple e intuitiva. Pueden personalizar preguntas, respuestas e incluso añadir elementos visuales como imágenes y videos para hacer sus quizzes más atractivos.<br></br>Después de crear un quiz, el usuario puede compartirlo con amigos o con el público en general, fomentando la participación y la interacción. Los participantes pueden responder las preguntas, ver sus resultados y dejar comentarios en el quiz. Esta funcionalidad de comentarios permite recibir feedback directo, crear debates e incentivar la interacción social, haciendo que el proceso sea una experiencia colaborativa y divertida.<br></br>Además, el sitio ofrece una interfaz fácil de usar y opciones de personalización, permitiendo que los creadores adapten sus quizzes a una variedad de temas, como trivia, conocimientos generales, pruebas de personalidad y más. La idea es estimular la creatividad mientras se promueve el intercambio y la interacción entre los usuarios.<br></br>Este entorno dinámico transforma los quizzes en una forma de entretenimiento social, donde cualquier persona puede ser tanto creador como participante de quizzes personalizados.",
+        "privacy": "Nuestro sitio de quizzes valora tu privacidad y seguridad. Por eso, queremos aclarar que solo usamos cookies estrictamente necesarias para garantizar el correcto funcionamiento de nuestro sitio. Estas cookies te permiten navegar y usar todas las funciones, como responder quizzes y acceder a tu historial de respuestas, de forma eficiente y segura.<br></br>Además, no almacenamos información sensible de pago en nuestra base de datos. Todo el procesamiento de pagos se realiza de forma segura a través de Stripe, una de las plataformas de pago más reconocidas y confiables del mercado. Stripe cumple con los más altos estándares de seguridad y conformidad, garantizando que tus datos financieros estén protegidos durante todo el proceso de transacción.<br></br>Nuestro compromiso es ofrecer una experiencia segura y transparente para todos nuestros usuarios. Si tienes alguna pregunta o inquietud sobre nuestra política de privacidad, estamos aquí para ayudarte.",
+        "supportLabel": "Correo de soporte:"
+    },
+    "landingPage": {
+        "hero": {
+            "titleLine1": "Crea tu <bold>quiz personalizado</bold> y compártelo",
+            "titleLine2": "con tus amigos usando <bold>QuestioFlux</bold>",
+            "subtitle": "QuestioFlux: Creador de quizzes gratis - Crea quizzes divertidos con imágenes",
+            "ctaButton": "Comenzar ahora",
+            "exploreButton": "Explorar"
+        },
+        "stylesSection": {
+            "title": "Estilos clásicos de quiz",
+            "subtitle": "¿Qué tipo de quiz quieres hacer?",
+            "rightAndWrong": "<span>Quiz de correcto e incorrecto:</span>¡Solo hay una respuesta correcta para cada pregunta! Aquí encontrarás una variedad de preguntas divertidas y desafiantes en diferentes categorías.",
+            "personality": "<span>Quiz de personalidad:</span> No hay respuestas definitivas. Los resultados dependen de las características únicas y de la personalidad de cada participante.",
+            "list": "<span>Quiz de lista:</span> Crea tu texto organizado por elementos.",
+            "aboutMe": "<span>Quiz sobre mí:</span> Invita a tus amigos a descubrir quién te conoce mejor.",
+            "ctaButton": "Crear ahora"
+        },
+        "explorationSection": {
+            "title": "Exploración de quizzes",
+            "subtitle": "¿Qué tal responder quizzes ya creados por otros usuarios?",
+            "public": "<span>Quizzes públicos:</span> Crea quizzes profesionales y publícalos en tu perfil para que otros usuarios los respondan.",
+            "private": "<span>Quizzes privados:</span> Crea quizzes privados; los usuarios solo podrán acceder si compartes un enlace especial."
+        },
+        "footer": {
+            "aboutLink": "Sobre nosotros"
+        }
+    },
+    "registerComponent": {
+        "title": "Crea tu cuenta",
+        "subtitle": "Empieza creando tu propio quiz ahora",
+        "guess": {
+            "separator": "O",
+            "button": "Entrar como invitado"
+        }
+    },
+    "guestComponent": {
+        "title": "Invitado",
+        "placeholder": "Tu nombre...",
+        "button": "Enviar",
+        "description": "Si quieres crear una cuenta, haz clic aquí:",
+        "link": "registrarse"
+    },
+    "registerForm": {
+        "placeholders": {
+            "username": "Nombre de usuario",
+            "email": "email@gmail.com",
+            "password": "Contraseña",
+            "confirmPassword": "Repite la contraseña"
+        },
+        "rememberMeLabel": "Recuérdame",
+        "submitButton": "Registrarse",
+        "loginPrompt": "¿Ya tienes una cuenta?",
+        "loginLink": "Iniciar sesión",
+        "errors": {
+            "passwordsDoNotMatch": "Las contraseñas no coinciden",
+            "invalidEmail": "Introduce una dirección de correo válida",
+            "nameRequired": "El campo de nombre de usuario es obligatorio",
+            "emailRequired": "El correo electrónico es obligatorio",
+            "passwordRequired": "El campo de contraseña es obligatorio",
+            "confirmPasswordRequired": "Confirmar la contraseña es obligatorio"
+        }
+    },
+    "profileUpload": {
+        "instruction": "Elige tu foto de perfil",
+        "altText": "Vista previa de la imagen de perfil",
+        "errorInvalidType": "¡Tipo de archivo inválido!"
+    },
+    "registerPage": {
+        "metadataTitle": "Registro",
+        "metadataDesc": "Regístrate en QuestioFlux para crear y responder quizzes, seguir tus puntuaciones y unirte a nuestra comunidad de amantes de los quizzes. El registro es rápido y fácil.",
+        "title": "Bienvenido a <bold>QuestioFlux</bold>"
+    },
+    "loginPage": {
+        "metadataTitle": "Iniciar sesión",
+        "metadataDesc": "Inicia sesión en tu cuenta de QuestioFlux para acceder a tus quizzes, seguir tu progreso y disfrutar de funciones personalizadas. ¿No tienes una cuenta? ¡Regístrate ahora para empezar!",
+        "registerPrompt": "¿No tienes una cuenta?",
+        "navButtons": {
+            "register": "Registrarse",
+            "login": "Iniciar sesión"
+        },
+        "form": {
+            "placeholders": {
+                "email": "email@gmail.com",
+                "password": "Contraseña"
+            },
+            "rememberMeLabel": "Recuérdame",
+            "forgotPasswordLink": "¿Olvidaste tu contraseña?",
+            "submitButton": "Iniciar sesión",
+            "errors": {
+                "invalidEmail": "Introduce una dirección de correo válida",
+                "emailRequired": "El correo electrónico es obligatorio",
+                "passwordRequired": "La contraseña es obligatoria"
+            }
+        }
+    },
+    "rescuePasswordFlow": {
+        "shared": {
+            "buttonSend": "Enviar",
+            "buttonLoading": "Cargando...",
+            "placeholderEmail": "email@gmail.com",
+            "placeholderPassword": "Nueva contraseña",
+            "placeholderConfirmPassword": "Confirmar nueva contraseña",
+            "errors": {
+                "invalidEmail": "Introduce una dirección de correo válida",
+                "emailRequired": "El correo electrónico es obligatorio",
+                "passwordRequired": "La contraseña es obligatoria",
+                "passwordsDoNotMatch": "Las contraseñas no coinciden",
+                "confirmPasswordRequired": "Repite tu contraseña"
+            }
+        },
+        "rescuePage": {
+            "metadataTitle": "Recuperar contraseña",
+            "registerPrompt": "¿No tienes una cuenta?",
+            "registerLink": "Registrarse"
+        },
+        "rescueForm": {
+            "label": "Introduce tu correo electrónico para restablecer tu contraseña.",
+            "successMessage": "Revisa tu correo en unos momentos para obtener el token de restablecimiento de contraseña."
+        },
+        "changePasswordPage": {
+            "metadataTitle": "Cambiar contraseña",
+            "successMessage": "¡Contraseña cambiada!",
+            "labels": {
+                "email": "Introduce tu correo electrónico.",
+                "newPassword": "Introduce tu nueva contraseña.",
+                "confirmPassword": "Confirma tu contraseña."
+            }
+        }
+    },
+    "navbar": {
+        "createQuiz": "Crear quiz",
+        "createAccount": "Crear cuenta",
+        "login": "Iniciar sesión",
+        "searchPlaceholder": "Buscar un quiz...",
+        "logout": "Salir",
+        "asideMenu": {
+            "home": "Inicio",
+            "explore": "Explorar",
+            "gamepass": "Pase de juego",
+            "createQuiz": "Crear quiz",
+            "profile": "Perfil",
+            "saves": "Guardados",
+            "drafts": "Borradores",
+            "config": "Configuración",
+            "about": "Sobre nosotros"
+        },
+        "themeWidget": {
+            "light": "Claro",
+            "dark": "Oscuro"
+        }
+    },
+    "vortexPlus": {
+        "sharedFeatures": {
+            "feature1": "Imágenes como alternativas de respuesta",
+            "feature2": "Imágenes ilustrativas para tus preguntas",
+            "feature3": "Preguntas ilimitadas para tu quiz",
+            "feature4": "Hasta 15 alternativas para tus preguntas"
+        },
+        "subscription": {
+            "title": "Mejora tu experiencia con QuestioPlus",
+            "price": "$2.50/mes",
+            "ctaButton": "Suscribirse ahora"
+        },
+        "singleUse": {
+            "title": "Compra este pase para obtener un uso premium de creación de quiz",
+            "price": "$1.99/uso",
+            "ctaButton": "Comprar ahora"
+        }
+    },
+    "contextualHeader": {
+        "createQuiz": "Crear quiz",
+        "exploreQuizzes": "Explorar quizzes",
+        "home": "Inicio",
+        "explore": "Explorar",
+        "filters": "Filtros"
+    },
+    "filters": {
+        "quizTypeTitle": "Tipo de quiz",
+        "categoryTitle": "Categoría",
+        "applyButton": "Aplicar",
+        "quizTypes": {
+            "all": "Todos",
+            "personality": "Personalidad",
+            "image": "Imagen",
+            "rightAndWrong": "Correcto e incorrecto"
+        }
+    },
+    "configPage": {
+        "metadataTitle": "Configuración",
+        "main": {
+            "subscriptionsTitle": "Suscripciones"
+        },
+        "updateForm": {
+            "mainTitle": "Configuraciones",
+            "saveWarning": "No olvides <bold>guardar</bold> antes de salir de la página.",
+            "saveButton": "Guardar",
+            "accountInfoTitle": "Información de la cuenta",
+            "labels": {
+                "username": "Nombre de usuario",
+                "email": "Correo electrónico",
+                "password": "Contraseña"
+            },
+            "profileImageTitle": "Imagen de perfil",
+            "profileImageSubtitle": "Actualiza tu imagen de perfil",
+            "successMessage": "¡Guardado con éxito!"
+        },
+        "subscriptionContainer": {
+            "activeTitle": "Activas ({count})",
+            "vortexPlus": {
+                "title": "QuestioPlus",
+                "price": "$2.50/mes",
+                "subscribeButton": "Suscribirse",
+                "unsubscribeButton": "Cancelar suscripción",
+                "loadingButton": "Cargando...",
+                "cancelAlreadyScheduledButton": "Ya cancelada",
+                "cancelScheduled": "Tu suscripción termina el {date}"
+            },
+            "vortexPlusUsage": {
+                "title": "Uso de QuestioPlus ({count})",
+                "price": "$1.99/uso",
+                "buyButton": "Comprar"
+            },
+            "cancelPopup": {
+                "title": "¿Cancelar suscripción?",
+                "description": "¿Estás seguro de que quieres cancelar tu suscripción? Mantendrás el acceso a QuestioPlus hasta {date}. Después de esa fecha, se detendrá la renovación.",
+                "keepButton": "Mantener suscripción",
+                "confirmButton": "Sí, cancelar",
+                "cancelingButton": "Cancelando...",
+                "noDate": "la fecha de vencimiento",
+                "error": "No se pudo cancelar la suscripción.",
+                "success": "Suscripción cancelada con éxito. Continuarás teniendo acceso hasta {date}."
+            }
+        },
+        "accountWidget": {
+            "deleteButton": "Eliminar cuenta",
+            "confirmation": {
+                "title": "¿Estás seguro?",
+                "confirmButton": "Sí, eliminar mi cuenta",
+                "cancelButton": "No, no eliminar mi cuenta"
+            }
+        }
+    },
+    "userQuizzesContainer": {
+        "titles": {
+            "public": "Tus quizzes públicos ({count})",
+            "private": "Tus quizzes privados ({count})",
+            "draft": "Tus borradores de quizzes ({count})",
+            "saved": "Tus quizzes guardados ({count})"
+        },
+        "seeMoreButton": {
+            "more": "Ver más",
+            "less": "Ver menos"
+        }
+    },
+    "explorePage": {
+        "metadataTitle": "Explora quizzes populares - Descubre y juega en QuestioFlux",
+        "metadataDesc": "Explora y juega miles de quizzes hechos por usuarios sobre cualquier tema que puedas imaginar. Descubre quizzes mejor valorados y en tendencia, desafía a tus amigos y pon a prueba tus conocimientos.",
+        "mainTitle": "Explora quizzes ya creados",
+        "featuredTitle": "Más populares",
+        "buttons": {
+            "seeMore": "Ver más",
+            "seeLess": "Ver menos"
+        }
+    },
+    "quizCard": {
+        "loading": "Cargando...",
+        "createdBy": "Creado por",
+        "actions": {
+            "quizPage": "Página del quiz",
+            "takeQuiz": "Responder el quiz",
+            "editQuiz": "Editar quiz"
+        }
+    },
+    "quizLayout": {
+        "nav": {
+            "info": "Información del quiz",
+            "comments": "Comentarios",
+            "leaderboard": "Clasificación"
+        }
+    },
+    "quizInfoPage": {
+        "metadata": {
+            "title": "{quiz_name} | QuestioFlux",
+            "desc": "¡Pon a prueba tus conocimientos con este quiz {quiz_name} de {name}!",
+            "actions": {
+                "take": "Responder el quiz"
+            }
+        },
+        "title": "Información del quiz",
+        "details": {
+            "createdBy": "Creado por:",
+            "creationDate": "Fecha de creación:",
+            "lastUpdated": "Actualizado:",
+            "participants": "Participantes:",
+            "category": "Categoría:",
+            "tags": "Etiquetas:",
+            "participantsSpan": "usuarios respondieron este quiz"
+        },
+        "ctaButton": "Responder el quiz"
+    },
+    "quizActions": {
+        "saveWidget": {
+            "save": "Guardar",
+            "remove": "Eliminar"
+        },
+        "share": {
+            "button": "Compartir quiz",
+            "title": "Comparte con tus amigos",
+            "whatsappMessage": "¡Responde este quiz!",
+            "copyLinkButton": "Copiar enlace",
+            "copySuccessMessage": "¡Enlace copiado con éxito!"
+        }
+    },
+    "commentsSection": {
+        "title": "{count, plural, =0 {Sin comentarios} =1 {1 comentario} other {# comentarios}}",
+        "noComments": "¡Sé el primero en comentar!",
+        "noCommentsNoUser": "Inicia sesión o crea una cuenta para comentar",
+        "form": {
+            "label": "Comentar como <span>@{username}</span>",
+            "placeholder": "Escribe tu comentario...",
+            "errors": {
+                "maxLength": "¡El número máximo de caracteres es 2000!"
+            }
+        },
+        "actions": {
+            "reply": "Responder",
+            "more": "Más",
+            "edit": "Editar",
+            "remove": "Eliminar"
+        },
+        "body": {
+            "showReplies": "{count, plural, =0 {Mostrar respuestas} =1 {Mostrar 1 respuesta} other {Mostrar # respuestas}}"
+        },
+        "text": {
+            "showMore": "Mostrar más",
+            "showLess": "Mostrar menos"
+        }
+    },
+    "leaderboardPage": {
+        "metadata": {
+            "title": "Clasificación de {quiz_name} - Mira las mejores puntuaciones",
+            "desc": "¡Mira quién está en la cima! Consulta la clasificación de {quiz_name} para ver los jugadores con las puntuaciones más altas. ¿Puedes llegar al primer lugar?",
+            "schemaName": "Clasificación de participantes de {quiz_name}"
+        },
+        "noResults": "Nadie ha respondido este quiz todavía.",
+        "userAnswers": {
+            "attempts": "Intentos:",
+            "correctTitle": "Respuestas correctas:",
+            "incorrectTitle": "Respuestas incorrectas:",
+            "questionLabel": "Pregunta:",
+            "answerLabel": "Respuesta del usuario:"
+        },
+        "home": "Ver quiz",
+        "sections": {
+            "registered": "Clasificación de usuarios",
+            "guests": "Clasificación de invitados",
+            "others": "Otros resultados"
+        },
+        "showMoreOthers": "Mostrar 10 resultados más",
+        "recommendationPopup": {
+            "title": "Recomendación",
+            "minimize": "Minimizar recomendación",
+            "maximize": "Abrir recomendación"
+        }
+    },
+    "publicProfile": {
+        "customTitle": "Quizzes públicos de este usuario",
+        "notFoundTitle": "Usuario no encontrado",
+        "stats": {
+            "quizzesCreated": "Quizzes creados",
+            "quizzesPlayed": "Quizzes jugados",
+            "memberSince": "Miembro desde"
+        },
+        "metadata": {
+            "title": "Perfil de {name_user} | Quizzes en QuestioFlux",
+            "desc": "Ve el perfil de {name_user} en QuestioFlux. Consulta todos los quizzes que ha creado, sus mejores puntuaciones y su actividad en la plataforma.",
+            "createdQuizzesName": "Quizzes creados por {name_user}"
+        }
+    },
+    "createQuizFlow": {
+        "layout": {
+            "metadataTitle": "Creador de quizzes de QuestioFlux - Crea un nuevo quiz"
+        },
+        "selectTypePage": {
+            "title": "Crea tu quiz",
+            "desc": "Crea tu propio quiz personalizado en minutos con el creador de QuestioFlux. Añade preguntas, respuestas e imágenes, y después compártelo con todos o con tus amigos. ¡Es hora de ser creativo!",
+            "subtitle": "Para empezar a crear tu quiz, prueba de personalidad o lista, simplemente haz clic en el botón correspondiente abajo y comienza ahora mismo.",
+            "descriptions": {
+                "rightAndWrongTitle": "Quiz de correcto e incorrecto",
+                "rightAndWrongText": "Este es el tipo de quiz en el que el objetivo es acertar todas las respuestas. Este tipo de prueba se usa ampliamente para medir tus conocimientos sobre un tema específico. Es uno de los favoritos para los fans que quieren desafiar a sus amigos para ver quién sabe más sobre cierto tema. Además, muchos profesores crean este tipo de prueba interactiva como quiz educativo para evaluar los conocimientos de sus estudiantes. También se conoce como quiz de preguntas y respuestas.",
+                "personalityTitle": "Quiz de personalidad",
+                "personalityText": "Este es un tipo de prueba en el que respondes algunas preguntas y, según tus respuestas, el quiz te dará el resultado que mejor se alinea con tu personalidad. No es un quiz para medir tus conocimientos, sino para determinar con qué resultado eres más compatible. Si quieres crear un quiz con títulos como: \"¿Quién serías en ____?\", \"¿Qué tipo de ____ eres?\", \"¿Cuál ____ combina mejor contigo?\", \"¿Podemos adivinar ____?\", entonces este es el tipo de quiz que debes crear.",
+                "imageTitle": "Quiz de imágenes",
+                "imageText": "Este es el tipo de quiz en el que el objetivo es acertar todas las respuestas basándose en imágenes. Además, muchos profesores crean este tipo de prueba interactiva como quiz educativo para evaluar la comprensión visual de sus estudiantes. También se conoce como quiz de interpretación visual, donde cada pregunta se presenta exclusivamente a través de imágenes, sin texto."
+            }
+        },
+        "formPage": {
+            "saveDraftInfo": "Después de completar este paso, tu contenido se guardará automáticamente en <drafts>Borradores</drafts>."
+        },
+        "formComponent": {
+            "serverError": "Error del servidor",
+            "labels": {
+                "title": "Título",
+                "description": "Descripción",
+                "category": "Categoría",
+                "tags": "Etiquetas",
+                "visibility": "Visibilidad",
+                "idiom": "Idioma",
+                "finalMessages": "Apariencia del mensaje al final del quiz:"
+            },
+            "placeholders": {
+                "title": "Ej.: ¿Sabes todo sobre fútbol?",
+                "description": "Aquí escribes la descripción de tu quiz.",
+                "tags": "Escribe y usa \",\" para separar etiquetas"
+            },
+            "selects": {
+                "chooseCategory": "Elige una categoría",
+                "public": "Público",
+                "private": "Privado",
+                "en": "Inglés",
+                "pt": "Portugués",
+                "es": "Español"
+            },
+            "buttons": {
+                "back": "Volver",
+                "saveDraft": "Guardar como borrador",
+                "continue": "Continuar"
+            }
+        }
+    },
+    "creatingQuiz": {
+        "nav": {
+            "cover": "Portada del quiz",
+            "questions": "Preguntas"
+        },
+        "finalMessages": {
+            "defaultButton": "Predeterminado",
+            "customButton": "Personalizable",
+            "defaults": {
+                "allCorrect": "¡Felicidades! ¡Acertaste todas las preguntas!",
+                "aboveEighty": "¡Excelente trabajo! Acertaste más del 80% de las preguntas.",
+                "aboveFifty": "¡Buen trabajo! Acertaste más del 50% de las preguntas.",
+                "belowFifty": "Acertaste menos del 50% de las preguntas. ¡Sigue practicando!",
+                "allWrong": "¡Qué pena! Fallaste todas las preguntas. ¡No te rindas e inténtalo de nuevo!"
+            }
+        },
+        "questionsPage": {
+            "alternativesAppearance": "Apariencia de las alternativas del quiz:",
+            "toggleMode": {
+                "textOnly": "Solo texto",
+                "textAndImage": "Texto e imagen"
+            },
+            "premiumWarning": {
+                "popupText": "La opción 'Texto e imagen' está disponible para nuestros usuarios premium. Para activarla, suscríbete a <vortexplus>vortexplus</vortexplus> para acceso ilimitado o compra un pase de un solo uso para este quiz."
+            }
+        },
+        "questionsForm": {
+            "backButton": "Volver",
+            "saveDraftButton": "Guardar como borrador",
+            "createButton": "Crear",
+            "textInput": {
+                "placeholder": "Introduce tu pregunta",
+                "correctPlaceholder": "Coloca aquí la alternativa correcta",
+                "incorrectPlaceholder": "Coloca aquí la alternativa incorrecta",
+                "addAlternative": "Añadir alternativa",
+                "addQuestion": "Añadir pregunta"
+            },
+            "imageInput": {
+                "placeholder": "Pregunta N°{position}",
+                "alternativeLabel": "Alternativa N°{number}"
+            },
+            "errors": "Elige las imágenes de las preguntas/alternativas",
+            "validationError": "Completa las preguntas resaltadas antes de continuar."
+        }
+    },
+    "editQuizFlow": {
+        "metadataTitle": "Edita tu quiz",
+        "page": {
+            "title": "Edita tu quiz",
+            "subtitle": "Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar las preguntas? Simplemente haz clic en 'Editar preguntas'."
+        },
+        "form": {
+            "successMessage": "¡Quiz editado con éxito!",
+            "buttons": {
+                "editQuestions": "Editar preguntas",
+                "saveChanges": "Guardar cambios"
+            },
+            "validationError": "Completa las preguntas resaltadas antes de guardar.",
+            "unexpectedError": "Algo salió mal al guardar tus cambios. Inténtalo de nuevo."
+        },
+        "questionsPage": {
+            "metadataTitle": "Editar preguntas",
+            "title": "Edita las preguntas de tu quiz",
+            "subtitle": "Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar el quiz? Simplemente haz clic en 'Editar quiz'."
+        },
+        "buttons": {
+            "back": "Volver",
+            "editQuiz": "Editar quiz",
+            "editQuestions": "Editar preguntas",
+            "saveChanges": "Guardar cambios"
+        },
+        "warningReset": {
+            "title": "¡Advertencia!",
+            "description": "Si editas el quiz, toda la clasificación se reiniciará. ¿Estás seguro de que quieres continuar con la edición?",
+            "cancelButton": "Cancelar",
+            "confirmButton": "Guardar cambios"
+        }
+    },
+    "creation": {
+        "sharedErrors": {
+            "maxLength": "¡El número máximo de caracteres es 2000!",
+            "invalidFileType": "¡Tipo de archivo inválido!",
+            "serverError": "Error del servidor"
+        },
+        "questionHook": {
+            "questionLimitError": "Has alcanzado tu límite de preguntas",
+            "alternativeLimitError": "Has alcanzado tu límite de alternativas"
+        },
+        "imageInputs": {
+            "altAlternative": "Imagen de la alternativa",
+            "altQuizPreview": "Vista previa de la imagen del quiz",
+            "altProfileDraft": "Imagen de perfil del borrador"
+        }
+    },
+    "quizCompletedPage": {
+        "metadataTitle": "¡Quiz creado!",
+        "title": "¡Felicidades! ¡Tu quiz se ha creado con éxito!",
+        "viewQuizButton": "Ver quiz",
+        "homeButton": "Inicio"
+    },
+    "takingPage": {
+        "buttonStart": "Comenzar",
+        "errors": {
+            "resAll": "Debes responder todas las preguntas; asegúrate de no haber dejado ninguna sin responder"
+        },
+        "navigation": {
+            "previous": "Anterior",
+            "next": "Siguiente",
+            "results": "Resultados"
+        },
+        "imageAlts": {
+            "question": "Imagen de la pregunta",
+            "alternative": "Imagen de la alternativa"
+        },
+        "imageLabels": {
+            "alternative": "Alternativa N°{number}"
+        }
+    },
+    "quizResultsPage": {
+        "layout": {
+            "metadataTitle": "Respondiendo quiz",
+            "altQuizImage": "Imagen del quiz",
+            "navResults": "Resultados",
+            "navLeaderboard": "Clasificación"
+        },
+        "results": {
+            "noResults": "No se encontraron resultados.",
+            "totalQuestions": "Preguntas en total",
+            "correctAnswers": "Respuestas correctas",
+            "totalTime": "Tiempo total",
+            "viewLeaderboard": "Ver clasificación",
+            "viewAnswers": "Revisar tu puntuación"
+        }
+    },
+    "SubscriptionPage": {
+        "metadataTitle": "Suscripción | {type}",
+        "descriptionPlus": "suscripción - $2.50/mes",
+        "descriptionUsage": "uso - $1.99/uso",
+        "textChooseMethod": "Elige un método de pago",
+        "buttons": {
+            "creditCard": "Tarjeta de crédito"
+        },
+        "inputs": {
+            "send": "Pagar",
+            "loading": "Cargando..."
+        },
+        "hasPremium": "Ya tienes una suscripción activa",
+        "errors": {
+            "email": "El correo electrónico debe completarse correctamente"
+        },
+        "sucess": "¡Pago realizado con éxito!",
+        "messages": {
+            "paymentSessionNotFound": "Sesión de pago no encontrada.",
+            "invalidEmail": "Correo electrónico inválido.",
+            "paymentProcessError": "Error al procesar el pago.",
+            "confirmPaymentStatusError": "No se pudo confirmar el estado del pago.",
+            "paymentNotConfirmed": "El pago aún no ha sido confirmado.",
+            "subscriptionSuccess": "Suscripción activada con éxito.",
+            "paymentSuccess": "Pago confirmado con éxito.",
+            "unexpectedError": "Ocurrió un error inesperado."
+        },
+        "maintenance": {
+            "title": "Pagos temporalmente no disponibles",
+            "description": "Estamos cambiando nuestra pasarela de pagos. Por favor, vuelve más tarde."
+        }
+    },
+    "mainMetadata": {
+        "desc": "¡Crea tu propio quiz con QuestioFlux! Un creador de quizzes potente y divertido para construir y compartir pruebas con amigos. Añade imágenes, personaliza preguntas y mira quién llega a la cima de la clasificación. ¡Empieza a crear hoy!",
+        "title": "QuestioFlux - Creador de quizzes",
+        "query_inputs": {
+            "searchByTitle": "Busca un quiz con un título específico.",
+            "searchByTags": "Filtra quizzes por etiquetas (por ejemplo, 'películas', 'historia').",
+            "searchByCategories": "Filtra quizzes por categorías (por ejemplo, 'conocimientos-generales', 'cultura-pop')."
+        }
+    },
+    "badgesDesc": {
+        "questioplus": "¡Suscriptor de QuestioPlus! Disfruta de la creación ilimitada de quizzes con acceso completo a todos los beneficios premium.",
+        "questioplususage": "Uso premium: {qtd} uso(s) disponible(s) para crear tu próximo quiz."
+    },
+    "deleteQuiz": {
+        "button": "Eliminar quiz",
+        "sucess": "¡Quiz eliminado con éxito!",
+        "menu": {
+            "title": "¡Zona de peligro!",
+            "desc": "Estás a punto de eliminar este quiz, ¿estás seguro?",
+            "confirm": "Sí, eliminar",
+            "cancel": "No, cancelar"
+        }
+    },
+    "deleteMultiple": {
+        "mainbutton": "Eliminar todos los borradores",
+        "message": "Estás a punto de eliminar todos tus borradores, ¿estás seguro?",
+        "confirm": "Sí, eliminar",
+        "cancel": "No, cancelar",
+        "sucess": "¡Quizzes eliminados con éxito!"
+    },
+    "googleAuth": {
+        "separator": "o",
+        "button": "Continuar con Google",
+        "loading": "Cargando..."
+    }
+}
