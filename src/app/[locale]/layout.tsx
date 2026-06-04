@@ -14,6 +14,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { env } from "@/env";
 import Script from "next/script";
 import { Inter } from 'next/font/google';
+import { getOpenGraphLocale } from "@/utils/locale";
 
 const inter = Inter({
     subsets: ['latin'],
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const t = await getTranslations({ locale, namespace: 'mainMetadata' });
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en`
@@ -58,7 +60,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`,
             siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
-            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            locale: getOpenGraphLocale(locale),
             type: 'website',
         },
         twitter: {

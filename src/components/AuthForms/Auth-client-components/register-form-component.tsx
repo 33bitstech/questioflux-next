@@ -17,6 +17,7 @@ import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
@@ -42,15 +43,14 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         [isPasswordHidden, setIsPasswordHidden] = useState(true),
         {setError:setGlobalError} = useGlobalMessage()
         
-    useEffect(()=>{
-        if (erroAuth) {
-            if (locale === 'en'){
-                setError(erroAuth.type, erroAuth.message)
-            }else{
-                setError(erroAuth.type, erroAuth.messagePT)
-            }
-        }
-    }, [erroAuth])
+    useEffect(() => {
+        if (!erroAuth) return
+
+        setError(
+            erroAuth.type,
+            getLocalizedMessage(erroAuth, locale)
+        )
+    }, [erroAuth, locale, setError])
 
     useEffect(()=>{
         if (email){
@@ -84,7 +84,8 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
 
         register(formData)
             .then(async (res) => {
-                if (res.errImage) setGlobalError(res.errImage.message)
+                if (res.errImage) setGlobalError(getLocalizedMessage(res.errImage, locale))
+
                 await fetchUser() 
                 if (handleRegisterAndFinishQuiz) {
                     router.refresh()
@@ -136,7 +137,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
                     autoComplete='current-password'
                     onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
                     isPasswordHidden={isPasswordHidden}
-                    name={locale === 'pt' ? 'senha' : 'password'}
+                    name={'password'}
                 />
                 
                 <div className='footer-form'>

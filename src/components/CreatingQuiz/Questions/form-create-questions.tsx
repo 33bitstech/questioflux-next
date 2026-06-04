@@ -2,7 +2,7 @@
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { TStyles } from '@/types/stylesType'
 import { useRouter } from '@/i18n/navigation'
-import React, { FormEvent, useLayoutEffect, useRef, useState } from 'react'
+import { FormEvent, useLayoutEffect, useRef, useState } from 'react'
 import QuestionInput from './question-input'
 import {
     createQuestionsImageTitles,
@@ -13,6 +13,7 @@ import useQuestions from '@/hooks/useQuestions'
 import QuestionInputImage from './question-input-image'
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 interface IProps {
     styles: TStyles
@@ -96,7 +97,10 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                 | {
                     questionId: string
                     message: string
-                    messagePT: string
+                    messagePT?: string
+                    messagePt?: string
+                    messageES?: string
+                    messageEs?: string
                 }[]
                 | undefined
 
@@ -105,7 +109,15 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                     handleQuestionChange(
                         q.questionId,
                         'errorMessage',
-                        locale === 'pt' ? q.messagePT || q.message : q.message
+                        getLocalizedMessage(
+                            {
+                                message: q.message,
+                                messagePT: q.messagePT || q.messagePt,
+                                messageES: q.messageES || q.messageEs,
+                            },
+                            locale,
+                            q.message
+                        )
                     )
                 })
 
@@ -118,9 +130,15 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
 
             if (err?.data?.type === 'global' || err?.data?.type === 'server') {
                 setError(
-                    locale === 'pt'
-                        ? err.data.messagePT || err.data.message
-                        : err.data.message
+                    getLocalizedMessage(
+                        {
+                            message: err.data.message,
+                            messagePT: err.data.messagePT || err.data.messagePt,
+                            messageES: err.data.messageES || err.data.messageEs,
+                        },
+                        locale,
+                        t('errors')
+                    )
                 )
 
                 return

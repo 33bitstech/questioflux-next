@@ -1,6 +1,5 @@
 import ContextualHeaderActions from '@/components/NavigateWidgets/contextual-header-action'
 import UserProfileHeader from '@/components/User/user-profile-header'
-import React from 'react'
 
 import styles from '../../home/home.module.scss'
 import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
@@ -11,6 +10,7 @@ import GoogleAd from '@/components/Google/GoogleAd'
 import { Metadata } from 'next'
 import { publicQuizzes } from '../action'
 import { notFound } from 'next/navigation'
+import { getIntlLocale } from '@/utils/locale'
 
 interface IProps{
     params:Promise<{
@@ -40,17 +40,18 @@ async function getUser(userId: string): Promise<IUser | undefined> {
 
 export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     const {userId, locale} = await params
-    const t = await getTranslations({ locale, namespace: 'publicProfile.metadata' });
+    const t = await getTranslations({ locale, namespace: 'publicProfile' });
     const user = await getUser(userId)
 
     if (!user) {
         return {
-            title: 'User not found',
+            title: t('notFoundTitle'),
             robots: 'noindex, nofollow',
         }
     }
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/user/${userId}`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/user/${userId}`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/user/${userId}`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/user/${userId}`
@@ -60,8 +61,8 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     }
 
     return {
-        title: t('title', names),
-        description: t('desc', names),
+        title: t('metadata.title', names),
+        description: t('metadata.desc', names),
         robots: 'index, follow',
         keywords: "quiz, profile, public",
         alternates:{
@@ -69,16 +70,16 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
             languages: langs
         },
         openGraph: {
-            title: t('title', names),
-            description: t('desc', names),
+            title: t('metadata.title', names),
+            description: t('metadata.desc', names),
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${userId}`, 
             siteName: 'QuestioFlux',
             images: user?.profileImg != 'default' && user?.profileImg ? user?.profileImg : `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
             type: 'website'
         },
         twitter: {
-            title: t('title', names),
-            description: t('desc', names),
+            title: t('metadata.title', names),
+            description: t('metadata.desc', names),
             images: [
                 user?.profileImg && user?.profileImg !== 'default' && user?.profileImg
                     ? user.profileImg
@@ -90,7 +91,8 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
 
 const formatMemberSince = (date: Date | undefined, locale: string) => {
     if (!date) return null
-    return new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
+
+    return new Intl.DateTimeFormat(getIntlLocale(locale), {
         month: 'long',
         year: 'numeric',
     }).format(new Date(date))
@@ -147,7 +149,6 @@ export default async function User({params}:IProps) {
             <main className={styles.content}>
                 <UserProfileHeader userP={user} />
 
-                {/* Stats bar — enriquece o conteúdo da página */}
                 <div style={{
                     display: 'flex',
                     gap: '2rem',
@@ -162,20 +163,20 @@ export default async function User({params}:IProps) {
                     <div style={{ textAlign: 'center', alignItems:'center'}}>
                         <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{quizzesCount}</p>
                         <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
-                            {locale === 'pt' ? 'Quizzes criados' : 'Quizzes created'}
+                            {t('stats.quizzesCreated')}
                         </p>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                         <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{completedCount}</p>
                         <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
-                            {locale === 'pt' ? 'Quizzes jogados' : 'Quizzes played'}
+                            {t('stats.quizzesPlayed')}
                         </p>
                     </div>
                     {memberSince && (
                         <div style={{ textAlign: 'center', display:'flex', flexDirection:'column', justifyContent:'space-around' }}>
                             <p style={{ textTransform:'capitalize',fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>{memberSince}</p>
                             <p style={{ fontSize: '.8rem', color: 'var(--text-description)' }}>
-                                {locale === 'pt' ? 'Membro desde' : 'Member since'}
+                                {t('stats.memberSince')}
                             </p>
                         </div>
                     )}

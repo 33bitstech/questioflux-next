@@ -373,6 +373,12 @@
     },
     "publicProfile": {
         "customTitle": "Quizzes publicos desse usuário",
+        "notFoundTitle": "Usuário não encontrado",
+        "stats": {
+            "quizzesCreated": "Quizzes criados",
+            "quizzesPlayed": "Quizzes jogados",
+            "memberSince": "Membro desde"
+        },
         "metadata": {
             "title": "Perfil e Quizzes de {name_user} no QuestioFlux",
             "desc": "Veja o perfil de {name_user} no QuestioFlux. Confira todos os quizzes que ele(a) criou, suas pontuações mais altas e sua atividade na plataforma",
@@ -420,7 +426,8 @@
                 "public": "Público",
                 "private": "Privado",
                 "en": "Inglês",
-                "pt": "Português"
+                "pt": "Português",
+                "es": "Espanhol"
             },
             "buttons": {
                 "back": "Voltar",

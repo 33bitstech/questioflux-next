@@ -6,6 +6,7 @@ import '@/assets/styles/auth.scss'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { env } from '@/env'
+import { getOpenGraphLocale } from '@/utils/locale'
 
 interface IProps {
     params: Promise<{ locale: string }>;
@@ -17,6 +18,7 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'loginPage' });
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/login`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/login`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/login`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/login`
@@ -36,7 +38,7 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
             description: t('metadataDesc'),
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/login`, 
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
-            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            locale: getOpenGraphLocale(locale),
             type: 'website',
             siteName: 'QuestioFlux',
         },

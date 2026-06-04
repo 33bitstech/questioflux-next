@@ -16,6 +16,7 @@ export async function generateMetadata({params}:IProps) : Promise<Metadata> {
     const t = await getTranslations({locale, namespace: 'aboutPage'});
     
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/about-us`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/about-us`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/about-us`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/about-us`

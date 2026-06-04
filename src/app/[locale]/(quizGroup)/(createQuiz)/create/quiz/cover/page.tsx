@@ -5,6 +5,7 @@ import FormCreateQuiz from '@/components/CreatingQuiz/form-create-quiz'
 import { getTranslations } from 'next-intl/server'
 import { env } from '@/env'
 import { Metadata } from 'next'
+import { getOpenGraphLocale } from '@/utils/locale'
 
 interface IProps {
     params: Promise<{ locale: string }>;
@@ -15,6 +16,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'createQuizFlow' });
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/create/quiz/cove`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz/cover`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/create/quiz/cover`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz/cover`
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz/cover`, 
             siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
-            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            locale: getOpenGraphLocale(locale),
             type: 'website',
         },
         twitter: {

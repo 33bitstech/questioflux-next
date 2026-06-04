@@ -9,6 +9,7 @@ import { changePasswordByToken } from '@/app/[locale]/(auth)/login/recovery/[tok
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 interface IProps{
     token: string,
@@ -37,15 +38,14 @@ export default function ChangePasswordForm({token,locale}:IProps) {
         return setError('email', '')
     }, [email, setError, t])
 
-    useEffect(()=>{
-        if (erroAuth) {
-            if (locale === 'en'){
-                setError(erroAuth.type, erroAuth.message)
-            }else{
-                setError(erroAuth.type, erroAuth.messagePT)
-            }
-        }
-    }, [erroAuth, setError])
+    useEffect(() => {
+        if (!erroAuth) return
+
+        setError(
+            erroAuth.type,
+            getLocalizedMessage(erroAuth, locale)
+        )
+    }, [erroAuth, locale, setError])
 
     useEffect(()=>{
         if (confirmPassword && password) {
@@ -67,7 +67,7 @@ export default function ChangePasswordForm({token,locale}:IProps) {
         if (hasErrors(errors)) return setLoading(false)
 
         changePasswordByToken(email, token, password).then(res=>{
-            if (res.err) return setGlobalError(res.err.message)
+            if (res.err) return setGlobalError(getLocalizedMessage(res.err, locale))
             if(res.ok) {
                 setSucess(t('changePasswordPage.successMessage'))
                 setTimeout(() => {

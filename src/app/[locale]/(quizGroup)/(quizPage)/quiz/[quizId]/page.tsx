@@ -74,6 +74,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const quiz = await getQuiz(quizId)
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}`

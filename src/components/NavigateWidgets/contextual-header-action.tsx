@@ -1,9 +1,7 @@
 import {Link} from '@/i18n/navigation'
-import React from 'react'
 import styles from './contextual-header-action.module.scss'
 import ToggleFilterContainer from './filtersWidgets/toggle-filter-container'
-import { cookies } from 'next/headers'
-import { getTranslations } from 'next-intl/server' // 1. Importar
+import { getTranslations } from 'next-intl/server'
 
 interface IProps {
     page: 'home' | 'explore' | 'quiz',

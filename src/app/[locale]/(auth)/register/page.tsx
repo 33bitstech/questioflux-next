@@ -6,6 +6,7 @@ import RegisterFormComponent from '@/components/AuthForms/Auth-client-components
 import { getTranslations } from 'next-intl/server';
 import GoogleAd from '@/components/Google/GoogleAd';
 import { env } from '@/env';
+import { getOpenGraphLocale } from '@/utils/locale';
 
 interface IProps{
     params: Promise<{
@@ -18,6 +19,7 @@ export async function generateMetadata({params}:IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'registerPage' });
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/register`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/register`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/register`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/register`
@@ -37,7 +39,7 @@ export async function generateMetadata({params}:IProps): Promise<Metadata> {
             description: t('metadataDesc'),
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/register`, 
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
-            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            locale: getOpenGraphLocale(locale),
             type: 'website',
             siteName: 'QuestioFlux',
         },

@@ -5,14 +5,14 @@ import { useLocale } from 'next-intl'
 import React from 'react'
 
 interface IProps {
-    styles: TStyles,
-    typeQ: TTypeQuiz,
+    styles: TStyles
+    typeQ: TTypeQuiz
     setTypeQ: React.Dispatch<React.SetStateAction<TTypeQuiz>>
 }
 
 export default function TypesList({ setTypeQ, styles, typeQ }: IProps) {
     const locale = useLocale()
-    const { typesQuiz, typesQuizPt } = useFilters()
+    const { typesQuiz, getTypeQuizLabel } = useFilters()
 
     const verifyTypeSelect = (type: TTypeQuiz) => {
         return type === typeQ
@@ -28,13 +28,13 @@ export default function TypesList({ setTypeQ, styles, typeQ }: IProps) {
         setTypeQ(type)
     }
 
-    const renderType = (type: TTypeQuiz, label: string, index: number) => {
+    const renderType = (type: TTypeQuiz) => {
         const inactive = isTypeInactive(type)
         const active = !inactive && verifyTypeSelect(type)
 
         return (
             <li
-                key={index}
+                key={type}
                 aria-disabled={inactive}
                 className={`
                     ${inactive ? styles.types_soon : ''}
@@ -42,28 +42,14 @@ export default function TypesList({ setTypeQ, styles, typeQ }: IProps) {
                 `}
                 onClick={() => handleSelectType(type)}
             >
-                {label}
+                {getTypeQuizLabel(type, locale)}
             </li>
         )
     }
 
     return (
-        <>
-            {locale == 'pt' && (
-                <ul>
-                    {typesQuizPt.map((typePt, index) =>
-                        renderType(typesQuiz[index], typePt, index)
-                    )}
-                </ul>
-            )}
-
-            {locale == 'en' && (
-                <ul>
-                    {typesQuiz.map((type, index) =>
-                        renderType(type, type, index)
-                    )}
-                </ul>
-            )}
-        </>
+        <ul>
+            {typesQuiz.map(renderType)}
+        </ul>
     )
 }

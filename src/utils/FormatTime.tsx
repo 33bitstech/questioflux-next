@@ -1,53 +1,82 @@
-export const getTimeObject = (timing: number)=>{
-    const miliseconds = Math.floor(Math.floor(timing % 1000)/10),
+import { getIntlLocale } from "@/utils/locale"
+
+export const getTimeObject = (timing: number) => {
+    const miliseconds = Math.floor(Math.floor(timing % 1000) / 10),
         seconds = Math.floor((timing / 1000) % 60),
-        minutes = Math.floor((timing / (1000 * 60))% 60),
-        hours =  Math.floor(timing / (1000 * 60 * 60))
+        minutes = Math.floor((timing / (1000 * 60)) % 60),
+        hours = Math.floor(timing / (1000 * 60 * 60))
 
-
-    return {hours, minutes, seconds, miliseconds}
+    return { hours, minutes, seconds, miliseconds }
 }
-export const getTimeString = (timing: number)=>{
-    const {hours, minutes, seconds, miliseconds} = getTimeObject(timing)
-        
-    let time = '00:00:00'
+
+export const getTimeString = (timing: number) => {
+    const { hours, minutes, seconds, miliseconds } = getTimeObject(timing)
+
     if (hours > 0) {
-        time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(miliseconds).padStart(2, '0')}`
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(miliseconds).padStart(2, '0')}`
     }
-    else {
-        time = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(miliseconds).padStart(2, '0')}`
-    }
-    return time
+
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(miliseconds).padStart(2, '0')}`
 }
-export const getTimeSinceDate = (timing: string | number | Date, locale:string) => {
-    const now = Date.now();
-    const time = new Date(timing).getTime();
-    const secondsSinceDate = Math.floor((now - time) / 1000);
 
-    let displayText = '';
+export const getTimeSinceDate = (timing: string | number | Date, locale: string) => {
+    const now = Date.now()
+    const time = new Date(timing).getTime()
+    const secondsSinceDate = Math.floor((now - time) / 1000)
 
-    if (secondsSinceDate < 60) {
-        displayText = `${secondsSinceDate} secs ${locale == 'pt' ? 'atras' : 'ago'}`;
-    } else if (secondsSinceDate < 3600) {
-        const minutes = Math.floor(secondsSinceDate / 60);
-        displayText = `${minutes} mins ${locale == 'pt' ? 'atras' : 'ago'}`;
-    } else if (secondsSinceDate < 86400) {
-        const hours = Math.floor(secondsSinceDate / 3600);
-        displayText = `${hours} ${locale == 'pt' ? 'horas atras' : 'hours ago'}`;
-    } else if (secondsSinceDate < 604800) {
-        const days = Math.floor(secondsSinceDate / 86400);
-        displayText = `${days} ${locale == 'pt' ? 'dias atras' : 'days ago'}`;
-    } else if (secondsSinceDate < 2628000) {
-        const weeks = Math.floor(secondsSinceDate / 604800);
-        displayText = `${weeks} ${locale == 'pt' ? 'semanas atras' : 'weeks ago'}`;
-    } else if (secondsSinceDate < 31536000) {
-        const months = Math.floor(secondsSinceDate / 2628000);
-        displayText = `${months} ${locale == 'pt' ? 'meses atras' : 'months ago'}`;
-    } else {
-        const years = Math.floor(secondsSinceDate / 31536000);
-        displayText = `${years} ${locale == 'pt' ? 'anos atras' : 'years ago'}`;
-    }
+    const relativeTimeFormatter = new Intl.RelativeTimeFormat(getIntlLocale(locale), {
+        numeric: 'always',
+    })
 
-    const isoDate = new Date(timing).toISOString();
-    return {isoDate, displayText}
-};
+    const divisions: Array<{
+        limit: number
+        divisor: number
+        unit: Intl.RelativeTimeFormatUnit
+    }> = [
+        {
+            limit: 60,
+            divisor: 1,
+            unit: 'second',
+        },
+        {
+            limit: 3600,
+            divisor: 60,
+            unit: 'minute',
+        },
+        {
+            limit: 86400,
+            divisor: 3600,
+            unit: 'hour',
+        },
+        {
+            limit: 604800,
+            divisor: 86400,
+            unit: 'day',
+        },
+        {
+            limit: 2628000,
+            divisor: 604800,
+            unit: 'week',
+        },
+        {
+            limit: 31536000,
+            divisor: 2628000,
+            unit: 'month',
+        },
+        {
+            limit: Infinity,
+            divisor: 31536000,
+            unit: 'year',
+        },
+    ]
+
+    const division = divisions.find(({ limit }) => secondsSinceDate < limit) || divisions[0]
+
+    const value = -Math.floor(secondsSinceDate / division.divisor)
+
+    const displayText = relativeTimeFormatter.format(value, division.unit)
+
+    const isoDate = new Date(timing).toISOString()
+
+    return { isoDate, displayText }
+}

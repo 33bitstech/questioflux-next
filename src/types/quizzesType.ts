@@ -9,3 +9,9 @@ export type TTypeQuizPt =
     | 'Personalidade'
     | 'Imagem'
     | 'Certo e Errado'
+
+export type TTypeQuizEs = 
+    | 'Todos'
+    | 'Personalidad'
+    | 'Imagen'
+    | 'Correcto e Incorrecto'

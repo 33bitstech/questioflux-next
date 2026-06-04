@@ -16,9 +16,22 @@ import RegisterComponent from '../AuthForms/register-component'
 import usePopupAuth from '@/hooks/usePopupAuth'
 import LoginComponent from '../AuthForms/login-component'
 import LoadingReq from '../Loading/loading-req'
+import { getAppLocale } from '@/utils/locale'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 interface IProps {
     styles: TStyles
+}
+type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES'
+
+const getDefaultQuizIdiom = (locale: string): QuizIdiom => {
+    const idiomByLocale = {
+        pt: 'PT-BR',
+        en: 'EN-US',
+        es: 'ES-ES',
+    } satisfies Record<string, QuizIdiom>
+
+    return idiomByLocale[getAppLocale(locale)]
 }
 
 export default function FormCreateQuiz({ styles }: IProps) {
@@ -26,7 +39,7 @@ export default function FormCreateQuiz({ styles }: IProps) {
     const locale = useLocale()
     const { getError, setError, resetErrors, resetTypeError } = useErrors(),
         { setError: setGlobalError } = useGlobalMessage(),
-        { filters, filtersPt } = useFilters(),
+        { filters, getCategoryLabel  } = useFilters(),
         router = useRouter(),
         { user, fetchUser } = useUser()
 
@@ -36,7 +49,7 @@ export default function FormCreateQuiz({ styles }: IProps) {
         [category, setCategory] = useState<string>(''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<'public' | 'private'>('private'),
-        [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>(locale == 'pt' ? 'PT-BR' : 'EN-US'),
+        [idiom, setIdiom] = useState<QuizIdiom>(getDefaultQuizIdiom(locale)),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
@@ -45,17 +58,18 @@ export default function FormCreateQuiz({ styles }: IProps) {
 
     useEffect(() => {
         if (errorQuiz) {
-            switch (locale) {
-                case 'pt': setError(errorQuiz.type, errorQuiz.messagePT); break;
-                case 'en': setError(errorQuiz.type, errorQuiz.message); break;
-            }
-        } else {
-            resetErrors()
+            setError(
+                errorQuiz.type,
+                getLocalizedMessage(errorQuiz, locale)
+            )
+            return
         }
-    }, [errorQuiz])
+
+        resetErrors()
+    }, [errorQuiz, locale, setError, resetErrors])
 
     const getErrorMessageByLocale = (error: ErrorsState) => {
-        return locale === 'pt' ? error.messagePT : error.message
+        return getLocalizedMessage(error, locale)
     }
 
     const sendDatas = async (saveAsDraft: boolean) => {
@@ -172,16 +186,23 @@ export default function FormCreateQuiz({ styles }: IProps) {
                 </InputTextQuiz>
 
                 <InputTextQuiz error={getError('category')} styles={styles} labelFor='category' labelValue={t('labels.category')}>
-                    <select id="category" value={category} onChange={e => { setCategory(e.target.value); resetTypeError('category') }}>
-                        <option value="" disabled>{t('selects.chooseCategory')}</option>
-                        {locale == 'pt'
-                            ? filtersPt.map((categorie) => (
-                                <option key={categorie} value={filters[filtersPt.indexOf(categorie)]}>{categorie}</option>
-                            ))
-                            : filters.map((categorie) => (
-                                <option key={categorie} value={categorie}>{categorie}</option>
-                            ))
-                        }
+                    <select
+                        id="category"
+                        value={category}
+                        onChange={e => {
+                            setCategory(e.target.value)
+                            resetTypeError('category')
+                        }}
+                    >
+                        <option value="" disabled>
+                            {t('selects.chooseCategory')}
+                        </option>
+
+                        {filters.map((category) => (
+                            <option key={category} value={category}>
+                                {getCategoryLabel(category, locale)}
+                            </option>
+                        ))}
                     </select>
                 </InputTextQuiz>
 
@@ -198,9 +219,14 @@ export default function FormCreateQuiz({ styles }: IProps) {
                 </InputTextQuiz>
 
                 <InputTextQuiz styles={styles} labelFor='lang' labelValue={t('labels.idiom')}>
-                    <select id="lang" value={idiom} onChange={e => setIdiom(e.target.value as 'PT-BR' | 'EN-US')}>
+                    <select
+                        id="lang"
+                        value={idiom}
+                        onChange={e => setIdiom(e.target.value as QuizIdiom)}
+                    >
                         <option value='EN-US'>{t('selects.en')}</option>
                         <option value='PT-BR'>{t('selects.pt')}</option>
+                        <option value='ES-ES'>{t('selects.es')}</option>
                     </select>
                 </InputTextQuiz>
 

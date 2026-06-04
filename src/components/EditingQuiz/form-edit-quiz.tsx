@@ -1,6 +1,7 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
-import React, { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import InputImageQuiz from '../CreatingQuiz/input-image-quiz'
 import InputTextQuiz from '../CreatingQuiz/input-text-quiz'
 import useErrors, { ErrorsState } from '@/hooks/useErrors'
@@ -20,11 +21,12 @@ interface IProps {
     styles: TStyles,
     quiz: IQuizes | undefined | any
 }
+type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES'
 
 export default function FormEditQuiz({ styles, quiz }: IProps) {
     const { getError, setError, resetErrors, resetTypeError } = useErrors(),
         { setError: setGlobalError, setSucess } = useGlobalMessage(),
-        { filters, filtersPt } = useFilters(),
+        { filters, getCategoryLabel } = useFilters(),
         router = useRouter()
 
     const t = useTranslations('editQuizFlow.form');
@@ -37,14 +39,14 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [category, setCategory] = useState<string>(''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<string>(''),
-        [idiom, setIdiom] = useState<'PT-BR' | 'EN-US'>('EN-US'),
+        [idiom, setIdiom] = useState<QuizIdiom>('EN-US'),
         [originalImage, setOriginalImage] = useState<string>(''),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>()
 
     const getErrorMessageByLocale = (error: ErrorsState) => {
-        return locale === 'pt' ? error.messagePT : error.message
+        return getLocalizedMessage(error, locale, t('unexpectedError'))
     }
 
     const handleSubmit = async (e: FormEvent) => {
@@ -109,12 +111,13 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         if (errorQuiz) {
             setError(
                 errorQuiz.type,
-                locale === 'pt' ? errorQuiz.messagePT : errorQuiz.message
+                getLocalizedMessage(errorQuiz, locale, t('unexpectedError'))
             )
-        } else {
-            resetErrors()
+            return
         }
-    }, [errorQuiz, locale, setError, resetErrors])
+
+        resetErrors()
+    }, [errorQuiz, locale, setError, resetErrors, t])
 
     useEffect(() => {
         if (!quiz.err && quiz) {
@@ -123,7 +126,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             setCategory(quiz.category)
             setTagsString((quiz.tags ?? []).join(', '))
             setVisibility(quiz.isPrivate ? 'private' : 'public')
-            setIdiom(quiz.idiom as "PT-BR" | "EN-US")
+            setIdiom(quiz.idiom as QuizIdiom)
             setFinalMessages(quiz.resultMessages)
             setOriginalImage(quiz.quizThumbnail)
         }
@@ -148,16 +151,23 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             </InputTextQuiz>
 
             <InputTextQuiz error={getError('category')} styles={styles} labelFor='category' labelValue={tShared('labels.category')}>
-                <select id="category" value={category} onChange={e => { setCategory(e.target.value); resetTypeError('category') }}>
-                    <option value="" disabled>{tShared('selects.chooseCategory')}</option>
-                    {locale == 'pt'
-                        ? filtersPt.map((categorie) => (
-                            <option key={categorie} value={filters[filtersPt.indexOf(categorie)]}>{categorie}</option>
-                        ))
-                        : filters.map((categorie) => (
-                            <option key={categorie} value={categorie}>{categorie}</option>
-                        ))
-                    }
+                <select
+                    id="category"
+                    value={category}
+                    onChange={e => {
+                        setCategory(e.target.value)
+                        resetTypeError('category')
+                    }}
+                >
+                    <option value="" disabled>
+                        {tShared('selects.chooseCategory')}
+                    </option>
+
+                    {filters.map((category) => (
+                        <option key={category} value={category}>
+                            {getCategoryLabel(category, locale)}
+                        </option>
+                    ))}
                 </select>
             </InputTextQuiz>
 
@@ -174,9 +184,14 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             </InputTextQuiz>
 
             <InputTextQuiz styles={styles} labelFor='lang' labelValue={tShared('labels.idiom')}>
-                <select id="lang" value={idiom} onChange={e => setIdiom(e.target.value as 'PT-BR' | 'EN-US')}>
+                <select
+                    id="lang"
+                    value={idiom}
+                    onChange={e => setIdiom(e.target.value as QuizIdiom)}
+                >
                     <option value='EN-US'>{tShared('selects.en')}</option>
                     <option value='PT-BR'>{tShared('selects.pt')}</option>
+                    <option value='ES-ES'>{tShared('selects.es')}</option>
                 </select>
             </InputTextQuiz>
 

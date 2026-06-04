@@ -11,27 +11,27 @@ type PublicRoute = {
 };
 
 const publicRoutes: PublicRoute[] = [
-    { src: /^\/(en|pt)$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/login$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/register$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/about-us$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/rescuepassword$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/user\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/explore$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/create\/quiz$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es)\/login$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es)\/register$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es)\/about-us$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/rescuepassword$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/user\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/explore$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/create\/quiz$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
 ];
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-    const locales = ['en', 'pt'];
+    const locales = ['en', 'pt', 'es'];
 
     const pathnameHasLocale = locales.some(
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

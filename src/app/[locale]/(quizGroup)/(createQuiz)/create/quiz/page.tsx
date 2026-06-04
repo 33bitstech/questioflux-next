@@ -9,6 +9,7 @@ import StrokeProfileSvg from '@/components/Icons/StrokeProfileSvg'
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 import { env } from '@/env'
+import { getOpenGraphLocale } from '@/utils/locale'
 
 interface IProps {
     params: Promise<{ locale: string }>;
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'createQuizFlow' });
 
     const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/create/quiz`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/create/quiz`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz`
@@ -39,7 +41,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz`, 
             siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
-            locale: locale == 'pt' ? 'pt_BR' : 'en_US',
+            locale: getOpenGraphLocale(locale),
             type: 'website',
         },
         twitter: {

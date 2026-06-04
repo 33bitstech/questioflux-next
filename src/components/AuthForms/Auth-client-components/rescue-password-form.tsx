@@ -8,6 +8,7 @@ import { sendRecoveryEmail } from '@/app/[locale]/(auth)/rescuepassword/action'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 export default function RescuePasswordForm({locale}:{locale:string}) {
     const t = useTranslations('rescuePasswordFlow');
@@ -26,15 +27,14 @@ export default function RescuePasswordForm({locale}:{locale:string}) {
         return setError('email', '')
     }, [email, setError, t])
 
-    useEffect(()=>{
-        if (erroAuth) {
-            if (locale === 'en'){
-                setError(erroAuth.type, erroAuth.message)
-            }else{
-                setError(erroAuth.type, erroAuth.messagePT)
-            }
-        }
-    }, [erroAuth, setError])
+    useEffect(() => {
+        if (!erroAuth) return
+
+        setError(
+            erroAuth.type,
+            getLocalizedMessage(erroAuth, locale)
+        )
+    }, [erroAuth, locale, setError])
     
     const handleSubmit = (e:FormEvent) =>{
         e.preventDefault()

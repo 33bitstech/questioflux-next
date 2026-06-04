@@ -16,11 +16,17 @@ import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
     locale: string,
-    oauthError?: { code?: string; msgEN?: string; msgPT?: string }
+    oauthError?: {
+        code?: string
+        msgEN?: string
+        msgPT?: string
+        msgES?: string
+    }
 }
 
 export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthError, locale, ...props}: IProps) {
@@ -42,9 +48,20 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
 
     useEffect(() => {
         if (!oauthError?.code) return
-        const msg = locale === 'pt' ? oauthError.msgPT : oauthError.msgEN
-        if (msg) setGlobalError(decodeURIComponent(msg))
-    }, [])
+
+        const msg = getLocalizedMessage(
+            {
+                message: oauthError.msgEN,
+                messagePT: oauthError.msgPT,
+                messageES: oauthError.msgES,
+            },
+            locale
+        )
+
+        if (msg) {
+            setGlobalError(decodeURIComponent(msg))
+        }
+    }, [oauthError, locale, setGlobalError])
 
     useEffect(()=>{
         if (email){
@@ -58,15 +75,14 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
         if (password) setError('password', '')
     },[password, setError])
 
-    useEffect(()=>{
-        if (erroAuth) {
-            if (locale == 'en') {
-                setError(erroAuth.type, erroAuth.message)
-            }else{
-                setError(erroAuth.type, erroAuth.messagePT)
-            }
-        }
-    }, [erroAuth, setError])
+    useEffect(() => {
+        if (!erroAuth) return
+
+        setError(
+            erroAuth.type,
+            getLocalizedMessage(erroAuth, locale)
+        )
+    }, [erroAuth, locale, setError])
     
     const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
@@ -83,10 +99,10 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
         
         login(JSON.stringify(UserObject))
             .then(async () => {
-                await fetchUser()  // busca o user após cookie ser setado
+                await fetchUser()  
                 if (handleRegisterAndFinishQuiz) {
                     router.refresh()
-                    return handleRegisterAndFinishQuiz()  // sem token
+                    return handleRegisterAndFinishQuiz()  
                 }
                 else router.push('/home')
             })
@@ -127,7 +143,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
                     autoComplete='current-password'
                     onToggleHidePassword={()=>setIsPasswordHidden(state=>!state)}
                     isPasswordHidden={isPasswordHidden}
-                    name={locale === 'pt' ? 'senha' : 'password'}
+                    name={'password'}
                 />
             </div>
             <div className="footer-form">
