@@ -1,16 +1,6 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
-
-const currencyByLocale = {
-    en: 'USD',
-    pt: 'BRL',
-} as const;
-
-type Locale = keyof typeof currencyByLocale;
-
-function isValidLocale(locale: string): locale is Locale {
-    return locale in currencyByLocale;
-}
+import { normalizeCurrency } from '@/utils/currency';
 
 export async function POST(
     request: Request,
@@ -19,19 +9,9 @@ export async function POST(
     try {
         const cookieHeader = request.headers.get('cookie') || '';
         const { locale } = await params;
+        const body = await request.json().catch(() => ({}))
 
-        if (!isValidLocale(locale)) {
-            return NextResponse.json(
-                {
-                    type: 'global',
-                    message: 'Invalid locale.',
-                    messagePT: 'Locale inválido.',
-                },
-                { status: 400 }
-            );
-        }
-
-        const currency = currencyByLocale[locale];
+        const currency = normalizeCurrency(body?.currency, locale)
 
         const externalApiResponse = await ApiData({
             path: `create-stripe-subscription-session/${currency}`,
@@ -58,6 +38,7 @@ export async function POST(
                 type: 'global',
                 message: 'An error occurred on the server. Please try again later.',
                 messagePT: 'Ocorreu um erro no servidor. Tente novamente mais tarde.',
+                messageES: 'Ocurrió un error en el servidor. Inténtalo de nuevo más tarde.',
             },
             { status: 500 }
         );

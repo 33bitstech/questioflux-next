@@ -571,6 +571,9 @@
         }
     },
     "SubscriptionPage": {
+        "currency": {
+            "label": "Elige la moneda"
+        },
         "metadataTitle": "Suscripción | {type}",
         "descriptionPlus": "suscripción - $2.50/mes",
         "descriptionUsage": "uso - $1.99/uso",

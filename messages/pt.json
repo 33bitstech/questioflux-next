@@ -571,6 +571,9 @@
         }
     },
     "SubscriptionPage": {
+        "currency": {
+            "label": "Escolha a moeda"
+        },
         "metadataTitle": "Assinatura | {type}",
         "descriptionPlus": "assinatura - R$2,50/mês",
         "descriptionUsage": "usage - R$1,99/uso",

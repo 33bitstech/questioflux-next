@@ -63,6 +63,35 @@
                 p {
                     @include vars.styleTexto(var(--text-description), .9rem, 400);
                 }
+
+                .currency_selector {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.4rem;
+                    margin-top: 0.8rem;
+
+                    button {
+                        padding: 0.45rem 0.8rem;
+                        border-radius: 0.5rem;
+                        border: 1px solid var(--theme-button-border);
+                        background: transparent;
+                        color: var(--theme-button-text);
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: 0.2s ease-out;
+
+                        &:hover {
+                            opacity: 0.9;
+                        }
+                    }
+                }
+
+                .currency_active {
+                    background-color: var(--theme-button-active-bg) !important;
+                    color: var(--theme-button-active-text) !important;
+                    outline: 1px solid var(--theme-button-active-outline);
+                }
             }
 
             @media screen and (max-width: 800px) {
