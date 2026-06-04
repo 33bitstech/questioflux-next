@@ -7,7 +7,7 @@
 %button-actions-default {
   display: flex;
   height: 3.125rem;
-  width: 50%;
+  width: auto;
   padding: 0.625rem;
   justify-content: center;
   align-items: center;
@@ -84,34 +84,50 @@
       gap: 4px;
     }
   }
-  #themes{
+  #themes {
     width: 75%;
   }
-  #langs{
-    width: 60%;
+
+  #langs {
+    width: 100%;
+    max-width: 13rem;
   }
+
   // Estilo para os seletores de tema e idioma
-  #themes, #langs {
+  #themes,
+  #langs {
     display: flex;
     height: auto;
 
     button {
       @extend %button-actions-default;
 
+      flex: 1 1 0;
+      width: auto;
+      min-width: 0;
+      white-space: nowrap;
+
       &:hover {
         @extend %button-hover-default;
       }
+
+      &:not(:first-child) {
+        border-left: none;
+      }
+
+      &:first-child {
+        border-radius: 0.4rem 0 0 0.4rem;
+      }
+
+      &:not(:first-child):not(:last-child) {
+        border-radius: 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0.4rem 0.4rem 0;
+      }
     }
-    
-    button:nth-child(1) {
-      border-radius: 0.4rem 0 0 0.4rem;
-    }
-    
-    button:nth-child(2) {
-      border-radius: 0 0.4rem 0.4rem 0;
-    }
-    
-    // O seletor .active agora é único e funciona para ambos os temas
+
     .active {
       background-color: var(--theme-button-active-bg) !important;
       color: var(--theme-button-active-text) !important;
