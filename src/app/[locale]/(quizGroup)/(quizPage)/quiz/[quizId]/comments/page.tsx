@@ -6,15 +6,56 @@ import { getCookieHeader } from '@/utils/getCookieHeader'
 import CommentFormComponent from '@/components/Comment/comment-form-component'
 import IComment from '@/interfaces/IComment'
 import CommentContainer from '@/components/Comment/comment-container'
-import { getTranslations } from 'next-intl/server' // Importar
+import { getTranslations } from 'next-intl/server' 
 import { cookies } from 'next/headers'
+import { getQuiz } from '../leaderboard/page'
+import { Metadata } from 'next'
 
-// Adicionar locale aos IProps
 interface IProps {
     params: Promise<{
         quizId: string,
         locale: string,
     }>
+}
+
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const { quizId, locale } = await params
+    const t = await getTranslations({ locale, namespace: 'quizInfoPage.metadata' });
+    const quiz = await getQuiz(quizId)
+
+    const langs = {
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}/comments`,
+        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/comments`,
+        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}/comments`,
+        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/comments`
+    },
+        names = {
+            quiz_name: quiz?.title ?? ''
+        }
+
+    return {
+        title: t('title', names),
+        description: t('desc', names),
+        robots: 'noindex, follow',
+        keywords: "quiz, comments, users, discussion",
+        alternates: {
+            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}/comments`,
+            languages: langs
+        },
+        openGraph: {
+            title: t('title', names),
+            description: t('desc', names),
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}/comments`,
+            siteName: 'QuestioFlux',
+            images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/trofeu.png`,
+            type: 'website'
+        },
+        twitter: {
+            title: t('title', names),
+            description: t('desc', names),
+            images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/trofeu.png`],
+        }
+    }
 }
 
 async function getUser(cookieHeader: string): Promise<IUser | undefined> {
@@ -42,11 +83,10 @@ async function getComments(quizId: string) : Promise<IComment[] | undefined>{
     }   
 }
 export default async function Comment({params}: IProps) {
-    // Receber locale e buscar traduções
     const {quizId, locale} = await params;
     const t = await getTranslations({ locale, namespace: 'commentsSection' });
     const cookieStore = await cookies()
-const cookieHeader = await getCookieHeader(cookieStore.getAll())
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
 
     const [user, comments] = await Promise.all([
         getUser(cookieHeader),

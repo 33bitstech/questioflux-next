@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     return {
         title: t('title', names),
         description: t('desc', names),
-        robots: 'index, follow',
+        robots: 'noindex, follow',
         keywords: "quiz, ranking, leaderboard, lb, users, answers",
         alternates: {
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}/leaderboard`,
