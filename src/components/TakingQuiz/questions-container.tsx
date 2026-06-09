@@ -295,9 +295,9 @@ export default function QuestionsContainer({
                         <Image
                             src={questions[actualQuestion - 1].image || '/quiz_padrao_preto.png'}
                             alt={t('imageAlts.question')}
-                            width={900} height={900} quality={100}
+                            width={900} height={900} quality={85}
                             placeholder='blur' blurDataURL={blurLoading}
-                            fetchPriority='high' loading='lazy'
+                            fetchPriority='high' loading='eager'
                         />
                     </div>
                     <div className={styles.footer_question}>
@@ -325,8 +325,7 @@ export default function QuestionsContainer({
                                             alt={t('imageAlts.alternative')}
                                             placeholder='blur'
                                             blurDataURL={blurLoading}
-                                            fetchPriority='high'
-                                            loading='lazy'
+                                            loading='eager'
                                         />
                                     </div>
 
