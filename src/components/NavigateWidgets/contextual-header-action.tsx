@@ -9,7 +9,8 @@ interface IProps {
 }
 
 export default async function ContextualHeaderActions({page, locale} : IProps) {
-    const t = await getTranslations({ locale, namespace: 'contextualHeader' });
+    const t = await getTranslations({ locale, namespace: 'contextualHeader' })
+    const TAside = await getTranslations({ locale, namespace: 'navbar.asideMenu' });
     /* const cookieStore = await cookies();
 
     const isLoggedIn = cookieStore.get('logged_in')?.value; */
@@ -19,7 +20,10 @@ export default async function ContextualHeaderActions({page, locale} : IProps) {
             <Link locale={locale} href={'/create/quiz'}>{t('createQuiz')}</Link>
 
             {page === 'home' && (
-                <Link locale={locale} href={'/explore'}>{t('exploreQuizzes')}</Link>
+                <>
+                    <Link locale={locale} href={'/explore'}>{t('exploreQuizzes')}</Link>
+                    <Link locale={locale} href={`/drafts`}>{TAside('drafts')}</Link>
+                </>
             )}
             {page === 'explore' && (
                 <ToggleFilterContainer styles={styles}/>
