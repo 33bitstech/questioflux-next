@@ -304,7 +304,17 @@
             "tags": "Tags:",
             "participantsSpan": "usuarios responderam a esse quiz"
         },
-        "ctaButton": "Fazer o quiz"
+        "ctaButton": "Fazer o quiz",
+        "embed": {
+            "button": "Incorporar quiz no seu site",
+            "title": "Incorporar este quiz no seu site",
+            "description": "Copie este código e cole no HTML do seu site, blog ou página.",
+            "codeLabel": "Código iframe",
+            "copyButton": "Copiar código",
+            "copiedButton": "Copiado!",
+            "close": "Fechar popup",
+            "createdWith": "Quiz criado com"
+        }
     },
     "quizActions": {
         "saveWidget": {

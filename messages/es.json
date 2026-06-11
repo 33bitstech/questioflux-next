@@ -304,7 +304,17 @@
             "tags": "Etiquetas:",
             "participantsSpan": "usuarios respondieron este quiz"
         },
-        "ctaButton": "Responder el quiz"
+        "ctaButton": "Responder el quiz",
+        "embed": {
+            "button": "Insertar quiz en tu sitio web",
+            "title": "Insertar este quiz en tu sitio web",
+            "description": "Copia este código y pégalo en el HTML de tu sitio web, blog o página.",
+            "codeLabel": "Código iframe",
+            "copyButton": "Copiar código",
+            "copiedButton": "¡Copiado!",
+            "close": "Cerrar popup",
+            "createdWith": "Quiz creado con"
+        }
     },
     "quizActions": {
         "saveWidget": {

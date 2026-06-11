@@ -11,6 +11,7 @@ import QuizCategoryContainer from '@/components/widgets/quiz-category-container'
 import GoogleAdMobile from '@/components/Google/googleAdMobile';
 import { Metadata } from 'next';
 import Script from 'next/script'
+import EmbedQuizPopup from '@/components/widgets/embed-quiz-popup';
 
 interface IProps {
     params: Promise<{
@@ -140,7 +141,17 @@ export default async function Quiz({ params }: IProps) {
 
             <div className={styles.quiz_details}>
                 <div className={styles.info}>
-                    <h3>{t('title')}</h3>
+                    <div className={styles.info_header}>
+                        <h3>{t('title')}</h3>
+
+                        <EmbedQuizPopup
+                            styles={styles}
+                            quizId={quizId}
+                            locale={locale}
+                            domain={env.NEXT_PUBLIC_DOMAIN_FRONT}
+                            quizTitle={quiz.title}
+                        />
+                    </div>
                     <ul>
                         {quiz && (
                             <>
