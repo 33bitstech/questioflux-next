@@ -38,6 +38,7 @@ export default function ChooseMethod({
         setPaymentMethod(undefined)
         setShowDynamic(false)
         setStripeData(null)
+        console.log(currency)
     }, [currency, type])
 
     const handleCreditMethod = async () => {
