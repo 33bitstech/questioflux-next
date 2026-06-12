@@ -66,23 +66,26 @@
 
                 .currency_selector {
                     display: flex;
-                    align-items: center;
                     justify-content: center;
-                    gap: 0.4rem;
-                    margin-top: 0.8rem;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 0.45rem;
+                    margin-top: 0.9rem;
 
                     button {
-                        padding: 0.45rem 0.8rem;
-                        border-radius: 0.5rem;
+                        padding: 0.45rem 0.75rem;
+                        border-radius: 999px;
                         border: 1px solid var(--theme-button-border);
-                        background: transparent;
+                        background-color: transparent;
                         color: var(--theme-button-text);
                         font-weight: 700;
+                        font-size: 0.85rem;
                         cursor: pointer;
                         transition: 0.2s ease-out;
 
                         &:hover {
                             opacity: 0.9;
+                            transform: translateY(-1px);
                         }
                     }
                 }

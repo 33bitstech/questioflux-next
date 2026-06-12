@@ -15,6 +15,7 @@ import { env } from "@/env";
 import Script from "next/script";
 import { Inter } from 'next/font/google';
 import { getOpenGraphLocale } from "@/utils/locale";
+import { SubscriptionCurrencyProvider } from "@/contexts/subscriptionCurrencyContext";
 
 const inter = Inter({
     subsets: ['latin'],
@@ -174,8 +175,10 @@ export default async function RootLayout({
                         <UserProvider>
                             <ProviderTheme attribute="data-theme" defaultTheme="system" enableSystem>
                                 <FilterProvider>
-                                    <GlobalMessageWidget />
-                                    {children}
+                                    <SubscriptionCurrencyProvider locale={locale}>
+                                        <GlobalMessageWidget />
+                                        {children}
+                                    </SubscriptionCurrencyProvider>
                                 </FilterProvider>
                             </ProviderTheme>
                         </UserProvider>

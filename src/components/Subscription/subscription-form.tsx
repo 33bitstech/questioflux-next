@@ -2,21 +2,21 @@
 
 import { TStyles } from '@/types/stylesType'
 import ChooseMethod from './choose-method'
-import { Currency } from '@/utils/currency'
+import { useSubscriptionCurrency } from '@/contexts/subscriptionCurrencyContext'
 
 interface IProps {
     publicKey: string
     type: string
     styles: TStyles
-    currency: Currency
 }
 
 export default function SubscriptionForm({
     publicKey,
     styles,
     type,
-    currency,
 }: IProps) {
+    const { currency } = useSubscriptionCurrency()
+
     return (
         <ChooseMethod
             styles={styles}
