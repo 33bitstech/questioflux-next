@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
-import { normalizeCurrency } from '@/utils/currency';
+import { normalizeCurrency, currencyToApiParam } from '@/utils/currency';
 
 export async function POST(
     request: Request,
@@ -11,7 +11,7 @@ export async function POST(
         const { locale } = await params;
         const body = await request.json().catch(() => ({}))
 
-        const currency = normalizeCurrency(body?.currency, locale)
+        const currency = currencyToApiParam(normalizeCurrency(body?.currency, locale))
 
         const externalApiResponse = await ApiData({
             path: `create-stripe-subscription-session/${currency}`,

@@ -1,5 +1,3 @@
-import { getAppLocale } from '@/utils/locale'
-
 export const supportedCurrencies = [
     'USD',
     'BRL',
@@ -14,6 +12,53 @@ export const supportedCurrencies = [
 
 export type Currency = typeof supportedCurrencies[number]
 
+const currencyOptionsByLocale = {
+    en: ['USD'],
+    pt: ['BRL'],
+    es: ['MXN', 'ARS', 'COP', 'CLP', 'UYU', 'DOP', 'EUR'],
+} satisfies Record<string, Currency[]>
+
+export function getDefaultCurrencyByLocale(locale?: string): Currency {
+    const normalizedLocale = locale?.split('-')[0]
+
+    if (normalizedLocale === 'pt') return 'BRL'
+    if (normalizedLocale === 'es') return 'MXN'
+
+    return 'USD'
+}
+
+export function getCurrencyOptionsByLocale(locale?: string): Currency[] {
+    const normalizedLocale = locale?.split('-')[0]
+
+    if (normalizedLocale === 'pt') return currencyOptionsByLocale.pt
+    if (normalizedLocale === 'es') return currencyOptionsByLocale.es
+
+    return currencyOptionsByLocale.en
+}
+
+export function normalizeCurrency(currency?: unknown, locale?: string): Currency {
+    if (typeof currency !== 'string') {
+        return getDefaultCurrencyByLocale(locale)
+    }
+
+    const normalizedCurrency = currency.toUpperCase() as Currency
+    const currencyOptions = getCurrencyOptionsByLocale(locale)
+
+    if (currencyOptions.includes(normalizedCurrency)) {
+        return normalizedCurrency
+    }
+
+    return getDefaultCurrencyByLocale(locale)
+}
+
+export function currencyToApiParam(currency: Currency) {
+    return currency.toLowerCase()
+}
+
+export function shouldShowCurrencySelector(locale?: string) {
+    return locale?.split('-')[0] === 'es'
+}
+
 export const currencyLabels: Record<Currency, string> = {
     USD: 'US Dollar',
     BRL: 'Real Brasileiro',
@@ -24,39 +69,4 @@ export const currencyLabels: Record<Currency, string> = {
     UYU: 'Peso Uruguaio',
     DOP: 'Peso Dominicano',
     EUR: 'Euro',
-}
-
-const currencyOptionsByLocale = {
-    en: ['USD'],
-    pt: ['BRL'],
-    es: ['MXN', 'ARS', 'COP', 'CLP', 'UYU', 'DOP', 'EUR'],
-} satisfies Record<string, Currency[]>
-
-export function getCurrencyOptionsByLocale(locale?: string): Currency[] {
-    const appLocale = getAppLocale(locale)
-
-    return currencyOptionsByLocale[appLocale] ?? ['USD']
-}
-
-export function getDefaultCurrencyByLocale(locale?: string): Currency {
-    return getCurrencyOptionsByLocale(locale)[0] ?? 'USD'
-}
-
-export function normalizeCurrency(currency?: unknown, locale?: string): Currency {
-    if (typeof currency !== 'string') {
-        return getDefaultCurrencyByLocale(locale)
-    }
-
-    const normalizedCurrency = currency.toUpperCase() as Currency
-    const options = getCurrencyOptionsByLocale(locale)
-
-    if (options.includes(normalizedCurrency)) {
-        return normalizedCurrency
-    }
-
-    return getDefaultCurrencyByLocale(locale)
-}
-
-export function shouldShowCurrencySelector(locale?: string) {
-    return getAppLocale(locale) === 'es'
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import React, { useState } from 'react'
 import styles from './recommended-quiz-popup.module.scss'
+import { Minimize2 } from 'lucide-react'
 
 interface IProps {
     quiz: IQuizes
@@ -15,13 +16,6 @@ interface IProps {
     maximizeLabel: string
 }
 
-function MinimizeIcon() {
-    return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 12h14" />
-        </svg>
-    )
-}
 
 function MaximizeIcon() {
     return (
@@ -77,7 +71,7 @@ export default function RecommendedQuizPopup({
                 aria-label={minimizeLabel}
                 title={minimizeLabel}
             >
-                <MinimizeIcon />
+                <Minimize2 />
             </button>
 
             <p className={styles.recommendation_label}>
