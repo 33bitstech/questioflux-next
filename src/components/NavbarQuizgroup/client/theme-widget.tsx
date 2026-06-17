@@ -13,22 +13,28 @@ export default function ThemeWidget() {
         setMounted(true)
     }, [])
 
-    if (!mounted) return null
+    useEffect(() => {
+        if (!mounted) return
 
-    const currentTheme = theme === 'system' ? resolvedTheme : theme
+        if (theme === 'system' && resolvedTheme) {
+            setTheme(resolvedTheme)
+        }
+    }, [mounted, theme, resolvedTheme, setTheme])
+
+    if (!mounted) return null
 
     return (
         <li id="themes">
             <button
                 onClick={() => setTheme('light')}
-                className={currentTheme === 'light' ? 'active' : ''}
+                className={theme === 'light' ? 'active' : ''}
             >
                 {t('light')}
             </button>
 
             <button
                 onClick={() => setTheme('dark')}
-                className={currentTheme === 'dark' ? 'active' : ''}
+                className={theme === 'dark' ? 'active' : ''}
             >
                 {t('dark')}
             </button>
