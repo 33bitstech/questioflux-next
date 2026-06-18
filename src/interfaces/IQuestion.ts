@@ -1,7 +1,7 @@
-export default interface IQuestion{
+export default interface IQuestion {
     questionId: string
     question: string
-    answers: Array<string | {answer:string, thumbnail:string}>
+    answers: Array<string | { answer: string, thumbnail: string, text: string }>
     correctAnswer: string,
     correctAnswerThumbnal?: string,
     image?: string,

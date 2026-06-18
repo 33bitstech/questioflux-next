@@ -37,6 +37,7 @@ interface ISelectedAnswers {
 type ImageAnswer = {
     answer: string
     thumbnail: string
+    text: string
 }
 
 const isValidImageAnswer = (answer: unknown): answer is ImageAnswer => {
@@ -142,7 +143,7 @@ export default function QuestionsContainer({
         await pauseQuiz(quizId)
 
         setStarted(false)
-        setFinalTime(Date.now()) 
+        setFinalTime(Date.now())
 
         handleSelectValuesCopy()
 
@@ -330,7 +331,10 @@ export default function QuestionsContainer({
                                     </div>
 
                                     <div className={styles.footer_question}>
-                                        <p>{t('imageLabels.alternative', { number: i + 1 })}</p>
+                                        {!!answer.text
+                                            ? <p>{answer.text}</p>
+                                            : <p>{t('imageLabels.alternative', { number: i + 1 })}</p>
+                                        }
                                     </div>
                                 </div>
                             )
