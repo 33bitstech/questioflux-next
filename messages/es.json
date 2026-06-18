@@ -8,30 +8,33 @@
     },
     "landingPage": {
         "hero": {
-            "titleLine1": "Crea tu <bold>quiz personalizado</bold> y compártelo",
-            "titleLine2": "con tus amigos usando <bold>QuestioFlux</bold>",
-            "subtitle": "QuestioFlux: Creador de quizzes gratis - Crea quizzes divertidos con imágenes",
+            "titleLine1": "Crea un <bold>quiz online gratis</bold>",
+            "titleLine2": "y desafía a tus amigos en <bold>QuestioFlux</bold>",
+            "subtitle": "Creador de quizzes gratis para quizzes de texto, preguntas y respuestas, alternativas, clasificación y competencia. Crea quizzes de texto gratis y usa imágenes cuando quieras una experiencia visual.",
             "ctaButton": "Comenzar ahora",
             "exploreButton": "Explorar"
         },
         "stylesSection": {
-            "title": "Estilos clásicos de quiz",
-            "subtitle": "¿Qué tipo de quiz quieres hacer?",
-            "rightAndWrong": "<span>Quiz de correcto e incorrecto:</span>¡Solo hay una respuesta correcta para cada pregunta! Aquí encontrarás una variedad de preguntas divertidas y desafiantes en diferentes categorías.",
-            "personality": "<span>Quiz de personalidad:</span> No hay respuestas definitivas. Los resultados dependen de las características únicas y de la personalidad de cada participante.",
-            "list": "<span>Quiz de lista:</span> Crea tu texto organizado por elementos.",
-            "aboutMe": "<span>Quiz sobre mí:</span> Invita a tus amigos a descubrir quién te conoce mejor.",
+            "title": "Creador de quizzes online",
+            "subtitle": "Elige el tipo de quiz que quieres crear, compartir y llevar a la clasificación.",
+            "rightAndWrong": "<span>Quiz de preguntas y respuestas:</span> Crea gratis un quiz de texto con alternativas y una respuesta correcta. Ideal para trivia, escuela, anime, juegos, fútbol, series y desafíos entre amigos.",
+            "personality": "<span>Quiz de personalidad:</span> Crea tests con resultados basados en las elecciones de cada participante, como “¿quién serías?” o “¿qué personaje combina contigo?”.",
+            "list": "<span>Quiz de lista:</span> Organiza ideas, rankings, temas y listas interactivas para compartir con tu comunidad.",
+            "aboutMe": "<span>Quiz sobre mí:</span> Invita a tus amigos a descubrir quién te conoce mejor y convierte las respuestas en un reto divertido.",
             "ctaButton": "Crear ahora"
         },
         "explorationSection": {
-            "title": "Exploración de quizzes",
-            "subtitle": "¿Qué tal responder quizzes ya creados por otros usuarios?",
-            "public": "<span>Quizzes públicos:</span> Crea quizzes profesionales y publícalos en tu perfil para que otros usuarios los respondan.",
-            "private": "<span>Quizzes privados:</span> Crea quizzes privados; los usuarios solo podrán acceder si compartes un enlace especial."
+            "title": "Explora quizzes con clasificación",
+            "subtitle": "Responde quizzes creados por otros usuarios, compite por mejores puntuaciones y descubre nuevos desafíos.",
+            "public": "<span>Quizzes públicos:</span> Publica tu quiz en tu perfil para que otras personas puedan responderlo, competir y aparecer en la clasificación.",
+            "private": "<span>Quizzes privados:</span> Comparte tu quiz por enlace con amigos, estudiantes o grupos específicos."
         },
         "footer": {
             "aboutLink": "Sobre nosotros"
-        }
+        },
+        "metadataTitle": "QuestioFlux | Crear Quiz Online Gratis con Clasificación",
+        "metadataDesc": "Crea un quiz de texto gratis online con preguntas, respuestas, alternativas y clasificación. Comparte quizzes con amigos, estudiantes o tu comunidad.",
+        "metadataKeywords": "crear quiz, hacer quiz, crear quiz online, crear quiz gratis, creador de quizzes, quiz online para estudiantes, quiz de preguntas y respuestas, quiz con clasificación, leaderboard quiz, quiz con imágenes"
     },
     "registerComponent": {
         "title": "Crea tu cuenta",
@@ -397,19 +400,40 @@
     },
     "createQuizFlow": {
         "layout": {
-            "metadataTitle": "Creador de quizzes de QuestioFlux - Crea un nuevo quiz"
+            "metadataTitle": "Crear Quiz Online Gratis | Creador de Quizzes QuestioFlux"
         },
         "selectTypePage": {
-            "title": "Crea tu quiz",
-            "desc": "Crea tu propio quiz personalizado en minutos con el creador de QuestioFlux. Añade preguntas, respuestas e imágenes, y después compártelo con todos o con tus amigos. ¡Es hora de ser creativo!",
-            "subtitle": "Para empezar a crear tu quiz, prueba de personalidad o lista, simplemente haz clic en el botón correspondiente abajo y comienza ahora mismo.",
+            "title": "Crear quiz online gratis",
+            "desc": "Crea tu propio quiz online con QuestioFlux. El quiz normal de texto es gratis: añade preguntas, alternativas y respuestas correctas, publica tu quiz y sigue la clasificación de los participantes.",
+            "subtitle": "Elige un modelo para empezar. Puedes crear un quiz de preguntas y respuestas, preparar un desafío para estudiantes, montar una trivia para amigos o usar imágenes para una experiencia más visual.",
             "descriptions": {
-                "rightAndWrongTitle": "Quiz de correcto e incorrecto",
-                "rightAndWrongText": "Este es el tipo de quiz en el que el objetivo es acertar todas las respuestas. Este tipo de prueba se usa ampliamente para medir tus conocimientos sobre un tema específico. Es uno de los favoritos para los fans que quieren desafiar a sus amigos para ver quién sabe más sobre cierto tema. Además, muchos profesores crean este tipo de prueba interactiva como quiz educativo para evaluar los conocimientos de sus estudiantes. También se conoce como quiz de preguntas y respuestas.",
-                "personalityTitle": "Quiz de personalidad",
-                "personalityText": "Este es un tipo de prueba en el que respondes algunas preguntas y, según tus respuestas, el quiz te dará el resultado que mejor se alinea con tu personalidad. No es un quiz para medir tus conocimientos, sino para determinar con qué resultado eres más compatible. Si quieres crear un quiz con títulos como: \"¿Quién serías en ____?\", \"¿Qué tipo de ____ eres?\", \"¿Cuál ____ combina mejor contigo?\", \"¿Podemos adivinar ____?\", entonces este es el tipo de quiz que debes crear.",
-                "imageTitle": "Quiz de imágenes",
-                "imageText": "Este es el tipo de quiz en el que el objetivo es acertar todas las respuestas basándose en imágenes. Además, muchos profesores crean este tipo de prueba interactiva como quiz educativo para evaluar la comprensión visual de sus estudiantes. También se conoce como quiz de interpretación visual, donde cada pregunta se presenta exclusivamente a través de imágenes, sin texto."
+                "rightAndWrongTitle": "Quiz de preguntas y respuestas gratis",
+                "rightAndWrongText": "Usa este modelo para hacer un quiz online con alternativas y una única respuesta correcta. Es ideal para trivia, pruebas rápidas, retos de conocimiento, quizzes para estudiantes, juegos, anime, fútbol, series y comunidades. Después de publicar, los participantes pueden competir por el mejor resultado en la clasificación.",
+                "personalityTitle": "Creador de quiz de personalidad",
+                "personalityText": "Este formato sirve para tests en los que cada respuesta acerca al participante a un resultado. Es perfecto para ideas como “¿qué personaje serías?”, “¿qué tipo de jugador eres?” o “¿qué estilo representa tu personalidad?”.",
+                "imageTitle": "Quiz con imágenes",
+                "imageText": "El quiz con imágenes permite crear preguntas y alternativas visuales usando texto, imagen o ambos. Funciona muy bien para quizzes de banderas, personajes, logos, mapas, juegos, objetos, lugares y desafíos de identificación visual.",
+                "competitionTitle": "Clasificación y competencia",
+                "competitionText": "QuestioFlux está pensado para convertir quizzes en competencia. Los participantes pueden responder, comparar resultados y competir por posiciones en la clasificación, ya sea en quizzes públicos, privados, escolares o hechos para amigos.",
+                "studentTitle": "Quiz online para estudiantes",
+                "studentText": "Profesores y estudiantes también pueden usar el creador para repasar contenido, evaluar conocimientos y crear actividades interactivas. El formato de preguntas y respuestas ayuda en clases, repasos, estudios y desafíos rápidos."
+            },
+            "metadata": {
+                "title": "Crear Quiz Online Gratis | Creador de Quizzes QuestioFlux",
+                "desc": "Crea un quiz online gratis con preguntas, alternativas, respuestas correctas y clasificación. Haz quizzes para amigos, estudiantes, juegos y comunidades.",
+                "keywords": "crear quiz, hacer quiz, crear quiz online, crear quiz gratis, creador de quizzes, hacer quiz online, crear mi quiz, quiz para estudiantes, quiz de preguntas y respuestas, quiz con alternativas, quiz con clasificación, quiz de imágenes"
+            },
+            "faq": {
+                "title": "Preguntas frecuentes sobre crear quizzes",
+                "intro": "Aquí tienes respuestas rápidas sobre cómo crear, publicar y compartir quizzes en QuestioFlux.",
+                "question1Title": "¿Cómo crear un quiz online?",
+                "question1Text": "Elige el tipo de quiz, añade tus preguntas, escribe las alternativas, marca la respuesta correcta y publica. Después puedes compartir el enlace con amigos, estudiantes o tu comunidad.",
+                "question2Title": "¿Puedo crear un quiz gratis?",
+                "question2Text": "Sí. El quiz normal de texto es gratis y permite crear preguntas, alternativas y respuestas correctas para publicar y compartir online.",
+                "question3Title": "¿Puedo hacer un quiz con clasificación?",
+                "question3Text": "Sí. QuestioFlux tiene clasificación para convertir tus quizzes en competencia y mostrar a los participantes con mejores resultados.",
+                "question4Title": "¿Puedo crear un quiz con imágenes?",
+                "question4Text": "Sí. Puedes crear quizzes con imágenes en las preguntas y en las alternativas, una buena opción para desafíos visuales, personajes, banderas, logos y temas parecidos."
             }
         },
         "formPage": {

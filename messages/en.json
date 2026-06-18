@@ -8,30 +8,33 @@
     },
     "landingPage": {
         "hero": {
-            "titleLine1": "Create your <bold>custom quiz</bold> and share",
-            "titleLine2": "it with your friends using <bold>QuestioFlux</bold>",
-            "subtitle": "QuestioFlux: Free Quiz Maker - Create Fun Quizzes with Images",
+            "titleLine1": "Create a <bold>free online quiz</bold>",
+            "titleLine2": "and challenge friends with <bold>QuestioFlux</bold>",
+            "subtitle": "A free quiz maker for text quizzes, multiple choice questions, leaderboards, and competition. Create free text quizzes and use images when you need a visual quiz experience.",
             "ctaButton": "Start Now",
             "exploreButton": "Explore"
         },
         "stylesSection": {
-            "title": "Classic quiz styles",
-            "subtitle": "What type of quiz do you want to do?",
-            "rightAndWrong": "<span>Right and wrong quiz:</span>There is only one right answer to each question! Here you will find a variety of fun and challenging questions in different categories.",
-            "personality": "<span>Personality quiz:</span> There are no definitive answers. Results depend on the unique characteristics and personality of each participant.",
-            "list": "<span>List quiz:</span> Create your text organized by items.",
-            "aboutMe": "<span>About me quiz:</span> Invite your friends to find out who knows you best.",
+            "title": "Online quiz maker",
+            "subtitle": "Choose the quiz format you want to create, share, and rank.",
+            "rightAndWrong": "<span>Multiple choice quiz:</span> Create a free text quiz with questions, answer options, and one correct answer. Great for trivia, school quizzes, fandom quizzes, games, sports, and friendly competitions.",
+            "personality": "<span>Personality quiz:</span> Create result-based quizzes where each answer leads players toward a personality, character, or custom result.",
+            "list": "<span>List quiz:</span> Organize ideas, rankings, topics, and interactive lists to share with your community.",
+            "aboutMe": "<span>About me quiz:</span> Invite friends to find out who knows you best and turn the answers into a fun challenge.",
             "ctaButton": "Create Now"
         },
         "explorationSection": {
-            "title": "Quiz exploration",
-            "subtitle": "How about answering quizzes already created by other users?",
-            "public": "<span>Public quizzes:</span> Create professional quizzes and post them on your profile for other users to take.",
-            "private": "<span>Private quizzes:</span> Create private quizzes, users can only access them if you share a special link."
+            "title": "Explore quizzes with leaderboards",
+            "subtitle": "Take quizzes made by other users, compete for top scores, and discover new challenges.",
+            "public": "<span>Public quizzes:</span> Publish your quiz on your profile so other people can take it, compete, and appear on the leaderboard.",
+            "private": "<span>Private quizzes:</span> Share your quiz by link with friends, students, or specific groups."
         },
         "footer": {
             "aboutLink": "About us"
-        }
+        },
+        "metadataTitle": "QuestioFlux | Free Online Quiz Maker with Leaderboards",
+        "metadataDesc": "Create a free text quiz online with questions, answers, multiple choice options, and leaderboards. Share quizzes with friends, students, or your community.",
+        "metadataKeywords": "online quiz maker, free quiz maker, create a quiz, make a quiz, quiz creator, trivia quiz maker, multiple choice quiz maker, quiz maker for students, quiz with leaderboard, image quiz maker"
     },
     "registerComponent": {
         "title": "Create your account",
@@ -397,19 +400,40 @@
     },
     "createQuizFlow": {
         "layout": {
-            "metadataTitle": "QuestioFlux Quiz Creator - Create a New Quiz"
+            "metadataTitle": "Online Quiz Maker | Create a Free Text Quiz with QuestioFlux"
         },
         "selectTypePage": {
-            "title": "Create your quiz",
-            "desc": "Build your own custom quiz in minutes with the QuestioFlux creator. Add questions, answers, and images, and then share it with everyone or friends. It's time to get creative!",
-            "subtitle": "To start creating your quiz, personality test or list, simply click on the respective button below and get started right now.",
+            "title": "Online quiz maker",
+            "desc": "Create your own online quiz with QuestioFlux. The normal text quiz is free: add questions, multiple choice answers, correct answers, publish your quiz, and track players on the leaderboard.",
+            "subtitle": "Choose a format to get started. You can create a question-and-answer quiz, build a challenge for students, make trivia for friends, or use images for a more visual quiz experience.",
             "descriptions": {
-                "rightAndWrongTitle": "Right and Wrong Quiz",
-                "rightAndWrongText": "This is the type of quiz where the objective is to get all the answers correct. This type of test is widely used to measure your knowledge on a particular subject. It's a favorite for those fans who want to challenge their friends to see who knows the most about a certain topic. Additionally, many teachers create this type of interactive test as an educational quiz to assess their students' knowledge. It is also known as a question and answer quiz.",
-                "personalityTitle": "Personality Quiz",
-                "personalityText": "This is a type of test in which you answer some questions and, depending on your answers, the quiz will give you the result that best aligns with your personality. This is not a quiz to measure your knowledge, but rather to determine which result you are most compatible with. If you want to create a quiz with titles like: \"Who would you be in ____?\", \"What kind of ____ are you?\", \"Which ____ suits you best?\", \"Can we guess ____?\", then this is it. the type of quiz you should create!",
-                "imageTitle": "Image Quiz",
-                "imageText": "This is the type of quiz where the objective is to get all the answers correct based on images. Additionally, many teachers create this type of interactive test as an educational quiz to assess their students' visual comprehension. It is also known as a visual interpretation quiz, where each question is presented exclusively through images, with no text involved."
+                "rightAndWrongTitle": "Free multiple choice quiz maker",
+                "rightAndWrongText": "Use this format to create a free online text quiz with answer options and one correct answer. It is ideal for trivia quizzes, quick tests, school activities, fandom quizzes, games, sports, series, and community challenges. After publishing, players can compete for the best score on the leaderboard.",
+                "personalityTitle": "Personality quiz maker",
+                "personalityText": "This format is made for quizzes where each answer moves the player toward a result. It works well for ideas like “which character are you?”, “what type of player are you?”, or “which style matches your personality?”.",
+                "imageTitle": "Image quiz maker",
+                "imageText": "The image quiz format lets you create visual questions and alternatives using text, images, or both. It is useful for flags, characters, logos, maps, games, objects, places, and visual identification challenges.",
+                "competitionTitle": "Leaderboards and competition",
+                "competitionText": "QuestioFlux is built to make quizzes competitive. Players can take your quiz, compare results, and compete for leaderboard positions in public quizzes, private quizzes, classroom challenges, or quizzes made for friends.",
+                "studentTitle": "Quiz maker for students",
+                "studentText": "Teachers and students can use the quiz maker to review lessons, test knowledge, and create interactive activities. The question-and-answer format works well for classes, study sessions, reviews, and quick challenges."
+            },
+            "metadata": {
+                "title": "Online Quiz Maker | Create a Free Text Quiz with QuestioFlux",
+                "desc": "Create a free online text quiz with questions, answers, multiple choice options, and leaderboards. Make quizzes for friends, students, games, and communities.",
+                "keywords": "online quiz maker, quiz maker, free quiz maker, create a quiz, make a quiz, make your own quiz, trivia quiz maker, multiple choice quiz maker, question and answer quiz maker, quiz maker for students, quiz with leaderboard, image quiz maker"
+            },
+            "faq": {
+                "title": "Frequently asked questions about creating quizzes",
+                "intro": "Here are quick answers about creating, publishing, and sharing quizzes on QuestioFlux.",
+                "question1Title": "How do I create an online quiz?",
+                "question1Text": "Choose a quiz type, add your questions, write the answer options, mark the correct answer, and publish. Then you can share the link with friends, students, or your community.",
+                "question2Title": "Can I create a quiz for free?",
+                "question2Text": "Yes. The normal text quiz is free and lets you create questions, answer options, and correct answers to publish and share online.",
+                "question3Title": "Can I make a quiz with a leaderboard?",
+                "question3Text": "Yes. QuestioFlux includes leaderboards so your quizzes can become competitions and show the players with the best results.",
+                "question4Title": "Can I create an image quiz?",
+                "question4Text": "Yes. You can create quizzes with images in questions and alternatives, which is useful for visual challenges, characters, flags, logos, and similar topics."
             }
         },
         "formPage": {
