@@ -484,7 +484,7 @@
                 "addQuestion": "Añadir pregunta"
             },
             "imageInput": {
-                "placeholder": "Pregunta N°{position}",
+                "placeholder": "Pregunta N°{position} (Opcional c/ imagen)",
                 "alternativeLabel": "Alternativa N°{number}"
             },
             "errors": "Elige las imágenes de las preguntas/alternativas",

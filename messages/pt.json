@@ -369,9 +369,9 @@
             "answerLabel": "Resposta do Usuário:"
         },
         "home": "Ver Quiz",
-        "sections":{
-            "registered":"Ranking dos usuários",
-            "guests":"Ranking dos visitantes",
+        "sections": {
+            "registered": "Ranking dos usuários",
+            "guests": "Ranking dos visitantes",
             "others": "Outros resultados"
         },
         "showMoreOthers": "Mostrar mais 10 resultados",
@@ -484,7 +484,7 @@
                 "addQuestion": "Adicionar pergunta"
             },
             "imageInput": {
-                "placeholder": "Pergunta N°{position}",
+                "placeholder": "Pergunta N°{position} (Opcional c/ imagem)",
                 "alternativeLabel": "Alternativa N°{number}"
             },
             "errors": "Escolha as imagens das questões/alternativas",

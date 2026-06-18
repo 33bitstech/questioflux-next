@@ -369,9 +369,9 @@
             "answerLabel": "User Answer:"
         },
         "home": "View Quiz",
-        "sections":{
-            "registered":"User's Leaderboard",
-            "guests":"Guest's Leaderboard",
+        "sections": {
+            "registered": "User's Leaderboard",
+            "guests": "Guest's Leaderboard",
             "others": "Other results"
         },
         "showMoreOthers": "Show 10 more results",
@@ -484,7 +484,7 @@
                 "addQuestion": "Add question"
             },
             "imageInput": {
-                "placeholder": "Question N°{position}",
+                "placeholder": "Question N°{position} (Optional w/ image)",
                 "alternativeLabel": "Alternative N°{number}"
             },
             "errors": "Choose the images of the questions/alternatives",
