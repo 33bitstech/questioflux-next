@@ -78,7 +78,6 @@ export default function QuestionInputImage({
                             <button
                                 type="button"
                                 className={styles.clear_image_button}
-                                aria-label={t('imageInput.clearImage')}
                                 onClick={(e) => {
                                     e.preventDefault()
                                     e.stopPropagation()
