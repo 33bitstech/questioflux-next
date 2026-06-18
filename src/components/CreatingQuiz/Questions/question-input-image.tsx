@@ -7,6 +7,7 @@ import GetAnswerIcon from '@/components/Icons/GetAnswerIcon'
 import InputTitle from './ImagesInputs/input-title'
 import InputAlternative from './ImagesInputs/input-alternative'
 import { useTranslations } from 'next-intl'
+import { BrushCleaning } from 'lucide-react'
 
 interface IProps {
     question: ILocalQuestions
@@ -84,7 +85,7 @@ export default function QuestionInputImage({
                                     onAlternativeImageClear(index)
                                 }}
                             >
-                                <CloseSvg />
+                                <BrushCleaning />
                             </button>
                         )}
 
