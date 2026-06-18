@@ -19,6 +19,7 @@ export async function updateQuestionsImage(
         const cookieStore = await cookies()
         const cookieHeader = getCookieHeader(cookieStore.getAll())
 
+        console.log(JSON.stringify(questionsFormated, null, 2))
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/titles/${quizId}`, {
             method: 'PUT',
             headers: {
