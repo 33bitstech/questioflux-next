@@ -484,8 +484,8 @@
                 "addQuestion": "Add question"
             },
             "imageInput": {
-                "placeholder": "Question N°{position} (Optional w/ image)",
-                "alternativeLabel": "Alternative N°{number}"
+                "placeholder": "Question N°{position}",
+                "alternativeLabel": "Alternative N°{number} (Optional w/ image)"
             },
             "errors": "Choose the images of the questions/alternatives",
             "validationError": "Please complete the highlighted questions before continuing."
