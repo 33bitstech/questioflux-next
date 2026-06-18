@@ -82,6 +82,77 @@ const isValidLocalImageAlternative = (alternative: unknown): alternative is Loca
     )
 }
 
+
+const isFile = (value: unknown): value is File => {
+    return typeof File !== 'undefined' && value instanceof File
+}
+
+const mapApiImageQuestionsToLocal = (apiQuestions: any[]): ILocalQuestions[] => {
+    return apiQuestions.map((q: any) => {
+        const apiAnswers = Array.isArray(q.answers) ? q.answers : []
+
+        const alternatives = apiAnswers
+            .filter(isValidApiImageAnswer)
+            .map((a: any) => ({
+                id: a.answer ?? '',
+                thumbnail: a.thumbnail ?? '',
+                text: a.text ?? '',
+                isNew: false
+            }))
+
+        return {
+            id: q.questionId,
+            type: 'image',
+            title: q.title ?? '',
+            image: q.image ?? '',
+            isNew: false,
+            alternatives
+        }
+    })
+}
+
+const getUpdatedQuestionsFromImageResponse = (response: any): ILocalQuestions[] | null => {
+    const responses = Array.isArray(response) ? response : [response]
+
+    for (const item of responses) {
+        const questionsFromResponse =
+            item?.data?.newAlternatives ||
+            item?.data?.newQuestions ||
+            item?.newAlternatives ||
+            item?.newQuestions
+
+        if (Array.isArray(questionsFromResponse)) {
+            return mapApiImageQuestionsToLocal(questionsFromResponse)
+        }
+    }
+
+    return null
+}
+
+const normalizeQuestionsAfterImageSave = (questions: ILocalQuestions[]): ILocalQuestions[] => {
+    return questions.map(question => ({
+        ...question,
+        image: isFile(question.image) ? '' : question.image,
+        isNew: false,
+        alternatives: question.alternatives.map(alternative => ({
+            ...alternative,
+            thumbnail: isFile(alternative.thumbnail) ? '' : alternative.thumbnail,
+            isNew: false
+        }))
+    }))
+}
+
+const getQuestionFilesToUpload = (question: ILocalQuestions): ILocalQuestions => {
+    return {
+        ...question,
+        image: isFile(question.image) ? question.image : undefined,
+        alternatives: question.alternatives.map(alternative => ({
+            ...alternative,
+            thumbnail: isFile(alternative.thumbnail) ? alternative.thumbnail : undefined
+        }))
+    }
+}
+
 export default function FormEditQuestions({ styles, quiz, quizId, textMode = true }: IProps) {
     const t = useTranslations('editQuizFlow')
     const locale = useLocale()
@@ -144,7 +215,11 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
             const answers = alternatives.map(ans => ({
                 answer: ans.id,
-                thumbnail: typeof ans.thumbnail === 'string' ? ans.thumbnail : '',
+                thumbnail: typeof ans.thumbnail === 'string'
+                    ? ans.thumbnail
+                    : isFile(ans.thumbnail)
+                        ? 'pending-upload'
+                        : '',
                 text: ans.text?.trim() || ''
             }))
 
@@ -284,7 +359,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     }
 
                     for (const question of questionsToSend) {
-                        const uploadResult = await uploadOneQuestionImage(quizId, question)
+                        const uploadResult = await uploadOneQuestionImage(quizId, getQuestionFilesToUpload(question))
 
                         if (uploadResult.err) {
                             handleApiError(uploadResult.err)
@@ -302,12 +377,12 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 }
 
                 questionsToSend.forEach(q => {
-                    if (q.isNew) {
+                    if (isFile(q.image)) {
                         dataToSubmit.questionsToUpdate.push({ questionId: q.id })
                     }
 
                     q.alternatives.forEach(a => {
-                        if (a.isNew && a.thumbnail instanceof File) {
+                        if (isFile(a.thumbnail)) {
                             dataToSubmit.alternativesToUpdate.push({
                                 id: a.id,
                                 file: a.thumbnail,
@@ -330,9 +405,14 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 }
 
                 if (res) {
+                    const updatedQuestions = getUpdatedQuestionsFromImageResponse(res)
+
+                    setQuestions(updatedQuestions || normalizeQuestionsAfterImageSave(questionsToSend))
+                    router.refresh()
                     setSucess(t('form.successMessage'))
                 }
-                return //new
+
+                return
             }
 
             const questionsFormated = handleFormatTextMode()
@@ -359,27 +439,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
     useEffect(() => {
         if (quiz && quiz.questions) {
             if (quiz.type === 'image/RW') {
-                const newQuestions: ILocalQuestions[] = quiz.questions?.map((q: any) => {
-                    const apiAnswers = Array.isArray(q.answers) ? q.answers : []
-
-                    const alternatives = apiAnswers
-                        .filter(isValidApiImageAnswer)
-                        .map((a: any) => ({
-                            id: a.answer ?? '',
-                            thumbnail: a.thumbnail ?? '',
-                            text: a.text ?? '',
-                            isNew: false
-                        }))
-
-                    return {
-                        id: q.questionId,
-                        type: 'image',
-                        title: q.title ?? '',
-                        image: q.image,
-                        isNew: false,
-                        alternatives
-                    }
-                })
+                const newQuestions = mapApiImageQuestionsToLocal(quiz.questions)
 
                 setQuestions(newQuestions)
                 prevQuestionsLengthRef.current = newQuestions.length
