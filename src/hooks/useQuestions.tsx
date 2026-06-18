@@ -15,8 +15,8 @@ const useQuestions = (textMode: boolean) => {
             isNew: true,
             type: isTextMode ? 'text' : 'image',
             alternatives: [
-                { id: `a-${Date.now()}1`, answer: '', isNew: true },
-                { id: `a-${Date.now()}2`, answer: '', isNew: true }
+                { id: `a-${Date.now()}1`, answer: '', text: '', isNew: true },
+                { id: `a-${Date.now()}2`, answer: '', text: '', isNew: true }
             ]
         }]
     }
@@ -58,8 +58,8 @@ const useQuestions = (textMode: boolean) => {
             type: textMode ? 'text' : 'image',
             isNew: true,
             alternatives: [
-                { id: `a-${Date.now()}_1`, answer: '', isNew: true },
-                { id: `a-${Date.now()}_2`, answer: '', isNew: true }
+                { id: `a-${Date.now()}_1`, answer: '', text: '', isNew: true },
+                { id: `a-${Date.now()}_2`, answer: '', text: '', isNew: true }
             ]
         }
         setQuestions(prev => [...(prev ?? []), newQuestion])
@@ -108,7 +108,7 @@ const useQuestions = (textMode: boolean) => {
         setQuestions(prevQuestions =>
             prevQuestions?.map(q =>
                 q.id === questionId
-                    ? { ...q, alternatives: [...q.alternatives, { answer: '', id: `a-${Date.now()}`, isNew: true }] }
+                    ? { ...q, alternatives: [...q.alternatives, { answer: '', text: '', id: `a-${Date.now()}`, isNew: true }] }
                     : q
             )
         )
@@ -138,7 +138,13 @@ const useQuestions = (textMode: boolean) => {
                         if (newAlternatives[index]) {
                             newAlternatives[index] = { ...newAlternatives[index], thumbnail: file, isNew: true };
                         } else {
-                            newAlternatives.push({ id: `a-${Date.now()}_${index}`, answer: '', thumbnail: file, isNew: true });
+                            newAlternatives.push({
+                                id: `a-${Date.now()}_${index}`,
+                                answer: '',
+                                text: '',
+                                thumbnail: file,
+                                isNew: true
+                            });
                         }
                     });
                     return { ...q, alternatives: newAlternatives, isNew: true };
@@ -150,7 +156,12 @@ const useQuestions = (textMode: boolean) => {
 
     const hasImages = () => {
         return questions.every(q => {
-            return !!q.image && q.alternatives.every(a => !!a.thumbnail)
+            return !!q.image && q.alternatives.every(a => {
+                const hasThumbnail = !!a.thumbnail
+                const hasText = !!a.text?.trim()
+
+                return hasThumbnail || hasText
+            })
         })
     }
 

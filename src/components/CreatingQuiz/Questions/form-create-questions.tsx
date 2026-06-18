@@ -22,10 +22,14 @@ interface IProps {
 }
 
 export interface IFormatedImageQuestions {
-    questionId: string;
-    title: string;
-    answers: { answer: string; thumbnail: string; }[];
-    correctAnswer: string;
+    questionId: string
+    title: string
+    answers: {
+        answer: string
+        thumbnail: string
+        text: string
+    }[]
+    correctAnswer: string
 }
 
 export default function FormCreateQuestions({ styles, textMode, quizId }: IProps) {
@@ -64,7 +68,8 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         return questionsToFormat?.map(q => {
             const answers = q.alternatives?.map(ans => ({
                 answer: ans.id,
-                thumbnail: ''
+                thumbnail: '',
+                text: ans.text?.trim() || ''
             }))
 
             return {
@@ -251,7 +256,12 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                                     onRemoveQuestion={() => removeQuestion(q.id)}
                                     onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
                                     onQuestionImageChange={(file: string | File) => handleQuestionChange(q.id, 'image', file)}
-                                    onAlternativeImageChange={(altIndex: number, file: File | string) => handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
+                                    onAlternativeImageChange={(altIndex: number, file: File | string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'thumbnail', file)
+                                    }
+                                    onAlternativeTextChange={(altIndex: number, text: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'text', text)
+                                    }
                                     onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
                                 />
                             </div>

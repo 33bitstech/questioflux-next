@@ -1,4 +1,4 @@
-export interface ILocalQuestions{
+export interface ILocalQuestions {
     id: string
     type: 'text' | 'image'
     title: string
@@ -9,6 +9,7 @@ export interface ILocalQuestions{
         id: string,
         answer?: string,
         thumbnail?: File | string
+        text?: string
         isNew: boolean
     }>
 }

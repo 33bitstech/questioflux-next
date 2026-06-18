@@ -8,8 +8,8 @@ import InputTitle from './ImagesInputs/input-title'
 import InputAlternative from './ImagesInputs/input-alternative'
 import { useTranslations } from 'next-intl'
 
-interface IProps{
-    question:ILocalQuestions
+interface IProps {
+    question: ILocalQuestions
     position: number
     questions: ILocalQuestions[]
     onTitleChange: (title: string) => void
@@ -20,14 +20,15 @@ interface IProps{
     onRemoveAlternative: (altIndex: number) => void
     onRemoveQuestion: () => void
     onMultipleImageUpload: (files: FileList) => void
+    onAlternativeTextChange: (altIndex: number, text: string) => void
 }
 
 export default function QuestionInputImage({
     onAddAlternative, onAddQuestion, onAlternativeImageChange,
     onRemoveAlternative, onRemoveQuestion, onTitleChange,
     position, question, questions, onQuestionImageChange,
-    onMultipleImageUpload
-}:IProps) {
+    onMultipleImageUpload, onAlternativeTextChange
+}: IProps) {
     const t = useTranslations('creatingQuiz.questionsForm')
     return (
         <div className={`${styles.question_inputs}`}>
@@ -36,7 +37,7 @@ export default function QuestionInputImage({
 
                 {question.errorMessage && <p className={styles.message_error_input}>{question.errorMessage}</p>}
 
-                <InputTitle 
+                <InputTitle
                     styles={styles}
                     question={question}
                     onQuestionImageChange={onQuestionImageChange}
@@ -49,24 +50,24 @@ export default function QuestionInputImage({
                             <span>{position}</span>
                         </div>
                     </div>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder={t('imageInput.placeholder', { position })}
                         value={question.title}
-                        onChange={e=>{
+                        onChange={e => {
                             onTitleChange(e.target.value)
-                        }} 
+                        }}
                     />
 
-                    { position > 1 && <span className={`${styles.deleteDiv} ${styles.deleteQuestion}`} onClick={()=>onRemoveQuestion()}>
-                        <CloseSvg/>
+                    {position > 1 && <span className={`${styles.deleteDiv} ${styles.deleteQuestion}`} onClick={() => onRemoveQuestion()}>
+                        <CloseSvg />
                     </span>}
 
                 </div>
             </div>
             {/* alternativas */}
             <div className={styles.alternatives_container}>
-                {question.alternatives.map((alternative, index)=>(
+                {question.alternatives.map((alternative, index) => (
                     <div className={`${styles.input_container} ${index === 0 ? styles.correct : styles.incorrect}`} key={index}>
                         <InputAlternative
                             alternative={alternative}
@@ -76,25 +77,32 @@ export default function QuestionInputImage({
                         />
                         <div className={styles.footer_input}>
                             <span>
-                                <GetAnswerIcon 
+                                <GetAnswerIcon
                                     type={index === 0 ? 'correct' : 'incorrect'}
                                 />
                             </span>
-                            <p>{t('imageInput.alternativeLabel', { number: index + 1 })}</p>
 
-                            {index > 1 && <span className={styles.deleteDiv} onClick={()=>onRemoveAlternative(index)}>
-                                <CloseSvg/>
+                            <input
+                                className={styles.alternative_text_input}
+                                type="text"
+                                placeholder={t('imageInput.alternativeLabel', { number: index + 1 })}
+                                value={alternative.text || ''}
+                                onChange={(e) => onAlternativeTextChange(index, e.target.value)}
+                            />
+
+                            {index > 1 && <span className={styles.deleteDiv} onClick={() => onRemoveAlternative(index)}>
+                                <CloseSvg />
                             </span>}
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className={styles.vertical_bar}/>
+            <div className={styles.vertical_bar} />
 
             <div className={styles.actions}>
                 <button type='button' onClick={onAddAlternative}>{t('textInput.addAlternative')}</button>
-                
+
                 <button type='button' onClick={onAddQuestion}
                     disabled={position < questions.length}
                 >{t('textInput.addQuestion')}</button>
