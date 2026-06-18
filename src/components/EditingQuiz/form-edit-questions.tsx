@@ -34,37 +34,55 @@ export interface IArraysToUpdate {
 
 type ApiImageAnswer = {
     answer: string
-    thumbnail: string
+    thumbnail?: string
+    text?: string
 }
 
 type LocalImageAlternative = {
     id: string
-    thumbnail: string | File
+    thumbnail?: string | File
+    text?: string
     isNew?: boolean
     [key: string]: any
 }
 
 const isValidApiImageAnswer = (answer: unknown): answer is ApiImageAnswer => {
-    return (
-        typeof answer === 'object' &&
-        answer !== null &&
-        !Array.isArray(answer) &&
-        'answer' in answer &&
-        'thumbnail' in answer
+    if (
+        typeof answer !== 'object' ||
+        answer === null ||
+        Array.isArray(answer) ||
+        !('answer' in answer)
+    ) {
+        return false
+    }
+
+    const value = answer as ApiImageAnswer
+
+    return Boolean(
+        value.thumbnail ||
+        value.text?.trim()
     )
 }
 
 const isValidLocalImageAlternative = (alternative: unknown): alternative is LocalImageAlternative => {
-    return (
-        typeof alternative === 'object' &&
-        alternative !== null &&
-        !Array.isArray(alternative) &&
-        'id' in alternative &&
-        'thumbnail' in alternative
+    if (
+        typeof alternative !== 'object' ||
+        alternative === null ||
+        Array.isArray(alternative) ||
+        !('id' in alternative)
+    ) {
+        return false
+    }
+
+    const value = alternative as LocalImageAlternative
+
+    return Boolean(
+        value.thumbnail ||
+        value.text?.trim()
     )
 }
 
-export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}: IProps) {
+export default function FormEditQuestions({ styles, quiz, quizId, textMode = true }: IProps) {
     const t = useTranslations('editQuizFlow')
     const locale = useLocale()
 
@@ -100,7 +118,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
                 block: 'center'
             })
         })
-    }    
+    }
     const clearQuestionsErrors = () => {
         setQuestions(prevQuestions =>
             prevQuestions.map(question => ({
@@ -126,7 +144,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
 
             const answers = alternatives.map(ans => ({
                 answer: ans.id,
-                thumbnail: typeof ans.thumbnail === 'string' ? ans.thumbnail : ''
+                thumbnail: typeof ans.thumbnail === 'string' ? ans.thumbnail : '',
+                text: ans.text?.trim() || ''
             }))
 
             return {
@@ -137,7 +156,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
                 image: typeof q.image === 'string' ? q.image : ''
             }
         })
-    }   
+    }
 
     const willResetLb = () => {
         let cancel = false
@@ -183,7 +202,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
         setLoading(true)
 
         const handleApiError = (err: any) => {
-           const invalidQuestions = err?.data?.invalidQuestions as
+            const invalidQuestions = err?.data?.invalidQuestions as
                 | {
                     questionId: string
                     message: string
@@ -313,6 +332,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
                 if (res) {
                     setSucess(t('form.successMessage'))
                 }
+                return //new
             }
 
             const questionsFormated = handleFormatTextMode()
@@ -347,6 +367,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
                         .map((a: any) => ({
                             id: a.answer ?? '',
                             thumbnail: a.thumbnail ?? '',
+                            text: a.text ?? '',
                             isNew: false
                         }))
 
@@ -421,7 +442,12 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode=true}
                                     onRemoveQuestion={() => removeQuestion(q.id)}
                                     onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
                                     onQuestionImageChange={(file: string | File) => handleQuestionChange(q.id, 'image', file)}
-                                    onAlternativeImageChange={(altIndex: number, file: File | string) => handleAlternativeChange(q.id, altIndex, 'thumbnail', file)}
+                                    onAlternativeImageChange={(altIndex: number, file: File | string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'thumbnail', file)
+                                    }
+                                    onAlternativeTextChange={(altIndex: number, text: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'text', text)
+                                    }
                                     onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
                                 />
                             </div>
