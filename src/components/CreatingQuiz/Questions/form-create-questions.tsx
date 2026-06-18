@@ -263,6 +263,9 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                                         handleAlternativeChange(q.id, altIndex, 'text', text)
                                     }
                                     onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
+                                    onAlternativeImageClear={(altIndex: number) =>
+                                        handleAlternativeChange(q.id, altIndex, 'thumbnail', '')
+                                    }
                                 />
                             </div>
                         )

@@ -83,6 +83,7 @@ export async function uploadOneQuestionImage(
         }
 
         const alternativesImagesFormData = new FormData()
+        let hasAlternativeImagesToUpload = false
 
         question.alternatives.forEach((alt) => {
             if (alt.thumbnail !== undefined) {
@@ -91,18 +92,21 @@ export async function uploadOneQuestionImage(
                 }))
 
                 alternativesImagesFormData.append('questionAlternatives', alt.thumbnail)
+                hasAlternativeImagesToUpload = true
             }
         })
 
-        const responseAlt = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/alternatives/${quizId}/${question.id}`, {
-            method: 'PUT',
-            headers: { 'cookie': cookieHeader },
-            body: alternativesImagesFormData,
-        })
+        if (hasAlternativeImagesToUpload) {
+            const responseAlt = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/create/questions/images/alternatives/${quizId}/${question.id}`, {
+                method: 'PUT',
+                headers: { 'cookie': cookieHeader },
+                body: alternativesImagesFormData,
+            })
 
-        const resAlt = await responseAlt.json()
+            const resAlt = await responseAlt.json()
 
-        if (!responseAlt.ok) return { err: resAlt }
+            if (!responseAlt.ok) return { err: resAlt }
+        }
 
         return { res: true }
     } catch (err: any) {

@@ -436,6 +436,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                                     question={q}
                                     position={i + 1}
                                     questions={arr}
+
                                     onAddAlternative={() => addAlternative(q.id)}
                                     onAddQuestion={() => addQuestion()}
                                     onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
@@ -449,6 +450,9 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                                         handleAlternativeChange(q.id, altIndex, 'text', text)
                                     }
                                     onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
+                                    onAlternativeImageClear={(altIndex: number) =>
+                                        handleAlternativeChange(q.id, altIndex, 'thumbnail', '')
+                                    }
                                 />
                             </div>
                         )

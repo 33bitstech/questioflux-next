@@ -21,13 +21,14 @@ interface IProps {
     onRemoveQuestion: () => void
     onMultipleImageUpload: (files: FileList) => void
     onAlternativeTextChange: (altIndex: number, text: string) => void
+    onAlternativeImageClear: (altIndex: number) => void
 }
 
 export default function QuestionInputImage({
     onAddAlternative, onAddQuestion, onAlternativeImageChange,
     onRemoveAlternative, onRemoveQuestion, onTitleChange,
     position, question, questions, onQuestionImageChange,
-    onMultipleImageUpload, onAlternativeTextChange
+    onMultipleImageUpload, onAlternativeTextChange, onAlternativeImageClear
 }: IProps) {
     const t = useTranslations('creatingQuiz.questionsForm')
     return (
@@ -68,13 +69,32 @@ export default function QuestionInputImage({
             {/* alternativas */}
             <div className={styles.alternatives_container}>
                 {question.alternatives.map((alternative, index) => (
-                    <div className={`${styles.input_container} ${index === 0 ? styles.correct : styles.incorrect}`} key={index}>
+                    <div
+                        className={`${styles.input_container} ${index === 0 ? styles.correct : styles.incorrect}`}
+                        key={alternative.id}
+                    >
+                        {alternative.thumbnail && (
+                            <button
+                                type="button"
+                                className={styles.clear_image_button}
+                                aria-label={t('imageInput.clearImage')}
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                    onAlternativeImageClear(index)
+                                }}
+                            >
+                                <CloseSvg />
+                            </button>
+                        )}
+
                         <InputAlternative
                             alternative={alternative}
                             styles={styles}
                             i={index}
                             onAlternativeImageChange={onAlternativeImageChange}
                         />
+
                         <div className={styles.footer_input}>
                             <span>
                                 <GetAnswerIcon
@@ -90,9 +110,11 @@ export default function QuestionInputImage({
                                 onChange={(e) => onAlternativeTextChange(index, e.target.value)}
                             />
 
-                            {index > 1 && <span className={styles.deleteDiv} onClick={() => onRemoveAlternative(index)}>
-                                <CloseSvg />
-                            </span>}
+                            {index > 1 && (
+                                <span className={styles.deleteDiv} onClick={() => onRemoveAlternative(index)}>
+                                    <CloseSvg />
+                                </span>
+                            )}
                         </div>
                     </div>
                 ))}
