@@ -531,8 +531,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     }}
                     cancelValue={t('buttons.back')}
                     confirmValue={t('buttons.saveChanges')}
-                    title={t('warningReset.title')}
-                    description="Você fez alterações nas questões. Por favor, salve as alterações antes de trocar de página."
+                    title={t('warningUnsaved.title')}
+                    description={t('warningUnsaved.questionsDesc')}
                 />
                 <div className={styles.overlay_warning} />
             </>}
@@ -605,7 +605,17 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     <button onClick={(e) => { e.preventDefault(); router.back() }}>{t('buttons.back')}</button>
                 </div>
                 <div className={styles.save}>
-                    <Link href={`/quiz/edit/${quiz?.quizId}`}>{t('buttons.editQuiz')}</Link>
+                    <Link
+                        href={`/quiz/edit/${quiz?.quizId}`}
+                        onClick={(e) => {
+                            if (isDirty) {
+                                e.preventDefault();
+                                setShowUnsavedWarning(true);
+                            }
+                        }}
+                    >
+                        {t('buttons.editQuiz')}
+                    </Link>
                     <input disabled={loading} type="submit" value={t('buttons.saveChanges')} />
                 </div>
             </footer>

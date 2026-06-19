@@ -30,7 +30,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         { filters, getCategoryLabel } = useFilters(),
         router = useRouter()
 
-    const t = useTranslations('editQuizFlow.form');
+    const t = useTranslations('editQuizFlow');
     const tShared = useTranslations('createQuizFlow.formComponent');
     const locale = useLocale()
 
@@ -45,25 +45,28 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
-        [showUnsavedWarning, setShowUnsavedWarning] = useState<boolean>(false)
+        [showUnsavedWarning, setShowUnsavedWarning] = useState<boolean>(false),
+        [initialSnapshot, setInitialSnapshot] = useState<string | null>(null)
 
     const getErrorMessageByLocale = (error: ErrorsState) => {
-        return getLocalizedMessage(error, locale, t('unexpectedError'))
+        return getLocalizedMessage(error, locale, t('form.unexpectedError'))
     }
 
     const isDirty = useMemo(() => {
-        if (!quiz) return false
-        return (
-            title !== (quiz.title || '') ||
-            desc !== (quiz.description || '') ||
-            category !== (quiz.category || '') ||
-            tagsString !== (quiz.tags ?? []).join(', ') ||
-            visibility !== (quiz.isPrivate ? 'private' : 'public') ||
-            idiom !== (quiz.idiom || 'EN-US') ||
-            JSON.stringify(finalMessages) !== JSON.stringify(quiz.resultMessages) ||
-            imageData !== null
-        )
-    }, [quiz, title, desc, category, tagsString, visibility, idiom, finalMessages, imageData])
+        if (initialSnapshot === null) return false;
+
+        const currentSnapshot = JSON.stringify({
+            title,
+            desc,
+            category,
+            tagsString,
+            visibility,
+            idiom,
+            finalMessages: finalMessages || null
+        });
+
+        return currentSnapshot !== initialSnapshot || imageData !== null;
+    }, [initialSnapshot, title, desc, category, tagsString, visibility, idiom, finalMessages, imageData])
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -79,7 +82,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             const isPrivate = visibility !== 'public'
 
             const tags = tagsString
-                .split(',')
+                .split('form.,')
                 .map(tag => tag.trim())
                 .filter(Boolean)
 
@@ -118,7 +121,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 setGlobalError(getErrorMessageByLocale(result.warning))
             }
 
-            setSucess(t('successMessage'))
+            setSucess(t('form.successMessage'))
         } finally {
             setLoading(false)
         }
@@ -128,7 +131,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         if (errorQuiz) {
             setError(
                 errorQuiz.type,
-                getLocalizedMessage(errorQuiz, locale, t('unexpectedError'))
+                getLocalizedMessage(errorQuiz, locale, t('form.unexpectedError'))
             )
             return
         }
@@ -137,15 +140,33 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
     }, [errorQuiz, locale, setError, resetErrors, t])
 
     useEffect(() => {
-        if (!quiz.err && quiz) {
-            setTitle(quiz.title)
-            setDesc(quiz.description)
-            setCategory(quiz.category)
-            setTagsString((quiz.tags ?? []).join(', '))
-            setVisibility(quiz.isPrivate ? 'private' : 'public')
-            setIdiom(quiz.idiom as QuizIdiom)
-            setFinalMessages(quiz.resultMessages)
-            setOriginalImage(quiz.quizThumbnail)
+        if (!quiz?.err && quiz) {
+            const initialTitle = quiz.title || '';
+            const initialDesc = quiz.description || '';
+            const initialCategory = quiz.category || '';
+            const initialTags = (quiz.tags ?? []).join(', ');
+            const initialVisibility = quiz.isPrivate ? 'private' : 'public';
+            const initialIdiom = quiz.idiom || 'EN-US';
+            const initialMessages = quiz.resultMessages || null;
+
+            setTitle(initialTitle)
+            setDesc(initialDesc)
+            setCategory(initialCategory)
+            setTagsString(initialTags)
+            setVisibility(initialVisibility)
+            setIdiom(initialIdiom as QuizIdiom)
+            setFinalMessages(initialMessages)
+            setOriginalImage(quiz.quizThumbnail || '')
+
+            setInitialSnapshot(JSON.stringify({
+                title: initialTitle,
+                desc: initialDesc,
+                category: initialCategory,
+                tagsString: initialTags,
+                visibility: initialVisibility,
+                idiom: initialIdiom,
+                finalMessages: initialMessages
+            }))
         }
     }, [quiz])
 
@@ -160,9 +181,9 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                         saveQuizData()
                     }}
                     cancelValue={tShared('buttons.back')}
-                    confirmValue={t('buttons.saveChanges')}
-                    title="Atenção!"
-                    description="Você tem alterações não salvas. Por favor, clique em salvar antes de trocar de página."
+                    confirmValue={t('form.buttons.saveChanges')}
+                    title={t('warningUnsaved.title')}
+                    description={t('warningUnsaved.quizDesc')}
                 />
                 <div className={styles.overlay_warning} />
             </>}
@@ -250,10 +271,10 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                                 }
                             }}
                         >
-                            {t('buttons.editQuestions')}
+                            {t('form.buttons.editQuestions')}
                         </Link>
                     )}
-                    <input disabled={loading} type="submit" value={t('buttons.saveChanges')} />
+                    <input disabled={loading} type="submit" value={t('form.buttons.saveChanges')} />
                 </div>
             </footer>
         </form>
