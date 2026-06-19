@@ -6,7 +6,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
 import { Link } from '@/i18n/navigation'
 import { useRouter } from '@/i18n/navigation'
-import React, { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import QuestionInput from '../CreatingQuiz/Questions/question-input'
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions'
 import {
@@ -188,6 +188,9 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
         prevQuestionsLengthRef = useRef(questions.length),
         questionRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
+    const [showUnsavedWarning, setShowUnsavedWarning] = useState<boolean>(false);
+    const [initialSnapshot, setInitialSnapshot] = useState<string>('');
+
     const scrollToQuestionError = (questionId?: string) => {
         if (!questionId) return
 
@@ -198,6 +201,19 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
             })
         })
     }
+    const getQuestionsSnapshot = useCallback((qs: ILocalQuestions[]) => {
+        return JSON.stringify(qs.map(q => ({
+            id: q.id,
+            title: q.title,
+            image: isFile(q.image) ? q.image.name : q.image,
+            alternatives: q.alternatives.map(a => ({
+                id: a.id,
+                text: a.text,
+                answer: a.answer,
+                thumbnail: isFile(a.thumbnail) ? a.thumbnail.name : a.thumbnail
+            }))
+        })))
+    }, [])
 
     const clearQuestionsErrors = () => {
         setQuestions(prevQuestions =>
@@ -450,6 +466,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
                 setQuestions(newQuestions)
                 prevQuestionsLengthRef.current = newQuestions.length
+
+                setInitialSnapshot(getQuestionsSnapshot(newQuestions))
             } else {
                 const newQuestions: ILocalQuestions[] = quiz.questions?.map((q: any) => {
                     const ans = [q.correctAnswer, ...q.answers],
@@ -468,11 +486,15 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     }
                 })
 
-                if (newQuestions.length > 0) setQuestions(newQuestions)
+                if (newQuestions.length > 0) {
+                    setQuestions(newQuestions)
+                    setInitialSnapshot(getQuestionsSnapshot(newQuestions))
+                }
                 prevQuestionsLengthRef.current = newQuestions.length
             }
         }
-    }, [quiz, setQuestions])
+    }, [quiz, setQuestions, getQuestionsSnapshot])
+    const isDirty = initialSnapshot !== '' && getQuestionsSnapshot(questions) !== initialSnapshot
 
     useLayoutEffect(() => {
         const currentLength = questions.length
@@ -497,6 +519,20 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     confirmValue={t('warningReset.confirmButton')}
                     title={t('warningReset.title')}
                     description={t('warningReset.description')}
+                />
+                <div className={styles.overlay_warning} />
+            </>}
+            {showUnsavedWarning && <>
+                <WarningReset
+                    cancelFunction={() => setShowUnsavedWarning(false)}
+                    confirmFunction={() => {
+                        setShowUnsavedWarning(false);
+                        willResetLb();
+                    }}
+                    cancelValue={t('buttons.back')}
+                    confirmValue={t('buttons.saveChanges')}
+                    title={t('warningReset.title')}
+                    description="Você fez alterações nas questões. Por favor, salve as alterações antes de trocar de página."
                 />
                 <div className={styles.overlay_warning} />
             </>}

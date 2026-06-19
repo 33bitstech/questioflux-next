@@ -3,13 +3,13 @@ import styles from './warning-reset.module.scss'
 interface IProps {
     title: string,
     description: string
-    confirmFunction: ()=>void
-    cancelFunction: ()=>void
+    confirmFunction: (e?: any) => void
+    cancelFunction: () => void
     cancelValue: string
     confirmValue: string
 }
 
-const WarningReset = ({title, description, cancelValue, confirmValue, confirmFunction, cancelFunction}: IProps) => {
+const WarningReset = ({ title, description, cancelValue, confirmValue, confirmFunction, cancelFunction }: IProps) => {
     return (
         <div className={`${styles.container}`}>
             <h3>{title}</h3>

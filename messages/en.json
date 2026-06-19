@@ -516,6 +516,11 @@
         }
     },
     "editQuizFlow": {
+        "warningUnsaved": {
+            "title": "Warning!",
+            "quizDesc": "You have unsaved changes. Please click save before changing pages.",
+            "questionsDesc": "You have made changes to the questions. Please save your changes before changing pages."
+        },
         "metadataTitle": "Edit your quiz",
         "page": {
             "title": "Edit your quiz",

@@ -1,6 +1,18 @@
 @use '../../../../../../../assets/styles/vars.scss';
 
-.content{
+.content {
+
+    .warning_overlay,
+    .overlay_warning {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000000bc;
+        z-index: 10;
+    }
+
     @extend %content-default;
     display: flex;
     flex-direction: column;
@@ -8,60 +20,67 @@
     gap: .81rem !important;
     margin-bottom: 6.9375rem;
     margin-top: 5rem;
-    
-    .subtitle_creations{
+
+    .subtitle_creations {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         gap: .30rem;
         height: auto;
         width: 70%;
-        h1{
+
+        h1 {
             @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
         }
-        p{
+
+        p {
             @include vars.styleTexto(var(--text-primary), .75rem, 400);
-            span{
+
+            span {
                 display: block;
                 font-weight: 700;
             }
         }
     }
 
-    .form{
+    .form {
         width: 70%;
         display: flex;
         flex-direction: column;
         gap: 3rem;
         margin-bottom: 5.19rem;
-        .image_container{
+
+        .image_container {
             position: relative;
             height: 23rem;
             width: 100%;
             border-radius: 0.3125rem;
             border: 1px solid vars.$cor-cinzaDescD;
-            input[type="file"]{
+
+            input[type="file"] {
                 @extend %hidden-element;
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-            label[for="imageQuiz"]{
+
+            label[for="imageQuiz"] {
                 display: inline-block;
                 height: 100%;
                 width: 100%;
                 border-radius: 0.3125rem;
                 background-color: var(--background-divs);
                 cursor: pointer;
-                
-                span{
+
+                span {
                     display: inline-block;
                     height: 100%;
                     width: 100%;
                     border-radius: 0.3125rem;
                     position: relative;
-                    svg{
+
+                    svg {
                         position: absolute;
                         top: 50%;
                         left: 50%;
@@ -69,11 +88,12 @@
                         width: 4.72813rem;
                         height: 4.47838rem;
                     }
-                    img{
+
+                    img {
                         height: 100%;
                         width: 100%;
                         position: absolute;
-                        
+
                         border-radius: 0.3125rem;
                         background-size: contain;
                         object-fit: cover;
@@ -83,73 +103,95 @@
 
             }
         }
-        .field{
+
+        .field {
             display: flex;
             flex-direction: column;
-            gap:.20rem;
+            gap: .20rem;
             width: 100%;
             height: auto;
             position: relative;
-            &:has(.message_error_input) input, &:has(.message_error_input) textarea, &:has(.message_error_input) select{
+
+            &:has(.message_error_input) input,
+            &:has(.message_error_input) textarea,
+            &:has(.message_error_input) select {
                 outline: 2px solid vars.$cor-errorColor;
             }
-            .message_error_input{
+
+            .message_error_input {
                 position: absolute;
                 bottom: 0;
                 right: 0;
                 transform: translate(0%, 100%);
-                @include vars.styleTexto(vars.$cor-errorColor,.86rem, 400);
-                &::first-letter{
+                @include vars.styleTexto(vars.$cor-errorColor, .86rem, 400);
+
+                &::first-letter {
                     text-transform: uppercase;
                 }
             }
+
             label {
                 @include vars.styleTexto(var(--text-primary), 1rem, 400);
             }
-            input, textarea, select{
+
+            input,
+            textarea,
+            select {
                 @include vars.styleTexto(var(--text-primary), .75rem, 400);
                 background-color: var(--background-divs);
             }
-            input{
+
+            input {
                 padding: .5rem;
                 border-radius: 0.3125rem;
                 border: 1px solid vars.$cor-cinzaDescD;
             }
-            textarea{
+
+            textarea {
                 padding: .5rem;
                 border-radius: 0.3125rem;
                 border: 1px solid vars.$cor-cinzaDescD;
                 resize: vertical;
                 height: 7.8125rem;
             }
-            input::placeholder{
+
+            input::placeholder {
                 @include vars.styleTexto(vars.$cor-cinzaDescD, .75rem, 400);
             }
-            option{
+
+            option {
                 padding: .5rem;
                 appearance: none;
             }
-            select{
+
+            select {
                 padding: .5rem;
                 border: 1px solid vars.$cor-cinzaDescD;
                 border-radius: 0.3125rem;
             }
-            input:focus, select:focus, textarea:focus{
+
+            input:focus,
+            select:focus,
+            textarea:focus {
                 outline: none;
             }
         }
-        .messages{
+
+        .messages {
             display: flex;
             flex-direction: column;
             gap: .62rem;
-            label{
+
+            label {
                 @include vars.styleTexto(var(--text-primary), .75rem, 400);
             }
-            .messages_actions{
+
+            .messages_actions {
                 display: flex;
                 gap: .31rem;
                 align-items: center;
-                .button_message{
+
+                .button_message {
                     @include vars.styleTexto(vars.$cor-cinzaDescD, 1rem, 700);
                     border-radius: 0.6875rem;
                     border: 2px solid vars.$cor-cinzaDescD;
@@ -159,12 +201,14 @@
                     max-width: 11rem;
                     cursor: pointer;
                 }
-                .active_button{
+
+                .active_button {
                     border: 2px solid var(--text-primary);
                     color: var(--text-primary);
                 }
             }
-            .messages_inputs{
+
+            .messages_inputs {
                 display: flex;
                 flex-direction: column;
                 gap: .5rem;
@@ -174,7 +218,7 @@
         }
     }
 
-    .footer{
+    .footer {
         position: absolute;
         left: 0;
         bottom: 0;
@@ -187,32 +231,42 @@
 
         background-color: var(--background-divs);
 
-        input[type='submit'], button, a{
+        input[type='submit'],
+        button,
+        a {
             @include vars.styleTexto(vars.$cor-preto, 1rem, 700);
             border-radius: 0.6875rem;
             cursor: pointer;
         }
-        .actions{
+
+        .actions {
             display: flex;
             gap: 1rem;
             align-items: center;
-            button{
+
+            button {
                 padding: 0.88rem 1.56rem;
                 color: var(--text-primary);
                 border: 1px solid var(--text-primary);
                 background-color: var(--background-divs);
             }
         }
-        .save{
+
+        .save {
             display: flex;
             gap: .8rem;
-            button:nth-child(1), input:nth-child(1), a{
+
+            button:nth-child(1),
+            input:nth-child(1),
+            a {
                 color: var(--text-primary);
                 border: 1px solid var(--text-primary);
                 background-color: var(--background-divs);
                 padding: 0.88rem 2.80rem;
             }
-            button:nth-child(2), input:nth-child(2){
+
+            button:nth-child(2),
+            input:nth-child(2) {
                 color: var(--button-text-color);
                 border: 1px solid var(--background-button);
                 background-color: var(--background-button);
@@ -221,11 +275,13 @@
         }
     }
 }
+
 @media screen and (max-width: 860px) {
-    .form{
+    .form {
         width: 95% !important;
     }
-    .footer{
+
+    .footer {
         flex-direction: column;
         gap: 5px;
         padding: .5rem 0;

@@ -1,6 +1,6 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import InputImageQuiz from '../CreatingQuiz/input-image-quiz'
 import InputTextQuiz from '../CreatingQuiz/input-text-quiz'
@@ -16,6 +16,7 @@ import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizI
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 import DeleteQuiz from './delete-quiz'
+import WarningReset from '../widgets/warning-reset'
 
 interface IProps {
     styles: TStyles,
@@ -43,15 +44,32 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [originalImage, setOriginalImage] = useState<string>(''),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
-        [errorQuiz, setErrorQuiz] = useState<ErrorsState>()
+        [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
+        [showUnsavedWarning, setShowUnsavedWarning] = useState<boolean>(false)
 
     const getErrorMessageByLocale = (error: ErrorsState) => {
         return getLocalizedMessage(error, locale, t('unexpectedError'))
     }
 
+    const isDirty = useMemo(() => {
+        if (!quiz) return false
+        return (
+            title !== (quiz.title || '') ||
+            desc !== (quiz.description || '') ||
+            category !== (quiz.category || '') ||
+            tagsString !== (quiz.tags ?? []).join(', ') ||
+            visibility !== (quiz.isPrivate ? 'private' : 'public') ||
+            idiom !== (quiz.idiom || 'EN-US') ||
+            JSON.stringify(finalMessages) !== JSON.stringify(quiz.resultMessages) ||
+            imageData !== null
+        )
+    }, [quiz, title, desc, category, tagsString, visibility, idiom, finalMessages, imageData])
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
-
+        await saveQuizData()
+    }
+    const saveQuizData = async () => {
         if (!quiz) return
 
         setErrorQuiz(undefined)
@@ -93,7 +111,6 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 } else {
                     setErrorQuiz(result.error)
                 }
-
                 return
             }
 
@@ -134,6 +151,23 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
+
+            {showUnsavedWarning && <>
+                <WarningReset
+                    cancelFunction={() => setShowUnsavedWarning(false)}
+                    confirmFunction={() => {
+                        setShowUnsavedWarning(false);
+                        saveQuizData()
+                    }}
+                    cancelValue={tShared('buttons.back')}
+                    confirmValue={t('buttons.saveChanges')}
+                    title="Atenção!"
+                    description="Você tem alterações não salvas. Por favor, clique em salvar antes de trocar de página."
+                />
+                <div className={styles.overlay_warning} />
+            </>}
+
+
             {loading && <LoadingReq loading={loading} />}
 
             <div className={styles.image_container}>
@@ -206,7 +240,19 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     <DeleteQuiz quizId={quiz?.quizId} />
                 </div>
                 <div className={styles.save}>
-                    {quiz && <Link href={`/quiz/edit/questions/${quiz?.quizId}`}>{t('buttons.editQuestions')}</Link>}
+                    {quiz && (
+                        <Link
+                            href={`/quiz/edit/questions/${quiz?.quizId}`}
+                            onClick={(e) => {
+                                if (isDirty) {
+                                    e.preventDefault();
+                                    setShowUnsavedWarning(true);
+                                }
+                            }}
+                        >
+                            {t('buttons.editQuestions')}
+                        </Link>
+                    )}
                     <input disabled={loading} type="submit" value={t('buttons.saveChanges')} />
                 </div>
             </footer>
