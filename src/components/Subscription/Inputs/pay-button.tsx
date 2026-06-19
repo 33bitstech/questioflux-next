@@ -151,7 +151,12 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
                 disabled={loading || !canPay}
                 onClick={handleClick}
             >
-                {loading ? t('inputs.loading') : t('inputs.send')}
+                {loading
+                    ? t('inputs.loading')
+                    : type_subs === 'questioplus'
+                        ? t('inputs.subscribe')
+                        : t('inputs.buy')
+                }
             </button>
         </>
     )

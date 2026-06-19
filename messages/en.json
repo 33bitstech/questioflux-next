@@ -616,7 +616,8 @@
             "creditCard": "Credit Card"
         },
         "inputs": {
-            "send": "Pay",
+            "subscribe": "Subscribe",
+            "buy": "Buy",
             "loading": "Loading..."
         },
         "hasPremium": "You already have an active subscription",

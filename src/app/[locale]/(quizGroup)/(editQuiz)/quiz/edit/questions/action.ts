@@ -33,7 +33,7 @@ export async function updateQuestionsImage(
         if (!response.ok) {
             return {
                 err: {
-                    data: res
+                    data: res.data || res
                 }
             }
         }
@@ -65,11 +65,11 @@ export async function updateQuestionsImage(
             if (!responseThumb.ok) {
                 return {
                     err: {
-                        data: resThumb
+                        data: resThumb.data || resThumb
                     }
                 }
             }
-            resThumbData = resThumb // Guardamos o retorno com as URLs novas
+            resThumbData = resThumb.data || resThumb
         }
 
         const alternativesFormDataMap = new Map<string, MapAlternatives>()
@@ -102,7 +102,7 @@ export async function updateQuestionsImage(
 
             return {
                 ok: responseAlt.ok,
-                data: resAlt
+                data: resAlt.data || resAlt
             }
         })
 
