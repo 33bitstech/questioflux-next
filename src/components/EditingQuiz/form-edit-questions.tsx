@@ -1,4 +1,5 @@
 'use client'
+
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import useQuestions from '@/hooks/useQuestions'
 import IQuizes from '@/interfaces/IQuizes'
@@ -82,9 +83,20 @@ const isValidLocalImageAlternative = (alternative: unknown): alternative is Loca
     )
 }
 
-
 const isFile = (value: unknown): value is File => {
     return typeof File !== 'undefined' && value instanceof File
+}
+
+const hasPendingUpload = (apiQuestions: any[]): boolean => {
+    return apiQuestions.some((question: any) => {
+        const hasPendingQuestionImage = question?.image === 'pending-upload'
+
+        const hasPendingAlternativeImage = Array.isArray(question?.answers)
+            ? question.answers.some((answer: any) => answer?.thumbnail === 'pending-upload')
+            : false
+
+        return hasPendingQuestionImage || hasPendingAlternativeImage
+    })
 }
 
 const mapApiImageQuestionsToLocal = (apiQuestions: any[]): ILocalQuestions[] => {
@@ -114,14 +126,16 @@ const mapApiImageQuestionsToLocal = (apiQuestions: any[]): ILocalQuestions[] => 
 const getUpdatedQuestionsFromImageResponse = (response: any): ILocalQuestions[] | null => {
     const responses = Array.isArray(response) ? response : [response]
 
-    for (const item of responses) {
+    for (let index = responses.length - 1; index >= 0; index--) {
+        const item = responses[index]
+
         const questionsFromResponse =
             item?.data?.newAlternatives ||
             item?.data?.newQuestions ||
             item?.newAlternatives ||
             item?.newQuestions
 
-        if (Array.isArray(questionsFromResponse)) {
+        if (Array.isArray(questionsFromResponse) && !hasPendingUpload(questionsFromResponse)) {
             return mapApiImageQuestionsToLocal(questionsFromResponse)
         }
     }
@@ -132,11 +146,11 @@ const getUpdatedQuestionsFromImageResponse = (response: any): ILocalQuestions[] 
 const normalizeQuestionsAfterImageSave = (questions: ILocalQuestions[]): ILocalQuestions[] => {
     return questions.map(question => ({
         ...question,
-        image: isFile(question.image) ? '' : question.image,
+        image: question.image,
         isNew: false,
         alternatives: question.alternatives.map(alternative => ({
             ...alternative,
-            thumbnail: isFile(alternative.thumbnail) ? '' : alternative.thumbnail,
+            thumbnail: alternative.thumbnail,
             isNew: false
         }))
     }))
@@ -190,6 +204,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
             })
         })
     }
+
     const clearQuestionsErrors = () => {
         setQuestions(prevQuestions =>
             prevQuestions.map(question => ({
@@ -203,7 +218,13 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
         return questions?.map(q => {
             const ans = q.alternatives?.filter((_, index) => index !== 0),
                 answers = ans.map(a => a.answer)
-            return { questionId: q.id, question: q.title || '', answers, correctAnswer: q.alternatives[0].answer || '' }
+
+            return {
+                questionId: q.id,
+                question: q.title || '',
+                answers,
+                correctAnswer: q.alternatives[0].answer || ''
+            }
         })
     }
 
@@ -228,7 +249,11 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 title: q.title || '',
                 answers,
                 correctAnswer: alternatives[0]?.id || '',
-                image: typeof q.image === 'string' ? q.image : ''
+                image: typeof q.image === 'string'
+                    ? q.image
+                    : isFile(q.image)
+                        ? 'pending-upload'
+                        : ''
             }
         })
     }
@@ -367,6 +392,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                         }
                     }
 
+                    setQuestions(normalizeQuestionsAfterImageSave(questionsToSend))
+                    router.refresh()
                     setSucess(t('form.successMessage'))
                     return
                 }
@@ -451,8 +478,16 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                             answer: typeof a === 'string' ? a : (a?.answer ?? ''),
                             isNew: false
                         }))
-                    return { id: q.questionId, type: 'text', title: q.question, isNew: false, alternatives }
+
+                    return {
+                        id: q.questionId,
+                        type: 'text',
+                        title: q.question,
+                        isNew: false,
+                        alternatives
+                    }
                 })
+
                 if (newQuestions.length > 0) setQuestions(newQuestions)
                 prevQuestionsLengthRef.current = newQuestions.length
             }
@@ -461,7 +496,14 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
     useLayoutEffect(() => {
         const currentLength = questions.length
-        if (currentLength > prevQuestionsLengthRef.current) window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+
+        if (currentLength > prevQuestionsLengthRef.current) {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            })
+        }
+
         prevQuestionsLengthRef.current = currentLength
     }, [questions?.length])
 
@@ -516,29 +558,29 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                                 />
                             </div>
                         )
-                    } else {
-                        return (
-                            <div
-                                key={q.id}
-                                ref={(el) => {
-                                    questionRefs.current[q.id] = el
-                                }}
-                                style={{ scrollMarginTop: '6rem' }}
-                            >
-                                <QuestionInput
-                                    question={q}
-                                    questions={arr}
-                                    position={i + 1}
-                                    onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
-                                    onAddAlternative={() => addAlternative(q.id)}
-                                    onAddQuestion={() => addQuestion()}
-                                    onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
-                                    onRemoveQuestion={() => removeQuestion(q.id)}
-                                    onAlternativeChange={(altIndex: number, answer: string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}
-                                />
-                            </div>
-                        )
                     }
+
+                    return (
+                        <div
+                            key={q.id}
+                            ref={(el) => {
+                                questionRefs.current[q.id] = el
+                            }}
+                            style={{ scrollMarginTop: '6rem' }}
+                        >
+                            <QuestionInput
+                                question={q}
+                                questions={arr}
+                                position={i + 1}
+                                onTitleChange={(title: string) => handleQuestionChange(q.id, 'title', title)}
+                                onAddAlternative={() => addAlternative(q.id)}
+                                onAddQuestion={() => addQuestion()}
+                                onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
+                                onRemoveQuestion={() => removeQuestion(q.id)}
+                                onAlternativeChange={(altIndex: number, answer: string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}
+                            />
+                        </div>
+                    )
                 })}
             </div>
 
