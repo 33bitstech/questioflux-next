@@ -74,13 +74,7 @@ const isValidLocalImageAlternative = (alternative: unknown): alternative is Loca
     ) {
         return false
     }
-
-    const value = alternative as LocalImageAlternative
-
-    return Boolean(
-        value.thumbnail ||
-        value.text?.trim()
-    )
+    return true
 }
 
 const isFile = (value: unknown): value is File => {
@@ -230,9 +224,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
     const handleFormatImageMode = (questionsToFormat: ILocalQuestions[] = questions) => {
         return questionsToFormat?.map(q => {
-            const alternatives = Array.isArray(q.alternatives)
-                ? q.alternatives.filter(isValidLocalImageAlternative)
-                : []
+            const alternatives = Array.isArray(q.alternatives) ? q.alternatives : []
 
             const answers = alternatives.map(ans => ({
                 answer: ans.id,
@@ -276,7 +268,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                         : []
 
                     const oldLength = apiAnswers.filter(isValidApiImageAnswer).length
-                    const currentLength = localAlternatives.filter(isValidLocalImageAlternative).length
+                    const currentLength = localAlternatives.length
 
                     if (oldLength != currentLength) cancel = true
                     return
@@ -331,9 +323,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 })
 
                 setError(t('form.validationError'))
-
                 scrollToQuestionError(invalidQuestions[0]?.questionId)
-
                 return
             }
 
@@ -349,7 +339,6 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                         t('form.unexpectedError')
                     )
                 )
-
                 return
             }
 
@@ -358,18 +347,9 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
         try {
             if (isImageMode) {
-                const canSend = hasImages()
-
-                if (!canSend) {
-                    setError(t('form.validationError'))
-                    return
-                }
-
                 const questionsToSend = questions.map(q => ({
                     ...q,
-                    alternatives: Array.isArray(q.alternatives)
-                        ? q.alternatives.filter(isValidLocalImageAlternative)
-                        : []
+                    alternatives: Array.isArray(q.alternatives) ? q.alternatives : []
                 }))
 
                 const questionsFormated = handleFormatImageMode(questionsToSend)

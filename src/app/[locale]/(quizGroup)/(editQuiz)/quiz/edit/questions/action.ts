@@ -38,6 +38,8 @@ export async function updateQuestionsImage(
             }
         }
 
+        let resThumbData = null
+
         if (dataToSend.questionsToUpdate.length > 0) {
             const imageDatas = new FormData()
 
@@ -67,6 +69,7 @@ export async function updateQuestionsImage(
                     }
                 }
             }
+            resThumbData = resThumb // Guardamos o retorno com as URLs novas
         }
 
         const alternativesFormDataMap = new Map<string, MapAlternatives>()
@@ -115,8 +118,12 @@ export async function updateQuestionsImage(
             }
         }
 
+        const allSuccessResponses = []
+        if (resThumbData) allSuccessResponses.push(resThumbData)
+        finalRes.forEach(result => allSuccessResponses.push(result.data))
+
         return {
-            res: finalRes.map(result => result.data)
+            res: allSuccessResponses
         }
     } catch (err: any) {
         return {
