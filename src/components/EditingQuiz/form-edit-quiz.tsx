@@ -122,6 +122,16 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             }
 
             setSucess(t('form.successMessage'))
+            setInitialSnapshot(JSON.stringify({
+                title,
+                desc,
+                category,
+                tagsString,
+                visibility,
+                idiom,
+                finalMessages: finalMessages || null
+            }))
+            setImageData(null)
         } finally {
             setLoading(false)
         }

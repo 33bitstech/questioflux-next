@@ -388,9 +388,12 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                         }
                     }
 
-                    setQuestions(normalizeQuestionsAfterImageSave(questionsToSend))
+                    const normalizedQuestions = normalizeQuestionsAfterImageSave(questionsToSend);
+                    setQuestions(normalizedQuestions)
                     router.refresh()
                     setSucess(t('form.successMessage'))
+
+                    setInitialSnapshot(getQuestionsSnapshot(normalizedQuestions))
                     return
                 }
 
@@ -429,10 +432,13 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
                 if (res) {
                     const updatedQuestions = getUpdatedQuestionsFromImageResponse(res)
+                    const finalQuestions = updatedQuestions || normalizeQuestionsAfterImageSave(questionsToSend)
 
-                    setQuestions(updatedQuestions || normalizeQuestionsAfterImageSave(questionsToSend))
+                    setQuestions(finalQuestions)
                     router.refresh()
                     setSucess(t('form.successMessage'))
+
+                    setInitialSnapshot(getQuestionsSnapshot(finalQuestions))
                 }
 
                 return
@@ -453,6 +459,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
             if (res) {
                 setSucess(t('form.successMessage'))
+
+                setInitialSnapshot(getQuestionsSnapshot(questions))
             }
         } finally {
             setLoading(false)
