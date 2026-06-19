@@ -1,6 +1,6 @@
 @use '../../../assets/styles/vars.scss';
 
-.botao{
+.botao {
     width: 100%;
     background: #30313d;
     @include vars.styleTexto(branco, 1.1rem, 700);
@@ -9,7 +9,12 @@
     border-radius: .5rem;
     border: none;
     cursor: pointer;
-    &:hover{
+
+    &:hover {
         background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
     }
 }
