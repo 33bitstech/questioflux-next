@@ -12,7 +12,7 @@ export async function POST(
         const body = await request.json().catch(() => ({}))
 
         const currency = currencyToApiParam(normalizeCurrency(body?.currency, locale))
-
+        console.log(currency)
         const externalApiResponse = await ApiData({
             path: `create-stripe-payment-session/${currency}`,
             method: 'POST',
