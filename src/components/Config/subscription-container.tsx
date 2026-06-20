@@ -197,6 +197,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 if (res.err) {
                     return setError(res.err)
                 }
+                console.log(res)
 
                 setPremium(res.premium.premium)
                 setSpecialCount(res.premium.specialCount)
