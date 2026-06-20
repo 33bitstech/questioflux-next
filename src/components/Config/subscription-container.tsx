@@ -150,7 +150,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
         try {
             setIsManagingBilling(true)
 
-            const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/payment/portal`, {
+            const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/payments/portal`, {
                 method: 'POST',
                 credentials: 'include'
             })
