@@ -175,6 +175,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
     }
 
     useEffect(() => {
+        if (!user) return;
         const get = async () => {
             try {
                 const res = await verifyUserPremium()
@@ -194,7 +195,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
         }
 
         get()
-    }, [user, setError])
+    }, [user?.userId])
 
     return (
         <>
