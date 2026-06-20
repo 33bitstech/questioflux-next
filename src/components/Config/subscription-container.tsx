@@ -155,8 +155,8 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 credentials: 'include'
             })
 
+            console.log(response)
             const data = await response.json()
-            console.log(data)
             if (!response.ok) {
                 throw new Error(data.message || 'Erro de resposta da API')
             }
