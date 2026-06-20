@@ -7,6 +7,7 @@ import { Link } from '@/i18n/navigation'
 import { useUser } from '@/contexts/userContext'
 import {
     cancelSubscription,
+    createPortalSession,
     verifyUserPremium
 } from '@/app/[locale]/(quizGroup)/profile/config/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
@@ -150,21 +151,15 @@ export default function SubscriptionContainer({ styles }: IProps) {
         try {
             setIsManagingBilling(true)
 
-            const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/payments/portal`, {
-                method: 'POST',
-                credentials: 'include'
-            })
+            const res = await createPortalSession(locale)
 
-            console.log(response)
-            const data = await response.json()
-            if (!response.ok) {
-                throw new Error(data.message || 'Erro de resposta da API')
+            if (res.err) {
+                setError(res.err)
+                return
             }
 
-            if (data.url) {
-                window.location.href = data.url
-            } else {
-                throw new Error('URL do Stripe não retornou')
+            if (res.url) {
+                window.location.href = res.url
             }
         } catch (error) {
             console.error("Erro ao abrir o portal", error)
