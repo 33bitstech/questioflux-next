@@ -72,26 +72,12 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 setPremium(false)
                 return
             }
+            const currentPeriodEndFromApi = res.premium.currentPeriodEnd ?? null
 
-            const currentPeriodEndFromApi =
-                res.premium?.currentPeriodEnd ??
-                res.premium?.subscription?.currentPeriodEnd ??
-                res.premium?.current_period_end ??
-                res.premium?.subscription?.current_period_end ??
-                currentPeriodEnd ??
-                null
-
-            const cancelAtPeriodEndFromApi =
-                res.premium?.cancelAtPeriodEnd ??
-                res.premium?.subscription?.cancelAtPeriodEnd ??
-                res.premium?.cancel_at_period_end ??
-                res.premium?.subscription?.cancel_at_period_end ??
-                cancelAtPeriodEnd ??
-                false
+            const cancelAtPeriodEndFromApi = res.premium.cancelAtPeriodEnd ?? false
 
             setCurrentPeriodEnd(currentPeriodEndFromApi)
             setCancelAtPeriodEnd(cancelAtPeriodEndFromApi)
-
             setShowCancelPopup(true)
         } catch (err) {
             console.log(err)
@@ -197,13 +183,22 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 if (res.err) {
                     return setError(res.err)
                 }
-                console.log(res)
+                const endDateFromApi = res.premium.currentPeriodEnd ?? null
+                const cancelAtPeriodEndFromApi = res.premium.cancelAtPeriodEnd ?? false
 
-                setPremium(res.premium.premium)
+                let isEffectivelyPremium = res.premium.premium;
+
+                if (isEffectivelyPremium && cancelAtPeriodEndFromApi && endDateFromApi) {
+                    const endDate = new Date(endDateFromApi);
+                    if (endDate <= new Date()) {
+                        isEffectivelyPremium = false;
+                    }
+                }
+
+                setPremium(isEffectivelyPremium)
                 setSpecialCount(res.premium.specialCount)
-
-                setCurrentPeriodEnd(res.premium.currentPeriodEnd ?? null)
-                setCancelAtPeriodEnd(res.premium.cancelAtPeriodEnd ?? false)
+                setCurrentPeriodEnd(endDateFromApi)
+                setCancelAtPeriodEnd(cancelAtPeriodEndFromApi)
             } catch (err) {
                 console.log(err)
             }
