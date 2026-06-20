@@ -216,6 +216,9 @@
             "successMessage": "Saved successfully!"
         },
         "subscriptionContainer": {
+            "manageBilling": "Manage Subscription / Update Card",
+            "manageBillingLoading": "Redirecting...",
+            "manageBillingError": "Could not open the payment portal.",
             "activeTitle": "Active ({count})",
             "vortexPlus": {
                 "title": "QuestioPlus",

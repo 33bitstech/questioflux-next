@@ -21,6 +21,8 @@ type ApiError = {
     error?: string
 }
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 const PayButton = ({ type_subs, email, sessionId }: IProps) => {
     const checkoutState = useCheckoutElements()
     const [loading, setLoading] = useState(false)
@@ -68,71 +70,48 @@ const PayButton = ({ type_subs, email, sessionId }: IProps) => {
 
         setLoading(true)
 
-        const { checkout } = checkoutState
-
-        const emailResult = await checkout.updateEmail(email)
-
-        if (emailResult.type === 'error') {
-            setError(
-                emailResult.error.message ||
-                t('messages.invalidEmail')
-            )
-
-            setLoading(false)
-            return
-        }
-
         try {
+            const { checkout } = checkoutState
+
+            const emailResult = await checkout.updateEmail(email)
+
+            if (emailResult.type === 'error') {
+                setError(emailResult.error.message || t('messages.invalidEmail'))
+                return
+            }
+
             const result = await checkout.confirm({ redirect: 'if_required' })
 
             if (result.type === 'error') {
-                setError(
-                    result.error.message ||
-                    t('messages.paymentProcessError')
-                )
-
-                setLoading(false)
+                setError(result.error.message || t('messages.paymentProcessError'))
                 return
             }
+
+            await delay(2000)
 
             const { res, err } = await getCheckoutSessionStatus(sessionId)
 
             if (err) {
-                setError(
-                    getApiErrorMessage(
-                        err,
-                        'messages.confirmPaymentStatusError'
-                    )
-                )
-
-                setLoading(false)
+                setError(getApiErrorMessage(err, 'messages.confirmPaymentStatusError'))
                 return
             }
 
             if (!res?.success) {
                 setError(t('messages.paymentNotConfirmed'))
-                setLoading(false)
                 return
             }
 
             if (type_subs === 'questioplus') {
                 setSucess(t('messages.subscriptionSuccess'))
-            }
-
-            if (type_subs === 'questioplususage') {
+            } else if (type_subs === 'questioplususage') {
                 setSucess(t('messages.paymentSuccess'))
             }
 
-            setTimeout(() => {
-                router.push('/home')
-            }, 3000)
+            await delay(3000)
+            router.push('/home')
+
         } catch (error: any) {
-            setError(
-                getApiErrorMessage(
-                    error,
-                    'messages.unexpectedError'
-                )
-            )
+            setError(getApiErrorMessage(error, 'messages.unexpectedError'))
         } finally {
             setLoading(false)
         }

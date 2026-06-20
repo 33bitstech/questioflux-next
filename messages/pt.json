@@ -216,6 +216,9 @@
             "successMessage": "Salvo com sucesso!"
         },
         "subscriptionContainer": {
+            "manageBilling": "Gerenciar Assinatura / Atualizar Cartão",
+            "manageBillingLoading": "Redirecionando...",
+            "manageBillingError": "Não foi possível abrir o portal de pagamento.",
             "activeTitle": "Ativas ({count})",
             "vortexPlus": {
                 "title": "QuestioPlus",

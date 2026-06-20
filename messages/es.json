@@ -216,6 +216,9 @@
             "successMessage": "¡Guardado con éxito!"
         },
         "subscriptionContainer": {
+            "manageBilling": "Gestionar suscripción / Actualizar tarjeta",
+            "manageBillingLoading": "Redirigiendo...",
+            "manageBillingError": "No se pudo abrir el portal de pago.",
             "activeTitle": "Activas ({count})",
             "vortexPlus": {
                 "title": "QuestioPlus",

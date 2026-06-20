@@ -12,6 +12,7 @@ import {
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useLocale, useTranslations } from 'next-intl'
 import CancelSubscriptionPopup from './cancel-subscription-popup'
+import { env } from '@/env'
 
 interface IProps {
     styles: TStyles
@@ -22,7 +23,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const locale = useLocale()
 
     const { user } = useUser()
-    const { setError, setSucess} = useGlobalMessage()
+    const { setError, setSucess } = useGlobalMessage()
 
     const [premium, setPremium] = useState<boolean>(false)
     const [specialCount, setSpecialCount] = useState<number>(0)
@@ -33,6 +34,8 @@ export default function SubscriptionContainer({ styles }: IProps) {
 
     const [loadingCancelInfo, setLoadingCancelInfo] = useState<boolean>(false)
     const [canceling, setCanceling] = useState<boolean>(false)
+
+    const [isManagingBilling, setIsManagingBilling] = useState<boolean>(false)
 
     const formatDate = (date: string | Date | null | undefined) => {
         if (!date) return t('cancelPopup.noDate')
@@ -143,6 +146,34 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const canceledButStillActive = isSubscriptionCanceledButStillActive()
 
 
+    const handleManageSubscription = async () => {
+        try {
+            setIsManagingBilling(true)
+
+            const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/payment/portal`, {
+                method: 'POST',
+                credentials: 'include'
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro de resposta da API')
+            }
+
+            if (data.url) {
+                window.location.href = data.url
+            } else {
+                throw new Error('URL do Stripe não retornou')
+            }
+        } catch (error) {
+            console.error("Erro ao abrir o portal", error)
+            setError(t('manageBillingError'))
+        } finally {
+            setIsManagingBilling(false)
+        }
+    }
+
     useEffect(() => {
         const get = async () => {
             try {
@@ -229,6 +260,16 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         </Link>
                     </article>
                 </section>
+
+                {premium && (
+                    <button
+                        className={styles.manageBillingBtn}
+                        onClick={handleManageSubscription}
+                        disabled={isManagingBilling}
+                    >
+                        {isManagingBilling ? t('manageBillingLoading') : t('manageBilling')}
+                    </button>
+                )}
             </div>
 
             {showCancelPopup && (

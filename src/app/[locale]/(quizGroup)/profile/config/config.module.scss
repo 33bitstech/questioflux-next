@@ -1,29 +1,35 @@
 @use '../../../../../assets/styles/vars.scss';
 
-.content{
+.content {
     @extend %content-default;
     width: 50%;
     margin-top: 4rem;
     display: flex;
     gap: .81rem;
     flex-direction: column;
-    .configurations{
+
+    .configurations {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        span{
+
+        span {
             display: inline-block;
-            h2{
+
+            h2 {
                 @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
             }
-            p{
+
+            p {
                 @include vars.styleTexto(var(--text-primary), .75rem, 400);
-                span{
+
+                span {
                     font-weight: 700;
                 }
             }
         }
-        button{
+
+        button {
             @include vars.styleTexto(var(--text-primary), 1rem, 700);
             padding: .69rem 1.12rem;
             background-color: transparent;
@@ -31,43 +37,53 @@
             cursor: pointer;
         }
     }
-    .account_info, .subscription, .profile_image{
+
+    .account_info,
+    .subscription,
+    .profile_image {
         border-radius: 0.9375rem;
         box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
         padding: 1rem .81rem;
 
         background-color: var(--background-primary);
-        
+
         display: flex;
         flex-direction: column;
         gap: .5rem;
-        h2{
+
+        h2 {
             @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
         }
     }
-    .profile_image{
+
+    .profile_image {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        .profile_image_header{
+
+        .profile_image_header {
             display: flex;
             flex-direction: column;
             align-self: flex-start;
             gap: .5rem;
-            p{
+
+            p {
                 @include vars.styleTexto(var(--text-primary), 1rem, 400);
             }
         }
-        form{
+
+        form {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            input{
+
+            input {
                 @extend %hidden-element;
             }
         }
-        .profile_container{
+
+        .profile_container {
             cursor: pointer;
             display: flex;
             width: 5.55rem;
@@ -79,15 +95,16 @@
             background-color: var(--text-primary);
             //border: 1px solid var(--reverse-primary);
             //outline: 1px solid var(--reverse-primary);
-            
+
             &::before {
                 content: "";
                 position: absolute;
                 inset: -.8rem 1.5rem;
                 transform: rotate(220deg);
-                background: linear-gradient(var(--reverse-primary) 50%, var(--text-primary)  50%);
+                background: linear-gradient(var(--reverse-primary) 50%, var(--text-primary) 50%);
             }
-            &::after{
+
+            &::after {
                 content: "";
                 position: absolute;
                 inset: .16rem;
@@ -95,13 +112,16 @@
                 z-index: 1;
                 background-color: var(--reverse-primary)
             }
-            .image_content{
-                position:absolute;
+
+            .image_content {
+                position: absolute;
                 inset: .5rem;
                 z-index: 3;
                 border-radius: 50%;
                 overflow: hidden;
-                img, svg{
+
+                img,
+                svg {
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -112,38 +132,47 @@
             }
         }
     }
-    .account_info{
-        .form_account{
+
+    .account_info {
+        .form_account {
             display: flex;
             flex-direction: column;
             gap: .2rem;
-            .edit_input{
+
+            .edit_input {
                 display: flex;
                 justify-content: space-between;
-                .infos{
-                    label{
+
+                .infos {
+                    label {
                         @include vars.styleTexto(var(--text-primary), 1rem, 400);
                     }
-                    input{
+
+                    input {
                         @include vars.styleTexto(var(--text-primary), 1rem, 500);
                         border: none;
                         background-color: transparent;
-                        &:focus{
+
+                        &:focus {
                             outline: none;
                         }
                     }
-                    span{
+
+                    span {
                         @include vars.styleTexto(var(--text-primary), 1rem, 700);
                     }
                 }
-                &>span{
+
+                &>span {
                     cursor: pointer;
                     width: 1.06256rem;
-                    height: 1.12494rem; 
-                    svg{
+                    height: 1.12494rem;
+
+                    svg {
                         width: 100%;
                         height: 100%;
-                        path{
+
+                        path {
                             fill: var(--text-placeholder)
                         }
                     }
@@ -152,40 +181,50 @@
         }
     }
 }
-.subscription{
-    .planos{
+
+.subscription {
+    .planos {
         display: flex;
         flex-direction: column;
         gap: .44rem;
-        h5{
+
+        h5 {
             @include vars.styleTexto(var(--text-primary), 1rem, 400);
         }
-        .gamepass{
+
+        .gamepass {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            article{
+
+            article {
                 display: flex;
                 justify-content: space-between;
-                .gamepass_details{
+
+                .gamepass_details {
                     display: flex;
                     align-items: center;
-                    .gamepass_details_infos{
-                        span{
+
+                    .gamepass_details_infos {
+                        span {
                             display: flex;
                             gap: .31rem;
-                            h3{
+
+                            h3 {
                                 @include vars.styleTexto(var(--text-primary), 1rem, 700);
                                 text-transform: uppercase;
                             }
-                            .desc{
+
+                            .desc {
                                 @include vars.styleTexto(vars.$cor-cinza4, 1rem, 400);
                                 color: vars.$cor-cinzaDescD !important;
                             }
                         }
                     }
                 }
-                a, button{
+
+                a,
+                button {
                     @include vars.styleTexto(var(--text-primary), 1rem, 700);
                     border: 1px solid var(--text-primary);
                     background-color: transparent;
@@ -197,6 +236,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+
                     &:disabled {
                         opacity: 0.55;
                         cursor: not-allowed;
@@ -205,14 +245,41 @@
                 }
             }
         }
+
+        .manageBillingBtn {
+            width: 100%;
+            padding: .69rem 0;
+            margin-top: .5rem;
+            border-radius: 0.6875rem;
+            background-color: transparent;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:disabled {
+                opacity: 0.55;
+                cursor: not-allowed;
+            }
+
+            &:hover:not(:disabled) {
+                background-color: var(--background-button-transparent);
+            }
+        }
     }
 }
-.delete_area{
+
+.delete_area {
     display: flex;
     width: 100%;
     flex-direction: column;
     gap: .44rem;
-    .delete{
+
+    .delete {
         background-color: transparent;
         width: 100%;
         padding: .69rem 0;
@@ -221,11 +288,13 @@
         border: 1px solid var(--text-primary);
         cursor: pointer;
     }
-    .optionsDelete{
+
+    .optionsDelete {
         display: flex;
         flex-direction: column;
         gap: .44rem;
-        span{
+
+        span {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -235,121 +304,127 @@
             border-radius: 0.6875rem;
             user-select: none;
             border: 1px solid var(--background-button);
-            background-color: var(--background-button-transparent) ;
+            background-color: var(--background-button-transparent);
             @include vars.styleTexto(var(--text-primary), 1rem, 700);
         }
-        .actions{
+
+        .actions {
             display: flex;
             width: 100%;
             justify-content: space-between;
 
-            button{
+            button {
                 width: 49%;
-                padding: .69rem 0 ;
+                padding: .69rem 0;
                 border-radius: 0.6875rem;
                 background-color: transparent;
                 cursor: pointer;
-                
+
                 @include vars.styleTexto(vars.$cor-preto, 1rem, 700);
             }
 
-            button:nth-child(1){
+            button:nth-child(1) {
                 border: 1px solid var(--text-primary);
                 color: var(--text-primary);
             }
-            button:nth-child(2){
+
+            button:nth-child(2) {
                 border: 1px solid var(--primary-icon-color);
                 color: var(--button-text-color);
                 background-color: var(--background-button) !important;
-            }            
+            }
         }
     }
 }
+
 .cancel-subscription-popup-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.55);
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.55);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .cancel-subscription-popup {
-  width: min(100%, 420px);
-  background: var(--background-divs);
-  color: var(--text-primary);
+    width: min(100%, 420px);
+    background: var(--background-divs);
+    color: var(--text-primary);
 
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
 
-  padding: 1.5rem;
+    padding: 1.5rem;
 
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
 
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .cancel-subscription-popup h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
 .cancel-subscription-popup p {
-  color: var(--text-description);
-  line-height: 1.5;
+    color: var(--text-description);
+    line-height: 1.5;
 }
 
 .cancel-subscription-popup-actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .cancel-subscription-popup-actions button {
-  border: none;
-  border-radius: 0.7rem;
-  padding: 0.75rem 1rem;
-  font-weight: 700;
-  cursor: pointer;
+    border: none;
+    border-radius: 0.7rem;
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .cancel-subscription-popup-actions button:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 .cancel-subscription-popup-secondary {
-  background: var(--background-secondary);
-  color: var(--text-primary);
+    background: var(--background-secondary);
+    color: var(--text-primary);
 }
 
 .cancel-subscription-popup-danger {
-  background: var(--status-error);
-  color: #ffffff;
+    background: var(--status-error);
+    color: #ffffff;
 }
 
 @media (max-width: 480px) {
-  .cancel-subscription-popup-actions {
-    flex-direction: column-reverse;
-  }
+    .cancel-subscription-popup-actions {
+        flex-direction: column-reverse;
+    }
 
-  .cancel-subscription-popup-actions button {
-    width: 100%;
-  }
+    .cancel-subscription-popup-actions button {
+        width: 100%;
+    }
 }
+
 @media screen and (max-width: 860px) {
-    .content{
+    .content {
         width: 93% !important;
-        .account_info{
+
+        .account_info {
             gap: 1rem !important;
-            .form_account{
+
+            .form_account {
                 gap: 1rem !important;
             }
         }
