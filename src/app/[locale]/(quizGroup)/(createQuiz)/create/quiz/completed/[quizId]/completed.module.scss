@@ -1,46 +1,63 @@
 @use '../../../../../../../../assets/styles/vars.scss';
-.content{
+
+.content {
     @extend %content-default;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin-top: 1rem;
     gap: 1.5rem;
 
-    .share{
+    flex-grow: 1;
+    min-height: calc(100vh - 200px);
+
+    .share {
         width: 98%;
         max-width: 620px
     }
-    h2{
+
+    h2 {
         @include vars.styleTexto(var(--text-primary), 1.875rem, 700);
     }
-    h3, button, a{
+
+    h3,
+    button,
+    a {
         @include vars.styleTexto(var(--text-primary), 1rem, 700);
     }
-    p{
+
+    p {
         @include vars.styleTexto(var(--text-primary), .75rem, 400);
     }
-    button{
+
+    button {
         cursor: pointer;
-        
+
     }
-    button, a{
+
+    button,
+    a {
         border-radius: 0.6875rem;
         color: var(--text-primary);
     }
-    .navigation_created{
+
+    .navigation_created {
         display: flex;
         gap: .81rem;
-        a{
+
+        a {
             padding: .88rem 0;
             text-align: center;
             background-color: transparent;
             border: 1px solid var(--text-primary);
         }
-        a:nth-child(1){
+
+        a:nth-child(1) {
             width: 11.9rem;
         }
-        a:nth-child(2){
+
+        a:nth-child(2) {
             width: 8.31rem;
             color: var(--button-text-color);
             background-color: var(--background-button);
@@ -50,8 +67,8 @@
 }
 
 @media screen and (max-width: 860px) {
-    .content{
-        h2{
+    .content {
+        h2 {
             text-align: center !important;
         }
     }
