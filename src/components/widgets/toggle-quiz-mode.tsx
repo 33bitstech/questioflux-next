@@ -5,6 +5,7 @@ import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
 import PopupWarningGamepass from './popup-warning-gamepass'
 import { useTranslations } from 'next-intl'
+import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
 
 interface IProps {
     styles: TStyles,
@@ -20,7 +21,8 @@ export default function ToggleQuizMode({ styles, setTextMode, textMode }: IProps
     const handleSetImageMode = () => {
         verifyUserPremium().then(res => {
             if (res.err) return setError(res.err)
-            const { premium, specialCount } = res.premium
+            const { specialCount } = res.premium
+            const premium = checkPremiumState(res as PremiumRes)
             if (!premium && !specialCount) {
                 setTextMode(true)
                 setShowPopup(true)

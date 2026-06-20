@@ -14,6 +14,7 @@ import {
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useLocale, useTranslations } from 'next-intl'
 import CancelSubscriptionPopup from './cancel-subscription-popup'
+import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
 
 interface IProps {
     styles: TStyles
@@ -186,16 +187,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 const endDateFromApi = res.premium.currentPeriodEnd ?? null
                 const cancelAtPeriodEndFromApi = res.premium.cancelAtPeriodEnd ?? false
 
-                let isEffectivelyPremium = res.premium.premium;
-
-                if (isEffectivelyPremium && cancelAtPeriodEndFromApi && endDateFromApi) {
-                    const endDate = new Date(endDateFromApi);
-                    if (endDate <= new Date()) {
-                        isEffectivelyPremium = false;
-                    }
-                }
-
-                setPremium(isEffectivelyPremium)
+                setPremium(checkPremiumState(res as PremiumRes) ?? false)
                 setSpecialCount(res.premium.specialCount)
                 setCurrentPeriodEnd(endDateFromApi)
                 setCancelAtPeriodEnd(cancelAtPeriodEndFromApi)

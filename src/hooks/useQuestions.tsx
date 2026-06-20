@@ -2,8 +2,10 @@
 import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions';
 import { useGlobalMessage } from '@/contexts/globalMessageContext';
 import { ILocalQuestions } from '@/interfaces/ILocalQuestions';
+import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+
 
 const useQuestions = (textMode: boolean) => {
     const t = useTranslations('creation')
@@ -45,7 +47,10 @@ const useQuestions = (textMode: boolean) => {
             try {
                 const res = await verifyUserPremium()
                 if (res.err) return setError(res.err)
-                const { premium, specialCount } = res.premium
+
+                const premium = checkPremiumState(res as PremiumRes)
+                const specialCount = res.premium?.specialCount || 0
+
                 if (!premium && !specialCount) return setError(t('questionHook.questionLimitError'))
             } catch (err) {
                 console.log(err)
@@ -98,7 +103,10 @@ const useQuestions = (textMode: boolean) => {
             try {
                 const res = await verifyUserPremium()
                 if (res.err) return setError(res.err)
-                const { premium, specialCount } = res.premium
+
+                const premium = checkPremiumState(res as PremiumRes)
+                const specialCount = res.premium?.specialCount || 0
+
                 if (!premium && !specialCount) return setError(t('questionHook.alternativeLimitError'))
             } catch (err) {
                 console.log(err)

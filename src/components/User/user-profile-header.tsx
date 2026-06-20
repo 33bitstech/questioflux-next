@@ -10,42 +10,58 @@ import { IPremium } from '@/interfaces/IPremium'
 import BadgeContainer from './badge-container'
 import VortexplusBadge from '../Icons/Badges/vortexplus-badge'
 import VortexplususageBadge from '../Icons/Badges/vortexplususage-badge'
+import { checkPremiumState } from '@/utils/checkPremiumSubs'
 
 interface IProps {
     userP?: IUser
 }
 
-export default function UserProfileHeader({userP}: IProps) {
-    const {user} = useUser(),
-        {setError} = useGlobalMessage(),
-        [premiumStatus, setPremiumStatus] = useState<IPremium>() 
-    
+export default function UserProfileHeader({ userP }: IProps) {
+    const { user } = useUser(),
+        { setError } = useGlobalMessage(),
+        [premiumStatus, setPremiumStatus] = useState<IPremium>()
 
-    useEffect(()=>{
-        if(!userP){
-            const get = async() =>{
+
+    useEffect(() => {
+        if (!userP) {
+            const get = async () => {
                 try {
                     const res = await verifyUserPremium()
-                    if(res.err) return setError(res.err)
-                    setPremiumStatus(res.premium)
+                    if (res.err) return setError(res.err)
+
+                    if (res.premium) {
+                        setPremiumStatus({
+                            ...res.premium,
+                            premium: checkPremiumState(res as any)
+                        });
+                    }
                 } catch (err) {
                     console.log(err)
                 }
             }
             get()
-        }else{
+        } else {
+            const isEffectivelyPremium = checkPremiumState({
+                premium: {
+                    premium: userP.premium ?? false,
+                    currentPeriodEnd: (userP as any).currentPeriodEnd,
+                    cancelAtPeriodEnd: (userP as any).cancelAtPeriodEnd,
+                    specialCount: userP.specialCount ?? 0
+                }
+            } as any);
+
             setPremiumStatus({
-                premium: userP.premium ?? false,
+                premium: isEffectivelyPremium ?? false,
                 specialCount: userP.specialCount ?? 0
             })
         }
-    },[])
+    }, [])
 
     return (
         <div className={styles.profile_container}>
             <div className={styles.image_container}>
                 <div className={styles.image_content}>
-                    { (userP || user) && <UserProfileImgRender user={userP || user as IUser}/> }
+                    {(userP || user) && <UserProfileImgRender user={userP || user as IUser} />}
                 </div>
             </div>
             <div className={styles.profile_actions}>
@@ -54,21 +70,21 @@ export default function UserProfileHeader({userP}: IProps) {
                 </div>
                 <div className={styles.badges}>
                     {premiumStatus && <>
-                        {premiumStatus.premium && 
-                            <BadgeContainer 
+                        {premiumStatus.premium &&
+                            <BadgeContainer
                                 premiumStatus={premiumStatus}
                                 typeBadge='Questioplus'
                             >
-                                <VortexplusBadge/>
+                                <VortexplusBadge />
                             </BadgeContainer>
                         }
-                    
-                        {premiumStatus.specialCount > 0 && 
-                            <BadgeContainer 
+
+                        {premiumStatus.specialCount > 0 &&
+                            <BadgeContainer
                                 premiumStatus={premiumStatus}
                                 typeBadge='Questioplususage'
                             >
-                                <VortexplususageBadge/>
+                                <VortexplususageBadge />
                             </BadgeContainer>
                         }
                     </>}
