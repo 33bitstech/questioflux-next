@@ -257,7 +257,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                     </article>
                 </section>
 
-                {premium && (
+                {premium && !canceledButStillActive && (
                     <button
                         className={styles.manageBillingBtn}
                         onClick={handleManageSubscription}
