@@ -365,6 +365,24 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    .email_code_input {
+        padding: 1rem;
+        border-radius: 0.7rem;
+        border: 1px solid var(--text-placeholder);
+        background: var(--background-primary);
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        letter-spacing: 0.5rem;
+        text-align: center;
+        outline: none;
+        width: 100%;
+        transition: border-color 0.2s;
+
+        &:focus {
+            border-color: var(--text-primary);
+        }
+    }
 }
 
 .cancel-subscription-popup h3 {
@@ -382,6 +400,15 @@
     gap: 0.75rem;
     justify-content: flex-end;
     flex-wrap: wrap;
+
+    .email_code_btn {
+        background: var(--text-primary);
+        color: var(--background-primary);
+
+        &:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+    }
 }
 
 .cancel-subscription-popup-actions button {

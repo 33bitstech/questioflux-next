@@ -5,9 +5,10 @@ import InputEdit from './input-edit'
 import ProfileImgEdit from './profile-img-edit'
 import useUpdate from '@/hooks/requests/auth-requests/useUpdate'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { TStyles } from '@/types/stylesType'
 import LoadingReq from '../Loading/loading-req'
+import { validateEmailCode } from '@/app/[locale]/(quizGroup)/profile/config/actions'
 
 interface IProps {
     styles: TStyles
@@ -15,10 +16,11 @@ interface IProps {
 
 export default function FormsUpdataUser({ styles }: IProps) {
     const t = useTranslations('configPage.updateForm');
+    const locale = useLocale()
 
     const { user, fetchUser } = useUser(),
         { updateUser, updateUserProfile } = useUpdate(),
-        { setSucess } = useGlobalMessage(),
+        { setSucess, setError, setWarning } = useGlobalMessage(),
         [username, setUsername] = useState<string>(''),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -27,6 +29,10 @@ export default function FormsUpdataUser({ styles }: IProps) {
         [editEmail, setEditEmail] = useState<boolean>(false),
         [editPassword, setEditPassword] = useState<boolean>(false),
         [loading, setLoading] = useState(false)
+
+    const [showCodePopup, setShowCodePopup] = useState<boolean>(false)
+    const [emailCode, setEmailCode] = useState<string>('')
+    const [loadingCode, setLoadingCode] = useState<boolean>(false)
 
     const preventSubmit = (e: FormEvent) => e.preventDefault(),
         onFileChange = (file: File | null) => setImageValue(file),
@@ -43,23 +49,27 @@ export default function FormsUpdataUser({ styles }: IProps) {
 
             try {
                 let updated = false
+                let emailRequiresValidation = false
 
                 if (username || email || password) {
                     const userObj = { userName: username, userEmail: email, password }
-
                     type UserKey = keyof typeof userObj
 
                     const userObject = Object.keys(userObj).reduce((prev, actual) => {
                         const key = actual as UserKey
-
                         if (userObj[key]) {
                             prev[key] = userObj[key]
                         }
-
                         return prev
                     }, {} as Partial<typeof userObj>)
 
-                    await updateUser(JSON.stringify({ user: userObject }))
+                    // O hook precisa retornar a resposta do backend aqui
+                    const res: any = await updateUser(JSON.stringify({ user: userObject }))
+
+                    // Verifica a regra do Paulo Ribas
+                    if (res?.emailEdited) {
+                        emailRequiresValidation = true
+                    }
 
                     updated = true
                 }
@@ -76,7 +86,13 @@ export default function FormsUpdataUser({ styles }: IProps) {
 
                 if (updated) {
                     await fetchUser()
-                    setSucess(t('successMessage'))
+
+                    if (emailRequiresValidation) {
+                        setShowCodePopup(true)
+                    } else {
+                        setSucess(t('successMessage'))
+                    }
+
                     handleResetInputs()
                 }
             } catch (err) {
@@ -85,6 +101,28 @@ export default function FormsUpdataUser({ styles }: IProps) {
                 setLoading(false)
             }
         }
+
+    const handleValidateCode = async () => {
+        if (emailCode.length < 6) return
+
+        try {
+            setLoadingCode(true)
+            const res = await validateEmailCode(emailCode, locale)
+
+            if (res.err) {
+                setError(res.err)
+                return
+            }
+
+            setWarning(t('emailValidationSent'))
+            setShowCodePopup(false)
+            setEmailCode('')
+        } catch (error) {
+            setError(t('emailValidationSentError'))
+        } finally {
+            setLoadingCode(false)
+        }
+    }
 
     return (
         <>
@@ -113,7 +151,6 @@ export default function FormsUpdataUser({ styles }: IProps) {
                         onChange={e => setUsername(e.target.value)}
                         placeholder={user?.name}
                         labelValue={t('labels.username')}
-                        autoFocus
                     />
                     <InputEdit
                         styles={styles}
@@ -125,7 +162,6 @@ export default function FormsUpdataUser({ styles }: IProps) {
                         onChange={e => setEmail(e.target.value)}
                         placeholder={user?.email}
                         labelValue={t('labels.email')}
-                        autoFocus
                     />
                     <InputEdit
                         styles={styles}
@@ -137,7 +173,6 @@ export default function FormsUpdataUser({ styles }: IProps) {
                         onChange={e => setPassword(e.target.value)}
                         placeholder={'********'}
                         labelValue={t('labels.password')}
-                        autoFocus
                     />
                 </form>
             </div>
@@ -151,6 +186,41 @@ export default function FormsUpdataUser({ styles }: IProps) {
                     <ProfileImgEdit styles={styles} onFileChange={onFileChange} />
                 </form>
             </div>
+
+            {showCodePopup && (
+                <div className={styles['cancel-subscription-popup-overlay']}>
+                    <div className={styles['cancel-subscription-popup']}>
+                        <h3>{t('emailCodePopup.title')}</h3>
+                        <p>{t('emailCodePopup.description')}</p>
+
+                        <input
+                            type="text"
+                            maxLength={6}
+                            value={emailCode}
+                            onChange={(e) => setEmailCode(e.target.value)}
+                            placeholder="000000"
+                            className={styles.email_code_input}
+                        />
+
+                        <div className={styles['cancel-subscription-popup-actions']}>
+                            <button
+                                onClick={() => setShowCodePopup(false)}
+                                disabled={loadingCode}
+                                className={styles['cancel-subscription-popup-secondary']}
+                            >
+                                {t('emailCodePopup.cancel')}
+                            </button>
+                            <button
+                                onClick={handleValidateCode}
+                                disabled={loadingCode || emailCode.length < 6}
+                                className={styles.email_code_btn}
+                            >
+                                {loadingCode ? t('emailCodePopup.loading') : t('emailCodePopup.confirm')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

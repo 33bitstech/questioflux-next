@@ -8,12 +8,12 @@ import { useUser } from '@/contexts/userContext'
 import {
     cancelSubscription,
     createPortalSession,
+    reactivateSubscription,
     verifyUserPremium
 } from '@/app/[locale]/(quizGroup)/profile/config/actions'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useLocale, useTranslations } from 'next-intl'
 import CancelSubscriptionPopup from './cancel-subscription-popup'
-import { env } from '@/env'
 
 interface IProps {
     styles: TStyles
@@ -37,6 +37,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const [canceling, setCanceling] = useState<boolean>(false)
 
     const [isManagingBilling, setIsManagingBilling] = useState<boolean>(false)
+    const [isReactivating, setIsReactivating] = useState<boolean>(false)
 
     const formatDate = (date: string | Date | null | undefined) => {
         if (!date) return t('cancelPopup.noDate')
@@ -145,7 +146,25 @@ export default function SubscriptionContainer({ styles }: IProps) {
         return endDate > new Date()
     }
     const canceledButStillActive = isSubscriptionCanceledButStillActive()
+    const handleReactivateSubscription = async () => {
+        try {
+            setIsReactivating(true)
+            const res = await reactivateSubscription(locale)
 
+            if (res.err) {
+                setError(res.err)
+                return
+            }
+
+            // Se deu sucesso, cancela o status de "cancelado no fim do periodo"
+            setCancelAtPeriodEnd(false)
+            setSucess(t('vortexPlus.reactivateSuccess'))
+        } catch (error) {
+            setError(t('vortexPlus.reactivateError'))
+        } finally {
+            setIsReactivating(false)
+        }
+    }
 
     const handleManageSubscription = async () => {
         try {
@@ -221,14 +240,16 @@ export default function SubscriptionContainer({ styles }: IProps) {
 
                         {premium && (
                             <button
-                                onClick={handleOpenCancelPopup}
-                                disabled={loadingCancelInfo || canceling || canceledButStillActive}
+                                onClick={canceledButStillActive ? handleReactivateSubscription : handleOpenCancelPopup}
+                                disabled={loadingCancelInfo || canceling || isReactivating}
                             >
                                 {loadingCancelInfo
                                     ? t('vortexPlus.loadingButton')
-                                    : canceledButStillActive
-                                        ? t('vortexPlus.cancelAlreadyScheduledButton')
-                                        : t('vortexPlus.unsubscribeButton')}
+                                    : isReactivating
+                                        ? t('vortexPlus.reactivatingButton')
+                                        : canceledButStillActive
+                                            ? t('vortexPlus.reactivateButton')
+                                            : t('vortexPlus.unsubscribeButton')}
                             </button>
                         )}
                     </article>

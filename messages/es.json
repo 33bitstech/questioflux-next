@@ -213,9 +213,22 @@
             },
             "profileImageTitle": "Imagen de perfil",
             "profileImageSubtitle": "Actualiza tu imagen de perfil",
-            "successMessage": "¡Guardado con éxito!"
+            "successMessage": "¡Guardado con éxito!",
+            "emailValidationSent": "Se ha enviado un enlace de confirmación a su nuevo correo electrónico.",
+            "emailValidationSentError": "Error al enviar el código de validación.",
+            "emailCodePopup": {
+                "title": "Verificación de Correo",
+                "description": "Enviamos un código de 6 dígitos a su correo. Ingréselo a continuación para confirmar el cambio.",
+                "cancel": "Cancelar",
+                "confirm": "Confirmar Código",
+                "loading": "Validando..."
+            }
         },
         "subscriptionContainer": {
+            "reactivateButton": "Reactivar Suscripción",
+            "reactivatingButton": "Reactivando...",
+            "reactivateSuccess": "¡Su suscripción ha sido reactivada con éxito!",
+            "reactivateError": "Error al reactivar la suscripción.",
             "manageBilling": "Gestionar suscripción / Actualizar tarjeta",
             "manageBillingLoading": "Redirigiendo...",
             "manageBillingError": "No se pudo abrir el portal de pago.",

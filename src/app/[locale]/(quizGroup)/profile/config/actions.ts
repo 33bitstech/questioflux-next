@@ -67,8 +67,6 @@ export async function createPortalSession(locale: string) {
     const res = await response.json()
 
     if (!response.ok) {
-        // Define a mensagem baseada no idioma, usando os retornos da sua API
-        // e garantindo um fallback na língua correta caso a API falhe feio
         let errorMessage = res.message || 'Error accessing the payment portal'
 
         if (locale === 'pt') {
@@ -81,4 +79,53 @@ export async function createPortalSession(locale: string) {
     }
 
     return { url: res.url }
+}
+export async function validateEmailCode(code: string, locale: string) {
+    const cookieStore = await cookies()
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/user/email-code`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'cookie': cookieHeader
+        },
+        body: JSON.stringify({ code })
+    })
+
+    const res = await response.json()
+
+    if (!response.ok) {
+        let errorMessage = res.message || 'Error validating code'
+        if (locale === 'pt') errorMessage = res.messagePT || 'Erro ao validar o código'
+        if (locale === 'es') errorMessage = res.messageES || 'Error al validar el código'
+        return { err: errorMessage }
+    }
+
+    return { success: true }
+}
+
+export async function reactivateSubscription(locale: string) {
+    const cookieStore = await cookies()
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/subscription/reactive`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'cookie': cookieHeader
+        }
+    })
+
+    const res = await response.json()
+
+    if (!response.ok) {
+        let errorMessage = res.message || 'Error reactivating subscription'
+        if (locale === 'pt') errorMessage = res.messagePT || 'Erro ao reativar assinatura'
+        if (locale === 'es') errorMessage = res.messageES || 'Error al reactivar suscripción'
+        return { err: errorMessage }
+    }
+
+    revalidatePath('/profile/config')
+    return { success: true }
 }

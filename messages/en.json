@@ -213,9 +213,22 @@
             },
             "profileImageTitle": "Profile Image",
             "profileImageSubtitle": "Update your profile image",
-            "successMessage": "Saved successfully!"
+            "successMessage": "Saved successfully!",
+            "emailValidationSent": "A confirmation link has been sent to your new email address.",
+            "emailValidationSentError": "Error sending validation code.",
+            "emailCodePopup": {
+                "title": "Email Verification",
+                "description": "We sent a 6-digit code to your email. Enter it below to confirm the change.",
+                "cancel": "Cancel",
+                "confirm": "Confirm Code",
+                "loading": "Validating..."
+            }
         },
         "subscriptionContainer": {
+            "reactivateButton": "Reactivate Subscription",
+            "reactivatingButton": "Reactivating...",
+            "reactivateSuccess": "Your subscription has been successfully reactivated!",
+            "reactivateError": "Error reactivating subscription.",
             "manageBilling": "Manage Subscription / Update Card",
             "manageBillingLoading": "Redirecting...",
             "manageBillingError": "Could not open the payment portal.",
