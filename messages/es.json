@@ -695,5 +695,20 @@
         "separator": "o",
         "button": "Continuar con Google",
         "loading": "Cargando..."
+    },
+    "emailVerificationPage": {
+        "metadataTitle": "Verificación de Correo",
+        "success": {
+            "title": "¡Correo confirmado con éxito!",
+            "message": "Su dirección de correo electrónico ha sido actualizada en nuestra base de datos. Ya puede usar su nuevo correo para iniciar sesión y recibir nuestras notificaciones."
+        },
+        "error": {
+            "title": "¡Ups! Algo salió mal",
+            "message": "No pudimos confirmar el cambio de su correo. El enlace puede ser inválido, ya haber sido utilizado o haber caducado."
+        },
+        "buttons": {
+            "goToProfile": "Volver al Perfil",
+            "goToHome": "Ir al Inicio"
+        }
     }
 }

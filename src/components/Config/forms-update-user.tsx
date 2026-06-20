@@ -63,10 +63,8 @@ export default function FormsUpdataUser({ styles }: IProps) {
                         return prev
                     }, {} as Partial<typeof userObj>)
 
-                    // O hook precisa retornar a resposta do backend aqui
                     const res: any = await updateUser(JSON.stringify({ user: userObject }))
 
-                    // Verifica a regra do Paulo Ribas
                     if (res?.emailEdited) {
                         emailRequiresValidation = true
                     }

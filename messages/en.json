@@ -695,5 +695,20 @@
         "separator": "or",
         "button": "Continue with Google",
         "loading": "Loading..."
+    },
+    "emailVerificationPage": {
+        "metadataTitle": "Email Verification",
+        "success": {
+            "title": "Email successfully confirmed!",
+            "message": "Your email address has been updated in our database. You can now use your new email to log in and receive our notifications."
+        },
+        "error": {
+            "title": "Oops! Something went wrong",
+            "message": "We couldn't confirm your email change. The link may be invalid, already used, or expired."
+        },
+        "buttons": {
+            "goToProfile": "Back to Profile",
+            "goToHome": "Go to Home"
+        }
     }
 }
