@@ -34,7 +34,20 @@ export default async function Subscription({ params }: IProps) {
 
     const publicKey = await fetchPublicKey()
     const res = await verifyUserPremium(false)
-    const premium = res.err ? false : res.premium?.premium || false
+    console.log(res)
+    let premium = res.err ? false : res.premium?.premium || false
+
+    if (premium) {
+        const endDateFromApi = res.premium.currentPeriodEnd ?? null
+        const cancelAtPeriodEndFromApi = res.premium.cancelAtPeriodEnd ?? false
+
+        if (cancelAtPeriodEndFromApi && endDateFromApi) {
+            const endDate = new Date(endDateFromApi);
+            if (endDate <= new Date()) {
+                premium = false;
+            }
+        }
+    }
 
     return (
         <SubscriptionCurrencyProvider locale={locale}>

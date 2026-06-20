@@ -6,21 +6,20 @@ import VortexPlus from '../NavbarQuizgroup/signatures/VortexPlus'
 import VortexPlusUniqueUse from '../NavbarQuizgroup/signatures/VortexPlusUniqueUse'
 import { useTranslations } from 'next-intl' // Importar
 
-interface IProps{
-    closePopup: ()=>void
+interface IProps {
+    closePopup: () => void
 }
 
-export default function PopupWarningGamepass({closePopup}:IProps) {
+export default function PopupWarningGamepass({ closePopup }: IProps) {
     const t = useTranslations('creatingQuiz.questionsPage.premiumWarning'); // Inicializar hook
 
     return (
         <div className={styles.container}>
             <span className={styles.close} onClick={closePopup}>
-                <CloseSvg/>
+                <CloseSvg />
             </span>
 
             <div className={styles.desc}>
-                {/* Usar t.rich para lidar com o <span> aninhado */}
                 <p>
                     {t.rich('popupText', {
                         vortexplus: (chunks) => <span>{chunks}</span>
@@ -30,10 +29,10 @@ export default function PopupWarningGamepass({closePopup}:IProps) {
 
             <section className={styles.gamepass_container}>
                 <article>
-                    <VortexPlus/>
+                    <VortexPlus />
                 </article>
                 <article>
-                    <VortexPlusUniqueUse/>
+                    <VortexPlusUniqueUse />
                 </article>
             </section>
         </div>
