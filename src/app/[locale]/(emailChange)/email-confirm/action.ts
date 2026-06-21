@@ -3,11 +3,11 @@ import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { cookies } from "next/headers"
 
-export async function confirmEmailChange(token: string, email: string, locale: string) {
+export async function confirmEmailChange(token: string, email: string) {
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
 
-    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/email-by-token?locale=${locale}`, {
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/email-by-token`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

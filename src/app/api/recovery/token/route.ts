@@ -4,7 +4,7 @@ import ApiData from '@/utils/ApiData';
 export async function POST(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
-        const locale = searchParams.get('locale') || 'pt'
+        const locale = searchParams.get('locale') || 'en'
 
         const email = await request.json()
 

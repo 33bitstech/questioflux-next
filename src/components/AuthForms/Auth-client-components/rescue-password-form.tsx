@@ -10,17 +10,17 @@ import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
-export default function RescuePasswordForm({locale}:{locale:string}) {
+export default function RescuePasswordForm({ locale }: { locale: string }) {
     const t = useTranslations('rescuePasswordFlow');
-    
-    const {getError, setError, concatErrors, hasErrors} = useErrors(),
+
+    const { getError, setError, concatErrors, hasErrors } = useErrors(),
         [email, setEmail] = useState<string>(''),
         [loading, setLoading] = useState<boolean>(false),
         [erroAuth, setErroAuth] = useState<ErrorsState>(),
-        {setSucess} = useGlobalMessage()
+        { setSucess } = useGlobalMessage()
 
-    useEffect(()=>{
-        if (email){
+    useEffect(() => {
+        if (email) {
             if (!validEmail(email)) return setError('email', t('shared.errors.invalidEmail'));
             return setError('email', '')
         }
@@ -35,8 +35,8 @@ export default function RescuePasswordForm({locale}:{locale:string}) {
             getLocalizedMessage(erroAuth, locale)
         )
     }, [erroAuth, locale, setError])
-    
-    const handleSubmit = (e:FormEvent) =>{
+
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
         setLoading(true)
         let errors: ErrorsState = {}
@@ -44,10 +44,10 @@ export default function RescuePasswordForm({locale}:{locale:string}) {
         concatErrors(errors)
         if (hasErrors(errors)) return setLoading(false)
 
-        sendRecoveryEmail({email}).then(res=>{
-            if(res.err) return setErroAuth(res.err)
-            if(res.ok) return setSucess(t('rescueForm.successMessage'))
-        }).finally(()=>setLoading(false))
+        sendRecoveryEmail({ email }, locale).then(res => {
+            if (res.err) return setErroAuth(res.err)
+            if (res.ok) return setSucess(t('rescueForm.successMessage'))
+        }).finally(() => setLoading(false))
     }
 
     return (
@@ -57,12 +57,12 @@ export default function RescuePasswordForm({locale}:{locale:string}) {
 
             <div className="first-part-section">
                 <label htmlFor="email-id">{t('rescueForm.label')}</label>
-                <InputComponent 
-                    icon={<ProfileSvg/>}
+                <InputComponent
+                    icon={<ProfileSvg />}
                     type='email'
                     placeholder={t('shared.placeholderEmail')}
                     value={email}
-                    onChange={e=>setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                     id='email-id'
                     autoFocus
                     error={getError('email')}

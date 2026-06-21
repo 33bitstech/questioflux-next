@@ -1,6 +1,6 @@
 'use client'
 import { useUser } from '@/contexts/userContext'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import InputEdit from './input-edit'
 import ProfileImgEdit from './profile-img-edit'
 import useUpdate from '@/hooks/requests/auth-requests/useUpdate'
@@ -20,7 +20,7 @@ export default function FormsUpdataUser({ styles }: IProps) {
 
     const { user, fetchUser } = useUser(),
         { updateUser, updateUserProfile } = useUpdate(),
-        { setSucess, setError, setWarning } = useGlobalMessage(),
+        { setSucess, setError } = useGlobalMessage(),
         [username, setUsername] = useState<string>(''),
         [email, setEmail] = useState<string>(''),
         [password, setPassword] = useState<string>(''),
@@ -122,6 +122,11 @@ export default function FormsUpdataUser({ styles }: IProps) {
             setLoadingCode(false)
         }
     }
+    useEffect(() => {
+        if (emailCode.length === 6 && !loadingCode) {
+            handleValidateCode()
+        }
+    }, [emailCode])
 
     return (
         <>

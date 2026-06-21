@@ -36,7 +36,7 @@ const useUpdate = () => {
 
     async function updateUser(body: BodyInit) {
         try {
-            const response = await fetch('/api/user/update', {
+            const response = await fetch(`/api/user/update?locale=${locale}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

@@ -6,8 +6,11 @@ export async function PUT(request: Request) {
         const cookieHeader = request.headers.get('cookie') || ''
         const body = await request.json()
 
+        const { searchParams } = new URL(request.url)
+        const locale = searchParams.get('locale') || 'en'
+
         const externalApiResponse = await ApiData({
-            path: 'user',
+            path: `user?locale=${locale}`,
             method: 'PUT',
             body: JSON.stringify(body),
             headerKey: ['Content-Type', 'Cookie'],
