@@ -112,7 +112,7 @@ export default function FormsUpdataUser({ styles }: IProps) {
                 return
             }
 
-            setWarning(t('emailValidationSent'))
+            setSucess(t('emailValidationSent'))
             setShowCodePopup(false)
             setEmailCode('')
             handleResetInputs()

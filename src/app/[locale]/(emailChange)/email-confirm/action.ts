@@ -9,7 +9,7 @@ export async function confirmEmailChange(token: string) {
         },
         body: JSON.stringify({ token })
     })
-
+    console.log(response)
     if (!response.ok) {
         return { err: true }
     }
