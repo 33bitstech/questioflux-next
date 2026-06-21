@@ -1,4 +1,4 @@
-import EmailConfirmClient from "../email-confirm-client"
+import EmailConfirmClient from "../../email-confirm-client"
 
 interface IProps {
     params: Promise<{
