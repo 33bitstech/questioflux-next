@@ -28,7 +28,7 @@ export default function EmailConfirmClient({ token, email }: IProps) {
 
         const validateToken = async () => {
             try {
-                const res = await confirmEmailChange(token, decodeURIComponent(email ?? ''))
+                const res = await confirmEmailChange(decodeURIComponent(token), decodeURIComponent(email ?? ''))
 
                 if (res.err) {
                     router.replace('/email-verification?status=error')
