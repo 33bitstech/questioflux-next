@@ -6,7 +6,7 @@ import { getCookieHeader } from '@/utils/getCookieHeader'
 import CommentFormComponent from '@/components/Comment/comment-form-component'
 import IComment from '@/interfaces/IComment'
 import CommentContainer from '@/components/Comment/comment-container'
-import { getTranslations } from 'next-intl/server' 
+import { getTranslations } from 'next-intl/server'
 import { cookies } from 'next/headers'
 import { getQuiz } from '../leaderboard/page'
 import { Metadata } from 'next'
@@ -33,9 +33,10 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             quiz_name: quiz?.title ?? ''
         }
 
+    if (!quiz) return { title: 'null' }
     return {
         title: t('title', names),
-        description: t('desc', names),
+        description: quiz.description,
         robots: 'noindex, follow',
         keywords: "quiz, comments, users, discussion",
         alternates: {
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         },
         openGraph: {
             title: t('title', names),
-            description: t('desc', names),
+            description: quiz.description,
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}/comments`,
             siteName: 'QuestioFlux',
             images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/trofeu.png`,
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         },
         twitter: {
             title: t('title', names),
-            description: t('desc', names),
+            description: quiz.description,
             images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/trofeu.png`],
         }
     }
@@ -70,7 +71,7 @@ async function getUser(cookieHeader: string): Promise<IUser | undefined> {
         console.log(err)
     }
 }
-async function getComments(quizId: string) : Promise<IComment[] | undefined>{
+async function getComments(quizId: string): Promise<IComment[] | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/comments/${quizId}`, {
             method: 'GET'
@@ -80,10 +81,10 @@ async function getComments(quizId: string) : Promise<IComment[] | undefined>{
         return res.commentsMargedArray;
     } catch (err) {
         console.log(err)
-    }   
+    }
 }
-export default async function Comment({params}: IProps) {
-    const {quizId, locale} = await params;
+export default async function Comment({ params }: IProps) {
+    const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'commentsSection' });
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
@@ -97,7 +98,7 @@ export default async function Comment({params}: IProps) {
 
     return (
         <div className={styles.comment_area}>
-            <p>{t('title', {count: comments?.length || 0})}</p>
+            <p>{t('title', { count: comments?.length || 0 })}</p>
 
             {user && <CommentFormComponent
                 styles={styles}
@@ -109,12 +110,12 @@ export default async function Comment({params}: IProps) {
             {isCommentsEmpty && !user && (<p className={styles.no_comment}>{t('noCommentsNoUser')}</p>)}
 
             {!isCommentsEmpty && <div className={styles.comments}>
-                {comments?.map((com, index)=>(
+                {comments?.map((com, index) => (
                     <div key={index}>
                         {com && <CommentContainer
                             comment={com}
-                            quizId={quizId}   
-                            locale={locale}   
+                            quizId={quizId}
+                            locale={locale}
                         />}
                     </div>
                 ))}

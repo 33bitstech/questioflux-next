@@ -143,7 +143,6 @@ export default function SubscriptionContainer({ styles }: IProps) {
                 return
             }
 
-            // Se deu sucesso, cancela o status de "cancelado no fim do periodo"
             setCancelAtPeriodEnd(false)
             setSucess(t('vortexPlus.reactivateSuccess'))
         } catch (error) {

@@ -23,12 +23,12 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     };
 }
 
-export default async function LayoutTaking({children, params}: IProps) {
-    const {quizId, locale} = await params;
+export default async function LayoutTaking({ children, params }: IProps) {
+    const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'quizResultsPage.layout' });
     const quiz = await getQuiz(quizId);
 
-    if(!quiz) return null; 
+    if (!quiz) return null;
 
     return (
         <>
@@ -47,14 +47,16 @@ export default async function LayoutTaking({children, params}: IProps) {
                 <nav className={`${styles.navigate}`}>
                     <ul>
                         <li>
-                            <NavLink 
-                                href={`/quiz/${quizId}/results`} 
+                            <NavLink
+                                replace
+                                href={`/quiz/${quizId}/results`}
                                 styles={styles}
                             >{t('navResults')}</NavLink>
                         </li>
                         <li>
-                            <NavLink 
-                                href={`/quiz/${quizId}/lb`} 
+                            <NavLink
+                                replace
+                                href={`/quiz/${quizId}/lb`}
                                 styles={styles}
                             >{t('navLeaderboard')}</NavLink>
                         </li>
