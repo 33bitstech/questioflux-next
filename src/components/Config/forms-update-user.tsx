@@ -64,7 +64,7 @@ export default function FormsUpdataUser({ styles }: IProps) {
                     }, {} as Partial<typeof userObj>)
 
                     const res: any = await updateUser(JSON.stringify({ user: userObject }))
-                    console.log(res)
+
                     if (res?.emailEdited) {
                         emailRequiresValidation = true
                     }
@@ -105,7 +105,7 @@ export default function FormsUpdataUser({ styles }: IProps) {
 
         try {
             setLoadingCode(true)
-            const res = await validateEmailCode(emailCode, locale)
+            const res = await validateEmailCode(emailCode, locale, email)
 
             if (res.err) {
                 setError(res.err)

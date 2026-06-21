@@ -80,7 +80,7 @@ export async function createPortalSession(locale: string) {
 
     return { url: res.url }
 }
-export async function validateEmailCode(code: string, locale: string) {
+export async function validateEmailCode(code: string, locale: string, email: string) {
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
 
@@ -90,7 +90,7 @@ export async function validateEmailCode(code: string, locale: string) {
             'Content-Type': 'application/json',
             'cookie': cookieHeader
         },
-        body: JSON.stringify({ code })
+        body: JSON.stringify({ code, email })
     })
 
     const res = await response.json()
