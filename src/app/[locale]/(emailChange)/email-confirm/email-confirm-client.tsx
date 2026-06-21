@@ -7,10 +7,11 @@ import styles from './email-confirm.module.scss'
 import { confirmEmailChange } from './action'
 
 interface IProps {
-    token?: string
+    token?: string,
+    email?: string
 }
 
-export default function EmailConfirmClient({ token }: IProps) {
+export default function EmailConfirmClient({ token, email }: IProps) {
     const t = useTranslations('emailConfirmPage')
     const router = useRouter()
 
@@ -27,7 +28,7 @@ export default function EmailConfirmClient({ token }: IProps) {
 
         const validateToken = async () => {
             try {
-                const res = await confirmEmailChange(token)
+                const res = await confirmEmailChange(token, decodeURIComponent(email ?? ''))
 
                 if (res.err) {
                     router.replace('/email-verification?status=error')

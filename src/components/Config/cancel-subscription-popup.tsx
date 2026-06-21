@@ -8,7 +8,6 @@ interface ICancelSubscriptionPopupProps {
     description: string
     keepButtonText: string
     confirmButtonText: string
-    canceling: boolean
     onClose: () => void
     onConfirm: () => void
 }
@@ -19,7 +18,6 @@ export default function CancelSubscriptionPopup({
     description,
     keepButtonText,
     confirmButtonText,
-    canceling,
     onClose,
     onConfirm
 }: ICancelSubscriptionPopupProps) {
@@ -35,7 +33,6 @@ export default function CancelSubscriptionPopup({
                         type="button"
                         className={styles['cancel-subscription-popup-secondary']}
                         onClick={onClose}
-                        disabled={canceling}
                     >
                         {keepButtonText}
                     </button>
@@ -44,7 +41,6 @@ export default function CancelSubscriptionPopup({
                         type="button"
                         className={styles['cancel-subscription-popup-danger']}
                         onClick={onConfirm}
-                        disabled={canceling}
                     >
                         {confirmButtonText}
                     </button>

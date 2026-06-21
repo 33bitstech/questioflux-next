@@ -3,7 +3,7 @@ import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { cookies } from "next/headers"
 
-export async function confirmEmailChange(token: string) {
+export async function confirmEmailChange(token: string, email: string) {
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
 
@@ -13,7 +13,7 @@ export async function confirmEmailChange(token: string) {
             'Content-Type': 'application/json',
             'cookie': cookieHeader
         },
-        body: JSON.stringify({ token })
+        body: JSON.stringify({ token, email })
     })
 
     if (!response.ok) {

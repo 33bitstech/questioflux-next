@@ -225,10 +225,6 @@
             }
         },
         "subscriptionContainer": {
-            "reactivateButton": "Reativar Assinatura",
-            "reactivatingButton": "Reativando...",
-            "reactivateSuccess": "Sua assinatura foi reativada com sucesso!",
-            "reactivateError": "Erro ao reativar a assinatura.",
             "manageBilling": "Gerenciar Assinatura / Atualizar Cartão",
             "manageBillingLoading": "Redirecionando...",
             "manageBillingError": "Não foi possível abrir o portal de pagamento.",
@@ -240,7 +236,11 @@
                 "unsubscribeButton": "Cancelar Assinatura",
                 "loadingButton": "Carregando...",
                 "cancelAlreadyScheduledButton": "Já Cancelado",
-                "cancelScheduled": "Sua assinatura vence em {date}"
+                "cancelScheduled": "Sua assinatura vence em {date}",
+                "reactivateButton": "Reativar Assinatura",
+                "reactivatingButton": "Reativando...",
+                "reactivateSuccess": "Sua assinatura foi reativada com sucesso!",
+                "reactivateError": "Erro ao reativar a assinatura."
             },
             "vortexPlusUsage": {
                 "title": "Uso de QuestioPlus ({count})",

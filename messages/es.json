@@ -225,10 +225,6 @@
             }
         },
         "subscriptionContainer": {
-            "reactivateButton": "Reactivar Suscripción",
-            "reactivatingButton": "Reactivando...",
-            "reactivateSuccess": "¡Su suscripción ha sido reactivada con éxito!",
-            "reactivateError": "Error al reactivar la suscripción.",
             "manageBilling": "Gestionar suscripción / Actualizar tarjeta",
             "manageBillingLoading": "Redirigiendo...",
             "manageBillingError": "No se pudo abrir el portal de pago.",
@@ -240,7 +236,11 @@
                 "unsubscribeButton": "Cancelar suscripción",
                 "loadingButton": "Cargando...",
                 "cancelAlreadyScheduledButton": "Ya cancelada",
-                "cancelScheduled": "Tu suscripción termina el {date}"
+                "cancelScheduled": "Tu suscripción termina el {date}",
+                "reactivateButton": "Reactivar Suscripción",
+                "reactivatingButton": "Reactivando...",
+                "reactivateSuccess": "¡Su suscripción ha sido reactivada con éxito!",
+                "reactivateError": "Error al reactivar la suscripción."
             },
             "vortexPlusUsage": {
                 "title": "Uso de QuestioPlus ({count})",

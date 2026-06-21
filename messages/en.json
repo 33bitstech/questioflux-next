@@ -225,10 +225,6 @@
             }
         },
         "subscriptionContainer": {
-            "reactivateButton": "Reactivate Subscription",
-            "reactivatingButton": "Reactivating...",
-            "reactivateSuccess": "Your subscription has been successfully reactivated!",
-            "reactivateError": "Error reactivating subscription.",
             "manageBilling": "Manage Subscription / Update Card",
             "manageBillingLoading": "Redirecting...",
             "manageBillingError": "Could not open the payment portal.",
@@ -240,7 +236,11 @@
                 "unsubscribeButton": "Cancel Subscription",
                 "loadingButton": "Loading...",
                 "cancelAlreadyScheduledButton": "Already Cancelled",
-                "cancelScheduled": "Your subscription ends on {date}"
+                "cancelScheduled": "Your subscription ends on {date}",
+                "reactivateButton": "Reactivate Subscription",
+                "reactivatingButton": "Reactivating...",
+                "reactivateSuccess": "Your subscription has been successfully reactivated!",
+                "reactivateError": "Error reactivating subscription."
             },
             "vortexPlusUsage": {
                 "title": "QuestioPlus Usage ({count})",

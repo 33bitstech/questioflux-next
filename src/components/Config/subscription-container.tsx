@@ -35,7 +35,6 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState<boolean>(false)
 
     const [loadingCancelInfo, setLoadingCancelInfo] = useState<boolean>(false)
-    const [canceling, setCanceling] = useState<boolean>(false)
 
     const [isManagingBilling, setIsManagingBilling] = useState<boolean>(false)
     const [isReactivating, setIsReactivating] = useState<boolean>(false)
@@ -89,38 +88,9 @@ export default function SubscriptionContainer({ styles }: IProps) {
     }
 
     const handleConfirmCancel = async () => {
-        try {
-            setCanceling(true)
+        if (!premium) return
 
-            const res = await cancelSubscription()
-
-            if (res?.err) {
-                setError(res.err)
-                return
-            }
-
-            const data = res?.data
-
-            const endDate =
-                data?.currentPeriodEnd ??
-                data?.subscription?.currentPeriodEnd ??
-                currentPeriodEnd
-
-            setCancelAtPeriodEnd(data?.cancelAtPeriodEnd ?? true)
-            setCurrentPeriodEnd(endDate)
-            setShowCancelPopup(false)
-
-            setSucess(
-                t('cancelPopup.success', {
-                    date: formatDate(endDate)
-                })
-            )
-        } catch (err) {
-            console.log(err)
-            setError(t('cancelPopup.error'))
-        } finally {
-            setCanceling(false)
-        }
+        setShowCancelPopup(true)
     }
 
     const isSubscriptionCanceledButStillActive = () => {
@@ -228,7 +198,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         {premium && (
                             <button
                                 onClick={canceledButStillActive ? handleReactivateSubscription : handleOpenCancelPopup}
-                                disabled={loadingCancelInfo || canceling || isReactivating}
+                                disabled={loadingCancelInfo || isReactivating}
                             >
                                 {loadingCancelInfo
                                     ? t('vortexPlus.loadingButton')
@@ -284,12 +254,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         date: formatDate(currentPeriodEnd)
                     })}
                     keepButtonText={t('cancelPopup.keepButton')}
-                    confirmButtonText={
-                        canceling
-                            ? t('cancelPopup.cancelingButton')
-                            : t('cancelPopup.confirmButton')
-                    }
-                    canceling={canceling}
+                    confirmButtonText={t('cancelPopup.confirmButton')}
                     onClose={() => setShowCancelPopup(false)}
                     onConfirm={handleConfirmCancel}
                 />
