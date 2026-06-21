@@ -83,7 +83,7 @@ export async function createPortalSession(locale: string) {
 export async function validateEmailCode(code: string, locale: string, email: string) {
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
-    console.log(code, email)
+
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/user/email-code`, {
         method: 'PUT',
         headers: {

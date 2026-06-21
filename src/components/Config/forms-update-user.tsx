@@ -89,9 +89,9 @@ export default function FormsUpdataUser({ styles }: IProps) {
                         setShowCodePopup(true)
                     } else {
                         setSucess(t('successMessage'))
+                        handleResetInputs()
                     }
 
-                    handleResetInputs()
                 }
             } catch (err) {
                 console.error(err)
@@ -115,6 +115,7 @@ export default function FormsUpdataUser({ styles }: IProps) {
             setWarning(t('emailValidationSent'))
             setShowCodePopup(false)
             setEmailCode('')
+            handleResetInputs()
         } catch (error) {
             setError(t('emailValidationSentError'))
         } finally {
