@@ -17,7 +17,7 @@ interface IProps {
     }>
 }
 
-async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
+async function getQuiz(quizId: string): Promise<IQuizes | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
             method: 'GET',
@@ -32,8 +32,8 @@ async function getQuiz(quizId:string) : Promise<IQuizes|undefined> {
 
 
 
-export default async function LayoutQuizGroup({children, params}: IProps) {
-    const {quizId, locale} = await params;
+export default async function LayoutQuizGroup({ children, params }: IProps) {
+    const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'quizLayout.nav' });
     const quiz = await getQuiz(quizId);
 
@@ -42,18 +42,18 @@ export default async function LayoutQuizGroup({children, params}: IProps) {
 
             <ScrollToTop />
 
-            <ContextualHeaderActions page='quiz' locale={locale}/>
+            <ContextualHeaderActions page='quiz' locale={locale} />
 
             <div className={styles.image_quiz_container}>
-                {quiz && <QuizPageImgContainer quiz={quiz}/>}
+                {quiz && <QuizPageImgContainer quiz={quiz} />}
             </div>
 
             <div className={styles.quiz_navigation}>
                 <h1>{quiz && quiz.title}</h1>
                 <nav className={styles.navbar_quiz}>
-                    <NavLink styles={styles} href={`/quiz/${quizId}`}>{t('info')}</NavLink>
-                    <NavLink styles={styles} href={`/quiz/${quizId}/comments`}>{t('comments')}</NavLink>
-                    <NavLink styles={styles} href={`/quiz/${quizId}/leaderboard`}>{t('leaderboard')}</NavLink>
+                    <NavLink replace styles={styles} href={`/quiz/${quizId}`}>{t('info')}</NavLink>
+                    <NavLink replace styles={styles} href={`/quiz/${quizId}/comments`}>{t('comments')}</NavLink>
+                    <NavLink replace styles={styles} href={`/quiz/${quizId}/leaderboard`}>{t('leaderboard')}</NavLink>
                 </nav>
             </div>
             {children}
