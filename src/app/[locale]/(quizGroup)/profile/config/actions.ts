@@ -12,6 +12,7 @@ export async function verifyUserPremium(revalidate: boolean = true) {
     const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/user/verify-premium`, {
         method: 'GET',
         headers: { 'cookie': cookieHeader },
+        cache: "no-store"
     })
 
     const res = await response.json()

@@ -34,7 +34,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
     const [currentPeriodEnd, setCurrentPeriodEnd] = useState<string | null>(null)
     const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState<boolean>(false)
 
-    const [loadingCancelInfo, setLoadingCancelInfo] = useState<boolean>(false)
+    const [canceling, setCanceling] = useState<boolean>(false)
 
     const [isManagingBilling, setIsManagingBilling] = useState<boolean>(false)
     const [isReactivating, setIsReactivating] = useState<boolean>(false)
@@ -55,42 +55,44 @@ export default function SubscriptionContainer({ styles }: IProps) {
         }).format(parsedDate)
     }
 
-    const handleOpenCancelPopup = async () => {
+    const handleOpenCancelPopup = () => {
         if (!premium) return
+        setShowCancelPopup(true)
+    }
 
+    const handleConfirmCancel = async () => {
         try {
-            setLoadingCancelInfo(true)
+            setCanceling(true)
 
-            const res = await verifyUserPremium(false)
+            const res = await cancelSubscription()
 
-            if (res.err) {
+            if (res?.err) {
                 setError(res.err)
                 return
             }
 
-            if (!res.premium?.premium) {
-                setPremium(false)
-                return
-            }
-            const currentPeriodEndFromApi = res.premium.currentPeriodEnd ?? null
+            const data = res?.data
 
-            const cancelAtPeriodEndFromApi = res.premium.cancelAtPeriodEnd ?? false
+            const endDate =
+                data?.currentPeriodEnd ??
+                data?.subscription?.currentPeriodEnd ??
+                currentPeriodEnd
 
-            setCurrentPeriodEnd(currentPeriodEndFromApi)
-            setCancelAtPeriodEnd(cancelAtPeriodEndFromApi)
-            setShowCancelPopup(true)
+            setCancelAtPeriodEnd(data?.cancelAtPeriodEnd ?? true)
+            setCurrentPeriodEnd(endDate)
+            setShowCancelPopup(false)
+
+            setSucess(
+                t('cancelPopup.success', {
+                    date: formatDate(endDate)
+                })
+            )
         } catch (err) {
             console.log(err)
             setError(t('cancelPopup.error'))
         } finally {
-            setLoadingCancelInfo(false)
+            setCanceling(false)
         }
-    }
-
-    const handleConfirmCancel = async () => {
-        if (!premium) return
-
-        setShowCancelPopup(true)
     }
 
     const isSubscriptionCanceledButStillActive = () => {
@@ -198,15 +200,13 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         {premium && (
                             <button
                                 onClick={canceledButStillActive ? handleReactivateSubscription : handleOpenCancelPopup}
-                                disabled={loadingCancelInfo || isReactivating}
+                                disabled={canceling || isReactivating}
                             >
-                                {loadingCancelInfo
-                                    ? t('vortexPlus.loadingButton')
-                                    : isReactivating
-                                        ? t('vortexPlus.reactivatingButton')
-                                        : canceledButStillActive
-                                            ? t('vortexPlus.reactivateButton')
-                                            : t('vortexPlus.unsubscribeButton')}
+                                {isReactivating
+                                    ? t('vortexPlus.reactivatingButton')
+                                    : canceledButStillActive
+                                        ? t('vortexPlus.reactivateButton')
+                                        : t('vortexPlus.unsubscribeButton')}
                             </button>
                         )}
                     </article>
@@ -254,7 +254,12 @@ export default function SubscriptionContainer({ styles }: IProps) {
                         date: formatDate(currentPeriodEnd)
                     })}
                     keepButtonText={t('cancelPopup.keepButton')}
-                    confirmButtonText={t('cancelPopup.confirmButton')}
+                    confirmButtonText={
+                        canceling
+                            ? t('cancelPopup.cancelingButton')
+                            : t('cancelPopup.confirmButton')
+                    }
+                    canceling={canceling}
                     onClose={() => setShowCancelPopup(false)}
                     onConfirm={handleConfirmCancel}
                 />
