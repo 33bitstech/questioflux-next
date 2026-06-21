@@ -710,5 +710,8 @@
             "goToProfile": "Volver al Perfil",
             "goToHome": "Ir al Inicio"
         }
+    },
+    "emailConfirmPage": {
+        "loading": "Confirmando, por favor espere..."
     }
 }
