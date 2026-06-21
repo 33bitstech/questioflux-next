@@ -704,7 +704,7 @@
         },
         "error": {
             "title": "Oops! Something went wrong",
-            "message": "We couldn't confirm your email change. The link may be invalid, already used, or expired."
+            "message": "We couldn't confirm your email change. The link may be invalid, already used, or expired. Ensure you are using the same device you used to request the change."
         },
         "buttons": {
             "goToProfile": "Back to Profile",

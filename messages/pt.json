@@ -704,7 +704,7 @@
         },
         "error": {
             "title": "Ops! Algo deu errado",
-            "message": "Não foi possível confirmar a alteração do seu e-mail. O link pode ser inválido, já ter sido utilizado ou expirado."
+            "message": "Não foi possível confirmar a alteração do seu e-mail. O link pode ser inválido, já ter sido utilizado ou expirado. Certifique-se de acessar pelo mesmo dispositivo onde a solicitação foi feita."
         },
         "buttons": {
             "goToProfile": "Voltar para o Perfil",
