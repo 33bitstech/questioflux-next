@@ -2,8 +2,8 @@
 
 import { env } from "@/env"
 
-export async function sendRecoveryEmail(email: object) {
-    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/recovery/token`, {
+export async function sendRecoveryEmail(email: object, locale: string) {
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/recovery/token?locale=${locale}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ export async function sendRecoveryEmail(email: object) {
 
     const res = await response.json()
 
-    if (!response.ok) return {err: {...res}}
+    if (!response.ok) return { err: { ...res } }
 
-    return {ok: true}
+    return { ok: true }
 }

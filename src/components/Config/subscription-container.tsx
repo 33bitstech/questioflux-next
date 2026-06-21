@@ -75,7 +75,6 @@ export default function SubscriptionContainer({ styles }: IProps) {
 
             const endDate =
                 data?.currentPeriodEnd ??
-                data?.subscription?.currentPeriodEnd ??
                 currentPeriodEnd
 
             setCancelAtPeriodEnd(data?.cancelAtPeriodEnd ?? true)

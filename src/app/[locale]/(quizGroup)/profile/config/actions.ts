@@ -85,7 +85,7 @@ export async function validateEmailCode(code: string, locale: string, email: str
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
 
-    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/user/email-code`, {
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/user/email-code?locale=${locale}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

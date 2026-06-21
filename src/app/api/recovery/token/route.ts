@@ -3,31 +3,31 @@ import ApiData from '@/utils/ApiData';
 
 export async function POST(request: Request) {
     try {
+        const { searchParams } = new URL(request.url)
+        const locale = searchParams.get('locale') || 'pt'
+
         const email = await request.json()
 
         const externalApiResponse = await ApiData({
-            path: `recovery-token`, 
+            path: `recovery-token?locale=${locale}`,
             method: 'POST',
             headerKey: ['Content-Type'],
             headerValue: ['application/json'],
             body: JSON.stringify(email),
-            cache: {cache: 'no-store'}
+            cache: { cache: 'no-store' }
         })
-        console.log(externalApiResponse)
 
-        
         if (!externalApiResponse.ok) {
             const responseData = await externalApiResponse.json();
             return NextResponse.json(responseData, { status: externalApiResponse.status });
         }
-        
 
         return NextResponse.json('ok', { status: 200 });
 
     } catch (error) {
         console.error('[API ROUTE /api/recovery/token] Erro inesperado:', error);
         return NextResponse.json(
-            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' }, 
+            { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' },
             { status: 500 }
         );
     }
