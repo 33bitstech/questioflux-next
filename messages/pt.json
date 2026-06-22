@@ -527,7 +527,7 @@
                 "placeholder": "Pergunta N°{position}",
                 "alternativeLabel": "Alternativa N°{number} (Opcional c/ imagem)"
             },
-            "errors": "Escolha as imagens das questões/alternativas",
+            "errors": "Cada pergunta deve ter uma imagem.",
             "validationError": "Preencha as questões destacadas antes de continuar."
         }
     },
