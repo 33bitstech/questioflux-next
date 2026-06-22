@@ -11,6 +11,7 @@ import RegisterComponent from '../AuthForms/register-component'
 import LoginComponent from '../AuthForms/login-component'
 import GuestForm from '../AuthForms/Guest/guest-form'
 import { pauseQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
+import { Expand, Shrink } from 'lucide-react'
 
 interface IProps {
     qtdQuestions: number
@@ -69,6 +70,12 @@ export default function QuestionsContainer({
         { toGuest, typePopup, toLogin, toRegister } = usePopupAuth(),
         [guestName, setGuestName] = useState('')
 
+    const [isQuestionImageContained, setIsQuestionImageContained] =
+        useState(false)
+
+    const toggleQuestionImageFit = () => {
+        setIsQuestionImageContained((currentValue) => !currentValue)
+    }
     const t = useTranslations('takingPage'),
         locale = useLocale(),
         blurLoading = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88eJ1PQAI/gMrw32C7wAAAABJRU5ErkJggg=='
@@ -294,12 +301,46 @@ export default function QuestionsContainer({
                 <div className={styles.taking_image_container}>
                     <div className={styles.image}>
                         <Image
-                            src={questions[actualQuestion - 1].image || '/quiz_padrao_preto.png'}
+                            className={`${styles.question_image} ${isQuestionImageContained
+                                    ? styles.question_image_contained
+                                    : ''
+                                }`}
+                            src={
+                                questions[actualQuestion - 1].image ||
+                                '/quiz_padrao_preto.png'
+                            }
                             alt={t('imageAlts.question')}
-                            width={900} height={900} quality={85}
-                            placeholder='blur' blurDataURL={blurLoading}
-                            fetchPriority='high' loading='eager'
+                            width={900}
+                            height={900}
+                            quality={85}
+                            placeholder="blur"
+                            blurDataURL={blurLoading}
+                            fetchPriority="high"
+                            loading="eager"
                         />
+
+                        <button
+                            type="button"
+                            className={styles.image_fit_button}
+                            onClick={toggleQuestionImageFit}
+                            aria-pressed={isQuestionImageContained}
+                            aria-label={
+                                isQuestionImageContained
+                                    ? 'Voltar ao preenchimento da imagem'
+                                    : 'Exibir a imagem completa'
+                            }
+                            title={
+                                isQuestionImageContained
+                                    ? 'Reduzir imagem'
+                                    : 'Expandir imagem'
+                            }
+                        >
+                            {isQuestionImageContained ? (
+                                <Shrink aria-hidden="true" />
+                            ) : (
+                                <Expand aria-hidden="true" />
+                            )}
+                        </button>
                     </div>
                     <div className={styles.footer_question}>
                         <p>{questions[actualQuestion - 1].title}</p>

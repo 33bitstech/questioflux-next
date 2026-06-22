@@ -24,7 +24,7 @@
             align-items: center;
             cursor: pointer;
 
-            transition: 
+            transition:
                 transform .2s ease,
                 box-shadow .2s ease,
                 background .2s ease,
@@ -180,12 +180,61 @@
                 justify-content: center;
                 cursor: pointer;
                 overflow: hidden;
+                position: relative;
 
                 img {
                     width: 100%;
                     height: auto;
                     object-fit: cover;
                     background-size: contain;
+                }
+
+                .question_image {
+                    transition: height .2s ease;
+                }
+
+                img.question_image_contained {
+                    height: 100%;
+                    object-fit: contain;
+                }
+
+                .image_fit_button {
+                    position: absolute;
+                    top: .75rem;
+                    right: .75rem;
+                    z-index: 2;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    padding: 0;
+                    border: 1px solid rgba(255, 255, 255, .35);
+                    border-radius: .625rem;
+                    background-color: rgba(0, 0, 0, .65);
+                    color: vars.$cor-branco;
+                    cursor: pointer;
+                    backdrop-filter: blur(4px);
+                    transition: transform .2s ease, background-color .2s ease;
+
+                    &:hover {
+                        transform: scale(1.06);
+                        background-color: rgba(0, 0, 0, .82);
+                    }
+
+                    &:active {
+                        transform: scale(.96);
+                    }
+
+                    &:focus-visible {
+                        outline: 2px solid vars.$cor-azulEscuro;
+                        outline-offset: 2px;
+                    }
+
+                    svg {
+                        width: 1.25rem;
+                        height: 1.25rem;
+                    }
                 }
             }
 
