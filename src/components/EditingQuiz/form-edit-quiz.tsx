@@ -82,7 +82,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             const isPrivate = visibility !== 'public'
 
             const tags = tagsString
-                .split('form.,')
+                .split(',')
                 .map(tag => tag.trim())
                 .filter(Boolean)
 
