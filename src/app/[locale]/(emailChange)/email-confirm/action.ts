@@ -16,16 +16,16 @@ function parseAndSetCookies(setCookieStrings: string[], cookieStore: any) {
         const name = nameValue.slice(0, firstEqualIdx);
         const value = nameValue.slice(firstEqualIdx + 1);
 
-        const options: Partial<ResponseCookie> = {};
+        const options: Partial<ResponseCookie> = {
+            path: '/'
+        };
 
         parts.forEach(part => {
             const [key, ...valParts] = part.trim().split('=');
             const val = valParts.join('=');
             const keyLower = key.toLowerCase();
 
-            if (keyLower === 'path') options.path = val;
-            else if (keyLower === 'domain') options.domain = val;
-            else if (keyLower === 'max-age') options.maxAge = parseInt(val, 10);
+            if (keyLower === 'max-age') options.maxAge = parseInt(val, 10);
             else if (keyLower === 'expires') options.expires = new Date(val);
             else if (keyLower === 'samesite') options.sameSite = val.toLowerCase() as any;
             else if (keyLower === 'secure') options.secure = true;
@@ -54,6 +54,8 @@ export async function confirmEmailChange(token: string, email: string) {
             const errorData = await response.json().catch(() => null)
             return { err: true, message: errorData?.message || 'Falha ao processar a requisição.' }
         }
+
+        cookieStore.delete('fghdhdhd')
 
         const setCookies = response.headers.getSetCookie()
 
