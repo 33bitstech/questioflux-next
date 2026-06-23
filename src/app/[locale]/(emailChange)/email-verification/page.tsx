@@ -53,11 +53,11 @@ export default async function EmailVerificationPage({ params, searchParams }: IP
                 </p>
 
                 <div className={styles.actions}>
-                    <a href={`${locale}/profile/config`} className={styles.primary}>
+                    <a href={`/profile/config`} className={styles.primary}>
                         {t('buttons.goToProfile')}
                     </a>
 
-                    <a href={`${locale}/`} className={styles.secondary}>
+                    <a href={`/`} className={styles.secondary}>
                         {t('buttons.goToHome')}
                     </a>
                 </div>
