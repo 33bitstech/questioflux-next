@@ -27,6 +27,7 @@ function parseAndSetCookies(setCookieStrings: string[], cookieStore: any) {
 
             if (keyLower === 'max-age') options.maxAge = parseInt(val, 10);
             else if (keyLower === 'expires') options.expires = new Date(val);
+            else if (keyLower === 'domain') options.domain = val
             else if (keyLower === 'samesite') options.sameSite = val.toLowerCase() as any;
             else if (keyLower === 'secure') options.secure = true;
             else if (keyLower === 'httponly') options.httpOnly = true;
