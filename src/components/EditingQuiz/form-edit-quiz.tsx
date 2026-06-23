@@ -267,7 +267,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
 
             <footer className={styles.footer}>
                 <div className={styles.actions}>
-                    <button onClick={(e) => { e.preventDefault(); router.back() }}>{tShared('buttons.back')}</button>
+                    <button type='button' onClick={(e) => { e.preventDefault(); router.back() }}>{tShared('buttons.back')}</button>
                     <DeleteQuiz quizId={quiz?.quizId} />
                 </div>
                 <div className={styles.save}>
