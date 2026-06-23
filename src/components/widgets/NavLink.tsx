@@ -23,12 +23,17 @@ export default function NavLink({ href, children, styles, isBlock, className, re
     if (isActive) classe += styles ? ` ${styles.active}` : ' active';
     if (isBlock) classe += styles ? ` ${styles.blocked}` : '';
 
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (isActive) return e.preventDefault()
+    }
+
     return (
         <Link
             {...others}
             href={isBlock ? '#' : href}
             className={classe}
             locale={locale}
+            onClick={handleClick}
             replace={replace}
         >
             {children}
