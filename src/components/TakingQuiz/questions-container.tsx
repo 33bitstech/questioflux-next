@@ -12,6 +12,7 @@ import LoginComponent from '../AuthForms/login-component'
 import GuestForm from '../AuthForms/Guest/guest-form'
 import { pauseQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
 import { Expand, Shrink } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 interface IProps {
     qtdQuestions: number
@@ -70,6 +71,7 @@ export default function QuestionsContainer({
         { toGuest, typePopup, toLogin, toRegister } = usePopupAuth(),
         [guestName, setGuestName] = useState('')
 
+    const theme = useTheme()
     const [isQuestionImageContained, setIsQuestionImageContained] =
         useState(false)
 
@@ -330,7 +332,7 @@ export default function QuestionsContainer({
                                 }`}
                             src={
                                 questions[actualQuestion - 1].image ||
-                                '/quiz_padrao_preto.png'
+                                (theme.theme === 'light' ? '/quiz_padrao_branco.png' : '/quiz_padrao_preto.png')
                             }
                             alt={t('imageAlts.question')}
                             width={900}
@@ -346,6 +348,7 @@ export default function QuestionsContainer({
                             type="button"
                             className={styles.image_fit_button}
                             onClick={toggleQuestionImageFit}
+                            disabled={!started}
                             aria-pressed={isQuestionImageContained}
                             aria-label={
                                 isQuestionImageContained
@@ -386,7 +389,10 @@ export default function QuestionsContainer({
                                         <Image
                                             width={600}
                                             height={600}
-                                            src={answer.thumbnail || '/quiz_padrao_preto.png'}
+                                            src={
+                                                answer.thumbnail ||
+                                                (theme.theme === 'light' ? '/quiz_padrao_branco.png' : '/quiz_padrao_preto.png')
+                                            }
                                             alt={t('imageAlts.alternative')}
                                             placeholder='blur'
                                             blurDataURL={blurLoading}

@@ -592,6 +592,7 @@
         "homeButton": "Home"
     },
     "takingPage": {
+        "blurMessage": "Click the Start button above to reveal the quiz questions",
         "buttonStart": "Start",
         "errors": {
             "resAll": "You have to answer all the questions; make sure you didn't miss any"

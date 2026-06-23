@@ -3,12 +3,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
   experimental: {
-    proxyClientMaxBodySize: '100mb',
+    proxyClientMaxBodySize: '5mb',
     serverActions: {
-      bodySizeLimit: '1000mb',
+      bodySizeLimit: '5mb',
     },
   },
-  images:{
+  images: {
     remotePatterns: [
       {
         protocol: 'https',

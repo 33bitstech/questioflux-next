@@ -1,26 +1,31 @@
 @use '../../../../../../../assets/styles/vars.scss';
-.header_quiz{
+
+.header_quiz {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: .31rem;
-    h1{
+
+    h1 {
         @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
     }
-    .img_quiz_container{
+
+    .img_quiz_container {
         width: 100%;
         height: 22rem;
         overflow: hidden;
         border-radius: 0.3125rem;
         border: 1px solid var(--text-primary);
         position: relative;
-        img{
+
+        img {
             width: 100%;
             height: 100%;
             background-size: contain;
             object-fit: cover;
         }
-        .time{
+
+        .time {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,77 +38,106 @@
             transform: translate(-50%, -50%);
             border-radius: 0.69231rem;
             box-shadow: 0px 0px 21.442px 3.956px rgba(0, 0, 0, 0.25);
-
             background-color: var(--background-time);
 
-            .timer{
+            .timer {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: .3rem;
                 user-select: none;
-                span{
+
+                span {
                     @include vars.styleTexto(vars.$cor-branco, 3.125rem, 700);
                     align-items: center;
-                    &:nth-child(2n + 1){
+
+                    &:nth-child(2n + 1) {
                         padding: 1.2rem .9rem;
                         background-color: vars.$cor-azulEscuro;
                         border-radius: 0.5rem;
                         width: 6rem;
                         text-align: center;
                     }
-                    &:nth-child(2n - 2){
+
+                    &:nth-child(2n - 2) {
                         stroke: 0px 0px 3.165px 0px vars.$cor-azulEscuro;
                         color: var(--span-timer-dot);
                     }
                 }
             }
 
-            .time_action{
+            .time_action {
                 z-index: 3;
                 position: absolute;
                 left: 50%;
                 top: 100%;
                 transform: translate(-50%, -50%);
-                button{
+
+                button {
                     background-color: vars.$cor-azulEscuro;
-                    @include vars.styleTexto(vars.$cor-branco, .89rem, 700 );
+                    @include vars.styleTexto(vars.$cor-branco, .89rem, 700);
                     padding: 1.5rem 3rem;
                     border-radius: 0.5rem;
                     border: none;
                     cursor: pointer;
                     text-transform: uppercase;
                 }
-                .button_started{
+
+                .button_started {
                     display: none !important;
                 }
             }
         }
     }
 }
-.containerStart{
+
+.containerStart {
     position: relative;
     width: 98%;
     max-width: 38rem;
-    .block{
-        background-color: transparent;
-        width: 100%;
-        height: 100%;
-        z-index: 5;
+
+    .blurOverlay {
         position: absolute;
-        cursor: not-allowed;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 0.9375rem;
+
+        .blurMessage {
+            background-color: var(--background-primary, #1A1A1A);
+            padding: 1.5rem 2.5rem;
+            border-radius: 0.9375rem;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 80%;
+
+            p {
+                font-size: .89rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                text-transform: uppercase;
+                line-height: 1.5;
+            }
+        }
     }
-    .start{
-        background-color: transparent;
-        width: 0;
-        height: 0;
-        position: absolute;
+
+    .blurredContent {
+        filter: blur(6px);
+        user-select: none;
+        pointer-events: none;
+        opacity: 0.4;
+        transition: filter 0.3s ease, opacity 0.3s ease;
     }
 }
 
 @media screen and (max-width: 860px) {
-    .header_quiz{
-        h1{
+    .header_quiz {
+        h1 {
             text-align: center;
         }
     }

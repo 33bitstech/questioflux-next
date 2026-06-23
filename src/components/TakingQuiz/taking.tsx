@@ -9,10 +9,35 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
 import LoadingReq from '../Loading/loading-req'
+import { useTranslations } from 'next-intl'
 
 interface IProps {
     styles: TStyles,
     quiz: IQuizes
+}
+
+const getDummyQuestions = (typeOfQuiz?: string) => {
+    const isImageQuiz = typeOfQuiz === 'image/RW'
+
+    return [
+        {
+            questionId: 'hidden',
+            question: '████████████████████████████████████',
+            title: '██████████',
+            answers: isImageQuiz
+                ? [
+                    { answer: 'dummy-1', thumbnail: '', text: '████████' },
+                    { answer: 'dummy-2', thumbnail: '', text: '████████' },
+                    { answer: 'dummy-3', thumbnail: '', text: '████████' },
+                    { answer: 'dummy-4', thumbnail: '', text: '████████' }
+                ]
+                : ['████████', '████████', '████████', '████████'],
+            correctAnswer: isImageQuiz
+                ? { answer: 'dummy-1', thumbnail: '', text: '████████' }
+                : '████████',
+            image: ''
+        }
+    ]
 }
 
 export default function TakingComponent({ quiz, styles }: IProps) {
@@ -24,6 +49,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
         route = useRouter(),
         [finalTime, setFinalTime] = useState(0)
 
+    const t = useTranslations('takingPage')
     const handleStart = async () => {
         const { ok } = await startQuiz(quiz.quizId)
         if (!ok) return setError('Could not start the quiz. Please try again.')
@@ -49,6 +75,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
         }
     }, [result, quiz])
 
+    const questionsToRender = started ? quiz.questions : getDummyQuestions(quiz.type) as any
     return (
         <>
             {loadingReq && <LoadingReq loading={loadingReq} />}
@@ -61,21 +88,29 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                 />
             </div>
             <div className={styles.containerStart}>
-                <div className={started ? styles.start : styles.block}></div>
-                {quiz.questions && quiz.type && <QuestionsContainer
-                    qtdQuestions={quiz?.qtdQuestions}
-                    questions={quiz?.questions}
-                    quizId={quiz.quizId}
-                    initialTime={initialTime}
-                    typeOfQuiz={quiz?.type}
-                    handleScroll={handleScroll}
-                    started={started}
-                    setStarted={setStarted}
-                    setResult={setResult}
-                    startLoading={() => setLoadingReq(true)}
-                    finalTime={finalTime}
-                    setFinalTime={setFinalTime}
-                />}
+                <div className={started ? styles.start : styles.block}></div>{!started && (
+                    <div className={styles.blurOverlay}>
+                        <div className={styles.blurMessage}>
+                            <p>{t('blurMessage')}</p>
+                        </div>
+                    </div>
+                )}
+                <div className={!started ? styles.blurredContent : ''} aria-hidden={!started}>
+                    {quiz.questions && quiz.type && <QuestionsContainer
+                        qtdQuestions={started ? quiz?.qtdQuestions : 1}
+                        questions={questionsToRender}
+                        quizId={quiz.quizId}
+                        initialTime={initialTime}
+                        typeOfQuiz={quiz?.type}
+                        handleScroll={handleScroll}
+                        started={started}
+                        setStarted={setStarted}
+                        setResult={setResult}
+                        startLoading={() => setLoadingReq(true)}
+                        finalTime={finalTime}
+                        setFinalTime={setFinalTime}
+                    />}
+                </div>
             </div>
         </>
     )
