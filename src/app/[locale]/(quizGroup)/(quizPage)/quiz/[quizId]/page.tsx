@@ -32,7 +32,7 @@ async function getQuiz(quizId: string): Promise<IQuizes | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
             method: 'GET',
-            next: { revalidate: 60 * 5 }
+            cache: 'no-store'
         });
         const res = await response.json();
         return res.quiz;
