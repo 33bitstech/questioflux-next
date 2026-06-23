@@ -159,6 +159,7 @@
     .question_answering_image {
         display: flex;
         flex-direction: column;
+        overflow-anchor: none;
         gap: .8rem;
         width: 100%;
         height: auto;

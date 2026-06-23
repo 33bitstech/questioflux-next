@@ -2,7 +2,7 @@
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useUser } from '@/contexts/userContext'
 import IQuestion from '@/interfaces/IQuestion'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import styles from './questions-container.module.scss'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
@@ -201,14 +201,37 @@ export default function QuestionsContainer({
         if (!user && canShowRegister) {
             const savedResults = localStorage.getItem('quizAnswers')
             if (savedResults) {
-                // timing omitted — the server calculates it from the httpOnly cookie
                 setResult({ quizAnswer: JSON.parse(savedResults), guest: guestName })
             }
         } else if (selectedValues && verifyAllAnswered()) {
-            // timing omitted — the server calculates it from the httpOnly cookie
             setResult({ quizAnswer: selectedValues, guest: guestName })
         }
     }, [selectedValues, guestName])
+
+    useLayoutEffect(() => {
+        const previousScrollRestoration = window.history.scrollRestoration
+
+        window.history.scrollRestoration = 'manual'
+
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'auto'
+        })
+
+        const animationFrame = requestAnimationFrame(() => {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'auto'
+            })
+        })
+
+        return () => {
+            cancelAnimationFrame(animationFrame)
+            window.history.scrollRestoration = previousScrollRestoration
+        }
+    }, [])
 
     return (
         <div className={`${styles.Answering}`}>
@@ -302,8 +325,8 @@ export default function QuestionsContainer({
                     <div className={styles.image}>
                         <Image
                             className={`${styles.question_image} ${isQuestionImageContained
-                                    ? styles.question_image_contained
-                                    : ''
+                                ? styles.question_image_contained
+                                : ''
                                 }`}
                             src={
                                 questions[actualQuestion - 1].image ||
