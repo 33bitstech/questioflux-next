@@ -5,6 +5,16 @@ import { getCookieHeader } from '@/utils/getCookieHeader'
 import { cookies } from 'next/headers'
 import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
+export async function deleteOldHostTokenCookie() {
+    const cookieStore = await cookies()
+
+    cookieStore.set('fghdhdhd', '', {
+        path: '/',
+        maxAge: 0,
+        expires: new Date(0)
+    })
+}
+
 function parseAndSetCookies(setCookieStrings: string[], cookieStore: any) {
     setCookieStrings.forEach(cookieString => {
         const parts = cookieString.split(';');
@@ -55,8 +65,6 @@ export async function confirmEmailChange(token: string, email: string) {
             const errorData = await response.json().catch(() => null)
             return { err: true, message: errorData?.message || 'Falha ao processar a requisição.' }
         }
-
-        cookieStore.delete('fghdhdhd')
 
         const setCookies = response.headers.getSetCookie()
 

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import styles from './email-confirm.module.scss'
-import { confirmEmailChange } from './action'
+import { confirmEmailChange, deleteOldHostTokenCookie } from './action'
 
 interface IProps {
     token?: string,
@@ -33,6 +33,7 @@ export default function EmailConfirmClient({ token, email }: IProps) {
                 if (res.err) {
                     router.replace('/email-verification?status=error')
                 } else {
+                    await deleteOldHostTokenCookie()
                     router.replace('/email-verification?status=success')
                 }
             } catch (error) {
