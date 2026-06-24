@@ -1,6 +1,6 @@
 @use '@/assets/styles/vars.scss';
 
-.content{
+.content {
     @extend %content-default;
     display: flex;
     flex-direction: column;
@@ -8,49 +8,58 @@
     gap: 1rem;
     margin-top: 4rem;
 
-    .image_quiz_container{
+    .image_quiz_container {
         width: 80%;
         height: 20.8125rem;
         position: relative;
         border-radius: 0.3125rem;
         border: 3px solid var(--text-primary);
-        img{
+
+        img {
             height: 100%;
             width: 100%;
             position: absolute;
-            
+
             border-radius: 0.3125rem;
             background-size: contain;
             object-fit: cover;
         }
     }
-    .quiz_navigation{
+
+    .quiz_navigation {
         display: flex;
         flex-direction: column;
         gap: 1rem;
         align-items: center;
         width: 53%;
-        h1{
+
+        h1 {
             text-align: center;
-            @include vars.styleTexto( var(--text-primary), 1.25rem, 700);
+            @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
         }
-        .navbar_quiz{
+
+        .navbar_quiz {
             display: flex;
             justify-content: space-between;
             width: 100%;
             height: auto;
-            a{
+
+            a {
                 user-select: none;
                 @include vars.styleTexto(#ffffff, 1rem, 700);
                 background: var(--fixed-gray);
                 width: 10.375rem;
                 padding: .62rem 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 opacity: .8;
                 text-transform: uppercase;
                 border-radius: .5rem;
                 text-align: center;
             }
-            .active{
+
+            .active {
                 opacity: 1 !important;
                 background: linear-gradient(180deg, #0047FF, #00E4FF) !important;
             }
@@ -59,11 +68,12 @@
 }
 
 @media screen and (max-width: 860px) {
-    .quiz_navigation{
-        flex-wrap: nowrap ;
+    .quiz_navigation {
+        flex-wrap: nowrap;
         width: 93% !important;
     }
-    .image_quiz_container{
+
+    .image_quiz_container {
         width: 93% !important;
     }
 }
