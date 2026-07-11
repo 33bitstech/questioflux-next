@@ -87,11 +87,16 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 
     if (!quiz) return { title: 'null' }
 
+    const willBeIndexed =
+        !quiz.isPrivate &&
+        quiz.description.length > 120 &&
+        (quiz.tags?.length ?? 0) > 5
+
     return {
         title: t('title', names),
         //description: t('desc', names),
         description: quiz.description,
-        robots: `${quiz.isPrivate ? 'noindex' : 'index, follow'}`,
+        robots: `${willBeIndexed ? 'index, follow' : 'noindex'}`,
         keywords: "quiz, user, take, save, share",
         alternates: {
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
