@@ -158,18 +158,15 @@ export default function QuestionsContainer({
 
         handleSelectValuesCopy()
 
-
         if (!user) {
             setFinalTime(Date.now())
             setCanShowRegister(true)
-            setStarted(false)
             return
         }
 
         handleSelectValues()
         startLoading()
 
-        setStarted(false)
         setFinalTime(Date.now())
     }
     const handleGoToQuestion = (questionNumber: number) => {
