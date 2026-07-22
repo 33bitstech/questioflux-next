@@ -30,7 +30,6 @@ export async function pauseQuiz(quizId: string): Promise<{ ok: boolean }> {
 export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest?: string }) {
     try {
         const cookieStore = await cookies()
-        console.log(quizId, 'takequiz')
         const elapsedCookie = cookieStore.get(ELAPSED_COOKIE(quizId))
         if (!elapsedCookie?.value) {
             return { err: 'Quiz session not found. Please start the quiz again.' }

@@ -121,12 +121,17 @@ export default function QuestionsContainer({
         if (typeOfQuiz === 'default/RW') {
             setSelectedValues(Object.entries(selectedAnswers).map((ans) => {
                 const [questionIndex, answerIndex] = ans
-                return { answer: answerArray[Number(questionIndex)].answers[Number(answerIndex)], questionId: questions[Number(questionIndex)].questionId }
+                const currentQuestion = answerArray[Number(questionIndex)]
+
+                return {
+                    answer: currentQuestion?.answers?.[Number(answerIndex)] ?? '',
+                    questionId: questions[Number(questionIndex)]?.questionId
+                }
             }))
         } else if (typeOfQuiz === 'image/RW') {
             setSelectedValues(Object.entries(selectedAnswers).map((ans) => {
                 const [questionIndex, answerIndex] = ans
-                return { answer: answerIndex, questionId: questions[Number(questionIndex)].questionId }
+                return { answer: answerIndex, questionId: questions[Number(questionIndex)]?.questionId }
             }))
         }
     }
@@ -151,15 +156,21 @@ export default function QuestionsContainer({
 
         await pauseQuiz(quizId)
 
-        setStarted(false)
-        setFinalTime(Date.now())
-
         handleSelectValuesCopy()
 
-        if (!user) return setCanShowRegister(true)
+
+        if (!user) {
+            setFinalTime(Date.now())
+            setCanShowRegister(true)
+            setStarted(false)
+            return
+        }
 
         handleSelectValues()
         startLoading()
+
+        setStarted(false)
+        setFinalTime(Date.now())
     }
     const handleGoToQuestion = (questionNumber: number) => {
         if (!started) return
