@@ -4,7 +4,7 @@ import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { cookies } from "next/headers"
 
-const START_COOKIE   = (id: string) => `quiz_start_${id}`
+const START_COOKIE = (id: string) => `quiz_start_${id}`
 const ELAPSED_COOKIE = (id: string) => `quiz_elapsed_${id}`
 const COOKIE_OPTIONS = { httpOnly: true, sameSite: 'strict' as const, path: '/', maxAge: 60 * 60 }
 
@@ -30,7 +30,7 @@ export async function pauseQuiz(quizId: string): Promise<{ ok: boolean }> {
 export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest?: string }) {
     try {
         const cookieStore = await cookies()
-
+        console.log(quizId, 'takequiz')
         const elapsedCookie = cookieStore.get(ELAPSED_COOKIE(quizId))
         if (!elapsedCookie?.value) {
             return { err: 'Quiz session not found. Please start the quiz again.' }

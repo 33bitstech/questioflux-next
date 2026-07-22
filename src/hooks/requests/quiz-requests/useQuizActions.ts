@@ -7,6 +7,7 @@ const useQuizActions = (savedQuizes: Array<{ id: string }> | undefined) => {
 
     async function saveQuiz(quizId: string) {
         try {
+            console.log(quizId, 'save quiz')
             const response = await fetch(`/api/quiz/save/${quizId}`, {
                 method: 'POST',
                 credentials: 'include',
