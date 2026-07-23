@@ -154,8 +154,8 @@ export default function QuestionsContainer({
         if (Object.keys(selectedAnswers).length < qtdQuestions)
             return setError(t('errors.resAll'))
 
-        setFinalTime(Date.now())
         await pauseQuiz(quizId)
+        setFinalTime(Date.now())
 
         handleSelectValuesCopy()
 
