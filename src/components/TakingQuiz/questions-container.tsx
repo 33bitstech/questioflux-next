@@ -154,20 +154,15 @@ export default function QuestionsContainer({
         if (Object.keys(selectedAnswers).length < qtdQuestions)
             return setError(t('errors.resAll'))
 
+        setFinalTime(Date.now())
         await pauseQuiz(quizId)
 
         handleSelectValuesCopy()
 
-        if (!user) {
-            setFinalTime(Date.now())
-            setCanShowRegister(true)
-            return
-        }
+        if (!user) setCanShowRegister(true)
 
         handleSelectValues()
         startLoading()
-
-        setFinalTime(Date.now())
     }
     const handleGoToQuestion = (questionNumber: number) => {
         if (!started) return

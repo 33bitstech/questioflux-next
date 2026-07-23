@@ -40,16 +40,19 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
     }
 
     useEffect(() => {
+        if (finalTime > 0) return setPassedTime(finalTime - initialTime)
+
         let interval: NodeJS.Timeout | undefined
         if (started) {
             interval = setInterval(() => {
                 setPassedTime(Date.now() - initialTime)
-            }, 20);
+            }, 20)
         }
+
         return () => {
             if (interval) clearInterval(interval)
         }
-    }, [started, initialTime])
+    }, [started, initialTime, finalTime])
 
     return (
         <div className={styles.img_quiz_container}>
