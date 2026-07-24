@@ -19,7 +19,19 @@ export async function POST(request: Request, { params }: { params: Promise<{ qui
         if (!externalApiResponse.ok) {
             return NextResponse.json(responseData, { status: externalApiResponse.status });
         }
-        return NextResponse.json(responseData, { status: 200 });
+
+        const response = NextResponse.json(responseData, { status: 200 })
+
+        const setCookies = externalApiResponse.headers.getSetCookie()
+
+        if (setCookies && setCookies.length > 0) {
+            setCookies.forEach(cookie => {
+                response.headers.append('Set-Cookie', cookie)
+            })
+        }
+
+        return response
+
     } catch (error) {
         console.error('[API ROUTE /api/quiz/save] Erro inesperado:', error);
         return NextResponse.json(
