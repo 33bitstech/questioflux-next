@@ -4,7 +4,8 @@ import { Metadata } from 'next';
 import ButtonBack from '@/components/widgets/button-back';
 
 export const metadata: Metadata = {
-    title: 'Taking'
+    title: 'Taking',
+    robots: { index: false, follow: true }
 };
 
 

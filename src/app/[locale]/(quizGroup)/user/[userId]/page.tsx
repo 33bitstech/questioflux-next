@@ -11,6 +11,7 @@ import { Metadata } from 'next'
 import { publicQuizzes } from '../action'
 import { notFound } from 'next/navigation'
 import { getIntlLocale } from '@/utils/locale'
+import { jsonLd } from '@/utils/seo'
 
 interface IProps{
     params:Promise<{
@@ -144,7 +145,7 @@ export default async function User({params}:IProps) {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(userScheme) }}
+                dangerouslySetInnerHTML={{ __html: jsonLd(userScheme) }}
             />
             <main className={styles.content}>
                 <UserProfileHeader userP={user} />

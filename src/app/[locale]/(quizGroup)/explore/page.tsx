@@ -9,6 +9,7 @@ import { Metadata } from 'next'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { getQuizzes, getFeaturedsQuizzes } from './actions'
 import { getOpenGraphLocale } from '@/utils/locale'
+import { jsonLd } from '@/utils/seo'
 
 interface IProps {
     params: Promise<{ locale: string }>
@@ -101,7 +102,7 @@ export default async function Explore({ params, searchParams }: IProps) {
 
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+                dangerouslySetInnerHTML={{ __html: jsonLd(itemListSchema) }}
             />
 
             <FeaturedsContainer styles={styles} defaultQuizzes={popularQuizzes ?? []} />

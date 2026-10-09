@@ -16,6 +16,7 @@ import Script from "next/script";
 import { Inter } from 'next/font/google';
 import { getOpenGraphLocale } from "@/utils/locale";
 import { SubscriptionCurrencyProvider } from "@/contexts/subscriptionCurrencyContext";
+import GoogleAnalytics from "@/components/Google/GoogleAnalytics";
 
 const inter = Inter({
     subsets: ['latin'],
@@ -161,6 +162,7 @@ export default async function RootLayout({
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(generateGlobalSchema(t)) }}
                     suppressHydrationWarning
                 />
+                <GoogleAnalytics />
                 <Script
                     async
                     src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7383504438544213`}

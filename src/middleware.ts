@@ -29,6 +29,16 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt|es)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
 ];
 
+// Rotas que exigem login. O que não é público nem protegido não existe: segue para o
+// roteador responder 404 (mandar para o login fazia o Google ver um "soft 404").
+const protectedRoutes: RegExp[] = [
+    /^\/(en|pt|es)\/home$/,
+    /^\/(en|pt|es)\/(profile|saves|drafts|create|subscription|email-confirm|email-verification)(\/.*)?$/,
+    /^\/(en|pt|es)\/quiz\/edit(\/.*)?$/,
+    // erros do login com Google chegam do backend em /error?code=...&msgEN=...
+    /^\/(en|pt|es)\/error$/,
+];
+
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const locales = ['en', 'pt', 'es'];
@@ -101,7 +111,9 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(redirectUrl);
     }
 
-    if (!publicRoute && !isLoggedIn) {
+    const isProtectedRoute = protectedRoutes.some(route => route.test(pathname));
+
+    if (!publicRoute && !isLoggedIn && isProtectedRoute) {
         const redirectUrl = req.nextUrl.clone();
         redirectUrl.pathname = defaultPublicRoute;
         return NextResponse.redirect(redirectUrl);
@@ -112,6 +124,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
     matcher: [
-        '/((?!api|_next/static|_next/image|icon.svg|favicon.ico|iconv2.png|favicon.png|sitemap.xml|sitemap-static-main_scope.xml|sitemap-dynamic-quizzes.xml|sitemap-dynamic-users.xml|robots.txt|ads.txt|quiz_padrao_.+\.png).*)',
+        '/((?!api|_next/static|_next/image|icon.svg|favicon.ico|iconv2.png|favicon.png|site-icon.svg|site-icon-dark.svg|trofeu.png|sitemap.xml|robots.txt|ads.txt|quiz_padrao_.+\.png).*)',
     ],
 };

@@ -31,7 +31,7 @@ export async function generateMetadata({params}:IProps) : Promise<Metadata> {
         },
         openGraph: {
             title: t('metadataTitle'),
-            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}`, 
+            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/about-us`, 
         },
         twitter: {
             title: t('metadataTitle'),

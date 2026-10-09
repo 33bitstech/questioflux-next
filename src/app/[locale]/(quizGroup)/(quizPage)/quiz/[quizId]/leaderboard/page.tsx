@@ -3,7 +3,6 @@ import styles from './leaderboard.module.scss'
 import LbUser from '@/components/Leaderboard/lb-user';
 import ShareButton from '@/components/widgets/share-button';
 import { TLeaderboard } from '@/types/leaderboardTypes';
-import IQuizes from '@/interfaces/IQuizes';
 import { IUser } from '@/interfaces/IUser';
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { getTranslations } from 'next-intl/server';
@@ -14,6 +13,8 @@ import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
 import OwnerExtraLeaderboard from '@/components/Leaderboard/owner-extra-leaderboard';
 import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popup';
 import { getQuizRecommendationAction } from './action';
+import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz';
+import { jsonLd } from '@/utils/seo';
 
 interface IProps {
     params: Promise<{
@@ -33,7 +34,7 @@ function isGuestEntry(entry: IUserLeaderBoardScore): boolean {
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const { quizId, locale } = await params
     const t = await getTranslations({ locale, namespace: 'leaderboardPage.metadata' });
-    const quiz = await getQuiz(quizId)
+    const quiz = await getPublicQuiz(quizId)
 
     const langs = {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}/leaderboard`,
@@ -70,18 +71,6 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-export async function getQuiz(quizId: string): Promise<IQuizes | undefined> {
-    try {
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
-            method: 'GET',
-        });
-        const res = await response.json();
-        return res.quiz;
-    } catch (err: any) {
-        console.log(err)
-    }
-}
-
 export async function getLeaderboard(quizId: string): Promise<TLeaderboard | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/leaderboard/${quizId}`, {
@@ -113,12 +102,15 @@ export default async function Leaderboard({ params }: IProps) {
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
-        [quizLb, quiz, user, recommendedQuiz] = await Promise.all([
+        [quizLb, fullQuiz, user, recommendedQuiz] = await Promise.all([
             getLeaderboard(quizId),
-            getQuiz(quizId),
+            getPublicQuiz(quizId),
             getUser(cookieHeader),
             getQuizRecommendationAction(quizId)
         ])
+
+    // o ranking só usa dados do quiz; as questões não precisam ir para o cliente
+    const quiz = fullQuiz ? withoutQuestions(fullQuiz) : null
 
     const registeredLb = quizLb?.filter(entry => !isGuestEntry(entry)) ?? [];
     const guestLb      = quizLb?.filter(entry =>  isGuestEntry(entry)) ?? [];
@@ -171,7 +163,7 @@ export default async function Leaderboard({ params }: IProps) {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(leaderboardSchema) }}
+                dangerouslySetInnerHTML={{ __html: jsonLd(leaderboardSchema) }}
             />
 
             {!quizLb && (

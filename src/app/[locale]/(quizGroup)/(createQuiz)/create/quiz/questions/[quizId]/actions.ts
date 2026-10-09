@@ -6,6 +6,8 @@ import { ILocalQuestions } from "@/interfaces/ILocalQuestions"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { BodyInit } from "@/types/fetchTypes"
 import { cookies } from "next/headers"
+import { updateTag } from 'next/cache'
+import { quizTag } from '@/utils/publicQuiz'
 
 export async function createQuestionsText(questions: BodyInit, quizId: string) {
     try {
@@ -25,6 +27,8 @@ export async function createQuestionsText(questions: BodyInit, quizId: string) {
         return { res: res.data }
     } catch (err: any) {
         throw err
+    } finally {
+        updateTag(quizTag(quizId))
     }
 }
 
@@ -52,6 +56,8 @@ export async function createQuestionsImageTitles(
         return { res: res.data || true }
     } catch (err: any) {
         throw err
+    } finally {
+        updateTag(quizTag(quizId))
     }
 }
 
@@ -111,5 +117,7 @@ export async function uploadOneQuestionImage(
         return { res: true }
     } catch (err: any) {
         throw err
+    } finally {
+        updateTag(quizTag(quizId))
     }
 }

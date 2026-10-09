@@ -3,6 +3,8 @@
 import ApiData from "@/utils/ApiData"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { cookies } from "next/headers"
+import { updateTag } from 'next/cache'
+import { quizTag } from '@/utils/publicQuiz'
 
 export const deleteQuiz = async (quizId: string) => {
     try {
@@ -20,5 +22,7 @@ export const deleteQuiz = async (quizId: string) => {
         return await externalApiResponse.json()
     } catch (err) {
         throw err
+    } finally {
+        updateTag(quizTag(quizId))
     }
 }

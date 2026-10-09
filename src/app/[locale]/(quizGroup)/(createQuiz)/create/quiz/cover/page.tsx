@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'createQuizFlow' });
 
     const langs = {
-        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/create/quiz/cove`,
+        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/create/quiz/cover`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz/cover`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/create/quiz/cover`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz/cover`
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     return {
         title: t('layout.metadataTitle'),
         description: t('selectTypePage.desc'),
-        robots: 'index, follow',
+        robots: 'noindex, follow',
         keywords: "quiz, create, type",
         alternates:{
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz/cover`,

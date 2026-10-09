@@ -5,6 +5,7 @@ import { TStyles } from '@/types/stylesType'
 import {useSearchParams } from 'next/navigation'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps{
     styles: TStyles,
@@ -39,6 +40,11 @@ export default function SearchQuiz({styles, placeholder, pagesWithSearchInput}: 
         const params = new URLSearchParams()
 
         if (filtersSelected.length > 0) params.set('categories', filtersSelected.join(','))
+
+        trackEvent('search', {
+            search_term: searchValue.trim().slice(0, 100),
+            categories: filtersSelected.join(',').slice(0, 100) || undefined,
+        })
 
         const regexTags = /(#+[a-zA-Z0-9_]{1,})/g,
             matchedTags = searchValue.match(regexTags)

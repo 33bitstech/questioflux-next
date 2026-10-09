@@ -10,9 +10,10 @@ import { useLocale, useTranslations } from 'next-intl'
 interface IProps{
     styles: TStyles
     quizId: string
+    isPrivate?: boolean
 }
 
-export default function QuizContent({styles, quizId}:IProps) {
+export default function QuizContent({styles, quizId, isPrivate}:IProps) {
     const t = useTranslations('creatingQuiz.questionsPage'); 
     const [textMode, setTextMode] = useState<boolean>(true);
     const locale = useLocale();
@@ -40,6 +41,7 @@ export default function QuizContent({styles, quizId}:IProps) {
                 styles={styles}
                 textMode={textMode}
                 quizId={quizId}
+                isPrivate={isPrivate}
             />
         </>
     )

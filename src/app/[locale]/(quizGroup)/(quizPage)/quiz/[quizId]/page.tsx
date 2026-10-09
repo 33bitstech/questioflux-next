@@ -10,8 +10,15 @@ import { getTranslations } from 'next-intl/server';
 import QuizCategoryContainer from '@/components/widgets/quiz-category-container';
 import GoogleAdMobile from '@/components/Google/googleAdMobile';
 import { Metadata } from 'next';
-import Script from 'next/script'
+import { notFound } from 'next/navigation';
 import EmbedQuizPopup from '@/components/widgets/embed-quiz-popup';
+import { getPublicQuiz, getRelatedQuizzes, withoutQuestions } from '@/utils/publicQuiz';
+import { isQuizIndexable } from '@/utils/quizQuality';
+import { buildQuestionsPreview, IPreviewQuestion } from '@/utils/quizPreview';
+import { idiomToLanguageTag, jsonLd, quizCanonicalUrl, quizImageUrl, SITE_URL } from '@/utils/seo';
+import { getOpenGraphLocale } from '@/utils/locale';
+import { quizParams } from '@/utils/analytics';
+import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/analytics-widgets';
 
 interface IProps {
     params: Promise<{
@@ -28,42 +35,62 @@ const transformData = (datatime: Date, locale: string) => {
     }).format(new Date(datatime));
 }
 
-async function getQuiz(quizId: string): Promise<IQuizes | undefined> {
-    try {
-        const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/${quizId}`, {
-            method: 'GET',
-            cache: 'no-store'
-        });
-        const res = await response.json();
-        return res.quiz;
-    } catch (err: any) {
-        console.log(err)
-    }
-}
+function generateQuizSchema(t: any, quiz: IQuizes, questions: IPreviewQuestion[], locale: string, exploreLabel: string) {
+    const url = quizCanonicalUrl(quiz)
 
-function generateQuizSchema(t: any, quiz: IQuizes, locale: string) {
     return {
         "@context": "https://schema.org",
-        "@type": "Quiz",
-        "mainEntityOfPage": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quiz.quizId}` },
-        "name": quiz.title,
-        "description": quiz.description,
-        "image": {
-            "@context": "https://schema.org",
-            "@type": "ImageObject",
-            "url": quiz.quizThumbnail || `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`
-        },
-        "author": {
-            "@type": "Person",
-            "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/user/${quiz?.userCreatorId}#person`,
-            "name": quiz.userCreatorName
-        },
-        "publisher": { "@id": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/#organization` },
-        "potentialAction": [
+        "@graph": [
             {
-                "@type": "TakeAction",
-                "name": t('metadata.actions.take'),
-                "target": `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quiz.quizId}/taking`
+                "@type": "Quiz",
+                "@id": `${url}#quiz`,
+                "url": url,
+                "mainEntityOfPage": { "@id": url },
+                "name": quiz.title,
+                "description": quiz.description,
+                "inLanguage": idiomToLanguageTag(quiz.idiom),
+                "image": {
+                    "@type": "ImageObject",
+                    "url": quizImageUrl(quiz)
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": `${SITE_URL}/${locale}/user/${quiz.userCreatorId}#person`,
+                    "name": quiz.userCreatorName,
+                    "url": `${SITE_URL}/${locale}/user/${quiz.userCreatorId}`
+                },
+                "publisher": { "@id": `${SITE_URL}/#organization` },
+                "dateCreated": quiz.created_at,
+                "dateModified": quiz.updated_at,
+                ...(quiz.tags?.length ? { "keywords": quiz.tags.join(', ') } : {}),
+                // Só o enunciado e as alternativas: nenhuma é marcada como acceptedAnswer.
+                "hasPart": questions.map(question => ({
+                    "@type": "Question",
+                    "eduQuestionType": "Multiple choice",
+                    "name": question.text,
+                    ...(question.image ? { "image": question.image } : {}),
+                    "suggestedAnswer": question.options.map((option, index) => ({
+                        "@type": "Answer",
+                        "position": index + 1,
+                        ...(option.text ? { "text": option.text } : {}),
+                        ...(option.image ? { "image": option.image } : {})
+                    }))
+                })),
+                "potentialAction": [
+                    {
+                        "@type": "TakeAction",
+                        "name": t('metadata.actions.take'),
+                        "target": `${url}/taking`
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    { "@type": "ListItem", "position": 1, "name": "QuestioFlux", "item": `${SITE_URL}/${locale}` },
+                    { "@type": "ListItem", "position": 2, "name": exploreLabel, "item": `${SITE_URL}/${locale}/explore` },
+                    { "@type": "ListItem", "position": 3, "name": quiz.title }
+                ]
             }
         ]
     }
@@ -71,78 +98,83 @@ function generateQuizSchema(t: any, quiz: IQuizes, locale: string) {
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const { locale, quizId } = await params
+    const quiz = await getPublicQuiz(quizId)
+
+    if (!quiz) notFound()
+
     const t = await getTranslations({ locale, namespace: 'quizInfoPage.metadata' })
-    const quiz = await getQuiz(quizId)
 
-    const langs = {
-        'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}`,
-        'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}`,
-        'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}`,
-        'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}`
-    },
-        names = {
-            name: quiz?.userCreatorName ?? '',
-            quiz_name: quiz?.title ?? ''
-        }
+    const quizName = quiz.title.trim()
+    // "Naruto" vira "Naruto – Quiz": quem procura digita "quiz de ..."
+    const title = /quiz/i.test(quizName) || quizName.length > 50
+        ? t('title', { quiz_name: quizName })
+        : t('titleQuiz', { quiz_name: quizName })
 
-    if (!quiz) return { title: 'null' }
+    const rawDescription = (quiz.description ?? '').replace(/\s+/g, ' ').trim()
+    // descrição curta demais para virar snippet: completa com um texto fixo
+    const description = rawDescription.length >= 110
+        ? rawDescription
+        : `${rawDescription}${/[.!?…]$/.test(rawDescription) ? '' : '.'} ${t('descSuffix', { count: quiz.qtdQuestions })}`
 
-    const willBeIndexed =
-        !quiz.isPrivate &&
-        quiz.description.length > 120 &&
-        (quiz.tags?.length ?? 0) > 5
+    const canonical = quizCanonicalUrl(quiz)
+    const image = quizImageUrl(quiz)
 
     return {
-        title: t('title', names),
-        //description: t('desc', names),
-        description: quiz.description,
-        robots: `${willBeIndexed ? 'index, follow' : 'noindex'}`,
-        keywords: "quiz, user, take, save, share",
+        title,
+        description,
+        robots: isQuizIndexable(quiz)
+            ? { index: true, follow: true, 'max-image-preview': 'large' }
+            : { index: false, follow: true },
+        keywords: quiz.tags?.length ? quiz.tags : undefined,
         alternates: {
-            canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
-            languages: langs
+            canonical
         },
         openGraph: {
-            title: t('title', names),
-            description: quiz.description,
-            url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/quiz/${quizId}`,
+            title,
+            description,
+            url: canonical,
             siteName: 'QuestioFlux',
-            images: quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
+            images: image,
+            locale: getOpenGraphLocale(locale),
             type: 'website'
         },
         twitter: {
-            title: t('title', names),
-            description: quiz.description,
-            images: [quiz?.quizThumbnail ?? `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
+            card: 'summary_large_image',
+            title,
+            description,
+            images: [image],
         }
     }
 }
 
 export default async function Quiz({ params }: IProps) {
     const { quizId, locale } = await params;
-    const t = await getTranslations({ locale, namespace: 'quizInfoPage' });
-    const quiz = await getQuiz(quizId);
+    const quiz = await getPublicQuiz(quizId);
 
-    if (!quiz) return null
+    if (!quiz) notFound()
 
-    const quizSchema = generateQuizSchema(t, quiz, locale)
+    const [t, tHeader, related] = await Promise.all([
+        getTranslations({ locale, namespace: 'quizInfoPage' }),
+        getTranslations({ locale, namespace: 'contextualHeader' }),
+        getRelatedQuizzes(quiz)
+    ])
+
+    const questions = buildQuestionsPreview(quiz)
+    const quizSchema = generateQuizSchema(t, quiz, questions, locale, tHeader('explore'))
+    // client components só recebem os dados do quiz, sem as questões
+    const quizInfo = withoutQuestions(quiz)
+    const analyticsParams = quizParams(quiz)
 
     return (
         <>
             <GoogleAdMobile left={true} slot='6584414246' />
 
+            <TrackOnView event='quiz_view' params={analyticsParams} />
 
-            {/* <script
+            <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
-            /> */}
-            <Script
-                id='quiz-json-schema'
-                type='application/ld+json'
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(quizSchema) }}
-                strategy='beforeInteractive'
+                dangerouslySetInnerHTML={{ __html: jsonLd(quizSchema) }}
             />
-
 
             <div className={styles.quiz_details}>
                 <div className={styles.info}>
@@ -158,26 +190,22 @@ export default async function Quiz({ params }: IProps) {
                         />
                     </div>
                     <ul>
-                        {quiz && (
-                            <>
-                                <li>{t('details.createdBy')} <Link href={`/user/${quiz?.userCreatorId}`}>{quiz.userCreatorName}</Link></li>
-                                <li>{t('details.creationDate')} <time dateTime={quiz.created_at.toString()}>{transformData(quiz.created_at, locale)}</time></li>
-                                <li>{t('details.lastUpdated')} <time dateTime={quiz.updated_at.toString()}>{transformData(quiz.updated_at, locale)}</time></li>
-                                <li>{t('details.participants')} <Participants quiz={quiz} styles={styles} /></li>
-                                <li>{t('details.category')}
-                                    <QuizCategoryContainer
-                                        quiz={quiz}
-                                    />
-                                </li>
-                                {quiz?.tags && quiz.tags.length > 0 ? <li>
-                                    {t('details.tags')} {quiz.tags?.map((tag, i) => (
-                                        <span key={i}>
-                                            <strong>{tag}</strong>{quiz.tags && i < (quiz.tags.length - 1) ? ', ' : ''}
-                                        </span>
-                                    ))}
-                                </li> : <></>}
-                            </>
-                        )}
+                        <li>{t('details.createdBy')} <Link locale={locale} href={`/user/${quiz.userCreatorId}`}>{quiz.userCreatorName}</Link></li>
+                        <li>{t('details.creationDate')} <time dateTime={quiz.created_at.toString()}>{transformData(quiz.created_at, locale)}</time></li>
+                        <li>{t('details.lastUpdated')} <time dateTime={quiz.updated_at.toString()}>{transformData(quiz.updated_at, locale)}</time></li>
+                        <li>{t('details.participants')} <Participants quiz={quizInfo} styles={styles} /></li>
+                        <li>{t('details.category')}
+                            <QuizCategoryContainer
+                                quiz={quizInfo}
+                            />
+                        </li>
+                        {quiz.tags && quiz.tags.length > 0 ? <li>
+                            {t('details.tags')} {quiz.tags.map((tag, i) => (
+                                <span key={i}>
+                                    <strong>{tag}</strong>{quiz.tags && i < (quiz.tags.length - 1) ? ', ' : ''}
+                                </span>
+                            ))}
+                        </li> : <></>}
                     </ul>
                 </div>
                 <div className={styles.actions}>
@@ -186,8 +214,73 @@ export default async function Quiz({ params }: IProps) {
                     <ShareButton styles={styles} quizId={quizId} />
                 </div>
                 <div className={styles.description_container}>
-                    <h2>{quiz?.description}</h2>
+                    <p>{quiz.description}</p>
                 </div>
+
+                {questions.length > 0 && (
+                    <section className={styles.questions_preview}>
+                        <h2>{t('questions.title')}</h2>
+                        <TrackedDetails event='quiz_questions_preview' params={analyticsParams}>
+                            <summary>{t('questions.summary', { count: questions.length })}</summary>
+                            <p className={styles.questions_note}>{t('questions.note')}</p>
+                            <ol>
+                                {questions.map(question => (
+                                    <li key={question.id}>
+                                        <h3>{question.text}</h3>
+                                        {question.image && (
+                                            // <img> direto: o Google Imagens indexa a URL original do S3
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img
+                                                className={styles.question_image}
+                                                src={question.image}
+                                                alt={`${question.text} – ${quiz.title}`}
+                                                loading="lazy"
+                                                decoding="async"
+                                            />
+                                        )}
+                                        <ul className={question.options.some(option => option.image) ? styles.options_images : undefined}>
+                                            {question.options.map((option, index) => (
+                                                <li key={index}>
+                                                    {option.image && (
+                                                        // eslint-disable-next-line @next/next/no-img-element
+                                                        <img
+                                                            src={option.image}
+                                                            alt={option.text || t('questions.option', { number: index + 1 })}
+                                                            loading="lazy"
+                                                            decoding="async"
+                                                        />
+                                                    )}
+                                                    {option.text && <span>{option.text}</span>}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </li>
+                                ))}
+                            </ol>
+                        </TrackedDetails>
+                    </section>
+                )}
+
+                {related.length > 1 && (
+                    <section className={styles.related}>
+                        <h2>{t('related.title')}</h2>
+                        <ul>
+                            {related.map(relatedQuiz => (
+                                <li key={relatedQuiz.quizId}>
+                                    <TrackedLink
+                                        event='select_content'
+                                        params={{ content_type: 'related_quiz', item_id: relatedQuiz.quizId, quiz_id: quizId }}
+                                        locale={locale}
+                                        href={`/quiz/${relatedQuiz.quizId}`}
+                                    >
+                                        <strong>{relatedQuiz.title}</strong>
+                                        <span>{t('related.count', { count: relatedQuiz.qtdQuestions })}</span>
+                                    </TrackedLink>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
             </div>
             <GoogleAdMobile right={true} slot='2713167869' />
 

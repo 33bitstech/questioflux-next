@@ -8,7 +8,8 @@ import IComment from '@/interfaces/IComment'
 import CommentContainer from '@/components/Comment/comment-container'
 import { getTranslations } from 'next-intl/server'
 import { cookies } from 'next/headers'
-import { getQuiz } from '../leaderboard/page'
+import { getPublicQuiz } from '@/utils/publicQuiz'
+import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 
 interface IProps {
@@ -21,7 +22,7 @@ interface IProps {
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const { quizId, locale } = await params
     const t = await getTranslations({ locale, namespace: 'quizInfoPage.metadata' });
-    const quiz = await getQuiz(quizId)
+    const quiz = await getPublicQuiz(quizId)
 
     const langs = {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}/comments`,
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             quiz_name: quiz?.title ?? ''
         }
 
-    if (!quiz) return { title: 'null' }
+    if (!quiz) notFound()
     return {
         title: t('title', names),
         description: quiz.description,

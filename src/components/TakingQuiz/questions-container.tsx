@@ -30,6 +30,7 @@ interface IProps {
     } | undefined>>
     finalTime: number,
     setFinalTime: React.Dispatch<React.SetStateAction<number>>
+    onQuestionAnswered?: (questionNumber: number, answered: number) => void
 }
 
 interface ISelectedAnswers {
@@ -58,7 +59,8 @@ export default function QuestionsContainer({
     handleScroll, initialTime, qtdQuestions,
     questions, quizId, setStarted,
     started, typeOfQuiz, setResult,
-    startLoading, finalTime, setFinalTime
+    startLoading, finalTime, setFinalTime,
+    onQuestionAnswered
 }: IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
         [answerArray, setAnswerArray] = useState<IQuestion[]>([]),
@@ -108,6 +110,10 @@ export default function QuestionsContainer({
     const handleSelectAnswer = (index: number | string) => {
         if (!started) return
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+        // trocar de alternativa na mesma pergunta não conta como nova resposta
+        if (!((actualQuestion - 1) in selectedAnswers)) {
+            onQuestionAnswered?.(actualQuestion, Object.keys(selectedAnswers).length + 1)
+        }
         setSelectedAnswers({ ...selectedAnswers, [actualQuestion - 1]: index })
     }
 

@@ -6,6 +6,8 @@ import { env } from "@/env"
 import { ILocalQuestions } from "@/interfaces/ILocalQuestions"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { cookies } from "next/headers"
+import { updateTag } from 'next/cache'
+import { quizTag } from '@/utils/publicQuiz'
 
 type MapAlternatives = Map<string, File | string>
 
@@ -135,5 +137,7 @@ export async function updateQuestionsImage(
                 }
             }
         }
+    } finally {
+        updateTag(quizTag(quizId))
     }
 }
