@@ -18,6 +18,7 @@ import { useLocale } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
@@ -85,6 +86,9 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         register(formData)
             .then(async (res) => {
                 if (res.errImage) setGlobalError(getLocalizedMessage(res.errImage, locale))
+
+                // "quiz_finish" = conta criada no popup que aparece ao terminar um quiz
+                trackEvent('sign_up', { method: 'email', source: handleRegisterAndFinishQuiz ? 'quiz_finish' : 'page' })
 
                 await fetchUser() 
                 if (handleRegisterAndFinishQuiz) {

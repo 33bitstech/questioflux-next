@@ -28,7 +28,7 @@ export async function generateMetadata({params}:IProps): Promise<Metadata> {
     return {
         title: t('metadataTitle'),
         description: t('metadataDesc'),
-        robots: 'index, follow',
+        robots: 'noindex, follow',
         keywords: "quiz, register",
         alternates:{
             canonical: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/register`,

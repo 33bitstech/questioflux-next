@@ -307,11 +307,13 @@
     },
     "quizInfoPage": {
         "metadata": {
-            "title": "Um Quiz de {quiz_name} no QuestioFlux",
+            "title": "{quiz_name} | QuestioFlux",
             "desc": "Faça este quiz {quiz_name} criado por {name} e teste seu conhecimento!",
             "actions": {
                 "take": "Fazer o Quiz"
-            }
+            },
+            "titleQuiz": "{quiz_name} – Quiz | QuestioFlux",
+            "descSuffix": "Quiz de {count, plural, one {# pergunta} other {# perguntas}} no QuestioFlux: jogue grátis e veja sua posição no ranking."
         },
         "title": "Informações do Quiz",
         "details": {
@@ -333,6 +335,16 @@
             "copiedButton": "Copiado!",
             "close": "Fechar popup",
             "createdWith": "Quiz criado com"
+        },
+        "questions": {
+            "title": "Perguntas do quiz",
+            "summary": "{count, plural, one {Ver a pergunta} other {Ver as # perguntas}} (spoiler)",
+            "note": "Só para dar uma olhada: a resposta certa não aparece aqui e a ordem das alternativas muda quando você joga.",
+            "option": "Alternativa {number}"
+        },
+        "related": {
+            "title": "Mais quizzes para você",
+            "count": "{count, plural, one {# pergunta} other {# perguntas}}"
         }
     },
     "quizActions": {
@@ -528,7 +540,14 @@
                 "alternativeLabel": "Alternativa N°{number} (Opcional c/ imagem)"
             },
             "errors": "Cada pergunta deve ter uma imagem.",
-            "validationError": "Preencha as questões destacadas antes de continuar."
+            "validationError": "Preencha as questões destacadas antes de continuar.",
+            "visibilityPopup": {
+                "title": "Seu quiz está como privado",
+                "text": "Quiz privado não aparece no Explorar nem no Google: só joga quem recebe o link. Quer deixar assim ou publicar para todo mundo?",
+                "keepPrivate": "Manter privado",
+                "makePublic": "Tornar público",
+                "publishError": "O quiz foi salvo, mas não deu para deixá-lo público. Você pode mudar a visibilidade em Editar Quiz."
+            }
         }
     },
     "editQuizFlow": {
@@ -714,5 +733,11 @@
     },
     "emailConfirmPage": {
         "loading": "Confirmando, aguarde..."
+    },
+    "notFoundPage": {
+        "title": "Página não encontrada",
+        "text": "O link pode estar errado ou o quiz foi apagado por quem criou.",
+        "explore": "Explorar quizzes",
+        "home": "Página inicial"
     }
 }

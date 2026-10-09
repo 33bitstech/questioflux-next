@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from '../../../../../(quizPage)/quiz/[quizId]/leaderboard/leaderboard.module.scss'
 import { cookies } from 'next/headers'
-import { getLeaderboard, getQuiz, getUser } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
+import { getLeaderboard, getUser } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
+import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz'
 import LbUser from '@/components/Leaderboard/lb-user'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { getTranslations } from 'next-intl/server'
@@ -29,12 +30,14 @@ export default async function LB({ params }: IProps) {
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations('leaderboardPage'),
 
-        [quizLb, quiz, user, recommendedQuiz] = await Promise.all([
+        [quizLb, fullQuiz, user, recommendedQuiz] = await Promise.all([
             getLeaderboard(quizId),
-            getQuiz(quizId),
+            getPublicQuiz(quizId),
             getUser(cookieHeader),
             getQuizRecommendationAction(quizId)
         ])
+
+    const quiz = fullQuiz ? withoutQuestions(fullQuiz) : null
 
     const isQuizOwner = !!user && !!quiz && user.userId === quiz.userCreatorId
 

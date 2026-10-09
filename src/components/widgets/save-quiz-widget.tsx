@@ -3,6 +3,7 @@ import { useUser } from '@/contexts/userContext'
 import useQuizActions from '@/hooks/requests/quiz-requests/useQuizActions'
 import React from 'react'
 import { useTranslations } from 'next-intl'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps {
     quizId: string
@@ -15,13 +16,15 @@ export default function SaveQuizWidget({ quizId }: IProps) {
 
     const handleSave = async () => {
         if (verifySave(quizId)) return
-        await saveQuiz(quizId)
+        const saved = await saveQuiz(quizId)
+        if (saved) trackEvent('quiz_save', { quiz_id: quizId })
         await fetchUser()
     }
 
     const handleUnsave = async () => {
         if (!verifySave(quizId)) return
-        await unsaveQuiz(quizId)
+        const removed = await unsaveQuiz(quizId)
+        if (removed) trackEvent('quiz_unsave', { quiz_id: quizId })
         await fetchUser()
     }
 

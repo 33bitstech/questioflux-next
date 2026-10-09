@@ -1,0 +1,47 @@
+@use '@/assets/styles/vars.scss';
+
+.content {
+    @extend %content-default;
+    min-height: 60vh;
+    margin-top: 4rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+
+    .code {
+        @include vars.styleTexto(var(--text-secondary), 4rem, 700);
+    }
+
+    h1 {
+        @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+    }
+
+    p {
+        @include vars.styleTexto(var(--text-description), 1rem, 400);
+    }
+
+    nav {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: .62rem;
+
+        a {
+            padding: .6rem 1.2rem;
+            border-radius: .31rem;
+            border: 1px solid var(--text-primary);
+            @include vars.styleTexto(var(--text-primary), 1rem, 700);
+
+            &:first-child {
+                border-color: transparent;
+                background-color: var(--background-button);
+                color: var(--button-text-color);
+            }
+        }
+    }
+}

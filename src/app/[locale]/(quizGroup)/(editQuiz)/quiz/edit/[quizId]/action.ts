@@ -3,6 +3,8 @@
 import { env } from '@/env'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { cookies } from 'next/headers'
+import { updateTag } from 'next/cache'
+import { quizTag } from '@/utils/publicQuiz'
 
 type ApiError = {
     type: string
@@ -77,5 +79,8 @@ export async function editQuiz(
             ok: false,
             error: defaultServerError,
         }
+    } finally {
+        // a página pública do quiz fica em cache por alguns minutos
+        updateTag(quizTag(quizId))
     }
 }

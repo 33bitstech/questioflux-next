@@ -7,6 +7,7 @@ import Send from '../Icons/Comment/Send'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { createComment } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/comments/actions'
 import { useTranslations } from 'next-intl' // Importar
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps {
     styles: TStyles,
@@ -28,6 +29,7 @@ export default function CommentFormComponent({styles, user, quizId}: IProps) {
             const data = { comment: { body:commentValue, quizId } };
             await createComment(quizId, data).then(res=>{
                 if(res?.err) setError(res.err)
+                else trackEvent('quiz_comment', { quiz_id: quizId })
             })
         }
         setCommentValue('')

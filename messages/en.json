@@ -311,7 +311,9 @@
             "desc": "Test your knowledge with this quiz {quiz_name} from {name}!",
             "actions": {
                 "take": "Take The Quiz"
-            }
+            },
+            "titleQuiz": "{quiz_name} – Quiz | QuestioFlux",
+            "descSuffix": "{count}-question quiz on QuestioFlux: play for free and see where you land on the leaderboard."
         },
         "title": "Quiz info",
         "details": {
@@ -333,6 +335,16 @@
             "copiedButton": "Copied!",
             "close": "Close popup",
             "createdWith": "Quiz created with"
+        },
+        "questions": {
+            "title": "Quiz questions",
+            "summary": "{count, plural, one {Show the question} other {Show all # questions}} (spoiler)",
+            "note": "Just a preview: the right answer isn't shown here, and the options are shuffled when you play.",
+            "option": "Option {number}"
+        },
+        "related": {
+            "title": "More quizzes for you",
+            "count": "{count, plural, one {# question} other {# questions}}"
         }
     },
     "quizActions": {
@@ -528,7 +540,14 @@
                 "alternativeLabel": "Alternative N°{number} (Optional w/ image)"
             },
             "errors": "Each question must have an image.",
-            "validationError": "Please complete the highlighted questions before continuing."
+            "validationError": "Please complete the highlighted questions before continuing.",
+            "visibilityPopup": {
+                "title": "Your quiz is set to private",
+                "text": "Private quizzes don't show up on Explore or on Google: only people you send the link to can play. Keep it that way, or publish it for everyone?",
+                "keepPrivate": "Keep private",
+                "makePublic": "Make it public",
+                "publishError": "Your quiz was saved, but we couldn't make it public. You can change its visibility in Edit Quiz."
+            }
         }
     },
     "editQuizFlow": {
@@ -714,5 +733,11 @@
     },
     "emailConfirmPage": {
         "loading": "Confirming, please wait..."
+    },
+    "notFoundPage": {
+        "title": "Page not found",
+        "text": "The link may be wrong, or the quiz was deleted by its creator.",
+        "explore": "Explore quizzes",
+        "home": "Home page"
     }
 }

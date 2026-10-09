@@ -18,6 +18,7 @@ import LoginComponent from '../AuthForms/login-component'
 import LoadingReq from '../Loading/loading-req'
 import { getAppLocale } from '@/utils/locale'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps {
     styles: TStyles
@@ -121,6 +122,15 @@ export default function FormCreateQuiz({ styles }: IProps) {
             if (result.warning) {
                 setGlobalError(getErrorMessageByLocale(result.warning))
             }
+
+            trackEvent('quiz_create_start', {
+                quiz_id: result.data.quizId,
+                quiz_category: category,
+                quiz_language: idiom,
+                visibility,
+                has_cover: !!imageData,
+                tags_count: tags.length,
+            })
 
             if (saveAsDraft) {
                 router.push('/home')

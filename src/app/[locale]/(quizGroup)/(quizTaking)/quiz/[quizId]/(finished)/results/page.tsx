@@ -5,7 +5,8 @@ import { getTimeString } from '@/utils/FormatTime'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server' // Importar
 import GoogleAd from '@/components/Google/GoogleAd'
-import { getLeaderboard, getQuiz } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
+import { getLeaderboard } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
+import { getPublicQuiz } from '@/utils/publicQuiz'
 import ButtonSeeScore from '@/components/Leaderboard/button-see-score'
 
 interface IProps {
@@ -22,7 +23,7 @@ export default async function Results({ params }: IProps) {
         getTranslations({ locale, namespace: 'quizResultsPage.results' }),
         cookies(),
         getLeaderboard(quizId),
-        getQuiz(quizId)
+        getPublicQuiz(quizId)
     ])
     const rawCookie = cookieStore.get('quizResults')?.value;
 

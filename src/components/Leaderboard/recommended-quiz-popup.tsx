@@ -7,6 +7,7 @@ import { useTheme } from 'next-themes'
 import React, { useState } from 'react'
 import styles from './recommended-quiz-popup.module.scss'
 import { Minimize2 } from 'lucide-react'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps {
     quiz: IQuizes
@@ -82,6 +83,7 @@ export default function RecommendedQuizPopup({
                 href={`/${locale}/quiz/${quiz.quizId}`}
                 className={styles.image_link}
                 aria-label={`${recommendationLabel}: ${quiz.title}`}
+                onClick={() => trackEvent('select_content', { content_type: 'recommended_quiz', item_id: quiz.quizId })}
             >
                 <Image
                     src={imageSrc}

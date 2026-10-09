@@ -14,11 +14,15 @@ import QuestionInputImage from './question-input-image'
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
+import VisibilityPopup from './visibility-popup'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps {
     styles: TStyles
     textMode: boolean,
     quizId: string
+    isPrivate?: boolean
 }
 
 export interface IFormatedImageQuestions {
@@ -32,7 +36,7 @@ export interface IFormatedImageQuestions {
     correctAnswer: string
 }
 
-export default function FormCreateQuestions({ styles, textMode, quizId }: IProps) {
+export default function FormCreateQuestions({ styles, textMode, quizId, isPrivate }: IProps) {
     const t = useTranslations('creatingQuiz.questionsForm')
     const locale = useLocale()
     const router = useRouter(),
@@ -46,6 +50,9 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         } = useQuestions(textMode),
 
         [loading, setLoading] = useState<boolean>(false),
+        [showVisibilityPopup, setShowVisibilityPopup] = useState<boolean>(false),
+        // null = ainda não perguntamos se o quiz privado deve virar público
+        [makePublic, setMakePublic] = useState<boolean | null>(null),
         prevQuestionsLengthRef = useRef(questions.length),
         questionRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
@@ -92,8 +99,51 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
         })
     }
 
-    const handleSubmit = async (e: FormEvent) => {
+    const finishCreation = async (publish: boolean) => {
+        let isPublic = !isPrivate
+
+        if (publish) {
+            const formData = new FormData()
+            formData.append('quizDatas', JSON.stringify({ quizData: { isPrivate: false } }))
+
+            const result = await editQuiz(formData, quizId)
+
+            if (result.ok) isPublic = true
+            else setError(t('visibilityPopup.publishError'))
+        }
+
+        trackEvent('quiz_create_complete', {
+            quiz_id: quizId,
+            quiz_type: textMode ? 'text' : 'image',
+            quiz_questions: questions.length,
+            visibility: isPublic ? 'public' : 'private',
+        })
+
+        router.push(`/create/quiz/completed/${quizId}`)
+    }
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLInputElement | null
+        const isDraft = submitter?.name === 'draft'
+
+        if (isPrivate && !isDraft && makePublic === null) {
+            setShowVisibilityPopup(true)
+            return
+        }
+
+        await saveQuestions(!isDraft && makePublic === true)
+    }
+
+    const handleVisibilityChoice = async (publish: boolean) => {
+        setShowVisibilityPopup(false)
+        setMakePublic(publish)
+        trackEvent('quiz_visibility_prompt', { quiz_id: quizId, choice: publish ? 'make_public' : 'keep_private' })
+        await saveQuestions(publish)
+    }
+
+    const saveQuestions = async (publish: boolean) => {
         clearQuestionsErrors()
         setLoading(true)
 
@@ -165,7 +215,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                 }
 
                 if (res) {
-                    router.push(`/create/quiz/completed/${quizId}`)
+                    await finishCreation(publish)
                 }
 
                 return
@@ -197,7 +247,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                 }
             }
 
-            router.push(`/create/quiz/completed/${quizId}`)
+            await finishCreation(publish)
         } finally {
             setLoading(false)
         }
@@ -212,6 +262,13 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
             {loading && <LoadingReq loading={loading} />}
+
+            {showVisibilityPopup && (
+                <VisibilityPopup
+                    onChoose={handleVisibilityChoice}
+                    onClose={() => setShowVisibilityPopup(false)}
+                />
+            )}
 
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr) => {
@@ -278,7 +335,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId }: IProps
                     <button onClick={() => router.push(`/quiz/edit/${quizId}`)}>{t('backButton')}</button>
                 </div>
                 <div className={styles.save}>
-                    <input type='submit' value={t('saveDraftButton')} disabled={loading} />
+                    <input type='submit' name='draft' value={t('saveDraftButton')} disabled={loading} />
                     <input type="submit" value={t('createButton')} disabled={loading} />
                 </div>
             </footer>

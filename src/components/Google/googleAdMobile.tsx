@@ -17,10 +17,14 @@ export default function GoogleAdMobile({left, right, slot}:IProps) {
     useEffect(()=>{
         setClient(true)
     },[])
+    // Antes de saber o tamanho da tela não renderiza nada: montar o vertical e trocar
+    // pelo horizontal logo depois gastava um pedido de anúncio em toda visita mobile.
+    if (!client) return null
+
     return (
         <>
-            {client && isMobileAd 
-                ? <GoogleAd slot={slot}/> 
+            {isMobileAd
+                ? <GoogleAd slot={slot}/>
                 : <GoogleAdV left={!!left} rigth={!!right} slot={slot} />
             }
         </>

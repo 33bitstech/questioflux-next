@@ -17,6 +17,7 @@ import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAuthButton from './google-auth-button'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
@@ -99,6 +100,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
         
         login(JSON.stringify(UserObject))
             .then(async () => {
+                trackEvent('login', { method: 'email', source: handleRegisterAndFinishQuiz ? 'quiz_finish' : 'page' })
                 await fetchUser()  
                 if (handleRegisterAndFinishQuiz) {
                     router.refresh()

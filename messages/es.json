@@ -311,7 +311,9 @@
             "desc": "¡Pon a prueba tus conocimientos con este quiz {quiz_name} de {name}!",
             "actions": {
                 "take": "Responder el quiz"
-            }
+            },
+            "titleQuiz": "{quiz_name} – Quiz | QuestioFlux",
+            "descSuffix": "Quiz de {count, plural, one {# pregunta} other {# preguntas}} en QuestioFlux: juega gratis y mira en qué puesto del ranking quedas."
         },
         "title": "Información del quiz",
         "details": {
@@ -333,6 +335,16 @@
             "copiedButton": "¡Copiado!",
             "close": "Cerrar popup",
             "createdWith": "Quiz creado con"
+        },
+        "questions": {
+            "title": "Preguntas del quiz",
+            "summary": "{count, plural, one {Ver la pregunta} other {Ver las # preguntas}} (spoiler)",
+            "note": "Solo para echar un vistazo: la respuesta correcta no aparece aquí y el orden de las alternativas cambia cuando juegas.",
+            "option": "Alternativa {number}"
+        },
+        "related": {
+            "title": "Más quizzes para ti",
+            "count": "{count, plural, one {# pregunta} other {# preguntas}}"
         }
     },
     "quizActions": {
@@ -528,7 +540,14 @@
                 "alternativeLabel": "Alternativa N°{number} (Opcional c/ imagen)"
             },
             "errors": "Cada pregunta debe contener una imagen.",
-            "validationError": "Completa las preguntas resaltadas antes de continuar."
+            "validationError": "Completa las preguntas resaltadas antes de continuar.",
+            "visibilityPopup": {
+                "title": "Tu quiz está como privado",
+                "text": "Un quiz privado no aparece en Explorar ni en Google: solo juega quien recibe el enlace. ¿Lo dejas así o lo publicas para todo el mundo?",
+                "keepPrivate": "Mantener privado",
+                "makePublic": "Hacerlo público",
+                "publishError": "El quiz se guardó, pero no pudimos hacerlo público. Puedes cambiar la visibilidad en Editar Quiz."
+            }
         }
     },
     "editQuizFlow": {
@@ -714,5 +733,11 @@
     },
     "emailConfirmPage": {
         "loading": "Confirmando, por favor espere..."
+    },
+    "notFoundPage": {
+        "title": "Página no encontrada",
+        "text": "Puede que el enlace esté mal o que su creador haya borrado el quiz.",
+        "explore": "Explorar quizzes",
+        "home": "Página de inicio"
     }
 }

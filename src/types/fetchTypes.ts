@@ -1,6 +1,6 @@
 export type Methods = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
-export type Cache = {cache:'no-store' | 'force-cache'} | {next:{revalidate: number}}
+export type Cache = {cache:'no-store' | 'force-cache'} | {next:{revalidate: number, tags?: string[]}}
 
 export type BodyInit =
   | Blob

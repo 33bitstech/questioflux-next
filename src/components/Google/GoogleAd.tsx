@@ -12,7 +12,12 @@ declare global {
     }
 }
 
-const GoogleAd = ({ slot }: { slot: string }) => {
+interface IProps {
+    slot: string
+    format?: 'horizontal' | 'vertical' | 'rectangle' | 'auto'
+}
+
+const GoogleAd = ({ slot, format = 'horizontal' }: IProps) => {
     /* useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -27,7 +32,7 @@ const GoogleAd = ({ slot }: { slot: string }) => {
             client={'ca-pub-7383504438544213'}
             slot={slot}
             responsive='true'
-            format={'horizontal'}
+            format={format}
             className={`adsbygoogle`}
         />
     );

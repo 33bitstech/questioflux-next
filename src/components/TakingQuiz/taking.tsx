@@ -1,7 +1,7 @@
 'use client'
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
 import { startQuiz, takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
@@ -10,6 +10,7 @@ import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
 import LoadingReq from '../Loading/loading-req'
 import { useTranslations } from 'next-intl'
+import { quizParams, trackEvent } from '@/utils/analytics'
 
 interface IProps {
     styles: TStyles,
@@ -47,7 +48,9 @@ export default function TakingComponent({ quiz, styles }: IProps) {
         { setError } = useGlobalMessage(),
         [loadingReq, setLoadingReq] = useState<boolean>(false),
         route = useRouter(),
-        [finalTime, setFinalTime] = useState(0)
+        [finalTime, setFinalTime] = useState(0),
+        // só para o Analytics: saber se quem saiu da página largou o quiz no meio
+        progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 })
 
     const t = useTranslations('takingPage')
     const handleStart = async () => {
@@ -55,7 +58,39 @@ export default function TakingComponent({ quiz, styles }: IProps) {
         if (!ok) return setError('Could not start the quiz. Please try again.')
         setInitialTime(Date.now())
         setStarted(true)
+        progress.current = { started: true, finished: false, answered: 0, startedAt: Date.now() }
+        trackEvent('quiz_start', quizParams(quiz))
     }
+
+    const handleQuestionAnswered = (questionNumber: number, answered: number) => {
+        progress.current.answered = answered
+        trackEvent('quiz_progress', {
+            ...quizParams(quiz),
+            question_number: questionNumber,
+            questions_answered: answered,
+        })
+    }
+
+    useEffect(() => {
+        const reportAbandon = () => {
+            const { started, finished, answered, startedAt } = progress.current
+            if (!started || finished) return
+
+            progress.current.finished = true
+            trackEvent('quiz_abandon', {
+                ...quizParams(quiz),
+                questions_answered: answered,
+                time_seconds: Math.round((Date.now() - startedAt) / 1000),
+            })
+        }
+
+        // fechar a aba/recarregar (pagehide) ou sair para outra página do site (desmontar)
+        window.addEventListener('pagehide', reportAbandon)
+        return () => {
+            window.removeEventListener('pagehide', reportAbandon)
+            reportAbandon()
+        }
+    }, [])
 
     const handleScroll = () => window.scrollTo({ top: 350, behavior: 'smooth' })
 
@@ -65,6 +100,18 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                 .then(({ err, res }) => {
                     if (err) return setError(err)
                     if (res) {
+                        const played = res.userForLeaderBoard
+                        const [correct, total] = String(played?.score ?? '').split('/').map(Number)
+
+                        progress.current.finished = true
+                        trackEvent('quiz_complete', {
+                            ...quizParams(quiz),
+                            score: correct,
+                            score_percent: total ? Math.round(correct / total * 100) : undefined,
+                            time_seconds: Math.round((played?.timing ?? 0) / 1000),
+                            player_type: played?.isGuest ? 'guest' : 'user',
+                        })
+
                         const safeCookieValue = encodeURIComponent(JSON.stringify(res));
                         setCookie('quizResults', safeCookieValue);
                         route.push(`/quiz/${quiz.quizId}/results`)
@@ -106,6 +153,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                         started={started}
                         setStarted={setStarted}
                         setResult={setResult}
+                        onQuestionAnswered={handleQuestionAnswered}
                         startLoading={() => setLoadingReq(true)}
                         finalTime={finalTime}
                         setFinalTime={setFinalTime}

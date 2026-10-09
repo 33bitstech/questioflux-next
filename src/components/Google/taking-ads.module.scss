@@ -1,0 +1,32 @@
+// Laterais: lugar reservado desde o início, o anúncio carrega sem mexer no quiz.
+.rail {
+    position: fixed;
+    top: 5rem;
+    width: 160px;
+    min-height: 600px;
+    z-index: 3;
+
+    :global(.adsbygoogle) {
+        width: 160px !important;
+        max-width: 160px !important;
+        max-height: 600px !important;
+        margin: 0;
+    }
+}
+
+.rail_left {
+    left: 16px;
+}
+
+.rail_right {
+    right: 16px;
+}
+
+// Abaixo do quiz. A distância é em px de propósito (o rem muda no mobile): o anúncio
+// precisa ficar a mais de 150px dos botões de avançar/enviar para ninguém clicar sem querer.
+.bottom {
+    width: 100%;
+    margin-top: 160px;
+    display: flex;
+    justify-content: center;
+}

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { trackEvent } from '@/utils/analytics'
 
 interface IProps {
     styles: Record<string, string>
@@ -78,6 +79,7 @@ export default function EmbedQuizPopup({
         }
 
         setCopied(true)
+        trackEvent('quiz_embed_copy', { quiz_id: quizId })
 
         setTimeout(() => {
             setCopied(false)
