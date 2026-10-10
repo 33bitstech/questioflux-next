@@ -1,7 +1,7 @@
 'use client'
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
 import { pauseQuiz, startQuiz, takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
@@ -24,6 +24,8 @@ interface IProps {
     // Só no embed (quiz dentro de um iframe em outro site): a sessão vai por token em vez
     // de cookie e o resultado é entregue aqui em vez de seguir para /quiz/[id]/results.
     onFinish?: (score: IQuizScore) => void
+    // anúncio entre o cronômetro e as questões (o embed não passa nenhum)
+    adTop?: ReactNode
 }
 
 const getDummyQuestions = (typeOfQuiz?: string) => {
@@ -50,7 +52,7 @@ const getDummyQuestions = (typeOfQuiz?: string) => {
     ]
 }
 
-export default function TakingComponent({ quiz, styles, onFinish }: IProps) {
+export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProps) {
     const [started, setStarted] = useState<boolean>(false),
         [initialTime, setInitialTime] = useState<number>(0),
         [result, setResult] = useState<{ quizAnswer: any; guest?: string }>(),
@@ -154,6 +156,7 @@ export default function TakingComponent({ quiz, styles, onFinish }: IProps) {
                     started={started} initialTime={initialTime}
                 />
             </div>
+            {adTop}
             <div className={styles.containerStart}>
                 <div className={started ? styles.start : styles.block}></div>{!started && (
                     <div className={styles.blurOverlay}>

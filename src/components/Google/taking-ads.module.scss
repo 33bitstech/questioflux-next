@@ -1,7 +1,11 @@
-// Laterais: lugar reservado desde o início, o anúncio carrega sem mexer no quiz.
+// Laterais (desktop): fixas, coladas nas bordas da tela e centralizadas na altura. O quiz
+// ocupa uma coluna de 48rem no meio, então sobram mais de 90px até a coluna e mais de 170px
+// até as alternativas em qualquer largura acima de 1270px. O lugar já fica reservado e o
+// anúncio carrega sem mexer no quiz.
 .rail {
     position: fixed;
-    top: 5rem;
+    top: 50%;
+    transform: translateY(-50%);
     width: 160px;
     min-height: 600px;
     z-index: 3;
@@ -22,11 +26,39 @@
     right: 16px;
 }
 
-// Abaixo do quiz. A distância é em px de propósito (o rem muda no mobile): o anúncio
-// precisa ficar a mais de 150px dos botões de avançar/enviar para ninguém clicar sem querer.
+// Mobile: horizontais, dentro da página. As distâncias são em px de propósito (o rem muda
+// no mobile): anúncio colado em botão gera clique sem querer, que o AdSense pune.
+
+// Entre o cronômetro e a numeração das questões. Faixa de até 100px de altura, com o
+// lugar já reservado para o anúncio não empurrar as questões quando carregar.
+.top {
+    width: 100%;
+    min-height: 100px;
+    margin: 28px 0 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    :global(.adsbygoogle) {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0;
+    }
+}
+
+// Depois dos botões de voltar/avançar, os mais tocados da página.
 .bottom {
     width: 100%;
     margin-top: 160px;
     display: flex;
     justify-content: center;
+}
+
+// Quando o AdSense não tem anúncio para o bloco, some o espaço junto (sem caixa vazia).
+.rail,
+.top,
+.bottom {
+    &:has(:global(ins[data-ad-status='unfilled'])) {
+        display: none;
+    }
 }
