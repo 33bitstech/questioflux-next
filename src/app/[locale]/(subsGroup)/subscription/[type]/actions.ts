@@ -24,12 +24,13 @@ export async function getPublicKey() {
     }
 }
 
-export async function clientSecretUsage({locale}:{locale:string}) {
+export async function clientSecretUsage({locale, currency}:{locale:string, currency?: string}) {
     try {
         const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/${locale}/client-secret`, {
             method: 'POST',
-            headers: { 'cookie': cookieHeader }
+            headers: { 'cookie': cookieHeader, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ currency })
         })
         const res = await response.json()
         if (!response.ok) return { err: res }
@@ -39,12 +40,13 @@ export async function clientSecretUsage({locale}:{locale:string}) {
     }
 }
 
-export async function clientSessionAss({locale}:{locale:string}) {
+export async function clientSessionAss({locale, currency}:{locale:string, currency?: string}) {
     try {
         const cookieHeader = await getCookies()
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/subscription/${locale}/client-session`, {
             method: 'POST',
-            headers: { 'cookie': cookieHeader }
+            headers: { 'cookie': cookieHeader, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ currency })
         })
         const res = await response.json()
         if (!response.ok) return { err: res }

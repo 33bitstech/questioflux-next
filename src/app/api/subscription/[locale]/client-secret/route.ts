@@ -14,7 +14,7 @@ export async function POST(
         const currency = currencyToApiParam(normalizeCurrency(body?.currency, locale))
 
         const externalApiResponse = await ApiData({
-            path: `create-stripe-payment-session/${currency}`,
+            path: `create-stripe-payment-session/${currency}?locale=${locale}`,
             method: 'POST',
             headerKey: 'Cookie',
             headerValue: cookieHeader,

@@ -7,7 +7,7 @@ import {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { type, locale} = body
+        const { type, locale, currency } = body
 
         if (!type) {
             return NextResponse.json({ error: 'Tipo ausente' }, { status: 400 })
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
         switch (type) {
             case 'questioplus': {
-                const { res, err } = await clientSessionAss({locale})
+                const { res, err } = await clientSessionAss({locale, currency})
 
                 if (err) throw err
 
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
             }
 
             case 'questioplususage': {
-                const { res, err } = await clientSecretUsage({locale})
+                const { res, err } = await clientSecretUsage({locale, currency})
 
                 if (err) throw err
 
