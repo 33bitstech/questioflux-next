@@ -14,11 +14,12 @@ import { notFound } from 'next/navigation';
 import EmbedQuizPopup from '@/components/widgets/embed-quiz-popup';
 import { getPublicQuiz, getRelatedQuizzes, withoutQuestions } from '@/utils/publicQuiz';
 import { isQuizIndexable } from '@/utils/quizQuality';
-import { buildQuestionsPreview, IPreviewQuestion } from '@/utils/quizPreview';
+import { buildQuizPreview, IPreviewQuestion } from '@/utils/quizPreview';
 import { idiomToLanguageTag, jsonLd, quizCanonicalUrl, quizImageUrl, SITE_URL } from '@/utils/seo';
 import { getOpenGraphLocale } from '@/utils/locale';
 import { quizParams } from '@/utils/analytics';
 import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/analytics-widgets';
+import QuizCover from '@/components/Card/quiz-cover';
 
 interface IProps {
     params: Promise<{
@@ -63,18 +64,13 @@ function generateQuizSchema(t: any, quiz: IQuizes, questions: IPreviewQuestion[]
                 "dateCreated": quiz.created_at,
                 "dateModified": quiz.updated_at,
                 ...(quiz.tags?.length ? { "keywords": quiz.tags.join(', ') } : {}),
-                // Só o enunciado e as alternativas: nenhuma é marcada como acceptedAnswer.
+                // As mesmas perguntas da prévia visível, e só elas: o schema descreve o que a
+                // página mostra. Sem as alternativas.
                 "hasPart": questions.map(question => ({
                     "@type": "Question",
                     "eduQuestionType": "Multiple choice",
                     "name": question.text,
-                    ...(question.image ? { "image": question.image } : {}),
-                    "suggestedAnswer": question.options.map((option, index) => ({
-                        "@type": "Answer",
-                        "position": index + 1,
-                        ...(option.text ? { "text": option.text } : {}),
-                        ...(option.image ? { "image": option.image } : {})
-                    }))
+                    ...(question.image ? { "image": question.image } : {})
                 })),
                 "potentialAction": [
                     {
@@ -159,8 +155,8 @@ export default async function Quiz({ params }: IProps) {
         getRelatedQuizzes(quiz)
     ])
 
-    const questions = buildQuestionsPreview(quiz)
-    const quizSchema = generateQuizSchema(t, quiz, questions, locale, tHeader('explore'))
+    const preview = buildQuizPreview(quiz)
+    const quizSchema = generateQuizSchema(t, quiz, preview.questions, locale, tHeader('explore'))
     // client components só recebem os dados do quiz, sem as questões
     const quizInfo = withoutQuestions(quiz)
     const analyticsParams = quizParams(quiz)
@@ -217,71 +213,76 @@ export default async function Quiz({ params }: IProps) {
                     <p>{quiz.description}</p>
                 </div>
 
-                {questions.length > 0 && (
+                {preview.questions.length > 0 && (
                     <section className={styles.questions_preview}>
                         <h2>{t('questions.title')}</h2>
+                        {/* fechado por padrão; o texto já vem no HTML, então o Google lê sem clicar */}
                         <TrackedDetails event='quiz_questions_preview' params={analyticsParams}>
-                            <summary>{t('questions.summary', { count: questions.length })}</summary>
-                            <p className={styles.questions_note}>{t('questions.note')}</p>
+                            <summary>{t('questions.summary', { count: preview.questions.length })}</summary>
                             <ol>
-                                {questions.map(question => (
+                                {preview.questions.map(question => (
                                     <li key={question.id}>
                                         <h3>{question.text}</h3>
                                         {question.image && (
                                             // <img> direto: o Google Imagens indexa a URL original do S3
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img
-                                                className={styles.question_image}
                                                 src={question.image}
                                                 alt={`${question.text} – ${quiz.title}`}
                                                 loading="lazy"
                                                 decoding="async"
                                             />
                                         )}
-                                        <ul className={question.options.some(option => option.image) ? styles.options_images : undefined}>
-                                            {question.options.map((option, index) => (
-                                                <li key={index}>
-                                                    {option.image && (
-                                                        // eslint-disable-next-line @next/next/no-img-element
-                                                        <img
-                                                            src={option.image}
-                                                            alt={option.text || t('questions.option', { number: index + 1 })}
-                                                            loading="lazy"
-                                                            decoding="async"
-                                                        />
-                                                    )}
-                                                    {option.text && <span>{option.text}</span>}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        <p>{t('questions.alternatives', { count: question.optionsCount })}</p>
                                     </li>
                                 ))}
                             </ol>
+                            {preview.total > preview.questions.length && (
+                                <p className={styles.questions_more}>
+                                    {t('questions.more', { count: preview.total - preview.questions.length })}
+                                </p>
+                            )}
                         </TrackedDetails>
                     </section>
                 )}
-
-                {related.length > 1 && (
-                    <section className={styles.related}>
-                        <h2>{t('related.title')}</h2>
-                        <ul>
-                            {related.map(relatedQuiz => (
-                                <li key={relatedQuiz.quizId}>
-                                    <TrackedLink
-                                        event='select_content'
-                                        params={{ content_type: 'related_quiz', item_id: relatedQuiz.quizId, quiz_id: quizId }}
-                                        locale={locale}
-                                        href={`/quiz/${relatedQuiz.quizId}`}
-                                    >
-                                        <strong>{relatedQuiz.title}</strong>
-                                        <span>{t('related.count', { count: relatedQuiz.qtdQuestions })}</span>
-                                    </TrackedLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                )}
             </div>
+
+            {related.length > 1 && (
+                <section className={styles.related}>
+                    <h2>{t('related.title')}</h2>
+                    <ul>
+                        {related.map(relatedQuiz => (
+                            <li key={relatedQuiz.quizId}>
+                                <TrackedLink
+                                    event='select_content'
+                                    params={{ content_type: 'related_quiz', item_id: relatedQuiz.quizId, quiz_id: quizId }}
+                                    locale={locale}
+                                    href={`/quiz/${relatedQuiz.quizId}`}
+                                >
+                                    <div className={styles.related_cover}>
+                                        <QuizCover
+                                            src={relatedQuiz.thumbnail}
+                                            alt={relatedQuiz.title}
+                                            sizes="(max-width: 860px) 46vw, 300px"
+                                        />
+                                        <span>{t('related.count', { count: relatedQuiz.qtdQuestions })}</span>
+                                    </div>
+                                    <div className={styles.related_body}>
+                                        <strong>{relatedQuiz.title}</strong>
+                                        <p>
+                                            <span>@{relatedQuiz.userCreatorName}</span>
+                                            {relatedQuiz.usersCount > 0 && (
+                                                <span>{t('related.players', { count: relatedQuiz.usersCount })}</span>
+                                            )}
+                                        </p>
+                                    </div>
+                                </TrackedLink>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
+
             <GoogleAdMobile right={true} slot='2713167869' />
 
             <footer className={styles.footer}></footer>

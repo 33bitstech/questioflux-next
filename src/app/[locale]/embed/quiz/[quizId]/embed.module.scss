@@ -1,0 +1,37 @@
+@use '../../../../../assets/styles/vars.scss';
+
+// Mesma coluna do /taking, sem a margem que lá abre espaço para a navbar. O respiro é
+// padding: margem somaria aos 100vh do body e o iframe ganharia rolagem à toa.
+.content {
+    width: 48rem;
+    max-width: 93%;
+    margin: 0 auto;
+    padding: 1.5rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
+}
+
+.not_found {
+    min-height: 60vh;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+
+    h1 {
+        @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+    }
+
+    p {
+        @include vars.styleTexto(var(--text-description), 1rem, 400);
+    }
+
+    a {
+        margin-top: 1rem;
+        padding: .6rem 1.2rem;
+        border-radius: .31rem;
+        background-color: var(--background-button);
+        @include vars.styleTexto(var(--button-text-color), 1rem, 700);
+    }
+}

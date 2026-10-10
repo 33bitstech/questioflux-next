@@ -2,20 +2,33 @@
 
 import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
+import { openQuizSession, sealQuizSession } from "@/utils/quizSession"
 import { cookies } from "next/headers"
 
 const START_COOKIE = (id: string) => `quiz_start_${id}`
 const ELAPSED_COOKIE = (id: string) => `quiz_elapsed_${id}`
 const COOKIE_OPTIONS = { httpOnly: true, sameSite: 'strict' as const, path: '/', maxAge: 60 * 60 }
 
-export async function startQuiz(quizId: string): Promise<{ ok: boolean }> {
+// No embed (iframe em outro site) os cookies acima não chegam ao navegador. Com useToken a
+// sessão vai num token assinado, que o client devolve em pauseQuiz e em takeQuiz.
+export async function startQuiz(quizId: string, useToken = false): Promise<{ ok: boolean; token?: string }> {
+    if (useToken) return { ok: true, token: sealQuizSession(quizId, 'start', Date.now()) }
+
     const cookieStore = await cookies()
     cookieStore.set(START_COOKIE(quizId), String(Date.now()), COOKIE_OPTIONS)
     return { ok: true }
 }
 
 
-export async function pauseQuiz(quizId: string): Promise<{ ok: boolean }> {
+export async function pauseQuiz(quizId: string, token?: string): Promise<{ ok: boolean; token?: string }> {
+    if (token) {
+        const startedAt = openQuizSession(quizId, 'start', token)
+
+        if (!startedAt) return { ok: false }
+
+        return { ok: true, token: sealQuizSession(quizId, 'elapsed', Date.now() - startedAt) }
+    }
+
     const cookieStore = await cookies()
     const startCookie = cookieStore.get(START_COOKIE(quizId))
 
@@ -27,18 +40,20 @@ export async function pauseQuiz(quizId: string): Promise<{ ok: boolean }> {
     return { ok: true }
 }
 
-export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest?: string }) {
+export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest?: string }, token?: string) {
     try {
         const cookieStore = await cookies()
-        const elapsedCookie = cookieStore.get(ELAPSED_COOKIE(quizId))
-        if (!elapsedCookie?.value) {
+        const elapsed = token
+            ? openQuizSession(quizId, 'elapsed', token)
+            : cookieStore.get(ELAPSED_COOKIE(quizId))?.value
+        if (!elapsed) {
             return { err: 'Quiz session not found. Please start the quiz again.' }
         }
-        const timing = Number(elapsedCookie.value)
+        const timing = Number(elapsed)
         if (isNaN(timing) || timing <= 0) {
             return { err: 'Invalid quiz session. Please start the quiz again.' }
         }
-        cookieStore.delete(ELAPSED_COOKIE(quizId))
+        if (!token) cookieStore.delete(ELAPSED_COOKIE(quizId))
 
         const cookieHeader = await getCookieHeader(cookieStore.getAll())
         const body = { quizAnswer: results.quizAnswer, timing, guest: results.guest }

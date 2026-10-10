@@ -27,6 +27,7 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt|es)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/embed\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
 ];
 
 // Rotas que exigem login. O que não é público nem protegido não existe: segue para o

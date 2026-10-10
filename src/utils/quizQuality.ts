@@ -123,7 +123,7 @@ function getSignals(quiz: QuizQualityInput): QuizQualitySignals {
     }
 }
 
-// Conteúdo (0-60): o que a página vai ter de texto/imagem próprio.
+// Conteúdo (0-60): quanto texto e imagem próprios o quiz tem nas perguntas.
 function contentScore(s: QuizQualitySignals) {
     const questionPts = Math.min(s.questions, 10) * 2
     const vocabularyPts = Math.min(s.uniqueWords, 200) / 200 * 30

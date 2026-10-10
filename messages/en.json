@@ -337,14 +337,15 @@
             "createdWith": "Quiz created with"
         },
         "questions": {
-            "title": "Quiz questions",
-            "summary": "{count, plural, one {Show the question} other {Show all # questions}} (spoiler)",
-            "note": "Just a preview: the right answer isn't shown here, and the options are shuffled when you play.",
-            "option": "Option {number}"
+            "title": "Question preview",
+            "summary": "{count, plural, one {See the first question} other {See the first # questions}} (spoiler)",
+            "alternatives": "{count, plural, one {# answer choice} other {# answer choices}}",
+            "more": "{count, plural, one {Plus # more question waiting in the quiz.} other {Plus # more questions waiting in the quiz.}}"
         },
         "related": {
             "title": "More quizzes for you",
-            "count": "{count, plural, one {# question} other {# questions}}"
+            "count": "{count, plural, one {# question} other {# questions}}",
+            "players": "{count, plural, one {# player} other {# players}}"
         }
     },
     "quizActions": {
@@ -644,6 +645,9 @@
             "viewLeaderboard": "View leaderboard",
             "viewAnswers": "Check your score"
         }
+    },
+    "embedPage": {
+        "playAgain": "Play again"
     },
     "SubscriptionPage": {
         "currency": {

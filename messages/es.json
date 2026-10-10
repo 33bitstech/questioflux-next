@@ -337,14 +337,15 @@
             "createdWith": "Quiz creado con"
         },
         "questions": {
-            "title": "Preguntas del quiz",
-            "summary": "{count, plural, one {Ver la pregunta} other {Ver las # preguntas}} (spoiler)",
-            "note": "Solo para echar un vistazo: la respuesta correcta no aparece aquí y el orden de las alternativas cambia cuando juegas.",
-            "option": "Alternativa {number}"
+            "title": "Vista previa de las preguntas",
+            "summary": "{count, plural, one {Ver la primera pregunta} other {Ver las # primeras preguntas}} (spoiler)",
+            "alternatives": "{count, plural, one {# alternativa} other {# alternativas}}",
+            "more": "{count, plural, one {Y # pregunta más te espera en el quiz.} other {Y # preguntas más te esperan en el quiz.}}"
         },
         "related": {
             "title": "Más quizzes para ti",
-            "count": "{count, plural, one {# pregunta} other {# preguntas}}"
+            "count": "{count, plural, one {# pregunta} other {# preguntas}}",
+            "players": "{count, plural, one {# jugador} other {# jugadores}}"
         }
     },
     "quizActions": {
@@ -644,6 +645,9 @@
             "viewLeaderboard": "Ver clasificación",
             "viewAnswers": "Revisar tu puntuación"
         }
+    },
+    "embedPage": {
+        "playAgain": "Jugar de nuevo"
     },
     "SubscriptionPage": {
         "currency": {

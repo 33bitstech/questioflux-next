@@ -10,19 +10,19 @@ import usePopupAuth from '@/hooks/usePopupAuth'
 import RegisterComponent from '../AuthForms/register-component'
 import LoginComponent from '../AuthForms/login-component'
 import GuestForm from '../AuthForms/Guest/guest-form'
-import { pauseQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
 import { Expand, Shrink } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 interface IProps {
     qtdQuestions: number
     questions: IQuestion[]
-    quizId: string
     initialTime: number
     typeOfQuiz: 'default/RW' | 'image/RW'
     handleScroll: () => void
     started: boolean,
-    startLoading: () => void
+    pauseQuiz: () => Promise<void>
+    // no embed quem não está logado só entra como visitante
+    guestOnly?: boolean
     setStarted: React.Dispatch<React.SetStateAction<boolean>>
     setResult: React.Dispatch<React.SetStateAction<{
         quizAnswer: any;
@@ -57,9 +57,10 @@ const isValidImageAnswer = (answer: unknown): answer is ImageAnswer => {
 
 export default function QuestionsContainer({
     handleScroll, initialTime, qtdQuestions,
-    questions, quizId, setStarted,
+    questions, setStarted,
     started, typeOfQuiz, setResult,
-    startLoading, finalTime, setFinalTime,
+    finalTime, setFinalTime,
+    pauseQuiz, guestOnly,
     onQuestionAnswered
 }: IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
@@ -160,7 +161,7 @@ export default function QuestionsContainer({
         if (Object.keys(selectedAnswers).length < qtdQuestions)
             return setError(t('errors.resAll'))
 
-        await pauseQuiz(quizId)
+        await pauseQuiz()
         setFinalTime(Date.now())
 
         handleSelectValuesCopy()
@@ -168,7 +169,6 @@ export default function QuestionsContainer({
         if (!user) setCanShowRegister(true)
 
         handleSelectValues()
-        startLoading()
     }
     const handleGoToQuestion = (questionNumber: number) => {
         if (!started) return
@@ -210,7 +210,12 @@ export default function QuestionsContainer({
 
     useEffect(() => {
         if (!user && canShowRegister) {
-            const savedResults = localStorage.getItem('quizAnswers')
+            let savedResults: string | null = null
+            try {
+                savedResults = localStorage.getItem('quizAnswers')
+            } catch {
+                // em iframe de outro site o navegador pode negar o localStorage
+            }
             if (savedResults) {
                 setResult({ quizAnswer: JSON.parse(savedResults), guest: guestName })
             }
@@ -324,7 +329,7 @@ export default function QuestionsContainer({
                 }
                 {typePopup === 'guest' &&
                     <GuestForm
-                        toRegister={toRegister}
+                        toRegister={guestOnly ? undefined : toRegister}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
                     />

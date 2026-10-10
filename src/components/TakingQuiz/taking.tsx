@@ -4,7 +4,8 @@ import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useRef, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
 import QuestionsContainer from './questions-container'
-import { startQuiz, takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
+import { pauseQuiz, startQuiz, takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
+import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
@@ -12,9 +13,17 @@ import LoadingReq from '../Loading/loading-req'
 import { useTranslations } from 'next-intl'
 import { quizParams, trackEvent } from '@/utils/analytics'
 
+export interface IQuizScore {
+    userForLeaderBoard: IUserLeaderBoardScore
+    message: string
+}
+
 interface IProps {
     styles: TStyles,
-    quiz: IQuizes
+    quiz: IQuizes,
+    // Só no embed (quiz dentro de um iframe em outro site): a sessão vai por token em vez
+    // de cookie e o resultado é entregue aqui em vez de seguir para /quiz/[id]/results.
+    onFinish?: (score: IQuizScore) => void
 }
 
 const getDummyQuestions = (typeOfQuiz?: string) => {
@@ -41,7 +50,7 @@ const getDummyQuestions = (typeOfQuiz?: string) => {
     ]
 }
 
-export default function TakingComponent({ quiz, styles }: IProps) {
+export default function TakingComponent({ quiz, styles, onFinish }: IProps) {
     const [started, setStarted] = useState<boolean>(false),
         [initialTime, setInitialTime] = useState<number>(0),
         [result, setResult] = useState<{ quizAnswer: any; guest?: string }>(),
@@ -49,17 +58,25 @@ export default function TakingComponent({ quiz, styles }: IProps) {
         [loadingReq, setLoadingReq] = useState<boolean>(false),
         route = useRouter(),
         [finalTime, setFinalTime] = useState(0),
+        sessionToken = useRef<string | undefined>(undefined),
         // só para o Analytics: saber se quem saiu da página largou o quiz no meio
         progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 })
 
     const t = useTranslations('takingPage')
     const handleStart = async () => {
-        const { ok } = await startQuiz(quiz.quizId)
+        const { ok, token } = await startQuiz(quiz.quizId, !!onFinish)
         if (!ok) return setError('Could not start the quiz. Please try again.')
+        sessionToken.current = token
         setInitialTime(Date.now())
         setStarted(true)
         progress.current = { started: true, finished: false, answered: 0, startedAt: Date.now() }
         trackEvent('quiz_start', quizParams(quiz))
+    }
+
+    const handlePause = async () => {
+        const { token } = await pauseQuiz(quiz.quizId, sessionToken.current)
+        // num segundo clique em "Resultados" o tempo já está fechado: vale o token anterior
+        if (token) sessionToken.current = token
     }
 
     const handleQuestionAnswered = (questionNumber: number, answered: number) => {
@@ -96,7 +113,9 @@ export default function TakingComponent({ quiz, styles }: IProps) {
 
     useEffect(() => {
         if (result && quiz) {
-            takeQuiz(quiz.quizId, result)
+            // só agora: ligado antes, o overlay cobria o popup de visitante e engolia os cliques
+            setLoadingReq(true)
+            takeQuiz(quiz.quizId, result, sessionToken.current)
                 .then(({ err, res }) => {
                     if (err) return setError(err)
                     if (res) {
@@ -112,6 +131,7 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                             player_type: played?.isGuest ? 'guest' : 'user',
                         })
 
+                        if (onFinish) return onFinish(res)
                         const safeCookieValue = encodeURIComponent(JSON.stringify(res));
                         setCookie('quizResults', safeCookieValue);
                         route.push(`/quiz/${quiz.quizId}/results`)
@@ -146,15 +166,15 @@ export default function TakingComponent({ quiz, styles }: IProps) {
                     {quiz.questions && quiz.type && <QuestionsContainer
                         qtdQuestions={started ? quiz?.qtdQuestions : 1}
                         questions={questionsToRender}
-                        quizId={quiz.quizId}
                         initialTime={initialTime}
                         typeOfQuiz={quiz?.type}
                         handleScroll={handleScroll}
                         started={started}
                         setStarted={setStarted}
+                        pauseQuiz={handlePause}
+                        guestOnly={!!onFinish}
                         setResult={setResult}
                         onQuestionAnswered={handleQuestionAnswered}
-                        startLoading={() => setLoadingReq(true)}
                         finalTime={finalTime}
                         setFinalTime={setFinalTime}
                     />}

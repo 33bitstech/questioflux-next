@@ -12,7 +12,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getMessages, getTranslations } from "next-intl/server";
 import { env } from "@/env";
-import Script from "next/script";
+import AdSenseScript from "@/components/Google/AdSenseScript";
 import { Inter } from 'next/font/google';
 import { getOpenGraphLocale } from "@/utils/locale";
 import { SubscriptionCurrencyProvider } from "@/contexts/subscriptionCurrencyContext";
@@ -163,12 +163,7 @@ export default async function RootLayout({
                     suppressHydrationWarning
                 />
                 <GoogleAnalytics />
-                <Script
-                    async
-                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7383504438544213`}
-                    strategy="afterInteractive"
-                    crossOrigin="anonymous"
-                />
+                <AdSenseScript />
             </head>
 
             <body suppressHydrationWarning>

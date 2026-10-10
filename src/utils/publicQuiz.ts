@@ -5,7 +5,6 @@ import IQuizes from '@/interfaces/IQuizes'
 import IQuestion from '@/interfaces/IQuestion'
 import { idiomToLocale } from '@/utils/seo'
 import { isQuizIndexable } from '@/utils/quizQuality'
-import { stableHash } from '@/utils/quizPreview'
 
 export const QUIZ_REVALIDATE = 300
 
@@ -54,9 +53,15 @@ export interface IIndexableQuiz {
     idiom: string
     category: string
     qtdQuestions: number
+    usersCount: number
+    userCreatorName: string
+    thumbnail?: string
     updated_at: string
     images: string[]
 }
+
+// as capas vêm do S3 do próprio site; qualquer outra origem faria o next/image recusar
+const isOwnImage = (src?: string) => !!src && /^https:\/\/quizvortex(33)?\.s3\.sa-east-1\.amazonaws\.com\//.test(src)
 
 const MAX_SITEMAP_PAGES = 50
 const RETRY_AFTER_FAILURE_MS = 5 * 60 * 1000
@@ -87,13 +92,16 @@ const loadIndexableQuizzes = unstable_cache(async (): Promise<IIndexableQuiz[]> 
         idiom: quiz.idiom,
         category: quiz.category,
         qtdQuestions: quiz.qtdQuestions,
+        usersCount: quiz.usersCount ?? 0,
+        userCreatorName: quiz.userCreatorName,
+        thumbnail: isOwnImage(quiz.quizThumbnail) ? quiz.quizThumbnail : undefined,
         updated_at: String(quiz.updated_at || quiz.created_at),
         // capa + imagens das perguntas, para o Google Imagens
         images: [quiz.quizThumbnail, ...(quiz.questions ?? []).map(question => question.image)]
             .filter((src): src is string => !!src && /^https?:\/\//.test(src))
             .slice(0, 20),
     }))
-}, ['indexable-quizzes'], { revalidate: 60 * 60 })
+}, ['indexable-quizzes-v2'], { revalidate: 60 * 60 })
 
 // Todos os quizzes que passam na regra de indexação, já enxutos. É a lista do sitemap e
 // a fonte dos links de "mais quizzes". O backend entrega 100 quizzes por requisição com
@@ -111,6 +119,16 @@ export async function getIndexableQuizzes(): Promise<IIndexableQuiz[]> {
         lastFailure = Date.now()
         throw err
     }
+}
+
+// Número estável para uma string: serve para embaralhar sempre do mesmo jeito.
+function stableHash(value: string) {
+    let h = 2166136261
+    for (let i = 0; i < value.length; i++) {
+        h ^= value.charCodeAt(i)
+        h = Math.imul(h, 16777619)
+    }
+    return h >>> 0
 }
 
 // Links internos de um quiz para outros: mesmo idioma primeiro, depois mesma categoria. A escolha

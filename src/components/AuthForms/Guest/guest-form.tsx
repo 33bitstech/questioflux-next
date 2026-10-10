@@ -12,7 +12,9 @@ import GoogleAuthButton from '../Auth-client-components/google-auth-button';
 
 interface IPropsGuest {
     handleRegisterAndFinishQuiz: (name:string) => void;
-    toRegister: () => void;
+    // sem toRegister (quiz embutido em outro site) não há cadastro nem login com Google:
+    // os dois dependem de cookies e de redirecionamentos que o iframe não aceita
+    toRegister?: () => void;
     show_pop_up: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -61,13 +63,15 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
                         </button>
 
 
-                        <p className='guest-footer-description'>
-                            {t('description')}
-                            <span
-                                onClick={toRegister}
-                            >{t('link')}</span>
-                        </p>
-                        <GoogleAuthButton locale={locale} />
+                        {toRegister && <>
+                            <p className='guest-footer-description'>
+                                {t('description')}
+                                <span
+                                    onClick={toRegister}
+                                >{t('link')}</span>
+                            </p>
+                            <GoogleAuthButton locale={locale} />
+                        </>}
                     </div>
                     
                 </form>
