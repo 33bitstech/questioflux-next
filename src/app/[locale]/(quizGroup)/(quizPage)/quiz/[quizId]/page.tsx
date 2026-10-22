@@ -14,7 +14,7 @@ import { notFound } from 'next/navigation';
 import EmbedQuizPopup from '@/components/widgets/embed-quiz-popup';
 import { getPublicQuiz, getRelatedQuizzes, withoutQuestions } from '@/utils/publicQuiz';
 import { isQuizIndexable } from '@/utils/quizQuality';
-import { buildQuizPreview, IPreviewQuestion } from '@/utils/quizPreview';
+import { buildQuizPreview } from '@/utils/quizPreview';
 import { idiomToLanguageTag, jsonLd, quizCanonicalUrl, quizImageUrl, SITE_URL } from '@/utils/seo';
 import { getOpenGraphLocale } from '@/utils/locale';
 import { quizParams } from '@/utils/analytics';
@@ -37,24 +37,54 @@ const transformData = (datatime: Date, locale: string) => {
     }).format(new Date(datatime));
 }
 
-function generateQuizSchema(t: any, quiz: IQuizes, questions: IPreviewQuestion[], locale: string, exploreLabel: string) {
+// Por que LearningResource e não Quiz: no Google, "Quiz" é o resultado "Practice problems",
+// que exige a resposta certa de cada pergunta no schema (acceptedAnswer/suggestedAnswer).
+// Publicar isso entregaria o gabarito no código da página, e sem isso o Search Console marca
+// erro crítico. LearningResource (learningResourceType: Quiz) descreve o mesmo conteúdo sem
+// gabarito e sem validação de rich result. A imagem vai como imagem principal da página,
+// que é o que o Google usa para a miniatura no resultado.
+function generateQuizSchema(t: any, quiz: IQuizes, locale: string, exploreLabel: string) {
     const url = quizCanonicalUrl(quiz)
+    const image = quizImageUrl(quiz)
+    const kind = getQuizKind(quiz)
+    const language = idiomToLanguageTag(quiz.idiom)
 
     return {
         "@context": "https://schema.org",
         "@graph": [
             {
-                "@type": "Quiz",
-                "@id": `${url}#quiz`,
+                "@type": "WebPage",
+                "@id": `${url}#webpage`,
                 "url": url,
-                "mainEntityOfPage": { "@id": url },
                 "name": quiz.title,
                 "description": quiz.description,
-                "inLanguage": idiomToLanguageTag(quiz.idiom),
-                "image": {
-                    "@type": "ImageObject",
-                    "url": quizImageUrl(quiz)
-                },
+                "inLanguage": language,
+                "primaryImageOfPage": { "@id": `${url}#primaryimage` },
+                "thumbnailUrl": image,
+                "breadcrumb": { "@id": `${url}#breadcrumb` },
+                "mainEntity": { "@id": `${url}#quiz` },
+                "datePublished": quiz.created_at,
+                "dateModified": quiz.updated_at
+            },
+            {
+                "@type": "ImageObject",
+                "@id": `${url}#primaryimage`,
+                "url": image,
+                "contentUrl": image,
+                "caption": quiz.title
+            },
+            {
+                "@type": "LearningResource",
+                "@id": `${url}#quiz`,
+                "url": url,
+                "mainEntityOfPage": { "@id": `${url}#webpage` },
+                "name": quiz.title,
+                "description": quiz.description,
+                "inLanguage": language,
+                "learningResourceType": kind === 'personality' ? 'Personality quiz' : kind === 'exam' ? 'Exam' : 'Quiz',
+                "interactivityType": "active",
+                "isAccessibleForFree": true,
+                "image": { "@id": `${url}#primaryimage` },
                 "author": {
                     "@type": "Person",
                     "@id": `${SITE_URL}/${locale}/user/${quiz.userCreatorId}#person`,
@@ -66,15 +96,7 @@ function generateQuizSchema(t: any, quiz: IQuizes, questions: IPreviewQuestion[]
                 "dateModified": quiz.updated_at,
                 ...(quiz.tags?.length ? { "keywords": quiz.tags.join(', ') } : {}),
                 // prova: avaliação com correção, não só passatempo
-                ...(getQuizKind(quiz) === 'exam' ? { "educationalUse": "assessment" } : {}),
-                // As mesmas perguntas da prévia visível, e só elas: o schema descreve o que a
-                // página mostra. Sem as alternativas.
-                "hasPart": questions.map(question => ({
-                    "@type": "Question",
-                    "eduQuestionType": "Multiple choice",
-                    "name": question.text,
-                    ...(question.image ? { "image": question.image } : {})
-                })),
+                ...(kind === 'exam' ? { "educationalUse": "assessment" } : {}),
                 "potentialAction": [
                     {
                         "@type": "TakeAction",
@@ -85,6 +107,7 @@ function generateQuizSchema(t: any, quiz: IQuizes, questions: IPreviewQuestion[]
             },
             {
                 "@type": "BreadcrumbList",
+                "@id": `${url}#breadcrumb`,
                 "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "QuestioFlux", "item": `${SITE_URL}/${locale}` },
                     { "@type": "ListItem", "position": 2, "name": exploreLabel, "item": `${SITE_URL}/${locale}/explore` },
@@ -133,7 +156,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             description,
             url: canonical,
             siteName: 'QuestioFlux',
-            images: image,
+            images: [{ url: image, alt: quizName }],
             locale: getOpenGraphLocale(locale),
             type: 'website'
         },
@@ -162,7 +185,7 @@ export default async function Quiz({ params }: IProps) {
     const kind = getQuizKind(quiz)
 
     const preview = buildQuizPreview(quiz)
-    const quizSchema = generateQuizSchema(t, quiz, preview.questions, locale, tHeader('explore'))
+    const quizSchema = generateQuizSchema(t, quiz, locale, tHeader('explore'))
     // client components só recebem os dados do quiz, sem as questões
     const quizInfo = withoutQuestions(quiz)
     const analyticsParams = quizParams(quiz)

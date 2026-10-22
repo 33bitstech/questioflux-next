@@ -18,29 +18,23 @@ export default function TypesList({ setTypeQ, styles, typeQ }: IProps) {
         return type === typeQ
     }
 
-    const isTypeInactive = (type: TTypeQuiz) => {
-        return type === 'Personality'
-    }
-
-    const handleSelectType = (type: TTypeQuiz) => {
-        if (isTypeInactive(type)) return
-
-        setTypeQ(type)
-    }
-
     const renderType = (type: TTypeQuiz) => {
-        const inactive = isTypeInactive(type)
-        const active = !inactive && verifyTypeSelect(type)
+        const active = verifyTypeSelect(type)
 
         return (
             <li
                 key={type}
-                aria-disabled={inactive}
-                className={`
-                    ${inactive ? styles.types_soon : ''}
-                    ${active ? styles.active_li : ''}
-                `}
-                onClick={() => handleSelectType(type)}
+                role="button"
+                tabIndex={0}
+                aria-pressed={active}
+                className={active ? styles.active_li : ''}
+                onClick={() => setTypeQ(type)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setTypeQ(type)
+                    }
+                }}
             >
                 {getTypeQuizLabel(type, locale)}
             </li>

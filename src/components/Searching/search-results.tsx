@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import QuizCard from '../Card/quiz-card'
 import ArrowSvg from '../Icons/ArrowSvg'
 import { useFilters } from '@/contexts/filtersContext'
+import { getApiTypeQuiz } from '@/utils/quizTypeFilter'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import LoadingQuizzes from '../Loading/loading-quizzes'
@@ -23,14 +24,6 @@ interface IPaginatedQuizzes {
     page?: number
 }
 
-const getApiTypeQuiz = (typeQuiz: string) => {
-    if (typeQuiz === 'Image') return 'image/RW'
-    if (typeQuiz === 'Right and Wrong') return 'default/RW'
-    // personalidade é filtrada pelo campo kind no backend
-    if (typeQuiz === 'Personality') return 'personality'
-
-    return ''
-}
 
 export default function SearchResults({ styles, defaultQuizzes, totalPages }: IProps) {
     const t = useTranslations('explorePage.buttons')

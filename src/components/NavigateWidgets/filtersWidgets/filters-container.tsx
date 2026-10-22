@@ -12,9 +12,10 @@ interface IProps {
     setFilterClicked: () => void
 }
 
+// todos os tipos têm filtro; valor desconhecido (ex.: estado antigo) volta para "Todos"
 const normalizeType = (type: TTypeQuiz): TTypeQuiz => {
-    if (type === 'Personality') return 'All'
-    return type
+    const known: TTypeQuiz[] = ['All', 'Right and Wrong', 'Exam', 'About me', 'Personality', 'Image']
+    return known.includes(type) ? type : 'All'
 }
 
 export default function FiltersContainer({ setFilterClicked }: IProps) {

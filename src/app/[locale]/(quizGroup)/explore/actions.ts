@@ -2,6 +2,7 @@
 
 import IQuizes from "@/interfaces/IQuizes";
 import { env } from "@/env";
+import { getApiTypeQuiz } from "@/utils/quizTypeFilter";
 
 export interface IPaginatedQuizzes {
     quizzes: IQuizes[]
@@ -18,17 +19,6 @@ interface IGetQuizzesParams {
     typeQuiz?: string
 }
 
-function getApiTypeQuiz(typeQuiz?: string) {
-    if (typeQuiz === 'Image') return 'image/RW'
-    if (typeQuiz === 'Right and Wrong') return 'default/RW'
-    // personalidade é filtrada pelo campo kind no backend
-    if (typeQuiz === 'Personality') return 'personality'
-
-    if (typeQuiz === 'image/RW') return 'image/RW'
-    if (typeQuiz === 'default/RW') return 'default/RW'
-
-    return ''
-}
 
 function hasSearchParams(params: IGetQuizzesParams) {
     return Boolean(

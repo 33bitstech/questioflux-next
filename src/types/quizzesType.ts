@@ -1,17 +1,24 @@
-export type TTypeQuiz = 
+// Opções do filtro "Tipo de quiz" do Explorar (a ordem é a da tela)
+export type TTypeQuiz =
     | 'All'
+    | 'Right and Wrong'
+    | 'Exam'
+    | 'About me'
     | 'Personality'
     | 'Image'
-    | 'Right and Wrong'
 
-export type TTypeQuizPt = 
+export type TTypeQuizPt =
     | 'Todos'
+    | 'Certo e Errado'
+    | 'Prova'
+    | 'Sobre mim'
     | 'Personalidade'
     | 'Imagem'
-    | 'Certo e Errado'
 
-export type TTypeQuizEs = 
+export type TTypeQuizEs =
     | 'Todos'
+    | 'Correcto e Incorrecto'
+    | 'Examen'
+    | 'Sobre mí'
     | 'Personalidad'
     | 'Imagen'
-    | 'Correcto e Incorrecto'

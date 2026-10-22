@@ -41,16 +41,17 @@ export function FilterProvider({ children }: { children: ReactNode }) {
 
     const [filtersSelected, setFiltersSelected] = useState<TFilter[]>([])
 
+    // mesma posição nos três idiomas: o rótulo sai pelo índice
     const typesQuiz: TTypeQuiz[] = [
-        'All', "Personality", "Image", "Right and Wrong"
+        'All', 'Right and Wrong', 'Exam', 'About me', 'Personality', 'Image'
     ]
 
     const typesQuizPt: TTypeQuizPt[] = [
-        'Todos', "Personalidade", "Imagem", "Certo e Errado"
+        'Todos', 'Certo e Errado', 'Prova', 'Sobre mim', 'Personalidade', 'Imagem'
     ]
 
     const typesQuizEs: TTypeQuizEs[] = [
-        'Todos', "Personalidad", "Imagen", "Correcto e Incorrecto"
+        'Todos', 'Correcto e Incorrecto', 'Examen', 'Sobre mí', 'Personalidad', 'Imagen'
     ]
 
     const [typeQuizSelected, setTypeQuizSelected] = useState<TTypeQuiz>('All')
