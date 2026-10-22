@@ -7,6 +7,11 @@ import resultsStyles from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]
 import { getTimeString } from '@/utils/FormatTime'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import IExamReviewQuestion from '@/interfaces/IExamReview'
+import ExamReviewView from '../ExamReview/exam-review-view'
+import reviewStyles from '../ExamReview/exam-review.module.scss'
+import IPersonalityOutcome from '@/interfaces/IPersonalityOutcome'
+import PersonalityResultView from '../PersonalityResult/personality-result-view'
 
 interface IProps {
     styles: TStyles,
@@ -18,16 +23,78 @@ interface IProps {
 // navegador não guarda em iframe de terceiros. O que leva ao site abre em outra aba.
 export default function EmbedQuiz({ quiz, styles }: IProps) {
     const [score, setScore] = useState<IQuizScore>()
+    // prova: a correção aparece aqui mesmo, sem sair do iframe
+    const [review, setReview] = useState<IExamReviewQuestion[]>()
+    // personalidade: o perfil no lugar da nota
+    const [personality, setPersonality] = useState<IPersonalityOutcome>()
 
     const t = useTranslations('quizResultsPage.results'),
         tEmbed = useTranslations('embedPage')
 
-    const handleFinish = (quizScore: IQuizScore) => {
+    const handleFinish = (quizScore?: IQuizScore, examReview?: IExamReviewQuestion[], outcome?: IPersonalityOutcome) => {
         setScore(quizScore)
+        setReview(examReview)
+        setPersonality(outcome)
         window.scrollTo({ top: 0 })
     }
 
+    const playAgain = () => {
+        setScore(undefined)
+        setReview(undefined)
+        setPersonality(undefined)
+    }
+
+    if (personality) {
+        return (
+            <>
+                <div className={styles.header_quiz}>
+                    <h1>{quiz.title}</h1>
+                </div>
+                <PersonalityResultView
+                    quizId={quiz.quizId}
+                    quizTitle={quiz.title}
+                    outcome={personality}
+                    actions={<>
+                        <button type='button' className={reviewStyles.button_primary} onClick={playAgain}>
+                            {tEmbed('playAgain')}
+                        </button>
+                        <Link
+                            href={`/quiz/${quiz.quizId}/leaderboard`}
+                            className={reviewStyles.button_secondary}
+                            target='_blank'
+                        >{tEmbed('allResults')}</Link>
+                    </>}
+                />
+            </>
+        )
+    }
+
     if (!score) return <TakingComponent quiz={quiz} styles={styles} onFinish={handleFinish} />
+
+    if (review) {
+        return (
+            <>
+                <div className={styles.header_quiz}>
+                    <h1>{quiz.title}</h1>
+                </div>
+                <ExamReviewView
+                    quizId={quiz.quizId}
+                    score={score}
+                    review={review}
+                    actions={<>
+                        <button type='button' className={reviewStyles.button_primary} onClick={playAgain}>
+                            {tEmbed('playAgain')}
+                        </button>
+                        <Link
+                            href={`/quiz/${quiz.quizId}/leaderboard`}
+                            className={reviewStyles.button_secondary}
+                            target='_blank'
+                        >{t('viewLeaderboard')}</Link>
+                    </>}
+                />
+            </>
+        )
+    }
 
     const { userForLeaderBoard, message } = score
 
@@ -60,7 +127,7 @@ export default function EmbedQuiz({ quiz, styles }: IProps) {
             <div className={resultsStyles.actions}>
                 <button
                     className={resultsStyles.check_score}
-                    onClick={() => setScore(undefined)}
+                    onClick={playAgain}
                 >
                     {tEmbed('playAgain')}
                 </button>

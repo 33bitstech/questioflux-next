@@ -6,6 +6,7 @@ import { getPublicQuiz } from '@/utils/publicQuiz';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import QuizThumbnail from './quiz-thumbnail';
+import { getQuizKind } from '@/utils/quizKind';
 
 interface IProps {
     children: ReactNode,
@@ -35,6 +36,10 @@ export default async function LayoutTaking({ children, params }: IProps) {
 
     if (!quiz) notFound()
 
+    // prova: o primeiro item é a correção (com a nota) em vez do resultado simples
+    const isExam = getQuizKind(quiz) === 'exam'
+    const isPersonality = getQuizKind(quiz) === 'personality'
+
     return (
         <>
             <div className={styles.header_quiz}>
@@ -54,16 +59,19 @@ export default async function LayoutTaking({ children, params }: IProps) {
                         <li>
                             <NavLink
                                 replace
-                                href={`/quiz/${quizId}/results`}
+                                href={isPersonality
+                                    ? `/quiz/${quizId}/personality`
+                                    : isExam ? `/quiz/${quizId}/review` : `/quiz/${quizId}/results`}
                                 styles={styles}
-                            >{t('navResults')}</NavLink>
+                            >{isPersonality ? t('navYourResult') : isExam ? t('navReview') : t('navResults')}</NavLink>
                         </li>
                         <li>
+                            {/* personalidade não tem ranking: o segundo item leva à distribuição dos resultados */}
                             <NavLink
                                 replace
-                                href={`/quiz/${quizId}/lb`}
+                                href={isPersonality ? `/quiz/${quizId}/leaderboard` : `/quiz/${quizId}/lb`}
                                 styles={styles}
-                            >{t('navLeaderboard')}</NavLink>
+                            >{isPersonality ? t('navAllResults') : t('navLeaderboard')}</NavLink>
                         </li>
                     </ul>
                 </nav>

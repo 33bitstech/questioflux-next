@@ -12,6 +12,11 @@ import { setCookie } from 'cookies-next'
 import LoadingReq from '../Loading/loading-req'
 import { useTranslations } from 'next-intl'
 import { quizParams, trackEvent } from '@/utils/analytics'
+import IExamReviewQuestion from '@/interfaces/IExamReview'
+import { saveExamReview } from '@/utils/examReview'
+import IPersonalityOutcome from '@/interfaces/IPersonalityOutcome'
+import { savePersonalityOutcome } from '@/utils/personalityOutcome'
+import { getQuizKind } from '@/utils/quizKind'
 
 export interface IQuizScore {
     userForLeaderBoard: IUserLeaderBoardScore
@@ -23,7 +28,8 @@ interface IProps {
     quiz: IQuizes,
     // Só no embed (quiz dentro de um iframe em outro site): a sessão vai por token em vez
     // de cookie e o resultado é entregue aqui em vez de seguir para /quiz/[id]/results.
-    onFinish?: (score: IQuizScore) => void
+    // personalidade não tem nota: score vem vazio e o perfil chega em personality
+    onFinish?: (score: IQuizScore | undefined, review?: IExamReviewQuestion[], personality?: IPersonalityOutcome) => void
     // anúncio entre o cronômetro e as questões (o embed não passa nenhum)
     adTop?: ReactNode
 }
@@ -65,6 +71,8 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
         progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 })
 
     const t = useTranslations('takingPage')
+    const isPersonality = getQuizKind(quiz) === 'personality'
+
     const handleStart = async () => {
         const { ok, token } = await startQuiz(quiz.quizId, !!onFinish)
         if (!ok) return setError('Could not start the quiz. Please try again.')
@@ -118,8 +126,22 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
             // só agora: ligado antes, o overlay cobria o popup de visitante e engolia os cliques
             setLoadingReq(true)
             takeQuiz(quiz.quizId, result, sessionToken.current)
-                .then(({ err, res }) => {
+                .then(({ err, res, review, personality }) => {
                     if (err) return setError(err)
+
+                    if (personality) {
+                        progress.current.finished = true
+                        trackEvent('quiz_complete', {
+                            ...quizParams(quiz),
+                            personality_result: personality.result.title.slice(0, 100),
+                            time_seconds: Math.round((personality.timing ?? 0) / 1000),
+                        })
+
+                        if (onFinish) return onFinish(undefined, undefined, personality)
+                        if (savePersonalityOutcome(quiz.quizId, personality)) return route.push(`/quiz/${quiz.quizId}/personality`)
+                        return setError(t('errors.resultStorage'))
+                    }
+
                     if (res) {
                         const played = res.userForLeaderBoard
                         const [correct, total] = String(played?.score ?? '').split('/').map(Number)
@@ -133,9 +155,14 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                             player_type: played?.isGuest ? 'guest' : 'user',
                         })
 
-                        if (onFinish) return onFinish(res)
+                        if (onFinish) return onFinish(res, review)
                         const safeCookieValue = encodeURIComponent(JSON.stringify(res));
                         setCookie('quizResults', safeCookieValue);
+
+                        // prova: vai para a correção; sem onde guardar, cai no resultado comum
+                        if (review && saveExamReview(quiz.quizId, { score: res, review })) {
+                            return route.push(`/quiz/${quiz.quizId}/review`)
+                        }
                         route.push(`/quiz/${quiz.quizId}/results`)
                     }
                 })
@@ -176,6 +203,8 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                         setStarted={setStarted}
                         pauseQuiz={handlePause}
                         guestOnly={!!onFinish}
+                        // sem ranking, não faz sentido pedir nome de visitante
+                        skipGuestPrompt={isPersonality}
                         setResult={setResult}
                         onQuestionAnswered={handleQuestionAnswered}
                         finalTime={finalTime}

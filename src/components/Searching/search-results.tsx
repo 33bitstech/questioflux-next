@@ -26,6 +26,8 @@ interface IPaginatedQuizzes {
 const getApiTypeQuiz = (typeQuiz: string) => {
     if (typeQuiz === 'Image') return 'image/RW'
     if (typeQuiz === 'Right and Wrong') return 'default/RW'
+    // personalidade é filtrada pelo campo kind no backend
+    if (typeQuiz === 'Personality') return 'personality'
 
     return ''
 }

@@ -19,9 +19,9 @@
             "subtitle": "Choose the quiz format you want to create, share, and rank.",
             "rightAndWrong": "<span>Multiple choice quiz:</span> Create a free text quiz with questions, answer options, and one correct answer. Great for trivia, school quizzes, fandom quizzes, games, sports, and friendly competitions.",
             "personality": "<span>Personality quiz:</span> Create result-based quizzes where each answer leads players toward a personality, character, or custom result.",
-            "list": "<span>List quiz:</span> Organize ideas, rankings, topics, and interactive lists to share with your community.",
             "aboutMe": "<span>About me quiz:</span> Invite friends to find out who knows you best and turn the answers into a fun challenge.",
-            "ctaButton": "Create Now"
+            "ctaButton": "Create Now",
+            "exam": "<span>Online test:</span> Build tests and practice exams with automatic grading, then show students the answer key with an explanation for every option."
         },
         "explorationSection": {
             "title": "Explore quizzes with leaderboards",
@@ -302,7 +302,8 @@
         "nav": {
             "info": "Quiz info",
             "comments": "Comments",
-            "leaderboard": "Leaderboard"
+            "leaderboard": "Leaderboard",
+            "results": "Results"
         }
     },
     "quizInfoPage": {
@@ -323,7 +324,8 @@
             "participants": "Participants:",
             "category": "Category:",
             "tags": "Tags:",
-            "participantsSpan": "users responded to this quiz"
+            "participantsSpan": "users responded to this quiz",
+            "kind": "Type:"
         },
         "ctaButton": "Take the quiz",
         "embed": {
@@ -346,6 +348,12 @@
             "title": "More quizzes for you",
             "count": "{count, plural, one {# question} other {# questions}}",
             "players": "{count, plural, one {# player} other {# players}}"
+        },
+        "ctaExam": "Take the test",
+        "examNote": "When you finish, you will see your score and the answer key for every question.",
+        "possibleResults": {
+            "title": "Possible results",
+            "text": "{count, plural, one {This quiz has # result.} other {This quiz can end in # different results. Which one will you get?}}"
         }
     },
     "quizActions": {
@@ -434,23 +442,25 @@
         "selectTypePage": {
             "title": "Online quiz maker",
             "desc": "Create your own online quiz with QuestioFlux. The normal text quiz is free: add questions, multiple choice answers, correct answers, publish your quiz, and track players on the leaderboard.",
-            "subtitle": "Choose a format to get started. You can create a question-and-answer quiz, build a challenge for students, make trivia for friends, or use images for a more visual quiz experience.",
+            "subtitle": "Choose a format to get started: a trivia quiz with a leaderboard, an online test with explained answers, a quiz about yourself for your friends, or a personality quiz with results you create.",
             "descriptions": {
                 "rightAndWrongTitle": "Free multiple choice quiz maker",
                 "rightAndWrongText": "Use this format to create a free online text quiz with answer options and one correct answer. It is ideal for trivia quizzes, quick tests, school activities, fandom quizzes, games, sports, series, and community challenges. After publishing, players can compete for the best score on the leaderboard.",
-                "personalityTitle": "Personality quiz maker",
-                "personalityText": "This format is made for quizzes where each answer moves the player toward a result. It works well for ideas like “which character are you?”, “what type of player are you?”, or “which style matches your personality?”.",
                 "imageTitle": "Image quiz maker",
                 "imageText": "The image quiz format lets you create visual questions and alternatives using text, images, or both. It is useful for flags, characters, logos, maps, games, objects, places, and visual identification challenges.",
                 "competitionTitle": "Leaderboards and competition",
                 "competitionText": "QuestioFlux is built to make quizzes competitive. Players can take your quiz, compare results, and compete for leaderboard positions in public quizzes, private quizzes, classroom challenges, or quizzes made for friends.",
                 "studentTitle": "Quiz maker for students",
-                "studentText": "Teachers and students can use the quiz maker to review lessons, test knowledge, and create interactive activities. The question-and-answer format works well for classes, study sessions, reviews, and quick challenges."
+                "studentText": "Teachers can build tests and practice exams with the Online test format: grades are instant and, at the end, students see the answer key with an explanation for each option. It also works for reviews, homework and classroom challenges.",
+                "studentLink": "Create an online test",
+                "aboutMeTitle": "About me quiz",
+                "aboutMeText": "Write questions about your tastes and stories, send the link to your friends and see on the leaderboard who knows you best. Ready-made questions are there if you need ideas.",
+                "aboutMeLink": "Create an about me quiz"
             },
             "metadata": {
                 "title": "Online Quiz Maker | Create a Free Text Quiz with QuestioFlux",
                 "desc": "Create a free online text quiz with questions, answers, multiple choice options, and leaderboards. Make quizzes for friends, students, games, and communities.",
-                "keywords": "online quiz maker, quiz maker, free quiz maker, create a quiz, make a quiz, make your own quiz, trivia quiz maker, multiple choice quiz maker, question and answer quiz maker, quiz maker for students, quiz with leaderboard, image quiz maker"
+                "keywords": "online quiz maker, quiz maker, free quiz maker, create a quiz, make a quiz, online test maker, create an online test, quiz maker for students, about me quiz, trivia quiz maker, quiz with leaderboard, image quiz maker"
             },
             "faq": {
                 "title": "Frequently asked questions about creating quizzes",
@@ -462,8 +472,11 @@
                 "question3Title": "Can I make a quiz with a leaderboard?",
                 "question3Text": "Yes. QuestioFlux includes leaderboards so your quizzes can become competitions and show the players with the best results.",
                 "question4Title": "Can I create an image quiz?",
-                "question4Text": "Yes. You can create quizzes with images in questions and alternatives, which is useful for visual challenges, characters, flags, logos, and similar topics."
-            }
+                "question4Text": "Yes. You can create quizzes with images in questions and alternatives, which is useful for visual challenges, characters, flags, logos, and similar topics.",
+                "question5Title": "Can I create an online test with an answer key?",
+                "question5Text": "Yes. In the Online test format you can write an optional explanation for each option. When students finish, they see their grade, what they got right and wrong, and your explanations."
+            },
+            "seeMore": "Learn more"
         },
         "formPage": {
             "saveDraftInfo": "After completing this step, your content will automatically be saved in <drafts>Drafts</drafts>."
@@ -477,7 +490,8 @@
                 "tags": "Tags",
                 "visibility": "Visibility",
                 "idiom": "Idiom",
-                "finalMessages": "Appearance of message at the end of the Quiz:"
+                "finalMessages": "Appearance of message at the end of the Quiz:",
+                "kind": "Quiz type"
             },
             "placeholders": {
                 "title": "Ex: Do you know everything about football?",
@@ -490,12 +504,40 @@
                 "private": "Private",
                 "en": "English",
                 "pt": "Portuguese",
-                "es": "Spanish"
+                "es": "Spanish",
+                "kinds": {
+                    "quiz": "Trivia quiz",
+                    "exam": "Online test (with answer key)",
+                    "aboutMe": "About me quiz",
+                    "personality": "Personality quiz"
+                }
             },
             "buttons": {
                 "back": "Back",
                 "saveDraft": "Save as Draft",
                 "continue": "Continue"
+            },
+            "kindHints": {
+                "quiz": "Each question has one correct answer and players compete on the leaderboard.",
+                "exam": "While writing the questions you can explain each option. Test takers see the full answer key at the end.",
+                "aboutMe": "You will get suggested questions about yourself. About me quizzes stay out of Google and are shared by link.",
+                "personality": "No right answer: you create the results here on the cover and, in the questions, choose which result each option leads to."
+            },
+            "kindLocked": "Once questions exist, you cannot switch to or from the personality quiz.",
+            "personalityResults": {
+                "label": "Possible results",
+                "hint": "Every option in your questions will lead to one of these results. Create between {min} and {max}.",
+                "resultNumber": "Result {number}",
+                "remove": "Remove result {number}",
+                "image": "Choose the result image",
+                "imageAlt": "Image for result {number}",
+                "removeImage": "Remove image",
+                "titleLabel": "Name of result {number}",
+                "titlePlaceholder": "E.g. Owl",
+                "descriptionLabel": "Description of result {number}",
+                "descriptionPlaceholder": "What this result says about whoever gets it (optional)",
+                "add": "Add result",
+                "imageError": "Your quiz was saved, but a result image did not upload. Try again in Edit Quiz."
             }
         }
     },
@@ -534,7 +576,8 @@
                 "correctPlaceholder": "Place the correct alternative here",
                 "incorrectPlaceholder": "Place the incorrect alternative here",
                 "addAlternative": "Add alternative",
-                "addQuestion": "Add question"
+                "addQuestion": "Add question",
+                "personalityPlaceholder": "Option {number}"
             },
             "imageInput": {
                 "placeholder": "Question N°{position}",
@@ -548,7 +591,38 @@
                 "keepPrivate": "Keep private",
                 "makePublic": "Make it public",
                 "publishError": "Your quiz was saved, but we couldn't make it public. You can change its visibility in Edit Quiz."
+            },
+            "explanation": {
+                "add": "Add explanation",
+                "remove": "Remove explanation",
+                "placeholderCorrect": "Explain why this is the right answer (optional)",
+                "placeholderIncorrect": "Explain why this option is wrong (optional)",
+                "hint": "Online test: explanations are optional and students only see them in the answer key, after submitting."
+            },
+            "personality": {
+                "leadsTo": "Leads to",
+                "hint": "Personality quiz: there is no right option. Choose which result each option leads to; in the end, the most picked result wins.",
+                "noResults": "This quiz has no results yet. Add at least 2 on the cover before writing the questions.",
+                "editCover": "Edit the cover"
             }
+        },
+        "aboutMeSuggestions": {
+            "title": "Ready-made questions about you",
+            "text": "Tap a question to add it to your quiz, then write the answers.",
+            "items": [
+                "What is my favorite food?",
+                "What is my favorite color?",
+                "What month is my birthday?",
+                "What is my biggest fear?",
+                "Where do I want to travel the most?",
+                "What kind of music do I listen to the most?",
+                "What is my favorite show or movie?",
+                "What is my favorite animal?",
+                "What do I love doing on weekends?",
+                "What is my weirdest habit?",
+                "What drink do I always order?",
+                "What did I want to be when I was a kid?"
+            ]
         }
     },
     "editQuizFlow": {
@@ -615,7 +689,8 @@
         "blurMessage": "Click the Start button above to reveal the quiz questions",
         "buttonStart": "Start",
         "errors": {
-            "resAll": "You have to answer all the questions; make sure you didn't miss any"
+            "resAll": "You have to answer all the questions; make sure you didn't miss any",
+            "resultStorage": "We could not show your result in this browser. Please try again."
         },
         "navigation": {
             "previous": "Previous",
@@ -635,7 +710,10 @@
             "metadataTitle": "Taking Quiz",
             "altQuizImage": "Quiz image",
             "navResults": "Results",
-            "navLeaderboard": "Leaderboard"
+            "navLeaderboard": "Leaderboard",
+            "navReview": "Answer key",
+            "navYourResult": "Your result",
+            "navAllResults": "Results"
         },
         "results": {
             "noResults": "No results found.",
@@ -644,10 +722,36 @@
             "totalTime": "Time in total",
             "viewLeaderboard": "View leaderboard",
             "viewAnswers": "Check your score"
+        },
+        "review": {
+            "title": "Answer key",
+            "score": "Score",
+            "correctCount": "{correct} of {total} correct",
+            "totalTime": "Total time",
+            "filters": {
+                "label": "Show questions",
+                "all": "All ({count})",
+                "wrong": "Wrong ({count})",
+                "right": "Right ({count})"
+            },
+            "questionLabel": "Question {number}",
+            "right": "Correct",
+            "wrong": "Wrong",
+            "yourAnswer": "Your answer",
+            "correctAnswer": "Correct answer",
+            "alternative": "Option {number}",
+            "questionImageAlt": "Image for question {number}",
+            "alternativeImageAlt": "Image for option {number}",
+            "noneInFilter": "No questions here.",
+            "retake": "Retake the test",
+            "viewLeaderboard": "View leaderboard",
+            "empty": "The answer key shows up here as soon as you finish the test.",
+            "takeExam": "Take the test"
         }
     },
     "embedPage": {
-        "playAgain": "Play again"
+        "playAgain": "Play again",
+        "allResults": "See all results"
     },
     "SubscriptionPage": {
         "currency": {
@@ -743,5 +847,475 @@
         "text": "The link may be wrong, or the quiz was deleted by its creator.",
         "explore": "Explore quizzes",
         "home": "Home page"
+    },
+    "quizTypes": {
+        "names": {
+            "quiz": "Trivia quiz",
+            "exam": "Online test",
+            "aboutMe": "About me quiz",
+            "personality": "Personality quiz"
+        }
+    },
+    "quizTypePages": {
+        "common": {
+            "breadcrumbHome": "Home",
+            "breadcrumbCreate": "Create a quiz",
+            "howTitle": "How it works",
+            "featuresTitle": "Why build it on QuestioFlux",
+            "faqTitle": "Frequently asked questions",
+            "otherTypesTitle": "Explore the other quiz types",
+            "seeMore": "Learn more",
+            "previewLabel": "Example",
+            "preview": {
+                "questionOf": "Question {current} of {total}",
+                "right": "Correct",
+                "wrong": "Wrong",
+                "yourAnswer": "Your answer",
+                "correctAnswer": "Correct answer",
+                "score": "Score {score}"
+            }
+        },
+        "quiz": {
+            "metadata": {
+                "title": "Free Trivia Quiz Maker with Scores and Leaderboard | QuestioFlux",
+                "desc": "Create a free online trivia quiz with scores, timing and a leaderboard. Great for general knowledge, classrooms, games, anime and challenges with friends.",
+                "keywords": "trivia quiz maker, question and answer quiz maker, create a quiz with scores, quiz with leaderboard, free online quiz maker, make a trivia quiz, general knowledge quiz, multiple choice quiz maker"
+            },
+            "eyebrow": "Trivia quiz",
+            "title": "Make a trivia quiz with scores and a leaderboard",
+            "lead": "The classic format: every question has one right answer, players earn points for each correct pick and race for a spot on the leaderboard. It works for trivia, general knowledge, anime, sports, TV shows, classrooms and any topic you know well.",
+            "cta": "Create a free quiz",
+            "heroNote": "Free for text quizzes with up to 10 questions.",
+            "cardText": "Scores, timing and a leaderboard for trivia.",
+            "steps": [
+                {
+                    "title": "Set up the cover",
+                    "text": "Add a title, a description and a category. A complete cover helps your quiz get found in Explore and on Google."
+                },
+                {
+                    "title": "Write the questions",
+                    "text": "For each question, add the right answer and the wrong ones. Options are shuffled for every player."
+                },
+                {
+                    "title": "Publish and share",
+                    "text": "Send the link, post it on social media or embed it on your site. The leaderboard updates after every play."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Scores and timing",
+                    "text": "Every play shows correct answers and total time, plus a closing message you write yourself."
+                },
+                {
+                    "title": "Leaderboard",
+                    "text": "Players compete for the top spots, which keeps them coming back for another try."
+                },
+                {
+                    "title": "Image quizzes",
+                    "text": "With QuestioPlus, add images to questions and options for flag, character and logo quizzes."
+                },
+                {
+                    "title": "On your website",
+                    "text": "Copy the embed code and put the quiz on a blog or website, leaderboard included."
+                }
+            ],
+            "ideasTitle": "Quiz ideas to get you started",
+            "ideas": [
+                "General knowledge",
+                "Anime quiz",
+                "Soccer quiz",
+                "TV and movies",
+                "Music quiz",
+                "Flags quiz",
+                "History quiz",
+                "Video game quiz",
+                "Bible quiz",
+                "Food quiz"
+            ],
+            "sample": {
+                "question": "How many players from each team are on the field in a soccer match?",
+                "answers": [
+                    "9",
+                    "10",
+                    "11",
+                    "12"
+                ],
+                "correct": 2,
+                "rankingTitle": "Leaderboard",
+                "ranking": [
+                    {
+                        "name": "Sam",
+                        "score": "10/10",
+                        "time": "0:48"
+                    },
+                    {
+                        "name": "Maya",
+                        "score": "10/10",
+                        "time": "1:05"
+                    },
+                    {
+                        "name": "Leo",
+                        "score": "8/10",
+                        "time": "0:59"
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "What is a good site to make a question and answer quiz?",
+                    "answer": "On QuestioFlux you can build a trivia quiz for free, publish it with a link and follow every player’s score on the leaderboard."
+                },
+                {
+                    "question": "Can I create an online quiz with scores?",
+                    "answer": "Yes. Every correct answer counts, the result shows the score and the time, and the leaderboard puts whoever gets the most right in the least time on top."
+                },
+                {
+                    "question": "Can I write the message shown at the end?",
+                    "answer": "Yes. You can write different messages for a perfect score, above 80%, above 50%, below 50% and for no correct answers."
+                },
+                {
+                    "question": "Will my quiz show up on Google?",
+                    "answer": "Public quizzes with complete information can show up in Explore and in Google Search. Private quizzes are only seen by people with the link."
+                }
+            ],
+            "finalTitle": "Know a topic inside out?",
+            "finalText": "Turn it into a quiz and challenge everyone.",
+            "finalCta": "Create a quiz now"
+        },
+        "exam": {
+            "metadata": {
+                "title": "Free Online Test Maker with Automatic Grading | QuestioFlux",
+                "desc": "Create an online exam or practice test for free: multiple choice questions, automatic grading and an answer key that explains every option. Share it with a link.",
+                "keywords": "online test maker, create an exam online, online test creation, create an online test, free exam maker, quiz maker for students, test with answer key, practice test maker, multiple choice test maker"
+            },
+            "eyebrow": "Online test",
+            "title": "Create free online tests with instant grades and explained answers",
+            "lead": "Put together a multiple choice test in minutes, share the link with your class and let QuestioFlux do the grading. As soon as students finish, they see their score, what they got right and wrong, and the explanation you wrote for each option.",
+            "cta": "Create a free test",
+            "heroNote": "Nothing to install. Students can answer without an account.",
+            "cardText": "Instant grades and an answer key with explanations.",
+            "steps": [
+                {
+                    "title": "Write the questions",
+                    "text": "Type the question, the right option and the wrong ones. With QuestioPlus you can also use images in questions and options."
+                },
+                {
+                    "title": "Explain the options",
+                    "text": "Every option has an optional explanation field: say why the right answer is right and where the others go wrong."
+                },
+                {
+                    "title": "Share and follow along",
+                    "text": "Send the link or embed the test on your site. Grades are instant and the leaderboard shows who did best."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Automatic grading",
+                    "text": "The score is ready the moment a student finishes, with no spreadsheets and no grading one by one."
+                },
+                {
+                    "title": "An explanation for every option",
+                    "text": "Students go through the test question by question and understand their mistakes, so the test becomes a study session."
+                },
+                {
+                    "title": "Class leaderboard",
+                    "text": "See who got the most right and how fast. Great for practice tests, reviews and classroom games."
+                },
+                {
+                    "title": "Free to start",
+                    "text": "Text tests with up to 10 questions and 6 options are free. QuestioPlus unlocks unlimited questions, up to 15 options and images."
+                }
+            ],
+            "ideasTitle": "Test ideas to create",
+            "ideas": [
+                "Math test",
+                "SAT practice",
+                "English vocabulary test",
+                "Spelling test",
+                "History review",
+                "Science quiz",
+                "Geography test",
+                "Certification practice exam",
+                "Employee training assessment",
+                "Homework review"
+            ],
+            "sample": {
+                "question": "What is the capital of Australia?",
+                "answers": [
+                    "Sydney",
+                    "Canberra",
+                    "Melbourne",
+                    "Perth"
+                ],
+                "correct": 1,
+                "chosen": 0,
+                "chosenExplanation": "Sydney is the largest city in the country, but it is not the capital.",
+                "correctExplanation": "Canberra was planned as the capital and has been the seat of government since 1927.",
+                "score": "8/10",
+                "current": 3,
+                "total": 10
+            },
+            "faq": [
+                {
+                    "question": "How do I create an exam online?",
+                    "answer": "Choose Online test, fill in the title, description and category, then write your questions with the right option and, if you like, an explanation for each option. When you publish, you get a link to send to your students."
+                },
+                {
+                    "question": "Is creating an online test on QuestioFlux free?",
+                    "answer": "Yes. Text tests are free with up to 10 questions and 6 options per question. QuestioPlus unlocks unlimited questions, up to 15 options and images."
+                },
+                {
+                    "question": "Do students see the answer key after submitting?",
+                    "answer": "They do. When they finish, they get their score and the full answer key: their answer, the right option and the explanations you wrote. Before they submit, the explanations stay hidden."
+                },
+                {
+                    "question": "Do students need an account?",
+                    "answer": "No. Anyone without an account can answer as a guest, entering just a name for the leaderboard."
+                },
+                {
+                    "question": "Can I keep a test private?",
+                    "answer": "Yes. A private test does not appear in Explore or on Google: only people with the link can take it."
+                }
+            ],
+            "finalTitle": "Your next test could be ready today",
+            "finalText": "Build it, send it to your class and leave the grading to us.",
+            "finalCta": "Create a test now"
+        },
+        "aboutMe": {
+            "metadata": {
+                "title": "Make an About Me Quiz for Free: Who Knows You Best?",
+                "desc": "Make a quiz about yourself in a few minutes, send it to your friends and see on the leaderboard who knows you best. Use ready-made questions or write your own.",
+                "keywords": "about me quiz, make a quiz about yourself, who knows me best, friendship quiz, quiz for friends, how well do you know me, questions about me, best friend quiz"
+            },
+            "eyebrow": "About me quiz",
+            "title": "Make a quiz about yourself and find out who knows you best",
+            "lead": "Write questions about your tastes, quirks and stories, mark the right answer and send the link to your friends. Each one answers, gets a score and lands on the leaderboard. In the end, you find out who really knows you.",
+            "cta": "Make my quiz",
+            "heroNote": "Ready-made questions included: just pick them and write the answers.",
+            "cardText": "Your friends answer and the leaderboard shows who knows you.",
+            "steps": [
+                {
+                    "title": "Pick the questions",
+                    "text": "Use ready-made ideas like “What is my favorite food?” or write questions only you would think of."
+                },
+                {
+                    "title": "Mark the right answers",
+                    "text": "Add the true answer and a few options to trick anyone who has not been paying attention."
+                },
+                {
+                    "title": "Send it to your friends",
+                    "text": "Share the link on WhatsApp, Instagram or anywhere you like and watch the leaderboard."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Friends leaderboard",
+                    "text": "Each friend gets a score and a time. Whoever knows you best ends up on top."
+                },
+                {
+                    "title": "Ready-made questions",
+                    "text": "Ideas about food, music, travel, childhood and quirks, so you never get stuck."
+                },
+                {
+                    "title": "No sign-up needed",
+                    "text": "Your friends do not need an account: they answer as guests and still show up on the leaderboard."
+                },
+                {
+                    "title": "Only for people with the link",
+                    "text": "About me quizzes stay out of Google. You can keep them out of Explore too."
+                }
+            ],
+            "ideasTitle": "About me quiz ideas",
+            "ideas": [
+                "Who knows me best?",
+                "How well do you know me?",
+                "Best friend quiz",
+                "Quiz for my boyfriend or girlfriend",
+                "Family quiz",
+                "Birthday quiz",
+                "Quiz for my classmates",
+                "Quiz for my coworkers"
+            ],
+            "sample": {
+                "question": "What is my favorite food?",
+                "answers": [
+                    "Pizza",
+                    "Lasagna",
+                    "Sushi",
+                    "Tacos"
+                ],
+                "correct": 2,
+                "rankingTitle": "Who knows you best",
+                "ranking": [
+                    {
+                        "name": "Emma",
+                        "score": "10/10",
+                        "time": "0:41"
+                    },
+                    {
+                        "name": "Noah",
+                        "score": "9/10",
+                        "time": "0:37"
+                    },
+                    {
+                        "name": "Zoe",
+                        "score": "7/10",
+                        "time": "1:12"
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "How do I make a quiz about myself?",
+                    "answer": "Choose About me quiz, name your quiz, write questions about yourself (or use the suggestions), mark the right answer for each one and publish. Then just send the link."
+                },
+                {
+                    "question": "Do my friends need an account to answer?",
+                    "answer": "No. They can answer as guests, with just a name to show on the leaderboard."
+                },
+                {
+                    "question": "How do I see who knows me best?",
+                    "answer": "On the quiz leaderboard: whoever got the most right is on top and, between similar scores, whoever answered faster."
+                },
+                {
+                    "question": "How many questions can I add?",
+                    "answer": "On the free plan, up to 10 questions with up to 6 options each. With QuestioPlus, questions are unlimited."
+                },
+                {
+                    "question": "Does my about me quiz show up on Google?",
+                    "answer": "No. Quizzes about someone’s life stay out of search to protect the person who made them. They travel through the link you share."
+                }
+            ],
+            "finalTitle": "Do your friends really know you?",
+            "finalText": "Make your quiz in a few minutes and find out.",
+            "finalCta": "Make an about me quiz"
+        },
+        "personality": {
+            "metadata": {
+                "title": "Free Personality Quiz Maker with Custom Results | QuestioFlux",
+                "desc": "Make a free online personality quiz: set up the results, link every answer to a profile and show each person their result at the end.",
+                "keywords": "personality quiz maker, make a personality quiz, personality test maker, which character are you quiz, create a personality test online, quiz with results, buzzfeed style quiz"
+            },
+            "eyebrow": "Personality quiz",
+            "title": "Make a personality quiz: “which character are you?”",
+            "lead": "Set up the possible results, like characters, houses, styles or careers, write the questions and choose which result each answer leads to. At the end, everyone discovers their own profile, sees how much they got of each one and shares it with friends.",
+            "cta": "Make a personality quiz",
+            "heroNote": "Free, no right answers and no leaderboard: everyone gets their own result.",
+            "cardText": "Every answer leads to a profile and the result comes at the end.",
+            "steps": [
+                {
+                    "title": "Create the results",
+                    "text": "On the cover, add between 2 and 12 results with a name, a description and, if you like, an image."
+                },
+                {
+                    "title": "Write the questions",
+                    "text": "For each option, choose which result it leads to. The first option starts linked to the first result, the second to the second, and so on."
+                },
+                {
+                    "title": "Share it",
+                    "text": "Whoever answers discovers their result, sees the percentage of each profile and how many people got the same one."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Results with images",
+                    "text": "Every profile can have a photo or illustration, shown front and center on the result."
+                },
+                {
+                    "title": "A percentage for each profile",
+                    "text": "Besides the main result, people see how much they got of each one: 60% owl, 25% lion..."
+                },
+                {
+                    "title": "Everyone’s results",
+                    "text": "The Results tab shows how many people landed on each profile."
+                },
+                {
+                    "title": "Easy to share",
+                    "text": "The share button sends the result along with the quiz link. You can also put the quiz on your website."
+                }
+            ],
+            "ideasTitle": "Personality quiz ideas",
+            "ideas": [
+                "Which anime character are you?",
+                "Which animal matches you?",
+                "Which Hogwarts house are you?",
+                "Which career fits you?",
+                "What is your travel style?",
+                "What kind of friend are you?",
+                "Which villain would you be?",
+                "Which season are you?"
+            ],
+            "sample": {
+                "question": "On a free Saturday, what do you do?",
+                "answers": [
+                    "Read a book",
+                    "Go on an adventure",
+                    "Meet my friends",
+                    "Plan the week"
+                ],
+                "chosen": 0,
+                "resultLabel": "Your result",
+                "resultTitle": "Owl",
+                "resultText": "Curious and observant: you think before you act and love learning new things.",
+                "breakdown": [
+                    {
+                        "title": "Owl",
+                        "percent": 60
+                    },
+                    {
+                        "title": "Lion",
+                        "percent": 25
+                    },
+                    {
+                        "title": "Fox",
+                        "percent": 15
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "How do I make a personality quiz?",
+                    "answer": "Choose Personality quiz, add the results on the cover (name, description and image), write the questions and choose which result each option leads to. Then publish it and share the link."
+                },
+                {
+                    "question": "How is the result calculated?",
+                    "answer": "Each answer adds a point to the result it leads to. The result with the most points wins; in a tie, the most recent answer among the tied results counts."
+                },
+                {
+                    "question": "How many results can I create?",
+                    "answer": "Between 2 and 12 results per quiz, each with a name, a description and an optional image."
+                },
+                {
+                    "question": "Do people need an account to answer?",
+                    "answer": "No. Anyone can answer without signing up and see their result right away."
+                },
+                {
+                    "question": "Can I use images in the questions?",
+                    "answer": "Yes, with QuestioPlus: images in questions and options, just like the other quiz types. Result images are free."
+                }
+            ],
+            "finalTitle": "Which result will your friends get?",
+            "finalText": "Make your personality quiz and find out.",
+            "finalCta": "Make a personality quiz"
+        }
+    },
+    "personalityResultPage": {
+        "yourResult": "Your result",
+        "sameResult": "{percent}% of the {count} people who took this quiz got this result",
+        "share": "Share result",
+        "copied": "Link copied!",
+        "shareText": "I got {result} on the “{quiz}” quiz on QuestioFlux. What about you?",
+        "breakdownTitle": "How much of each result you got",
+        "empty": "Your result shows up here as soon as you finish the quiz.",
+        "takeQuiz": "Take the quiz",
+        "retake": "Take it again",
+        "allResults": "See all results",
+        "stats": {
+            "title": "Everyone’s results",
+            "plays": "{count, plural, one {# person has taken this quiz} other {# people have taken this quiz}}",
+            "noPlays": "Nobody has finished this quiz yet. Be the first!",
+            "cta": "Find out my result",
+            "metadataTitle": "Everyone’s results – {quiz_name}"
+        }
     }
 }

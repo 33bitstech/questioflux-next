@@ -66,6 +66,18 @@
             gap: 2rem;
         }
 
+        // prova online: aviso sobre as explicações das alternativas
+        .exam_hint{
+            width: 100%;
+            margin-bottom: -1.6rem;
+            padding: .75rem 1rem;
+            border-radius: .6rem;
+            border-left: 4px solid vars.$cor-correct;
+            background-color: var(--background-divs);
+            line-height: 1.5;
+            @include vars.styleTexto(var(--text-secondary), .85rem, 400);
+        }
+
 
 
         .footer{

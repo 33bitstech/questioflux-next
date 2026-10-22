@@ -6,14 +6,18 @@ import React, { useState } from 'react'
 import FormCreateQuestions from './form-create-questions'
 import NavCreatinQuiz from '../nav-creating-quiz'
 import { useLocale, useTranslations } from 'next-intl' 
+import { QuizKind } from '@/utils/quizKind'
+import { IPersonalityResult } from '@/interfaces/IQuizes'
 
 interface IProps{
     styles: TStyles
     quizId: string
     isPrivate?: boolean
+    kind?: QuizKind
+    personalityResults?: IPersonalityResult[]
 }
 
-export default function QuizContent({styles, quizId, isPrivate}:IProps) {
+export default function QuizContent({styles, quizId, isPrivate, kind = 'quiz', personalityResults}:IProps) {
     const t = useTranslations('creatingQuiz.questionsPage'); 
     const [textMode, setTextMode] = useState<boolean>(true);
     const locale = useLocale();
@@ -42,6 +46,8 @@ export default function QuizContent({styles, quizId, isPrivate}:IProps) {
                 textMode={textMode}
                 quizId={quizId}
                 isPrivate={isPrivate}
+                kind={kind}
+                personalityResults={personalityResults}
             />
         </>
     )

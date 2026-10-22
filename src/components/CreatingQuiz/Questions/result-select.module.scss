@@ -1,0 +1,35 @@
+@use '../../../assets/styles/vars.scss';
+
+.result_select {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    flex-shrink: 0;
+
+    &::before {
+        content: '';
+        width: .7rem;
+        height: .7rem;
+        border-radius: 50%;
+        background-color: var(--result-color);
+    }
+
+    label {
+        white-space: nowrap;
+        @include vars.styleTexto(var(--text-secondary), .75rem, 600);
+    }
+
+    select {
+        max-width: 11rem;
+        padding: .3rem .45rem;
+        border-radius: .35rem;
+        border: 1px solid var(--result-color);
+        background-color: var(--background-divs);
+        cursor: pointer;
+        @include vars.styleTexto(var(--text-primary), .8rem, 600);
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

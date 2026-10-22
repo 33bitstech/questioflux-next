@@ -1,4 +1,5 @@
 import IQuizes from '@/interfaces/IQuizes'
+import { getQuizKind } from '@/utils/quizKind'
 
 export const GA_MEASUREMENT_ID = 'G-J8VGB9PB8H'
 
@@ -21,6 +22,9 @@ export type AnalyticsEvent =
     | 'quiz_progress'
     | 'quiz_complete'
     | 'quiz_abandon'
+    | 'quiz_review_view'
+    | 'quiz_result_view'
+    | 'quiz_review_filter'
     | 'quiz_save'
     | 'quiz_unsave'
     | 'quiz_comment'
@@ -43,11 +47,13 @@ export function trackEvent(name: AnalyticsEvent, params: EventParams = {}) {
 
 // Os mesmos parâmetros em todo evento de quiz, para cruzar nos relatórios.
 // O GA4 corta valores de texto em 100 caracteres.
-export const quizParams = (quiz: Pick<IQuizes, 'quizId' | 'title' | 'category' | 'idiom' | 'type' | 'qtdQuestions'>) => ({
+export const quizParams = (quiz: Pick<IQuizes, 'quizId' | 'title' | 'category' | 'idiom' | 'type' | 'qtdQuestions' | 'kind'>) => ({
     quiz_id: quiz.quizId,
     quiz_title: (quiz.title ?? '').trim().slice(0, 100),
     quiz_category: quiz.category,
     quiz_language: quiz.idiom,
     quiz_type: quiz.type === 'image/RW' ? 'image' : 'text',
+    // quiz, exam (prova) ou aboutMe (sobre mim)
+    quiz_kind: getQuizKind(quiz),
     quiz_questions: quiz.qtdQuestions,
 })

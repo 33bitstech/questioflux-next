@@ -5,6 +5,8 @@ import QuizContent from '@/components/CreatingQuiz/Questions/quiz-content'
 import ApiData from '@/utils/ApiData'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { cookies } from 'next/headers'
+import { getQuizKind, QuizKind } from '@/utils/quizKind'
+import { IPersonalityResult } from '@/interfaces/IQuizes'
 
 interface IProps {
     params:Promise<{
@@ -12,8 +14,9 @@ interface IProps {
     }>
 }
 
-// Se a consulta falhar o fluxo segue normal, só sem a pergunta de privacidade.
-async function isQuizPrivate(quizId: string): Promise<boolean> {
+// Se a consulta falhar o fluxo segue normal, só sem a pergunta de privacidade
+// e como quiz comum (sem as explicações da prova).
+async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, kind: QuizKind, results?: IPersonalityResult[] }> {
     try {
         const cookieStore = await cookies()
 
@@ -25,25 +28,31 @@ async function isQuizPrivate(quizId: string): Promise<boolean> {
             cache: { cache: 'no-store' },
         })
 
-        if (!response.ok) return false
+        if (!response.ok) return { isPrivate: false, kind: 'quiz' }
 
         const res = await response.json()
-        return res?.quiz?.isPrivate === true
+        return {
+            isPrivate: res?.quiz?.isPrivate === true,
+            kind: getQuizKind(res?.quiz),
+            results: res?.quiz?.personalityResults,
+        }
     } catch {
-        return false
+        return { isPrivate: false, kind: 'quiz' }
     }
 }
 
 export default async function QuestionsPage({params} : IProps) {
     const {quizId} = await params
-    const isPrivate = await isQuizPrivate(quizId)
+    const { isPrivate, kind, results } = await getQuizSettings(quizId)
 
     return (
         <main className={styles.content}>
-            <QuizContent 
+            <QuizContent
                 styles={styles}
                 quizId={quizId}
                 isPrivate={isPrivate}
+                kind={kind}
+                personalityResults={results}
             />
         </main>
     )

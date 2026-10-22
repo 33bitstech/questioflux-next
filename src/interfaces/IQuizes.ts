@@ -1,4 +1,5 @@
 import { TFilter } from "@/types/filtersType";
+import { QuizKind } from "@/utils/quizKind";
 import IQuestion from "./IQuestion"
 export interface IResultMessages {
     allCorrect: string; // Mensagem para quando o usuário acertar todas as perguntas
@@ -7,6 +8,14 @@ export interface IResultMessages {
     belowFifty: string; // Mensagem para quando o usuário acertar menos de 50%
     allWrong: string; // Mensagem para quando o usuário errar todas as perguntas
 }
+// Um dos perfis possíveis do quiz de personalidade
+export interface IPersonalityResult {
+    resultId: string
+    title: string
+    description: string
+    image?: string
+}
+
 export default interface IQuizes {
     quizId: string;
     title: string;
@@ -26,4 +35,8 @@ export default interface IQuizes {
     updated_at: Date;
     draft?: boolean
     type?: 'default/RW' | 'image/RW',
+    kind?: QuizKind,
+    personalityResults?: IPersonalityResult[],
+    // quantas vezes cada resultado saiu: { [resultId]: vezes }
+    personalityStats?: Record<string, number>,
 }

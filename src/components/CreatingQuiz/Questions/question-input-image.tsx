@@ -8,6 +8,9 @@ import InputTitle from './ImagesInputs/input-title'
 import InputAlternative from './ImagesInputs/input-alternative'
 import { useTranslations } from 'next-intl'
 import { BrushCleaning } from 'lucide-react'
+import ExplanationInput from './explanation-input'
+import ResultSelect from './result-select'
+import { effectiveResultId, IResultOption } from '@/utils/personalityQuestions'
 
 interface IProps {
     question: ILocalQuestions
@@ -23,14 +26,23 @@ interface IProps {
     onMultipleImageUpload: (files: FileList) => void
     onAlternativeTextChange: (altIndex: number, text: string) => void
     onAlternativeImageClear: (altIndex: number) => void
+    // prova online: cada alternativa pode ter uma explicação
+    showExplanations?: boolean
+    onAlternativeExplanationChange?: (altIndex: number, text: string) => void
+    // quiz de personalidade: sem alternativa certa; cada uma leva a um resultado
+    resultOptions?: IResultOption[]
+    onAlternativeResultChange?: (altIndex: number, resultId: string) => void
 }
 
 export default function QuestionInputImage({
     onAddAlternative, onAddQuestion, onAlternativeImageChange,
     onRemoveAlternative, onRemoveQuestion, onTitleChange,
     position, question, questions, onQuestionImageChange,
-    onMultipleImageUpload, onAlternativeTextChange, onAlternativeImageClear
+    onMultipleImageUpload, onAlternativeTextChange, onAlternativeImageClear,
+    showExplanations, onAlternativeExplanationChange,
+    resultOptions, onAlternativeResultChange
 }: IProps) {
+    const isPersonality = !!resultOptions && !!onAlternativeResultChange
     const t = useTranslations('creatingQuiz.questionsForm')
     return (
         <div className={`${styles.question_inputs}`}>
@@ -69,10 +81,15 @@ export default function QuestionInputImage({
             </div>
             {/* alternativas */}
             <div className={styles.alternatives_container}>
-                {question.alternatives.map((alternative, index) => (
+                {question.alternatives.map((alternative, index) => {
+                    const resultId = isPersonality ? effectiveResultId(alternative, index, resultOptions) : ''
+                    const resultColor = resultOptions?.find(option => option.resultId === resultId)?.color
+
+                    return (
+                    <div className={styles.alternative_block} key={alternative.id}>
                     <div
-                        className={`${styles.input_container} ${index === 0 ? styles.correct : styles.incorrect}`}
-                        key={alternative.id}
+                        className={`${styles.input_container} ${isPersonality ? styles.personality : index === 0 ? styles.correct : styles.incorrect}`}
+                        style={isPersonality ? { ['--result-color' as string]: resultColor } : undefined}
                     >
                         {alternative.thumbnail && (
                             <button
@@ -96,11 +113,11 @@ export default function QuestionInputImage({
                         />
 
                         <div className={styles.footer_input}>
-                            <span>
+                            {!isPersonality && <span>
                                 <GetAnswerIcon
                                     type={index === 0 ? 'correct' : 'incorrect'}
                                 />
-                            </span>
+                            </span>}
 
                             <input
                                 className={styles.alternative_text_input}
@@ -117,7 +134,23 @@ export default function QuestionInputImage({
                             )}
                         </div>
                     </div>
-                ))}
+                    {showExplanations && onAlternativeExplanationChange && (
+                        <ExplanationInput
+                            value={alternative.explanation}
+                            correct={index === 0}
+                            onChange={(text) => onAlternativeExplanationChange(index, text)}
+                        />
+                    )}
+                    {isPersonality && (
+                        <ResultSelect
+                            value={resultId}
+                            options={resultOptions}
+                            onChange={(id) => onAlternativeResultChange(index, id)}
+                        />
+                    )}
+                    </div>
+                    )
+                })}
             </div>
 
             <div className={styles.vertical_bar} />

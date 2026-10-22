@@ -14,9 +14,10 @@ export const quizTag = (quizId: string) => `quiz-${quizId}`
 const isAlternative = (answer: unknown) => typeof answer === 'object' && answer !== null
 
 // Nada de gabarito sai daqui, mesmo que o backend mande: o quiz vai para client
-// components (o /taking) e tudo que é prop acaba dentro do HTML.
+// components (o /taking) e tudo que é prop acaba dentro do HTML. As explicações da
+// prova também entregariam a resposta.
 function stripAnswerKey(question: IQuestion): IQuestion {
-    const { correctAnswer, correctAnswerThumbnal, ...safe } = question as IQuestion & Record<string, unknown>
+    const { correctAnswer, correctAnswerThumbnal, explanations, ...safe } = question as IQuestion & Record<string, unknown>
     const answers = Array.isArray(safe.answers) ? safe.answers : []
 
     return {

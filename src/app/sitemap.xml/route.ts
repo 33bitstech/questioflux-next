@@ -1,5 +1,6 @@
 import { routing } from '@/i18n/routing'
 import { getIndexableQuizzes } from '@/utils/publicQuiz'
+import { quizTypeSlugs } from '@/utils/quizKind'
 import { quizCanonicalUrl, shellLanguages, SITE_URL } from '@/utils/seo'
 
 // Gerado no servidor e guardado por uma hora.
@@ -7,7 +8,10 @@ export const dynamic = 'force-static'
 export const revalidate = 3600
 
 // Páginas que existem nos 3 idiomas. Nada com noindex entra aqui.
-const SHELL_PATHS = ['', '/explore', '/create/quiz', '/about-us']
+const SHELL_PATHS = [
+    '', '/explore', '/create/quiz', '/about-us',
+    ...Object.keys(quizTypeSlugs).map(slug => `/create/quiz/${slug}`),
+]
 
 interface IEntry {
     loc: string

@@ -22,6 +22,10 @@ export interface QuizQualityInput {
     isPrivate?: boolean
     draft?: boolean
     usersCount?: number
+    // 'aboutMe' = quiz sobre o próprio criador
+    kind?: string
+    // quiz de personalidade: os perfis também são texto próprio do quiz
+    personalityResults?: Array<{ title?: string; description?: string }>
     // Precisa vir com as questões: listagens (explore, perfil) não servem para avaliar.
     questions?: RawQuestion[]
 }
@@ -112,6 +116,10 @@ function getSignals(quiz: QuizQualityInput): QuizQualitySignals {
         for (const answer of distinct) for (const word of wordsOf(answer)) vocabulary.add(word)
     }
 
+    for (const result of quiz.personalityResults ?? []) {
+        for (const word of wordsOf(normalize(`${result.title ?? ''} ${result.description ?? ''}`))) vocabulary.add(word)
+    }
+
     return {
         isImageQuiz: questionImages + answerImages >= MIN_IMAGES,
         questions,
@@ -179,6 +187,7 @@ export function evaluateQuizQuality(quiz: QuizQualityInput): QuizQualityResult {
     if (!isImageQuiz && signals.uniqueWords < MIN_TEXT_WORDS) return fail('thin-text')
 
     const personal =
+        quiz.kind === 'aboutMe' ||
         signals.firstPersonQuestions / signals.questions >= PERSONAL_RATIO ||
         PERSONAL_MARKER.test(plain(`${quiz.title ?? ''} ${quiz.description ?? ''}`))
     if (personal) return fail('personal')

@@ -20,6 +20,9 @@ import { updateQuestionsImage } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { getQuizKind } from '@/utils/quizKind'
+import { getLocalExplanations, savedExplanation } from '@/utils/questionExplanations'
+import { getAnswerResults, savedResultId, toResultOptions } from '@/utils/personalityQuestions'
 
 interface IProps {
     styles: TStyles
@@ -81,6 +84,15 @@ const isFile = (value: unknown): value is File => {
     return typeof File !== 'undefined' && value instanceof File
 }
 
+// Alternativas de uma questão de texto como o formulário mostra: a correta primeiro e as
+// outras sem repeti-la (ela também fica salva dentro de answers; antes aparecia duas vezes).
+const textAlternatives = (question: any): string[] => {
+    const answers: string[] = (Array.isArray(question?.answers) ? question.answers : [])
+        .map((answer: any) => typeof answer === 'string' ? answer : (answer?.answer ?? ''))
+
+    return Array.from(new Set([question?.correctAnswer ?? '', ...answers.filter(answer => answer !== question?.correctAnswer)]))
+}
+
 const hasPendingUpload = (apiQuestions: any[]): boolean => {
     return apiQuestions.some((question: any) => {
         const hasPendingQuestionImage = question?.image === 'pending-upload'
@@ -103,6 +115,8 @@ const mapApiImageQuestionsToLocal = (apiQuestions: any[]): ILocalQuestions[] => 
                 id: a.answer ?? '',
                 thumbnail: a.thumbnail ?? '',
                 text: a.text ?? '',
+                explanation: savedExplanation(q.explanations, a.answer ?? ''),
+                resultId: savedResultId(q.answerResults, a.answer ?? ''),
                 isNew: false
             }))
 
@@ -163,6 +177,7 @@ const getQuestionFilesToUpload = (question: ILocalQuestions): ILocalQuestions =>
 
 export default function FormEditQuestions({ styles, quiz, quizId, textMode = true }: IProps) {
     const t = useTranslations('editQuizFlow')
+    const tQuestions = useTranslations('creatingQuiz.questionsForm')
     const locale = useLocale()
 
     const hasQuizQuestions =
@@ -172,6 +187,11 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
     const isImageMode = hasQuizQuestions
         ? quiz?.type === 'image/RW'
         : !textMode
+
+    const isExam = getQuizKind(quiz) === 'exam'
+    // personalidade: sem certa e sem ranking; cada alternativa leva a um resultado da capa
+    const isPersonality = getQuizKind(quiz) === 'personality'
+    const resultOptions = toResultOptions(quiz?.personalityResults)
 
     const router = useRouter(),
         { setError, setSucess } = useGlobalMessage(),
@@ -210,6 +230,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 id: a.id,
                 text: a.text,
                 answer: a.answer,
+                explanation: a.explanation?.trim() || '',
+                resultId: a.resultId || '',
                 thumbnail: isFile(a.thumbnail) ? a.thumbnail.name : a.thumbnail
             }))
         })))
@@ -225,6 +247,16 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
     }
 
     const handleFormatTextMode = () => {
+        if (isPersonality) {
+            return questions.map(q => ({
+                questionId: q.id,
+                question: q.title || '',
+                answers: q.alternatives.map(a => a.answer || ''),
+                correctAnswer: '',
+                answerResults: getAnswerResults(q, 'text', resultOptions),
+            }))
+        }
+
         return questions?.map(q => {
             const ans = q.alternatives?.filter((_, index) => index !== 0),
                 answers = ans.map(a => a.answer)
@@ -233,7 +265,8 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 questionId: q.id,
                 question: q.title || '',
                 answers,
-                correctAnswer: q.alternatives[0].answer || ''
+                correctAnswer: q.alternatives[0].answer || '',
+                explanations: getLocalExplanations(q, 'text')
             }
         })
     }
@@ -256,7 +289,10 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 questionId: q.id,
                 title: q.title || '',
                 answers,
-                correctAnswer: alternatives[0]?.id || '',
+                correctAnswer: isPersonality ? '' : alternatives[0]?.id || '',
+                ...(isPersonality
+                    ? { answerResults: getAnswerResults(q, 'image', resultOptions) }
+                    : { explanations: getLocalExplanations(q, 'image') }),
                 image: typeof q.image === 'string'
                     ? q.image
                     : isFile(q.image)
@@ -269,7 +305,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
     const willResetLb = () => {
         let cancel = false
 
-        if (!hasQuizQuestions) {
+        if (!hasQuizQuestions || isPersonality) {
             sendDatas()
             return
         }
@@ -290,7 +326,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     return
                 }
 
-                if (q.answers.length + (quiz.type === 'default/RW' ? 1 : 0) != questions[i].alternatives.length) {
+                if (textAlternatives(q).length != questions[i].alternatives.length) {
                     cancel = true
                 }
             })
@@ -478,10 +514,15 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                 setInitialSnapshot(getQuestionsSnapshot(newQuestions))
             } else {
                 const newQuestions: ILocalQuestions[] = quiz.questions?.map((q: any) => {
-                    const ans = [q.correctAnswer, ...q.answers],
-                        alternatives = ans.map((a, i) => ({
+                    const answers: string[] = isPersonality
+                        ? (Array.isArray(q.answers) ? q.answers : []).filter((answer: unknown): answer is string => typeof answer === 'string')
+                        : textAlternatives(q)
+
+                    const alternatives = answers.map((answer, i) => ({
                             id: `a-${Date.now()}${i + 1}`,
-                            answer: typeof a === 'string' ? a : (a?.answer ?? ''),
+                            answer,
+                            explanation: savedExplanation(q.explanations, answer),
+                            resultId: savedResultId(q.answerResults, answer),
                             isNew: false
                         }))
 
@@ -547,6 +588,9 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
             {loading && <LoadingReq loading={loading} />}
 
+            {isExam && <p className={styles.exam_hint}>{tQuestions('explanation.hint')}</p>}
+            {isPersonality && <p className={styles.exam_hint}>{tQuestions('personality.hint')}</p>}
+
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr) => {
                     if (isImageMode) {
@@ -579,6 +623,14 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                                     onAlternativeImageClear={(altIndex: number) =>
                                         handleAlternativeChange(q.id, altIndex, 'thumbnail', '')
                                     }
+                                    showExplanations={isExam}
+                                    onAlternativeExplanationChange={(altIndex: number, text: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'explanation', text)
+                                    }
+                                    resultOptions={isPersonality ? resultOptions : undefined}
+                                    onAlternativeResultChange={(altIndex: number, resultId: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'resultId', resultId)
+                                    }
                                 />
                             </div>
                         )
@@ -602,6 +654,14 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                                 onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
                                 onRemoveQuestion={() => removeQuestion(q.id)}
                                 onAlternativeChange={(altIndex: number, answer: string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}
+                                showExplanations={isExam}
+                                onAlternativeExplanationChange={(altIndex: number, text: string) =>
+                                    handleAlternativeChange(q.id, altIndex, 'explanation', text)
+                                }
+                                resultOptions={isPersonality ? resultOptions : undefined}
+                                onAlternativeResultChange={(altIndex: number, resultId: string) =>
+                                    handleAlternativeChange(q.id, altIndex, 'resultId', resultId)
+                                }
                             />
                         </div>
                     )

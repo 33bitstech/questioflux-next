@@ -20,6 +20,7 @@ import { getOpenGraphLocale } from '@/utils/locale';
 import { quizParams } from '@/utils/analytics';
 import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/analytics-widgets';
 import QuizCover from '@/components/Card/quiz-cover';
+import { getQuizKind, quizKindSlug } from '@/utils/quizKind';
 
 interface IProps {
     params: Promise<{
@@ -64,6 +65,8 @@ function generateQuizSchema(t: any, quiz: IQuizes, questions: IPreviewQuestion[]
                 "dateCreated": quiz.created_at,
                 "dateModified": quiz.updated_at,
                 ...(quiz.tags?.length ? { "keywords": quiz.tags.join(', ') } : {}),
+                // prova: avaliação com correção, não só passatempo
+                ...(getQuizKind(quiz) === 'exam' ? { "educationalUse": "assessment" } : {}),
                 // As mesmas perguntas da prévia visível, e só elas: o schema descreve o que a
                 // página mostra. Sem as alternativas.
                 "hasPart": questions.map(question => ({
@@ -149,11 +152,14 @@ export default async function Quiz({ params }: IProps) {
 
     if (!quiz) notFound()
 
-    const [t, tHeader, related] = await Promise.all([
+    const [t, tHeader, tKinds, related] = await Promise.all([
         getTranslations({ locale, namespace: 'quizInfoPage' }),
         getTranslations({ locale, namespace: 'contextualHeader' }),
+        getTranslations({ locale, namespace: 'quizTypes.names' }),
         getRelatedQuizzes(quiz)
     ])
+
+    const kind = getQuizKind(quiz)
 
     const preview = buildQuizPreview(quiz)
     const quizSchema = generateQuizSchema(t, quiz, preview.questions, locale, tHeader('explore'))
@@ -195,6 +201,9 @@ export default async function Quiz({ params }: IProps) {
                                 quiz={quizInfo}
                             />
                         </li>
+                        {kind !== 'quiz' && (
+                            <li>{t('details.kind')} <Link locale={locale} href={`/create/quiz/${quizKindSlug(kind)}`}>{tKinds(kind)}</Link></li>
+                        )}
                         {quiz.tags && quiz.tags.length > 0 ? <li>
                             {t('details.tags')} {quiz.tags.map((tag, i) => (
                                 <span key={i}>
@@ -205,13 +214,32 @@ export default async function Quiz({ params }: IProps) {
                     </ul>
                 </div>
                 <div className={styles.actions}>
-                    <Link locale={locale} href={`/quiz/${quizId}/taking`}>{t('ctaButton')}</Link>
+                    <Link locale={locale} href={`/quiz/${quizId}/taking`}>{kind === 'exam' ? t('ctaExam') : t('ctaButton')}</Link>
                     <SaveQuizWidget quizId={quizId} />
                     <ShareButton styles={styles} quizId={quizId} />
                 </div>
+                {kind === 'exam' && <p className={styles.exam_note}>{t('examNote')}</p>}
                 <div className={styles.description_container}>
                     <p>{quiz.description}</p>
                 </div>
+
+                {kind === 'personality' && (quiz.personalityResults?.length ?? 0) > 0 && (
+                    <section className={styles.possible_results}>
+                        <h2>{t('possibleResults.title')}</h2>
+                        <p>{t('possibleResults.text', { count: quiz.personalityResults!.length })}</p>
+                        <ul>
+                            {quiz.personalityResults!.map(result => (
+                                <li key={result.resultId}>
+                                    {result.image && (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img src={result.image} alt={`${result.title} – ${quiz.title}`} loading="lazy" decoding="async" />
+                                    )}
+                                    <span>{result.title}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
 
                 {preview.questions.length > 0 && (
                     <section className={styles.questions_preview}>

@@ -142,6 +142,61 @@
         }
     }
 
+    // personalidade: os perfis que podem sair (só o nome e a imagem: a descrição é surpresa)
+    .possible_results {
+        width: 100%;
+        margin-top: 2rem;
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+        border-radius: .93rem;
+        background-color: var(--background-primary);
+        box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
+
+        h2 {
+            @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
+        }
+
+        p {
+            @include vars.styleTexto(var(--text-secondary), .9rem, 400);
+        }
+
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .6rem;
+        }
+
+        li {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .35rem .8rem .35rem .35rem;
+            border-radius: 999px;
+            border: 1px solid var(--horizontal-rule-color);
+            @include vars.styleTexto(var(--text-primary), .9rem, 600);
+
+            img {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+
+        li:not(:has(img)) {
+            padding-left: .8rem;
+        }
+    }
+
+    // prova: avisa que no fim tem correção
+    .exam_note {
+        margin-top: .6rem;
+        text-align: center;
+        @include vars.styleTexto(var(--text-secondary), .85rem, 500);
+    }
+
     .description_container {
         margin-top: 3.4rem;
 

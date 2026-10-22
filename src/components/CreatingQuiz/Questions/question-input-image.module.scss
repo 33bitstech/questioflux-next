@@ -204,8 +204,16 @@
         gap: 1.5rem;
         width: 100%;
 
-        .input_container {
+        // card da alternativa + a explicação (prova) logo abaixo
+        .alternative_block {
             width: 48%;
+            display: flex;
+            flex-direction: column;
+            gap: .45rem;
+        }
+
+        .input_container {
+            width: 100%;
 
             &.correct {
                 border: 3px solid vars.$cor-correct;
@@ -215,6 +223,11 @@
             &.incorrect {
                 border: 3px solid vars.$cor-incorrect;
 
+            }
+
+            // personalidade: a cor é a do resultado a que a alternativa leva
+            &.personality {
+                border: 3px solid var(--result-color, #{vars.$cor-cinzaDescD});
             }
         }
     }
@@ -257,7 +270,7 @@
         .alternatives_container {
             justify-content: center;
 
-            .input_container {
+            .alternative_block {
                 width: 70%;
             }
         }

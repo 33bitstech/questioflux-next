@@ -1,14 +1,13 @@
 import { Link } from '@/i18n/navigation'
 import styles from './create-quiz-page.module.scss'
-import SmileSvg from '@/components/Icons/SmileSvg'
-import CloverSvg from '@/components/Icons/CloverSvg'
-import SoonSvg from '@/components/Icons/SoonSvg'
-import ListSvg from '@/components/Icons/ListSvg'
-import StrokeProfileSvg from '@/components/Icons/StrokeProfileSvg'
+import QuizTypeIcon from '@/components/QuizTypes/quiz-type-icon'
+import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 import { env } from '@/env'
 import { getOpenGraphLocale } from '@/utils/locale'
+import { QuizKind, quizKindSlug } from '@/utils/quizKind'
+import { ReactNode } from 'react'
 
 interface IProps {
     params: Promise<{ locale: string }>;
@@ -55,10 +54,20 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
+// Cada card leva à página do tipo (/create/quiz/exam...), que explica e tem o botão de criar.
+const AVAILABLE_TYPES: Array<{ kind: QuizKind, text: 'rightAndWrong' | 'exam' | 'aboutMe' | 'personality' }> = [
+    { kind: 'quiz', text: 'rightAndWrong' },
+    { kind: 'exam', text: 'exam' },
+    { kind: 'aboutMe', text: 'aboutMe' },
+    { kind: 'personality', text: 'personality' },
+]
+
 export default async function CreateQuizPage({ params }: IProps) {
     const { locale } = await params
     const t = await getTranslations({ locale, namespace: 'createQuizFlow.selectTypePage' });
     const tShared = await getTranslations({ locale, namespace: 'landingPage.stylesSection' });
+
+    const bold = (chunks: ReactNode) => <span>{chunks}</span>
 
     return (
         <main className={styles.content}>
@@ -68,37 +77,21 @@ export default async function CreateQuizPage({ params }: IProps) {
                     <h2>{t('desc')}</h2>
                     <p>{t('subtitle')}</p>
                 </div>
-                <ul>
-                    <nav>
-                        <li className={styles.type_actived}>
-                            <Link locale={locale} href='/create/quiz/cover'>
-                                <span className={styles.icon_emoji}><CloverSvg /></span>
-                                <p>{tShared.rich('rightAndWrong', { span: (chunks) => <span>{chunks}</span> })}</p>
-                            </Link>
-                        </li>
-                        <li className={styles.type_inactived}>
-                            <Link href='#'>
-                                <span className={styles.icon_emoji}><SmileSvg /></span>
-                                <p>{tShared.rich('personality', { span: (chunks) => <span>{chunks}</span> })}</p>
-                            </Link>
-                            <span className={styles.soon}><SoonSvg /></span>
-                        </li>
-                        <li className={styles.type_inactived}>
-                            <Link href='#'>
-                                <span className='iconemoji'><ListSvg /></span>
-                                <p>{tShared.rich('list', { span: (chunks) => <span>{chunks}</span> })}</p>
-                            </Link>
-                            <span className={styles.soon}><SoonSvg /></span>
-                        </li>
-                        <li className={styles.type_inactived}>
-                            <Link href='#'>
-                                <span className={styles.icon_emoji}><StrokeProfileSvg /></span>
-                                <p>{tShared.rich('aboutMe', { span: (chunks) => <span>{chunks}</span> })}</p>
-                            </Link>
-                            <span className={styles.soon}><SoonSvg /></span>
-                        </li>
-                    </nav>
-                </ul>
+                <nav aria-label={t('title')}>
+                    <ul className={styles.type_list}>
+                        {AVAILABLE_TYPES.map(({ kind, text }) => (
+                            <li key={kind} className={styles.type_actived}>
+                                <Link locale={locale} href={`/create/quiz/${quizKindSlug(kind)}`}>
+                                    <span className={styles.icon_emoji}><QuizTypeIcon kind={kind} /></span>
+                                    <p>{tShared.rich(text, { span: bold })}</p>
+                                    <span className={styles.see_more}>
+                                        {t('seeMore')} <ArrowRight aria-hidden="true" />
+                                    </span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
             </div>
             <section className={styles.description_types}>
                 <div className={styles.description_header}>
@@ -118,12 +111,18 @@ export default async function CreateQuizPage({ params }: IProps) {
                         <span>02</span>
                         <h2>{t('descriptions.studentTitle')}</h2>
                         <p>{t('descriptions.studentText')}</p>
+                        <Link locale={locale} href={`/create/quiz/${quizKindSlug('exam')}`} className={styles.article_link}>
+                            {t('descriptions.studentLink')} <ArrowRight aria-hidden="true" />
+                        </Link>
                     </article>
 
                     <article>
                         <span>03</span>
-                        <h2>{t('descriptions.personalityTitle')}</h2>
-                        <p>{t('descriptions.personalityText')}</p>
+                        <h2>{t('descriptions.aboutMeTitle')}</h2>
+                        <p>{t('descriptions.aboutMeText')}</p>
+                        <Link locale={locale} href={`/create/quiz/${quizKindSlug('aboutMe')}`} className={styles.article_link}>
+                            {t('descriptions.aboutMeLink')} <ArrowRight aria-hidden="true" />
+                        </Link>
                     </article>
 
                     <article>
@@ -170,6 +169,14 @@ export default async function CreateQuizPage({ params }: IProps) {
                             <div>
                                 <h3>{t('faq.question4Title')}</h3>
                                 <p>{t('faq.question4Text')}</p>
+                            </div>
+                        </article>
+
+                        <article>
+                            <span>Q5</span>
+                            <div>
+                                <h3>{t('faq.question5Title')}</h3>
+                                <p>{t('faq.question5Text')}</p>
                             </div>
                         </article>
                     </div>

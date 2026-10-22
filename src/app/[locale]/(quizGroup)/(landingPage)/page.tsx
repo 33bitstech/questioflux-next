@@ -2,7 +2,8 @@ import styles from './lp.module.scss'
 import { Link } from "@/i18n/navigation";
 import CloverSvg from "@/components/Icons/CloverSvg";
 import SmileSvg from "@/components/Icons/SmileSvg";
-import ListSvg from "@/components/Icons/ListSvg";
+import ExamSvg from "@/components/Icons/ExamSvg";
+import { quizKindSlug } from '@/utils/quizKind';
 import LockedSvg from "@/components/Icons/LockedSvg";
 import StrokeProfileSvg from "@/components/Icons/StrokeProfileSvg";
 import WorldSvg from "@/components/Icons/WorldSvg";
@@ -80,7 +81,7 @@ export default async function LandingPage({ params }: IProps) {
                             <li><span><CloverSvg /></span></li>
                             <li><span><SmileSvg /></span></li>
                             <li><span><StrokeProfileSvg /></span></li>
-                            <li><span><ListSvg /></span></li>
+                            <li><span><ExamSvg /></span></li>
                         </ul>
                         <Link href={`#register_comp_section`} className={styles.button_link}>{t('hero.ctaButton')}</Link>
                         <Link href={'/explore'} locale={locale} className={styles.explore_link} >{t('hero.exploreButton')}</Link>
@@ -95,21 +96,29 @@ export default async function LandingPage({ params }: IProps) {
                         <p>{t('stylesSection.subtitle')}</p>
                     </div>
                     <ul id='quiz_styles' className={styles.box_itens}>
-                        <li>
-                            <span><CloverSvg /></span>
-                            <p>{t.rich('stylesSection.rightAndWrong', { span: (chunks) => <span>{chunks}</span> })}</p>
+                        <li className={styles.linked_item}>
+                            <Link href={`/create/quiz/${quizKindSlug('quiz')}`} locale={locale}>
+                                <span><CloverSvg /></span>
+                                <p>{t.rich('stylesSection.rightAndWrong', { span: (chunks) => <span>{chunks}</span> })}</p>
+                            </Link>
                         </li>
-                        <li>
-                            <span><SmileSvg /></span>
-                            <p>{t.rich('stylesSection.personality', { span: (chunks) => <span>{chunks}</span> })}</p>
+                        <li className={styles.linked_item}>
+                            <Link href={`/create/quiz/${quizKindSlug('exam')}`} locale={locale}>
+                                <span><ExamSvg /></span>
+                                <p>{t.rich('stylesSection.exam', { span: (chunks) => <span>{chunks}</span> })}</p>
+                            </Link>
                         </li>
-                        <li>
-                            <span><ListSvg /></span>
-                            <p>{t.rich('stylesSection.list', { span: (chunks) => <span>{chunks}</span> })}</p>
+                        <li className={styles.linked_item}>
+                            <Link href={`/create/quiz/${quizKindSlug('aboutMe')}`} locale={locale}>
+                                <span><StrokeProfileSvg /></span>
+                                <p>{t.rich('stylesSection.aboutMe', { span: (chunks) => <span>{chunks}</span> })}</p>
+                            </Link>
                         </li>
-                        <li>
-                            <span><StrokeProfileSvg /></span>
-                            <p>{t.rich('stylesSection.aboutMe', { span: (chunks) => <span>{chunks}</span> })}</p>
+                        <li className={styles.linked_item}>
+                            <Link href={`/create/quiz/${quizKindSlug('personality')}`} locale={locale}>
+                                <span><SmileSvg /></span>
+                                <p>{t.rich('stylesSection.personality', { span: (chunks) => <span>{chunks}</span> })}</p>
+                            </Link>
                         </li>
                     </ul>
                     <Link href='/create/quiz' locale={locale} className={styles.button_link}>{t('stylesSection.ctaButton')}</Link>

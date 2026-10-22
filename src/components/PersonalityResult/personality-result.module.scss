@@ -1,0 +1,341 @@
+@use '../../assets/styles/vars.scss';
+
+.result {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    padding: 1.8rem;
+    border-radius: 1.3rem;
+    background: linear-gradient(135deg, var(--checkbox-checked-bg-color), var(--background-dark));
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.22);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(0, 228, 255, 0.28), transparent 38%),
+            radial-gradient(circle at bottom left, rgba(0, 71, 255, 0.3), transparent 42%);
+        pointer-events: none;
+    }
+
+    >* {
+        position: relative;
+    }
+}
+
+.image {
+    flex-shrink: 0;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0px 10px 24px 0px rgba(0, 0, 0, 0.35);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .6rem;
+
+    h2 {
+        line-height: 1.2;
+        @include vars.styleTexto(vars.$cor-branco, 1.9rem, 800);
+    }
+
+    >p {
+        line-height: 1.6;
+        white-space: pre-line;
+        @include vars.styleTexto(rgba(255, 255, 255, 0.88), .98rem, 400);
+    }
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .25rem .7rem;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    @include vars.styleTexto(vars.$cor-ciano, .75rem, 700);
+    text-transform: uppercase;
+    letter-spacing: .05rem;
+
+    svg {
+        width: .9rem;
+        height: .9rem;
+    }
+}
+
+.text .same {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    @include vars.styleTexto(rgba(255, 255, 255, 0.75), .85rem, 500);
+
+    svg {
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+        color: vars.$cor-ciano;
+    }
+}
+
+.share {
+    margin-top: .3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .7rem 1.2rem;
+    border: none;
+    border-radius: .7rem;
+    background-color: vars.$cor-ciano;
+    cursor: pointer;
+    @include vars.styleTexto(vars.$cor-preto, .95rem, 800);
+    transition: transform .15s ease;
+
+    svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .7rem;
+}
+
+.button_primary,
+.button_secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .7rem 1.25rem;
+    border-radius: .7rem;
+    cursor: pointer;
+    transition: transform .15s ease;
+
+    svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+}
+
+.button_primary {
+    border: none;
+    background-color: var(--background-button);
+    @include vars.styleTexto(var(--button-text-color), .95rem, 700);
+}
+
+.button_secondary {
+    border: 2px solid var(--background-button);
+    background-color: transparent;
+    @include vars.styleTexto(var(--text-primary), .95rem, 700);
+}
+
+.breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    padding: 1.4rem;
+    border-radius: 1rem;
+    background-color: var(--background-divs);
+    border: 1px solid var(--horizontal-rule-color);
+
+    h3 {
+        @include vars.styleTexto(var(--text-primary), 1.05rem, 700);
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+    }
+
+    li {
+        display: grid;
+        grid-template-columns: minmax(6rem, 12rem) 1fr 3rem;
+        align-items: center;
+        gap: .8rem;
+    }
+
+    .top .breakdown_title {
+        font-weight: 800;
+    }
+}
+
+.breakdown_title {
+    overflow-wrap: anywhere;
+    @include vars.styleTexto(var(--text-primary), .9rem, 600);
+}
+
+.bar {
+    height: .6rem;
+    border-radius: 999px;
+    background-color: var(--horizontal-rule-color);
+    overflow: hidden;
+
+    span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, vars.$cor-azulEscuro, vars.$cor-ciano);
+    }
+}
+
+.percent {
+    text-align: right;
+    @include vars.styleTexto(var(--text-secondary), .85rem, 700);
+}
+
+// ── aba "Resultados" (distribuição de todo mundo) ─────
+
+.stats {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+.stats_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    text-align: center;
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), 1.35rem, 800);
+    }
+
+    p {
+        @include vars.styleTexto(var(--text-secondary), .92rem, 500);
+    }
+}
+
+.stats_list {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: .9rem;
+        background-color: var(--background-divs);
+        border: 1px solid var(--horizontal-rule-color);
+    }
+}
+
+.stats_image {
+    flex-shrink: 0;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: .7rem;
+    object-fit: cover;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, vars.$cor-azulEscuro, vars.$cor-ciano);
+    @include vars.styleTexto(vars.$cor-branco, 1.5rem, 800);
+}
+
+.stats_text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+
+    p {
+        line-height: 1.5;
+        white-space: pre-line;
+        @include vars.styleTexto(var(--text-description), .86rem, 400);
+    }
+}
+
+.stats_title {
+    display: flex;
+    justify-content: space-between;
+    gap: .8rem;
+
+    strong {
+        overflow-wrap: anywhere;
+        @include vars.styleTexto(var(--text-primary), 1rem, 800);
+    }
+
+    span {
+        @include vars.styleTexto(var(--text-secondary), .9rem, 700);
+    }
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    @include vars.styleTexto(var(--text-secondary), 1rem, 500);
+}
+
+@media (max-width: 640px) {
+    .card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.4rem;
+
+        .text {
+            align-items: center;
+        }
+    }
+
+    .image {
+        width: 10rem;
+        height: 10rem;
+    }
+
+    .text h2 {
+        font-size: 1.55rem;
+    }
+
+    .breakdown li {
+        grid-template-columns: 1fr 3rem;
+
+        .bar {
+            grid-column: 1 / -1;
+            grid-row: 2;
+        }
+    }
+}

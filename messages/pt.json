@@ -19,9 +19,9 @@
             "subtitle": "Escolha o tipo de quiz que você quer criar, compartilhar e colocar no ranking.",
             "rightAndWrong": "<span>Quiz de perguntas e respostas:</span> Crie gratuitamente um quiz de texto com alternativas e uma resposta certa. Ideal para trivia, escola, animes, jogos, futebol, Doctor Who e desafios entre amigos.",
             "personality": "<span>Quiz de personalidade:</span> Crie testes com resultados baseados nas escolhas dos participantes, como “quem você seria?” ou “qual personagem combina com você?”.",
-            "list": "<span>Quiz de lista:</span> Organize ideias, rankings, tópicos e listas interativas para compartilhar com sua comunidade.",
             "aboutMe": "<span>Quiz sobre mim:</span> Convide seus amigos para descobrir quem te conhece melhor e transforme as respostas em uma competição divertida.",
-            "ctaButton": "Criar Agora"
+            "ctaButton": "Criar Agora",
+            "exam": "<span>Prova online:</span> Monte provas e simulados com nota automática e mostre ao aluno a correção com a explicação de cada alternativa."
         },
         "explorationSection": {
             "title": "Explore quizzes com ranking",
@@ -302,7 +302,8 @@
         "nav": {
             "info": "Infos do Quiz",
             "comments": "Comentários",
-            "leaderboard": "Ranking"
+            "leaderboard": "Ranking",
+            "results": "Resultados"
         }
     },
     "quizInfoPage": {
@@ -323,7 +324,8 @@
             "participants": "Participantes:",
             "category": "Categoria:",
             "tags": "Tags:",
-            "participantsSpan": "usuarios responderam a esse quiz"
+            "participantsSpan": "usuarios responderam a esse quiz",
+            "kind": "Tipo:"
         },
         "ctaButton": "Fazer o quiz",
         "embed": {
@@ -346,6 +348,12 @@
             "title": "Mais quizzes para você",
             "count": "{count, plural, one {# pergunta} other {# perguntas}}",
             "players": "{count, plural, one {# jogador} other {# jogadores}}"
+        },
+        "ctaExam": "Fazer a prova",
+        "examNote": "Ao terminar, você vê a nota e a correção de cada questão.",
+        "possibleResults": {
+            "title": "Resultados possíveis",
+            "text": "{count, plural, one {Este quiz tem # resultado.} other {Este quiz pode terminar em # resultados diferentes. Qual vai ser o seu?}}"
         }
     },
     "quizActions": {
@@ -434,23 +442,25 @@
         "selectTypePage": {
             "title": "Criar quiz online grátis",
             "desc": "Crie seu próprio quiz online no QuestioFlux. O quiz normal de texto é gratuito: adicione perguntas, alternativas e respostas certas, publique seu quiz e acompanhe o ranking dos participantes.",
-            "subtitle": "Escolha um modelo para começar. Você pode criar um quiz de perguntas e respostas, preparar um desafio para alunos, montar uma trivia para amigos ou usar imagens para criar uma experiência mais visual.",
+            "subtitle": "Escolha um modelo para começar: um quiz de perguntas e respostas com ranking, uma prova online com correção comentada, um quiz sobre você para os amigos ou um quiz de personalidade com resultados que você mesmo cria.",
             "descriptions": {
                 "rightAndWrongTitle": "Quiz de perguntas e respostas gratuito",
                 "rightAndWrongText": "Use este modelo para fazer um quiz online com alternativas e uma única resposta certa. É o formato ideal para trivia, provas rápidas, desafios de conhecimento, quiz para alunos, jogos, animes, futebol, séries e comunidades. Depois de publicar, os participantes podem competir pelo melhor resultado no ranking.",
-                "personalityTitle": "Quiz de personalidade",
-                "personalityText": "Este formato é feito para testes em que cada resposta aproxima o participante de um resultado. É perfeito para ideias como “qual personagem você seria?”, “que tipo de jogador combina com você?” ou “qual estilo representa sua personalidade?”.",
                 "imageTitle": "Quiz com imagens",
                 "imageText": "O quiz com imagens permite criar perguntas e alternativas visuais, usando texto, imagem ou os dois. Ele funciona muito bem para quizzes de bandeiras, personagens, logos, mapas, jogos, objetos, lugares e desafios de identificação visual.",
                 "competitionTitle": "Ranking e competição",
                 "competitionText": "O QuestioFlux foi pensado para transformar quizzes em competição. Os participantes podem responder, comparar resultados e disputar posições no leaderboard, seja em quizzes públicos, privados, escolares ou feitos para amigos.",
                 "studentTitle": "Quiz online para alunos",
-                "studentText": "Professores e estudantes também podem usar o criador para revisar conteúdo, testar conhecimento e montar atividades interativas. O formato de perguntas e respostas ajuda em aulas, revisões, estudos e desafios rápidos."
+                "studentText": "Professores podem montar provas e simulados no formato Prova online: a nota sai na hora e, no fim, o aluno vê a correção com a explicação de cada alternativa. Também serve para revisões, listas de exercícios e desafios em sala.",
+                "studentLink": "Criar prova online",
+                "aboutMeTitle": "Quiz sobre mim",
+                "aboutMeText": "Escreva perguntas sobre seus gostos e histórias, mande o link para os amigos e descubra no ranking quem te conhece melhor. Tem perguntas prontas para você só escolher as respostas.",
+                "aboutMeLink": "Criar quiz sobre mim"
             },
             "metadata": {
                 "title": "Criar Quiz Online Grátis | Criador de Quiz QuestioFlux",
                 "desc": "Crie quiz online grátis com perguntas, alternativas, respostas certas e ranking. Faça quizzes para amigos, alunos, jogos, animes e comunidades.",
-                "keywords": "criar quiz, fazer quiz, criar quiz online, criar quiz grátis, criador de quiz, fazer quiz online, criar meu quiz, quiz para alunos, quiz de perguntas e respostas, quiz com alternativas, quiz com ranking, quiz de imagem"
+                "keywords": "criar quiz, fazer quiz, criar quiz online, criar quiz grátis, criador de quiz, fazer quiz online, criar prova online, quiz para alunos, quiz sobre mim, quiz de perguntas e respostas, quiz com ranking, quiz de imagem"
             },
             "faq": {
                 "title": "Perguntas frequentes sobre criar quiz",
@@ -462,8 +472,11 @@
                 "question3Title": "Posso fazer um quiz com ranking?",
                 "question3Text": "Sim. O QuestioFlux tem leaderboard para transformar seus quizzes em competição e mostrar os participantes com os melhores resultados.",
                 "question4Title": "Posso criar um quiz com imagens?",
-                "question4Text": "Sim. Você pode criar quizzes com imagens nas perguntas e nas alternativas, uma boa opção para desafios visuais, personagens, bandeiras, logos e temas parecidos."
-            }
+                "question4Text": "Sim. Você pode criar quizzes com imagens nas perguntas e nas alternativas, uma boa opção para desafios visuais, personagens, bandeiras, logos e temas parecidos.",
+                "question5Title": "Posso criar uma prova online com correção?",
+                "question5Text": "Pode. No tipo Prova online você escreve, se quiser, uma explicação para cada alternativa. Quando o aluno termina, ele vê a nota, o que acertou, o que errou e essas explicações."
+            },
+            "seeMore": "Ver mais"
         },
         "formPage": {
             "saveDraftInfo": "Após completar este passo, seu conteúdo será salvo automaticamente em <drafts>Rascunhos</drafts>."
@@ -477,7 +490,8 @@
                 "tags": "Tags",
                 "visibility": "Visibilidade",
                 "idiom": "Idioma",
-                "finalMessages": "Aparência da mensagem no final do Quiz:"
+                "finalMessages": "Aparência da mensagem no final do Quiz:",
+                "kind": "Tipo de quiz"
             },
             "placeholders": {
                 "title": "Ex: Você sabe tudo sobre futebol?",
@@ -490,12 +504,40 @@
                 "private": "Privado",
                 "en": "Inglês",
                 "pt": "Português",
-                "es": "Espanhol"
+                "es": "Espanhol",
+                "kinds": {
+                    "quiz": "Perguntas e respostas",
+                    "exam": "Prova online (com correção)",
+                    "aboutMe": "Quiz sobre mim",
+                    "personality": "Quiz de personalidade"
+                }
             },
             "buttons": {
                 "back": "Voltar",
                 "saveDraft": "Salvar como Rascunho",
                 "continue": "Continuar"
+            },
+            "kindHints": {
+                "quiz": "Cada pergunta tem uma resposta certa e quem joga disputa o ranking.",
+                "exam": "Ao escrever as questões você pode explicar cada alternativa. Quem faz a prova vê a correção completa no final.",
+                "aboutMe": "Você vai receber sugestões de perguntas sobre você. Quizzes sobre mim não aparecem no Google: circulam pelo link.",
+                "personality": "Sem resposta certa: você cria os resultados aqui na capa e, nas perguntas, escolhe a que resultado cada alternativa leva."
+            },
+            "kindLocked": "Com perguntas já criadas, não dá para trocar de ou para o quiz de personalidade.",
+            "personalityResults": {
+                "label": "Resultados possíveis",
+                "hint": "Cada alternativa das perguntas vai levar a um destes resultados. Crie de {min} a {max}.",
+                "resultNumber": "Resultado {number}",
+                "remove": "Remover o resultado {number}",
+                "image": "Escolher a imagem do resultado",
+                "imageAlt": "Imagem do resultado {number}",
+                "removeImage": "Remover a imagem",
+                "titleLabel": "Nome do resultado {number}",
+                "titlePlaceholder": "Ex.: Coruja",
+                "descriptionLabel": "Descrição do resultado {number}",
+                "descriptionPlaceholder": "O que esse resultado diz sobre quem tirou ele (opcional)",
+                "add": "Adicionar resultado",
+                "imageError": "O quiz foi salvo, mas alguma imagem de resultado não subiu. Tente de novo em Editar Quiz."
             }
         }
     },
@@ -534,7 +576,8 @@
                 "correctPlaceholder": "Coloque a alternativa correta aqui",
                 "incorrectPlaceholder": "Coloque a alternativa incorreta aqui",
                 "addAlternative": "Adicionar alternativa",
-                "addQuestion": "Adicionar pergunta"
+                "addQuestion": "Adicionar pergunta",
+                "personalityPlaceholder": "Alternativa {number}"
             },
             "imageInput": {
                 "placeholder": "Pergunta N°{position}",
@@ -548,7 +591,38 @@
                 "keepPrivate": "Manter privado",
                 "makePublic": "Tornar público",
                 "publishError": "O quiz foi salvo, mas não deu para deixá-lo público. Você pode mudar a visibilidade em Editar Quiz."
+            },
+            "explanation": {
+                "add": "Adicionar explicação",
+                "remove": "Remover explicação",
+                "placeholderCorrect": "Explique por que esta é a resposta certa (opcional)",
+                "placeholderIncorrect": "Explique por que esta alternativa está errada (opcional)",
+                "hint": "Prova online: as explicações são opcionais e o aluno só as vê na correção, depois de enviar as respostas."
+            },
+            "personality": {
+                "leadsTo": "Leva a",
+                "hint": "Quiz de personalidade: não existe alternativa certa. Escolha a que resultado cada alternativa leva; no fim, ganha o resultado mais escolhido.",
+                "noResults": "Este quiz ainda não tem resultados. Cadastre pelo menos 2 na capa antes de criar as perguntas.",
+                "editCover": "Editar a capa"
             }
+        },
+        "aboutMeSuggestions": {
+            "title": "Perguntas prontas sobre você",
+            "text": "Toque em uma pergunta para colocá-la no quiz e depois escreva as respostas.",
+            "items": [
+                "Qual é a minha comida favorita?",
+                "Qual é a minha cor favorita?",
+                "Em que mês eu faço aniversário?",
+                "Qual é o meu maior medo?",
+                "Para onde eu mais quero viajar?",
+                "Qual estilo de música eu mais ouço?",
+                "Qual é a minha série ou filme favorito?",
+                "Qual é o meu animal favorito?",
+                "O que eu mais gosto de fazer no fim de semana?",
+                "Qual é a minha maior mania?",
+                "O que eu sempre peço para beber?",
+                "Qual era o meu sonho de criança?"
+            ]
         }
     },
     "editQuizFlow": {
@@ -615,7 +689,8 @@
         "blurMessage": "Clique no botão Iniciar acima para revelar as questões do quiz",
         "buttonStart": "Iniciar",
         "errors": {
-            "resAll": "Você tem que responder a todas as perguntas; certifique-se de não perder nenhuma."
+            "resAll": "Você tem que responder a todas as perguntas; certifique-se de não perder nenhuma.",
+            "resultStorage": "Não deu para mostrar o resultado neste navegador. Tente de novo."
         },
         "navigation": {
             "previous": "Anterior",
@@ -635,7 +710,10 @@
             "metadataTitle": "Fazendo o Quiz",
             "altQuizImage": "Imagem do quiz",
             "navResults": "Resultados",
-            "navLeaderboard": "Ranking"
+            "navLeaderboard": "Ranking",
+            "navReview": "Correção",
+            "navYourResult": "Seu resultado",
+            "navAllResults": "Resultados"
         },
         "results": {
             "noResults": "Nenhum resultado encontrado.",
@@ -644,10 +722,36 @@
             "totalTime": "Tempo total",
             "viewLeaderboard": "Ver o ranking",
             "viewAnswers": "Veja seu resultado"
+        },
+        "review": {
+            "title": "Correção da prova",
+            "score": "Nota",
+            "correctCount": "{correct} de {total} certas",
+            "totalTime": "Tempo total",
+            "filters": {
+                "label": "Mostrar questões",
+                "all": "Todas ({count})",
+                "wrong": "Erradas ({count})",
+                "right": "Certas ({count})"
+            },
+            "questionLabel": "Questão {number}",
+            "right": "Acertou",
+            "wrong": "Errou",
+            "yourAnswer": "Sua resposta",
+            "correctAnswer": "Resposta correta",
+            "alternative": "Alternativa {number}",
+            "questionImageAlt": "Imagem da questão {number}",
+            "alternativeImageAlt": "Imagem da alternativa {number}",
+            "noneInFilter": "Nenhuma questão aqui.",
+            "retake": "Refazer a prova",
+            "viewLeaderboard": "Ver o ranking",
+            "empty": "A correção aparece aqui assim que você termina a prova.",
+            "takeExam": "Fazer a prova"
         }
     },
     "embedPage": {
-        "playAgain": "Jogar de novo"
+        "playAgain": "Jogar de novo",
+        "allResults": "Ver todos os resultados"
     },
     "SubscriptionPage": {
         "currency": {
@@ -743,5 +847,475 @@
         "text": "O link pode estar errado ou o quiz foi apagado por quem criou.",
         "explore": "Explorar quizzes",
         "home": "Página inicial"
+    },
+    "quizTypes": {
+        "names": {
+            "quiz": "Perguntas e respostas",
+            "exam": "Prova online",
+            "aboutMe": "Quiz sobre mim",
+            "personality": "Quiz de personalidade"
+        }
+    },
+    "quizTypePages": {
+        "common": {
+            "breadcrumbHome": "Início",
+            "breadcrumbCreate": "Criar quiz",
+            "howTitle": "Como funciona",
+            "featuresTitle": "Por que criar no QuestioFlux",
+            "faqTitle": "Perguntas frequentes",
+            "otherTypesTitle": "Conheça os outros tipos de quiz",
+            "seeMore": "Ver mais",
+            "previewLabel": "Exemplo",
+            "preview": {
+                "questionOf": "Questão {current} de {total}",
+                "right": "Acertou",
+                "wrong": "Errou",
+                "yourAnswer": "Sua resposta",
+                "correctAnswer": "Resposta correta",
+                "score": "Nota {score}"
+            }
+        },
+        "quiz": {
+            "metadata": {
+                "title": "Criar Quiz de Perguntas e Respostas Grátis | QuestioFlux",
+                "desc": "Crie um quiz de perguntas e respostas online grátis, com pontuação, tempo e ranking. Ideal para trivia, aulas, jogos, animes e desafios entre amigos.",
+                "keywords": "quiz de perguntas e respostas, site para criar perguntas e respostas, criar quiz online com pontuação, criar quiz com ranking, criar trivia online, fazer quiz online grátis, quiz de conhecimentos gerais, criador de quiz"
+            },
+            "eyebrow": "Perguntas e respostas",
+            "title": "Crie um quiz de perguntas e respostas com pontuação e ranking",
+            "lead": "O formato clássico: cada pergunta tem uma resposta certa, quem joga ganha pontos por acerto e disputa um lugar no ranking. Funciona para trivia, conhecimentos gerais, animes, futebol, séries, aulas e qualquer assunto que você domine.",
+            "cta": "Criar quiz grátis",
+            "heroNote": "Grátis para quizzes de texto com até 10 perguntas.",
+            "cardText": "Pontuação, tempo e ranking para trivia e desafios.",
+            "steps": [
+                {
+                    "title": "Monte a capa",
+                    "text": "Dê um título, uma descrição e escolha a categoria. Uma capa bem feita ajuda o quiz a ser encontrado no Explorar e no Google."
+                },
+                {
+                    "title": "Escreva as perguntas",
+                    "text": "Para cada pergunta, a alternativa certa e as erradas. A ordem das alternativas muda para cada jogador."
+                },
+                {
+                    "title": "Publique e compartilhe",
+                    "text": "Envie o link, poste nas redes ou coloque o quiz no seu site. O ranking atualiza a cada partida."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Pontuação e tempo",
+                    "text": "Cada partida mostra os acertos e o tempo total, com uma mensagem final que você mesmo escreve."
+                },
+                {
+                    "title": "Ranking",
+                    "text": "Quem joga disputa as primeiras posições, e isso faz as pessoas voltarem para tentar de novo."
+                },
+                {
+                    "title": "Quiz com imagens",
+                    "text": "Com o QuestioPlus, use imagens nas perguntas e nas alternativas para quizzes de bandeiras, personagens e logos."
+                },
+                {
+                    "title": "No seu site",
+                    "text": "Copie o código de incorporação e coloque o quiz em um blog ou site, com o ranking funcionando."
+                }
+            ],
+            "ideasTitle": "Ideias de quiz para criar",
+            "ideas": [
+                "Conhecimentos gerais",
+                "Quiz de anime",
+                "Quiz de futebol",
+                "Séries e filmes",
+                "Quiz de música",
+                "Quiz de bandeiras",
+                "Quiz de história",
+                "Quiz de jogos",
+                "Quiz bíblico",
+                "Quiz de culinária"
+            ],
+            "sample": {
+                "question": "Quantos jogadores de cada time ficam em campo numa partida de futebol?",
+                "answers": [
+                    "9",
+                    "10",
+                    "11",
+                    "12"
+                ],
+                "correct": 2,
+                "rankingTitle": "Ranking",
+                "ranking": [
+                    {
+                        "name": "Rafa",
+                        "score": "10/10",
+                        "time": "0:48"
+                    },
+                    {
+                        "name": "Duda",
+                        "score": "10/10",
+                        "time": "1:05"
+                    },
+                    {
+                        "name": "Theo",
+                        "score": "8/10",
+                        "time": "0:59"
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "Qual site usar para criar perguntas e respostas?",
+                    "answer": "No QuestioFlux você cria o quiz de perguntas e respostas de graça, publica com um link e acompanha a pontuação de cada pessoa no ranking."
+                },
+                {
+                    "question": "Dá para criar um quiz online com pontuação?",
+                    "answer": "Dá. Cada acerto conta, o resultado mostra a nota e o tempo, e o ranking coloca no topo quem acerta mais e responde mais rápido."
+                },
+                {
+                    "question": "Posso escrever a mensagem que aparece no final?",
+                    "answer": "Pode. Você escreve mensagens diferentes para quem acerta tudo, mais de 80%, mais de 50%, menos de 50% e para quem erra tudo."
+                },
+                {
+                    "question": "O meu quiz aparece no Google?",
+                    "answer": "Quizzes públicos e bem preenchidos podem aparecer no Explorar e na busca do Google. Quizzes privados só são vistos por quem tem o link."
+                }
+            ],
+            "finalTitle": "Tem um assunto que você domina?",
+            "finalText": "Transforme em quiz e desafie todo mundo.",
+            "finalCta": "Criar quiz agora"
+        },
+        "exam": {
+            "metadata": {
+                "title": "Criar Prova Online Grátis com Correção Automática | QuestioFlux",
+                "desc": "Crie provas e simulados online grátis: alternativas, nota automática e correção com a explicação de cada resposta. Compartilhe o link com seus alunos.",
+                "keywords": "criar prova online, criar provas online grátis, prova online, criar simulado online, criar teste online, criar quiz online para alunos, como fazer um quiz para alunos, prova com correção automática, criador de provas"
+            },
+            "eyebrow": "Prova online",
+            "title": "Crie provas online grátis, com nota e correção comentada",
+            "lead": "Monte uma prova de múltipla escolha em poucos minutos, compartilhe o link com a turma e deixe a correção com o QuestioFlux. Assim que o aluno termina, ele vê a nota, o que acertou, o que errou e a explicação que você escreveu para cada alternativa.",
+            "cta": "Criar prova grátis",
+            "heroNote": "Sem instalar nada. Os alunos podem responder até sem criar conta.",
+            "cardText": "Nota automática e correção com explicação.",
+            "steps": [
+                {
+                    "title": "Escreva as questões",
+                    "text": "Digite a pergunta, a alternativa certa e as erradas. Com o QuestioPlus dá para usar imagens nas questões e nas alternativas."
+                },
+                {
+                    "title": "Explique as alternativas",
+                    "text": "Cada alternativa tem um campo opcional de explicação: conte por que a certa está certa e onde está o erro das outras."
+                },
+                {
+                    "title": "Compartilhe e acompanhe",
+                    "text": "Envie o link ou coloque a prova no seu site. A nota sai na hora e o ranking mostra quem foi melhor."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Correção automática",
+                    "text": "A nota sai assim que o aluno termina, sem planilha e sem corrigir prova por prova."
+                },
+                {
+                    "title": "Explicação em cada alternativa",
+                    "text": "O aluno revisa a prova questão por questão e entende o erro. A prova vira estudo."
+                },
+                {
+                    "title": "Ranking da turma",
+                    "text": "Veja quem acertou mais e em quanto tempo. Bom para simulados, revisões e gincanas."
+                },
+                {
+                    "title": "Grátis para começar",
+                    "text": "Provas de texto com até 10 questões e 6 alternativas são grátis. O QuestioPlus libera questões ilimitadas, até 15 alternativas e imagens."
+                }
+            ],
+            "ideasTitle": "Ideias de provas para criar",
+            "ideas": [
+                "Prova de matemática",
+                "Simulado do ENEM",
+                "Avaliação de português",
+                "Teste de inglês",
+                "Revisão de história",
+                "Prova de ciências",
+                "Prova de geografia",
+                "Simulado para concurso",
+                "Avaliação de treinamento",
+                "Exercícios para estudar em casa"
+            ],
+            "sample": {
+                "question": "Qual é a capital da Austrália?",
+                "answers": [
+                    "Sydney",
+                    "Canberra",
+                    "Melbourne",
+                    "Perth"
+                ],
+                "correct": 1,
+                "chosen": 0,
+                "chosenExplanation": "Sydney é a maior cidade do país, mas não é a capital.",
+                "correctExplanation": "Canberra foi planejada para ser a capital e é a sede do governo desde 1927.",
+                "score": "8/10",
+                "current": 3,
+                "total": 10
+            },
+            "faq": [
+                {
+                    "question": "Como criar uma prova online?",
+                    "answer": "Escolha Prova online, preencha título, descrição e categoria e escreva as questões com a alternativa certa e, se quiser, uma explicação para cada alternativa. Ao publicar, você recebe um link para enviar aos alunos."
+                },
+                {
+                    "question": "Criar prova online no QuestioFlux é grátis?",
+                    "answer": "É. A prova de texto é grátis com até 10 questões e 6 alternativas por questão. O QuestioPlus libera questões ilimitadas, até 15 alternativas e imagens."
+                },
+                {
+                    "question": "O aluno vê a correção depois de responder?",
+                    "answer": "Vê. Ao terminar, ele recebe a nota e a correção completa: a resposta dele, a alternativa certa e as explicações que você escreveu. Antes de enviar as respostas, as explicações ficam escondidas."
+                },
+                {
+                    "question": "Os alunos precisam criar conta?",
+                    "answer": "Não. Quem não tem conta responde como visitante, informando só um nome para aparecer no ranking."
+                },
+                {
+                    "question": "Posso deixar a prova privada?",
+                    "answer": "Pode. Uma prova privada não aparece no Explorar nem no Google: só responde quem recebe o link."
+                }
+            ],
+            "finalTitle": "Sua próxima prova pode ficar pronta hoje",
+            "finalText": "Crie, mande para a turma e deixe a correção por nossa conta.",
+            "finalCta": "Criar prova agora"
+        },
+        "aboutMe": {
+            "metadata": {
+                "title": "Criar Quiz Sobre Mim Grátis: Quem Te Conhece Melhor?",
+                "desc": "Faça um quiz sobre você em poucos minutos, mande para os amigos e descubra no ranking quem te conhece melhor. Use perguntas prontas ou escreva as suas.",
+                "keywords": "quiz sobre mim, criar quiz sobre mim, quem me conhece melhor, quiz de amizade, quiz para amigos, quanto você me conhece, perguntas sobre mim, quiz do melhor amigo"
+            },
+            "eyebrow": "Quiz sobre mim",
+            "title": "Crie um quiz sobre você e descubra quem te conhece melhor",
+            "lead": "Escreva perguntas sobre seus gostos, manias e histórias, marque a resposta certa e mande o link para os amigos. Cada um responde, ganha uma nota e entra no ranking. No fim, você descobre quem realmente te conhece.",
+            "cta": "Criar meu quiz",
+            "heroNote": "Tem perguntas prontas: você só escolhe e escreve as respostas.",
+            "cardText": "Seus amigos respondem e o ranking mostra quem te conhece.",
+            "steps": [
+                {
+                    "title": "Escolha as perguntas",
+                    "text": "Use as sugestões prontas, como “Qual é a minha comida favorita?”, ou escreva perguntas só suas."
+                },
+                {
+                    "title": "Marque as respostas certas",
+                    "text": "Coloque a resposta verdadeira e algumas alternativas para confundir quem não presta atenção."
+                },
+                {
+                    "title": "Mande para os amigos",
+                    "text": "Compartilhe o link no WhatsApp, no Instagram ou onde quiser e acompanhe o ranking."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Ranking de amigos",
+                    "text": "Cada amigo recebe uma nota e o tempo que levou. No topo fica quem te conhece melhor."
+                },
+                {
+                    "title": "Perguntas prontas",
+                    "text": "Sugestões sobre comida, música, viagens, infância e manias para você não travar na hora de criar."
+                },
+                {
+                    "title": "Responde sem cadastro",
+                    "text": "Seus amigos não precisam criar conta: entram como visitante e já aparecem no ranking."
+                },
+                {
+                    "title": "Só para quem tem o link",
+                    "text": "Quizzes sobre mim não aparecem no Google. Se quiser, deixe também fora do Explorar."
+                }
+            ],
+            "ideasTitle": "Ideias de quiz sobre mim",
+            "ideas": [
+                "Quem me conhece melhor?",
+                "Quanto você sabe sobre mim?",
+                "Quiz do melhor amigo",
+                "Quiz para o namorado ou a namorada",
+                "Quiz da família",
+                "Quiz de aniversário",
+                "Quiz para a turma da escola",
+                "Quiz para os colegas de trabalho"
+            ],
+            "sample": {
+                "question": "Qual é a minha comida favorita?",
+                "answers": [
+                    "Pizza",
+                    "Lasanha",
+                    "Sushi",
+                    "Feijoada"
+                ],
+                "correct": 2,
+                "rankingTitle": "Quem te conhece melhor",
+                "ranking": [
+                    {
+                        "name": "Ana",
+                        "score": "10/10",
+                        "time": "0:41"
+                    },
+                    {
+                        "name": "Lucas",
+                        "score": "9/10",
+                        "time": "0:37"
+                    },
+                    {
+                        "name": "Bia",
+                        "score": "7/10",
+                        "time": "1:12"
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "Como fazer um quiz sobre mim?",
+                    "answer": "Escolha Quiz sobre mim, dê um nome ao quiz, escreva perguntas sobre você (ou use as sugestões), marque a resposta certa de cada uma e publique. Depois é só mandar o link."
+                },
+                {
+                    "question": "Meus amigos precisam ter conta para responder?",
+                    "answer": "Não. Eles podem responder como visitantes, só com um nome para aparecer no ranking."
+                },
+                {
+                    "question": "Como vejo quem me conhece melhor?",
+                    "answer": "No ranking do quiz: no topo fica quem acertou mais e, entre notas parecidas, quem respondeu mais rápido."
+                },
+                {
+                    "question": "Quantas perguntas posso colocar?",
+                    "answer": "No plano grátis, até 10 perguntas com até 6 alternativas cada. Com o QuestioPlus, as perguntas são ilimitadas."
+                },
+                {
+                    "question": "O quiz sobre mim aparece no Google?",
+                    "answer": "Não. Quizzes sobre a vida de uma pessoa ficam fora da busca para preservar quem criou. Eles circulam pelo link que você compartilhar."
+                }
+            ],
+            "finalTitle": "Será que seus amigos te conhecem mesmo?",
+            "finalText": "Crie seu quiz em poucos minutos e descubra.",
+            "finalCta": "Criar quiz sobre mim"
+        },
+        "personality": {
+            "metadata": {
+                "title": "Criar Quiz de Personalidade Grátis com Resultados | QuestioFlux",
+                "desc": "Crie um quiz de personalidade online grátis: defina os resultados, ligue cada resposta a um perfil e mostre a cada pessoa o resultado dela no final.",
+                "keywords": "quiz de personalidade, criar quiz de personalidade, teste de personalidade, quiz qual personagem você é, criar teste de personalidade online, quiz com resultados, quiz qual você é"
+            },
+            "eyebrow": "Quiz de personalidade",
+            "title": "Crie um quiz de personalidade: “qual personagem você é?”",
+            "lead": "Defina os resultados possíveis, como personagens, casas, estilos ou profissões, escreva as perguntas e escolha a que resultado cada resposta leva. No final, cada pessoa descobre o próprio perfil, vê quanto teve de cada um e compartilha com os amigos.",
+            "cta": "Criar quiz de personalidade",
+            "heroNote": "Grátis, sem resposta certa e sem ranking: cada um descobre o seu resultado.",
+            "cardText": "Cada resposta leva a um perfil e no fim sai o resultado.",
+            "steps": [
+                {
+                    "title": "Crie os resultados",
+                    "text": "Na capa, cadastre de 2 a 12 resultados com nome, descrição e, se quiser, uma imagem."
+                },
+                {
+                    "title": "Escreva as perguntas",
+                    "text": "Em cada alternativa, escolha a que resultado ela leva. A primeira já vem ligada ao primeiro resultado, a segunda ao segundo, e assim por diante."
+                },
+                {
+                    "title": "Compartilhe",
+                    "text": "Quem responde descobre o resultado, vê a porcentagem de cada perfil e quantas pessoas tiveram o mesmo."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Resultados com imagem",
+                    "text": "Cada perfil pode ter uma foto ou ilustração, que aparece em destaque no resultado."
+                },
+                {
+                    "title": "Porcentagem de cada perfil",
+                    "text": "Além do resultado principal, a pessoa vê quanto teve de cada um: 60% coruja, 25% leão..."
+                },
+                {
+                    "title": "Resultados da galera",
+                    "text": "A aba Resultados mostra quantas pessoas caíram em cada perfil."
+                },
+                {
+                    "title": "Fácil de compartilhar",
+                    "text": "O botão de compartilhar manda o resultado junto com o link do quiz. Dá para colocar o quiz no seu site também."
+                }
+            ],
+            "ideasTitle": "Ideias de quiz de personalidade",
+            "ideas": [
+                "Qual personagem de anime você é?",
+                "Que animal combina com você?",
+                "Qual casa de Hogwarts você é?",
+                "Qual profissão combina com você?",
+                "Qual é o seu estilo de viagem?",
+                "Que tipo de amigo você é?",
+                "Qual vilão você seria?",
+                "Qual estação do ano você é?"
+            ],
+            "sample": {
+                "question": "Num sábado livre, o que você faz?",
+                "answers": [
+                    "Leio um livro",
+                    "Saio para uma aventura",
+                    "Encontro os amigos",
+                    "Planejo a semana"
+                ],
+                "chosen": 0,
+                "resultLabel": "Seu resultado",
+                "resultTitle": "Coruja",
+                "resultText": "Curiosa e observadora: você pensa antes de agir e adora aprender coisas novas.",
+                "breakdown": [
+                    {
+                        "title": "Coruja",
+                        "percent": 60
+                    },
+                    {
+                        "title": "Leão",
+                        "percent": 25
+                    },
+                    {
+                        "title": "Raposa",
+                        "percent": 15
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "Como criar um quiz de personalidade?",
+                    "answer": "Escolha Quiz de personalidade, cadastre os resultados na capa (nome, descrição e imagem), escreva as perguntas e escolha a que resultado cada alternativa leva. Depois é só publicar e compartilhar o link."
+                },
+                {
+                    "question": "Como o resultado é calculado?",
+                    "answer": "Cada resposta soma um ponto para o resultado a que ela leva. Vence o resultado com mais pontos; no empate, conta a resposta mais recente entre os empatados."
+                },
+                {
+                    "question": "Quantos resultados posso criar?",
+                    "answer": "De 2 a 12 resultados por quiz, cada um com nome, descrição e imagem opcional."
+                },
+                {
+                    "question": "Precisa de conta para responder?",
+                    "answer": "Não. Qualquer pessoa responde sem cadastro e vê o resultado na hora."
+                },
+                {
+                    "question": "Posso usar imagens nas perguntas?",
+                    "answer": "Pode, com o QuestioPlus: imagens nas perguntas e nas alternativas, como nos outros tipos de quiz. As imagens dos resultados são grátis."
+                }
+            ],
+            "finalTitle": "Que resultado seus amigos vão tirar?",
+            "finalText": "Crie o seu quiz de personalidade e descubra.",
+            "finalCta": "Criar quiz de personalidade"
+        }
+    },
+    "personalityResultPage": {
+        "yourResult": "Seu resultado",
+        "sameResult": "{percent}% das {count} pessoas que fizeram o quiz tiveram este resultado",
+        "share": "Compartilhar resultado",
+        "copied": "Link copiado!",
+        "shareText": "Deu {result} no quiz “{quiz}” no QuestioFlux. E você?",
+        "breakdownTitle": "Quanto você teve de cada resultado",
+        "empty": "Seu resultado aparece aqui assim que você termina o quiz.",
+        "takeQuiz": "Fazer o quiz",
+        "retake": "Fazer de novo",
+        "allResults": "Ver todos os resultados",
+        "stats": {
+            "title": "Resultados da galera",
+            "plays": "{count, plural, one {# pessoa já fez este quiz} other {# pessoas já fizeram este quiz}}",
+            "noPlays": "Ninguém terminou este quiz ainda. Seja a primeira pessoa!",
+            "cta": "Descobrir o meu resultado",
+            "metadataTitle": "Resultados da galera – {quiz_name}"
+        }
     }
 }

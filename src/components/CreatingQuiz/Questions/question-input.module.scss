@@ -95,6 +95,11 @@
         display: flex;
         flex-direction: column;
         gap: .62rem;
+        .alternative_block{
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+        }
         .answer{
             display: flex;
             gap: .5rem;
@@ -120,6 +125,14 @@
             }
             border: 3px solid vars.$cor-correct;
             
+        }
+        // personalidade: a cor é a do resultado a que a alternativa leva
+        .answer.personality_alternative{
+            align-items: center;
+            border: 3px solid var(--result-color, #{vars.$cor-cinzaDescD});
+            input{
+                color: var(--text-primary) !important;
+            }
         }
         .answer.incorrect_alternative{
             input{

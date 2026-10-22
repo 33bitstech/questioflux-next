@@ -15,6 +15,8 @@ import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popu
 import { getQuizRecommendationAction } from './action';
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz';
 import { jsonLd } from '@/utils/seo';
+import { getQuizKind } from '@/utils/quizKind';
+import PersonalityStats from '@/components/PersonalityResult/personality-stats';
 
 interface IProps {
     params: Promise<{
@@ -45,6 +47,12 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         names = {
             quiz_name: quiz?.title ?? ''
         }
+
+    // personalidade não tem ranking: a aba é a distribuição dos resultados
+    if (quiz && getQuizKind(quiz) === 'personality') {
+        const tStats = await getTranslations({ locale, namespace: 'personalityResultPage.stats' })
+        return { title: tStats('metadataTitle', names), robots: 'noindex, follow' }
+    }
 
     return {
         title: t('title', names),
@@ -98,6 +106,18 @@ export async function getUser(cookieHeader: string): Promise<IUser | undefined> 
 
 export default async function Leaderboard({ params }: IProps) {
     const { quizId, locale } = await params
+
+    // personalidade não tem ranking: a aba mostra quanto saiu cada resultado
+    const publicQuiz = await getPublicQuiz(quizId)
+    if (publicQuiz && getQuizKind(publicQuiz) === 'personality') {
+        return (
+            <>
+                <PersonalityStats quiz={withoutQuestions(publicQuiz)} locale={locale} />
+                <GoogleAd slot='6282931841' />
+            </>
+        )
+    }
+
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),

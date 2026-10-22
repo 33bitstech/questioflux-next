@@ -4,6 +4,10 @@ import { env } from "@/env"
 import { getCookieHeader } from "@/utils/getCookieHeader"
 import { openQuizSession, sealQuizSession } from "@/utils/quizSession"
 import { cookies } from "next/headers"
+import { updateTag } from "next/cache"
+import { quizTag } from "@/utils/publicQuiz"
+import IExamReviewQuestion from "@/interfaces/IExamReview"
+import IPersonalityOutcome from "@/interfaces/IPersonalityOutcome"
 
 const START_COOKIE = (id: string) => `quiz_start_${id}`
 const ELAPSED_COOKIE = (id: string) => `quiz_elapsed_${id}`
@@ -66,7 +70,16 @@ export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest
 
         const res = await response.json()
         if (!response.ok) return { err: res.message }
-        return { res: res.score }
+
+        // personalidade: a contagem de resultados do quiz mudou (aba "Resultados")
+        if (res.personality) updateTag(quizTag(quizId))
+        // review: só na prova (correção com as explicações)
+        return {
+            res: res.score,
+            review: res.review as IExamReviewQuestion[] | undefined,
+            // personalidade: no lugar da nota vem o perfil
+            personality: res.personality as IPersonalityOutcome | undefined,
+        }
     } catch (err) {
         throw err
     }

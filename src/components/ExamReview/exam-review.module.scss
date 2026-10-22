@@ -1,0 +1,409 @@
+@use '../../assets/styles/vars.scss';
+
+.review {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+// ── resumo ────────────────────────────────────────────
+
+.summary {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    padding: 1.6rem;
+    border-radius: 1.2rem;
+    background-color: var(--background-divs);
+    border: 1px solid var(--horizontal-rule-color);
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.12);
+}
+
+.score_ring {
+    --percent: 0;
+    flex-shrink: 0;
+    position: relative;
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(vars.$cor-correct calc(var(--percent) * 1%), rgba(217, 45, 32, 0.25) 0);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: .55rem;
+        border-radius: 50%;
+        background-color: var(--background-divs);
+    }
+
+    strong,
+    span {
+        position: relative;
+    }
+
+    strong {
+        @include vars.styleTexto(var(--text-primary), 1.6rem, 800);
+    }
+
+    span {
+        @include vars.styleTexto(var(--text-secondary), .85rem, 600);
+    }
+}
+
+.summary_text {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    h2 {
+        line-height: 1.35;
+        @include vars.styleTexto(var(--text-primary), 1.15rem, 700);
+    }
+}
+
+.eyebrow {
+    width: fit-content;
+    padding: .25rem .65rem;
+    border-radius: 999px;
+    background-color: var(--background-button);
+    @include vars.styleTexto(var(--button-text-color), .72rem, 700);
+    text-transform: uppercase;
+    letter-spacing: .05rem;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1.1rem;
+    @include vars.styleTexto(var(--text-secondary), .88rem, 500);
+
+    li {
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+    }
+
+    svg {
+        width: 1rem;
+        height: 1rem;
+        color: vars.$cor-correct;
+    }
+
+    time {
+        color: var(--text-primary);
+        font-weight: 700;
+    }
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .7rem;
+}
+
+.button_primary,
+.button_secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .7rem 1.25rem;
+    border-radius: .7rem;
+    cursor: pointer;
+    transition: transform .15s ease;
+
+    svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+}
+
+.button_primary {
+    border: none;
+    background-color: var(--background-button);
+    @include vars.styleTexto(var(--button-text-color), .95rem, 700);
+}
+
+.button_secondary {
+    border: 2px solid var(--background-button);
+    background-color: transparent;
+    @include vars.styleTexto(var(--text-primary), .95rem, 700);
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    @include vars.styleTexto(var(--text-secondary), 1rem, 500);
+}
+
+// ── filtros ───────────────────────────────────────────
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+
+    button {
+        padding: .45rem .9rem;
+        border-radius: 999px;
+        border: 1px solid var(--horizontal-rule-color);
+        background-color: var(--background-divs);
+        cursor: pointer;
+        @include vars.styleTexto(var(--text-primary), .85rem, 600);
+        transition: border-color .15s ease;
+
+        &:hover {
+            border-color: var(--background-button);
+        }
+    }
+
+    .filter_active {
+        border-color: var(--background-button);
+        background-color: var(--background-button);
+        color: var(--button-text-color);
+    }
+}
+
+.none {
+    text-align: center;
+    @include vars.styleTexto(var(--text-secondary), .9rem, 500);
+}
+
+// ── questões ──────────────────────────────────────────
+
+.questions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+
+    >li>article {
+        display: flex;
+        flex-direction: column;
+        gap: .8rem;
+        padding: 1.3rem;
+        border-radius: 1rem;
+        background-color: var(--background-divs);
+        border: 1px solid var(--horizontal-rule-color);
+        border-left-width: 5px;
+
+        h3 {
+            line-height: 1.45;
+            @include vars.styleTexto(var(--text-primary), 1.02rem, 700);
+        }
+    }
+
+    .question_right>article {
+        border-left-color: vars.$cor-correct;
+    }
+
+    .question_wrong>article {
+        border-left-color: vars.$cor-incorrect;
+    }
+}
+
+.question_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    @include vars.styleTexto(var(--text-secondary), .8rem, 600);
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .2rem .6rem;
+    border-radius: 999px;
+    font-weight: 700;
+
+    svg {
+        width: .9rem;
+        height: .9rem;
+    }
+
+    .question_right & {
+        color: vars.$cor-correct;
+        background-color: rgba(3, 152, 85, 0.1);
+    }
+
+    .question_wrong & {
+        color: vars.$cor-incorrect;
+        background-color: rgba(217, 45, 32, 0.1);
+    }
+}
+
+.question_image img {
+    width: 100%;
+    height: auto;
+    max-height: 22rem;
+    object-fit: contain;
+    border-radius: .7rem;
+    background-color: var(--reverse-primary);
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    li {
+        padding: .6rem .75rem;
+        border-radius: .65rem;
+        border: 1.5px solid var(--horizontal-rule-color);
+    }
+
+    .answer_correct {
+        border-color: vars.$cor-correct;
+        background-color: rgba(3, 152, 85, 0.07);
+
+        .marker {
+            border-color: vars.$cor-correct;
+            background-color: vars.$cor-correct;
+            color: vars.$cor-branco;
+        }
+    }
+
+    .answer_chosen {
+        border-color: vars.$cor-incorrect;
+        background-color: rgba(217, 45, 32, 0.06);
+
+        .marker {
+            border-color: vars.$cor-incorrect;
+            background-color: vars.$cor-incorrect;
+            color: vars.$cor-branco;
+        }
+    }
+}
+
+.answer_row {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+}
+
+.marker {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: .45rem;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: var(--reverse-primary);
+    @include vars.styleTexto(var(--text-secondary), .75rem, 800);
+
+    svg {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+.thumbnail {
+    flex-shrink: 0;
+    width: 3.2rem;
+    height: 3.2rem;
+    object-fit: cover;
+    border-radius: .45rem;
+}
+
+.answer_text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    @include vars.styleTexto(var(--text-primary), .92rem, 500);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .3rem;
+
+    em {
+        font-style: normal;
+        white-space: nowrap;
+        padding: .15rem .5rem;
+        border-radius: 999px;
+        font-size: .7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .03rem;
+    }
+}
+
+.tag_correct {
+    color: vars.$cor-correct;
+    background-color: rgba(3, 152, 85, 0.12);
+}
+
+.tag_chosen {
+    color: vars.$cor-incorrect;
+    background-color: rgba(217, 45, 32, 0.12);
+
+    .answer_correct & {
+        // acertou: a própria resposta é a certa
+        color: vars.$cor-correct;
+        background-color: rgba(3, 152, 85, 0.12);
+    }
+}
+
+.explanation {
+    margin-top: .5rem;
+    padding: .55rem .7rem;
+    border-radius: .5rem;
+    background-color: var(--reverse-primary);
+    line-height: 1.55;
+    white-space: pre-line;
+    @include vars.styleTexto(var(--text-description), .88rem, 400);
+}
+
+.ad {
+    margin-top: 1.1rem;
+}
+
+@media (max-width: 600px) {
+    .summary {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.3rem;
+
+        .summary_text {
+            align-items: center;
+        }
+
+        .stats {
+            justify-content: center;
+        }
+    }
+
+    .questions>li>article {
+        padding: 1rem;
+    }
+
+    .answer_row {
+        flex-wrap: wrap;
+    }
+
+    .tags {
+        width: 100%;
+        justify-content: flex-start;
+        padding-left: 2.25rem;
+    }
+}

@@ -23,6 +23,8 @@ interface IProps {
     pauseQuiz: () => Promise<void>
     // no embed quem não está logado só entra como visitante
     guestOnly?: boolean
+    // quiz de personalidade: envia direto, sem pedir login nem nome de visitante
+    skipGuestPrompt?: boolean
     setStarted: React.Dispatch<React.SetStateAction<boolean>>
     setResult: React.Dispatch<React.SetStateAction<{
         quizAnswer: any;
@@ -60,7 +62,7 @@ export default function QuestionsContainer({
     questions, setStarted,
     started, typeOfQuiz, setResult,
     finalTime, setFinalTime,
-    pauseQuiz, guestOnly,
+    pauseQuiz, guestOnly, skipGuestPrompt,
     onQuestionAnswered
 }: IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
@@ -166,7 +168,7 @@ export default function QuestionsContainer({
 
         handleSelectValuesCopy()
 
-        if (!user) setCanShowRegister(true)
+        if (!user && !skipGuestPrompt) setCanShowRegister(true)
 
         handleSelectValues()
     }

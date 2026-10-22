@@ -10,6 +10,10 @@ export interface ILocalQuestions {
         answer?: string,
         thumbnail?: File | string
         text?: string
+        // explicação da alternativa, mostrada na correção da prova
+        explanation?: string
+        // quiz de personalidade: o resultado a que a alternativa leva
+        resultId?: string
         isNew: boolean
     }>
 }

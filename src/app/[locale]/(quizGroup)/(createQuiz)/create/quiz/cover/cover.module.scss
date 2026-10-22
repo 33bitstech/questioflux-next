@@ -175,6 +175,12 @@
             textarea:focus {
                 outline: none;
             }
+
+            .kind_hint {
+                margin-top: .2rem;
+                line-height: 1.45;
+                @include vars.styleTexto(var(--text-secondary), .78rem, 400);
+            }
         }
 
         .messages {

@@ -17,12 +17,22 @@ import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 import VisibilityPopup from './visibility-popup'
 import { trackEvent } from '@/utils/analytics'
+import { QuizKind } from '@/utils/quizKind'
+import { IAnswerExplanation } from '@/interfaces/IQuestion'
+import { getLocalExplanations } from '@/utils/questionExplanations'
+import AboutMeSuggestions from './about-me-suggestions'
+import { IPersonalityResult } from '@/interfaces/IQuizes'
+import { getAnswerResults, toResultOptions } from '@/utils/personalityQuestions'
+import { IAnswerResult } from '@/interfaces/IQuestion'
+import { Link } from '@/i18n/navigation'
 
 interface IProps {
     styles: TStyles
     textMode: boolean,
     quizId: string
     isPrivate?: boolean
+    kind?: QuizKind
+    personalityResults?: IPersonalityResult[]
 }
 
 export interface IFormatedImageQuestions {
@@ -34,9 +44,11 @@ export interface IFormatedImageQuestions {
         text: string
     }[]
     correctAnswer: string
+    explanations?: IAnswerExplanation[]
+    answerResults?: IAnswerResult[]
 }
 
-export default function FormCreateQuestions({ styles, textMode, quizId, isPrivate }: IProps) {
+export default function FormCreateQuestions({ styles, textMode, quizId, isPrivate, kind = 'quiz', personalityResults }: IProps) {
     const t = useTranslations('creatingQuiz.questionsForm')
     const locale = useLocale()
     const router = useRouter(),
@@ -54,13 +66,38 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
         // null = ainda não perguntamos se o quiz privado deve virar público
         [makePublic, setMakePublic] = useState<boolean | null>(null),
         prevQuestionsLengthRef = useRef(questions.length),
-        questionRefs = useRef<Record<string, HTMLDivElement | null>>({})
+        questionRefs = useRef<Record<string, HTMLDivElement | null>>({}),
+        isExam = kind === 'exam',
+        // personalidade: sem certa; cada alternativa leva a um dos resultados da capa
+        isPersonality = kind === 'personality',
+        resultOptions = toResultOptions(personalityResults)
+
+    // quiz sobre mim: a sugestão escolhida entra na primeira pergunta ainda sem título
+    const handlePickSuggestion = (title: string) => {
+        const emptyQuestion = questions.find(question => !question.title.trim())
+
+        if (emptyQuestion) handleQuestionChange(emptyQuestion.id, 'title', title)
+        else addQuestion(title)
+    }
 
     const handleFormatTextMode = () => {
+        if (isPersonality) {
+            return questions.map(q => ({
+                questionId: q.id,
+                question: q.title || '',
+                answers: q.alternatives.map(a => a.answer || ''),
+                correctAnswer: '',
+                answerResults: getAnswerResults(q, 'text', resultOptions),
+            }))
+        }
+
         return questions?.map(q => {
             const ans = q.alternatives?.filter((_, index) => index !== 0),
                 answers = ans.map(a => a.answer)
-            return { questionId: q.id, question: q.title || '', answers, correctAnswer: q.alternatives[0].answer || '' }
+            return {
+                questionId: q.id, question: q.title || '', answers, correctAnswer: q.alternatives[0].answer || '',
+                explanations: getLocalExplanations(q, 'text')
+            }
         })
     }
     const clearQuestionsErrors = () => {
@@ -83,7 +120,10 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
                 questionId: q.id,
                 title: q.title || '',
                 answers,
-                correctAnswer: q.alternatives[0].id || ''
+                correctAnswer: isPersonality ? '' : q.alternatives[0].id || '',
+                ...(isPersonality
+                    ? { answerResults: getAnswerResults(q, 'image', resultOptions) }
+                    : { explanations: getLocalExplanations(q, 'image') })
             }
         })
     }
@@ -115,6 +155,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
         trackEvent('quiz_create_complete', {
             quiz_id: quizId,
             quiz_type: textMode ? 'text' : 'image',
+            quiz_kind: kind,
             quiz_questions: questions.length,
             visibility: isPublic ? 'public' : 'private',
         })
@@ -270,6 +311,23 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
                 />
             )}
 
+            {kind === 'aboutMe' && (
+                <AboutMeSuggestions
+                    usedTitles={questions.map(question => question.title)}
+                    onPick={handlePickSuggestion}
+                />
+            )}
+
+            {isExam && <p className={styles.exam_hint}>{t('explanation.hint')}</p>}
+
+            {isPersonality && (
+                <p className={styles.exam_hint}>
+                    {resultOptions.length >= 2
+                        ? t('personality.hint')
+                        : <>{t('personality.noResults')} <Link href={`/quiz/edit/${quizId}`}>{t('personality.editCover')}</Link></>}
+                </p>
+            )}
+
             <div className={styles.questions_container}>
                 {questions?.map((q, i, arr) => {
                     if (textMode) {
@@ -291,6 +349,14 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
                                     onRemoveAlternative={(altIndex: number) => removeAlternative(q.id, altIndex)}
                                     onRemoveQuestion={() => removeQuestion(q.id)}
                                     onAlternativeChange={(altIndex: number, answer: string) => handleAlternativeChange(q.id, altIndex, 'answer', answer)}
+                                    showExplanations={isExam}
+                                    onAlternativeExplanationChange={(altIndex: number, text: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'explanation', text)
+                                    }
+                                    resultOptions={isPersonality ? resultOptions : undefined}
+                                    onAlternativeResultChange={(altIndex: number, resultId: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'resultId', resultId)
+                                    }
                                 />
                             </div>
                         )
@@ -322,6 +388,14 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
                                     onMultipleImageUpload={(files) => handleMultipleImageUpload(q.id, files)}
                                     onAlternativeImageClear={(altIndex: number) =>
                                         handleAlternativeChange(q.id, altIndex, 'thumbnail', '')
+                                    }
+                                    showExplanations={isExam}
+                                    onAlternativeExplanationChange={(altIndex: number, text: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'explanation', text)
+                                    }
+                                    resultOptions={isPersonality ? resultOptions : undefined}
+                                    onAlternativeResultChange={(altIndex: number, resultId: string) =>
+                                        handleAlternativeChange(q.id, altIndex, 'resultId', resultId)
                                     }
                                 />
                             </div>

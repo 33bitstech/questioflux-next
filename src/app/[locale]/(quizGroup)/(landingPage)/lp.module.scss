@@ -89,6 +89,37 @@
       }
     }
   }
+
+  // tipos com página própria: o card inteiro é o link
+  li.linked_item {
+    padding: 0;
+    border: 2px solid transparent;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+
+    > a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
+      padding: 2.5rem 1.4rem;
+      border-radius: inherit;
+
+      & > span {
+        display: block;
+        @extend %icons-li-default;
+      }
+    }
+
+    &:hover,
+    &:focus-within {
+      transform: translateY(-5px);
+      border-color: var(--background-button);
+      box-shadow: 0px 12px 22px 0px rgba(0, 0, 0, 0.2);
+    }
+  }
 }
 
 .register_comp_section {

@@ -10,6 +10,7 @@ type ApiError = {
     type: string
     message: string
     messagePT: string
+    messageES?: string
 }
 
 type EditQuizSuccess = {
@@ -29,6 +30,7 @@ const defaultServerError: ApiError = {
     type: 'global',
     message: 'An error occurred on the server. Please try again later.',
     messagePT: 'Ocorreu um erro no servidor. Tente novamente mais tarde.',
+    messageES: 'Ocurrió un error en el servidor. Inténtalo de nuevo más tarde.',
 }
 
 function normalizeError(error: any): ApiError {
@@ -36,6 +38,7 @@ function normalizeError(error: any): ApiError {
         type: error?.type || 'global',
         message: error?.message || defaultServerError.message,
         messagePT: error?.messagePT || defaultServerError.messagePT,
+        messageES: error?.messageES || defaultServerError.messageES,
     }
 }
 

@@ -5,12 +5,14 @@ type ApiError = {
     type: string
     message: string
     messagePT: string
+    messageES?: string
 }
 
 const defaultServerError: ApiError = {
     type: 'global',
     message: 'An error occurred on the server. Please try again later.',
     messagePT: 'Ocorreu um erro no servidor. Tente novamente mais tarde.',
+    messageES: 'Ocurrió un error en el servidor. Inténtalo de nuevo más tarde.',
 }
 
 async function safeJson<T>(response: Response): Promise<T | null> {
@@ -26,6 +28,7 @@ function normalizeRouteError(error?: Partial<ApiError> | null): ApiError {
         type: error?.type || 'global',
         message: error?.message || defaultServerError.message,
         messagePT: error?.messagePT || defaultServerError.messagePT,
+        messageES: error?.messageES || defaultServerError.messageES,
     }
 }
 
@@ -47,6 +50,7 @@ export async function PUT(
                     type: 'global',
                     message: 'Quiz id was not provided',
                     messagePT: 'O quiz não foi informado',
+                    messageES: 'No se informó el quiz',
                 },
                 { status: 400 }
             )
@@ -58,6 +62,7 @@ export async function PUT(
                     type: 'global',
                     message: 'Quiz data was not provided',
                     messagePT: 'Os dados do quiz não foram informados',
+                    messageES: 'No se informaron los datos del quiz',
                 },
                 { status: 400 }
             )
@@ -73,6 +78,7 @@ export async function PUT(
                     type: 'global',
                     message: 'Invalid quiz data format',
                     messagePT: 'Formato inválido dos dados do quiz',
+                    messageES: 'Formato no válido de los datos del quiz',
                 },
                 { status: 400 }
             )

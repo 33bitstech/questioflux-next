@@ -6,9 +6,12 @@ import { getTranslations } from 'next-intl/server'
 import { env } from '@/env'
 import { Metadata } from 'next'
 import { getOpenGraphLocale } from '@/utils/locale'
+import { quizKindFromParam } from '@/utils/quizKind'
 
 interface IProps {
     params: Promise<{ locale: string }>;
+    // vem da página de cada tipo: /create/quiz/cover?type=exam
+    searchParams: Promise<{ type?: string | string[] }>;
 }
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
@@ -49,8 +52,10 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-export default async function CreatingQuiz({ params }: IProps) {
+export default async function CreatingQuiz({ params, searchParams }: IProps) {
     const {locale} = await params
+    const { type } = await searchParams
+    const initialKind = quizKindFromParam(Array.isArray(type) ? type[0] : type)
     const t = await getTranslations({ locale, namespace: 'createQuizFlow.formPage' });
 
     return (
@@ -63,7 +68,7 @@ export default async function CreatingQuiz({ params }: IProps) {
                     })}
                 </p>
             </div>
-            <FormCreateQuiz styles={styles} />
+            <FormCreateQuiz styles={styles} initialKind={initialKind} />
         </main>
     )
 }

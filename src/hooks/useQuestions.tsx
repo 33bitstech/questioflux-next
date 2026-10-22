@@ -42,7 +42,8 @@ const useQuestions = (textMode: boolean) => {
         }
     }
 
-    const addQuestion = async () => {
+    // title: pergunta pronta (sugestões do quiz sobre mim)
+    const addQuestion = async (title = '') => {
         if ((questions?.length ?? 0) > 9) {
             try {
                 const res = await verifyUserPremium()
@@ -59,7 +60,7 @@ const useQuestions = (textMode: boolean) => {
         }
         const newQuestion: ILocalQuestions = {
             id: `q-${Date.now()}`,
-            title: '',
+            title,
             type: textMode ? 'text' : 'image',
             isNew: true,
             alternatives: [

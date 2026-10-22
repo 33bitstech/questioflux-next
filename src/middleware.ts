@@ -21,11 +21,15 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt|es)\/explore$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/create\/quiz$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
+    // página de cada tipo de quiz (prova, sobre mim...): conteúdo para o Google
+    { src: /^\/(en|pt|es)\/create\/quiz\/(questions-and-answers|exam|about-me|personality)$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/review$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es)\/quiz\/.+\/personality$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es)\/embed\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
 ];

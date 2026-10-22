@@ -17,6 +17,11 @@ import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 import DeleteQuiz from './delete-quiz'
 import WarningReset from '../widgets/warning-reset'
+import InputKindQuiz from '../CreatingQuiz/input-kind-quiz'
+import { getQuizKind, QuizKind, quizKinds } from '@/utils/quizKind'
+import InputPersonalityResults from '../CreatingQuiz/input-personality-results'
+import { ILocalPersonalityResult, initialResults, resultsSnapshot, toApiResults, toLocalResults } from '@/utils/personalityResults'
+import { uploadResultImages } from '../CreatingQuiz/upload-result-images'
 
 interface IProps {
     styles: TStyles,
@@ -41,6 +46,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<string>(''),
         [idiom, setIdiom] = useState<QuizIdiom>('EN-US'),
+        [kind, setKind] = useState<QuizKind>('quiz'),
+        [results, setResults] = useState<ILocalPersonalityResult[]>(initialResults),
         [originalImage, setOriginalImage] = useState<string>(''),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
@@ -62,11 +69,21 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             tagsString,
             visibility,
             idiom,
+            kind,
+            results: kind === 'personality' ? resultsSnapshot(results) : null,
             finalMessages: finalMessages || null
         });
 
         return currentSnapshot !== initialSnapshot || imageData !== null;
-    }, [initialSnapshot, title, desc, category, tagsString, visibility, idiom, finalMessages, imageData])
+    }, [initialSnapshot, title, desc, category, tagsString, visibility, idiom, kind, results, finalMessages, imageData])
+
+    const hasQuestions = (quiz?.qtdQuestions ?? 0) > 0
+    const savedKind = getQuizKind(quiz)
+    const lockedKinds: QuizKind[] = !hasQuestions
+        ? []
+        : savedKind === 'personality'
+            ? quizKinds.filter(option => option !== 'personality')
+            : ['personality']
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -95,7 +112,9 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     isPrivate,
                     draft: false,
                     idiom,
+                    kind,
                     resultMessages: finalMessages,
+                    ...(kind === 'personality' ? { personalityResults: toApiResults(results) } : {}),
                 },
             }
 
@@ -121,6 +140,19 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 setGlobalError(getErrorMessageByLocale(result.warning))
             }
 
+            // as imagens novas dos resultados sobem depois da capa salva
+            let savedResults = results
+            if (kind === 'personality') {
+                if (await uploadResultImages(quiz.quizId, results) > 0) setGlobalError(tShared('personalityResults.imageError'))
+                savedResults = results.map(({ file, removeImage, ...rest }) => ({
+                    ...rest,
+                    image: removeImage ? undefined : rest.image,
+                }))
+                setResults(savedResults)
+                // recarrega o quiz do servidor para trazer as URLs das imagens que acabaram de subir
+                router.refresh()
+            }
+
             setSucess(t('form.successMessage'))
             setInitialSnapshot(JSON.stringify({
                 title,
@@ -129,6 +161,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 tagsString,
                 visibility,
                 idiom,
+                kind,
+                results: kind === 'personality' ? resultsSnapshot(savedResults) : null,
                 finalMessages: finalMessages || null
             }))
             setImageData(null)
@@ -158,6 +192,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             const initialVisibility = quiz.isPrivate ? 'private' : 'public';
             const initialIdiom = quiz.idiom || 'EN-US';
             const initialMessages = quiz.resultMessages || null;
+            const initialKind = getQuizKind(quiz);
+            const initialResultsList = quiz.personalityResults?.length ? toLocalResults(quiz.personalityResults) : initialResults();
 
             setTitle(initialTitle)
             setDesc(initialDesc)
@@ -165,6 +201,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             setTagsString(initialTags)
             setVisibility(initialVisibility)
             setIdiom(initialIdiom as QuizIdiom)
+            setKind(initialKind)
+            setResults(initialResultsList)
             setFinalMessages(initialMessages)
             setOriginalImage(quiz.quizThumbnail || '')
 
@@ -175,6 +213,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 tagsString: initialTags,
                 visibility: initialVisibility,
                 idiom: initialIdiom,
+                kind: initialKind,
+                results: initialKind === 'personality' ? resultsSnapshot(initialResultsList) : null,
                 finalMessages: initialMessages
             }))
         }
@@ -204,6 +244,14 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             <div className={styles.image_container}>
                 <InputImageQuiz onFileChange={setImageData} originalImage={originalImage} />
             </div>
+
+            <InputKindQuiz
+                styles={styles}
+                value={kind}
+                onChange={setKind}
+                // com perguntas criadas não dá para trocar de/para personalidade (as perguntas funcionam diferente)
+                disabledKinds={lockedKinds}
+            />
 
             <InputTextQuiz styles={styles} labelFor='title' labelValue={tShared('labels.title')} error={getError('title')}>
                 <input type="text" id="title" placeholder={tShared('placeholders.title')} value={title}
@@ -260,10 +308,18 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 </select>
             </InputTextQuiz>
 
-            <div className={styles.messages}>
-                <label>{tShared('labels.finalMessages')}</label>
-                <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} finalMessages={finalMessages} />
-            </div>
+            {kind === 'personality' ? (
+                <InputPersonalityResults
+                    value={results}
+                    onChange={(newResults) => { setResults(newResults); resetTypeError('personalityResults') }}
+                    error={getError('personalityResults')}
+                />
+            ) : (
+                <div className={styles.messages}>
+                    <label>{tShared('labels.finalMessages')}</label>
+                    <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} finalMessages={finalMessages} />
+                </div>
+            )}
 
             <footer className={styles.footer}>
                 <div className={styles.actions}>

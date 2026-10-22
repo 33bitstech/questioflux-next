@@ -1,0 +1,86 @@
+@use '../../../assets/styles/vars.scss';
+
+.add {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .2rem .1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    @include vars.styleTexto(var(--text-secondary), .8rem, 600);
+
+    svg {
+        width: .95rem;
+        height: .95rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: var(--text-primary);
+        text-decoration: underline;
+        text-underline-offset: .18rem;
+    }
+}
+
+.field {
+    position: relative;
+    width: 100%;
+
+    textarea {
+        width: 100%;
+        min-height: 3.6rem;
+        padding: .55rem 2rem .55rem .7rem;
+        border-radius: .4rem;
+        border: 1px dashed vars.$cor-cinzaDescD;
+        background-color: var(--background-divs);
+        resize: vertical;
+        field-sizing: content;
+        line-height: 1.45;
+        @include vars.styleTexto(var(--text-primary), .85rem, 400);
+
+        &::placeholder {
+            color: vars.$cor-cinzaDescD;
+        }
+
+        &:focus {
+            outline: none;
+            border-style: solid;
+        }
+    }
+
+    &.correct textarea:focus {
+        border-color: vars.$cor-correct;
+    }
+
+    &.incorrect textarea:focus {
+        border-color: vars.$cor-incorrect;
+    }
+}
+
+.remove {
+    position: absolute;
+    top: .4rem;
+    right: .4rem;
+    display: inline-flex;
+    padding: .15rem;
+    border: none;
+    border-radius: .3rem;
+    background: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+
+    svg {
+        width: .9rem;
+        height: .9rem;
+    }
+
+    &:hover {
+        color: vars.$cor-incorrect;
+    }
+}
+
+.sr_only {
+    @extend %sr-only;
+}

@@ -19,9 +19,23 @@ import LoadingReq from '../Loading/loading-req'
 import { getAppLocale } from '@/utils/locale'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { trackEvent } from '@/utils/analytics'
+import { QuizKind } from '@/utils/quizKind'
+import InputKindQuiz from './input-kind-quiz'
+import InputPersonalityResults from './input-personality-results'
+import { ILocalPersonalityResult, initialResults, toApiResults } from '@/utils/personalityResults'
+import { uploadResultImages } from './upload-result-images'
 
 interface IProps {
     styles: TStyles
+    // escolhido na página do tipo (/create/quiz/exam → ?type=exam)
+    initialKind?: QuizKind
+}
+
+// Categoria sugerida quando a pessoa ainda não escolheu uma.
+const SUGGESTED_CATEGORY: Partial<Record<QuizKind, string>> = {
+    exam: 'Education',
+    aboutMe: 'Life/Relationships',
+    personality: 'Psychology',
 }
 type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES'
 
@@ -35,7 +49,7 @@ const getDefaultQuizIdiom = (locale: string): QuizIdiom => {
     return idiomByLocale[getAppLocale(locale)]
 }
 
-export default function FormCreateQuiz({ styles }: IProps) {
+export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps) {
     const t = useTranslations('createQuizFlow.formComponent')
     const locale = useLocale()
     const { getError, setError, resetErrors, resetTypeError } = useErrors(),
@@ -47,7 +61,10 @@ export default function FormCreateQuiz({ styles }: IProps) {
     const [imageData, setImageData] = useState<File | null>(null),
         [title, setTitle] = useState<string>(''),
         [desc, setDesc] = useState<string>(''),
-        [category, setCategory] = useState<string>(''),
+        [kind, setKind] = useState<QuizKind>(initialKind),
+        // personalidade: os perfis a que as alternativas vão levar
+        [results, setResults] = useState<ILocalPersonalityResult[]>(initialResults),
+        [category, setCategory] = useState<string>(SUGGESTED_CATEGORY[initialKind] ?? ''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<'public' | 'private'>('private'),
         [idiom, setIdiom] = useState<QuizIdiom>(getDefaultQuizIdiom(locale)),
@@ -96,7 +113,9 @@ export default function FormCreateQuiz({ styles }: IProps) {
                     isPrivate,
                     draft: true,
                     idiom,
+                    kind,
                     resultMessages: finalMessages,
+                    ...(kind === 'personality' ? { personalityResults: toApiResults(results) } : {}),
                 },
             }
 
@@ -123,8 +142,13 @@ export default function FormCreateQuiz({ styles }: IProps) {
                 setGlobalError(getErrorMessageByLocale(result.warning))
             }
 
+            if (kind === 'personality' && await uploadResultImages(result.data.quizId, results) > 0) {
+                setGlobalError(t('personalityResults.imageError'))
+            }
+
             trackEvent('quiz_create_start', {
                 quiz_id: result.data.quizId,
+                quiz_kind: kind,
                 quiz_category: category,
                 quiz_language: idiom,
                 visibility,
@@ -185,6 +209,18 @@ export default function FormCreateQuiz({ styles }: IProps) {
                     <InputImageQuiz onFileChange={setImageData} />
                 </div>
 
+                <InputKindQuiz
+                    styles={styles}
+                    value={kind}
+                    onChange={(newKind) => {
+                        setKind(newKind)
+                        // só troca a categoria se ela ainda for a sugerida pelo tipo anterior
+                        if (!category || category === SUGGESTED_CATEGORY[kind]) {
+                            setCategory(SUGGESTED_CATEGORY[newKind] ?? '')
+                        }
+                    }}
+                />
+
                 <InputTextQuiz styles={styles} labelFor='title' labelValue={t('labels.title')} error={getError('title')}>
                     <input type="text" id="title" placeholder={t('placeholders.title')} value={title}
                         onChange={(e) => { setTitle(e.target.value); resetTypeError('title') }} />
@@ -240,10 +276,18 @@ export default function FormCreateQuiz({ styles }: IProps) {
                     </select>
                 </InputTextQuiz>
 
-                <div className={styles.messages}>
-                    <label>{t('labels.finalMessages')}</label>
-                    <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} />
-                </div>
+                {kind === 'personality' ? (
+                    <InputPersonalityResults
+                        value={results}
+                        onChange={(newResults) => { setResults(newResults); resetTypeError('personalityResults') }}
+                        error={getError('personalityResults')}
+                    />
+                ) : (
+                    <div className={styles.messages}>
+                        <label>{t('labels.finalMessages')}</label>
+                        <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} />
+                    </div>
+                )}
 
                 <footer className={styles.footer}>
                     <div className={styles.actions}>
