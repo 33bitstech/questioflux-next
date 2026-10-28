@@ -36,6 +36,8 @@ export default interface IQuizes {
     draft?: boolean
     type?: 'default/RW' | 'image/RW',
     kind?: QuizKind,
+    // recursos pagos já liberados neste quiz (assinatura ou crédito avulso usado nele)
+    premiumUnlocked?: boolean,
     personalityResults?: IPersonalityResult[],
     // quantas vezes cada resultado saiu: { [resultId]: vezes }
     personalityStats?: Record<string, number>,

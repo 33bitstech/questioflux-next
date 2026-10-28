@@ -49,7 +49,8 @@
         "placeholder": "Tu nombre...",
         "button": "Enviar",
         "description": "Si quieres crear una cuenta, haz clic aquí:",
-        "link": "registrarse"
+        "link": "registrarse",
+        "emailError": "Usa un nombre, no un correo electrónico: aparece en la clasificación."
     },
     "registerForm": {
         "placeholders": {
@@ -68,7 +69,8 @@
             "nameRequired": "El campo de nombre de usuario es obligatorio",
             "emailRequired": "El correo electrónico es obligatorio",
             "passwordRequired": "El campo de contraseña es obligatorio",
-            "confirmPasswordRequired": "Confirmar la contraseña es obligatorio"
+            "confirmPasswordRequired": "Confirmar la contraseña es obligatorio",
+            "nameIsEmail": "El nombre de usuario no puede ser un correo electrónico: se muestra en público."
         }
     },
     "profileUpload": {
@@ -265,6 +267,15 @@
                 "confirmButton": "Sí, eliminar mi cuenta",
                 "cancelButton": "No, no eliminar mi cuenta"
             }
+        },
+        "activity": {
+            "title": "Privacidad",
+            "label": "Mostrar mi actividad en quizzes",
+            "help": "Tu nombre y tu resultado aparecen en las listas de participantes y en las clasificaciones.",
+            "hiddenNote": "Tu participación no aparece para otras personas, ni para quien creó el quiz. Sigue contando en los totales y tú sigues viendo tus resultados.",
+            "shownMessage": "Tu actividad vuelve a aparecer en las listas y clasificaciones.",
+            "hiddenMessage": "Tu actividad ahora está oculta para otras personas.",
+            "error": "No se pudo guardar la preferencia."
         }
     },
     "userQuizzesContainer": {
@@ -354,6 +365,14 @@
         "possibleResults": {
             "title": "Resultados posibles",
             "text": "{count, plural, one {Este quiz tiene # resultado.} other {Este quiz puede terminar en # resultados distintos. ¿Cuál será el tuyo?}}"
+        },
+        "status": {
+            "draft": "Borrador",
+            "private": "Privado",
+            "public": "Público",
+            "draftHint": "Todavía en edición: no aparece en Explorar ni en Google.",
+            "privateHint": "Solo quien tiene el enlace puede responderlo.",
+            "publicHint": "Aparece en Explorar y puede aparecer en Google."
         }
     },
     "quizActions": {
@@ -491,7 +510,8 @@
                 "visibility": "Visibilidad",
                 "idiom": "Idioma",
                 "finalMessages": "Apariencia del mensaje al final del quiz:",
-                "kind": "Tipo de quiz"
+                "kind": "Tipo de quiz",
+                "status": "Estado"
             },
             "placeholders": {
                 "title": "Ej.: ¿Sabes todo sobre fútbol?",
@@ -510,7 +530,9 @@
                     "exam": "Examen online (con corrección)",
                     "aboutMe": "Quiz sobre mí",
                     "personality": "Quiz de personalidad"
-                }
+                },
+                "statusDraft": "Borrador",
+                "statusFinished": "Finalizado"
             },
             "buttons": {
                 "back": "Volver",
@@ -538,6 +560,11 @@
                 "descriptionPlaceholder": "Qué dice este resultado de quien lo obtiene (opcional)",
                 "add": "Añadir resultado",
                 "imageError": "El quiz se guardó, pero alguna imagen de resultado no se subió. Inténtalo de nuevo en Editar Quiz."
+            },
+            "statusHints": {
+                "draft": "Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando el quiz esté listo.",
+                "finished": "El quiz está listo y sigue la visibilidad elegida (público o privado).",
+                "noQuestions": "Añade preguntas antes de finalizar el quiz."
             }
         }
     },
@@ -604,7 +631,8 @@
                 "hint": "Quiz de personalidad: no hay alternativa correcta. Elige a qué resultado lleva cada alternativa; al final, gana el resultado más elegido.",
                 "noResults": "Este quiz aún no tiene resultados. Añade al menos 2 en la portada antes de crear las preguntas.",
                 "editCover": "Editar la portada"
-            }
+            },
+            "finalizeError": "Las preguntas se guardaron, pero no se pudo finalizar el quiz. Puedes finalizarlo en Editar Quiz."
         },
         "aboutMeSuggestions": {
             "title": "Preguntas listas sobre ti",

@@ -3,6 +3,7 @@ import styles from './config.module.scss'
 import FormsUpdataUser from '@/components/Config/forms-update-user'
 import SubscriptionContainer from '@/components/Config/subscription-container'
 import AccountWidgetContainer from '@/components/Config/account-widget-container'
+import ActivityVisibility from '@/components/Config/activity-visibility'
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 
@@ -34,6 +35,8 @@ export default async function Config({ params }: IProps) {
                     styles={styles}
                 />
             </div>
+
+            <ActivityVisibility styles={styles} />
 
             <AccountWidgetContainer
                 styles={styles}

@@ -7,7 +7,9 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 
-const useQuestions = (textMode: boolean) => {
+// premiumUnlocked: o quiz já foi liberado (assinatura ou crédito avulso usado nele). Editar
+// esse quiz não depende do saldo atual: mais perguntas e alternativas continuam permitidas.
+const useQuestions = (textMode: boolean, premiumUnlocked = false) => {
     const t = useTranslations('creation')
 
     const createInitialQuestion = (isTextMode: boolean): ILocalQuestions[] => {
@@ -44,7 +46,7 @@ const useQuestions = (textMode: boolean) => {
 
     // title: pergunta pronta (sugestões do quiz sobre mim)
     const addQuestion = async (title = '') => {
-        if ((questions?.length ?? 0) > 9) {
+        if ((questions?.length ?? 0) > 9 && !premiumUnlocked) {
             try {
                 const res = await verifyUserPremium()
                 if (res.err) return setError(res.err)
@@ -100,7 +102,7 @@ const useQuestions = (textMode: boolean) => {
 
         if (currentAltsCount >= PREMIUM_LIMIT) return setError(t('questionHook.alternativeLimitError'))
 
-        if (currentAltsCount >= FREE_LIMIT) {
+        if (currentAltsCount >= FREE_LIMIT && !premiumUnlocked) {
             try {
                 const res = await verifyUserPremium()
                 if (res.err) return setError(res.err)

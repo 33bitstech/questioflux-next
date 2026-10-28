@@ -8,6 +8,7 @@ import InputComponent from '../Auth-client-components/input-component';
 import { FormEvent, useState } from 'react';
 import ProfileSvg from '@/components/Icons/ProfileSvg';
 import GoogleAuthButton from '../Auth-client-components/google-auth-button';
+import { looksLikeEmail } from '@/utils/publicName';
 
 
 interface IPropsGuest {
@@ -24,10 +25,13 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
     const locale = useLocale()
     
     const [name, setName] = useState<string>('')
+    const [error, setError] = useState<string>()
 
     const handleSubmit = (e:FormEvent)=>{
         e.preventDefault()
         if (!name) return
+        // o nome de visitante aparece no ranking: e-mail não serve (o backend também recusa)
+        if (looksLikeEmail(name)) return setError(t('emailError'))
         handleRegisterAndFinishQuiz(name)
     }
 
@@ -48,8 +52,8 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
                             type="name"
                             placeholder={t('placeholder')}
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            error={undefined}
+                            onChange={(e) => { setName(e.target.value); setError(undefined) }}
+                            error={error}
                             icon={<ProfileSvg />}
                             autoFocus
                             autoComplete='name'

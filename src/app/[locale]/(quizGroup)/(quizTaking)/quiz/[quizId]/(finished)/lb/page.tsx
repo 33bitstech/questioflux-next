@@ -31,7 +31,7 @@ export default async function LB({ params }: IProps) {
         t = await getTranslations('leaderboardPage'),
 
         [quizLb, fullQuiz, user, recommendedQuiz] = await Promise.all([
-            getLeaderboard(quizId),
+            getLeaderboard(quizId, cookieHeader),
             getPublicQuiz(quizId),
             getUser(cookieHeader),
             getQuizRecommendationAction(quizId)

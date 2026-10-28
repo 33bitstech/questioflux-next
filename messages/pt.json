@@ -49,7 +49,8 @@
         "placeholder": "Seu nome...",
         "button": "Enviar",
         "description": "Se deseja criar uma conta clique aqui:",
-        "link": "registre-se"
+        "link": "registre-se",
+        "emailError": "Use um nome, não um e-mail: ele aparece no ranking."
     },
     "registerForm": {
         "placeholders": {
@@ -68,7 +69,8 @@
             "nameRequired": "O campo nome de usuário é obrigatório",
             "emailRequired": "O e-mail é obrigatório",
             "passwordRequired": "O campo senha é obrigatório",
-            "confirmPasswordRequired": "A confirmação de senha é obrigatória"
+            "confirmPasswordRequired": "A confirmação de senha é obrigatória",
+            "nameIsEmail": "O nome de usuário não pode ser um e-mail: ele aparece em público."
         }
     },
     "profileUpload": {
@@ -265,6 +267,15 @@
                 "confirmButton": "Sim, excluir minha conta",
                 "cancelButton": "Não, não excluir minha conta"
             }
+        },
+        "activity": {
+            "title": "Privacidade",
+            "label": "Mostrar minha atividade em quizzes",
+            "help": "Seu nome e resultado aparecem nas listas de participantes e nos rankings.",
+            "hiddenNote": "Sua participação não aparece para outras pessoas, nem para quem criou o quiz. Ela continua contando nos totais, e você continua vendo os seus resultados.",
+            "shownMessage": "Sua atividade voltou a aparecer nas listas e rankings.",
+            "hiddenMessage": "Sua atividade agora fica oculta para outras pessoas.",
+            "error": "Não foi possível salvar a preferência."
         }
     },
     "userQuizzesContainer": {
@@ -354,6 +365,14 @@
         "possibleResults": {
             "title": "Resultados possíveis",
             "text": "{count, plural, one {Este quiz tem # resultado.} other {Este quiz pode terminar em # resultados diferentes. Qual vai ser o seu?}}"
+        },
+        "status": {
+            "draft": "Rascunho",
+            "private": "Privado",
+            "public": "Público",
+            "draftHint": "Ainda em edição: não aparece no Explorar nem no Google.",
+            "privateHint": "Só quem tem o link pode responder.",
+            "publicHint": "Aparece no Explorar e pode aparecer no Google."
         }
     },
     "quizActions": {
@@ -491,7 +510,8 @@
                 "visibility": "Visibilidade",
                 "idiom": "Idioma",
                 "finalMessages": "Aparência da mensagem no final do Quiz:",
-                "kind": "Tipo de quiz"
+                "kind": "Tipo de quiz",
+                "status": "Situação"
             },
             "placeholders": {
                 "title": "Ex: Você sabe tudo sobre futebol?",
@@ -510,7 +530,9 @@
                     "exam": "Prova online (com correção)",
                     "aboutMe": "Quiz sobre mim",
                     "personality": "Quiz de personalidade"
-                }
+                },
+                "statusDraft": "Rascunho",
+                "statusFinished": "Finalizado"
             },
             "buttons": {
                 "back": "Voltar",
@@ -538,6 +560,11 @@
                 "descriptionPlaceholder": "O que esse resultado diz sobre quem tirou ele (opcional)",
                 "add": "Adicionar resultado",
                 "imageError": "O quiz foi salvo, mas alguma imagem de resultado não subiu. Tente de novo em Editar Quiz."
+            },
+            "statusHints": {
+                "draft": "Rascunho não aparece no Explorar nem no Google. Escolha Finalizado quando o quiz estiver pronto.",
+                "finished": "O quiz está pronto e segue a visibilidade escolhida (público ou privado).",
+                "noQuestions": "Adicione perguntas antes de finalizar o quiz."
             }
         }
     },
@@ -604,7 +631,8 @@
                 "hint": "Quiz de personalidade: não existe alternativa certa. Escolha a que resultado cada alternativa leva; no fim, ganha o resultado mais escolhido.",
                 "noResults": "Este quiz ainda não tem resultados. Cadastre pelo menos 2 na capa antes de criar as perguntas.",
                 "editCover": "Editar a capa"
-            }
+            },
+            "finalizeError": "As perguntas foram salvas, mas não deu para finalizar o quiz. Você pode finalizar em Editar Quiz."
         },
         "aboutMeSuggestions": {
             "title": "Perguntas prontas sobre você",

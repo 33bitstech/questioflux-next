@@ -40,6 +40,7 @@
 
     .account_info,
     .subscription,
+    .activity,
     .profile_image {
         border-radius: 0.9375rem;
         box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
@@ -54,6 +55,77 @@
         h2 {
             @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
         }
+    }
+
+    // "Mostrar minha atividade em quizzes"
+    .activity_toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        cursor: pointer;
+
+        input {
+            flex-shrink: 0;
+            appearance: none;
+            position: relative;
+            width: 2.75rem;
+            height: 1.5rem;
+            border-radius: 999px;
+            background-color: vars.$cor-cinzaDescD;
+            cursor: pointer;
+            transition: background-color .2s ease;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: .15rem;
+                left: .15rem;
+                width: 1.2rem;
+                height: 1.2rem;
+                border-radius: 50%;
+                background-color: vars.$cor-branco;
+                transition: transform .2s ease;
+            }
+
+            &:checked {
+                background-color: var(--background-button);
+
+                &::after {
+                    transform: translateX(1.25rem);
+                }
+            }
+
+            &:disabled {
+                opacity: .6;
+                cursor: wait;
+            }
+
+            &:focus-visible {
+                outline: 3px solid var(--background-button);
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    .activity_text {
+        display: flex;
+        flex-direction: column;
+        gap: .2rem;
+
+        strong {
+            @include vars.styleTexto(var(--text-primary), .95rem, 700);
+        }
+
+        span {
+            line-height: 1.45;
+            @include vars.styleTexto(var(--text-secondary), .82rem, 400);
+        }
+    }
+
+    .activity_note {
+        line-height: 1.45;
+        @include vars.styleTexto(var(--text-secondary), .8rem, 400);
     }
 
     .profile_image {

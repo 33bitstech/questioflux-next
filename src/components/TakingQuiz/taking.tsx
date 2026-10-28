@@ -10,13 +10,14 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
 import LoadingReq from '../Loading/loading-req'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { quizParams, trackEvent } from '@/utils/analytics'
 import IExamReviewQuestion from '@/interfaces/IExamReview'
 import { saveExamReview } from '@/utils/examReview'
 import IPersonalityOutcome from '@/interfaces/IPersonalityOutcome'
 import { savePersonalityOutcome } from '@/utils/personalityOutcome'
 import { getQuizKind } from '@/utils/quizKind'
+import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 
 export interface IQuizScore {
     userForLeaderBoard: IUserLeaderBoardScore
@@ -71,6 +72,7 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
         progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 })
 
     const t = useTranslations('takingPage')
+    const locale = useLocale()
     const isPersonality = getQuizKind(quiz) === 'personality'
 
     const handleStart = async () => {
@@ -126,8 +128,8 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
             // só agora: ligado antes, o overlay cobria o popup de visitante e engolia os cliques
             setLoadingReq(true)
             takeQuiz(quiz.quizId, result, sessionToken.current)
-                .then(({ err, res, review, personality }) => {
-                    if (err) return setError(err)
+                .then(({ err, errData, res, review, personality }) => {
+                    if (err) return setError(getLocalizedMessage(errData ?? { message: err }, locale))
 
                     if (personality) {
                         progress.current.finished = true

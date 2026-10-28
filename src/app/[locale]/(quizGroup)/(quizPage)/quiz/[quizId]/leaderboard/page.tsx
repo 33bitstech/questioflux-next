@@ -79,10 +79,14 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 }
 
-export async function getLeaderboard(quizId: string): Promise<TLeaderboard | undefined> {
+// cookieHeader: o login de quem vê. Sem ele, o ranking vem como para um visitante
+// (sem a própria entrada, se ela estiver oculta, e sem respostas).
+export async function getLeaderboard(quizId: string, cookieHeader = ''): Promise<TLeaderboard | undefined> {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/leaderboard/${quizId}`, {
             method: 'GET',
+            headers: { cookie: cookieHeader },
+            cache: 'no-store',
         });
         const res = await response.json();
         return res.scoreBoard;
@@ -123,7 +127,7 @@ export default async function Leaderboard({ params }: IProps) {
         t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
         [quizLb, fullQuiz, user, recommendedQuiz] = await Promise.all([
-            getLeaderboard(quizId),
+            getLeaderboard(quizId, cookieHeader),
             getPublicQuiz(quizId),
             getUser(cookieHeader),
             getQuizRecommendationAction(quizId)

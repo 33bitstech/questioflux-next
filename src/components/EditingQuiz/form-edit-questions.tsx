@@ -20,7 +20,7 @@ import { updateQuestionsImage } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz
 import { useLocale, useTranslations } from 'next-intl'
 import LoadingReq from '../Loading/loading-req'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
-import { getQuizKind } from '@/utils/quizKind'
+import { getQuizKind, isQuizPremiumUnlocked } from '@/utils/quizKind'
 import { getLocalExplanations, savedExplanation } from '@/utils/questionExplanations'
 import { getAnswerResults, savedResultId, toResultOptions } from '@/utils/personalityQuestions'
 
@@ -48,24 +48,6 @@ type LocalImageAlternative = {
     text?: string
     isNew?: boolean
     [key: string]: any
-}
-
-const isValidApiImageAnswer = (answer: unknown): answer is ApiImageAnswer => {
-    if (
-        typeof answer !== 'object' ||
-        answer === null ||
-        Array.isArray(answer) ||
-        !('answer' in answer)
-    ) {
-        return false
-    }
-
-    const value = answer as ApiImageAnswer
-
-    return Boolean(
-        value.thumbnail ||
-        value.text?.trim()
-    )
 }
 
 const isValidLocalImageAlternative = (alternative: unknown): alternative is LocalImageAlternative => {
@@ -105,26 +87,35 @@ const hasPendingUpload = (apiQuestions: any[]): boolean => {
     })
 }
 
+// "pending-upload" = upload que não terminou: no editor aparece vazio, para enviar de novo
+const savedImage = (src: unknown) => typeof src === 'string' && src !== 'pending-upload' ? src : ''
+
+// Alternativas de imagem como o banco guarda (objetos com id). Também as que ficaram sem
+// texto e sem imagem por um upload que falhou: aparecem vazias para a pessoa completar.
+const apiImageAlternatives = (question: any): ApiImageAnswer[] =>
+    (Array.isArray(question?.answers) ? question.answers : [])
+        .filter((answer: unknown): answer is ApiImageAnswer =>
+            typeof answer === 'object' && answer !== null && !Array.isArray(answer) && 'answer' in answer)
+
 const mapApiImageQuestionsToLocal = (apiQuestions: any[]): ILocalQuestions[] => {
     return apiQuestions.map((q: any) => {
-        const apiAnswers = Array.isArray(q.answers) ? q.answers : []
-
-        const alternatives = apiAnswers
-            .filter(isValidApiImageAnswer)
+        const alternatives = apiImageAlternatives(q)
             .map((a: any) => ({
                 id: a.answer ?? '',
-                thumbnail: a.thumbnail ?? '',
+                thumbnail: savedImage(a.thumbnail),
                 text: a.text ?? '',
                 explanation: savedExplanation(q.explanations, a.answer ?? ''),
                 resultId: savedResultId(q.answerResults, a.answer ?? ''),
                 isNew: false
             }))
+            // no editor a primeira alternativa é a certa: não depende da ordem salva
+            .sort((a: { id: string }, b: { id: string }) => Number(b.id === q.correctAnswer) - Number(a.id === q.correctAnswer))
 
         return {
             id: q.questionId,
             type: 'image',
             title: q.title ?? '',
-            image: q.image ?? '',
+            image: savedImage(q.image),
             isNew: false,
             alternatives
         }
@@ -202,7 +193,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
             handleAlternativeChange, handleQuestionChange,
             removeAlternative, removeQuestion, setQuestions,
             handleMultipleImageUpload, hasImages
-        } = useQuestions(textMode),
+        } = useQuestions(textMode, isQuizPremiumUnlocked(quiz)),
 
         [loading, setLoading] = useState<boolean>(false),
         prevQuestionsLengthRef = useRef(questions.length),
@@ -314,12 +305,11 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
         else {
             quiz?.questions?.forEach((q: any, i: any) => {
                 if (quiz.type === 'image/RW') {
-                    const apiAnswers = Array.isArray(q.answers) ? q.answers : []
                     const localAlternatives = Array.isArray(questions[i]?.alternatives)
                         ? questions[i].alternatives
                         : []
 
-                    const oldLength = apiAnswers.filter(isValidApiImageAnswer).length
+                    const oldLength = apiImageAlternatives(q).length
                     const currentLength = localAlternatives.length
 
                     if (oldLength != currentLength) cancel = true

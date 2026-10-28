@@ -7,7 +7,7 @@ import ContainerUserQuizzes from '@/components/User/quiz/container-user-quizzes'
 import Skeleton from '@/components/Loading/skeleton'
 import LoadingReq from '@/components/Loading/loading-req'
 import GoogleAd from '@/components/Google/GoogleAd'
-import { getUsers, getAllQuizzes } from '@/app/actions'
+import { getAllQuizzes } from '@/app/actions'
 import { Metadata } from 'next'
 
 interface IProps {

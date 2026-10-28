@@ -396,10 +396,47 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
+}
 
-    h3 {
-        flex: 1;
+.info_title {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem .7rem;
+}
+
+// Rascunho / Privado / Público
+.status_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .2rem .65rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    font-size: .78rem;
+    font-weight: 700;
+    white-space: nowrap;
+
+    svg {
+        width: .9rem;
+        height: .9rem;
     }
+}
+
+.status_draft {
+    color: #B54708;
+    background-color: rgba(247, 144, 9, 0.12);
+}
+
+.status_private {
+    color: var(--text-primary);
+    background-color: rgba(127, 127, 127, 0.12);
+}
+
+.status_public {
+    color: #039855;
+    background-color: rgba(3, 152, 85, 0.1);
 }
 
 .embed_quiz_button {

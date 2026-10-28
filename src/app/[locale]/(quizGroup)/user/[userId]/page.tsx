@@ -113,11 +113,8 @@ export default async function User({params}:IProps) {
     const memberSince = formatMemberSince(user.created_at, locale)
     const quizzesCount = quizzes?.length ?? 0
 
-    const completedCount = new Set(
-        (user.finishedQuizzes ?? [])
-            .map((finishedQuiz) => finishedQuiz.quizId)
-            .filter((quizId): quizId is string => Boolean(quizId))
-    ).size
+    // o histórico é privado: o perfil público recebe só o total
+    const completedCount = user.finishedQuizzesCount ?? 0
 
     const createdQuizzes = {
         "@type": "ItemList",

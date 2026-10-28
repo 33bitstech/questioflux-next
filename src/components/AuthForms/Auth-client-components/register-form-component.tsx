@@ -1,5 +1,6 @@
 'use client'
 import useErrors, { ErrorsState } from '@/hooks/useErrors'
+import { looksLikeEmail } from '@/utils/publicName'
 import {Link} from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 import InputComponent from './input-component'
@@ -72,6 +73,8 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
         let errors: ErrorsState = {}
 
         if (!name) errors.name = t('errors.nameRequired');
+        // o nome aparece em público: e-mail não serve (o backend também recusa)
+        else if (looksLikeEmail(name)) errors.name = t('errors.nameIsEmail');
         if (!email) errors.email = t('errors.emailRequired');
         if (!password) errors.password = t('errors.passwordRequired');
 

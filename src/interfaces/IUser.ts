@@ -7,6 +7,9 @@ export interface IUser {
     specialCount?: number,
     savedQuizzes?: Array<{id: string}>;
     finishedQuizzes?: Array<{id?: string, quizId?: string, time: number}>;
+    // totais públicos (as listas acima só chegam para o próprio dono)
+    finishedQuizzesCount?: number;
+    savedQuizzesCount?: number;
     created_at?: Date;
     updated_at?: Date;
 }
