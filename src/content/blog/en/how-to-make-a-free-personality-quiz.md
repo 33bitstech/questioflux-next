@@ -1,7 +1,6 @@
 ---
 title: How to make a free personality quiz (with a complete example)
 description: A step-by-step guide to building a personality quiz from scratch, setting up the results, linking every answer to a profile and sharing it. Includes a ready-made example and the real limits of the free plan.
-key: personality-quiz-guide
 tag: Tutorial
 author: QuestioFlux Team
 publishedAt: 2026-10-28

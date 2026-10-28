@@ -1,7 +1,6 @@
 ---
 title: 如何制作带答案和解析的在线考试
 description: 一步步制作自动评分、每个选项都有解析的在线考试，附示例题目，并展示学生交卷后能看到的内容。
-key: online-test-guide
 tag: 教程
 author: QuestioFlux 团队
 publishedAt: 2026-10-28

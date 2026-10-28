@@ -1,7 +1,6 @@
 ---
 title: How to create an online test with answers and explanations
 description: A guide to building an online test with automatic grading and an explanation for every option, with sample questions and a look at what students see when they finish.
-key: online-test-guide
 tag: Tutorial
 author: QuestioFlux Team
 publishedAt: 2026-10-28

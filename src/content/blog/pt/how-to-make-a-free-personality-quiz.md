@@ -1,7 +1,6 @@
 ---
 title: Como criar um quiz de personalidade grátis (com exemplo completo)
 description: Passo a passo para montar um quiz de personalidade do zero, definir os resultados, ligar cada resposta a um perfil e compartilhar. Inclui um exemplo pronto e os limites reais do plano grátis.
-key: personality-quiz-guide
 tag: Tutorial
 author: Equipe QuestioFlux
 publishedAt: 2026-10-28

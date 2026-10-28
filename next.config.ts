@@ -8,6 +8,19 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '5mb',
     },
   },
+  // Endereços antigos do blog (traduzidos por idioma) para o endereço único em inglês
+  async redirects() {
+    const moved: Record<string, string[]> = {
+      'how-to-make-a-free-personality-quiz': ['como-criar-quiz-de-personalidade-gratis', 'como-crear-un-quiz-de-personalidad-gratis', 'personality-quiz-guide'],
+      'how-to-create-an-online-test-with-answers-and-explanations': ['como-criar-teste-online-com-respostas-e-explicacoes', 'como-crear-un-examen-online-con-respuestas-y-explicaciones', 'online-test-guide'],
+      'best-free-quiz-makers-compared': ['sites-para-criar-quizzes-gratis', 'sitios-para-crear-quizzes-gratis', 'free-quiz-makers-compared'],
+    }
+    return Object.entries(moved).map(([slug, old]) => ({
+      source: `/:locale(en|pt|es|zh)/blog/:old(${old.join('|')})`,
+      destination: `/:locale/blog/${slug}`,
+      permanent: true,
+    }))
+  },
   // os artigos do blog são lidos do disco na hora: vão junto com as rotas que os usam
   outputFileTracingIncludes: {
     '/[locale]/blog': ['./src/content/blog/**/*'],

@@ -1,7 +1,6 @@
 ---
 title: 5 个制作测验的网站：免费方案的功能与限制对比
 description: 我们按免费方案能做什么，对比了 QuestioFlux、Google 表单、Kahoot!、Wayground（原 Quizizz）和 Typeform，所有限制都在官方页面上核实过。
-key: free-quiz-makers
 tag: 对比
 author: QuestioFlux 团队
 publishedAt: 2026-10-28

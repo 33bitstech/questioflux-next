@@ -1,7 +1,6 @@
 ---
 title: 如何免费制作性格测验（附完整示例）
 description: 从零开始制作性格测验的分步指南：设置结果、把每个答案关联到一种类型并分享出去。附现成示例，以及免费方案的真实限制。
-key: personality-quiz-guide
 tag: 教程
 author: QuestioFlux 团队
 publishedAt: 2026-10-28

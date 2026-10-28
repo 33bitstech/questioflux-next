@@ -59,8 +59,8 @@ function blogEntries(): IEntry[] {
         ...posts.map(post => ({
             loc: `${SITE_URL}/${post.locale}/blog/${post.slug}`,
             lastmod: validDate(post.updatedAt ?? post.publishedAt),
-            // traduções do mesmo artigo (cada idioma com o próprio slug)
-            alternates: hreflangMap(posts.filter(item => item.key === post.key)
+            // traduções do mesmo artigo: o mesmo slug em cada idioma
+            alternates: hreflangMap(posts.filter(item => item.slug === post.slug)
                 .map(item => ({ locale: item.locale, url: `${SITE_URL}/${item.locale}/blog/${item.slug}` }))),
         })),
     ]

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         authors: [{ name: post.author }],
         alternates: {
             canonical: url,
-            languages: hreflangMap(getTranslationsOf(post.key).map(item => ({ locale: item.locale, url: `${SITE_URL}/${item.locale}/blog/${item.slug}` }))),
+            languages: hreflangMap(getTranslationsOf(slug).map(item => ({ locale: item.locale, url: `${SITE_URL}/${item.locale}/blog/${slug}` }))),
         },
         openGraph: {
             title: post.title,
@@ -51,7 +51,11 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 export default async function BlogPostPage({ params }: IProps) {
     const { locale, slug } = await params
     const post = getPost(locale, slug)
-    if (!post) notFound()
+    if (!post) {
+        // artigo que ainda não foi traduzido para este idioma: trocar o idioma leva à listagem
+        if (getTranslationsOf(slug).length > 0) redirect(`/${locale}/blog`)
+        notFound()
+    }
 
     const t = await getTranslations({ locale, namespace: 'blogPage' })
     const dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeZone: 'UTC' })

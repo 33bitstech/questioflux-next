@@ -1,7 +1,6 @@
 ---
 title: "5 sites to create quizzes: features and limits of the free plans"
 description: We compared QuestioFlux, Google Forms, Kahoot!, Wayground (formerly Quizizz) and Typeform by what each free plan lets you do, with the limits checked on the official pages.
-key: free-quiz-makers
 tag: Comparison
 author: QuestioFlux Team
 publishedAt: 2026-10-28

@@ -6,13 +6,12 @@ import { QuizKind } from '@/utils/quizKind'
 // Blog: cada artigo é um arquivo Markdown em src/content/blog/<idioma>/<slug>.md, revisado
 // por commit/PR como o resto do código. O cabeçalho (entre ---) traz título, descrição,
 // autoria, datas e o status: "draft" (rascunho) ou "published".
-// As traduções de um mesmo artigo têm o mesmo "key" (cada idioma tem o próprio slug).
+// O slug é em inglês e igual em todos os idiomas: a tradução é o mesmo arquivo na pasta
+// do outro idioma, e trocar o idioma no site mantém o mesmo endereço.
 
 export interface IBlogPostMeta {
     slug: string
     locale: string
-    // liga as traduções do mesmo artigo
-    key: string
     title: string
     description: string
     // etiqueta do card (Tutorial, Comparativo...)
@@ -103,7 +102,6 @@ function readPost(locale: string, slug: string): IBlogPost | null {
     return {
         slug,
         locale,
-        key: data.key || slug,
         title: data.title,
         description: data.description,
         tag: data.tag || '',
@@ -145,7 +143,7 @@ export function getAllPublishedPosts(): IBlogPostMeta[] {
     return fs.readdirSync(BLOG_DIR).flatMap(locale => getPosts(locale, false))
 }
 
-// O mesmo artigo nos idiomas em que está publicado (hreflang)
-export function getTranslationsOf(key: string): IBlogPostMeta[] {
-    return getAllPublishedPosts().filter(post => post.key === key)
+// O mesmo artigo (mesmo slug) nos idiomas em que está publicado (hreflang)
+export function getTranslationsOf(slug: string): IBlogPostMeta[] {
+    return getAllPublishedPosts().filter(post => post.slug === slug)
 }

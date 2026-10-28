@@ -1,7 +1,6 @@
 ---
 title: Cómo crear un examen online con respuestas y explicaciones
 description: Guía para armar un examen online con corrección automática y una explicación en cada opción, con preguntas de ejemplo y lo que ve el alumno al terminar.
-key: online-test-guide
 tag: Tutorial
 author: Equipo QuestioFlux
 publishedAt: 2026-10-28

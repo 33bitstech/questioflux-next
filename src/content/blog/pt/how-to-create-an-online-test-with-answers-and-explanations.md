@@ -1,7 +1,6 @@
 ---
 title: Como criar um teste online com respostas e explicações
 description: Guia para montar uma prova online com gabarito automático e uma explicação em cada alternativa, com exemplos de perguntas e o que o aluno vê ao terminar.
-key: online-test-guide
 tag: Tutorial
 author: Equipe QuestioFlux
 publishedAt: 2026-10-28
