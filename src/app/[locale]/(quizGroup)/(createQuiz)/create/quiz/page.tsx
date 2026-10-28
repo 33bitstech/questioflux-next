@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/create/quiz`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/create/quiz`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh/create/quiz`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/create/quiz`
     }
 

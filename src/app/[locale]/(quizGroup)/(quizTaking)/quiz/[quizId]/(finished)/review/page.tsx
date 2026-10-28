@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz'
 import ExamReviewPage from '@/components/ExamReview/exam-review-page'
 import GoogleAd from '@/components/Google/GoogleAd'
+import AdRails from '@/components/Google/AdRails'
 
 interface IProps {
     params: Promise<{
@@ -25,6 +26,7 @@ export default async function Review({ params }: IProps) {
         <>
             <ExamReviewPage quiz={withoutQuestions(quiz)} adSlot={RESULTS_AD_SLOT} />
             <GoogleAd slot={RESULTS_AD_SLOT} />
+            <AdRails />
         </>
     )
 }

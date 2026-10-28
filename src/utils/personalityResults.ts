@@ -9,6 +9,8 @@ export interface ILocalPersonalityResult {
     image?: string
     file?: File
     removeImage?: boolean
+    // alternativa deste resultado na pergunta de desempate
+    tieBreakOption?: string
 }
 
 export const MIN_PERSONALITY_RESULTS = 2
@@ -31,18 +33,20 @@ export const emptyResult = (): ILocalPersonalityResult => ({ resultId: newResult
 export const initialResults = () => [emptyResult(), emptyResult()]
 
 export const toLocalResults = (results: IPersonalityResult[] = []): ILocalPersonalityResult[] =>
-    results.map(({ resultId, title, description, image }) => ({ resultId, title, description: description ?? '', image }))
+    results.map(({ resultId, title, description, image, tieBreakOption }) =>
+        ({ resultId, title, description: description ?? '', image, tieBreakOption: tieBreakOption ?? '' }))
 
 // o que vai no quizData: texto e ids (a imagem nunca vai por aqui)
 export const toApiResults = (results: ILocalPersonalityResult[]) =>
-    results.map(({ resultId, title, description, removeImage }) => ({
+    results.map(({ resultId, title, description, removeImage, tieBreakOption }) => ({
         resultId,
         title,
         description,
+        tieBreakOption: tieBreakOption ?? '',
         ...(removeImage ? { removeImage: true } : {}),
     }))
 
 // para saber se a capa tem alteração não salva
 export const resultsSnapshot = (results: ILocalPersonalityResult[]) =>
-    results.map(({ resultId, title, description, image, file, removeImage }) =>
-        [resultId, title, description, removeImage ? '' : image ?? '', file?.name ?? ''].join('|'))
+    results.map(({ resultId, title, description, image, file, removeImage, tieBreakOption }) =>
+        [resultId, title, description, removeImage ? '' : image ?? '', file?.name ?? '', tieBreakOption ?? ''].join('|'))

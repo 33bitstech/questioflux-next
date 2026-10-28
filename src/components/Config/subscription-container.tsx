@@ -3,6 +3,7 @@
 import { TStyles } from '@/types/stylesType'
 import React, { useEffect, useState } from 'react'
 import QuizIcon from '../Icons/QuizIcon'
+import PlanPrice from '../Pricing/plan-price'
 import { Link } from '@/i18n/navigation'
 import { useUser } from '@/contexts/userContext'
 import {
@@ -183,9 +184,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                                 <span>
                                     <h3>{t('vortexPlus.title')}</h3>
 
-                                    <span className={styles.desc}>
-                                        {t('vortexPlus.price')}
-                                    </span>
+                                    <PlanPrice plan='plus' className={styles.desc} />
                                 </span>
                             </div>
                         </div>
@@ -221,9 +220,7 @@ export default function SubscriptionContainer({ styles }: IProps) {
                                             count: specialCount || 0
                                         })}
                                     </h3>
-                                    <span className={styles.desc}>
-                                        {t('vortexPlusUsage.price')}
-                                    </span>
+                                    <PlanPrice plan='usage' className={styles.desc} />
                                 </span>
                             </div>
                         </div>

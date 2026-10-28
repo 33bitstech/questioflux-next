@@ -1,0 +1,255 @@
+@use '@/assets/styles/vars.scss';
+
+// ── listagem ─────────────────────────────────────────
+
+.blog {
+    width: 100%;
+    max-width: 48rem;
+    margin: 2rem auto 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.blog_header {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    h1 {
+        @include vars.styleTexto(var(--text-primary), 2rem, 800);
+    }
+
+    p {
+        line-height: 1.55;
+        @include vars.styleTexto(var(--text-secondary), 1rem, 400);
+    }
+}
+
+.empty {
+    @include vars.styleTexto(var(--text-secondary), 1rem, 400);
+}
+
+.post_list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+}
+
+.post_card {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+    padding: 1.2rem 1.3rem;
+    border-radius: .8rem;
+    border: 1px solid vars.$cor-cinzaDescD;
+    background-color: var(--background-divs);
+    text-decoration: none;
+    transition: border-color .2s;
+
+    h2 {
+        line-height: 1.3;
+        @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
+    }
+
+    p {
+        line-height: 1.5;
+        @include vars.styleTexto(var(--text-secondary), .95rem, 400);
+    }
+
+    &:hover,
+    &:focus-visible {
+        border-color: var(--fixed-blue);
+        outline: none;
+    }
+}
+
+.post_meta {
+    @include vars.styleTexto(var(--text-secondary), .82rem, 400);
+}
+
+.draft_badge {
+    align-self: flex-start;
+    padding: .15rem .55rem;
+    border-radius: 999px;
+    background-color: vars.$cor-errorColor;
+    text-transform: uppercase;
+    @include vars.styleTexto(vars.$cor-branco, .7rem, 700);
+}
+
+// ── artigo ───────────────────────────────────────────
+
+.article {
+    width: 100%;
+    max-width: 46rem;
+    margin: 1.5rem auto 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    @include vars.styleTexto(var(--fixed-blue), .9rem, 600);
+
+    &::before {
+        content: '← ';
+    }
+}
+
+.draft_notice {
+    padding: .7rem 1rem;
+    border-radius: .6rem;
+    border: 1px dashed vars.$cor-errorColor;
+    @include vars.styleTexto(vars.$cor-errorColor, .9rem, 600);
+}
+
+.article_header {
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+
+    h1 {
+        line-height: 1.2;
+        @include vars.styleTexto(var(--text-primary), 2.1rem, 800);
+    }
+}
+
+.lead {
+    line-height: 1.55;
+    @include vars.styleTexto(var(--text-secondary), 1.1rem, 400);
+}
+
+// texto do artigo (HTML gerado do Markdown)
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    line-height: 1.75;
+    @include vars.styleTexto(var(--text-primary), 1.02rem, 400);
+
+    h2 {
+        margin-top: 1.2rem;
+        line-height: 1.3;
+        @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+    }
+
+    h3 {
+        margin-top: .6rem;
+        @include vars.styleTexto(var(--text-primary), 1.18rem, 700);
+    }
+
+    p,
+    li {
+        color: var(--text-primary);
+    }
+
+    ul,
+    ol {
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+        padding-left: 1.4rem;
+    }
+
+    ul {
+        list-style: disc;
+    }
+
+    ol {
+        list-style: decimal;
+    }
+
+    a {
+        color: var(--fixed-blue);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    strong {
+        font-weight: 700;
+    }
+
+    blockquote {
+        padding: .8rem 1rem;
+        border-left: 4px solid var(--fixed-blue);
+        border-radius: .3rem;
+        background-color: var(--background-divs);
+    }
+
+    // a tabela do comparativo rola de lado no celular, sem empurrar a página
+    table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+        font-size: .9rem;
+    }
+
+    th,
+    td {
+        padding: .55rem .7rem;
+        border: 1px solid vars.$cor-cinzaDescD;
+        text-align: left;
+        vertical-align: top;
+        line-height: 1.45;
+    }
+
+    th {
+        background-color: var(--background-divs);
+        font-weight: 700;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid vars.$cor-cinzaDescD;
+    }
+
+    code {
+        padding: .1rem .3rem;
+        border-radius: .25rem;
+        background-color: var(--background-divs);
+        font-size: .9em;
+    }
+}
+
+.cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .6rem;
+    margin-top: 1rem;
+    padding: 1.4rem;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, var(--fixed-blue), var(--fixed-cyan));
+
+    h2 {
+        @include vars.styleTexto(vars.$cor-branco, 1.3rem, 800);
+    }
+
+    p {
+        line-height: 1.5;
+        @include vars.styleTexto(vars.$cor-branco, .98rem, 400);
+    }
+
+    a {
+        margin-top: .3rem;
+        padding: .7rem 1.2rem;
+        border-radius: .6rem;
+        background-color: vars.$cor-branco;
+        text-decoration: none;
+        @include vars.styleTexto(vars.$cor-azulEscuro, .95rem, 700);
+    }
+}
+
+@media (max-width: 600px) {
+    .blog_header h1,
+    .article_header h1 {
+        font-size: 1.6rem;
+    }
+
+    .content h2 {
+        font-size: 1.3rem;
+    }
+}

@@ -39,6 +39,10 @@ export function FilterProvider({ children }: { children: ReactNode }) {
         "Otros", "Conocimientos generales", "Deportes", "Anime", "Película", "Series", "Música", "Juego", "Humor", "Moda/Estilo", "Curiosidad", "Vida/Relaciones", "Decoración", "Salud", "Belleza", "Literatura", "Cultura Pop", "Arte", "Viajes", "Naturaleza", "Carrera", "Gastronomía", "Animales", "Hobbies", "Mitología", "Psicología", "Idiomas", "Educación", "Libro", "Cultura Nerd", "Negocios y Economía"
     ]
 
+    const filtersZh: string[] = [
+        "其他", "常识", "体育", "动漫", "电影", "剧集", "音乐", "游戏", "搞笑", "时尚/风格", "趣闻", "生活/情感", "家居装饰", "健康", "美妆", "文学", "流行文化", "艺术", "旅行", "自然", "职业", "美食", "动物", "爱好", "神话", "心理学", "语言", "教育", "书籍", "极客文化", "商业与经济"
+    ]
+
     const [filtersSelected, setFiltersSelected] = useState<TFilter[]>([])
 
     // mesma posição nos três idiomas: o rótulo sai pelo índice
@@ -54,18 +58,24 @@ export function FilterProvider({ children }: { children: ReactNode }) {
         'Todos', 'Correcto e Incorrecto', 'Examen', 'Sobre mí', 'Personalidad', 'Imagen'
     ]
 
+    const typesQuizZh: string[] = [
+        '全部', '对错题', '考试', '关于我', '性格', '图片'
+    ]
+
     const [typeQuizSelected, setTypeQuizSelected] = useState<TTypeQuiz>('All')
 
     const filtersByLocale: Record<AppLocale, readonly string[]> = {
         en: filters,
         pt: filtersPt,
         es: filtersEs,
+        zh: filtersZh,
     }
 
     const typesQuizByLocale: Record<AppLocale, readonly string[]> = {
         en: typesQuiz,
         pt: typesQuizPt,
         es: typesQuizEs,
+        zh: typesQuizZh,
     }
 
     const getCategoryLabel = (category: TFilter, locale: string) => {

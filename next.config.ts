@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '5mb',
     },
   },
+  // os artigos do blog são lidos do disco na hora: vão junto com as rotas que os usam
+  outputFileTracingIncludes: {
+    '/[locale]/blog': ['./src/content/blog/**/*'],
+    '/[locale]/blog/[slug]': ['./src/content/blog/**/*'],
+    '/sitemap.xml': ['./src/content/blog/**/*'],
+  },
   images: {
     remotePatterns: [
       {

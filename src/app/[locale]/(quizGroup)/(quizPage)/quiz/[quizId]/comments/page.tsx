@@ -11,6 +11,7 @@ import { cookies } from 'next/headers'
 import { getPublicQuiz } from '@/utils/publicQuiz'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
+import AdRails from '@/components/Google/AdRails'
 
 interface IProps {
     params: Promise<{
@@ -28,6 +29,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}/comments`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/comments`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}/comments`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh/quiz/${quizId}/comments`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/comments`
     },
         names = {
@@ -121,6 +123,9 @@ export default async function Comment({ params }: IProps) {
                     </div>
                 ))}
             </div>}
+
+            {/* desktop: uma em cada lateral; o celular continua sem anúncio aqui */}
+            <AdRails />
         </div>
     )
 }

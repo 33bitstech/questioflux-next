@@ -11,14 +11,15 @@ export const shellLanguages = (path = '') => ({
     'es': `${SITE_URL}/es${path}`,
     'en-US': `${SITE_URL}/en${path}`,
     'pt-BR': `${SITE_URL}/pt${path}`,
+    'zh-CN': `${SITE_URL}/zh${path}`,
     'x-default': `${SITE_URL}/en${path}`,
 })
 
-// idiom vem do backend como 'PT-BR' | 'EN-US' | 'ES-ES' (ou 'en' nos quizzes antigos)
+// idiom vem do backend como 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN' (ou 'en' nos quizzes antigos)
 export const idiomToLocale = (idiom?: string): AppLocale => getAppLocale(idiom?.toLowerCase())
 
 export const idiomToLanguageTag = (idiom?: string) =>
-    ({ en: 'en-US', pt: 'pt-BR', es: 'es' })[idiomToLocale(idiom)]
+    ({ en: 'en-US', pt: 'pt-BR', es: 'es', zh: 'zh-CN' })[idiomToLocale(idiom)]
 
 // As perguntas não são traduzidas: /en, /pt e /es mostram o mesmo quiz. A canônica é
 // a do idioma em que o quiz foi escrito, e a página de quiz não leva hreflang.

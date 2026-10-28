@@ -30,7 +30,8 @@
             "private": "<span>Quizzes privados:</span> Comparte tu quiz por enlace con amigos, estudiantes o grupos específicos."
         },
         "footer": {
-            "aboutLink": "Sobre nosotros"
+            "aboutLink": "Sobre nosotros",
+            "blogLink": "Blog"
         },
         "metadataTitle": "QuestioFlux | Crear Quiz Online Gratis con Clasificación",
         "metadataDesc": "Crea un quiz de texto gratis online con preguntas, respuestas, alternativas y clasificación. Comparte quizzes con amigos, estudiantes o tu comunidad.",
@@ -155,7 +156,8 @@
             "saves": "Guardados",
             "drafts": "Borradores",
             "config": "Configuración",
-            "about": "Sobre nosotros"
+            "about": "Sobre nosotros",
+            "blog": "Blog"
         },
         "themeWidget": {
             "light": "Claro",
@@ -373,6 +375,14 @@
             "draftHint": "Todavía en edición: no aparece en Explorar ni en Google.",
             "privateHint": "Solo quien tiene el enlace puede responderlo.",
             "publicHint": "Aparece en Explorar y puede aparecer en Google."
+        },
+        "participantsList": {
+            "title": "Participantes visibles",
+            "note": "Algunas participaciones no aparecen en esta lista.",
+            "empty": "Ningún participante visible.",
+            "guest": "Invitado",
+            "loadMore": "Cargar más",
+            "close": "Cerrar la lista de participantes"
         }
     },
     "quizActions": {
@@ -425,7 +435,13 @@
             "correctTitle": "Respuestas correctas:",
             "incorrectTitle": "Respuestas incorrectas:",
             "questionLabel": "Pregunta:",
-            "answerLabel": "Respuesta del usuario:"
+            "answerLabel": "Respuesta del usuario:",
+            "title": "Respuestas de {name}",
+            "heading": "Respuestas de este intento",
+            "loading": "Cargando las respuestas…",
+            "error": "No se pudieron cargar las respuestas.",
+            "empty": "Las preguntas de este intento ya no están en el quiz.",
+            "close": "Cerrar las respuestas"
         },
         "home": "Ver quiz",
         "sections": {
@@ -532,7 +548,8 @@
                     "personality": "Quiz de personalidad"
                 },
                 "statusDraft": "Borrador",
-                "statusFinished": "Finalizado"
+                "statusFinished": "Finalizado",
+                "zh": "Chino (simplificado)"
             },
             "buttons": {
                 "back": "Volver",
@@ -559,7 +576,14 @@
                 "descriptionLabel": "Descripción del resultado {number}",
                 "descriptionPlaceholder": "Qué dice este resultado de quien lo obtiene (opcional)",
                 "add": "Añadir resultado",
-                "imageError": "El quiz se guardó, pero alguna imagen de resultado no se subió. Inténtalo de nuevo en Editar Quiz."
+                "imageError": "El quiz se guardó, pero alguna imagen de resultado no se subió. Inténtalo de nuevo en Editar Quiz.",
+                "tieBreak": {
+                    "title": "Pregunta de desempate (opcional)",
+                    "hint": "Solo aparece cuando las respuestas empatan entre dos o más resultados, y muestra únicamente las alternativas de los resultados empatados. Sin ella, el empate aparece como un resultado combinado.",
+                    "questionPlaceholder": "Ej.: ¿Cuál de estos lugares elegirías para pasar el fin de semana?",
+                    "optionLabel": "Alternativa que lleva a {result}",
+                    "optionPlaceholder": "Alternativa que lleva a este resultado"
+                }
             },
             "statusHints": {
                 "draft": "Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando el quiz esté listo.",
@@ -731,6 +755,10 @@
         },
         "imageLabels": {
             "alternative": "Alternativa N°{number}"
+        },
+        "tieBreak": {
+            "eyebrow": "Hubo un empate",
+            "hint": "Tus respuestas empataron. Elige la opción que más va contigo para definir el resultado."
         }
     },
     "quizResultsPage": {
@@ -815,7 +843,11 @@
         "maintenance": {
             "title": "Pagos temporalmente no disponibles",
             "description": "Estamos cambiando nuestra pasarela de pagos. Por favor, vuelve más tarde."
-        }
+        },
+        "total": "Total a pagar: {amount}",
+        "totalPerMonth": "Total a pagar: {amount}/mes",
+        "planPlus": "Suscripción QuestioPlus",
+        "planUsage": "Pase único QuestioPlus"
     },
     "mainMetadata": {
         "desc": "¡Crea tu propio quiz con QuestioFlux! Un creador de quizzes potente y divertido para construir y compartir pruebas con amigos. Añade imágenes, personaliza preguntas y mira quién llega a la cima de la clasificación. ¡Empieza a crear hoy!",
@@ -1307,7 +1339,7 @@
                 },
                 {
                     "question": "¿Cómo se calcula el resultado?",
-                    "answer": "Cada respuesta suma un punto al resultado al que lleva. Gana el resultado con más puntos; en caso de empate, cuenta la respuesta más reciente entre los empatados."
+                    "answer": "Cada respuesta suma un punto al resultado al que lleva, y gana el resultado con más puntos. En caso de empate, el quiz puede hacer una pregunta de desempate solo con los resultados empatados; sin ella, los empatados aparecen juntos como un resultado combinado."
                 },
                 {
                     "question": "¿Cuántos resultados puedo crear?",
@@ -1344,6 +1376,51 @@
             "noPlays": "Nadie ha terminado este quiz todavía. ¡Sé la primera persona!",
             "cta": "Descubrir mi resultado",
             "metadataTitle": "Los resultados de todos – {quiz_name}"
+        },
+        "combinedResult": "Resultado combinado",
+        "combinedHint": "Tus respuestas empataron entre estos perfiles, así que tienes un poco de cada uno."
+    },
+    "pricing": {
+        "loading": "Cargando precio…",
+        "unavailable": "Precio no disponible en este momento",
+        "perMonth": "{price}/mes",
+        "perYear": "{price}/año",
+        "perUse": "{price}/uso"
+    },
+    "blogPage": {
+        "metadataTitle": "Blog de QuestioFlux: guías para crear quizzes y exámenes online",
+        "metadataDescription": "Tutoriales prácticos para crear quizzes de personalidad, exámenes online con corrección comentada y quizzes para compartir.",
+        "title": "Blog",
+        "subtitle": "Guías prácticas para crear quizzes, tests y exámenes online, con ejemplos y los límites reales de cada plan.",
+        "empty": "Todavía no hay artículos en este idioma.",
+        "draft": "Borrador",
+        "draftNotice": "Borrador: este artículo todavía no se publicó y solo aparece en el entorno de desarrollo.",
+        "readingTime": "{minutes} min de lectura",
+        "backToBlog": "Blog",
+        "byline": "Por {author}",
+        "publishedOn": "Publicado el",
+        "updatedOn": "Actualizado el",
+        "cta": {
+            "quiz": {
+                "title": "Crea tu quiz ahora",
+                "text": "Preguntas y respuestas con ranking, listo para compartir en pocos minutos.",
+                "button": "Crear quiz de preguntas"
+            },
+            "exam": {
+                "title": "Arma tu examen online",
+                "text": "Corrección automática y una explicación en cada alternativa: el alumno ve la corrección comentada en cuanto termina.",
+                "button": "Crear examen online"
+            },
+            "aboutMe": {
+                "title": "¿Quién te conoce mejor?",
+                "text": "Crea un quiz sobre ti y descubre qué amigos aciertan más.",
+                "button": "Crear quiz sobre mí"
+            },
+            "personality": {
+                "title": "Crea tu quiz de personalidad",
+                "text": "Tú defines los resultados y a qué resultado lleva cada respuesta. Gratis para empezar.",
+                "button": "Crear quiz de personalidad"
+            }
         }
     }
 }

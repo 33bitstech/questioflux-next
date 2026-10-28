@@ -8,6 +8,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import stylesS from '@/components/ImagesRender/user-profile-img-render.module.scss'
 import { useTheme } from 'next-themes'
+import { getQuizKind } from '@/utils/quizKind'
 
 interface IProps {
     styles: TStyles,
@@ -20,6 +21,8 @@ interface IProps {
 
 export default function TimerContainer({ styles, quiz, setStarted, started, initialTime, finalTime }: IProps) {
     const [passedTime, setPassedTime] = useState<number>(0)
+    // personalidade: cada um responde no próprio ritmo, sem cronômetro na tela
+    const showTimer = getQuizKind(quiz) !== 'personality'
     const t = useTranslations('takingPage')
     const [loading, setLoading] = useState(true)
     const { theme } = useTheme()
@@ -40,6 +43,7 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
     }
 
     useEffect(() => {
+        if (!showTimer) return
         if (finalTime > 0) return setPassedTime(finalTime - initialTime)
 
         let interval: NodeJS.Timeout | undefined
@@ -52,7 +56,7 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
         return () => {
             if (interval) clearInterval(interval)
         }
-    }, [started, initialTime, finalTime])
+    }, [started, initialTime, finalTime, showTimer])
 
     return (
         <div className={styles.img_quiz_container}>
@@ -73,13 +77,15 @@ export default function TimerContainer({ styles, quiz, setStarted, started, init
                 loading='lazy'
             />
             <div className={styles.time}>
-                <div className={styles.timer}>
-                    <span>{formatTimeValue('minutes')}</span>
-                    <span>:</span>
-                    <span>{formatTimeValue('seconds')}</span>
-                    <span>:</span>
-                    <span>{formatTimeValue('miliseconds')}</span>
-                </div>
+                {showTimer && (
+                    <div className={styles.timer}>
+                        <span>{formatTimeValue('minutes')}</span>
+                        <span>:</span>
+                        <span>{formatTimeValue('seconds')}</span>
+                        <span>:</span>
+                        <span>{formatTimeValue('miliseconds')}</span>
+                    </div>
+                )}
                 {!finalTime &&
                     <div className={styles.time_action}>
                         <button

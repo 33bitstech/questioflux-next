@@ -12,6 +12,9 @@ interface IProps {
     value: ILocalPersonalityResult[]
     onChange: (results: ILocalPersonalityResult[]) => void
     error?: string | null
+    // pergunta feita só quando resultados empatam; cada resultado tem a sua alternativa
+    tieBreakQuestion: string
+    onTieBreakQuestionChange: (question: string) => void
 }
 
 const isValidImage = (file: File) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
@@ -35,7 +38,7 @@ function ResultImage({ result, alt }: { result: ILocalPersonalityResult, alt: st
 }
 
 // Capa do quiz de personalidade: os perfis a que as alternativas das perguntas vão levar.
-export default function InputPersonalityResults({ value, onChange, error }: IProps) {
+export default function InputPersonalityResults({ value, onChange, error, tieBreakQuestion, onTieBreakQuestionChange }: IProps) {
     const t = useTranslations('createQuizFlow.formComponent.personalityResults')
 
     const update = (index: number, patch: Partial<ILocalPersonalityResult>) =>
@@ -118,6 +121,38 @@ export default function InputPersonalityResults({ value, onChange, error }: IPro
                     <Plus aria-hidden="true" /> {t('add')}
                 </button>
             )}
+
+            <div className={styles.tie_break}>
+                <label htmlFor='tie-break-question'>{t('tieBreak.title')}</label>
+                <p className={styles.hint}>{t('tieBreak.hint')}</p>
+                <input
+                    id='tie-break-question'
+                    type='text'
+                    maxLength={220}
+                    value={tieBreakQuestion}
+                    placeholder={t('tieBreak.questionPlaceholder')}
+                    onChange={(e) => onTieBreakQuestionChange(e.target.value)}
+                />
+
+                {/* as alternativas só fazem sentido com a pergunta escrita */}
+                {tieBreakQuestion.trim() && (
+                    <ul>
+                        {value.map((result, index) => (
+                            <li key={result.resultId} style={{ ['--result-color' as string]: resultColor(index) }}>
+                                <span className={styles.badge}>{result.title.trim() || t('resultNumber', { number: index + 1 })}</span>
+                                <input
+                                    type='text'
+                                    maxLength={120}
+                                    value={result.tieBreakOption ?? ''}
+                                    aria-label={t('tieBreak.optionLabel', { result: result.title.trim() || t('resultNumber', { number: index + 1 }) })}
+                                    placeholder={t('tieBreak.optionPlaceholder')}
+                                    onChange={(e) => update(index, { tieBreakOption: e.target.value })}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
 
             {error && <p className={styles.error}>{error}</p>}
         </fieldset>

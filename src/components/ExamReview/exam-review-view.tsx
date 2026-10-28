@@ -20,13 +20,15 @@ interface IProps {
     actions?: ReactNode
     // anúncio no meio da lista; o embed não passa (fica dentro do site de outra pessoa)
     adSlot?: string
+    // título acima da nota; sem ele, "Correção da prova"
+    heading?: string
 }
 
 const AD_AFTER_QUESTION = 3
 const MIN_QUESTIONS_FOR_AD = 6
 
 // Correção da prova: nota, o que a pessoa marcou, a alternativa certa e as explicações.
-export default function ExamReviewView({ quizId, score, review, actions, adSlot }: IProps) {
+export default function ExamReviewView({ quizId, score, review, actions, adSlot, heading }: IProps) {
     const t = useTranslations('quizResultsPage.review')
     const [filter, setFilter] = useState<TFilter>('all')
 
@@ -61,7 +63,7 @@ export default function ExamReviewView({ quizId, score, review, actions, adSlot 
                     <span>{percent}%</span>
                 </div>
                 <div className={styles.summary_text}>
-                    <span className={styles.eyebrow}>{t('title')}</span>
+                    <span className={styles.eyebrow}>{heading ?? t('title')}</span>
                     {score.message && <h2>{score.message}</h2>}
                     <ul className={styles.stats}>
                         <li><Check aria-hidden="true" /> {t('correctCount', { correct, total })}</li>

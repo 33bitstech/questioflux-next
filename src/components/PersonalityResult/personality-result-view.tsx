@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Share2, Sparkles, Users } from 'lucide-react'
-import IPersonalityOutcome from '@/interfaces/IPersonalityOutcome'
+import IPersonalityOutcome, { outcomeResults } from '@/interfaces/IPersonalityOutcome'
 import { trackEvent } from '@/utils/analytics'
 import styles from './personality-result.module.scss'
 
@@ -22,9 +22,13 @@ export default function PersonalityResultView({ quizId, quizTitle, outcome, acti
     const t = useTranslations('personalityResultPage')
     const [copied, setCopied] = useState(false)
     const { result, breakdown, plays, sameResultPercent } = outcome
+    // empate sem pergunta de desempate: os perfis empatados aparecem juntos
+    const results = outcomeResults(outcome),
+    combined = results.length > 1,
+    resultTitle = results.map(item => item.title).join(' + ')
 
     const share = async () => {
-        const text = t('shareText', { result: result.title, quiz: quizTitle })
+        const text = t('shareText', { result: resultTitle, quiz: quizTitle })
         const url = shareUrl ?? window.location.href
         trackEvent('share', { method: 'personality_result', content_type: 'quiz', item_id: quizId })
 
@@ -44,18 +48,33 @@ export default function PersonalityResultView({ quizId, quizTitle, outcome, acti
     return (
         <section className={styles.result}>
             <div className={styles.card}>
-                {result.image && (
+                {!combined && result.image && (
                     <div className={styles.image}>
                         <Image src={result.image} alt={result.title} width={640} height={640} sizes="(max-width: 700px) 80vw, 320px" priority />
                     </div>
                 )}
 
                 <div className={styles.text}>
-                    <span className={styles.eyebrow}><Sparkles aria-hidden="true" /> {t('yourResult')}</span>
-                    <h2>{result.title}</h2>
-                    {result.description && <p>{result.description}</p>}
+                    <span className={styles.eyebrow}><Sparkles aria-hidden="true" /> {combined ? t('combinedResult') : t('yourResult')}</span>
+                    <h2>{resultTitle}</h2>
+                    {!combined && result.description && <p>{result.description}</p>}
 
-                    {plays > 1 && (
+                    {combined && <>
+                        <p>{t('combinedHint')}</p>
+                        <ul className={styles.combined}>
+                            {results.map(item => (
+                                <li key={item.resultId}>
+                                    {item.image && <Image src={item.image} alt={item.title} width={160} height={160} sizes="64px" />}
+                                    <div>
+                                        <h3>{item.title}</h3>
+                                        {item.description && <p>{item.description}</p>}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </>}
+
+                    {plays > 1 && sameResultPercent !== undefined && (
                         <p className={styles.same}>
                             <Users aria-hidden="true" /> {t('sameResult', { percent: sameResultPercent, count: plays })}
                         </p>

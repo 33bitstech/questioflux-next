@@ -201,3 +201,69 @@
         flex-direction: column;
     }
 }
+
+// pergunta de desempate: abaixo dos resultados, uma alternativa por resultado
+.tie_break {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+    margin-top: .4rem;
+    padding-top: .9rem;
+    border-top: 1px dashed vars.$cor-cinzaDescD;
+
+    > label {
+        @include vars.styleTexto(var(--text-primary), .95rem, 700);
+    }
+
+    input {
+        width: 100%;
+        padding: .5rem;
+        border-radius: .3125rem;
+        border: 1px solid vars.$cor-cinzaDescD;
+        background-color: var(--background-divs);
+        @include vars.styleTexto(var(--text-primary), .8rem, 400);
+
+        &::placeholder {
+            color: vars.$cor-cinzaDescD;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--result-color, var(--text-primary));
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    // mesmo seletor de .results li, declarado depois: sobrepõe o cartão do resultado
+    li {
+        flex-direction: row;
+        align-items: center;
+        gap: .6rem;
+        padding: .5rem .7rem;
+    }
+
+    .badge {
+        flex-shrink: 0;
+        max-width: 40%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .tie_break li {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tie_break .badge {
+        align-self: flex-start;
+        max-width: 100%;
+    }
+}

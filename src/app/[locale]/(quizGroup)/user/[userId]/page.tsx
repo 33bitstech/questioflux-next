@@ -55,6 +55,7 @@ export async function generateMetadata({ params}: IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/user/${userId}`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/user/${userId}`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/user/${userId}`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh/user/${userId}`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/user/${userId}`
     },
     names = {

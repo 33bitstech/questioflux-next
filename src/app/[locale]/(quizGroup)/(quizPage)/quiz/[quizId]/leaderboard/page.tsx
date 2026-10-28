@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/quiz/${quizId}/leaderboard`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/leaderboard`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/quiz/${quizId}/leaderboard`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh/quiz/${quizId}/leaderboard`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/quiz/${quizId}/leaderboard`
     },
         names = {

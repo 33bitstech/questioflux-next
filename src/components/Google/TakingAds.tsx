@@ -13,8 +13,8 @@ const SLOTS = {
 // Mesmo corte da página do quiz: acima de 1270px os anúncios são verticais, fixos nas
 // laterais; abaixo, horizontais dentro da página. A altura mínima garante que o vertical
 // (160x600) caiba inteiro na tela.
-const RAILS_MIN_WIDTH = 1271
-const RAILS_MIN_HEIGHT = 640
+export const RAILS_MIN_WIDTH = 1271
+export const RAILS_MIN_HEIGHT = 640
 
 interface IProps {
     // 'top' = lateral esquerda no desktop / acima da numeração das questões no mobile

@@ -7,6 +7,7 @@ import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/act
 import CurrencySelector from '@/components/Subscription/currency-selector'
 import { SubscriptionCurrencyProvider } from '@/contexts/subscriptionCurrencyContext'
 import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
+import PlanPrice from '@/components/Pricing/plan-price'
 
 interface IProps {
     params: Promise<{
@@ -51,10 +52,11 @@ export default async function Subscription({ params }: IProps) {
                         <div className={styles.text_content}>
                             <h1>{type}</h1>
 
+                            {/* o preço vem do Stripe, na moeda escolhida no seletor abaixo */}
                             <p>
-                                {type === 'questioplususage'
-                                    ? t('descriptionUsage')
-                                    : t('descriptionPlus')}
+                                {type === 'questioplususage' ? t('planUsage') : t('planPlus')}
+                                {' — '}
+                                <PlanPrice plan={type === 'questioplususage' ? 'usage' : 'plus'} />
                             </p>
 
                             <CurrencySelector

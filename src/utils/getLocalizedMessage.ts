@@ -10,6 +10,7 @@ const defaultFallbacks: Record<AppLocale, string> = {
     en: 'An unexpected error occurred.',
     pt: 'Ocorreu um erro inesperado.',
     es: 'Ocurrió un error inesperado.',
+    zh: '发生了意外错误。',
 }
 
 export const getLocalizedMessage = (
@@ -23,6 +24,7 @@ export const getLocalizedMessage = (
         en: data?.message,
         pt: data?.messagePT,
         es: data?.messageES,
+        zh: data?.message,
     }
 
     return (

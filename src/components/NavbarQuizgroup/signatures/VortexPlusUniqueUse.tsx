@@ -3,6 +3,7 @@
 import { useTranslations, useLocale } from 'next-intl'; 
 import styles from './VortexPlus.module.scss'
 import CorrectIconSvg from '../../Icons/CorrectIconSvg'
+import PlanPrice from '@/components/Pricing/plan-price'
 
 const VortexPlusUniqueUse = () => {
     const t = useTranslations('vortexPlus');
@@ -18,7 +19,7 @@ const VortexPlusUniqueUse = () => {
                 <li><p>{t('sharedFeatures.feature4')}</p> <span><CorrectIconSvg/></span></li>
             </ul>
             <div className={styles.price}>
-                <span>{t('singleUse.price')}</span>
+                <PlanPrice plan='usage' />
 
                 <a 
                     href={`/${locale}/subscription/questioplususage` }

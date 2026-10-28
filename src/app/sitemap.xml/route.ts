@@ -2,6 +2,7 @@ import { routing } from '@/i18n/routing'
 import { getIndexableQuizzes } from '@/utils/publicQuiz'
 import { quizTypeSlugs } from '@/utils/quizKind'
 import { quizCanonicalUrl, shellLanguages, SITE_URL } from '@/utils/seo'
+import { getAllPublishedPosts } from '@/utils/blog'
 
 // Gerado no servidor e guardado por uma hora.
 export const dynamic = 'force-static'
@@ -47,13 +48,33 @@ function urlTag({ loc, lastmod, alternates = {}, images = [] }: IEntry) {
     ].join('\n')
 }
 
+// Só artigos publicados (rascunho nunca entra) e a listagem dos idiomas que têm artigo
+function blogEntries(): IEntry[] {
+    const posts = getAllPublishedPosts()
+    const locales = Array.from(new Set(posts.map(post => post.locale)))
+    const listingAlternates = Object.fromEntries(locales.map(locale => [locale, `${SITE_URL}/${locale}/blog`]))
+
+    return [
+        ...locales.map(locale => ({ loc: `${SITE_URL}/${locale}/blog`, alternates: listingAlternates })),
+        ...posts.map(post => ({
+            loc: `${SITE_URL}/${post.locale}/blog/${post.slug}`,
+            lastmod: validDate(post.updatedAt ?? post.publishedAt),
+            alternates: Object.fromEntries(posts.filter(item => item.slug === post.slug)
+                .map(item => [item.locale, `${SITE_URL}/${item.locale}/blog/${item.slug}`])),
+        })),
+    ]
+}
+
 async function getEntries(): Promise<IEntry[]> {
-    const shell: IEntry[] = SHELL_PATHS.flatMap(path =>
-        routing.locales.map(locale => ({
-            loc: `${SITE_URL}/${locale}${path}`,
-            alternates: shellLanguages(path),
-        }))
-    )
+    const shell: IEntry[] = [
+        ...SHELL_PATHS.flatMap(path =>
+            routing.locales.map(locale => ({
+                loc: `${SITE_URL}/${locale}${path}`,
+                alternates: shellLanguages(path),
+            }))
+        ),
+        ...blogEntries(),
+    ]
 
     try {
         // Uma URL por quiz: a canônica. Só entra o que a página serve como "index".

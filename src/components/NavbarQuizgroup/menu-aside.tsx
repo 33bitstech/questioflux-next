@@ -31,6 +31,7 @@ export default function MenuAside({auth}: IProps) {
                             <GamepassWidget /> 
                             <li><NavLink href='/create/quiz'>{t('asideMenu.createQuiz')}</NavLink></li>
                             <li><NavLink href='/about-us'>{t('asideMenu.about')}</NavLink></li>
+                            <li><NavLink href='/blog'>{t('asideMenu.blog')}</NavLink></li>
                             <li><LinkProfile/></li>
                             <li><NavLink href={`/saves`}>{t('asideMenu.saves')}</NavLink></li>
                             <li><NavLink href={`/drafts`}>{t('asideMenu.drafts')}</NavLink></li>

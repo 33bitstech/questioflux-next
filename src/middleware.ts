@@ -11,42 +11,44 @@ type PublicRoute = {
 };
 
 const publicRoutes: PublicRoute[] = [
-    { src: /^\/(en|pt|es)$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt|es)\/login$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt|es)\/register$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt|es)\/about-us$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/rescuepassword$/, actionWhenAuth: 'redirect' },
-    { src: /^\/(en|pt|es)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/user\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/explore$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/create\/quiz$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es|zh)\/login$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es|zh)\/register$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es|zh)\/about-us$/, actionWhenAuth: 'next' },
+    // blog: listagem e artigos, abertos com ou sem login
+    { src: /^\/(en|pt|es|zh)\/blog(\/[a-z0-9-]+)?$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/rescuepassword$/, actionWhenAuth: 'redirect' },
+    { src: /^\/(en|pt|es|zh)\/login\/recovery\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/user\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/explore$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/create\/quiz$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
     // página de cada tipo de quiz (prova, sobre mim...): conteúdo para o Google
-    { src: /^\/(en|pt|es)\/create\/quiz\/(questions-and-answers|exam|about-me|personality)$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/review$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/personality$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
-    { src: /^\/(en|pt|es)\/embed\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/create\/quiz\/(questions-and-answers|exam|about-me|personality)$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/leaderboard$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/results$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/review$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/personality$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/quiz\/.+\/lb$/, actionWhenAuth: 'next' },
+    { src: /^\/(en|pt|es|zh)\/embed\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
 ];
 
 // Rotas que exigem login. O que não é público nem protegido não existe: segue para o
 // roteador responder 404 (mandar para o login fazia o Google ver um "soft 404").
 const protectedRoutes: RegExp[] = [
-    /^\/(en|pt|es)\/home$/,
-    /^\/(en|pt|es)\/(profile|saves|drafts|create|subscription|email-confirm|email-verification)(\/.*)?$/,
-    /^\/(en|pt|es)\/quiz\/edit(\/.*)?$/,
+    /^\/(en|pt|es|zh)\/home$/,
+    /^\/(en|pt|es|zh)\/(profile|saves|drafts|create|subscription|email-confirm|email-verification)(\/.*)?$/,
+    /^\/(en|pt|es|zh)\/quiz\/edit(\/.*)?$/,
     // erros do login com Google chegam do backend em /error?code=...&msgEN=...
-    /^\/(en|pt|es)\/error$/,
+    /^\/(en|pt|es|zh)\/error$/,
 ];
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-    const locales = ['en', 'pt', 'es'];
+    const locales = ['en', 'pt', 'es', 'zh'];
 
     const pathnameHasLocale = locales.some(
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

@@ -9,6 +9,8 @@ import StrokeProfileSvg from "@/components/Icons/StrokeProfileSvg";
 import WorldSvg from "@/components/Icons/WorldSvg";
 import Wave from "@/components/wave";
 import RegisterComponent from '@/components/AuthForms/register-component';
+import ScrollToSection from '@/components/LandingPage/scroll-to-section';
+import LandingAd from '@/components/Google/LandingAd';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from "next";
 import { env } from '@/env';
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en`
     }
 
@@ -83,9 +86,11 @@ export default async function LandingPage({ params }: IProps) {
                             <li><span><StrokeProfileSvg /></span></li>
                             <li><span><ExamSvg /></span></li>
                         </ul>
-                        <Link href={`#register_comp_section`} className={styles.button_link}>{t('hero.ctaButton')}</Link>
+                        {/* leva à criação (tipos de quiz e "Criar agora"); o cadastro só aparece quando a criação pedir login */}
+                        <ScrollToSection targetId='quiz_styles_section' className={styles.button_link}>{t('hero.ctaButton')}</ScrollToSection>
                         <Link href={'/explore'} locale={locale} className={styles.explore_link} >{t('hero.exploreButton')}</Link>
                     </div>
+                    <LandingAd />
                 </section>
 
                 <div className={styles.wave}><Wave /></div>
@@ -154,6 +159,7 @@ export default async function LandingPage({ params }: IProps) {
 
             <footer className={styles.footer}>
                 <Link locale={locale} href={'/about-us'}>{t('footer.aboutLink')}</Link>
+                <Link locale={locale} href={'/blog'}>{t('footer.blogLink')}</Link>
             </footer>
         </>
     );

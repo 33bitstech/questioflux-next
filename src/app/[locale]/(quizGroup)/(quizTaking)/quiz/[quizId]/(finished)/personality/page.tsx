@@ -3,6 +3,7 @@ import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz'
 import { quizCanonicalUrl } from '@/utils/seo'
 import PersonalityResultPage from '@/components/PersonalityResult/personality-result-page'
 import GoogleAd from '@/components/Google/GoogleAd'
+import AdRails from '@/components/Google/AdRails'
 
 interface IProps {
     params: Promise<{
@@ -26,6 +27,7 @@ export default async function PersonalityResult({ params }: IProps) {
         <>
             <PersonalityResultPage quiz={withoutQuestions(quiz)} shareUrl={quizCanonicalUrl(quiz)} />
             <GoogleAd slot={RESULTS_AD_SLOT} />
+            <AdRails />
         </>
     )
 }

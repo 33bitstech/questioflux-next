@@ -7,7 +7,7 @@ import { cookies } from "next/headers"
 import { updateTag } from "next/cache"
 import { quizTag } from "@/utils/publicQuiz"
 import IExamReviewQuestion from "@/interfaces/IExamReview"
-import IPersonalityOutcome from "@/interfaces/IPersonalityOutcome"
+import IPersonalityOutcome, { IPersonalityTie } from "@/interfaces/IPersonalityOutcome"
 
 const START_COOKIE = (id: string) => `quiz_start_${id}`
 const ELAPSED_COOKIE = (id: string) => `quiz_elapsed_${id}`
@@ -44,23 +44,37 @@ export async function pauseQuiz(quizId: string, token?: string): Promise<{ ok: b
     return { ok: true }
 }
 
-export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest?: string }, token?: string) {
+// personality: o quiz de personalidade não tem tempo nem ranking, então não depende da sessão
+// (que expira em uma hora); tieBreak é a escolha na pergunta de desempate, no segundo envio.
+export async function takeQuiz(
+    quizId: string,
+    results: { quizAnswer: any; guest?: string },
+    token?: string,
+    personality?: { tieBreak?: string }
+) {
     try {
         const cookieStore = await cookies()
-        const elapsed = token
-            ? openQuizSession(quizId, 'elapsed', token)
-            : cookieStore.get(ELAPSED_COOKIE(quizId))?.value
-        if (!elapsed) {
-            return { err: 'Quiz session not found. Please start the quiz again.' }
+        let timing = 0
+
+        if (!personality) {
+            const elapsed = token
+                ? openQuizSession(quizId, 'elapsed', token)
+                : cookieStore.get(ELAPSED_COOKIE(quizId))?.value
+            if (!elapsed) {
+                return { err: 'Quiz session not found. Please start the quiz again.' }
+            }
+            timing = Number(elapsed)
+            if (isNaN(timing) || timing <= 0) {
+                return { err: 'Invalid quiz session. Please start the quiz again.' }
+            }
+            if (!token) cookieStore.delete(ELAPSED_COOKIE(quizId))
         }
-        const timing = Number(elapsed)
-        if (isNaN(timing) || timing <= 0) {
-            return { err: 'Invalid quiz session. Please start the quiz again.' }
-        }
-        if (!token) cookieStore.delete(ELAPSED_COOKIE(quizId))
 
         const cookieHeader = await getCookieHeader(cookieStore.getAll())
-        const body = { quizAnswer: results.quizAnswer, timing, guest: results.guest }
+        const body = {
+            quizAnswer: results.quizAnswer, timing, guest: results.guest,
+            ...(personality?.tieBreak ? { tieBreak: personality.tieBreak } : {}),
+        }
 
         const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_FRONT}/api/quiz/answer/${quizId}`, {
             method: 'POST',
@@ -71,6 +85,9 @@ export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest
         const res = await response.json()
         // errData: o erro com as três línguas, para a tela mostrar no idioma de quem joga
         if (!response.ok) return { err: res.message as string, errData: res as { message?: string, messagePT?: string, messageES?: string } }
+
+        // empate: a pessoa escolhe na pergunta de desempate e envia de novo (nada foi salvo)
+        if (res.personalityTie) return { tie: res.personalityTie as IPersonalityTie }
 
         // personalidade: a contagem de resultados do quiz mudou (aba "Resultados")
         if (res.personality) updateTag(quizTag(quizId))

@@ -1,0 +1,29 @@
+// Bem separada dos botões (anúncio colado em botão gera clique sem querer) e com a altura
+// já reservada, para o carregamento não empurrar a página.
+.landing_ad {
+    width: 100%;
+    max-width: 728px;
+    min-height: 90px;
+    margin: 48px auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    :global(.adsbygoogle) {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0;
+    }
+
+    // sem anúncio para o bloco, some o espaço junto
+    &:has(:global(ins[data-ad-status='unfilled'])) {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .landing_ad {
+        min-height: 100px;
+        margin-top: 40px;
+    }
+}

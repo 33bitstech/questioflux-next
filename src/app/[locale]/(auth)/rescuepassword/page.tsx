@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/rescuepassword`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/rescuepassword`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/rescuepassword`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh/rescuepassword`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/rescuepassword`
     }
 

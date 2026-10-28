@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ListChecks, RotateCcw } from 'lucide-react'
 import IQuizes from '@/interfaces/IQuizes'
-import IPersonalityOutcome from '@/interfaces/IPersonalityOutcome'
+import IPersonalityOutcome, { outcomeResults } from '@/interfaces/IPersonalityOutcome'
 import { loadPersonalityOutcome } from '@/utils/personalityOutcome'
 import { quizParams, trackEvent } from '@/utils/analytics'
 import PersonalityResultView from './personality-result-view'
@@ -29,7 +29,7 @@ export default function PersonalityResultPage({ quiz, shareUrl }: IProps) {
         if (stored) {
             trackEvent('quiz_result_view', {
                 ...quizParams(quiz),
-                personality_result: stored.result.title.slice(0, 100),
+                personality_result: outcomeResults(stored).map(item => item.title).join(' + ').slice(0, 100),
             })
         }
     }, [quiz])

@@ -13,19 +13,43 @@
     position: relative;
     .close{
         position: absolute;
-        left: 2%;
-        top: 4%;
+        right: 1rem;
+        top: 1rem;
         cursor: pointer;
         display: block;
+        padding: 0;
+        border: none;
+        background: none;
     }
     .content{
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: .31rem;
+        .header{
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+            margin-bottom: .6rem;
+            h2{
+                @include vars.styleTexto(#ffffff, 1.05rem, 700);
+                span{
+                    margin-left: .3rem;
+                    @include vars.styleTexto(vars.$cor-cinza2, 1rem, 500);
+                }
+            }
+            p{
+                line-height: 1.4;
+                @include vars.styleTexto(vars.$cor-cinza2, .82rem, 400);
+            }
+        }
+        .empty{
+            padding: 1.2rem 0 2rem;
+            @include vars.styleTexto(vars.$cor-cinza2, .92rem, 400);
+        }
         .user{
             justify-content: space-between;
-        
+
             width: 99%;
             padding: 1.5rem 1.4rem;
             border-radius: 0.3125rem;
@@ -43,6 +67,7 @@
                 margin-bottom: 2rem;
             }
             .profileImg{
+                flex-shrink: 0;
                 display: inline-block;
                 width: 2.1875rem;
                 height: 2.1875rem;
@@ -57,12 +82,21 @@
                     object-fit: cover;
                 }
             }
+            .identity{
+                min-width: 0;
+                max-width: 70%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: .2rem;
+                text-align: right;
+            }
             a, p{
                 @include vars.styleTexto(#ffffff, 1rem, 700);
                 text-transform: capitalize;
                 text-overflow: ellipsis;
                 overflow: hidden;
-                max-width: 70%;
+                max-width: 100%;
                 justify-self: center;
                 &:hover{
                     background: linear-gradient(var(--fixed-blue) 0%, var(--fixed-cyan) 100%);
@@ -70,6 +104,28 @@
                     -webkit-text-fill-color: transparent;
                     -webkit-background-clip: text;
                 }
+            }
+            // a personalidade obtida (quiz de personalidade)
+            .result{
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                @include vars.styleTexto(vars.$cor-ciano, .85rem, 500);
+            }
+        }
+        .load_more{
+            align-self: center;
+            margin: .4rem 0 2rem;
+            padding: .6rem 1.2rem;
+            border-radius: .5rem;
+            border: 1px solid vars.$cor-cinza5;
+            background: none;
+            cursor: pointer;
+            @include vars.styleTexto(#ffffff, .9rem, 600);
+            &:disabled{
+                cursor: wait;
+                opacity: .6;
             }
         }
     }

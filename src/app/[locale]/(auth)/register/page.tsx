@@ -22,6 +22,7 @@ export async function generateMetadata({params}:IProps): Promise<Metadata> {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/register`,
         'en-US': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/register`,
         'pt-BR': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/pt/register`,
+        'zh-CN': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/zh/register`,
         'x-default': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/en/register`
     }
 

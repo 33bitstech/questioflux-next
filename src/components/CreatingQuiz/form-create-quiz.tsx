@@ -37,13 +37,14 @@ const SUGGESTED_CATEGORY: Partial<Record<QuizKind, string>> = {
     aboutMe: 'Life/Relationships',
     personality: 'Psychology',
 }
-type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES'
+type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN'
 
 const getDefaultQuizIdiom = (locale: string): QuizIdiom => {
     const idiomByLocale = {
         pt: 'PT-BR',
         en: 'EN-US',
         es: 'ES-ES',
+        zh: 'ZH-CN',
     } satisfies Record<string, QuizIdiom>
 
     return idiomByLocale[getAppLocale(locale)]
@@ -64,6 +65,7 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
         [kind, setKind] = useState<QuizKind>(initialKind),
         // personalidade: os perfis a que as alternativas vão levar
         [results, setResults] = useState<ILocalPersonalityResult[]>(initialResults),
+        [tieBreakQuestion, setTieBreakQuestion] = useState(''),
         [category, setCategory] = useState<string>(SUGGESTED_CATEGORY[initialKind] ?? ''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<'public' | 'private'>('private'),
@@ -115,7 +117,7 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                     idiom,
                     kind,
                     resultMessages: finalMessages,
-                    ...(kind === 'personality' ? { personalityResults: toApiResults(results) } : {}),
+                    ...(kind === 'personality' ? { personalityResults: toApiResults(results), personalityTieBreakQuestion: tieBreakQuestion } : {}),
                 },
             }
 
@@ -273,6 +275,7 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                         <option value='EN-US'>{t('selects.en')}</option>
                         <option value='PT-BR'>{t('selects.pt')}</option>
                         <option value='ES-ES'>{t('selects.es')}</option>
+                        <option value='ZH-CN'>{t('selects.zh')}</option>
                     </select>
                 </InputTextQuiz>
 
@@ -281,6 +284,8 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                         value={results}
                         onChange={(newResults) => { setResults(newResults); resetTypeError('personalityResults') }}
                         error={getError('personalityResults')}
+                        tieBreakQuestion={tieBreakQuestion}
+                        onTieBreakQuestionChange={(question) => { setTieBreakQuestion(question); resetTypeError('personalityResults') }}
                     />
                 ) : (
                     <div className={styles.messages}>

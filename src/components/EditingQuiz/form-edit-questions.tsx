@@ -197,7 +197,11 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
         [loading, setLoading] = useState<boolean>(false),
         prevQuestionsLengthRef = useRef(questions.length),
-        questionRefs = useRef<Record<string, HTMLDivElement | null>>({})
+        questionRefs = useRef<Record<string, HTMLDivElement | null>>({}),
+        // Cada tentativa de salvar devolve o quiz do servidor (updateTag na action). Depois de
+        // uma falha a tela fica com o que a pessoa fez, imagens ainda não enviadas inclusive,
+        // para tentar de novo; só um salvamento concluído volta a carregar do servidor.
+        syncFromServer = useRef(true)
 
     const [showUnsavedWarning, setShowUnsavedWarning] = useState<boolean>(false);
     const [initialSnapshot, setInitialSnapshot] = useState<string>('');
@@ -334,6 +338,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
     const sendDatas = async () => {
         clearQuestionsErrors()
         setLoading(true)
+        syncFromServer.current = false
 
         const handleApiError = (err: any) => {
             const invalidQuestions = err?.data?.invalidQuestions as
@@ -416,6 +421,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
                     const normalizedQuestions = normalizeQuestionsAfterImageSave(questionsToSend);
                     setQuestions(normalizedQuestions)
+                    syncFromServer.current = true
                     router.refresh()
                     setSucess(t('form.successMessage'))
 
@@ -461,6 +467,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     const finalQuestions = updatedQuestions || normalizeQuestionsAfterImageSave(questionsToSend)
 
                     setQuestions(finalQuestions)
+                    syncFromServer.current = true
                     router.refresh()
                     setSucess(t('form.successMessage'))
 
@@ -484,6 +491,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
             }
 
             if (res) {
+                syncFromServer.current = true
                 setSucess(t('form.successMessage'))
 
                 setInitialSnapshot(getQuestionsSnapshot(questions))
@@ -494,6 +502,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
     }
 
     useEffect(() => {
+        if (!syncFromServer.current) return
         if (quiz && quiz.questions) {
             if (quiz.type === 'image/RW') {
                 const newQuestions = mapApiImageQuestionsToLocal(quiz.questions)

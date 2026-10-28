@@ -5,9 +5,12 @@ import { getTimeString } from '@/utils/FormatTime'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server' // Importar
 import GoogleAd from '@/components/Google/GoogleAd'
+import AdRails from '@/components/Google/AdRails'
 import { getLeaderboard } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 import { getPublicQuiz } from '@/utils/publicQuiz'
 import ButtonSeeScore from '@/components/Leaderboard/button-see-score'
+import { getCookieHeader } from '@/utils/getCookieHeader'
+import { readResultCookie, RESULT_COOKIE } from '@/utils/quizResultCookie'
 
 interface IProps {
     params: Promise<{
@@ -19,36 +22,25 @@ interface IProps {
 export default async function Results({ params }: IProps) {
     const { quizId, locale } = await params;
 
-    const [t, cookieStore, leaderboard, quiz] = await Promise.all([
+    const cookieStore = await cookies()
+    // com o cookie de login o ranking traz as respostas da própria pessoa ("Veja seu resultado")
+    const cookieHeader = getCookieHeader(cookieStore.getAll())
+
+    const [t, leaderboard, quiz] = await Promise.all([
         getTranslations({ locale, namespace: 'quizResultsPage.results' }),
-        cookies(),
-        getLeaderboard(quizId),
+        getLeaderboard(quizId, cookieHeader),
         getPublicQuiz(quizId)
     ])
-    const rawCookie = cookieStore.get('quizResults')?.value;
+    // só vale o resultado deste quiz; de outro quiz (ou sem cookie) não mostra nada
+    const results = readResultCookie(cookieStore.get(RESULT_COOKIE)?.value, quizId)
 
-    if (!rawCookie) {
-        return <div>{t('noResults')}</div>;
-    }
-
-    let results;
-    try {
-        results = JSON.parse(decodeURIComponent(rawCookie));
-    } catch (error) {
-        console.error("[Results Page] Falha ao fazer o parse do cookie de resultados:", error);
+    if (!results) {
         return <div>{t('noResults')}</div>;
     }
 
     const getResultsFormated = () => {
-        if (!results?.userForLeaderBoard?.score) {
-            return { totalQuestions: 0, correctQuestions: 0, time: "00:00" };
-        }
-
-        const totalQuestions = results.userForLeaderBoard.score.split('/')[1];
-        const correctQuestions = results.userForLeaderBoard.result.correctAnswers.length;
-        const time = getTimeString(results.userForLeaderBoard.timing);
-        
-        return { totalQuestions, correctQuestions, time };
+        const [correctQuestions = '0', totalQuestions = '0'] = results.score.split('/')
+        return { totalQuestions, correctQuestions, time: getTimeString(results.timing) };
     }
 
     if (!quizId) return null; 
@@ -91,6 +83,8 @@ export default async function Results({ params }: IProps) {
             </div>
 
             <GoogleAd slot='8751962602' />
+            {/* desktop: uma em cada lateral; no celular fica só o anúncio de cima */}
+            <AdRails />
 
         </>
     )

@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
 
-type Locale = 'pt' | 'en' | 'es';
+type Locale = 'pt' | 'en' | 'es' | 'zh';
 
 const locales: Array<{ code: Locale; label: string }> = [
     {
@@ -17,6 +17,10 @@ const locales: Array<{ code: Locale; label: string }> = [
     {
         code: 'es',
         label: 'ES',
+    },
+    {
+        code: 'zh',
+        label: '中文',
     },
 ];
 

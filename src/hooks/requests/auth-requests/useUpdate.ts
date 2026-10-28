@@ -14,6 +14,7 @@ const useUpdate = () => {
         en: 'Error updating user',
         pt: 'Erro ao atualizar usuário',
         es: 'Error al actualizar el usuario',
+        zh: '更新用户时出错',
     }
 
     const getErrorMessage = (data: any) => {

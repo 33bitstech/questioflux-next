@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 export default function AdSenseScript() {
     const pathname = usePathname()
 
-    if (/^\/(en|pt|es)\/embed\//.test(pathname)) return null
+    if (/^\/(en|pt|es|zh)\/embed\//.test(pathname)) return null
 
     return (
         <Script

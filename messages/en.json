@@ -30,7 +30,8 @@
             "private": "<span>Private quizzes:</span> Share your quiz by link with friends, students, or specific groups."
         },
         "footer": {
-            "aboutLink": "About us"
+            "aboutLink": "About us",
+            "blogLink": "Blog"
         },
         "metadataTitle": "QuestioFlux | Free Online Quiz Maker with Leaderboards",
         "metadataDesc": "Create a free text quiz online with questions, answers, multiple choice options, and leaderboards. Share quizzes with friends, students, or your community.",
@@ -155,7 +156,8 @@
             "saves": "Saves",
             "drafts": "Drafts",
             "config": "Settings",
-            "about": "About-us"
+            "about": "About-us",
+            "blog": "Blog"
         },
         "themeWidget": {
             "light": "Light",
@@ -373,6 +375,14 @@
             "draftHint": "Still being edited: it does not show up in Explore or on Google.",
             "privateHint": "Only people with the link can take it.",
             "publicHint": "Shows up in Explore and can appear on Google."
+        },
+        "participantsList": {
+            "title": "Visible participants",
+            "note": "Some participations don't appear in this list.",
+            "empty": "No visible participants.",
+            "guest": "Guest",
+            "loadMore": "Load more",
+            "close": "Close the participants list"
         }
     },
     "quizActions": {
@@ -425,7 +435,13 @@
             "correctTitle": "Correct Answers:",
             "incorrectTitle": "Incorrect Answers:",
             "questionLabel": "Question:",
-            "answerLabel": "User Answer:"
+            "answerLabel": "User Answer:",
+            "title": "{name}'s answers",
+            "heading": "Answers in this attempt",
+            "loading": "Loading the answers…",
+            "error": "Could not load the answers.",
+            "empty": "The questions from this attempt are no longer in the quiz.",
+            "close": "Close the answers"
         },
         "home": "View Quiz",
         "sections": {
@@ -532,7 +548,8 @@
                     "personality": "Personality quiz"
                 },
                 "statusDraft": "Draft",
-                "statusFinished": "Finished"
+                "statusFinished": "Finished",
+                "zh": "Chinese (Simplified)"
             },
             "buttons": {
                 "back": "Back",
@@ -559,7 +576,14 @@
                 "descriptionLabel": "Description of result {number}",
                 "descriptionPlaceholder": "What this result says about whoever gets it (optional)",
                 "add": "Add result",
-                "imageError": "Your quiz was saved, but a result image did not upload. Try again in Edit Quiz."
+                "imageError": "Your quiz was saved, but a result image did not upload. Try again in Edit Quiz.",
+                "tieBreak": {
+                    "title": "Tie-break question (optional)",
+                    "hint": "It only shows up when the answers tie between two or more results, and it only offers the alternatives of the tied results. Without it, a tie shows up as a combined result.",
+                    "questionPlaceholder": "E.g.: Which of these places would you pick for the weekend?",
+                    "optionLabel": "Alternative that leads to {result}",
+                    "optionPlaceholder": "Alternative that leads to this result"
+                }
             },
             "statusHints": {
                 "draft": "Drafts do not show up in Explore or on Google. Choose Finished when the quiz is ready.",
@@ -731,6 +755,10 @@
         },
         "imageLabels": {
             "alternative": "Alternative N°{number}"
+        },
+        "tieBreak": {
+            "eyebrow": "It's a tie",
+            "hint": "Your answers ended in a tie. Pick the option that fits you best to decide your result."
         }
     },
     "quizResultsPage": {
@@ -815,7 +843,11 @@
         "maintenance": {
             "title": "Payments temporarily unavailable",
             "description": "We are changing our payment gateway. Please come back later."
-        }
+        },
+        "total": "Total to pay: {amount}",
+        "totalPerMonth": "Total to pay: {amount}/month",
+        "planPlus": "QuestioPlus subscription",
+        "planUsage": "QuestioPlus one-time pass"
     },
     "mainMetadata": {
         "desc": "Create your own quiz with QuestioFlux! A powerful and fun quiz maker to build and share tests with friends. Add images, customize questions, and see who reaches the top of the leaderboard. Start creating today!",
@@ -1307,7 +1339,7 @@
                 },
                 {
                     "question": "How is the result calculated?",
-                    "answer": "Each answer adds a point to the result it leads to. The result with the most points wins; in a tie, the most recent answer among the tied results counts."
+                    "answer": "Each answer adds a point to the result it leads to, and the result with the most points wins. In a tie, the quiz can ask a tie-break question that only shows the tied results; without one, the tied results show up together as a combined result."
                 },
                 {
                     "question": "How many results can I create?",
@@ -1344,6 +1376,51 @@
             "noPlays": "Nobody has finished this quiz yet. Be the first!",
             "cta": "Find out my result",
             "metadataTitle": "Everyone’s results – {quiz_name}"
+        },
+        "combinedResult": "Combined result",
+        "combinedHint": "Your answers tied between these profiles, so you have a bit of each."
+    },
+    "pricing": {
+        "loading": "Loading price…",
+        "unavailable": "Price unavailable right now",
+        "perMonth": "{price}/month",
+        "perYear": "{price}/year",
+        "perUse": "{price}/use"
+    },
+    "blogPage": {
+        "metadataTitle": "QuestioFlux Blog: guides to create quizzes and online tests",
+        "metadataDescription": "Practical tutorials to create personality quizzes, online tests with commented answers and quizzes to share.",
+        "title": "Blog",
+        "subtitle": "Practical guides to create quizzes, tests and online exams, with examples and the real limits of each plan.",
+        "empty": "There are no articles in this language yet.",
+        "draft": "Draft",
+        "draftNotice": "Draft: this article has not been published yet and only shows up in the development environment.",
+        "readingTime": "{minutes} min read",
+        "backToBlog": "Blog",
+        "byline": "By {author}",
+        "publishedOn": "Published on",
+        "updatedOn": "Updated on",
+        "cta": {
+            "quiz": {
+                "title": "Create your quiz now",
+                "text": "Questions and answers with a leaderboard, ready to share in a few minutes.",
+                "button": "Create a trivia quiz"
+            },
+            "exam": {
+                "title": "Build your online test",
+                "text": "Automatic grading and an explanation for every alternative: students see the commented review as soon as they finish.",
+                "button": "Create an online test"
+            },
+            "aboutMe": {
+                "title": "Who knows you best?",
+                "text": "Create a quiz about yourself and find out which friends score the highest.",
+                "button": "Create an about me quiz"
+            },
+            "personality": {
+                "title": "Create your personality quiz",
+                "text": "You define the results and which result each answer leads to. Free to get started.",
+                "button": "Create a personality quiz"
+            }
         }
     }
 }

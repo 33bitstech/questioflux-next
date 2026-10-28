@@ -1,138 +1,107 @@
 @use '../../assets/styles/vars.scss';
 
+// Janela da revisão: cabeçalho fixo (nome, tentativas, fechar) e as questões rolando embaixo
 .results_container{
     z-index: 20;
     position: fixed;
-    background-color: var(--background-primary);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 1.2rem;
-    border-radius: .8rem;
+    width: min(94vw, 48rem);
+    max-height: 88vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.30);
-    width: 92%;
-    max-width: 50rem;
-    gap: 2rem;
-    height: 100vh;
-    max-height: 80vh;
+    border-radius: .9rem;
+    background-color: var(--background-primary);
+    box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
 
-    .close_container{
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translateY(-100%);
-        cursor: pointer;
+.user_info{
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 1.3rem .9rem;
+    border-bottom: 1px solid vars.$cor-cinzaDescD;
+
+    h2{
+        line-height: 1.25;
+        word-break: break-word;
+        @include vars.styleTexto(var(--text-primary), 1.3rem, 700);
+    }
+
+    p{
+        margin-top: .25rem;
+        @include vars.styleTexto(var(--text-secondary), .9rem, 400);
+
         span{
-            display: block  ;
-            height: 1.5rem;
-            width: 1.5rem;
-            svg{
-                width: 100%;
-                height: 100%;
-                path{
-                    fill: var(--fixed-blue);
-                }
-            }
+            font-weight: 600;
+            color: var(--text-primary);
         }
     }
+}
+
+.close_button{
+    flex-shrink: 0;
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    padding: .35rem;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+
+    svg{
+        width: 100%;
+        height: 100%;
+
+        path{
+            fill: var(--fixed-blue);
+        }
+    }
+
+    &:hover,
+    &:focus-visible{
+        outline: none;
+        background-color: var(--background-divs);
+    }
+}
+
+// a revisão rola dentro da janela; a página atrás fica parada
+.body{
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1.1rem 1.3rem 1.5rem;
+}
+
+.state{
+    padding: 2rem 0;
+    text-align: center;
+    @include vars.styleTexto(var(--text-secondary), .95rem, 400);
+}
+
+@media (max-width: 600px){
+    .results_container{
+        width: 100vw;
+        max-height: 92vh;
+        top: auto;
+        bottom: 0;
+        transform: translateX(-50%);
+        border-radius: .9rem .9rem 0 0;
+    }
+
     .user_info{
-        display: flex;
-        width: 95%;
-        justify-content: space-between;
-        align-items: center;
-        h2{
-            @include vars.styleTexto(vars.$cor-azulEscuro, 1.8rem, 700);
-            background: linear-gradient(vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
-            background-clip: content-box;
-            -webkit-text-fill-color: transparent;
-            -webkit-background-clip: text;
-        }
-        p{
-            @include vars.styleTexto(var(--text-primary), 1rem, 400);
-            span{
-                font-weight: 600;
-                color: var(--text-primary) !important;
-            }
-        }
-    }
-    .bar{
-        height: .1rem;
-        width: 80%;
-        border-radius: .8rem;
-        background-color: vars.$cor-cinza;
-    }
-    .correct_container, .incorrect_container{
-        display: flex;
-        flex-direction: column;
-        gap: .5rem;
-        height: 40%;
-        width: 80%;
-        h2{
-            text-align: center;
-            text-transform: uppercase;
-        }
-        .divs_container{
-            width: 100%;
-            text-align: center;
-            overflow-y: auto;
-            height: 100%;
-            .for_overflow{
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+        padding: .9rem 1rem .8rem;
 
-                .datas_container{
-                    display: flex;
-                    flex-direction: column;
-                    text-overflow: ellipsis;
-                    align-items: center;
-                    overflow: hidden;
-                    gap: .3rem;
-                    width: 100%;
-                    span{
-                        font-weight: 700;
-                        text-overflow: ellipsis;
-                        overflow: hidden;
-                        max-width: 80%;
-                    }
-                }
-            }
-        }
-    }
-    .correct_container{
         h2{
-            @include vars.styleTexto(vars.$cor-correct, 2rem, 700);
-        }
-        .divs_container{
-            .datas_container{
-                h3, p, span{
-                    @include vars.styleTexto(vars.$cor-correct, 1rem, 400);
-                    span{
-                        font-weight: 600;
-                    }
-                }
-            }
-        }
-    }
-    .incorrect_container{
-        h2{
-            @include vars.styleTexto(vars.$cor-incorrect, 2rem, 700);
-        }
-        .divs_container{
-            .datas_container{
-                h3, p, span{
-                    @include vars.styleTexto(vars.$cor-incorrect, 1rem, 400);
-                    span{
-                        font-weight: 600;
-                    }
-                }
-            }
+            font-size: 1.1rem;
         }
     }
 
+    .body{
+        padding: .9rem 1rem 1.2rem;
+    }
 }

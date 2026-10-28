@@ -1,0 +1,1426 @@
+{
+    "aboutPage": {
+        "metadataTitle": "关于我们",
+        "mainTitle": "<highlight>关于我们</highlight>与支持",
+        "description": "自定义测验网站是一个互动平台，用户可以简单直观地自由创建自己的测验。你可以自定义题目和答案，还可以加入图片、视频等视觉元素，让测验更吸引人。<br></br>创建测验后，你可以把它分享给朋友或公开给所有人，鼓励大家参与和互动。参与者可以作答、查看结果，并在测验下留言。评论功能带来直接的反馈、讨论和社交互动，让整个过程既有协作感又充满乐趣。<br></br>此外，网站界面友好、可定制，创作者可以把测验用于各种主题，例如冷知识、常识、性格测试等。我们的理念是激发创意，同时促进用户之间的分享与互动。<br></br>在这个充满活力的环境中，测验成为一种社交娱乐：每个人都可以既是创作者，也是参与者。",
+        "privacy": "我们重视你的隐私与安全。因此特别说明：我们只使用确保网站正常运行所必需的 Cookie。这些 Cookie 让你可以高效、安全地浏览和使用全部功能，例如参加测验、查看作答记录。<br></br>此外，我们的数据库不保存任何敏感的支付信息。所有支付都由 Stripe 安全处理，Stripe 是市场上最知名、最值得信赖的支付平台之一，遵循最高的安全与合规标准，在整个交易过程中保护你的财务数据。<br></br>我们承诺为所有用户提供安全、透明的体验。如果你对我们的隐私政策有任何疑问，欢迎随时联系我们。",
+        "supportLabel": "支持邮箱："
+    },
+    "landingPage": {
+        "hero": {
+            "titleLine1": "创建<bold>免费在线测验</bold>",
+            "titleLine2": "用 <bold>QuestioFlux</bold> 挑战你的朋友",
+            "subtitle": "免费的测验制作工具，支持文字测验、选择题、排行榜和竞赛。免费创建文字测验，需要更直观的效果时还可以加入图片。",
+            "ctaButton": "立即开始",
+            "exploreButton": "探索"
+        },
+        "stylesSection": {
+            "title": "在线测验制作工具",
+            "subtitle": "选择你想创建、分享并参与排名的测验类型。",
+            "rightAndWrong": "<span>选择题测验：</span>免费创建文字测验，包含题目、选项和一个正确答案。适合冷知识、学校测验、粉丝测验、游戏、体育和朋友间的比赛。",
+            "personality": "<span>性格测验：</span>创建以结果为导向的测验，每个答案都会把玩家引向某种性格、角色或你自定义的结果。",
+            "aboutMe": "<span>关于我的测验：</span>邀请朋友来看看谁最了解你，把答题变成一场有趣的挑战。",
+            "ctaButton": "立即创建",
+            "exam": "<span>在线考试：</span>制作自动评分的考试和模拟练习，然后向学生展示答案和每个选项的解析。"
+        },
+        "explorationSection": {
+            "title": "探索带排行榜的测验",
+            "subtitle": "参加其他用户制作的测验，争夺高分，发现新的挑战。",
+            "public": "<span>公开测验：</span>把测验发布在你的个人主页上，让其他人参加、比拼并登上排行榜。",
+            "private": "<span>私密测验：</span>通过链接把测验分享给朋友、学生或特定群体。"
+        },
+        "footer": {
+            "aboutLink": "关于我们",
+            "blogLink": "博客"
+        },
+        "metadataTitle": "QuestioFlux | 免费在线测验制作工具（含排行榜）",
+        "metadataDesc": "免费在线创建文字测验，包含题目、答案、选择题选项和排行榜。把测验分享给朋友、学生或你的社群。",
+        "metadataKeywords": "在线测验制作, 免费测验制作, 创建测验, 制作测验, 测验生成器, 冷知识测验, 选择题制作, 学生测验, 带排行榜的测验, 图片测验"
+    },
+    "registerComponent": {
+        "title": "创建你的账户",
+        "subtitle": "现在就开始创建你自己的测验",
+        "guess": {
+            "separator": "或者",
+            "button": "以访客身份进入"
+        }
+    },
+    "guestComponent": {
+        "title": "访客",
+        "placeholder": "你的名字……",
+        "button": "提交",
+        "description": "如果想创建账户，请点击这里：",
+        "link": "注册",
+        "emailError": "请使用名字，不要使用邮箱地址：它会显示在排行榜上。"
+    },
+    "registerForm": {
+        "placeholders": {
+            "username": "用户名",
+            "email": "email@gmail.com",
+            "password": "密码",
+            "confirmPassword": "再次输入密码"
+        },
+        "rememberMeLabel": "记住我",
+        "submitButton": "注册",
+        "loginPrompt": "已经有账户了？",
+        "loginLink": "登录",
+        "errors": {
+            "passwordsDoNotMatch": "两次输入的密码不一致",
+            "invalidEmail": "请输入有效的邮箱地址",
+            "nameRequired": "请填写用户名",
+            "emailRequired": "请填写邮箱",
+            "passwordRequired": "请填写密码",
+            "confirmPasswordRequired": "请确认密码",
+            "nameIsEmail": "用户名不能是邮箱地址：它会公开显示。"
+        }
+    },
+    "profileUpload": {
+        "instruction": "选择你的头像",
+        "altText": "头像预览",
+        "errorInvalidType": "文件类型无效！"
+    },
+    "registerPage": {
+        "metadataTitle": "注册",
+        "metadataDesc": "注册 QuestioFlux，创建和参加测验、记录你的分数，加入测验爱好者社区。注册快速又简单。",
+        "title": "欢迎来到 <bold>QuestioFlux</bold>"
+    },
+    "loginPage": {
+        "metadataTitle": "登录",
+        "metadataDesc": "登录你的 QuestioFlux 账户，查看你的测验、记录进度，享受个性化功能。还没有账户？现在就注册开始吧！",
+        "registerPrompt": "还没有账户？",
+        "navButtons": {
+            "register": "注册",
+            "login": "登录"
+        },
+        "form": {
+            "placeholders": {
+                "email": "email@gmail.com",
+                "password": "密码"
+            },
+            "rememberMeLabel": "记住我",
+            "forgotPasswordLink": "忘记密码？",
+            "submitButton": "登录",
+            "errors": {
+                "invalidEmail": "请输入有效的邮箱地址",
+                "emailRequired": "请填写邮箱",
+                "passwordRequired": "请填写密码"
+            }
+        }
+    },
+    "rescuePasswordFlow": {
+        "shared": {
+            "buttonSend": "发送",
+            "buttonLoading": "加载中……",
+            "placeholderEmail": "email@gmail.com",
+            "placeholderPassword": "新密码",
+            "placeholderConfirmPassword": "确认新密码",
+            "errors": {
+                "invalidEmail": "请输入有效的邮箱地址",
+                "emailRequired": "请填写邮箱",
+                "passwordRequired": "请填写密码",
+                "passwordsDoNotMatch": "两次输入的密码不一致",
+                "confirmPasswordRequired": "请再次输入密码"
+            }
+        },
+        "rescuePage": {
+            "metadataTitle": "找回密码",
+            "registerPrompt": "还没有账户？",
+            "registerLink": "注册"
+        },
+        "rescueForm": {
+            "label": "输入你的邮箱以重置密码。",
+            "successMessage": "请稍后查看你的邮箱，获取重置密码所需的验证码。"
+        },
+        "changePasswordPage": {
+            "metadataTitle": "修改密码",
+            "successMessage": "密码已修改！",
+            "labels": {
+                "email": "输入你的邮箱。",
+                "newPassword": "输入新密码。",
+                "confirmPassword": "确认你的密码。"
+            }
+        }
+    },
+    "navbar": {
+        "createQuiz": "创建测验",
+        "createAccount": "创建账户",
+        "login": "登录",
+        "searchPlaceholder": "搜索测验……",
+        "logout": "退出",
+        "asideMenu": {
+            "home": "首页",
+            "explore": "探索",
+            "gamepass": "游戏通行证",
+            "createQuiz": "创建测验",
+            "profile": "个人主页",
+            "saves": "收藏",
+            "drafts": "草稿",
+            "config": "设置",
+            "about": "关于我们",
+            "blog": "博客"
+        },
+        "themeWidget": {
+            "light": "浅色",
+            "dark": "深色"
+        }
+    },
+    "vortexPlus": {
+        "sharedFeatures": {
+            "feature1": "用图片作为答案选项",
+            "feature2": "为题目配上插图",
+            "feature3": "测验题目数量不限",
+            "feature4": "每道题最多 15 个选项"
+        },
+        "subscription": {
+            "title": "使用 QuestioPlus，获得更好的体验",
+            "price": "$2.50/月",
+            "ctaButton": "立即订阅"
+        },
+        "singleUse": {
+            "title": "购买单次通行证，解锁高级测验创建功能",
+            "price": "$1.99/次",
+            "ctaButton": "立即购买"
+        }
+    },
+    "contextualHeader": {
+        "createQuiz": "创建测验",
+        "exploreQuizzes": "探索测验",
+        "home": "首页",
+        "explore": "探索",
+        "filters": "筛选"
+    },
+    "filters": {
+        "quizTypeTitle": "测验类型",
+        "categoryTitle": "分类",
+        "applyButton": "应用",
+        "quizTypes": {
+            "all": "全部",
+            "personality": "性格",
+            "image": "图片",
+            "rightAndWrong": "对错题"
+        }
+    },
+    "configPage": {
+        "metadataTitle": "设置",
+        "main": {
+            "subscriptionsTitle": "订阅"
+        },
+        "updateForm": {
+            "mainTitle": "设置",
+            "saveWarning": "离开页面前别忘了<bold>保存</bold>。",
+            "saveButton": "保存",
+            "accountInfoTitle": "账户信息",
+            "labels": {
+                "username": "用户名",
+                "email": "邮箱地址",
+                "password": "密码"
+            },
+            "profileImageTitle": "头像",
+            "profileImageSubtitle": "更新你的头像",
+            "successMessage": "保存成功！",
+            "emailValidationSent": "确认链接已发送到你的新邮箱。",
+            "emailValidationSentError": "发送验证码时出错。",
+            "emailCodePopup": {
+                "title": "邮箱验证",
+                "description": "我们已向你的邮箱发送了一个 6 位数验证码。请在下方输入以确认修改。",
+                "cancel": "取消",
+                "confirm": "确认验证码",
+                "loading": "验证中……"
+            }
+        },
+        "subscriptionContainer": {
+            "manageBilling": "管理订阅 / 更新银行卡",
+            "manageBillingLoading": "正在跳转……",
+            "manageBillingError": "无法打开支付门户。",
+            "activeTitle": "已生效（{count}）",
+            "vortexPlus": {
+                "title": "QuestioPlus",
+                "price": "$2.50/月",
+                "subscribeButton": "订阅",
+                "unsubscribeButton": "取消订阅",
+                "loadingButton": "加载中……",
+                "cancelAlreadyScheduledButton": "已取消",
+                "cancelScheduled": "你的订阅将于 {date} 结束",
+                "reactivateButton": "重新启用订阅",
+                "reactivatingButton": "正在重新启用……",
+                "reactivateSuccess": "你的订阅已成功重新启用！",
+                "reactivateError": "重新启用订阅时出错。"
+            },
+            "vortexPlusUsage": {
+                "title": "QuestioPlus 单次通行证（{count}）",
+                "price": "$1.99/次",
+                "buyButton": "购买"
+            },
+            "cancelPopup": {
+                "title": "取消订阅？",
+                "description": "确定要取消订阅吗？在 {date} 之前你仍可使用 QuestioPlus，之后将不再自动续订。",
+                "keepButton": "保留订阅",
+                "confirmButton": "是的，取消",
+                "cancelingButton": "正在取消……",
+                "noDate": "到期日",
+                "error": "无法取消订阅。",
+                "success": "订阅已成功取消。在 {date} 之前你仍可继续使用。"
+            }
+        },
+        "accountWidget": {
+            "deleteButton": "删除账户",
+            "confirmation": {
+                "title": "确定吗？",
+                "confirmButton": "是的，删除我的账户",
+                "cancelButton": "不，不要删除"
+            }
+        },
+        "activity": {
+            "title": "隐私",
+            "label": "显示我的测验动态",
+            "help": "你的名字和结果会出现在参与者列表和排行榜中。",
+            "hiddenNote": "其他人（包括测验创建者）看不到你的参与记录。它仍会计入总数，你自己也仍能看到自己的结果。",
+            "shownMessage": "你的动态已重新在列表和排行榜中显示。",
+            "hiddenMessage": "你的动态已对其他人隐藏。",
+            "error": "无法保存此设置。"
+        }
+    },
+    "userQuizzesContainer": {
+        "titles": {
+            "public": "你的公开测验（{count}）",
+            "private": "你的私密测验（{count}）",
+            "draft": "你的草稿测验（{count}）",
+            "saved": "你收藏的测验（{count}）"
+        },
+        "seeMoreButton": {
+            "more": "查看更多",
+            "less": "收起"
+        }
+    },
+    "explorePage": {
+        "metadataTitle": "探索热门测验 - 在 QuestioFlux 发现并参加测验",
+        "metadataDesc": "探索并参加用户制作的成千上万个测验，涵盖你能想到的任何主题。发现高分和热门测验，挑战你的朋友，检验你的知识。",
+        "mainTitle": "探索已创建的测验",
+        "featuredTitle": "最受欢迎",
+        "buttons": {
+            "seeMore": "查看更多",
+            "seeLess": "收起"
+        }
+    },
+    "quizCard": {
+        "loading": "加载中……",
+        "createdBy": "创建者",
+        "actions": {
+            "quizPage": "测验页面",
+            "takeQuiz": "参加测验",
+            "editQuiz": "编辑测验"
+        }
+    },
+    "quizLayout": {
+        "nav": {
+            "info": "测验信息",
+            "comments": "评论",
+            "leaderboard": "排行榜",
+            "results": "结果"
+        }
+    },
+    "quizInfoPage": {
+        "metadata": {
+            "title": "{quiz_name} | QuestioFlux",
+            "desc": "来参加 {name} 制作的测验「{quiz_name}」，检验你的知识！",
+            "actions": {
+                "take": "参加测验"
+            },
+            "titleQuiz": "{quiz_name} – 测验 | QuestioFlux",
+            "descSuffix": "QuestioFlux 上共 {count} 道题的测验：免费参加，看看你在排行榜上排第几。"
+        },
+        "title": "测验信息",
+        "details": {
+            "createdBy": "创建者：",
+            "creationDate": "创建日期：",
+            "lastUpdated": "更新于：",
+            "participants": "参与者：",
+            "category": "分类：",
+            "tags": "标签：",
+            "participantsSpan": "位用户参加了这个测验",
+            "kind": "类型："
+        },
+        "ctaButton": "参加测验",
+        "embed": {
+            "button": "把测验嵌入你的网站",
+            "title": "把这个测验嵌入你的网站",
+            "description": "复制这段代码，粘贴到你的网站、博客或页面的 HTML 中。",
+            "codeLabel": "Iframe 代码",
+            "copyButton": "复制代码",
+            "copiedButton": "已复制！",
+            "close": "关闭弹窗",
+            "createdWith": "测验制作工具："
+        },
+        "questions": {
+            "title": "题目预览",
+            "summary": "{count, plural, other {查看前 # 道题}}（剧透）",
+            "alternatives": "{count, plural, other {# 个选项}}",
+            "more": "{count, plural, other {测验里还有 # 道题等着你。}}"
+        },
+        "related": {
+            "title": "为你推荐更多测验",
+            "count": "{count, plural, other {# 道题}}",
+            "players": "{count, plural, other {# 位玩家}}"
+        },
+        "ctaExam": "参加考试",
+        "examNote": "完成后，你会看到自己的分数和每道题的答案。",
+        "possibleResults": {
+            "title": "可能的结果",
+            "text": "{count, plural, =1 {这个测验只有 1 个结果。} other {这个测验共有 # 种不同的结果。你会得到哪一个？}}"
+        },
+        "status": {
+            "draft": "草稿",
+            "private": "私密",
+            "public": "公开",
+            "draftHint": "仍在编辑中：不会出现在“探索”或 Google 中。",
+            "privateHint": "只有拿到链接的人才能参加。",
+            "publicHint": "会出现在“探索”中，也可能出现在 Google 中。"
+        },
+        "participantsList": {
+            "title": "可见的参与者",
+            "note": "部分参与记录不会显示在这个列表中。",
+            "empty": "没有可见的参与者。",
+            "guest": "访客",
+            "loadMore": "加载更多",
+            "close": "关闭参与者列表"
+        }
+    },
+    "quizActions": {
+        "saveWidget": {
+            "save": "收藏",
+            "remove": "取消收藏"
+        },
+        "share": {
+            "button": "分享测验",
+            "title": "分享给你的朋友",
+            "whatsappMessage": "来参加这个测验吧！",
+            "copyLinkButton": "复制链接",
+            "copySuccessMessage": "链接已复制！"
+        }
+    },
+    "commentsSection": {
+        "title": "{count, plural, =0 {暂无评论} other {# 条评论}}",
+        "noComments": "来发表第一条评论吧！",
+        "noCommentsNoUser": "登录或创建账户后即可评论",
+        "form": {
+            "label": "以 <span>@{username}</span> 的身份评论",
+            "placeholder": "写下你的评论……",
+            "errors": {
+                "maxLength": "最多 2000 个字符！"
+            }
+        },
+        "actions": {
+            "reply": "回复",
+            "more": "更多",
+            "edit": "编辑",
+            "remove": "删除"
+        },
+        "body": {
+            "showReplies": "{count, plural, =0 {显示回复} other {显示 # 条回复}}"
+        },
+        "text": {
+            "showMore": "展开",
+            "showLess": "收起"
+        }
+    },
+    "leaderboardPage": {
+        "metadata": {
+            "title": "{quiz_name} 排行榜 - 查看最高分",
+            "desc": "看看谁排在第一！查看「{quiz_name}」排行榜上的最高分玩家。你能登顶吗？",
+            "schemaName": "{quiz_name} 参与者排行榜"
+        },
+        "noResults": "还没有人参加这个测验。",
+        "userAnswers": {
+            "attempts": "作答次数：",
+            "correctTitle": "答对的题：",
+            "incorrectTitle": "答错的题：",
+            "questionLabel": "题目：",
+            "answerLabel": "用户的答案：",
+            "title": "{name} 的答案",
+            "heading": "本次作答的答案",
+            "loading": "正在加载答案……",
+            "error": "无法加载答案。",
+            "empty": "这次作答的题目已不在测验中。",
+            "close": "关闭答案"
+        },
+        "home": "查看测验",
+        "sections": {
+            "registered": "用户排行榜",
+            "guests": "访客排行榜",
+            "others": "其他结果"
+        },
+        "showMoreOthers": "再显示 10 个结果",
+        "recommendationPopup": {
+            "title": "推荐",
+            "minimize": "收起推荐",
+            "maximize": "展开推荐"
+        }
+    },
+    "publicProfile": {
+        "customTitle": "该用户的公开测验",
+        "notFoundTitle": "找不到该用户",
+        "stats": {
+            "quizzesCreated": "创建的测验",
+            "quizzesPlayed": "参加过的测验",
+            "memberSince": "加入时间"
+        },
+        "metadata": {
+            "title": "{name_user} 的个人主页 | QuestioFlux 测验",
+            "desc": "查看 {name_user} 在 QuestioFlux 的个人主页，浏览 TA 创建的所有测验、最高分和平台动态。",
+            "createdQuizzesName": "{name_user} 创建的测验"
+        }
+    },
+    "createQuizFlow": {
+        "layout": {
+            "metadataTitle": "在线测验制作工具 | 用 QuestioFlux 免费创建文字测验"
+        },
+        "selectTypePage": {
+            "title": "在线测验制作工具",
+            "desc": "用 QuestioFlux 创建你自己的在线测验。普通文字测验完全免费：添加题目、选择题选项和正确答案，发布测验，并在排行榜上查看玩家成绩。",
+            "subtitle": "选择一种形式开始吧：带排行榜的知识问答、带答案解析的在线考试、让朋友来答的“关于我”测验，或者由你自定义结果的性格测验。",
+            "descriptions": {
+                "rightAndWrongTitle": "免费的选择题测验制作工具",
+                "rightAndWrongText": "用这种形式免费创建在线文字测验，每道题有若干选项和一个正确答案。非常适合冷知识问答、小测验、学校活动、粉丝测验、游戏、体育、剧集和社群挑战。发布后，玩家可以在排行榜上争夺最佳成绩。",
+                "imageTitle": "图片测验制作工具",
+                "imageText": "图片测验可以用文字、图片或两者结合来制作题目和选项。适用于国旗、角色、标志、地图、游戏、物品、地点等识图挑战。",
+                "competitionTitle": "排行榜与竞赛",
+                "competitionText": "QuestioFlux 让测验更有竞争性。无论是公开测验、私密测验、课堂挑战还是朋友间的测验，玩家都可以参加、比较成绩，争夺排行榜名次。",
+                "studentTitle": "面向学生的测验制作工具",
+                "studentText": "老师可以用“在线考试”形式制作考试和模拟练习：成绩即时给出，结束后学生能看到答案以及每个选项的解析。也适用于复习、作业和课堂挑战。",
+                "studentLink": "创建在线考试",
+                "aboutMeTitle": "关于我的测验",
+                "aboutMeText": "写下关于你的喜好和经历的题目，把链接发给朋友，在排行榜上看看谁最了解你。需要灵感的话，还有现成的题目可用。",
+                "aboutMeLink": "创建关于我的测验"
+            },
+            "metadata": {
+                "title": "在线测验制作工具 | 用 QuestioFlux 免费创建文字测验",
+                "desc": "免费在线创建文字测验，包含题目、答案、选择题选项和排行榜。为朋友、学生、游戏和社群制作测验。",
+                "keywords": "在线测验制作, 测验制作工具, 免费测验制作, 创建测验, 制作测验, 在线考试制作, 创建在线考试, 学生测验, 关于我的测验, 冷知识测验, 带排行榜的测验, 图片测验"
+            },
+            "faq": {
+                "title": "关于创建测验的常见问题",
+                "intro": "这里是关于在 QuestioFlux 创建、发布和分享测验的简要解答。",
+                "question1Title": "如何创建在线测验？",
+                "question1Text": "选择测验类型，添加题目，写好选项，标出正确答案，然后发布。之后就可以把链接分享给朋友、学生或你的社群。",
+                "question2Title": "可以免费创建测验吗？",
+                "question2Text": "可以。普通文字测验完全免费，你可以创建题目、选项和正确答案，并在线发布和分享。",
+                "question3Title": "可以制作带排行榜的测验吗？",
+                "question3Text": "可以。QuestioFlux 自带排行榜，让你的测验变成竞赛，并展示成绩最好的玩家。",
+                "question4Title": "可以制作图片测验吗？",
+                "question4Text": "可以。你可以在题目和选项中使用图片，适合识图挑战、角色、国旗、标志等主题。",
+                "question5Title": "可以创建带答案的在线考试吗？",
+                "question5Text": "可以。在“在线考试”形式中，你可以为每个选项写一段可选的解析。学生完成后，会看到自己的分数、答对和答错的题，以及你的解析。"
+            },
+            "seeMore": "了解更多"
+        },
+        "formPage": {
+            "saveDraftInfo": "完成这一步后，你的内容会自动保存在<drafts>草稿</drafts>中。"
+        },
+        "formComponent": {
+            "serverError": "服务器错误",
+            "labels": {
+                "title": "标题",
+                "description": "描述",
+                "category": "分类",
+                "tags": "标签",
+                "visibility": "可见性",
+                "idiom": "语言",
+                "finalMessages": "测验结束时显示的消息：",
+                "kind": "测验类型",
+                "status": "状态"
+            },
+            "placeholders": {
+                "title": "例如：你对足球了如指掌吗？",
+                "description": "在这里写下你的测验描述。",
+                "tags": "输入标签，用“,”分隔"
+            },
+            "selects": {
+                "chooseCategory": "选择分类",
+                "public": "公开",
+                "private": "私密",
+                "en": "英语",
+                "pt": "葡萄牙语",
+                "es": "西班牙语",
+                "zh": "简体中文",
+                "kinds": {
+                    "quiz": "知识问答",
+                    "exam": "在线考试（含答案）",
+                    "aboutMe": "关于我的测验",
+                    "personality": "性格测验"
+                },
+                "statusDraft": "草稿",
+                "statusFinished": "已完成"
+            },
+            "buttons": {
+                "back": "返回",
+                "saveDraft": "存为草稿",
+                "continue": "继续"
+            },
+            "kindHints": {
+                "quiz": "每道题有一个正确答案，玩家在排行榜上一较高下。",
+                "exam": "编写题目时可以为每个选项写解析。答题者在结束时会看到完整的答案。",
+                "aboutMe": "你会看到一些关于你自己的推荐题目。“关于我”测验不会出现在 Google 中，通过链接分享。",
+                "personality": "没有正确答案：你在封面里创建结果，并在题目中选择每个选项通向哪个结果。"
+            },
+            "kindLocked": "已经有题目后，就不能改成性格测验，也不能从性格测验改成其他类型。",
+            "personalityResults": {
+                "label": "可能的结果",
+                "hint": "题目中的每个选项都会通向其中一个结果。请创建 {min} 到 {max} 个结果。",
+                "resultNumber": "结果 {number}",
+                "remove": "删除结果 {number}",
+                "image": "选择结果图片",
+                "imageAlt": "结果 {number} 的图片",
+                "removeImage": "移除图片",
+                "titleLabel": "结果 {number} 的名称",
+                "titlePlaceholder": "例如：猫头鹰",
+                "descriptionLabel": "结果 {number} 的描述",
+                "descriptionPlaceholder": "这个结果说明了得到它的人是怎样的（可选）",
+                "add": "添加结果",
+                "imageError": "测验已保存，但有一张结果图片没有上传成功。请在“编辑测验”中重试。",
+                "tieBreak": {
+                    "title": "平局决胜题（可选）",
+                    "hint": "只有当两个或更多结果得分相同时才会出现，并且只显示这些并列结果的选项。如果不设置，平局会显示为组合结果。",
+                    "questionPlaceholder": "例如：周末你会选择去下面哪个地方？",
+                    "optionLabel": "通向“{result}”的选项",
+                    "optionPlaceholder": "通向这个结果的选项"
+                }
+            },
+            "statusHints": {
+                "draft": "草稿不会出现在“探索”或 Google 中。测验准备好后请选择“已完成”。",
+                "finished": "测验已完成，并按你选择的可见性（公开或私密）展示。",
+                "noQuestions": "请先添加题目，再完成测验。"
+            }
+        }
+    },
+    "creatingQuiz": {
+        "nav": {
+            "cover": "测验封面",
+            "questions": "题目"
+        },
+        "finalMessages": {
+            "defaultButton": "默认",
+            "customButton": "自定义",
+            "defaults": {
+                "allCorrect": "恭喜！你答对了所有题目！",
+                "aboveEighty": "太棒了！你答对了超过 80% 的题目。",
+                "aboveFifty": "不错！你答对了超过 50% 的题目。",
+                "belowFifty": "你答对的题目不到 50%。继续加油练习！",
+                "allWrong": "真可惜！你一道题都没答对。别放弃，再试一次！"
+            }
+        },
+        "questionsPage": {
+            "alternativesAppearance": "选项的显示方式：",
+            "toggleMode": {
+                "textOnly": "仅文字",
+                "textAndImage": "文字和图片"
+            },
+            "premiumWarning": {
+                "popupText": "“文字和图片”选项仅对高级用户开放。要启用它，请订阅 <vortexplus>vortexplus</vortexplus> 获得无限使用权限，或为这个测验购买单次通行证。"
+            }
+        },
+        "questionsForm": {
+            "backButton": "返回",
+            "saveDraftButton": "存为草稿",
+            "createButton": "创建",
+            "textInput": {
+                "placeholder": "输入你的题目",
+                "correctPlaceholder": "在这里填写正确选项",
+                "incorrectPlaceholder": "在这里填写错误选项",
+                "addAlternative": "添加选项",
+                "addQuestion": "添加题目",
+                "personalityPlaceholder": "选项 {number}"
+            },
+            "imageInput": {
+                "placeholder": "第 {position} 题",
+                "alternativeLabel": "选项 {number}（可配图片）"
+            },
+            "errors": "每道题都必须有一张图片。",
+            "validationError": "请先完成标出的题目再继续。",
+            "visibilityPopup": {
+                "title": "你的测验当前为私密",
+                "text": "私密测验不会出现在“探索”或 Google 中：只有收到链接的人才能参加。保持私密，还是公开给所有人？",
+                "keepPrivate": "保持私密",
+                "makePublic": "设为公开",
+                "publishError": "测验已保存，但未能设为公开。你可以在“编辑测验”中修改可见性。"
+            },
+            "explanation": {
+                "add": "添加解析",
+                "remove": "删除解析",
+                "placeholderCorrect": "说明为什么这是正确答案（可选）",
+                "placeholderIncorrect": "说明为什么这个选项是错的（可选）",
+                "hint": "在线考试：解析是可选的，学生只有在交卷后的答案页里才能看到。"
+            },
+            "personality": {
+                "leadsTo": "通向",
+                "hint": "性格测验：没有正确选项。为每个选项选择它通向的结果；最后，被选最多的结果胜出。",
+                "noResults": "这个测验还没有结果。请先在封面里至少添加 2 个结果，再编写题目。",
+                "editCover": "编辑封面"
+            },
+            "finalizeError": "题目已保存，但测验未能完成。你可以在“编辑测验”中完成它。"
+        },
+        "aboutMeSuggestions": {
+            "title": "关于你的现成题目",
+            "text": "点击题目即可加入你的测验，然后填写答案。",
+            "items": [
+                "我最喜欢的食物是什么？",
+                "我最喜欢的颜色是什么？",
+                "我的生日在几月？",
+                "我最害怕的是什么？",
+                "我最想去哪里旅行？",
+                "我最常听哪种音乐？",
+                "我最喜欢的剧集或电影是什么？",
+                "我最喜欢的动物是什么？",
+                "我周末最喜欢做什么？",
+                "我最奇怪的习惯是什么？",
+                "我每次都会点什么饮料？",
+                "我小时候想成为什么样的人？"
+            ]
+        }
+    },
+    "editQuizFlow": {
+        "warningUnsaved": {
+            "title": "注意！",
+            "quizDesc": "你有未保存的修改。切换页面前请先点击保存。",
+            "questionsDesc": "你修改了题目。切换页面前请先保存修改。"
+        },
+        "metadataTitle": "编辑你的测验",
+        "page": {
+            "title": "编辑你的测验",
+            "subtitle": "修改完成后，点击“保存修改”即可生效。需要编辑题目？点击“编辑题目”就行。"
+        },
+        "form": {
+            "successMessage": "测验编辑成功！",
+            "buttons": {
+                "editQuestions": "编辑题目",
+                "saveChanges": "保存修改"
+            },
+            "validationError": "请先完成标出的题目再保存。",
+            "unexpectedError": "保存修改时出了点问题，请重试。"
+        },
+        "questionsPage": {
+            "metadataTitle": "编辑题目",
+            "title": "编辑测验题目",
+            "subtitle": "修改完成后，点击“保存修改”即可生效。需要编辑测验？点击“编辑测验”就行。"
+        },
+        "buttons": {
+            "back": "返回",
+            "editQuiz": "编辑测验",
+            "editQuestions": "编辑题目",
+            "saveChanges": "保存修改"
+        },
+        "warningReset": {
+            "title": "注意！",
+            "description": "如果编辑这个测验，整个排行榜都会被重置。确定要继续编辑吗？",
+            "cancelButton": "取消",
+            "confirmButton": "保存修改"
+        }
+    },
+    "creation": {
+        "sharedErrors": {
+            "maxLength": "最多 2000 个字符！",
+            "invalidFileType": "文件类型无效！",
+            "serverError": "服务器错误"
+        },
+        "questionHook": {
+            "questionLimitError": "你已达到题目数量上限",
+            "alternativeLimitError": "你已达到选项数量上限"
+        },
+        "imageInputs": {
+            "altAlternative": "选项图片",
+            "altQuizPreview": "测验图片预览",
+            "altProfileDraft": "头像草稿"
+        }
+    },
+    "quizCompletedPage": {
+        "metadataTitle": "测验已创建！",
+        "title": "恭喜！你的测验已成功创建！",
+        "viewQuizButton": "查看测验",
+        "homeButton": "首页"
+    },
+    "takingPage": {
+        "blurMessage": "点击上方的“开始”按钮即可看到测验题目",
+        "buttonStart": "开始",
+        "errors": {
+            "resAll": "必须回答所有题目，请检查是否有遗漏",
+            "resultStorage": "无法在此浏览器中显示你的结果，请重试。"
+        },
+        "navigation": {
+            "previous": "上一题",
+            "next": "下一题",
+            "results": "查看结果"
+        },
+        "imageAlts": {
+            "question": "题目图片",
+            "alternative": "选项图片"
+        },
+        "imageLabels": {
+            "alternative": "选项 {number}"
+        },
+        "tieBreak": {
+            "eyebrow": "平局",
+            "hint": "你的答案出现了平局。选出最符合你的选项来决定结果。"
+        }
+    },
+    "quizResultsPage": {
+        "layout": {
+            "metadataTitle": "参加测验",
+            "altQuizImage": "测验图片",
+            "navResults": "结果",
+            "navLeaderboard": "排行榜",
+            "navReview": "答案解析",
+            "navYourResult": "你的结果",
+            "navAllResults": "全部结果"
+        },
+        "results": {
+            "noResults": "没有找到结果。",
+            "totalQuestions": "题目总数",
+            "correctAnswers": "答对题数",
+            "totalTime": "总用时",
+            "viewLeaderboard": "查看排行榜",
+            "viewAnswers": "查看你的答题情况"
+        },
+        "review": {
+            "title": "答案解析",
+            "score": "分数",
+            "correctCount": "答对 {correct} / {total}",
+            "totalTime": "总用时",
+            "filters": {
+                "label": "显示题目",
+                "all": "全部（{count}）",
+                "wrong": "答错（{count}）",
+                "right": "答对（{count}）"
+            },
+            "questionLabel": "第 {number} 题",
+            "right": "答对",
+            "wrong": "答错",
+            "yourAnswer": "你的答案",
+            "correctAnswer": "正确答案",
+            "alternative": "选项 {number}",
+            "questionImageAlt": "第 {number} 题的图片",
+            "alternativeImageAlt": "选项 {number} 的图片",
+            "noneInFilter": "这里没有题目。",
+            "retake": "重新考试",
+            "viewLeaderboard": "查看排行榜",
+            "empty": "完成考试后，答案解析会显示在这里。",
+            "takeExam": "参加考试"
+        }
+    },
+    "embedPage": {
+        "playAgain": "再玩一次",
+        "allResults": "查看全部结果"
+    },
+    "SubscriptionPage": {
+        "currency": {
+            "label": "选择货币"
+        },
+        "metadataTitle": "订阅 | {type}",
+        "descriptionPlus": "订阅 - $2.50/月",
+        "descriptionUsage": "单次使用 - $1.99/次",
+        "textChooseMethod": "选择支付方式",
+        "buttons": {
+            "creditCard": "信用卡"
+        },
+        "inputs": {
+            "subscribe": "订阅",
+            "buy": "购买",
+            "loading": "加载中……"
+        },
+        "hasPremium": "你已经有生效中的订阅",
+        "errors": {
+            "email": "请正确填写邮箱"
+        },
+        "sucess": "支付成功！",
+        "messages": {
+            "paymentSessionNotFound": "找不到支付会话。",
+            "invalidEmail": "邮箱无效。",
+            "paymentProcessError": "处理支付时出错。",
+            "confirmPaymentStatusError": "无法确认支付状态。",
+            "paymentNotConfirmed": "支付尚未确认。",
+            "subscriptionSuccess": "订阅已成功开通。",
+            "paymentSuccess": "支付已成功确认。",
+            "unexpectedError": "发生了意外错误。"
+        },
+        "maintenance": {
+            "title": "支付暂时不可用",
+            "description": "我们正在更换支付通道，请稍后再来。"
+        },
+        "total": "应付总额：{amount}",
+        "totalPerMonth": "应付总额：{amount}/月",
+        "planPlus": "QuestioPlus 订阅",
+        "planUsage": "QuestioPlus 单次通行证"
+    },
+    "mainMetadata": {
+        "desc": "用 QuestioFlux 创建属于你的测验！强大又有趣的测验制作工具，轻松制作并与朋友分享测验。添加图片、自定义题目，看看谁能登上排行榜榜首。今天就开始创建吧！",
+        "title": "QuestioFlux - 测验制作工具",
+        "query_inputs": {
+            "searchByTitle": "按标题搜索测验。",
+            "searchByTags": "按标签筛选测验（例如“电影”“历史”）。",
+            "searchByCategories": "按分类筛选测验（例如“常识”“流行文化”）。"
+        }
+    },
+    "badgesDesc": {
+        "questioplus": "QuestioPlus 订阅用户！享受无限制的测验创建和全部高级权益。",
+        "questioplususage": "高级通行证：还有 {qtd} 次可用于创建你的下一个测验。"
+    },
+    "deleteQuiz": {
+        "button": "删除测验",
+        "sucess": "测验已删除！",
+        "menu": {
+            "title": "危险操作！",
+            "desc": "你即将删除这个测验，确定吗？",
+            "confirm": "是的，删除",
+            "cancel": "不，取消"
+        }
+    },
+    "deleteMultiple": {
+        "mainbutton": "删除所有草稿",
+        "message": "你即将删除所有草稿，确定吗？",
+        "confirm": "是的，删除",
+        "cancel": "不，取消",
+        "sucess": "测验已删除！"
+    },
+    "googleAuth": {
+        "separator": "或",
+        "button": "使用 Google 继续",
+        "loading": "加载中……"
+    },
+    "emailVerificationPage": {
+        "metadataTitle": "邮箱验证",
+        "success": {
+            "title": "邮箱确认成功！",
+            "message": "你的邮箱地址已更新。现在可以用新邮箱登录并接收我们的通知。"
+        },
+        "error": {
+            "title": "哎呀！出了点问题",
+            "message": "我们无法确认你的邮箱修改。链接可能无效、已被使用或已过期。请确认你使用的是申请修改时的同一台设备。"
+        },
+        "buttons": {
+            "goToProfile": "返回个人主页",
+            "goToHome": "前往首页"
+        }
+    },
+    "emailConfirmPage": {
+        "loading": "正在确认，请稍候……"
+    },
+    "notFoundPage": {
+        "title": "页面不存在",
+        "text": "链接可能有误，或者这个测验已被创建者删除。",
+        "explore": "探索测验",
+        "home": "首页"
+    },
+    "quizTypes": {
+        "names": {
+            "quiz": "知识问答",
+            "exam": "在线考试",
+            "aboutMe": "关于我的测验",
+            "personality": "性格测验"
+        }
+    },
+    "personalityResultPage": {
+        "yourResult": "你的结果",
+        "sameResult": "参加过这个测验的 {count} 人中，有 {percent}% 得到了这个结果",
+        "share": "分享结果",
+        "copied": "链接已复制！",
+        "shareText": "我在 QuestioFlux 的测验「{quiz}」中得到了 {result}。你呢？",
+        "breakdownTitle": "你在各个结果上的得分",
+        "empty": "完成测验后，你的结果会显示在这里。",
+        "takeQuiz": "参加测验",
+        "retake": "再测一次",
+        "allResults": "查看全部结果",
+        "stats": {
+            "title": "所有人的结果",
+            "plays": "{count, plural, other {已有 # 人参加了这个测验}}",
+            "noPlays": "还没有人完成这个测验。来做第一个吧！",
+            "cta": "测测我的结果",
+            "metadataTitle": "所有人的结果 – {quiz_name}"
+        },
+        "combinedResult": "组合结果",
+        "combinedHint": "你的答案在这几种类型之间打成了平手，所以你身上每一种都有一点。"
+    },
+    "pricing": {
+        "loading": "价格加载中……",
+        "unavailable": "暂时无法显示价格",
+        "perMonth": "{price}/月",
+        "perYear": "{price}/年",
+        "perUse": "{price}/次"
+    },
+    "blogPage": {
+        "metadataTitle": "QuestioFlux 博客：创建测验和在线考试的指南",
+        "metadataDescription": "实用教程：创建性格测验、带答案解析的在线考试，以及适合分享的测验。",
+        "title": "博客",
+        "subtitle": "创建测验、测试和在线考试的实用指南，附带示例以及各个方案的真实限制。",
+        "empty": "这个语言暂时还没有文章。",
+        "draft": "草稿",
+        "draftNotice": "草稿：这篇文章尚未发布，只会出现在开发环境中。",
+        "readingTime": "阅读约需 {minutes} 分钟",
+        "backToBlog": "博客",
+        "byline": "作者：{author}",
+        "publishedOn": "发布于",
+        "updatedOn": "更新于",
+        "cta": {
+            "quiz": {
+                "title": "现在就创建你的测验",
+                "text": "带排行榜的知识问答，几分钟就能准备好分享。",
+                "button": "创建知识问答"
+            },
+            "exam": {
+                "title": "制作你的在线考试",
+                "text": "自动评分，每个选项都有解析：学生一交卷就能看到带解析的答案。",
+                "button": "创建在线考试"
+            },
+            "aboutMe": {
+                "title": "谁最了解你？",
+                "text": "创建一个关于你自己的测验，看看哪些朋友得分最高。",
+                "button": "创建关于我的测验"
+            },
+            "personality": {
+                "title": "创建你的性格测验",
+                "text": "由你来定义结果，以及每个答案通向哪个结果。免费开始使用。",
+                "button": "创建性格测验"
+            }
+        }
+    },
+    "quizTypePages": {
+        "common": {
+            "breadcrumbHome": "首页",
+            "breadcrumbCreate": "创建测验",
+            "howTitle": "使用方法",
+            "featuresTitle": "为什么选择 QuestioFlux",
+            "faqTitle": "常见问题",
+            "otherTypesTitle": "看看其他测验类型",
+            "seeMore": "了解更多",
+            "previewLabel": "示例",
+            "preview": {
+                "questionOf": "第 {current} 题，共 {total} 题",
+                "right": "答对",
+                "wrong": "答错",
+                "yourAnswer": "你的答案",
+                "correctAnswer": "正确答案",
+                "score": "得分 {score}"
+            }
+        },
+        "quiz": {
+            "metadata": {
+                "title": "免费知识问答制作工具（含分数和排行榜）| QuestioFlux",
+                "desc": "免费创建带分数、计时和排行榜的在线知识问答。适合常识、课堂、游戏、动漫和朋友间的挑战。",
+                "keywords": "知识问答制作, 问答测验制作, 带分数的测验, 带排行榜的测验, 免费在线测验制作, 制作冷知识测验, 常识测验, 选择题制作"
+            },
+            "eyebrow": "知识问答",
+            "title": "制作带分数和排行榜的知识问答",
+            "lead": "经典形式：每道题只有一个正确答案，玩家每答对一题就得分，并争夺排行榜名次。适用于冷知识、常识、动漫、体育、影视、课堂，以及任何你熟悉的主题。",
+            "cta": "免费创建测验",
+            "heroNote": "最多 10 道题的文字测验免费。",
+            "cardText": "分数、计时和排行榜，专为知识问答打造。",
+            "steps": [
+                {
+                    "title": "设置封面",
+                    "text": "添加标题、描述和分类。完整的封面能让你的测验更容易在“探索”和 Google 中被找到。"
+                },
+                {
+                    "title": "编写题目",
+                    "text": "为每道题填写正确答案和错误答案。每位玩家看到的选项顺序都会打乱。"
+                },
+                {
+                    "title": "发布并分享",
+                    "text": "发送链接、发到社交媒体，或嵌入你的网站。每次有人作答后排行榜都会更新。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "分数和计时",
+                    "text": "每次作答都会显示答对的题数和总用时，还有你亲自写的结束语。"
+                },
+                {
+                    "title": "排行榜",
+                    "text": "玩家争夺前几名，忍不住一次又一次地挑战。"
+                },
+                {
+                    "title": "图片测验",
+                    "text": "使用 QuestioPlus，可以在题目和选项中加入图片，制作国旗、角色和标志测验。"
+                },
+                {
+                    "title": "放到你的网站上",
+                    "text": "复制嵌入代码，把测验连同排行榜一起放到博客或网站上。"
+                }
+            ],
+            "ideasTitle": "给你一些测验灵感",
+            "ideas": [
+                "常识问答",
+                "动漫测验",
+                "足球测验",
+                "影视测验",
+                "音乐测验",
+                "国旗测验",
+                "历史测验",
+                "电子游戏测验",
+                "圣经测验",
+                "美食测验"
+            ],
+            "sample": {
+                "question": "一场足球比赛中，每队有几名球员在场上？",
+                "answers": [
+                    "9",
+                    "10",
+                    "11",
+                    "12"
+                ],
+                "correct": 2,
+                "rankingTitle": "排行榜",
+                "ranking": [
+                    {
+                        "name": "小明",
+                        "score": "10/10",
+                        "time": "0:48"
+                    },
+                    {
+                        "name": "小雨",
+                        "score": "10/10",
+                        "time": "1:05"
+                    },
+                    {
+                        "name": "阿杰",
+                        "score": "8/10",
+                        "time": "0:59"
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "有什么好用的网站可以制作问答测验？",
+                    "answer": "在 QuestioFlux，你可以免费制作知识问答，通过链接发布，并在排行榜上查看每位玩家的成绩。"
+                },
+                {
+                    "question": "可以创建带分数的在线测验吗？",
+                    "answer": "可以。每答对一题都会计分，结果页显示分数和用时，排行榜会把答对最多、用时最短的人排在最前面。"
+                },
+                {
+                    "question": "可以自己写结束时显示的消息吗？",
+                    "answer": "可以。你可以分别为满分、80% 以上、50% 以上、50% 以下和全部答错写不同的消息。"
+                },
+                {
+                    "question": "我的测验会出现在 Google 上吗？",
+                    "answer": "信息完整的公开测验可能会出现在“探索”和 Google 搜索中。私密测验只有拿到链接的人才能看到。"
+                }
+            ],
+            "finalTitle": "对某个主题了如指掌？",
+            "finalText": "把它做成测验，挑战所有人。",
+            "finalCta": "立即创建测验"
+        },
+        "exam": {
+            "metadata": {
+                "title": "免费在线考试制作工具（自动评分）| QuestioFlux",
+                "desc": "免费创建在线考试或模拟练习：选择题、自动评分，以及解析每个选项的答案页。通过链接分享。",
+                "keywords": "在线考试制作, 在线出题, 创建在线考试, 免费考试制作, 学生测验制作, 带答案的考试, 模拟练习制作, 选择题考试制作"
+            },
+            "eyebrow": "在线考试",
+            "title": "免费创建即时出分、附带答案解析的在线考试",
+            "lead": "几分钟就能出好一套选择题考试，把链接分享给全班，评分交给 QuestioFlux。学生一交卷，就能看到分数、答对和答错的题，以及你为每个选项写的解析。",
+            "cta": "免费创建考试",
+            "heroNote": "无需安装。学生不用注册账户就能作答。",
+            "cardText": "即时出分，答案附带解析。",
+            "steps": [
+                {
+                    "title": "编写题目",
+                    "text": "输入题目、正确选项和错误选项。使用 QuestioPlus 还可以在题目和选项中加入图片。"
+                },
+                {
+                    "title": "解析每个选项",
+                    "text": "每个选项都有一个可选的解析栏：说明正确答案为什么对，其他选项错在哪里。"
+                },
+                {
+                    "title": "分享并跟进",
+                    "text": "发送链接或把考试嵌入你的网站。成绩即时给出，排行榜会显示谁考得最好。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "自动评分",
+                    "text": "学生一交卷分数就出来了，不用电子表格，也不用一份份批改。"
+                },
+                {
+                    "title": "每个选项都有解析",
+                    "text": "学生逐题回顾考试、弄懂自己的错误，考试也就变成了一次学习。"
+                },
+                {
+                    "title": "班级排行榜",
+                    "text": "看看谁答对最多、用时最短。非常适合模拟考、复习和课堂游戏。"
+                },
+                {
+                    "title": "免费开始",
+                    "text": "最多 10 道题、每题 6 个选项的文字考试免费。QuestioPlus 可解锁不限题数、每题最多 15 个选项以及图片。"
+                }
+            ],
+            "ideasTitle": "可以创建的考试",
+            "ideas": [
+                "数学测验",
+                "高考模拟题",
+                "英语词汇测验",
+                "拼写测验",
+                "历史复习",
+                "科学测验",
+                "地理测验",
+                "资格认证模拟考",
+                "员工培训考核",
+                "作业复习"
+            ],
+            "sample": {
+                "question": "澳大利亚的首都是哪里？",
+                "answers": [
+                    "悉尼",
+                    "堪培拉",
+                    "墨尔本",
+                    "珀斯"
+                ],
+                "correct": 1,
+                "chosen": 0,
+                "chosenExplanation": "悉尼是澳大利亚最大的城市，但不是首都。",
+                "correctExplanation": "堪培拉是专门规划建设的首都，自 1927 年起成为政府所在地。",
+                "score": "8/10",
+                "current": 3,
+                "total": 10
+            },
+            "faq": [
+                {
+                    "question": "如何在线创建考试？",
+                    "answer": "选择“在线考试”，填写标题、描述和分类，然后编写题目并标出正确选项；如果愿意，还可以为每个选项写解析。发布后，你会得到一个可以发给学生的链接。"
+                },
+                {
+                    "question": "在 QuestioFlux 创建在线考试免费吗？",
+                    "answer": "免费。文字考试最多 10 道题、每题最多 6 个选项都免费。QuestioPlus 可解锁不限题数、每题最多 15 个选项以及图片。"
+                },
+                {
+                    "question": "学生交卷后能看到答案吗？",
+                    "answer": "能。完成后，他们会看到自己的分数和完整的答案页：自己的答案、正确选项以及你写的解析。交卷前，解析不会显示。"
+                },
+                {
+                    "question": "学生需要注册账户吗？",
+                    "answer": "不需要。没有账户的人也可以作为访客作答，只需输入一个用于排行榜的名字。"
+                },
+                {
+                    "question": "可以把考试设为私密吗？",
+                    "answer": "可以。私密考试不会出现在“探索”或 Google 中：只有拿到链接的人才能参加。"
+                }
+            ],
+            "finalTitle": "你的下一场考试今天就能准备好",
+            "finalText": "出好题，发给你的班级，评分交给我们。",
+            "finalCta": "立即创建考试"
+        },
+        "aboutMe": {
+            "metadata": {
+                "title": "免费制作“关于我”测验：谁最了解你？",
+                "desc": "几分钟做一个关于你自己的测验，发给朋友，在排行榜上看看谁最了解你。可以使用现成题目，也可以自己写。",
+                "keywords": "关于我的测验, 制作关于自己的测验, 谁最了解我, 友情测验, 朋友测验, 你有多了解我, 关于我的问题, 闺蜜测验"
+            },
+            "eyebrow": "关于我的测验",
+            "title": "做一个关于你自己的测验，看看谁最了解你",
+            "lead": "写下关于你的喜好、小怪癖和故事的题目，标出正确答案，把链接发给朋友。每个人作答、得分并登上排行榜。最后你就知道谁才是真正懂你的人。",
+            "cta": "制作我的测验",
+            "heroNote": "附带现成题目：选好题目，填上答案就行。",
+            "cardText": "朋友来作答，排行榜告诉你谁最懂你。",
+            "steps": [
+                {
+                    "title": "挑选题目",
+                    "text": "使用“我最喜欢的食物是什么？”这样的现成灵感，或者写只有你才想得到的问题。"
+                },
+                {
+                    "title": "标出正确答案",
+                    "text": "填写真实答案，再加几个迷惑选项，考考那些不够留心的人。"
+                },
+                {
+                    "title": "发给你的朋友",
+                    "text": "把链接分享到微信、微博或任何你喜欢的地方，然后关注排行榜。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "好友排行榜",
+                    "text": "每位朋友都有分数和用时，最了解你的人会排在最前面。"
+                },
+                {
+                    "title": "现成题目",
+                    "text": "美食、音乐、旅行、童年和小怪癖等题目灵感，让你不会卡壳。"
+                },
+                {
+                    "title": "无需注册",
+                    "text": "你的朋友不需要账户：以访客身份作答，同样会出现在排行榜上。"
+                },
+                {
+                    "title": "只给有链接的人",
+                    "text": "“关于我”测验不会出现在 Google 中，你也可以让它不出现在“探索”里。"
+                }
+            ],
+            "ideasTitle": "“关于我”测验灵感",
+            "ideas": [
+                "谁最了解我？",
+                "你有多了解我？",
+                "闺蜜测验",
+                "给男朋友或女朋友的测验",
+                "家庭测验",
+                "生日测验",
+                "给同学的测验",
+                "给同事的测验"
+            ],
+            "sample": {
+                "question": "我最喜欢的食物是什么？",
+                "answers": [
+                    "披萨",
+                    "千层面",
+                    "寿司",
+                    "火锅"
+                ],
+                "correct": 2,
+                "rankingTitle": "谁最了解你",
+                "ranking": [
+                    {
+                        "name": "小婷",
+                        "score": "10/10",
+                        "time": "0:41"
+                    },
+                    {
+                        "name": "阿浩",
+                        "score": "9/10",
+                        "time": "0:37"
+                    },
+                    {
+                        "name": "小雪",
+                        "score": "7/10",
+                        "time": "1:12"
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "如何制作关于自己的测验？",
+                    "answer": "选择“关于我的测验”，给测验起个名字，写下关于你的题目（或使用推荐题目），为每道题标出正确答案，然后发布。之后把链接发出去就行。"
+                },
+                {
+                    "question": "朋友作答需要账户吗？",
+                    "answer": "不需要。他们可以作为访客作答，只需一个显示在排行榜上的名字。"
+                },
+                {
+                    "question": "怎么看谁最了解我？",
+                    "answer": "看测验的排行榜：答对最多的人排在最前面；分数相近时，用时更短的人排名更高。"
+                },
+                {
+                    "question": "可以添加多少道题？",
+                    "answer": "免费方案最多 10 道题，每题最多 6 个选项。使用 QuestioPlus 题目数量不限。"
+                },
+                {
+                    "question": "我的“关于我”测验会出现在 Google 上吗？",
+                    "answer": "不会。涉及个人生活的测验不会出现在搜索结果中，以保护制作者的隐私。它们通过你分享的链接传播。"
+                }
+            ],
+            "finalTitle": "你的朋友真的了解你吗？",
+            "finalText": "花几分钟做个测验，答案马上揭晓。",
+            "finalCta": "制作关于我的测验"
+        },
+        "personality": {
+            "metadata": {
+                "title": "免费性格测验制作工具（自定义结果）| QuestioFlux",
+                "desc": "免费制作在线性格测验：设置结果，把每个答案关联到一种类型，最后向每个人展示属于他的结果。",
+                "keywords": "性格测验制作, 制作性格测验, 性格测试制作, 你是哪个角色测验, 在线创建性格测试, 带结果的测验, 心理测验制作"
+            },
+            "eyebrow": "性格测验",
+            "title": "制作性格测验：“你是哪个角色？”",
+            "lead": "设置可能的结果，比如角色、学院、风格或职业，写好题目，并为每个答案选择它通向的结果。最后，每个人都会发现自己的类型，看到自己在各个类型上的占比，并分享给朋友。",
+            "cta": "制作性格测验",
+            "heroNote": "免费，没有对错，也没有排行榜：每个人都会得到属于自己的结果。",
+            "cardText": "每个答案都通向一种类型，结果在最后揭晓。",
+            "steps": [
+                {
+                    "title": "创建结果",
+                    "text": "在封面里添加 2 到 12 个结果，每个都有名称、描述，还可以配一张图片。"
+                },
+                {
+                    "title": "编写题目",
+                    "text": "为每个选项选择它通向的结果。第一个选项默认关联第一个结果，第二个关联第二个，依此类推。"
+                },
+                {
+                    "title": "分享出去",
+                    "text": "作答的人会得到自己的结果，看到各个类型的占比，以及有多少人得到了相同的结果。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "带图片的结果",
+                    "text": "每种类型都可以配一张照片或插画，在结果页上醒目展示。"
+                },
+                {
+                    "title": "每种类型的占比",
+                    "text": "除了主要结果，大家还能看到自己在每种类型上的占比：60% 猫头鹰、25% 狮子……"
+                },
+                {
+                    "title": "所有人的结果",
+                    "text": "“结果”页会显示有多少人得到了每种类型。"
+                },
+                {
+                    "title": "方便分享",
+                    "text": "分享按钮会把结果和测验链接一起发出去。你也可以把测验放到自己的网站上。"
+                }
+            ],
+            "ideasTitle": "性格测验灵感",
+            "ideas": [
+                "你是哪个动漫角色？",
+                "哪种动物最像你？",
+                "你属于霍格沃茨哪个学院？",
+                "哪种职业最适合你？",
+                "你是哪种旅行风格？",
+                "你是哪种类型的朋友？",
+                "你会是哪个反派？",
+                "你是哪个季节？"
+            ],
+            "sample": {
+                "question": "一个空闲的周六，你会做什么？",
+                "answers": [
+                    "读一本书",
+                    "去冒险",
+                    "和朋友见面",
+                    "规划下周"
+                ],
+                "chosen": 0,
+                "resultLabel": "你的结果",
+                "resultTitle": "猫头鹰",
+                "resultText": "好奇又善于观察：你三思而后行，热爱学习新事物。",
+                "breakdown": [
+                    {
+                        "title": "猫头鹰",
+                        "percent": 60
+                    },
+                    {
+                        "title": "狮子",
+                        "percent": 25
+                    },
+                    {
+                        "title": "狐狸",
+                        "percent": 15
+                    }
+                ]
+            },
+            "faq": [
+                {
+                    "question": "如何制作性格测验？",
+                    "answer": "选择“性格测验”，在封面里添加结果（名称、描述和图片），编写题目并为每个选项选择它通向的结果。然后发布并分享链接。"
+                },
+                {
+                    "question": "结果是怎么计算的？",
+                    "answer": "每个答案都会给它所通向的结果加一分，得分最高的结果胜出。出现平局时，测验可以提出一道决胜题，只显示并列结果的选项；如果没有设置决胜题，并列的结果会一起显示为组合结果。"
+                },
+                {
+                    "question": "可以创建多少个结果？",
+                    "answer": "每个测验 2 到 12 个结果，每个都有名称、描述和可选的图片。"
+                },
+                {
+                    "question": "作答需要账户吗？",
+                    "answer": "不需要。任何人都可以不注册直接作答，并立刻看到自己的结果。"
+                },
+                {
+                    "question": "题目里可以用图片吗？",
+                    "answer": "可以，使用 QuestioPlus 即可：和其他测验类型一样，题目和选项中都能加入图片。结果图片免费。"
+                }
+            ],
+            "finalTitle": "你的朋友会得到什么结果？",
+            "finalText": "制作你的性格测验，答案马上揭晓。",
+            "finalCta": "制作性格测验"
+        }
+    }
+}

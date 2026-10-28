@@ -9,12 +9,14 @@ import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useRouter } from '@/i18n/navigation'
 import { setCookie } from 'cookies-next'
+import { makeResultCookie, RESULT_COOKIE } from '@/utils/quizResultCookie'
 import LoadingReq from '../Loading/loading-req'
 import { useLocale, useTranslations } from 'next-intl'
 import { quizParams, trackEvent } from '@/utils/analytics'
 import IExamReviewQuestion from '@/interfaces/IExamReview'
 import { saveExamReview } from '@/utils/examReview'
-import IPersonalityOutcome from '@/interfaces/IPersonalityOutcome'
+import IPersonalityOutcome, { IPersonalityTie, outcomeResults } from '@/interfaces/IPersonalityOutcome'
+import PersonalityTieBreak from './personality-tie-break'
 import { savePersonalityOutcome } from '@/utils/personalityOutcome'
 import { getQuizKind } from '@/utils/quizKind'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
@@ -68,6 +70,8 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
         route = useRouter(),
         [finalTime, setFinalTime] = useState(0),
         sessionToken = useRef<string | undefined>(undefined),
+        // empate no quiz de personalidade com pergunta de desempate: espera a escolha
+        [tie, setTie] = useState<IPersonalityTie>(),
         // só para o Analytics: saber se quem saiu da página largou o quiz no meio
         progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 })
 
@@ -123,60 +127,68 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
 
     const handleScroll = () => window.scrollTo({ top: 350, behavior: 'smooth' })
 
+    // tieBreak: a escolha na pergunta de desempate (segundo envio das mesmas respostas)
+    const submitAnswers = (answers: { quizAnswer: any; guest?: string }, tieBreak?: string) => {
+        // só agora: ligado antes, o overlay cobria o popup de visitante e engolia os cliques
+        setLoadingReq(true)
+        takeQuiz(quiz.quizId, answers, sessionToken.current, isPersonality ? { tieBreak } : undefined)
+            .then(({ err, errData, res, review, personality, tie }) => {
+                if (err) return setError(getLocalizedMessage(errData ?? { message: err }, locale))
+
+                if (tie) return setTie(tie)
+
+                if (personality) {
+                    setTie(undefined)
+                    progress.current.finished = true
+                    trackEvent('quiz_complete', {
+                        ...quizParams(quiz),
+                        personality_result: outcomeResults(personality).map(item => item.title).join(' + ').slice(0, 100),
+                        time_seconds: Math.round((Date.now() - progress.current.startedAt) / 1000),
+                    })
+
+                    if (onFinish) return onFinish(undefined, undefined, personality)
+                    if (savePersonalityOutcome(quiz.quizId, personality)) return route.push(`/quiz/${quiz.quizId}/personality`)
+                    return setError(t('errors.resultStorage'))
+                }
+
+                if (res) {
+                    const played = res.userForLeaderBoard
+                    const [correct, total] = String(played?.score ?? '').split('/').map(Number)
+
+                    progress.current.finished = true
+                    trackEvent('quiz_complete', {
+                        ...quizParams(quiz),
+                        score: correct,
+                        score_percent: total ? Math.round(correct / total * 100) : undefined,
+                        time_seconds: Math.round((played?.timing ?? 0) / 1000),
+                        player_type: played?.isGuest ? 'guest' : 'user',
+                    })
+
+                    if (onFinish) return onFinish(res, review)
+                    setCookie(RESULT_COOKIE, makeResultCookie(quiz.quizId, res))
+
+                    // prova: vai para a correção; sem onde guardar, cai no resultado comum
+                    if (review && saveExamReview(quiz.quizId, { score: res, review })) {
+                        return route.push(`/quiz/${quiz.quizId}/review`)
+                    }
+                    route.push(`/quiz/${quiz.quizId}/results`)
+                }
+            })
+            .catch(console.log)
+            .finally(() => setLoadingReq(false))
+    }
+
     useEffect(() => {
-        if (result && quiz) {
-            // só agora: ligado antes, o overlay cobria o popup de visitante e engolia os cliques
-            setLoadingReq(true)
-            takeQuiz(quiz.quizId, result, sessionToken.current)
-                .then(({ err, errData, res, review, personality }) => {
-                    if (err) return setError(getLocalizedMessage(errData ?? { message: err }, locale))
-
-                    if (personality) {
-                        progress.current.finished = true
-                        trackEvent('quiz_complete', {
-                            ...quizParams(quiz),
-                            personality_result: personality.result.title.slice(0, 100),
-                            time_seconds: Math.round((personality.timing ?? 0) / 1000),
-                        })
-
-                        if (onFinish) return onFinish(undefined, undefined, personality)
-                        if (savePersonalityOutcome(quiz.quizId, personality)) return route.push(`/quiz/${quiz.quizId}/personality`)
-                        return setError(t('errors.resultStorage'))
-                    }
-
-                    if (res) {
-                        const played = res.userForLeaderBoard
-                        const [correct, total] = String(played?.score ?? '').split('/').map(Number)
-
-                        progress.current.finished = true
-                        trackEvent('quiz_complete', {
-                            ...quizParams(quiz),
-                            score: correct,
-                            score_percent: total ? Math.round(correct / total * 100) : undefined,
-                            time_seconds: Math.round((played?.timing ?? 0) / 1000),
-                            player_type: played?.isGuest ? 'guest' : 'user',
-                        })
-
-                        if (onFinish) return onFinish(res, review)
-                        const safeCookieValue = encodeURIComponent(JSON.stringify(res));
-                        setCookie('quizResults', safeCookieValue);
-
-                        // prova: vai para a correção; sem onde guardar, cai no resultado comum
-                        if (review && saveExamReview(quiz.quizId, { score: res, review })) {
-                            return route.push(`/quiz/${quiz.quizId}/review`)
-                        }
-                        route.push(`/quiz/${quiz.quizId}/results`)
-                    }
-                })
-                .catch(console.log)
-                .finally(() => setLoadingReq(false))
-        }
+        if (result && quiz) submitAnswers(result)
     }, [result, quiz])
 
     const questionsToRender = started ? quiz.questions : getDummyQuestions(quiz.type) as any
     return (
         <>
             {loadingReq && <LoadingReq loading={loadingReq} />}
+            {tie && result && (
+                <PersonalityTieBreak tie={tie} disabled={loadingReq} onChoose={(resultId) => submitAnswers(result, resultId)} />
+            )}
             <div className={styles.header_quiz}>
                 <h1>{quiz?.title}</h1>
                 <TimerContainer

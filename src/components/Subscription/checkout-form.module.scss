@@ -1,0 +1,10 @@
+@use '@/assets/styles/vars.scss';
+
+// valor que vai ser cobrado, acima do formulário de pagamento
+.total {
+    margin-bottom: 1rem;
+    padding: .8rem 1rem;
+    border-radius: .6rem;
+    border: 1px solid var(--text-secondary);
+    @include vars.styleTexto(var(--text-primary), 1.05rem, 700);
+}

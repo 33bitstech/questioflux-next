@@ -1,6 +1,6 @@
 'use client'
 import { TStyles } from '@/types/stylesType'
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import InputImageQuiz from '../CreatingQuiz/input-image-quiz'
 import InputTextQuiz from '../CreatingQuiz/input-text-quiz'
@@ -27,7 +27,7 @@ interface IProps {
     styles: TStyles,
     quiz: IQuizes | undefined | any
 }
-type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES'
+type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN'
 
 export default function FormEditQuiz({ styles, quiz }: IProps) {
     const { getError, setError, resetErrors, resetTypeError } = useErrors(),
@@ -50,6 +50,11 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         // rascunho só muda quando a pessoa escolhe (antes, salvar a capa finalizava o quiz)
         [draft, setDraft] = useState<boolean>(false),
         [results, setResults] = useState<ILocalPersonalityResult[]>(initialResults),
+        [tieBreakQuestion, setTieBreakQuestion] = useState(''),
+        // Cada tentativa de salvar devolve o quiz do servidor (updateTag na action). Depois de
+        // uma falha o formulário fica com o que a pessoa escreveu; só um salvamento concluído
+        // volta a carregar do servidor.
+        syncFromServer = useRef(true),
         [originalImage, setOriginalImage] = useState<string>(''),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
@@ -74,6 +79,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             kind,
             draft,
             results: kind === 'personality' ? resultsSnapshot(results) : null,
+            tieBreakQuestion: kind === 'personality' ? tieBreakQuestion : null,
             finalMessages: finalMessages || null
         });
 
@@ -97,6 +103,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
 
         setErrorQuiz(undefined)
         setLoading(true)
+        syncFromServer.current = false
 
         try {
             const isPrivate = visibility !== 'public'
@@ -117,7 +124,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     idiom,
                     kind,
                     resultMessages: finalMessages,
-                    ...(kind === 'personality' ? { personalityResults: toApiResults(results) } : {}),
+                    ...(kind === 'personality' ? { personalityResults: toApiResults(results), personalityTieBreakQuestion: tieBreakQuestion } : {}),
                 },
             }
 
@@ -138,6 +145,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 }
                 return
             }
+
+            syncFromServer.current = true
 
             if (result.warning) {
                 setGlobalError(getErrorMessageByLocale(result.warning))
@@ -167,6 +176,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 kind,
                 draft,
                 results: kind === 'personality' ? resultsSnapshot(savedResults) : null,
+                tieBreakQuestion: kind === 'personality' ? tieBreakQuestion : null,
                 finalMessages: finalMessages || null
             }))
             setImageData(null)
@@ -188,6 +198,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
     }, [errorQuiz, locale, setError, resetErrors, t])
 
     useEffect(() => {
+        if (!syncFromServer.current) return
         if (!quiz?.err && quiz) {
             const initialTitle = quiz.title || '';
             const initialDesc = quiz.description || '';
@@ -199,6 +210,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             const initialKind = getQuizKind(quiz);
             const initialDraft = quiz.draft === true;
             const initialResultsList = quiz.personalityResults?.length ? toLocalResults(quiz.personalityResults) : initialResults();
+            const initialTieBreakQuestion = quiz.personalityTieBreakQuestion ?? '';
 
             setTitle(initialTitle)
             setDesc(initialDesc)
@@ -209,6 +221,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             setKind(initialKind)
             setDraft(initialDraft)
             setResults(initialResultsList)
+            setTieBreakQuestion(initialTieBreakQuestion)
             setFinalMessages(initialMessages)
             setOriginalImage(quiz.quizThumbnail || '')
 
@@ -222,6 +235,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 kind: initialKind,
                 draft: initialDraft,
                 results: initialKind === 'personality' ? resultsSnapshot(initialResultsList) : null,
+                tieBreakQuestion: initialKind === 'personality' ? initialTieBreakQuestion : null,
                 finalMessages: initialMessages
             }))
         }
@@ -329,6 +343,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     <option value='EN-US'>{tShared('selects.en')}</option>
                     <option value='PT-BR'>{tShared('selects.pt')}</option>
                     <option value='ES-ES'>{tShared('selects.es')}</option>
+                    <option value='ZH-CN'>{tShared('selects.zh')}</option>
                 </select>
             </InputTextQuiz>
 
@@ -337,6 +352,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     value={results}
                     onChange={(newResults) => { setResults(newResults); resetTypeError('personalityResults') }}
                     error={getError('personalityResults')}
+                    tieBreakQuestion={tieBreakQuestion}
+                    onTieBreakQuestionChange={(question) => { setTieBreakQuestion(question); resetTypeError('personalityResults') }}
                 />
             ) : (
                 <div className={styles.messages}>

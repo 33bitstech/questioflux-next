@@ -14,6 +14,8 @@ export interface IPersonalityResult {
     title: string
     description: string
     image?: string
+    // alternativa deste resultado na pergunta de desempate (só aparece quando ele empata)
+    tieBreakOption?: string
 }
 
 export default interface IQuizes {
@@ -39,6 +41,8 @@ export default interface IQuizes {
     // recursos pagos já liberados neste quiz (assinatura ou crédito avulso usado nele)
     premiumUnlocked?: boolean,
     personalityResults?: IPersonalityResult[],
+    // pergunta extra feita só quando dois ou mais resultados empatam
+    personalityTieBreakQuestion?: string,
     // quantas vezes cada resultado saiu: { [resultId]: vezes }
     personalityStats?: Record<string, number>,
 }
