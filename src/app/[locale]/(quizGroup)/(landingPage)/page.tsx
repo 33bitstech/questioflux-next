@@ -90,7 +90,6 @@ export default async function LandingPage({ params }: IProps) {
                         <ScrollToSection targetId='quiz_styles_section' className={styles.button_link}>{t('hero.ctaButton')}</ScrollToSection>
                         <Link href={'/explore'} locale={locale} className={styles.explore_link} >{t('hero.exploreButton')}</Link>
                     </div>
-                    <LandingAd />
                 </section>
 
                 <div className={styles.wave}><Wave /></div>
@@ -127,6 +126,8 @@ export default async function LandingPage({ params }: IProps) {
                         </li>
                     </ul>
                     <Link href='/create/quiz' locale={locale} className={styles.button_link}>{t('stylesSection.ctaButton')}</Link>
+                    {/* abaixo do "Criar agora", na seção do criador (onde o "Comece agora" do topo leva) */}
+                    <LandingAd />
                 </section>
 
                 <section id='quiz_exploration_section' className={styles.quiz_exploration_section}>

@@ -8,6 +8,7 @@ import IExamReviewQuestion from '@/interfaces/IExamReview'
 import ExamReviewView from '../ExamReview/exam-review-view'
 import { useLocale, useTranslations } from 'next-intl'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { getQuizKind } from '@/utils/quizKind'
 
 interface IProps{
     userLb: IUserLeaderBoardScore
@@ -70,6 +71,8 @@ export default function UserAnswers({userLb, closeAnswers, quiz}:IProps) {
                         score={{ userForLeaderBoard: userLb, message: '' }}
                         review={state.review}
                         heading={t('heading')}
+                        // só a prova mostra o gabarito; nos outros tipos o backend nem manda a certa
+                        showCorrectTag={getQuizKind(quiz) === 'exam'}
                     />
                 )}
             </div>

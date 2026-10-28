@@ -978,7 +978,11 @@
                 "text": "由你来定义结果，以及每个答案通向哪个结果。免费开始使用。",
                 "button": "创建性格测验"
             }
-        }
+        },
+        "heroTitle": "制作让人愿意做完、乐于分享的测验指南",
+        "readArticle": "阅读文章",
+        "inThisArticle": "本文目录",
+        "related": "继续阅读"
     },
     "quizTypePages": {
         "common": {

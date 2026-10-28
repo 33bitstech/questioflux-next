@@ -15,6 +15,14 @@ export const shellLanguages = (path = '') => ({
     'x-default': `${SITE_URL}/en${path}`,
 })
 
+// Mesmos códigos de idioma do resto do site no hreflang; x-default aponta para o inglês
+const HREFLANG: Record<string, string> = { en: 'en-US', pt: 'pt-BR', es: 'es', zh: 'zh-CN' }
+export const hreflangMap = (urls: Array<{ locale: string, url: string }>) => {
+    const map = Object.fromEntries(urls.map(({ locale, url }) => [HREFLANG[locale] ?? locale, url]))
+    const english = urls.find(item => item.locale === 'en')
+    return english ? { ...map, 'x-default': english.url } : map
+}
+
 // idiom vem do backend como 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN' (ou 'en' nos quizzes antigos)
 export const idiomToLocale = (idiom?: string): AppLocale => getAppLocale(idiom?.toLowerCase())
 

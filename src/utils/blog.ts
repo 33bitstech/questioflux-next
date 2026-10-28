@@ -1,29 +1,36 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { marked } from 'marked'
+import { Marked } from 'marked'
 import { QuizKind } from '@/utils/quizKind'
 
 // Blog: cada artigo é um arquivo Markdown em src/content/blog/<idioma>/<slug>.md, revisado
 // por commit/PR como o resto do código. O cabeçalho (entre ---) traz título, descrição,
 // autoria, datas e o status: "draft" (rascunho) ou "published".
+// As traduções de um mesmo artigo têm o mesmo "key" (cada idioma tem o próprio slug).
 
 export interface IBlogPostMeta {
     slug: string
     locale: string
+    // liga as traduções do mesmo artigo
+    key: string
     title: string
     description: string
+    // etiqueta do card (Tutorial, Comparativo...)
+    tag: string
     author: string
     publishedAt: string
     // só quando houve revisão de verdade no conteúdo
     updatedAt?: string
     status: 'draft' | 'published'
-    // tipo de quiz da chamada no fim do artigo
+    // tipo de quiz da chamada no fim do artigo (e da capa)
     cta: QuizKind
     readingMinutes: number
 }
 
 export interface IBlogPost extends IBlogPostMeta {
     html: string
+    // títulos das seções, para o "Neste artigo"
+    toc: Array<{ id: string, text: string }>
 }
 
 const BLOG_DIR = path.join(process.cwd(), 'src', 'content', 'blog')
@@ -33,6 +40,28 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 // Rascunho só aparece fora de produção, para revisar no ambiente de desenvolvimento.
 // Em produção ele não é listado, não entra no sitemap e a página responde 404.
 export const showDrafts = process.env.NODE_ENV !== 'production'
+
+// id da seção a partir do título (acentos fora; chinês e outras letras ficam)
+export const headingId = (text: string) => text
+    .replace(/<[^>]+>/g, '')
+    .replace(/[*_`[\]()]/g, '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/^-+|-+$/g, '')
+
+const markdown = new Marked({
+    gfm: true,
+    renderer: {
+        // as seções (##) ganham id para o sumário apontar para elas
+        heading({ tokens, depth, text }) {
+            const inner = this.parser.parseInline(tokens)
+            return depth === 2
+                ? `<h2 id="${headingId(text)}">${inner}</h2>\n`
+                : `<h${depth}>${inner}</h${depth}>\n`
+        },
+    },
+})
 
 function parseFrontmatter(raw: string): { data: Record<string, string>, body: string } {
     const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
@@ -47,6 +76,12 @@ function parseFrontmatter(raw: string): { data: Record<string, string>, body: st
     return { data, body: match[2] }
 }
 
+// palavras para o tempo de leitura; em chinês conta por caractere (~400 por minuto)
+function readingMinutes(body: string, locale: string): number {
+    if (locale === 'zh') return Math.max(1, Math.round(body.replace(/\s+/g, '').length / 400))
+    return Math.max(1, Math.round(body.split(/\s+/).filter(Boolean).length / 200))
+}
+
 function readPost(locale: string, slug: string): IBlogPost | null {
     if (!SLUG.test(slug) || !/^[a-z]{2}$/.test(locale)) return null
 
@@ -56,20 +91,30 @@ function readPost(locale: string, slug: string): IBlogPost | null {
     const { data, body } = parseFrontmatter(fs.readFileSync(file, 'utf8'))
     if (!data.title || !data.description || !data.publishedAt) return null
 
-    const words = body.split(/\s+/).filter(Boolean).length
+    const html = (markdown.parse(body, { async: false }) as string)
+        // a tabela rola de lado dentro da própria caixa no celular
+        .replace(/<table>/g, '<div data-table><table>')
+        .replace(/<\/table>/g, '</table></div>')
+
+    const toc = markdown.lexer(body)
+        .filter(token => token.type === 'heading' && token.depth === 2)
+        .map(token => ({ id: headingId((token as { text: string }).text), text: (token as { text: string }).text.replace(/[*_`]/g, '') }))
 
     return {
         slug,
         locale,
+        key: data.key || slug,
         title: data.title,
         description: data.description,
-        author: data.author || 'Equipe QuestioFlux',
+        tag: data.tag || '',
+        author: data.author || 'QuestioFlux',
         publishedAt: data.publishedAt,
         ...(data.updatedAt ? { updatedAt: data.updatedAt } : {}),
         status: data.status === 'published' ? 'published' : 'draft',
         cta: CTA_KINDS.includes(data.cta as QuizKind) ? data.cta as QuizKind : 'quiz',
-        readingMinutes: Math.max(1, Math.round(words / 200)),
-        html: marked.parse(body, { async: false, gfm: true }) as string,
+        readingMinutes: readingMinutes(body, locale),
+        html,
+        toc,
     }
 }
 
@@ -85,8 +130,8 @@ export function getPosts(locale: string, includeDrafts = showDrafts): IBlogPostM
         .filter(file => file.endsWith('.md'))
         .map(file => readPost(locale, file.replace(/\.md$/, '')))
         .filter((post): post is IBlogPost => visible(post, includeDrafts))
-        .map(({ html, ...meta }) => meta)
-        .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+        .map(({ html, toc, ...meta }) => meta)
+        .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt) || a.slug.localeCompare(b.slug))
 }
 
 export function getPost(locale: string, slug: string, includeDrafts = showDrafts): IBlogPost | null {
@@ -98,4 +143,9 @@ export function getPost(locale: string, slug: string, includeDrafts = showDrafts
 export function getAllPublishedPosts(): IBlogPostMeta[] {
     if (!fs.existsSync(BLOG_DIR)) return []
     return fs.readdirSync(BLOG_DIR).flatMap(locale => getPosts(locale, false))
+}
+
+// O mesmo artigo nos idiomas em que está publicado (hreflang)
+export function getTranslationsOf(key: string): IBlogPostMeta[] {
+    return getAllPublishedPosts().filter(post => post.key === key)
 }

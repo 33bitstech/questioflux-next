@@ -22,13 +22,15 @@ interface IProps {
     adSlot?: string
     // título acima da nota; sem ele, "Correção da prova"
     heading?: string
+    // false fora da prova: só a alternativa escolhida e se acertou, sem a etiqueta "Resposta correta"
+    showCorrectTag?: boolean
 }
 
 const AD_AFTER_QUESTION = 3
 const MIN_QUESTIONS_FOR_AD = 6
 
 // Correção da prova: nota, o que a pessoa marcou, a alternativa certa e as explicações.
-export default function ExamReviewView({ quizId, score, review, actions, adSlot, heading }: IProps) {
+export default function ExamReviewView({ quizId, score, review, actions, adSlot, heading, showCorrectTag = true }: IProps) {
     const t = useTranslations('quizResultsPage.review')
     const [filter, setFilter] = useState<TFilter>('all')
 
@@ -140,7 +142,7 @@ export default function ExamReviewView({ quizId, score, review, actions, adSlot,
                                                 <span className={styles.answer_text}>{label}</span>
                                                 <span className={styles.tags}>
                                                     {chosen && <em className={styles.tag_chosen}>{t('yourAnswer')}</em>}
-                                                    {answer.correct && <em className={styles.tag_correct}>{t('correctAnswer')}</em>}
+                                                    {answer.correct && showCorrectTag && <em className={styles.tag_correct}>{t('correctAnswer')}</em>}
                                                 </span>
                                             </div>
                                             {answer.explanation && <p className={styles.explanation}>{answer.explanation}</p>}

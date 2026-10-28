@@ -35,10 +35,11 @@ export default function ParticipantsContainer({ users, visible, total, hasMore, 
         <div className={`${styles.container}`} role="dialog" aria-labelledby="participants-title">
             <button type="button" className={styles.close} onClick={closeParticipants} aria-label={t('close')}><CloseSvg/></button>
             <div className={styles.content}>
-                <header className={styles.header}>
+                {/* div, não header: o layout do site posiciona todo <header> como a barra do topo */}
+                <div className={styles.header}>
                     <h2 id="participants-title">{t('title')} <span>{visible}</span></h2>
                     {total > visible && <p>{t('note')}</p>}
-                </header>
+                </div>
 
                 {users.length === 0 && <p className={styles.empty}>{t('empty')}</p>}
 
