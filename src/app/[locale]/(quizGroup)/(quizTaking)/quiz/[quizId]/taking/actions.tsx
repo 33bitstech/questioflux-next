@@ -69,7 +69,8 @@ export async function takeQuiz(quizId: string, results: { quizAnswer: any; guest
         })
 
         const res = await response.json()
-        if (!response.ok) return { err: res.message }
+        // errData: o erro com as três línguas, para a tela mostrar no idioma de quem joga
+        if (!response.ok) return { err: res.message as string, errData: res as { message?: string, messagePT?: string, messageES?: string } }
 
         // personalidade: a contagem de resultados do quiz mudou (aba "Resultados")
         if (res.personality) updateTag(quizTag(quizId))

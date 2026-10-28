@@ -47,6 +47,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [visibility, setVisibility] = useState<string>(''),
         [idiom, setIdiom] = useState<QuizIdiom>('EN-US'),
         [kind, setKind] = useState<QuizKind>('quiz'),
+        // rascunho só muda quando a pessoa escolhe (antes, salvar a capa finalizava o quiz)
+        [draft, setDraft] = useState<boolean>(false),
         [results, setResults] = useState<ILocalPersonalityResult[]>(initialResults),
         [originalImage, setOriginalImage] = useState<string>(''),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
@@ -70,12 +72,13 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             visibility,
             idiom,
             kind,
+            draft,
             results: kind === 'personality' ? resultsSnapshot(results) : null,
             finalMessages: finalMessages || null
         });
 
         return currentSnapshot !== initialSnapshot || imageData !== null;
-    }, [initialSnapshot, title, desc, category, tagsString, visibility, idiom, kind, results, finalMessages, imageData])
+    }, [initialSnapshot, title, desc, category, tagsString, visibility, idiom, kind, draft, results, finalMessages, imageData])
 
     const hasQuestions = (quiz?.qtdQuestions ?? 0) > 0
     const savedKind = getQuizKind(quiz)
@@ -110,7 +113,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     category,
                     tags,
                     isPrivate,
-                    draft: false,
+                    draft,
                     idiom,
                     kind,
                     resultMessages: finalMessages,
@@ -162,6 +165,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 visibility,
                 idiom,
                 kind,
+                draft,
                 results: kind === 'personality' ? resultsSnapshot(savedResults) : null,
                 finalMessages: finalMessages || null
             }))
@@ -193,6 +197,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             const initialIdiom = quiz.idiom || 'EN-US';
             const initialMessages = quiz.resultMessages || null;
             const initialKind = getQuizKind(quiz);
+            const initialDraft = quiz.draft === true;
             const initialResultsList = quiz.personalityResults?.length ? toLocalResults(quiz.personalityResults) : initialResults();
 
             setTitle(initialTitle)
@@ -202,6 +207,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             setVisibility(initialVisibility)
             setIdiom(initialIdiom as QuizIdiom)
             setKind(initialKind)
+            setDraft(initialDraft)
             setResults(initialResultsList)
             setFinalMessages(initialMessages)
             setOriginalImage(quiz.quizThumbnail || '')
@@ -214,6 +220,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 visibility: initialVisibility,
                 idiom: initialIdiom,
                 kind: initialKind,
+                draft: initialDraft,
                 results: initialKind === 'personality' ? resultsSnapshot(initialResultsList) : null,
                 finalMessages: initialMessages
             }))
@@ -294,6 +301,23 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     <option value="public">{tShared('selects.public')}</option>
                     <option value="private">{tShared('selects.private')}</option>
                 </select>
+            </InputTextQuiz>
+
+            <InputTextQuiz styles={styles} labelFor='status' labelValue={tShared('labels.status')}>
+                <select
+                    id="status"
+                    value={draft ? 'draft' : 'finished'}
+                    onChange={e => setDraft(e.target.value === 'draft')}
+                    aria-describedby="status-hint"
+                    // sem perguntas não há o que finalizar
+                    disabled={!draft ? false : !(quiz?.qtdQuestions > 0)}
+                >
+                    <option value="draft">{tShared('selects.statusDraft')}</option>
+                    <option value="finished">{tShared('selects.statusFinished')}</option>
+                </select>
+                <p id="status-hint" className={styles.kind_hint}>
+                    {draft && !(quiz?.qtdQuestions > 0) ? tShared('statusHints.noQuestions') : tShared(draft ? 'statusHints.draft' : 'statusHints.finished')}
+                </p>
             </InputTextQuiz>
 
             <InputTextQuiz styles={styles} labelFor='lang' labelValue={tShared('labels.idiom')}>

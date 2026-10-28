@@ -21,6 +21,11 @@ import { quizParams } from '@/utils/analytics';
 import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/analytics-widgets';
 import QuizCover from '@/components/Card/quiz-cover';
 import { getQuizKind, quizKindSlug } from '@/utils/quizKind';
+import { FilePen, Globe, Lock } from 'lucide-react';
+
+// Situação do quiz: rascunho tem prioridade; fora dele, privado ou público. Texto e ícone,
+// para não depender só da cor.
+const STATUS_ICONS = { draft: FilePen, private: Lock, public: Globe } as const
 
 interface IProps {
     params: Promise<{
@@ -183,6 +188,8 @@ export default async function Quiz({ params }: IProps) {
     ])
 
     const kind = getQuizKind(quiz)
+    const status: keyof typeof STATUS_ICONS = quiz.draft ? 'draft' : quiz.isPrivate ? 'private' : 'public'
+    const StatusIcon = STATUS_ICONS[status]
 
     const preview = buildQuizPreview(quiz)
     const quizSchema = generateQuizSchema(t, quiz, locale, tHeader('explore'))
@@ -204,7 +211,12 @@ export default async function Quiz({ params }: IProps) {
             <div className={styles.quiz_details}>
                 <div className={styles.info}>
                     <div className={styles.info_header}>
-                        <h3>{t('title')}</h3>
+                        <div className={styles.info_title}>
+                            <h3>{t('title')}</h3>
+                            <span className={`${styles.status_badge} ${styles[`status_${status}`]}`} title={t(`status.${status}Hint`)}>
+                                <StatusIcon aria-hidden="true" /> {t(`status.${status}`)}
+                            </span>
+                        </div>
 
                         <EmbedQuizPopup
                             styles={styles}

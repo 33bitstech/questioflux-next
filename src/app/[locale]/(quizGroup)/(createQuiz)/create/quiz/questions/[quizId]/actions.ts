@@ -9,6 +9,9 @@ import { cookies } from "next/headers"
 import { updateTag } from 'next/cache'
 import { quizTag } from '@/utils/publicQuiz'
 
+// só sobem arquivos escolhidos agora; texto ("" de imagem limpa ou URL já salva) fica de fora
+const isUpload = (value: unknown): value is Blob => typeof value === 'object' && value !== null
+
 export async function createQuestionsText(questions: BodyInit, quizId: string) {
     try {
         const cookieStore = await cookies()
@@ -69,7 +72,7 @@ export async function uploadOneQuestionImage(
         const cookieStore = await cookies()
         const cookieHeader = getCookieHeader(cookieStore.getAll())
 
-        if (question.image !== undefined) {
+        if (isUpload(question.image)) {
             const questionImageFormData = new FormData()
 
             questionImageFormData.append('quizQuestions', question.image)
@@ -92,7 +95,7 @@ export async function uploadOneQuestionImage(
         let hasAlternativeImagesToUpload = false
 
         question.alternatives.forEach((alt) => {
-            if (alt.thumbnail !== undefined) {
+            if (isUpload(alt.thumbnail)) {
                 alternativesImagesFormData.append('imagesToUpdate', JSON.stringify({
                     answer: alt.id,
                 }))

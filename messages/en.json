@@ -49,7 +49,8 @@
         "placeholder": "Your name...",
         "button": "Send",
         "description": "If you want to create an account, click here:",
-        "link": "register"
+        "link": "register",
+        "emailError": "Use a name, not an email address: it is shown on the leaderboard."
     },
     "registerForm": {
         "placeholders": {
@@ -68,7 +69,8 @@
             "nameRequired": "Username field is required",
             "emailRequired": "Email is required",
             "passwordRequired": "Password field is required",
-            "confirmPasswordRequired": "Confirm password is required"
+            "confirmPasswordRequired": "Confirm password is required",
+            "nameIsEmail": "Your username cannot be an email address: it is shown publicly."
         }
     },
     "profileUpload": {
@@ -265,6 +267,15 @@
                 "confirmButton": "Yes, delete my account",
                 "cancelButton": "No, don’t delete my account"
             }
+        },
+        "activity": {
+            "title": "Privacy",
+            "label": "Show my quiz activity",
+            "help": "Your name and result appear in participant lists and leaderboards.",
+            "hiddenNote": "Your participation is hidden from other people, including the quiz creator. It still counts in the totals, and you can still see your own results.",
+            "shownMessage": "Your activity is visible in lists and leaderboards again.",
+            "hiddenMessage": "Your activity is now hidden from other people.",
+            "error": "Could not save this preference."
         }
     },
     "userQuizzesContainer": {
@@ -354,6 +365,14 @@
         "possibleResults": {
             "title": "Possible results",
             "text": "{count, plural, one {This quiz has # result.} other {This quiz can end in # different results. Which one will you get?}}"
+        },
+        "status": {
+            "draft": "Draft",
+            "private": "Private",
+            "public": "Public",
+            "draftHint": "Still being edited: it does not show up in Explore or on Google.",
+            "privateHint": "Only people with the link can take it.",
+            "publicHint": "Shows up in Explore and can appear on Google."
         }
     },
     "quizActions": {
@@ -491,7 +510,8 @@
                 "visibility": "Visibility",
                 "idiom": "Idiom",
                 "finalMessages": "Appearance of message at the end of the Quiz:",
-                "kind": "Quiz type"
+                "kind": "Quiz type",
+                "status": "Status"
             },
             "placeholders": {
                 "title": "Ex: Do you know everything about football?",
@@ -510,7 +530,9 @@
                     "exam": "Online test (with answer key)",
                     "aboutMe": "About me quiz",
                     "personality": "Personality quiz"
-                }
+                },
+                "statusDraft": "Draft",
+                "statusFinished": "Finished"
             },
             "buttons": {
                 "back": "Back",
@@ -538,6 +560,11 @@
                 "descriptionPlaceholder": "What this result says about whoever gets it (optional)",
                 "add": "Add result",
                 "imageError": "Your quiz was saved, but a result image did not upload. Try again in Edit Quiz."
+            },
+            "statusHints": {
+                "draft": "Drafts do not show up in Explore or on Google. Choose Finished when the quiz is ready.",
+                "finished": "The quiz is ready and follows the visibility you chose (public or private).",
+                "noQuestions": "Add questions before finishing the quiz."
             }
         }
     },
@@ -604,7 +631,8 @@
                 "hint": "Personality quiz: there is no right option. Choose which result each option leads to; in the end, the most picked result wins.",
                 "noResults": "This quiz has no results yet. Add at least 2 on the cover before writing the questions.",
                 "editCover": "Edit the cover"
-            }
+            },
+            "finalizeError": "Your questions were saved, but the quiz could not be finished. You can finish it in Edit Quiz."
         },
         "aboutMeSuggestions": {
             "title": "Ready-made questions about you",

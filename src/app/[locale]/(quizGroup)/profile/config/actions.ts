@@ -130,3 +130,33 @@ export async function reactivateSubscription(locale: string) {
     revalidatePath('/profile/config')
     return { success: true }
 }
+
+// "Mostrar minha atividade em quizzes": decide se o nome e o resultado aparecem nas listas
+// de participantes e nos rankings para outras pessoas
+export async function getActivityVisibility(): Promise<{ showActivity?: boolean, err?: string }> {
+    const cookieStore = await cookies()
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/user/activity-visibility`, {
+        method: 'GET',
+        headers: { cookie: getCookieHeader(cookieStore.getAll()) },
+        cache: 'no-store',
+    })
+
+    const res = await response.json().catch(() => ({}))
+    if (!response.ok) return { err: res.message }
+    return { showActivity: res.showActivity !== false }
+}
+
+export async function updateActivityVisibility(showActivity: boolean): Promise<{ showActivity?: boolean, err?: { message?: string, messagePT?: string, messageES?: string } }> {
+    const cookieStore = await cookies()
+
+    const response = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/user/activity-visibility`, {
+        method: 'PUT',
+        headers: { cookie: getCookieHeader(cookieStore.getAll()), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ showActivity }),
+    })
+
+    const res = await response.json().catch(() => ({}))
+    if (!response.ok) return { err: res }
+    return { showActivity: res.showActivity !== false }
+}

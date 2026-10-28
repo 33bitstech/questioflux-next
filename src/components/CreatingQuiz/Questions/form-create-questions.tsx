@@ -110,9 +110,11 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
     }
     const handleFormatImageMode = (questionsToFormat = questions): IFormatedImageQuestions[] => {
         return questionsToFormat?.map(q => {
+            // A imagem sobe depois, alternativa por alternativa. Até lá vai "pending-upload":
+            // com "" o backend recusava alternativa só com imagem (exige texto ou imagem).
             const answers = q.alternatives?.map(ans => ({
                 answer: ans.id,
-                thumbnail: '',
+                thumbnail: ans.thumbnail ? 'pending-upload' : '',
                 text: ans.text?.trim() || ''
             }))
 
@@ -139,18 +141,23 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
         })
     }
 
-    const finishCreation = async (publish: boolean) => {
+    // finalize: "Criar" tira o quiz do rascunho; "Salvar como rascunho" deixa como está.
+    // publish: a pessoa escolheu no popup tornar público o quiz que estava privado.
+    const finishCreation = async (finalize: boolean, publish: boolean) => {
         let isPublic = !isPrivate
 
-        if (publish) {
-            const formData = new FormData()
-            formData.append('quizDatas', JSON.stringify({ quizData: { isPrivate: false } }))
-
-            const result = await editQuiz(formData, quizId)
-
-            if (result.ok) isPublic = true
-            else setError(t('visibilityPopup.publishError'))
+        if (!finalize) {
+            router.push('/drafts')
+            return
         }
+
+        const formData = new FormData()
+        formData.append('quizDatas', JSON.stringify({ quizData: { draft: false, ...(publish ? { isPrivate: false } : {}) } }))
+
+        const result = await editQuiz(formData, quizId)
+
+        if (result.ok) isPublic = isPublic || publish
+        else setError(publish ? t('visibilityPopup.publishError') : t('finalizeError'))
 
         trackEvent('quiz_create_complete', {
             quiz_id: quizId,
@@ -174,17 +181,17 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
             return
         }
 
-        await saveQuestions(!isDraft && makePublic === true)
+        await saveQuestions(!isDraft, !isDraft && makePublic === true)
     }
 
     const handleVisibilityChoice = async (publish: boolean) => {
         setShowVisibilityPopup(false)
         setMakePublic(publish)
         trackEvent('quiz_visibility_prompt', { quiz_id: quizId, choice: publish ? 'make_public' : 'keep_private' })
-        await saveQuestions(publish)
+        await saveQuestions(true, publish)
     }
 
-    const saveQuestions = async (publish: boolean) => {
+    const saveQuestions = async (finalize: boolean, publish: boolean) => {
         clearQuestionsErrors()
         setLoading(true)
 
@@ -256,7 +263,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
                 }
 
                 if (res) {
-                    await finishCreation(publish)
+                    await finishCreation(finalize, publish)
                 }
 
                 return
@@ -288,7 +295,7 @@ export default function FormCreateQuestions({ styles, textMode, quizId, isPrivat
                 }
             }
 
-            await finishCreation(publish)
+            await finishCreation(finalize, publish)
         } finally {
             setLoading(false)
         }

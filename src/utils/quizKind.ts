@@ -10,6 +10,13 @@ export const isQuizKind = (value: unknown): value is QuizKind =>
 export const getQuizKind = (quiz?: { kind?: unknown } | null): QuizKind =>
     isQuizKind(quiz?.kind) ? quiz.kind : 'quiz'
 
+// Mesma regra do backend: o quiz já teve os recursos pagos liberados (assinatura ou crédito
+// avulso). Quizzes antigos sem a marca contam se já têm imagem ou mais de 10 perguntas.
+export const isQuizPremiumUnlocked = (quiz?: { premiumUnlocked?: boolean, type?: string, qtdQuestions?: number } | null) =>
+    quiz?.premiumUnlocked === true ||
+    (quiz?.type === 'image/RW' && (quiz?.qtdQuestions ?? 0) > 0) ||
+    (quiz?.qtdQuestions ?? 0) > 10
+
 // Página de cada tipo em /create/quiz/[slug]. A ordem é a dos cards em /create/quiz.
 export const quizTypeSlugs = {
     'questions-and-answers': 'quiz',
