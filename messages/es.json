@@ -190,15 +190,8 @@
         "filters": "Filtros"
     },
     "filters": {
-        "quizTypeTitle": "Tipo de quiz",
         "categoryTitle": "Categoría",
-        "applyButton": "Aplicar",
-        "quizTypes": {
-            "all": "Todos",
-            "personality": "Personalidad",
-            "image": "Imagen",
-            "rightAndWrong": "Correcto e incorrecto"
-        }
+        "applyButton": "Aplicar"
     },
     "configPage": {
         "metadataTitle": "Configuración",
@@ -299,7 +292,18 @@
         "featuredTitle": "Más populares",
         "buttons": {
             "seeMore": "Ver más",
-            "seeLess": "Ver menos"
+            "seeLess": "Ver menos",
+            "previousPage": "Página anterior"
+        },
+        "metadataFiltered": "{filters} – Explora quizzes en QuestioFlux",
+        "metadataPage": "Página {page}",
+        "noResults": "Todavía no hay quizzes con estos filtros.",
+        "clearFilters": "Quitar filtros",
+        "filterBar": {
+            "languages": "Idioma del quiz",
+            "types": "Tipo de quiz",
+            "langLabel": "Quizzes en {language}",
+            "remove": "{filter} (haz clic para quitar el filtro)"
         }
     },
     "quizCard": {
@@ -447,14 +451,17 @@
         "sections": {
             "registered": "Clasificación de usuarios",
             "guests": "Clasificación de invitados",
-            "others": "Otros resultados"
+            "topUsers": "Top 10 – Clasificación de usuarios",
+            "topGuests": "Top 10 – Clasificación de invitados"
         },
-        "showMoreOthers": "Mostrar 10 resultados más",
         "recommendationPopup": {
             "title": "Recomendación",
             "minimize": "Minimizar recomendación",
             "maximize": "Abrir recomendación"
-        }
+        },
+        "seeMoreParticipants": "Ver más participantes",
+        "topOf": "Top 10 de {count}",
+        "ownerSeesAll": "Solo tú, que creaste el quiz, ves más allá del top 10."
     },
     "publicProfile": {
         "customTitle": "Quizzes públicos de este usuario",
@@ -759,7 +766,8 @@
         "tieBreak": {
             "eyebrow": "Hubo un empate",
             "hint": "Tus respuestas empataron. Elige la opción que más va contigo para definir el resultado."
-        }
+        },
+        "viewQuiz": "Ver quiz"
     },
     "quizResultsPage": {
         "layout": {
@@ -914,7 +922,9 @@
             "exam": "Examen online",
             "aboutMe": "Quiz sobre mí",
             "personality": "Quiz de personalidad"
-        }
+        },
+        "withImages": "con imágenes",
+        "image": "Quiz de imágenes"
     },
     "quizTypePages": {
         "common": {
@@ -1375,7 +1385,8 @@
             "plays": "{count, plural, one {# persona ya hizo este quiz} other {# personas ya hicieron este quiz}}",
             "noPlays": "Nadie ha terminado este quiz todavía. ¡Sé la primera persona!",
             "cta": "Descubrir mi resultado",
-            "metadataTitle": "Los resultados de todos – {quiz_name}"
+            "metadataTitle": "Los resultados de todos – {quiz_name}",
+            "combinedNote": "Cuando las respuestas de alguien empatan entre perfiles, cuenta en cada uno de ellos. Por eso la suma de los porcentajes puede superar el 100 %."
         },
         "combinedResult": "Resultado combinado",
         "combinedHint": "Tus respuestas empataron entre estos perfiles, así que tienes un poco de cada uno."

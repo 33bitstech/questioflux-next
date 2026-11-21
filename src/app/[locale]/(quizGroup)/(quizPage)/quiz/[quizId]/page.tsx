@@ -20,7 +20,7 @@ import { getOpenGraphLocale } from '@/utils/locale';
 import { quizParams } from '@/utils/analytics';
 import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/analytics-widgets';
 import QuizCover from '@/components/Card/quiz-cover';
-import { getQuizKind, quizKindSlug } from '@/utils/quizKind';
+import { getQuizKind, QuizKind, quizKindSlug } from '@/utils/quizKind';
 import { FilePen, Globe, Lock } from 'lucide-react';
 
 // Situação do quiz: rascunho tem prioridade; fora dele, privado ou público. Texto e ícone,
@@ -180,12 +180,13 @@ export default async function Quiz({ params }: IProps) {
 
     if (!quiz) notFound()
 
-    const [t, tHeader, tKinds, related] = await Promise.all([
+    const [t, tHeader, tTypes, related] = await Promise.all([
         getTranslations({ locale, namespace: 'quizInfoPage' }),
         getTranslations({ locale, namespace: 'contextualHeader' }),
-        getTranslations({ locale, namespace: 'quizTypes.names' }),
+        getTranslations({ locale, namespace: 'quizTypes' }),
         getRelatedQuizzes(quiz)
     ])
+    const tKinds = (kind: QuizKind) => tTypes(`names.${kind}`)
 
     const kind = getQuizKind(quiz)
     const status: keyof typeof STATUS_ICONS = quiz.draft ? 'draft' : quiz.isPrivate ? 'private' : 'public'
@@ -236,9 +237,10 @@ export default async function Quiz({ params }: IProps) {
                                 quiz={quizInfo}
                             />
                         </li>
-                        {kind !== 'quiz' && (
-                            <li>{t('details.kind')} <Link locale={locale} href={`/create/quiz/${quizKindSlug(kind)}`}>{tKinds(kind)}</Link></li>
-                        )}
+                        {/* todo quiz mostra o tipo; quizzes antigos sem "kind" são trivia (certo e errado) */}
+                        <li>{t('details.kind')} <Link locale={locale} href={`/create/quiz/${quizKindSlug(kind)}`}>{tKinds(kind)}</Link>
+                            {quiz.type === 'image/RW' && <> · {tTypes('withImages')}</>}
+                        </li>
                         {quiz.tags && quiz.tags.length > 0 ? <li>
                             {t('details.tags')} {quiz.tags.map((tag, i) => (
                                 <span key={i}>

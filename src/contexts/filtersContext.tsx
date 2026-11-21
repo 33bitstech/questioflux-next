@@ -1,27 +1,17 @@
 'use client'
 
-import { createContext, ReactNode, useContext, useState } from "react"
+import { createContext, ReactNode, useContext } from "react"
 import { TFilter, TFilterPt, TFilterEs } from "@/types/filtersType"
-import { TTypeQuiz, TTypeQuizPt, TTypeQuizEs } from "@/types/quizzesType"
 import { AppLocale, getAppLocale } from "@/utils/locale"
 
+// Categorias de quiz e seus nomes em cada idioma. O que está selecionado no Explorar fica no
+// endereço (?categories=...&type=...&lang=...), não aqui.
 interface IFiltersContext {
     filters: TFilter[]
     filtersPt: TFilterPt[]
     filtersEs: TFilterEs[]
 
-    filtersSelected: TFilter[]
-    selectFilters: (filters: TFilter[]) => void
-
-    typesQuiz: TTypeQuiz[]
-    typesQuizPt: TTypeQuizPt[]
-    typesQuizEs: TTypeQuizEs[]
-
-    typeQuizSelected: TTypeQuiz
-    selectType: (type: TTypeQuiz) => void
-
     getCategoryLabel: (category: TFilter, locale: string) => string
-    getTypeQuizLabel: (type: TTypeQuiz, locale: string) => string
 }
 
 const FiltersContext = createContext({} as IFiltersContext)
@@ -43,39 +33,11 @@ export function FilterProvider({ children }: { children: ReactNode }) {
         "其他", "常识", "体育", "动漫", "电影", "剧集", "音乐", "游戏", "搞笑", "时尚/风格", "趣闻", "生活/情感", "家居装饰", "健康", "美妆", "文学", "流行文化", "艺术", "旅行", "自然", "职业", "美食", "动物", "爱好", "神话", "心理学", "语言", "教育", "书籍", "极客文化", "商业与经济"
     ]
 
-    const [filtersSelected, setFiltersSelected] = useState<TFilter[]>([])
-
-    // mesma posição nos três idiomas: o rótulo sai pelo índice
-    const typesQuiz: TTypeQuiz[] = [
-        'All', 'Right and Wrong', 'Exam', 'About me', 'Personality', 'Image'
-    ]
-
-    const typesQuizPt: TTypeQuizPt[] = [
-        'Todos', 'Certo e Errado', 'Prova', 'Sobre mim', 'Personalidade', 'Imagem'
-    ]
-
-    const typesQuizEs: TTypeQuizEs[] = [
-        'Todos', 'Correcto e Incorrecto', 'Examen', 'Sobre mí', 'Personalidad', 'Imagen'
-    ]
-
-    const typesQuizZh: string[] = [
-        '全部', '对错题', '考试', '关于我', '性格', '图片'
-    ]
-
-    const [typeQuizSelected, setTypeQuizSelected] = useState<TTypeQuiz>('All')
-
     const filtersByLocale: Record<AppLocale, readonly string[]> = {
         en: filters,
         pt: filtersPt,
         es: filtersEs,
         zh: filtersZh,
-    }
-
-    const typesQuizByLocale: Record<AppLocale, readonly string[]> = {
-        en: typesQuiz,
-        pt: typesQuizPt,
-        es: typesQuizEs,
-        zh: typesQuizZh,
     }
 
     const getCategoryLabel = (category: TFilter, locale: string) => {
@@ -85,37 +47,12 @@ export function FilterProvider({ children }: { children: ReactNode }) {
         return filtersByLocale[appLocale][index] || category
     }
 
-    const getTypeQuizLabel = (type: TTypeQuiz, locale: string) => {
-        const index = typesQuiz.indexOf(type)
-        const appLocale = getAppLocale(locale)
-
-        return typesQuizByLocale[appLocale][index] || type
-    }
-
-    const selectFilters = (filters: TFilter[]) => {
-        setFiltersSelected(filters)
-    }
-
-    const selectType = (type: TTypeQuiz) => {
-        setTypeQuizSelected(type)
-    }
-
     return (
         <FiltersContext.Provider value={{
             filters,
             filtersPt,
             filtersEs,
-            filtersSelected,
-            selectFilters,
-
-            typesQuiz,
-            typesQuizPt,
-            typesQuizEs,
-            typeQuizSelected,
-            selectType,
-
             getCategoryLabel,
-            getTypeQuizLabel,
         }}>
             {children}
         </FiltersContext.Provider>

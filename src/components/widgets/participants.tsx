@@ -19,6 +19,8 @@ interface IParticipantsState {
     total: number
     page: number
     totalPages: number
+    // trivia para quem não criou o quiz: só o top 10 de contas e o de visitantes
+    limited?: boolean
 }
 
 export default function Participants({ quiz, styles }: IProps) {
@@ -46,7 +48,12 @@ export default function Participants({ quiz, styles }: IProps) {
 
         const res = await getLeaderboard(quiz.quizId)
         const items: IParticipantItem[] = res?.scoreBoard ?? []
-        setParticipants({ items, visible: items.length, total: res?.total ?? quiz.usersCount ?? 0, page: 1, totalPages: 1 })
+        // trivia: o ranking vem só com o top 10 de cada grupo, mas a contagem é a de todas as
+        // entradas visíveis
+        const visible = typeof res?.users === 'number' && typeof res?.guests === 'number'
+            ? res.users + res.guests
+            : items.length
+        setParticipants({ items, visible, total: res?.total ?? quiz.usersCount ?? 0, page: 1, totalPages: 1, limited: res?.limited === true })
     }
 
     const handleClick = async () => {
@@ -100,6 +107,7 @@ export default function Participants({ quiz, styles }: IProps) {
                         visible={participants.visible}
                         total={participants.total}
                         hasMore={participants.page < participants.totalPages}
+                        partial={participants.limited && participants.items.length < participants.visible}
                         loadingMore={loading}
                         onLoadMore={loadMore}
                         locale={locale}

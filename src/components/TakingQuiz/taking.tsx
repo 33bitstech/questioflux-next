@@ -3,7 +3,7 @@ import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import TimerContainer from '../widgets/TakingQuiz/timer-container'
-import QuestionsContainer from './questions-container'
+import QuestionsContainer, { IResumeAnswers } from './questions-container'
 import { pauseQuiz, startQuiz, takeQuiz } from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/taking/actions'
 import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
@@ -20,6 +20,8 @@ import PersonalityTieBreak from './personality-tie-break'
 import { savePersonalityOutcome } from '@/utils/personalityOutcome'
 import { getQuizKind } from '@/utils/quizKind'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
+import { useUser } from '@/contexts/userContext'
+import { clearPendingAnswers, savePendingAnswers, takePendingAnswers } from '@/utils/pendingQuizAnswers'
 
 export interface IQuizScore {
     userForLeaderBoard: IUserLeaderBoardScore
@@ -73,13 +75,19 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
         // empate no quiz de personalidade com pergunta de desempate: espera a escolha
         [tie, setTie] = useState<IPersonalityTie>(),
         // só para o Analytics: saber se quem saiu da página largou o quiz no meio
-        progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 })
+        progress = useRef({ started: false, finished: false, answered: 0, startedAt: 0 }),
+        // respostas de antes do login com Google que voltaram sem login (erro ou desistência)
+        [resume, setResume] = useState<IResumeAnswers>(),
+        resumeChecked = useRef(false),
+        { user, loaded: userLoaded } = useUser()
 
     const t = useTranslations('takingPage')
     const locale = useLocale()
     const isPersonality = getQuizKind(quiz) === 'personality'
 
     const handleStart = async () => {
+        // jogar de novo: as respostas retomadas do login com Google deixam de valer
+        setResume(undefined)
         const { ok, token } = await startQuiz(quiz.quizId, !!onFinish)
         if (!ok) return setError('Could not start the quiz. Please try again.')
         sessionToken.current = token
@@ -138,6 +146,7 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                 if (tie) return setTie(tie)
 
                 if (personality) {
+                    clearPendingAnswers()
                     setTie(undefined)
                     progress.current.finished = true
                     trackEvent('quiz_complete', {
@@ -152,6 +161,7 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                 }
 
                 if (res) {
+                    clearPendingAnswers()
                     const played = res.userForLeaderBoard
                     const [correct, total] = String(played?.score ?? '').split('/').map(Number)
 
@@ -181,6 +191,45 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
     useEffect(() => {
         if (result && quiz) submitAnswers(result)
     }, [result, quiz])
+
+    // Volta do login com Google feito no popup do fim do quiz (o backend devolve a pessoa para
+    // esta página). Com login, as respostas guardadas vão direto; sem login, o erro aparece
+    // e o popup abre de novo com elas, para entrar de outro jeito ou seguir como visitante.
+    useEffect(() => {
+        if (onFinish || resumeChecked.current || !userLoaded) return
+        resumeChecked.current = true
+
+        // lido aqui (só no navegador): useSearchParams pediria um Suspense em volta no embed
+        const searchParams = new URLSearchParams(window.location.search)
+        if (searchParams.get('oauthError')) {
+            const message = getLocalizedMessage({
+                message: searchParams.get('msgEN') ?? undefined,
+                messagePT: searchParams.get('msgPT') ?? undefined,
+                messageES: searchParams.get('msgES') ?? undefined,
+            }, locale)
+            if (message) setError(message)
+            // recarregar a página não mostra o erro de novo
+            window.history.replaceState(null, '', window.location.pathname)
+        }
+
+        const answers = takePendingAnswers(quiz.quizId)
+        if (!Array.isArray(answers)) return
+        if (user) return submitAnswers({ quizAnswer: answers })
+        // e-mail já cadastrado com senha: o caminho é entrar com ela
+        setResume({ answers, popup: searchParams.get('code') === '409' ? 'login' : 'guest' })
+    }, [userLoaded])
+
+    // de volta do Google pelo botão voltar a página reaparece como estava, com as respostas
+    useEffect(() => {
+        const discard = (event: PageTransitionEvent) => { if (event.persisted) clearPendingAnswers() }
+        window.addEventListener('pageshow', discard)
+        return () => window.removeEventListener('pageshow', discard)
+    }, [])
+
+    const googleResume = onFinish ? undefined : {
+        path: `/${locale}/quiz/${quiz.quizId}/taking`,
+        save: (answers: unknown[]) => { savePendingAnswers(quiz.quizId, answers) },
+    }
 
     const questionsToRender = started ? quiz.questions : getDummyQuestions(quiz.type) as any
     return (
@@ -221,6 +270,8 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                         skipGuestPrompt={isPersonality}
                         setResult={setResult}
                         onQuestionAnswered={handleQuestionAnswered}
+                        resume={resume}
+                        googleResume={googleResume}
                         finalTime={finalTime}
                         setFinalTime={setFinalTime}
                     />}

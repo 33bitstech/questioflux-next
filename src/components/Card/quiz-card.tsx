@@ -32,9 +32,10 @@ export default function QuizCard({quiz}: IProps) {
             className={`${styles.quiz_container} ${isMobile ? styles.mobile_version : styles.desktop_version} ${mobileActiveClass}`}
             onClick={handleContainerClick} 
         >
+            {/* h3: o título da página (h1) e o da seção (h2) vêm antes dos cards */}
             <div className={styles.title_area}>
-                <h1>{quiz.title}</h1>
-                <h2>{quiz.description}</h2>
+                <h3>{quiz.title}</h3>
+                <p>{quiz.description}</p>
             </div>
             <div className={styles.container_transition_hover}>
                 <div className={styles.img_container}>

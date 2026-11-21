@@ -22,8 +22,108 @@
         align-items: flex-start;
         gap: .88rem;
 
-        h3, h1 {
+        .featured_title {
             @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
+        }
+
+        // título da página, centralizado entre os populares e a lista
+        .main_title {
+            align-self: center;
+            text-align: center;
+            @include vars.styleTexto(var(--text-primary), 1.5rem, 700);
+        }
+
+        // filtros rápidos: idiomas (quadrados) à esquerda, tipos (círculos) à direita
+        .filter_bar {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .filter_group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .filter_lang,
+        .filter_type {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            border: 1px solid var(--seemore-button-border);
+            background-color: transparent;
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
+            transition: border-color .15s linear, background-color .15s linear, transform .15s linear;
+            @include vars.styleTexto(var(--text-primary), .85rem, 700);
+
+            &:hover {
+                border-color: var(--text-primary);
+                transform: translateY(-1px);
+            }
+
+            &:focus-visible {
+                outline: 2px solid vars.$cor-ciano;
+                outline-offset: 2px;
+            }
+
+            &.filter_active {
+                border-color: transparent;
+                background-color: var(--background-button);
+                color: var(--button-text-color);
+            }
+        }
+
+        .filter_lang {
+            border-radius: .6875rem;
+        }
+
+        .filter_type {
+            border-radius: 50%;
+
+            svg {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+
+        // a lista nova está vindo do servidor
+        .filter_pending {
+            position: absolute;
+            top: -.2rem;
+            right: -.2rem;
+            width: .7rem;
+            height: .7rem;
+            border-radius: 50%;
+            border: 2px solid vars.$cor-ciano;
+            border-right-color: transparent;
+            animation: filter_spin .7s linear infinite;
+        }
+
+        .previous_page {
+            align-self: center;
+            @include vars.styleTexto(var(--text-primary), .95rem, 700);
+            text-decoration: underline;
+        }
+
+        .no_results {
+            align-self: center;
+            text-align: center;
+            padding: 2rem 0;
+            @include vars.styleTexto(var(--text-description), 1rem, 400);
+
+            a {
+                @include vars.styleTexto(var(--text-primary), 1rem, 700);
+                text-decoration: underline;
+            }
         }
 
         .quizes_container {
@@ -48,6 +148,7 @@
             background-color: transparent;
             
             border: 1px solid var(--seemore-button-border);
+            text-decoration: none;
             
             p {
                 @include vars.styleTexto(var(--text-primary), 1rem, 700);
@@ -89,9 +190,22 @@
     .content {
         margin-top: 9rem !important;
         .results {
-            h3, h1 {
+            .featured_title {
                 align-self: center;
             }
+
+            .filter_bar {
+                justify-content: center;
+            }
+
+            .filter_group {
+                justify-content: center;
+            }
         }
+    }
+}
+@keyframes filter_spin {
+    to {
+        transform: rotate(360deg);
     }
 }

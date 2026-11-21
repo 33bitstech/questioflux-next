@@ -20,10 +20,10 @@
         gap: 0.625rem;
         padding: 1.125rem 1rem 0 1rem;
 
-        h1 {
+        h3 {
             @include vars.styleTexto(var(--text-primary), 1.25rem, 700);
         }
-        h2 {
+        p {
             @include vars.styleTexto(var(--quiz-card-description-text), .85rem, 400);
             font-size: .75rem !important;
             font-weight: 400 !important;

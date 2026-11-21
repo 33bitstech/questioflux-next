@@ -9,5 +9,7 @@ export default interface IUserLeaderBoardScore {
     name: string;
     profileImg: string;
     isGuest?: boolean
+    // posição no grupo (contas ou visitantes); o ranking fechado da trivia não manda todos
+    position?: number
 }
 

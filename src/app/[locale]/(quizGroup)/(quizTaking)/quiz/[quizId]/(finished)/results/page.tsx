@@ -6,7 +6,7 @@ import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server' // Importar
 import GoogleAd from '@/components/Google/GoogleAd'
 import AdRails from '@/components/Google/AdRails'
-import { getLeaderboard } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
+import { getLeaderboardData } from '@/utils/leaderboardData'
 import { getPublicQuiz } from '@/utils/publicQuiz'
 import ButtonSeeScore from '@/components/Leaderboard/button-see-score'
 import { getCookieHeader } from '@/utils/getCookieHeader'
@@ -28,7 +28,8 @@ export default async function Results({ params }: IProps) {
 
     const [t, leaderboard, quiz] = await Promise.all([
         getTranslations({ locale, namespace: 'quizResultsPage.results' }),
-        getLeaderboard(quizId, cookieHeader),
+        // a própria entrada vem mesmo fora do top 10 da trivia
+        getLeaderboardData(quizId, cookieHeader).then(data => data?.scoreBoard ?? []),
         getPublicQuiz(quizId)
     ])
     // só vale o resultado deste quiz; de outro quiz (ou sem cookie) não mostra nada
@@ -70,7 +71,7 @@ export default async function Results({ params }: IProps) {
             <div className={styles.actions}>
                 <ButtonSeeScore
                     className={styles.check_score}
-                    leaderboard={leaderboard!}
+                    leaderboard={leaderboard}
                     quiz={quiz!}
                 >
                     {t('viewAnswers')}

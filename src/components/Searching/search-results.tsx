@@ -2,18 +2,19 @@
 
 import IQuizes from '@/interfaces/IQuizes'
 import { TStyles } from '@/types/stylesType'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import QuizCard from '../Card/quiz-card'
 import ArrowSvg from '../Icons/ArrowSvg'
-import { useFilters } from '@/contexts/filtersContext'
-import { getApiTypeQuiz } from '@/utils/quizTypeFilter'
-import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import LoadingQuizzes from '../Loading/loading-quizzes'
+import { Link } from '@/i18n/navigation'
+import { exploreApiPath, exploreHref, IExploreFilters } from '@/utils/exploreFilters'
 
 interface IProps {
     styles: TStyles
+    // a página pedida no endereço, já filtrada pelo servidor
     defaultQuizzes: IQuizes[]
+    filters: IExploreFilters
     totalPages: number
 }
 
@@ -24,151 +25,39 @@ interface IPaginatedQuizzes {
     page?: number
 }
 
-
-export default function SearchResults({ styles, defaultQuizzes, totalPages }: IProps) {
-    const t = useTranslations('explorePage.buttons')
-    const { filtersSelected, typeQuizSelected } = useFilters()
-
-    const searchParams = useSearchParams()
-
-    const title = searchParams.get('title')?.trim() || ''
-    const tags = searchParams.get('tags')?.trim() || ''
-    const categoriesFromUrl = searchParams.get('categories')?.trim() || ''
+// Lista do Explorar. Os filtros vêm do endereço (o servidor manda a lista pronta); "Ver mais"
+// é um link para a próxima página: com JavaScript ela entra embaixo desta, sem ele (ou para
+// o Google) o link abre a página seguinte.
+export default function SearchResults({ styles, defaultQuizzes, filters, totalPages }: IProps) {
+    const t = useTranslations('explorePage')
 
     const [quizzes, setQuizzes] = useState<IQuizes[]>(defaultQuizzes)
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(filters.page)
     const [totalPagesState, setTotalPagesState] = useState(totalPages)
     const [loadingMore, setLoadingMore] = useState(false)
-    const [searchLoading, setSearchLoading] = useState(false)
 
-    const firstRender = useRef(true)
-
-    const apiTypeQuizSelected = getApiTypeQuiz(typeQuizSelected)
-
-    const categoriesToSearch = useMemo(() => {
-        const urlCategories = categoriesFromUrl
-            ? categoriesFromUrl.split(',').map(category => category.trim()).filter(Boolean)
-            : []
-
-        return Array.from(new Set([...urlCategories, ...filtersSelected]))
-    }, [categoriesFromUrl, filtersSelected])
-
-    const hasBackendSearch = useMemo(() => {
-        return Boolean(
-            title ||
-            tags ||
-            categoriesToSearch.length > 0 ||
-            apiTypeQuizSelected
-        )
-    }, [title, tags, categoriesToSearch, apiTypeQuizSelected])
-
-    const buildSearchUrl = (page: number) => {
-        const params = new URLSearchParams()
-
-        params.set('page', String(page))
-
-        if (title) params.set('title', title)
-        if (tags) params.set('tags', tags)
-
-        if (categoriesToSearch.length > 0) {
-            params.set('categories', categoriesToSearch.join(','))
-        }
-
-        if (apiTypeQuizSelected) {
-            params.set('typeQuiz', apiTypeQuizSelected)
-        }
-
-        if (hasBackendSearch) {
-            return `/api/quizzes/search?${params.toString()}`
-        }
-
-        return `/api/quizzes/public?page=${page}`
-    }
-
-    const fetchQuizzes = async (page: number, replace: boolean) => {
-        const response = await fetch(buildSearchUrl(page), {
-            method: 'GET',
-            cache: 'no-store',
-        })
-
-        const data: IPaginatedQuizzes = await response.json()
-
-        if (!response.ok) {
-            throw data
-        }
-
-        setQuizzes(prev => {
-            if (replace) return data.quizzes ?? []
-            return [...prev, ...(data.quizzes ?? [])]
-        })
-
-        setCurrentPage(data.page ?? page)
-        setTotalPagesState(data.totalPages ?? 1)
-    }
-
+    // filtro novo ou outra página no endereço: a lista recomeça com o que veio do servidor
     useEffect(() => {
         setQuizzes(defaultQuizzes)
-        setCurrentPage(1)
+        setCurrentPage(filters.page)
         setTotalPagesState(totalPages)
-    }, [defaultQuizzes, totalPages])
+    }, [defaultQuizzes, filters.page, totalPages])
 
-    useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false
-            return
-        }
-
-        let ignore = false
-
-        const search = async () => {
-            setSearchLoading(true)
-
-            try {
-                const response = await fetch(buildSearchUrl(1), {
-                    method: 'GET',
-                    cache: 'no-store',
-                })
-
-                const data: IPaginatedQuizzes = await response.json()
-
-                if (!response.ok) {
-                    throw data
-                }
-
-                if (!ignore) {
-                    setQuizzes(data.quizzes ?? [])
-                    setCurrentPage(data.page ?? 1)
-                    setTotalPagesState(data.totalPages ?? 1)
-                }
-            } catch (err) {
-                console.log(err)
-
-                if (!ignore) {
-                    setQuizzes([])
-                    setCurrentPage(1)
-                    setTotalPagesState(1)
-                }
-            } finally {
-                if (!ignore) {
-                    setSearchLoading(false)
-                }
-            }
-        }
-
-        search()
-
-        return () => {
-            ignore = true
-        }
-    }, [title, tags, categoriesToSearch, typeQuizSelected])
-
-    const handleLoadMore = async () => {
-        if (currentPage >= totalPagesState) return
+    const handleLoadMore = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+        // abrir em outra aba continua funcionando como link
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return
+        event.preventDefault()
+        if (loadingMore || currentPage >= totalPagesState) return
 
         setLoadingMore(true)
-
         try {
-            await fetchQuizzes(currentPage + 1, false)
+            const response = await fetch(exploreApiPath(filters, currentPage + 1), { method: 'GET', cache: 'no-store' })
+            const data: IPaginatedQuizzes = await response.json()
+            if (!response.ok) throw data
+
+            setQuizzes(prev => [...prev, ...(data.quizzes ?? [])])
+            setCurrentPage(data.page ?? currentPage + 1)
+            setTotalPagesState(data.totalPages ?? totalPagesState)
         } catch (err) {
             console.log(err)
         } finally {
@@ -180,7 +69,17 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
 
     return (
         <>
-            <LoadingQuizzes loading={searchLoading || loadingMore} />
+            {filters.page > 1 && (
+                <Link href={exploreHref({ ...filters, page: filters.page - 1 })} rel="prev" className={styles.previous_page}>
+                    {t('buttons.previousPage')}
+                </Link>
+            )}
+
+            {quizzes.length === 0 && (
+                <p className={styles.no_results}>
+                    {t('noResults')} <Link href="/explore">{t('clearFilters')}</Link>
+                </p>
+            )}
 
             <div className={styles.quizes_container}>
                 {quizzes.map((quiz, index) => (
@@ -188,15 +87,20 @@ export default function SearchResults({ styles, defaultQuizzes, totalPages }: IP
                 ))}
             </div>
 
+            <LoadingQuizzes loading={loadingMore} />
+
             {hasMore && (
-                <button
+                <Link
+                    href={exploreHref({ ...filters, page: currentPage + 1 })}
                     onClick={handleLoadMore}
-                    disabled={loadingMore || searchLoading}
+                    rel="next"
+                    scroll={false}
+                    aria-busy={loadingMore}
                     className={styles.seemore_button}
                 >
-                    <p>{t('seeMore')}</p>
+                    <p>{t('buttons.seeMore')}</p>
                     <ArrowSvg />
-                </button>
+                </Link>
             )}
         </>
     )

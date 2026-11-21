@@ -190,15 +190,8 @@
         "filters": "筛选"
     },
     "filters": {
-        "quizTypeTitle": "测验类型",
         "categoryTitle": "分类",
-        "applyButton": "应用",
-        "quizTypes": {
-            "all": "全部",
-            "personality": "性格",
-            "image": "图片",
-            "rightAndWrong": "对错题"
-        }
+        "applyButton": "应用"
     },
     "configPage": {
         "metadataTitle": "设置",
@@ -299,7 +292,18 @@
         "featuredTitle": "最受欢迎",
         "buttons": {
             "seeMore": "查看更多",
-            "seeLess": "收起"
+            "seeLess": "收起",
+            "previousPage": "上一页"
+        },
+        "metadataFiltered": "{filters} – 在 QuestioFlux 探索测验",
+        "metadataPage": "第 {page} 页",
+        "noResults": "暂时没有符合这些筛选条件的测验。",
+        "clearFilters": "清除筛选",
+        "filterBar": {
+            "languages": "测验语言",
+            "types": "测验类型",
+            "langLabel": "{language}测验",
+            "remove": "{filter}（点击取消筛选）"
         }
     },
     "quizCard": {
@@ -447,14 +451,17 @@
         "sections": {
             "registered": "用户排行榜",
             "guests": "访客排行榜",
-            "others": "其他结果"
+            "topUsers": "用户排行榜 · 前 10 名",
+            "topGuests": "访客排行榜 · 前 10 名"
         },
-        "showMoreOthers": "再显示 10 个结果",
         "recommendationPopup": {
             "title": "推荐",
             "minimize": "收起推荐",
             "maximize": "展开推荐"
-        }
+        },
+        "seeMoreParticipants": "查看更多参与者",
+        "topOf": "共 {count} 人中的前 10 名",
+        "ownerSeesAll": "只有你（测验创建者）能看到前 10 名之外的结果。"
     },
     "publicProfile": {
         "customTitle": "该用户的公开测验",
@@ -759,7 +766,8 @@
         "tieBreak": {
             "eyebrow": "平局",
             "hint": "你的答案出现了平局。选出最符合你的选项来决定结果。"
-        }
+        },
+        "viewQuiz": "查看测验"
     },
     "quizResultsPage": {
         "layout": {
@@ -914,7 +922,9 @@
             "exam": "在线考试",
             "aboutMe": "关于我的测验",
             "personality": "性格测验"
-        }
+        },
+        "withImages": "图片版",
+        "image": "图片测验"
     },
     "personalityResultPage": {
         "yourResult": "你的结果",
@@ -932,7 +942,8 @@
             "plays": "{count, plural, other {已有 # 人参加了这个测验}}",
             "noPlays": "还没有人完成这个测验。来做第一个吧！",
             "cta": "测测我的结果",
-            "metadataTitle": "所有人的结果 – {quiz_name}"
+            "metadataTitle": "所有人的结果 – {quiz_name}",
+            "combinedNote": "如果有人的答案在几个类型之间打平，他会同时计入这些类型，所以百分比加起来可能超过 100%。"
         },
         "combinedResult": "组合结果",
         "combinedHint": "你的答案在这几种类型之间打成了平手，所以你身上每一种都有一点。"

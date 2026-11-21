@@ -10,12 +10,15 @@ interface IUserContext {
     updateUser: (userObj: IUser | null) => void,
     logout: () => void,
     fetchUser: () => Promise<void>
+    // a primeira busca do login já terminou (com ou sem usuário)
+    loaded: boolean
 }
 
 const UserContext = createContext({} as IUserContext)
 
 export function UserProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<IUser | null>(null)
+    const [loaded, setLoaded] = useState(false)
     const router = useRouter()
     const locale = useLocale()
 
@@ -39,6 +42,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         } catch (err) {
             console.error(err)
             setUser(null)
+        } finally {
+            setLoaded(true)
         }
     }, [])
 
@@ -61,7 +66,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }, [fetchUser])
 
     return (
-        <UserContext.Provider value={{ user, updateUser, logout, fetchUser }}>
+        <UserContext.Provider value={{ user, updateUser, logout, fetchUser, loaded }}>
             {children}
         </UserContext.Provider>
     )

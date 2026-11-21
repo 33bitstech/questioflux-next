@@ -5,6 +5,7 @@ import '@/assets/styles/auth.scss';
 import ClosePopupAuth from './Auth-client-components/close-popup-auth';
 import RegisterFormComponent from './Auth-client-components/register-form-component';
 import { useTranslations } from 'next-intl';
+import { IGoogleReturn } from './Auth-client-components/google-auth-button';
 
 interface IPropsRegister {
     handleRegisterAndFinishQuiz?: (name?: string) => void;
@@ -13,6 +14,7 @@ interface IPropsRegister {
     show_pop_up?: React.Dispatch<React.SetStateAction<boolean>>;
     absolute: boolean;
     locale: string;
+    googleReturn?: IGoogleReturn;
 }
 
 // 2. Transformar em 'async' e receber 'locale'
@@ -22,7 +24,8 @@ export default function RegisterComponent({
     show_pop_up,
     absolute,
     locale,
-    toGuest
+    toGuest,
+    googleReturn
 }: IPropsRegister) {
     const t = useTranslations('registerComponent')
 
@@ -39,6 +42,7 @@ export default function RegisterComponent({
                     handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                     toLogin={toLogin}
                     absolute={absolute}
+                    googleReturn={googleReturn}
                 />
 
                 {absolute && toGuest && (

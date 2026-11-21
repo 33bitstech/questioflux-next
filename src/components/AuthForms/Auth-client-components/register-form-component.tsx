@@ -17,7 +17,7 @@ import { useUser } from '@/contexts/userContext'
 import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
-import GoogleAuthButton from './google-auth-button'
+import GoogleAuthButton, { IGoogleReturn } from './google-auth-button'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { trackEvent } from '@/utils/analytics'
 
@@ -25,9 +25,10 @@ interface IProps{
     handleRegisterAndFinishQuiz?: () => void,
     toLogin?: () => void,
     absolute: boolean
+    googleReturn?: IGoogleReturn
 }
 
-export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLogin, absolute, ...props}: IProps) {
+export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLogin, absolute, googleReturn, ...props}: IProps) {
     const locale = useLocale()
     const t = useTranslations('registerForm');
 
@@ -162,7 +163,7 @@ export default function RegisterFormComponent({handleRegisterAndFinishQuiz, toLo
 
                 <input type="submit" value={t('submitButton')} disabled={loading} />
 
-                <GoogleAuthButton locale={locale} />
+                <GoogleAuthButton locale={locale} googleReturn={googleReturn} />
             </div>
             <div className='second-part-section'>
                 <ProfileUploadComponent

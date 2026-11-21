@@ -11,6 +11,7 @@ import HandleAnswers from './handle-answers'
 import UserAnswers from './user-answers'
 import IQuizes from '@/interfaces/IQuizes'
 import { TLeaderboard } from '@/types/leaderboardTypes'
+import { isGuestEntry } from '@/utils/leaderboardEntry'
 
 interface IProps {
     styles: TStyles
@@ -20,11 +21,6 @@ interface IProps {
     quizLb: TLeaderboard
     locale: string
     canSeeAnswers: boolean
-}
-
-function isGuestEntry(userLb: IUserLeaderBoardScore): boolean {
-    if ('isGuest' in userLb) return userLb.isGuest === true
-    return userLb.name.startsWith('guest_')
 }
 
 export default function LbUser({ styles, userLb, index, quiz, locale, canSeeAnswers }: IProps) {

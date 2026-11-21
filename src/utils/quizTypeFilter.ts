@@ -1,8 +1,7 @@
-import { TTypeQuiz } from '@/types/quizzesType'
-
-// Filtro "Tipo de quiz" do Explorar -> parâmetro typeQuiz da busca no backend.
-// Os tipos (prova, sobre mim, personalidade...) são o campo kind; "Imagem" é o formato
-// (campo type). Os valores antigos (image/RW, default/RW) continuam valendo em links salvos.
+// Valores antigos do filtro de tipo do Explorar (?typeQuiz=Personality, image/RW...) ->
+// parâmetro typeQuiz da busca no backend. O filtro hoje usa ?type= (utils/exploreFilters);
+// estes continuam valendo em links salvos. Os tipos são o campo kind; "Imagem" é o formato
+// (campo type).
 const API_TYPE_BY_FILTER: Record<string, string> = {
     'Right and Wrong': 'quiz',
     'Exam': 'exam',
@@ -17,5 +16,5 @@ const API_TYPE_BY_FILTER: Record<string, string> = {
     'default/RW': 'default/RW',
 }
 
-export const getApiTypeQuiz = (typeQuiz?: TTypeQuiz | string) =>
+export const getApiTypeQuiz = (typeQuiz?: string) =>
     typeQuiz ? API_TYPE_BY_FILTER[typeQuiz] ?? '' : ''

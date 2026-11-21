@@ -70,8 +70,28 @@ export async function middleware(req: NextRequest) {
 
     requestHeaders.set('x-pathname', pathname)
 
+    // Volta do login com Google para a página onde a pessoa estava (o fim de um quiz): marca a
+    // sessão como logada, como em /home, e tira o aviso do endereço
+    if (req.nextUrl.searchParams.get('auth') === 'google') {
+        const url = req.nextUrl.clone()
+        url.searchParams.delete('auth')
+        const response = NextResponse.redirect(url)
+        if (isLoggedIn) return response
+
+        const auth = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/authenticate-user`, {
+            headers: { cookie: req.headers.get('cookie') ?? '' },
+            method: 'get'
+        }).catch(() => undefined)
+
+        if (auth?.ok) {
+            auth.headers.getSetCookie().forEach(cookie => response.headers.append('Set-Cookie', cookie))
+            response.headers.append('Set-Cookie', 'logged_in=true; Path=/; SameSite=Lax; Max-Age=604800')
+        }
+        return response
+    }
+
     const isHome = pathname === `/${locale}/home`
-    
+
     if (isHome) {
         if (!isLoggedIn){
             const responseJson = await fetch(`${env.NEXT_PUBLIC_DOMAIN_API}/authenticate-user`, {

@@ -7,7 +7,7 @@ import ClosePopupAuth from '../Auth-client-components/close-popup-auth';
 import InputComponent from '../Auth-client-components/input-component';
 import { FormEvent, useState } from 'react';
 import ProfileSvg from '@/components/Icons/ProfileSvg';
-import GoogleAuthButton from '../Auth-client-components/google-auth-button';
+import GoogleAuthButton, { IGoogleReturn } from '../Auth-client-components/google-auth-button';
 import { looksLikeEmail } from '@/utils/publicName';
 
 
@@ -17,9 +17,10 @@ interface IPropsGuest {
     // os dois dependem de cookies e de redirecionamentos que o iframe não aceita
     toRegister?: () => void;
     show_pop_up: React.Dispatch<React.SetStateAction<boolean>>;
+    googleReturn?: IGoogleReturn;
 }
 
-export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show_pop_up}: IPropsGuest) {
+export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show_pop_up, googleReturn}: IPropsGuest) {
 
     const t = useTranslations('guestComponent')
     const locale = useLocale()
@@ -74,7 +75,7 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
                                     onClick={toRegister}
                                 >{t('link')}</span>
                             </p>
-                            <GoogleAuthButton locale={locale} />
+                            <GoogleAuthButton locale={locale} googleReturn={googleReturn} />
                         </>}
                     </div>
                     

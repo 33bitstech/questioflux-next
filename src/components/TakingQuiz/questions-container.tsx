@@ -3,6 +3,7 @@ import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useUser } from '@/contexts/userContext'
 import IQuestion from '@/interfaces/IQuestion'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './questions-container.module.scss'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
@@ -12,6 +13,13 @@ import LoginComponent from '../AuthForms/login-component'
 import GuestForm from '../AuthForms/Guest/guest-form'
 import { Expand, Shrink } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { IGoogleReturn } from '../AuthForms/Auth-client-components/google-auth-button'
+
+// Respostas de antes do login com Google, de volta à página: o popup abre de novo com elas
+export interface IResumeAnswers {
+    answers: unknown[]
+    popup: 'guest' | 'login'
+}
 
 interface IProps {
     qtdQuestions: number
@@ -33,6 +41,9 @@ interface IProps {
     finalTime: number,
     setFinalTime: React.Dispatch<React.SetStateAction<number>>
     onQuestionAnswered?: (questionNumber: number, answered: number) => void
+    resume?: IResumeAnswers
+    // login com Google no popup: a página guarda as respostas (save) e o Google volta para path
+    googleResume?: { path: string, save: (answers: unknown[]) => void }
 }
 
 interface ISelectedAnswers {
@@ -63,7 +74,7 @@ export default function QuestionsContainer({
     started, typeOfQuiz, setResult,
     finalTime, setFinalTime,
     pauseQuiz, guestOnly, skipGuestPrompt,
-    onQuestionAnswered
+    onQuestionAnswered, resume, googleResume
 }: IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
         [answerArray, setAnswerArray] = useState<IQuestion[]>([]),
@@ -122,6 +133,8 @@ export default function QuestionsContainer({
 
     const handleRegisterAndFinishQuiz = (name?: string) => {
         setCanShowRegister(false)
+        // de volta do login com Google: as respostas guardadas vão direto
+        if (resume) return setResult({ quizAnswer: resume.answers, guest: name })
         if (selectedValuesCopy) setSelectedValues(selectedValuesCopy)
         if (name) setGuestName(name)
     }
@@ -187,6 +200,19 @@ export default function QuestionsContainer({
     useEffect(() => { toGuest() }, [])
 
     useEffect(() => {
+        if (!resume) return
+        if (resume.popup === 'login') toLogin()
+        else toGuest()
+        setCanShowRegister(true)
+    }, [resume])
+
+    // no embed não há login com Google (o iframe não aceita os redirecionamentos)
+    const googleReturn: IGoogleReturn | undefined = googleResume && !guestOnly ? {
+        path: googleResume.path,
+        onLeave: () => googleResume.save(resume?.answers ?? selectedValuesCopy ?? []),
+    } : undefined
+
+    useEffect(() => {
         if (questions) {
             let answersArray: IQuestion[] = []
             if (typeOfQuiz === 'default/RW') {
@@ -211,17 +237,9 @@ export default function QuestionsContainer({
     }, [questions])
 
     useEffect(() => {
-        if (!user && canShowRegister) {
-            let savedResults: string | null = null
-            try {
-                savedResults = localStorage.getItem('quizAnswers')
-            } catch {
-                // em iframe de outro site o navegador pode negar o localStorage
-            }
-            if (savedResults) {
-                setResult({ quizAnswer: JSON.parse(savedResults), guest: guestName })
-            }
-        } else if (selectedValues && verifyAllAnswered()) {
+        // com o popup aberto, espera o login ou o nome de visitante
+        if (!user && canShowRegister) return
+        if (selectedValues && verifyAllAnswered()) {
             setResult({ quizAnswer: selectedValues, guest: guestName })
         }
     }, [selectedValues, guestName])
@@ -310,7 +328,10 @@ export default function QuestionsContainer({
                 </div>
             </div>}
 
-            {!user && canShowRegister && (<div>
+            {/* no body: antes de "Iniciar" as questões ficam num bloco com filter: blur, que
+                prende o popup (position: fixed) dentro dele, borrado e sem cliques. Isso acontece
+                quando a pessoa volta do login com Google e o popup abre de novo. */}
+            {!user && canShowRegister && createPortal(<div>
                 {typePopup === 'register'
                     && <RegisterComponent
                         locale={locale}
@@ -319,6 +340,7 @@ export default function QuestionsContainer({
                         toGuest={toGuest}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
+                        googleReturn={googleReturn}
                     />
                 }
                 {typePopup === 'login' &&
@@ -327,6 +349,7 @@ export default function QuestionsContainer({
                         toRegister={toRegister}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
+                        googleReturn={googleReturn}
                     />
                 }
                 {typePopup === 'guest' &&
@@ -334,9 +357,10 @@ export default function QuestionsContainer({
                         toRegister={guestOnly ? undefined : toRegister}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}
+                        googleReturn={googleReturn}
                     />
                 }
-            </div>)}
+            </div>, document.body)}
 
             {typeOfQuiz === 'image/RW' && <div className={styles.question_answering_image}>
                 <div className={styles.taking_image_container}>

@@ -1,11 +1,11 @@
 'use client'
 import SearchSvg from '@/components/Icons/Search'
-import { useFilters } from '@/contexts/filtersContext'
 import { TStyles } from '@/types/stylesType'
 import {useSearchParams } from 'next/navigation'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 import { trackEvent } from '@/utils/analytics'
+import { exploreHref, parseExploreFilters } from '@/utils/exploreFilters'
 
 interface IProps{
     styles: TStyles,
@@ -29,40 +29,32 @@ export default function SearchQuiz({styles, placeholder, pagesWithSearchInput}: 
 
 
     const [searchValue, setSearchValue] = useState<string>(getInitialSearchValue()),
-        { filtersSelected } = useFilters(),
         router = useRouter()
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (!searchValue.trim() && filtersSelected.length === 0) return router.push('/explore')
-
-        const params = new URLSearchParams()
-
-        if (filtersSelected.length > 0) params.set('categories', filtersSelected.join(','))
+        // no Explorar a busca mantém os filtros escolhidos (categorias, tipo e idioma)
+        const current = pathname === '/explore' ? parseExploreFilters(searchParams) : undefined
 
         trackEvent('search', {
             search_term: searchValue.trim().slice(0, 100),
-            categories: filtersSelected.join(',').slice(0, 100) || undefined,
+            categories: current?.categories?.slice(0, 100) || undefined,
         })
 
         const regexTags = /(#+[a-zA-Z0-9_]{1,})/g,
-            matchedTags = searchValue.match(regexTags)
+            matchedTags = searchValue.match(regexTags),
+            tags = matchedTags ? matchedTags.map(tag => tag.substring(1)).join(',') : undefined,
+            title = (matchedTags ? searchValue.replace(regexTags, '') : searchValue).trim() || undefined
 
-        if (matchedTags) {
-            const tags = matchedTags.map(tag => tag.substring(1)).join(',')
-            params.set('tags', tags)
-
-            const title = searchValue.replace(regexTags, '').trim()
-            if (title) {
-                params.set('title', title)
-            }
-        } else if (searchValue.trim()) {
-            params.set('title', searchValue.trim())
-        }
-        
-        const queryString = params.toString()
-        router.push(queryString ? `/explore?${queryString}` : '/explore')
+        router.push(exploreHref({
+            categories: current?.categories,
+            type: current?.type,
+            lang: current?.lang,
+            title,
+            tags,
+            page: 1,
+        }))
     }
 
     useEffect(() => {

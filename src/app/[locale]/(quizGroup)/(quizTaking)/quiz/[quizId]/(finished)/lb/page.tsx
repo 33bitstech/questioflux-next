@@ -1,16 +1,15 @@
 import React from 'react'
 import styles from '../../../../../(quizPage)/quiz/[quizId]/leaderboard/leaderboard.module.scss'
 import { cookies } from 'next/headers'
-import { getLeaderboard, getUser } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/page'
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz'
-import LbUser from '@/components/Leaderboard/lb-user'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { getCookieHeader } from '@/utils/getCookieHeader'
-import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore'
 import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popup'
 import { getQuizRecommendationAction } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/action'
+import LeaderboardGroups from '@/components/Leaderboard/leaderboard-groups'
+import { getLeaderboardData, getViewer } from '@/utils/leaderboardData'
 
 interface IProps {
     params: Promise<{
@@ -19,109 +18,25 @@ interface IProps {
     }>
 }
 
-function isGuestEntry(entry: IUserLeaderBoardScore): boolean {
-    if ('isGuest' in entry) return entry.isGuest === true
-    return entry.name.startsWith('guest_')
-}
-
 export default async function LB({ params }: IProps) {
     const { quizId, locale } = await params
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
         t = await getTranslations('leaderboardPage'),
 
-        [quizLb, fullQuiz, user, recommendedQuiz] = await Promise.all([
-            getLeaderboard(quizId, cookieHeader),
+        [data, fullQuiz, user, recommendedQuiz] = await Promise.all([
+            getLeaderboardData(quizId, cookieHeader),
             getPublicQuiz(quizId),
-            getUser(cookieHeader),
+            getViewer(cookieHeader),
             getQuizRecommendationAction(quizId)
         ])
 
     const quiz = fullQuiz ? withoutQuestions(fullQuiz) : null
 
-    const isQuizOwner = !!user && !!quiz && user.userId === quiz.userCreatorId
-
-    const registeredLb = quizLb?.filter(entry => !isGuestEntry(entry)) ?? []
-    const guestLb = quizLb?.filter(entry => isGuestEntry(entry)) ?? []
-
-    const userInRegistered = registeredLb.find(lb => lb.userId === user?.userId)
-    const userPositionReg = userInRegistered ? registeredLb.indexOf(userInRegistered) : 999
-
-    const userInGuests = guestLb.find(lb => lb.userId === user?.userId)
-    const userPositionGst = userInGuests ? guestLb.indexOf(userInGuests) : 999
-
     return (
         <>
-            {/* ── Leaderboard de usuários registrados ── */}
-            {registeredLb.length > 0 && (
-                <section className={`${styles.lb_section} ${styles["lb_section--wide"]}`}>
-                    <h2 className={styles.lb_section_title}>
-                        {t('sections.registered')}
-                    </h2>
-
-                    <div className={styles.leaderboard_container}>
-                        {quiz && registeredLb.slice(0, 10).map((userLb, index) => (
-                            <LbUser
-                                key={index}
-                                index={index}
-                                styles={styles}
-                                userLb={userLb}
-                                quiz={quiz}
-                                quizLb={registeredLb}
-                                locale={locale}
-                                canSeeAnswers={isQuizOwner || userLb.userId === user?.userId}
-                            />
-                        ))}
-
-                        {quiz && userInRegistered && userPositionReg >= 10 && (
-                            <LbUser
-                                index={userPositionReg}
-                                styles={styles}
-                                userLb={userInRegistered}
-                                quiz={quiz}
-                                quizLb={registeredLb}
-                                locale={locale}
-                                canSeeAnswers={true}
-                            />
-                        )}
-                    </div>
-                </section>
-            )}
-
-            {/* ── Leaderboard de guests ── */}
-            {guestLb.length > 0 && (
-                <section className={`${styles.lb_section} ${styles["lb_section--wide"]}`}>
-                    <h2 className={styles.lb_section_title}>
-                        {t('sections.guests')}
-                    </h2>
-
-                    <div className={`${styles.leaderboard_container} ${styles.leaderboard_container__guest}`}>
-                        {quiz && guestLb.slice(0, 10).map((userLb, index) => (
-                            <LbUser
-                                key={index}
-                                index={index}
-                                styles={styles}
-                                userLb={userLb}
-                                quiz={quiz}
-                                quizLb={guestLb}
-                                locale={locale}
-                                canSeeAnswers={isQuizOwner}
-                            />
-                        ))}
-
-                        {quiz && userInGuests && userPositionGst >= 10 && (
-                            <LbUser
-                                index={userPositionGst}
-                                styles={styles}
-                                userLb={userInGuests}
-                                quiz={quiz}
-                                quizLb={guestLb}
-                                locale={locale}
-                                canSeeAnswers={isQuizOwner || userInGuests.userId === user?.userId}
-                            />
-                        )}
-                    </div>
-                </section>
+            {quiz && data && (
+                <LeaderboardGroups styles={styles} data={data} quiz={quiz} locale={locale} viewerId={user?.userId} wide />
             )}
 
             {recommendedQuiz && (

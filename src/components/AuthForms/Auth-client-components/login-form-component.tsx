@@ -14,7 +14,7 @@ import useLogin from '@/hooks/requests/auth-requests/useLogin'
 import { useUser } from '@/contexts/userContext'
 import { useTranslations } from 'next-intl'
 import LoadingReq from '@/components/Loading/loading-req'
-import GoogleAuthButton from './google-auth-button'
+import GoogleAuthButton, { IGoogleReturn } from './google-auth-button'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { trackEvent } from '@/utils/analytics'
@@ -28,9 +28,10 @@ interface IProps{
         msgPT?: string
         msgES?: string
     }
+    googleReturn?: IGoogleReturn
 }
 
-export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthError, locale, ...props}: IProps) {
+export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthError, locale, googleReturn, ...props}: IProps) {
     const t = useTranslations('loginPage.form');
     
     const [email, setEmail] = useState('')
@@ -121,7 +122,7 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
 
             {loading && <LoadingReq loading={loading} />}
 
-            <GoogleAuthButton locale={locale} separatorBelow />
+            <GoogleAuthButton locale={locale} separatorBelow googleReturn={googleReturn} />
 
             <div className="first-part-section">
                 <InputComponent
@@ -154,7 +155,11 @@ export default function LoginFormComponent({handleRegisterAndFinishQuiz, oauthEr
                     checked={remember}
                     onChange={() => setRemember(!remember)}
                 />
-                <Link href='/rescuepassword'>{t('forgotPasswordLink')}</Link>
+                {/* no popup do fim do quiz abre em outra aba: sair daqui perderia as respostas */}
+                <Link
+                    href='/rescuepassword'
+                    {...(handleRegisterAndFinishQuiz ? { target: '_blank', rel: 'noopener' } : {})}
+                >{t('forgotPasswordLink')}</Link>
             </div>
             
             <input type="submit" value={t('submitButton')} disabled={loading}/>

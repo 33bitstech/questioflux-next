@@ -22,13 +22,15 @@ interface IProps {
     visible: number,
     total: number,
     hasMore: boolean,
+    // a lista traz só parte das entradas visíveis (top 10 da trivia)
+    partial?: boolean,
     loadingMore: boolean,
     onLoadMore: () => void,
     locale: string,
     closeParticipants: () => void
 }
 
-export default function ParticipantsContainer({ users, visible, total, hasMore, loadingMore, onLoadMore, closeParticipants, locale }: IProps) {
+export default function ParticipantsContainer({ users, visible, total, hasMore, partial, loadingMore, onLoadMore, closeParticipants, locale }: IProps) {
     const t = useTranslations('quizInfoPage.participantsList')
 
     return (
@@ -38,7 +40,7 @@ export default function ParticipantsContainer({ users, visible, total, hasMore, 
                 {/* div, não header: o layout do site posiciona todo <header> como a barra do topo */}
                 <div className={styles.header}>
                     <h2 id="participants-title">{t('title')} <span>{visible}</span></h2>
-                    {total > visible && <p>{t('note')}</p>}
+                    {(total > visible || partial) && <p>{t('note')}</p>}
                 </div>
 
                 {users.length === 0 && <p className={styles.empty}>{t('empty')}</p>}

@@ -3,46 +3,35 @@ import React, { useState } from 'react'
 import styles from './filters-container.module.scss'
 import { TFilter } from '@/types/filtersType'
 import CategoriesList from './categories-list'
-import { useFilters } from '@/contexts/filtersContext'
 import { useTranslations } from 'next-intl'
-import { TTypeQuiz } from '@/types/quizzesType'
-import TypesList from './types-list'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
+import { exploreHref, parseExploreFilters } from '@/utils/exploreFilters'
 
 interface IProps {
     setFilterClicked: () => void
 }
 
-// todos os tipos têm filtro; valor desconhecido (ex.: estado antigo) volta para "Todos"
-const normalizeType = (type: TTypeQuiz): TTypeQuiz => {
-    const known: TTypeQuiz[] = ['All', 'Right and Wrong', 'Exam', 'About me', 'Personality', 'Image']
-    return known.includes(type) ? type : 'All'
-}
-
+// Categorias do Explorar. O tipo e o idioma ficam nos filtros rápidos acima da lista; tudo
+// vai para o endereço, e aplicar mantém os outros filtros e a busca.
 export default function FiltersContainer({ setFilterClicked }: IProps) {
     const t = useTranslations('filters')
-    const { selectFilters, filtersSelected, typeQuizSelected, selectType } = useFilters()
+    const searchParams = useSearchParams()
+    const router = useRouter()
 
-    const [filters, setFilters] = useState<TFilter[]>(filtersSelected)
-    const [typeQ, setTypeQ] = useState<TTypeQuiz>(normalizeType(typeQuizSelected))
+    const current = parseExploreFilters(searchParams)
+    const [filters, setFilters] = useState<TFilter[]>(
+        (current.categories?.split(',').map(category => category.trim()).filter(Boolean) ?? []) as TFilter[]
+    )
 
     const handleApply = () => {
-        selectFilters(filters)
-        selectType(normalizeType(typeQ))
+        router.push(exploreHref({ ...current, categories: filters.join(','), page: 1 }), { scroll: false })
         setFilterClicked()
     }
 
     return (
         <div className={`${styles.filters_popup}`}>
             <div className={styles.filters_container}>
-                <div className={styles.quiz_types}>
-                    <p>{t('quizTypeTitle')}</p>
-                    <TypesList
-                        setTypeQ={setTypeQ}
-                        styles={styles}
-                        typeQ={typeQ}
-                    />
-                </div>
-
                 <div className={styles.categories}>
                     <p>{t('categoryTitle')}</p>
                     <CategoriesList

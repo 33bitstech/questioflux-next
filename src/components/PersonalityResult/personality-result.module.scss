@@ -280,6 +280,12 @@
     }
 }
 
+.stats_header .stats_note {
+    max-width: 34rem;
+    line-height: 1.45;
+    @include vars.styleTexto(var(--text-description), .8rem, 400);
+}
+
 .stats_list {
     display: flex;
     flex-direction: column;
