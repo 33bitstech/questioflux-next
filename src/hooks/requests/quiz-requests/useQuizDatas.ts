@@ -12,9 +12,10 @@ const useQuizDatas = () => {
         }
     }
 
-    async function getPersonalityParticipants(quizId: string, page = 1) {
+    // quem respondeu (conclusões gravadas), em qualquer formato
+    async function getParticipants(quizId: string, page = 1) {
         try {
-            const response = await fetch(`/api/quiz/personality-participants/${quizId}?page=${page}`, { method: 'GET' });
+            const response = await fetch(`/api/quiz/participants/${quizId}?page=${page}`, { method: 'GET' });
             const res = await response.json();
             if (!response.ok) throw { response: { data: res } }
             return res;
@@ -23,7 +24,7 @@ const useQuizDatas = () => {
         }
     }
 
-    return { getLeaderboard, getPersonalityParticipants };
+    return { getLeaderboard, getParticipants };
 }
 
 export default useQuizDatas;

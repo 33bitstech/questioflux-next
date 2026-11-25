@@ -2,7 +2,7 @@
 import IQuizes from '@/interfaces/IQuizes'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import styles from './quiz-card.module.scss'
 import CardActions from './hover/card-actions'
@@ -17,10 +17,20 @@ export default function QuizCard({quiz}: IProps) {
     const t = useTranslations('quizCard'); // Inicializar hook
     const [imageLoading, setImageLoading] = useState(true);
     const [imageBackup, setImageBackup] = useState(false);
-    const isMobile = useMediaQuery({ maxWidth: 860 });
     const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
+    const {resolvedTheme} = useTheme();
+
+    // largura da tela e tema só existem no navegador: até montar, o card sai como no HTML do
+    // servidor (versão de desktop, imagem padrão clara); senão a hidratação não bate e o React
+    // mantém a classe e a imagem erradas
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+    const matchesMobile = useMediaQuery({ maxWidth: 860 });
+    const isMobile = mounted && matchesMobile;
+    const dark = mounted && resolvedTheme === 'dark';
     const mobileActiveClass = isMobile && isMobileMenuActive ? styles.mobile_active : '';
-    const {theme} = useTheme();
 
     const handleContainerClick = () => {
         if (isMobile) {
@@ -49,7 +59,7 @@ export default function QuizCard({quiz}: IProps) {
                         src={
                             quiz.quizThumbnail !== 'default' && !imageBackup
                                 ? quiz.quizThumbnail
-                                : theme === 'dark'
+                                : dark
                                 ? '/quiz_padrao_preto.png'
                                 : '/quiz_padrao_branco.png'
                         }

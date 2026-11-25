@@ -63,9 +63,12 @@
                     border-radius: inherit;
                 }
 
+                // card azul: círculo e ícone brancos
                 .icon_emoji {
                     display: block;
                     @extend %icons-li-default;
+                    color: vars.$cor-branco;
+                    border-color: rgba(255, 255, 255, 0.75);
                     transition: transform .2s ease;
                 }
 
@@ -156,6 +159,84 @@
                     justify-content: center;
                 }
             }
+        }
+    }
+
+    // torneio, história, compatibilidade e pontuação, logo abaixo dos quatro tipos de quiz
+    .formats_block {
+        width: 70%;
+        max-width: 980px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+        padding: 1.6rem 1.8rem;
+        border-radius: 1.2rem;
+        background-color: var(--background-divs);
+        border: 1px solid var(--horizontal-rule-color);
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.12);
+
+        h2 {
+            @include vars.styleTexto(var(--text-primary), 1.3rem, 700);
+        }
+
+        >div p {
+            margin-top: .4rem;
+            line-height: 1.5;
+            @include vars.styleTexto(var(--text-description), .95rem, 400);
+        }
+    }
+
+    .formats_list {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: .8rem;
+
+        a {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: .5rem;
+            padding: 1rem;
+            border-radius: .9rem;
+            border: 1px solid var(--horizontal-rule-color);
+            transition: transform .2s ease, border-color .2s ease;
+
+            &:hover,
+            &:focus-visible {
+                transform: translateY(-3px);
+                border-color: var(--background-button);
+            }
+        }
+
+        strong {
+            @include vars.styleTexto(var(--text-primary), .95rem, 700);
+        }
+
+        small {
+            line-height: 1.45;
+            @include vars.styleTexto(var(--text-description), .82rem, 400);
+        }
+    }
+
+    .format_icon {
+        display: block;
+        @extend %icons-li-default;
+    }
+
+    .formats_cta {
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .7rem 1.1rem;
+        border-radius: .7rem;
+        background-color: var(--background-button);
+        @include vars.styleTexto(var(--button-text-color), .92rem, 700);
+
+        svg {
+            width: 1rem;
+            height: 1rem;
         }
     }
 
@@ -352,8 +433,13 @@
     .content {
 
         .create_quiz_types,
+        .formats_block,
         .description_types {
             width: 86%;
+        }
+
+        .formats_list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .description_grid {
@@ -382,6 +468,11 @@
         .description_types {
             width: 92%;
             margin-bottom: 5rem;
+        }
+
+        .formats_block {
+            width: 92%;
+            padding: 1.35rem;
         }
 
         .description_header,

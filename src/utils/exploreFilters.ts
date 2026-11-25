@@ -1,11 +1,18 @@
 import { getApiTypeQuiz } from './quizTypeFilter'
+import { CONTENT_LANGUAGES, contentLanguageBase } from './contentLanguages'
 
 // Filtros do Explorar, todos no endereço (?type=personality&lang=pt&page=2): o servidor monta
 // a lista filtrada, o link pode ser compartilhado e o Google segue as páginas.
 
-// idiomas em que um quiz pode ser criado (campo idiom: EN-US, PT-BR, ES-ES, ZH-CN)
-export const EXPLORE_LANGS = ['en', 'pt', 'es', 'zh'] as const
-export type ExploreLang = typeof EXPLORE_LANGS[number]
+// Idioma do conteúdo pelo código curto (?lang=fr acha FR-FR). Os idiomas da interface ficam
+// sempre à mostra no filtro; os outros, em "Mais idiomas".
+export const EXPLORE_MAIN_LANGS = ['en', 'pt', 'es', 'zh'] as const
+export const EXPLORE_LANGS: readonly string[] = Array.from(new Set(CONTENT_LANGUAGES.map(language => contentLanguageBase(language.code))))
+export type ExploreLang = string
+
+// cada idioma na própria língua, como no seletor de idioma do site
+export const exploreLangName = (lang: string): string =>
+    CONTENT_LANGUAGES.find(language => contentLanguageBase(language.code) === lang)?.name ?? lang.toUpperCase()
 
 // tipos do filtro rápido, na ordem da tela: slug no endereço -> typeQuiz da busca no backend
 export const EXPLORE_TYPES = {
@@ -13,6 +20,11 @@ export const EXPLORE_TYPES = {
     'exam': 'exam',
     'about-me': 'aboutMe',
     'personality': 'personality',
+    // formatos interativos: o slug é o próprio tipo
+    'tournament': 'tournament',
+    'story': 'story',
+    'compatibility': 'compatibility',
+    'scored': 'scored',
     'image': 'image/RW',
 } as const
 export type ExploreType = keyof typeof EXPLORE_TYPES
@@ -40,7 +52,7 @@ const isExploreType = (value: unknown): value is ExploreType =>
     typeof value === 'string' && value in EXPLORE_TYPES
 
 const isExploreLang = (value: unknown): value is ExploreLang =>
-    typeof value === 'string' && (EXPLORE_LANGS as readonly string[]).includes(value)
+    typeof value === 'string' && EXPLORE_LANGS.includes(value)
 
 // links antigos usavam ?typeQuiz=Personality (ou personality, image/RW...)
 const typeFromLegacy = (value?: string): ExploreType | undefined => {

@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 import { env } from '@/env'
 import { getOpenGraphLocale } from '@/utils/locale'
-import { QuizKind, quizKindSlug } from '@/utils/quizKind'
+import { experienceKinds, QuizKind, quizKindSlug } from '@/utils/quizKind'
 import { ReactNode } from 'react'
 
 interface IProps {
@@ -65,8 +65,15 @@ const AVAILABLE_TYPES: Array<{ kind: QuizKind, text: 'rightAndWrong' | 'exam' | 
 
 export default async function CreateQuizPage({ params }: IProps) {
     const { locale } = await params
-    const t = await getTranslations({ locale, namespace: 'createQuizFlow.selectTypePage' });
-    const tShared = await getTranslations({ locale, namespace: 'landingPage.stylesSection' });
+    const [t, tShared, tNames] = await Promise.all([
+        getTranslations({ locale, namespace: 'createQuizFlow.selectTypePage' }),
+        getTranslations({ locale, namespace: 'landingPage.stylesSection' }),
+        getTranslations({ locale, namespace: 'quizTypes.names' }),
+    ])
+    const formats = await Promise.all(experienceKinds.map(async kind => {
+        const tFormat = await getTranslations({ locale, namespace: `experiencePages.${kind}` })
+        return { kind, text: tFormat('cardText') }
+    }))
 
     const bold = (chunks: ReactNode) => <span>{chunks}</span>
 
@@ -94,6 +101,29 @@ export default async function CreateQuizPage({ params }: IProps) {
                     </ul>
                 </nav>
             </div>
+
+            {/* a outra família de criação: o "Criar" do menu chega aqui e encontra as duas */}
+            <section className={styles.formats_block} aria-labelledby='formats-title'>
+                <div>
+                    <h2 id='formats-title'>{t('formats.title')}</h2>
+                    <p>{t('formats.text')}</p>
+                </div>
+                <ul className={styles.formats_list}>
+                    {formats.map(({ kind, text }) => (
+                        <li key={kind}>
+                            <Link locale={locale} href={`/create/experiences/${kind}`}>
+                                <span className={styles.format_icon}><QuizTypeIcon kind={kind} /></span>
+                                <strong>{tNames(kind)}</strong>
+                                <small>{text}</small>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+                <Link locale={locale} href='/create/experiences' className={styles.formats_cta}>
+                    {t('formats.cta')} <ArrowRight aria-hidden="true" />
+                </Link>
+            </section>
+
             <section className={styles.description_types}>
                 <div className={styles.description_header}>
                     <span>QuestioFlux</span>

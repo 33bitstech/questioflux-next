@@ -13,6 +13,8 @@ import { looksLikeEmail } from '@/utils/publicName';
 
 interface IPropsGuest {
     handleRegisterAndFinishQuiz: (name:string) => void;
+    // formatos sem ranking: dá para seguir sem apelido (aparece como Convidado)
+    allowAnonymous?: boolean;
     // sem toRegister (quiz embutido em outro site) não há cadastro nem login com Google:
     // os dois dependem de cookies e de redirecionamentos que o iframe não aceita
     toRegister?: () => void;
@@ -20,7 +22,7 @@ interface IPropsGuest {
     googleReturn?: IGoogleReturn;
 }
 
-export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show_pop_up, googleReturn}: IPropsGuest) {
+export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show_pop_up, googleReturn, allowAnonymous}: IPropsGuest) {
 
     const t = useTranslations('guestComponent')
     const locale = useLocale()
@@ -31,7 +33,8 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
     const handleSubmit = (e:FormEvent)=>{
         e.preventDefault()
         if (!name) return
-        // o nome de visitante aparece no ranking: e-mail não serve (o backend também recusa)
+        // o apelido aparece para outras pessoas (lista de participantes, ranking): e-mail não
+        // serve (o backend também recusa)
         if (looksLikeEmail(name)) return setError(t('emailError'))
         handleRegisterAndFinishQuiz(name)
     }
@@ -60,12 +63,25 @@ export default function GuestForm({toRegister, handleRegisterAndFinishQuiz, show
                             autoComplete='name'
                         />
                     
+                        <p className='guest-name-note'>{t('nameNote')}</p>
+
                         <button
                             type='submit'
                             className='guest-footer-button'
                         >
                             {t('button')}
                         </button>
+
+                        {allowAnonymous && <>
+                            <button
+                                type='button'
+                                className='guest-anonymous-button'
+                                onClick={() => handleRegisterAndFinishQuiz('')}
+                            >
+                                {t('anonymous')}
+                            </button>
+                            <p className='guest-name-note'>{t('anonymousNote')}</p>
+                        </>}
 
 
                         {toRegister && <>

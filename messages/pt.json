@@ -8,34 +8,45 @@
     },
     "landingPage": {
         "hero": {
-            "titleLine1": "Crie seu <bold>quiz online grátis</bold>",
-            "titleLine2": "e desafie seus amigos no <bold>QuestioFlux</bold>",
-            "subtitle": "Criador de quiz grátis para perguntas e respostas, alternativas, ranking e competição. Crie quizzes de texto gratuitamente e use imagens quando quiser uma experiência visual.",
-            "ctaButton": "Comece Agora",
-            "exploreButton": "Explorar"
+            "subtitle": "Faça um quiz de perguntas e respostas, uma prova online ou um teste de personalidade. Ou monte um torneio de favoritos, uma história de escolhas ou um teste de compatibilidade. Compartilhe o link e veja os resultados.",
+            "exploreButton": "Explorar",
+            "title": "Crie <bold>quizzes</bold>, <bold>torneios</bold> e <bold>histórias interativas</bold>",
+            "quizzesShortcut": "Criar um quiz",
+            "quizzesShortcutText": "Perguntas e respostas, prova online, sobre mim ou personalidade",
+            "formatsShortcut": "Criar torneio ou história",
+            "formatsShortcutText": "Torneio, história interativa, compatibilidade ou pontuação"
         },
         "stylesSection": {
-            "title": "Criador de quiz online",
-            "subtitle": "Escolha o tipo de quiz que você quer criar, compartilhar e colocar no ranking.",
+            "title": "Quizzes para testar conhecimento ou descobrir um perfil",
+            "subtitle": "Abra um tipo para ver como funciona. Perguntas e respostas, prova online e quiz sobre mim têm ranking; o quiz de personalidade dá um perfil para cada pessoa.",
             "rightAndWrong": "<span>Quiz de perguntas e respostas:</span> Crie gratuitamente um quiz de texto com alternativas e uma resposta certa. Ideal para trivia, escola, animes, jogos, futebol, Doctor Who e desafios entre amigos.",
             "personality": "<span>Quiz de personalidade:</span> Crie testes com resultados baseados nas escolhas dos participantes, como “quem você seria?” ou “qual personagem combina com você?”.",
             "aboutMe": "<span>Quiz sobre mim:</span> Convide seus amigos para descobrir quem te conhece melhor e transforme as respostas em uma competição divertida.",
-            "ctaButton": "Criar Agora",
+            "ctaButton": "Ver os tipos de quiz",
             "exam": "<span>Prova online:</span> Monte provas e simulados com nota automática e mostre ao aluno a correção com a explicação de cada alternativa."
         },
         "explorationSection": {
-            "title": "Explore quizzes com ranking",
-            "subtitle": "Responda quizzes criados por outros usuários, dispute posições no leaderboard e descubra novos desafios.",
-            "public": "<span>Quizzes públicos:</span> Publique seu quiz no perfil para que outras pessoas possam responder, competir e aparecer no ranking.",
-            "private": "<span>Quizzes privados:</span> Compartilhe seu quiz por link com amigos, alunos ou grupos específicos."
+            "title": "Explore criações públicas para jogar",
+            "subtitle": "Quizzes, torneios e histórias publicados por outras pessoas. Jogue, compare seu resultado e descubra novos favoritos.",
+            "public": "<span>Público:</span> aparece no seu perfil e no Explorar, e qualquer pessoa pode jogar. Perguntas e respostas, prova online e quiz sobre mim também ganham ranking.",
+            "private": "<span>Privado:</span> só quem tem o link joga. Não aparece no Explorar nem nos resultados de busca.",
+            "byFormat": "Veja por tipo",
+            "ctaButton": "Ir para o Explorar"
         },
         "footer": {
             "aboutLink": "Sobre nós",
             "blogLink": "Blog"
         },
-        "metadataTitle": "QuestioFlux | Criar Quiz Online Grátis com Ranking",
-        "metadataDesc": "Crie quiz online grátis com perguntas e respostas, alternativas e ranking. Compartilhe quizzes com amigos, alunos ou sua comunidade e acompanhe a competição.",
-        "metadataKeywords": "criar quiz, fazer quiz, criar quiz online, criar quiz grátis, criador de quiz, quiz online para alunos, quiz de perguntas e respostas, quiz com ranking, leaderboard quiz, quiz com imagens"
+        "metadataTitle": "QuestioFlux | Crie Quizzes, Torneios e Histórias Interativas Grátis",
+        "metadataDesc": "Crie quizzes grátis: perguntas e respostas com ranking, provas online, quiz sobre mim e de personalidade, além de torneios de favoritos, histórias interativas e testes de compatibilidade. Compartilhe o link e veja os resultados.",
+        "metadataKeywords": "criar quiz, fazer quiz, criar quiz online, criar quiz grátis, criador de quiz, quiz de perguntas e respostas, criar prova online, quiz sobre mim, quiz de personalidade, quiz com ranking, torneio de favoritos, criar chaveamento, história interativa, teste de compatibilidade, quiz por pontuação",
+        "formatsSection": {
+            "title": "Torneios, histórias e outros formatos interativos",
+            "subtitle": "Aqui não tem resposta certa: as pessoas escolhem favoritos, decidem caminhos ou comparam gostos. Grátis para criar, com um exemplo jogável em cada página.",
+            "featured": "Destaque",
+            "seeMore": "Ver como funciona",
+            "ctaButton": "Ver todos os formatos"
+        }
     },
     "registerComponent": {
         "title": "Crie sua conta",
@@ -51,7 +62,10 @@
         "button": "Enviar",
         "description": "Se deseja criar uma conta clique aqui:",
         "link": "registre-se",
-        "emailError": "Use um nome, não um e-mail: ele aparece no ranking."
+        "emailError": "Use um nome, não um e-mail: ele fica visível para outras pessoas.",
+        "nameNote": "Seu apelido aparece na lista de participantes.",
+        "anonymous": "Continuar sem nome",
+        "anonymousNote": "Sem nome, você aparece como Convidado."
     },
     "registerForm": {
         "placeholders": {
@@ -142,7 +156,7 @@
         }
     },
     "navbar": {
-        "createQuiz": "Criar Quiz",
+        "createQuiz": "Criar",
         "createAccount": "Criar Conta",
         "login": "Entrar",
         "searchPlaceholder": "Procurar por um quiz...",
@@ -151,7 +165,7 @@
             "home": "Início",
             "explore": "Explorar",
             "gamepass": "Game Pass",
-            "createQuiz": "Criar Quiz",
+            "createQuiz": "Criar",
             "profile": "Perfil",
             "saves": "Salvos",
             "drafts": "Rascunhos",
@@ -183,7 +197,7 @@
         }
     },
     "contextualHeader": {
-        "createQuiz": "Criar Quiz",
+        "createQuiz": "Criar",
         "exploreQuizzes": "Explorar Quizzes",
         "home": "Início",
         "explore": "Explorar",
@@ -303,7 +317,8 @@
             "languages": "Idioma do quiz",
             "types": "Tipo de quiz",
             "langLabel": "Quizzes em {language}",
-            "remove": "{filter} (clique para tirar o filtro)"
+            "remove": "{filter} (clique para tirar o filtro)",
+            "moreLanguages": "Mais idiomas"
         }
     },
     "quizCard": {
@@ -331,7 +346,14 @@
                 "take": "Fazer o Quiz"
             },
             "titleQuiz": "{quiz_name} – Quiz | QuestioFlux",
-            "descSuffix": "Quiz de {count, plural, one {# pergunta} other {# perguntas}} no QuestioFlux: jogue grátis e veja sua posição no ranking."
+            "descSuffix": "Quiz de {count, plural, one {# pergunta} other {# perguntas}} no QuestioFlux: jogue grátis e veja sua posição no ranking.",
+            "descSuffixResult": "Quiz de {count, plural, one {# pergunta} other {# perguntas}} no QuestioFlux: jogue grátis e descubra o seu resultado.",
+            "descSuffixByKind": {
+                "tournament": "Torneio de favoritos com {count} opções no QuestioFlux: jogue grátis e escolha o seu campeão.",
+                "story": "História interativa com {count, plural, one {# cena} other {# cenas}} no QuestioFlux: jogue grátis e descubra o seu final.",
+                "compatibility": "Teste de compatibilidade com {count, plural, one {# pergunta} other {# perguntas}} no QuestioFlux: responda grátis e compare com um amigo.",
+                "scored": "Quiz por pontuação com {count, plural, one {# pergunta} other {# perguntas}} no QuestioFlux: jogue grátis e veja a sua faixa."
+            }
         },
         "title": "Informações do Quiz",
         "details": {
@@ -341,7 +363,7 @@
             "participants": "Participantes:",
             "category": "Categoria:",
             "tags": "Tags:",
-            "participantsSpan": "usuarios responderam a esse quiz",
+            "participantsSpan": "{count, plural, =0 {# usuários responderam} one {# usuário respondeu} other {# usuários responderam}} a esse quiz",
             "kind": "Tipo:"
         },
         "ctaButton": "Fazer o quiz",
@@ -364,7 +386,8 @@
         "related": {
             "title": "Mais quizzes para você",
             "count": "{count, plural, one {# pergunta} other {# perguntas}}",
-            "players": "{count, plural, one {# jogador} other {# jogadores}}"
+            "players": "{count, plural, =0 {# jogadores} one {# jogador} other {# jogadores}}",
+            "countByKind": "{kind, select, tournament {{count, plural, one {# opção} other {# opções}}} story {{count, plural, one {# cena} other {# cenas}}} other {{count, plural, one {# pergunta} other {# perguntas}}}}"
         },
         "ctaExam": "Fazer a prova",
         "examNote": "Ao terminar, você vê a nota e a correção de cada questão.",
@@ -386,7 +409,28 @@
             "empty": "Nenhum participante visível.",
             "guest": "Convidado",
             "loadMore": "Carregar mais",
-            "close": "Fechar a lista de participantes"
+            "close": "Fechar a lista de participantes",
+            "unrecorded": "Nome não registrado",
+            "viewResult": "Ver o resultado",
+            "match": "{percent}% de compatibilidade",
+            "points": "{points, plural, =0 {# pontos} one {# ponto} other {# pontos}}"
+        },
+        "ctaByKind": {
+            "tournament": "Começar o torneio",
+            "story": "Começar a história",
+            "compatibility": "Fazer o teste",
+            "scored": "Fazer o quiz"
+        },
+        "experience": {
+            "questionsTitle": "Perguntas",
+            "questionsSummary": "Ver as {count, plural, one {# pergunta} other {# perguntas}}",
+            "alternatives": "{count, plural, one {# alternativa} other {# alternativas}}",
+            "tournamentTitle": "Opções do torneio",
+            "tournamentText": "{count} opções e {duels} duelos por partida. A chave é sorteada de novo a cada vez.",
+            "storyTitle": "Sobre a história",
+            "storyText": "{scenes, plural, one {# cena} other {# cenas}} e {endings, plural, one {# final} other {# finais}}. Suas escolhas decidem o caminho.",
+            "rangesTitle": "Resultados possíveis",
+            "rangesText": "{count, plural, one {# faixa} other {# faixas}} de pontos. A sua soma decide qual você recebe."
         }
     },
     "quizActions": {
@@ -483,15 +527,15 @@
         },
         "selectTypePage": {
             "title": "Criar quiz online grátis",
-            "desc": "Crie seu próprio quiz online no QuestioFlux. O quiz normal de texto é gratuito: adicione perguntas, alternativas e respostas certas, publique seu quiz e acompanhe o ranking dos participantes.",
-            "subtitle": "Escolha um modelo para começar: um quiz de perguntas e respostas com ranking, uma prova online com correção comentada, um quiz sobre você para os amigos ou um quiz de personalidade com resultados que você mesmo cria.",
+            "desc": "Teste o que as pessoas sabem com perguntas e respostas, uma prova online ou um quiz sobre você, ou crie um quiz de personalidade em que cada pessoa descobre o próprio perfil.",
+            "subtitle": "Perguntas e respostas, prova online e quiz sobre mim têm ranking; no quiz de personalidade, cada pessoa recebe um perfil em vez de nota. Os quatro tipos são grátis com até 10 perguntas de texto.",
             "descriptions": {
                 "rightAndWrongTitle": "Quiz de perguntas e respostas gratuito",
                 "rightAndWrongText": "Use este modelo para fazer um quiz online com alternativas e uma única resposta certa. É o formato ideal para trivia, provas rápidas, desafios de conhecimento, quiz para alunos, jogos, animes, futebol, séries e comunidades. Depois de publicar, os participantes podem competir pelo melhor resultado no ranking.",
                 "imageTitle": "Quiz com imagens",
-                "imageText": "O quiz com imagens permite criar perguntas e alternativas visuais, usando texto, imagem ou os dois. Ele funciona muito bem para quizzes de bandeiras, personagens, logos, mapas, jogos, objetos, lugares e desafios de identificação visual.",
-                "competitionTitle": "Ranking e competição",
-                "competitionText": "O QuestioFlux foi pensado para transformar quizzes em competição. Os participantes podem responder, comparar resultados e disputar posições no leaderboard, seja em quizzes públicos, privados, escolares ou feitos para amigos.",
+                "imageText": "Imagens nas perguntas e nas alternativas transformam qualquer um dos quatro tipos em quiz visual: bandeiras, personagens, logos, mapas, jogos e lugares. Elas vêm com a assinatura ou com um crédito avulso; as imagens dos perfis do quiz de personalidade são grátis.",
+                "competitionTitle": "Ranking onde tem nota",
+                "competitionText": "Perguntas e respostas, prova online e quiz sobre mim dão uma nota e uma posição no ranking a cada participante, em quizzes públicos ou compartilhados por link. O quiz de personalidade não tem ranking: a lista de participantes mostra o perfil de cada pessoa.",
                 "studentTitle": "Quiz online para alunos",
                 "studentText": "Professores podem montar provas e simulados no formato Prova online: a nota sai na hora e, no fim, o aluno vê a correção com a explicação de cada alternativa. Também serve para revisões, listas de exercícios e desafios em sala.",
                 "studentLink": "Criar prova online",
@@ -501,24 +545,29 @@
             },
             "metadata": {
                 "title": "Criar Quiz Online Grátis | Criador de Quiz QuestioFlux",
-                "desc": "Crie quiz online grátis com perguntas, alternativas, respostas certas e ranking. Faça quizzes para amigos, alunos, jogos, animes e comunidades.",
+                "desc": "Crie quiz online grátis: perguntas e respostas com ranking, prova online com correção, quiz sobre mim para os amigos e quiz de personalidade com perfis criados por você.",
                 "keywords": "criar quiz, fazer quiz, criar quiz online, criar quiz grátis, criador de quiz, fazer quiz online, criar prova online, quiz para alunos, quiz sobre mim, quiz de perguntas e respostas, quiz com ranking, quiz de imagem"
             },
             "faq": {
                 "title": "Perguntas frequentes sobre criar quiz",
-                "intro": "Veja respostas rápidas sobre como criar, publicar e compartilhar quizzes no QuestioFlux.",
+                "intro": "Respostas rápidas sobre criar, publicar e compartilhar cada tipo de quiz.",
                 "question1Title": "Como criar um quiz online?",
-                "question1Text": "Escolha o tipo de quiz, adicione suas perguntas, escreva as alternativas, marque a resposta correta e publique. Depois disso, você pode compartilhar o link com amigos, alunos ou sua comunidade.",
+                "question1Text": "Escolha o tipo, escreva as perguntas e as alternativas e publique. Em perguntas e respostas, prova online e quiz sobre mim você marca a resposta certa; no quiz de personalidade, cada alternativa aponta para um perfil. Depois é só compartilhar o link.",
                 "question2Title": "Posso criar um quiz grátis?",
-                "question2Text": "Sim. O quiz normal de texto é gratuito e permite criar perguntas, alternativas e respostas certas para publicar e compartilhar online.",
+                "question2Text": "Sim. Os quatro tipos são grátis com perguntas de texto, até 10 por quiz. Mais de 10 perguntas, ou imagens nas perguntas e alternativas, pedem assinatura ou crédito avulso. Torneios, histórias, testes de compatibilidade e quizzes por pontuação são grátis.",
                 "question3Title": "Posso fazer um quiz com ranking?",
-                "question3Text": "Sim. O QuestioFlux tem leaderboard para transformar seus quizzes em competição e mostrar os participantes com os melhores resultados.",
+                "question3Text": "Sim: perguntas e respostas, prova online e quiz sobre mim têm ranking, com a nota e o tempo de cada participante. O quiz de personalidade não classifica ninguém; você vê quem participou e o perfil de cada pessoa.",
                 "question4Title": "Posso criar um quiz com imagens?",
-                "question4Text": "Sim. Você pode criar quizzes com imagens nas perguntas e nas alternativas, uma boa opção para desafios visuais, personagens, bandeiras, logos e temas parecidos.",
+                "question4Text": "Sim. Dá para usar imagens nas perguntas e nas alternativas, ótimo para desafios visuais, personagens, bandeiras e logos. É um recurso pago, liberado com a assinatura ou com um crédito avulso.",
                 "question5Title": "Posso criar uma prova online com correção?",
                 "question5Text": "Pode. No tipo Prova online você escreve, se quiser, uma explicação para cada alternativa. Quando o aluno termina, ele vê a nota, o que acertou, o que errou e essas explicações."
             },
-            "seeMore": "Ver mais"
+            "seeMore": "Ver mais",
+            "formats": {
+                "title": "Prefere um torneio ou uma história?",
+                "text": "Além dos quizzes, você pode criar torneios de favoritos, histórias interativas, testes de compatibilidade e quizzes por pontuação, todos grátis.",
+                "cta": "Ver os formatos interativos"
+            }
         },
         "formPage": {
             "saveDraftInfo": "Após completar este passo, seu conteúdo será salvo automaticamente em <drafts>Rascunhos</drafts>."
@@ -531,15 +580,33 @@
                 "category": "Categoria",
                 "tags": "Tags",
                 "visibility": "Visibilidade",
-                "idiom": "Idioma",
+                "idiom": "Idioma do conteúdo",
                 "finalMessages": "Aparência da mensagem no final do Quiz:",
                 "kind": "Tipo de quiz",
                 "status": "Situação"
             },
             "placeholders": {
-                "title": "Ex: Você sabe tudo sobre futebol?",
-                "description": "Aqui você escreve a descrição do seu quiz.",
-                "tags": "Escreva e use \",\" para separar as tags"
+                "tags": "Escreva e use \",\" para separar as tags",
+                "titleByKind": {
+                    "quiz": "Ex.: Você sabe tudo sobre futebol?",
+                    "exam": "Ex.: Simulado de Biologia – Citologia",
+                    "aboutMe": "Ex.: Quanto você me conhece?",
+                    "personality": "Ex.: Que animal combina com a sua personalidade?",
+                    "tournament": "Ex.: Qual é a melhor pizza?",
+                    "story": "Ex.: O mapa perdido",
+                    "compatibility": "Ex.: Quanto nossos gostos combinam?",
+                    "scored": "Ex.: Quanto você é aventureiro?"
+                },
+                "descriptionByKind": {
+                    "quiz": "Conte o tema do quiz e o que espera quem vai jogar.",
+                    "exam": "Diga o conteúdo da prova, para quem ela é e quantas questões tem.",
+                    "aboutMe": "Chame os amigos: o que eles vão descobrir sobre você?",
+                    "personality": "Conte o que a pessoa vai descobrir no final (sem resposta certa).",
+                    "tournament": "Conte quais são as opções e o que a pessoa está escolhendo.",
+                    "story": "Apresente a história: onde ela começa e o que está em jogo.",
+                    "compatibility": "Conte sobre o que são as perguntas e quem convidar.",
+                    "scored": "Explique o que a pontuação mede e o que cada faixa significa."
+                }
             },
             "selects": {
                 "chooseCategory": "Escolha uma categoria",
@@ -552,7 +619,11 @@
                     "quiz": "Perguntas e respostas",
                     "exam": "Prova online (com correção)",
                     "aboutMe": "Quiz sobre mim",
-                    "personality": "Quiz de personalidade"
+                    "personality": "Quiz de personalidade",
+                    "tournament": "Torneio de favoritos",
+                    "story": "História interativa",
+                    "compatibility": "Teste de compatibilidade",
+                    "scored": "Quiz por pontuação"
                 },
                 "statusDraft": "Rascunho",
                 "statusFinished": "Finalizado",
@@ -567,7 +638,11 @@
                 "quiz": "Cada pergunta tem uma resposta certa e quem joga disputa o ranking.",
                 "exam": "Ao escrever as questões você pode explicar cada alternativa. Quem faz a prova vê a correção completa no final.",
                 "aboutMe": "Você vai receber sugestões de perguntas sobre você. Quizzes sobre mim não aparecem no Google: circulam pelo link.",
-                "personality": "Sem resposta certa: você cria os resultados aqui na capa e, nas perguntas, escolhe a que resultado cada alternativa leva."
+                "personality": "Sem resposta certa: você cria os resultados aqui na capa e, nas perguntas, escolhe a que resultado cada alternativa leva.",
+                "tournament": "8 ou 16 opções se enfrentam em duelos; cada pessoa escolhe a favorita até sobrar um campeão. Não há resposta certa.",
+                "story": "Escreva cenas e escolhas; cada escolha leva a outra cena ou a um final. Quem joga pode recomeçar para achar outros finais.",
+                "compatibility": "Cada pessoa responde sobre os próprios gostos e convida alguém pelo link. O resultado é a porcentagem de respostas iguais.",
+                "scored": "Cada alternativa vale pontos. A soma cai em uma das faixas que você define, e essa faixa é o resultado."
             },
             "kindLocked": "Com perguntas já criadas, não dá para trocar de ou para o quiz de personalidade.",
             "personalityResults": {
@@ -579,7 +654,7 @@
                 "imageAlt": "Imagem do resultado {number}",
                 "removeImage": "Remover a imagem",
                 "titleLabel": "Nome do resultado {number}",
-                "titlePlaceholder": "Ex.: Coruja",
+                "titlePlaceholder": "Ex.: {example}",
                 "descriptionLabel": "Descrição do resultado {number}",
                 "descriptionPlaceholder": "O que esse resultado diz sobre quem tirou ele (opcional)",
                 "add": "Adicionar resultado",
@@ -590,19 +665,27 @@
                     "questionPlaceholder": "Ex.: Qual destes lugares você escolheria para passar o fim de semana?",
                     "optionLabel": "Alternativa que leva a {result}",
                     "optionPlaceholder": "Alternativa que leva a este resultado"
-                }
+                },
+                "titleExamples": "Coruja|Leão|Golfinho|Raposa|Lobo|Gato|Águia|Urso"
             },
             "statusHints": {
                 "draft": "Rascunho não aparece no Explorar nem no Google. Escolha Finalizado quando o quiz estiver pronto.",
                 "finished": "O quiz está pronto e segue a visibilidade escolhida (público ou privado).",
-                "noQuestions": "Adicione perguntas antes de finalizar o quiz."
+                "noQuestions": "Adicione perguntas antes de finalizar o quiz.",
+                "notReady": "Para finalizar, complete o conteúdo no editor: ele precisa passar nas verificações de lá."
+            },
+            "hints": {
+                "idiom": "A língua em que as perguntas estão escritas. Serve para o filtro de idioma do Explorar e não muda o endereço do quiz.",
+                "visibility": "Público: aparece no seu perfil e no Explorar, e qualquer pessoa pode jogar. Privado: só quem tem o link joga, e ele fica fora do Explorar e das buscas."
             }
         }
     },
     "creatingQuiz": {
         "nav": {
             "cover": "Capa do Quiz",
-            "questions": "Perguntas"
+            "questions": "Perguntas",
+            "options": "Opções",
+            "scenes": "Cenas"
         },
         "finalMessages": {
             "defaultButton": "Padrão",
@@ -635,7 +718,8 @@
                 "incorrectPlaceholder": "Coloque a alternativa incorreta aqui",
                 "addAlternative": "Adicionar alternativa",
                 "addQuestion": "Adicionar pergunta",
-                "personalityPlaceholder": "Alternativa {number}"
+                "personalityPlaceholder": "Alternativa {number}",
+                "personalityQuestionPlaceholder": "Ex.: O que você faria num sábado livre?"
             },
             "imageInput": {
                 "placeholder": "Pergunta N°{position}",
@@ -699,7 +783,8 @@
             "successMessage": "Quiz editado com sucesso!",
             "buttons": {
                 "editQuestions": "Editar Perguntas",
-                "saveChanges": "Salvar Alterações"
+                "saveChanges": "Salvar Alterações",
+                "editContent": "Editar conteúdo"
             },
             "validationError": "Preencha as questões destacadas antes de salvar.",
             "unexpectedError": "Ocorreu um erro ao salvar suas alterações. Tente novamente."
@@ -815,7 +900,9 @@
     },
     "embedPage": {
         "playAgain": "Jogar de novo",
-        "allResults": "Ver todos os resultados"
+        "allResults": "Ver todos os resultados",
+        "experienceText": "Este formato abre no QuestioFlux, em outra aba.",
+        "playOnSite": "Jogar no QuestioFlux"
     },
     "SubscriptionPage": {
         "currency": {
@@ -921,7 +1008,11 @@
             "quiz": "Perguntas e respostas",
             "exam": "Prova online",
             "aboutMe": "Quiz sobre mim",
-            "personality": "Quiz de personalidade"
+            "personality": "Quiz de personalidade",
+            "tournament": "Torneio de favoritos",
+            "story": "História interativa",
+            "compatibility": "Teste de compatibilidade",
+            "scored": "Quiz por pontuação"
         },
         "withImages": "com imagens",
         "image": "Quiz de imagem"
@@ -943,7 +1034,9 @@
                 "yourAnswer": "Sua resposta",
                 "correctAnswer": "Resposta correta",
                 "score": "Nota {score}"
-            }
+            },
+            "formatsTitle": "Formatos interativos",
+            "formatsText": "Torneios de favoritos, histórias interativas, testes de compatibilidade e quizzes por pontuação."
         },
         "quiz": {
             "metadata": {
@@ -1258,7 +1351,12 @@
             ],
             "finalTitle": "Será que seus amigos te conhecem mesmo?",
             "finalText": "Crie seu quiz em poucos minutos e descubra.",
-            "finalCta": "Criar quiz sobre mim"
+            "finalCta": "Criar quiz sobre mim",
+            "crossLink": {
+                "title": "Quer comparar gostos em vez de testar?",
+                "text": "No teste de compatibilidade não existe resposta certa: cada pessoa responde sobre si, convida um amigo e vê a porcentagem de respostas iguais.",
+                "cta": "Ver o teste de compatibilidade"
+            }
         },
         "personality": {
             "metadata": {
@@ -1366,7 +1464,12 @@
             ],
             "finalTitle": "Que resultado seus amigos vão tirar?",
             "finalText": "Crie o seu quiz de personalidade e descubra.",
-            "finalCta": "Criar quiz de personalidade"
+            "finalCta": "Criar quiz de personalidade",
+            "crossLink": {
+                "title": "Prefere um resultado por pontos?",
+                "text": "No quiz por pontuação, cada alternativa vale pontos e a soma cai em uma faixa que você define, como “Iniciante”, “Experiente” ou “Lenda”.",
+                "cta": "Ver o quiz por pontuação"
+            }
         }
     },
     "personalityResultPage": {
@@ -1437,5 +1540,717 @@
         "readArticle": "Ler artigo",
         "inThisArticle": "Neste artigo",
         "related": "Leia também"
+    },
+    "participationResultPage": {
+        "yourResult": "Seu resultado",
+        "resultOf": "Resultado de {name}",
+        "guest": "Convidado",
+        "unrecorded": "Nome não registrado",
+        "completed": "Concluído",
+        "completedOn": "Concluído em {date}",
+        "score": "Acertos: {score}",
+        "share": "Compartilhar resultado",
+        "copied": "Link copiado",
+        "shareText": "Meu resultado em \"{quiz}\": {result}",
+        "playAgain": "Jogar de novo",
+        "playToo": "Jogar também",
+        "seeQuiz": "Ver o quiz",
+        "metaTitle": "Resultado de {name} em {quiz}",
+        "metaTitleAnonymous": "Um resultado em {quiz}"
+    },
+    "experiencePlay": {
+        "undo": "Desfazer",
+        "restart": "Recomeçar",
+        "back": "Voltar",
+        "start": "Começar",
+        "tournament": {
+            "rounds": {
+                "final": "Final",
+                "semifinal": "Semifinal",
+                "quarterfinal": "Quartas de final",
+                "roundOf16": "Oitavas de final"
+            },
+            "done": "Campeão escolhido",
+            "duelOf": "Duelo {number} de {total}",
+            "pick": "Escolha a sua favorita",
+            "versus": "vs",
+            "champion": "Seu campeão",
+            "yourChampion": "Seu campeão",
+            "pathTitle": "Caminho até o título",
+            "beat": "Venceu <strong>{option}</strong>",
+            "removed": "Opção removida do torneio",
+            "championNote": "A favorita que venceu todos os duelos desta partida.",
+            "allDuels": "Ver os {count} duelos",
+            "topTitle": "As mais escolhidas por todos",
+            "titles": "{count, plural, =0 {ainda sem títulos} one {# título} other {# títulos}}",
+            "winRate": "{percent}% dos duelos vencidos",
+            "seeAll": "Ver todos os resultados"
+        },
+        "story": {
+            "endingReached": "Final alcançado",
+            "step": "Passo {number}",
+            "ending": "Final",
+            "tooLong": "Esse caminho ficou longo demais. Recomece para tentar outro.",
+            "endingsFound": "Você achou {found} de {total, plural, one {# final} other {# finais}}.",
+            "resultSteps": "{steps, plural, =0 {Direto para o final.} one {# escolha até aqui.} other {# escolhas até aqui.}}",
+            "resultEndings": "Esta história tem {total} finais. Recomece para descobrir outro."
+        },
+        "questions": {
+            "questionOf": "Pergunta {number} de {total}",
+            "finish": "Ver resultado"
+        },
+        "compatibility": {
+            "withName": "Você e {name}",
+            "percent": "{percent}% de compatibilidade",
+            "explanation": "{matched} de {total} respostas iguais.",
+            "answersTitle": "Resposta por resposta",
+            "you": "Você",
+            "same": "Resposta igual",
+            "different": "Respostas diferentes",
+            "saved": "Suas respostas foram salvas",
+            "savedText": "Mande o seu link para alguém. Quando a pessoa terminar, vocês veem a porcentagem de respostas iguais.",
+            "withWho": "{name} e {other}",
+            "withSomeone": "Comparação de {name}",
+            "inviteText": "Faça “{quiz}” e veja quanto nossos gostos combinam.",
+            "inviteTitle": "Convide alguém",
+            "inviteHint": "Cada pessoa que abrir o seu link responde sozinha e recebe a comparação com você. Só vocês veem as respostas.",
+            "inviteLink": "Link do convite",
+            "copied": "Copiado",
+            "copy": "Copiar link",
+            "share": "Compartilhar",
+            "howTitle": "Como é calculado",
+            "how": "Cada pergunta vale o mesmo. Vocês deram a mesma resposta em {matched} de {total}, o que dá {percent}%.",
+            "invitedTitle": "{count, plural, =0 {Ninguém respondeu pelo seu link ainda} one {# pessoa respondeu pelo seu link} other {# pessoas responderam pelo seu link}}",
+            "invitedEmpty": "Quando alguém responder, a pessoa aparece aqui com a porcentagem.",
+            "seeAnswers": "Ver respostas"
+        },
+        "scored": {
+            "points": "{points, plural, =0 {pontos} one {ponto} other {pontos}}",
+            "pointsTotal": "{points, plural, =0 {# pontos} one {# ponto} other {# pontos}} no total",
+            "rangesTitle": "Faixas de resultado",
+            "bounds": "As somas vão de {min} a {max} pontos.",
+            "range": "{min} a {max} pontos",
+            "explanation": "Cada alternativa vale pontos. A sua soma decide a faixa.",
+            "yours": "a sua"
+        },
+        "demo": {
+            "title": "Experimente: {title}",
+            "play": "Jogar o exemplo",
+            "again": "Jogar de novo",
+            "useTemplate": "Usar este modelo",
+            "note": {
+                "tournament": "Só um exemplo: nada fica salvo. Com o modelo, você recebe estas 8 opções em um rascunho editável.",
+                "story": "Só um exemplo: nada fica salvo. Com o modelo, você recebe estas cenas e finais em um rascunho editável.",
+                "compatibility": "Só um exemplo: a comparação é com respostas de demonstração. Com o modelo, você recebe estas perguntas em um rascunho editável.",
+                "scored": "Só um exemplo: nada fica salvo. Com o modelo, você recebe estas perguntas, pontos e faixas em um rascunho editável."
+            }
+        },
+        "invite": {
+            "lost": "Esse link de convite não vale mais, então suas respostas foram salvas sem comparação.",
+            "banner": "{name} convidou você. Responda sobre você e veja quanto vocês combinam.",
+            "someone": "Alguém",
+            "own": "Este é o seu próprio link de convite. Mande para outra pessoa: se você jogar aqui, conta como uma partida nova, sem comparação.",
+            "notFound": "Este link de convite não existe mais. Você ainda pode jogar e convidar alguém."
+        },
+        "errors": {
+            "noResult": "Não deu para salvar o seu resultado. Tente de novo.",
+            "notReady": "Esta atividade ainda não está pronta para jogar."
+        },
+        "intro": {
+            "title": {
+                "tournament": "{count} opções, um campeão",
+                "story": "Uma história com {count, plural, one {# cena} other {# cenas}}",
+                "compatibility": "{count, plural, one {# pergunta} other {# perguntas}} sobre você",
+                "scored": "{count, plural, one {# pergunta} other {# perguntas}}, uma pontuação"
+            },
+            "tournament": [
+                "Duas opções por vez: escolha a sua favorita.",
+                "A vencedora segue em frente até sobrar uma só.",
+                "No fim, você vê o seu campeão e as favoritas de todo mundo que jogou."
+            ],
+            "story": [
+                "Leia cada cena e escolha o que acontece depois.",
+                "Suas escolhas levam a um dos finais.",
+                "Recomece quando quiser para descobrir outro final."
+            ],
+            "compatibility": [
+                "Responda sobre os seus gostos: não existe resposta errada.",
+                "Depois, mande o seu link para alguém.",
+                "Quando a pessoa terminar, vocês veem a porcentagem de respostas iguais."
+            ],
+            "scored": [
+                "Cada resposta vale pontos.",
+                "No fim, a sua soma decide o resultado.",
+                "Você vê todas as faixas e o que cada uma significa."
+            ],
+            "guestOptional": "Dá para jogar sem conta. No fim, escolha um nome ou continue sem nome.",
+            "guestRequired": "Dá para jogar sem conta. No fim, escolha um nome: é assim que a outra pessoa vai ver você."
+        },
+        "pending": {
+            "text": "Sua partida terminou. Escolha um nome ou entre na sua conta para ver o resultado.",
+            "finish": "Ver meu resultado",
+            "playAgain": "Jogar de novo"
+        },
+        "stats": {
+            "metadataTitle": "Resultados de {quiz_name} | QuestioFlux",
+            "title": {
+                "tournament": "As favoritas de quem jogou",
+                "story": "Finais alcançados",
+                "compatibility": "Compatibilidade entre os participantes",
+                "scored": "Resultados por faixa"
+            },
+            "plays": "{count, plural, one {# partida concluída} other {# partidas concluídas}}",
+            "noPlays": "Ninguém terminou ainda. Seja a primeira pessoa!",
+            "cta": "Jogar agora",
+            "winRate": "{percent}% dos duelos vencidos",
+            "titles": "{count, plural, =0 {Nenhum título} one {# título} other {# títulos}} · {wins} de {duels} duelos vencidos",
+            "tournamentNote": "O aproveitamento conta todos os duelos que a opção disputou, em todas as partidas concluídas.",
+            "reached": "{count, plural, =0 {nenhuma partida} one {# partida} other {# partidas}}",
+            "storyNote": "Parte das partidas concluídas que chegou a cada final.",
+            "range": "{min} a {max} pontos · {count, plural, =0 {nenhuma partida} one {# partida} other {# partidas}}",
+            "averagePoints": "Pontuação média: {points, plural, =0 {# pontos} one {# ponto} other {# pontos}}",
+            "averageMatch": "Compatibilidade média: {percent}% em {count, plural, one {# comparação} other {# comparações}}",
+            "noComparisons": "Ainda não há comparações: elas aparecem quando alguém responde por um convite.",
+            "compatibilityNote": "Cada comparação conta quantas das {questions} perguntas tiveram a mesma resposta."
+        }
+    },
+    "experienceEditor": {
+        "title": {
+            "tournament": "Opções do torneio",
+            "story": "Cenas da história",
+            "compatibility": "Perguntas de compatibilidade",
+            "scored": "Perguntas e faixas"
+        },
+        "intro": {
+            "tournament": "Cadastre as opções que vão se enfrentar. Cada partida sorteia uma chave nova, e a vencedora de cada duelo segue em frente.",
+            "story": "Escreva as cenas e ligue cada escolha à cena seguinte. Os caminhos podem se reencontrar, e a história precisa de pelo menos um final que dê para alcançar.",
+            "compatibility": "Escreva perguntas sobre gostos e hábitos. Cada pessoa responde sobre si, e o resultado é a porcentagem de respostas iguais.",
+            "scored": "Dê pontos a cada resposta e defina as faixas de resultado. Toda soma possível precisa cair em exatamente uma faixa."
+        },
+        "saveDraft": "Salvar rascunho",
+        "publish": "Publicar",
+        "saveChanges": "Salvar alterações",
+        "viewQuiz": "Ver página",
+        "saving": "Salvando…",
+        "unsaved": "Alterações não salvas",
+        "savedAt": "Salvo às {time}",
+        "saved": "Salvo.",
+        "savedPublished": "Salvo. As mudanças já estão no ar.",
+        "fixBeforePublish": "Corrija os itens da lista abaixo antes de publicar.",
+        "publishError": "Não deu para publicar. Tente de novo.",
+        "imageError": "Algumas imagens não subiram. O resto foi salvo.",
+        "visibilityNote": "Enquanto for rascunho, só você abre. Ao publicar, escolha público (perfil e Explorar) ou privado (só quem tem o link).",
+        "problems": {
+            "issuesTitle": "Corrija antes de publicar",
+            "warningsTitle": "Vale conferir",
+            "okTitle": "Tudo pronto",
+            "okDraft": "O conteúdo passou em todas as verificações. Publique quando quiser.",
+            "okPublished": "O conteúdo passou em todas as verificações e está no ar."
+        },
+        "labels": {
+            "option": "Opção {number}",
+            "scene": "Cena {number}",
+            "choice": "Cena {scene}, escolha {number}",
+            "question": "Pergunta {number}",
+            "answer": "Pergunta {question}, resposta {number}",
+            "range": "Faixa {number}"
+        },
+        "issues": {
+            "optionCount": "Preencha as {value} opções.",
+            "emptyOption": "{item}: escreva um nome ou coloque uma imagem.",
+            "duplicateOption": "{item} repete outra opção.",
+            "noScenes": "Crie a primeira cena.",
+            "emptyEnding": "{item}: dê um título ao final.",
+            "emptyScene": "{item}: escreva o texto da cena.",
+            "noChoices": "{item}: adicione uma escolha ou transforme a cena em final.",
+            "emptyChoice": "{item}: escreva o texto da escolha.",
+            "missingDestination": "{item}: escolha para onde essa escolha leva.",
+            "noReachableEnding": "Nenhum caminho a partir da primeira cena chega a um final.",
+            "deadEnd": "{item}: nenhum caminho a partir desta cena chega a um final.",
+            "unreachableScene": "Não dá para chegar à {item} a partir da primeira cena.",
+            "fewQuestions": "Crie pelo menos {value} perguntas.",
+            "emptyQuestion": "{item}: escreva a pergunta.",
+            "fewAnswers": "{item}: adicione pelo menos {value} respostas.",
+            "emptyAnswer": "{item}: escreva a resposta.",
+            "duplicateAnswer": "{item} repete outra resposta da mesma pergunta.",
+            "fewRanges": "Crie pelo menos {value} faixas.",
+            "emptyRange": "{item}: dê um título à faixa.",
+            "rangeOrder": "{item}: o mínimo está maior que o máximo.",
+            "overlap": "{item} se sobrepõe à faixa anterior.",
+            "gap": "Uma soma de {value} pontos fica fora de todas as faixas.",
+            "unreachableRange": "{item}: nenhuma combinação de respostas chega a esta faixa.",
+            "unknown": "Algo no conteúdo precisa de ajuste. Revise e salve de novo."
+        },
+        "tournament": {
+            "imageType": "Use uma imagem JPG, PNG, WEBP ou GIF.",
+            "imageTooBig": "A imagem passa de {size} MB.",
+            "confirmShrink": "Mudar para {size} opções apaga as últimas. Continuar?",
+            "sizeLabel": "Número de opções",
+            "sizeOption": "{size} opções · {duels} duelos",
+            "optionsTitle": "Opções",
+            "optionsHint": "Um nome, uma imagem ou os dois. A imagem é opcional.",
+            "optionLabel": "Opção {number}",
+            "imagePick": "Escolher imagem da opção {number}",
+            "optionPlaceholder": "Ex.: Margherita",
+            "imageRemove": "Remover a imagem da opção {number}",
+            "clear": "Limpar a opção {number}"
+        },
+        "story": {
+            "scenesTitle": "Cenas",
+            "scenesHint": "Cada cena tem um texto e escolhas. Marque uma cena como final para fechar um caminho.",
+            "startLabel": "Primeira cena",
+            "sceneLabel": "Cena {number}",
+            "start": "Início",
+            "endingBadge": "Final",
+            "isEnding": "Esta cena é um final",
+            "removeScene": "Remover a cena {number}",
+            "confirmEnding": "Transformar esta cena em final apaga as escolhas dela. Continuar?",
+            "endingTitleLabel": "Título do final",
+            "endingTitlePlaceholder": "Ex.: O herdeiro do mapa",
+            "endingTextLabel": "O que acontece neste final",
+            "endingTextPlaceholder": "Conte como a história termina por este caminho.",
+            "textLabel": "Texto da cena",
+            "textPlaceholder": "Descreva a situação e o que a personagem pode fazer.",
+            "choicesLabel": "Escolhas",
+            "choiceLabel": "Escolha {number}",
+            "choicePlaceholder": "Ex.: Seguir o rio",
+            "destinationLabel": "Leva para",
+            "destinationNone": "Escolha uma cena",
+            "destinationNew": "+ Nova cena",
+            "destinationNewEnding": "+ Novo final",
+            "removeChoice": "Remover a escolha {number}",
+            "addChoice": "Adicionar escolha",
+            "addScene": "Adicionar cena",
+            "addEnding": "Adicionar final",
+            "limit": "Você chegou ao limite de {max} cenas.",
+            "sceneOption": "Cena {number}: {text}",
+            "endingOption": "Final {number}: {title}",
+            "untitled": "sem título"
+        },
+        "questions": {
+            "title": "Perguntas",
+            "hint": {
+                "compatibility": "Perguntas sobre gostos, hábitos e opiniões. Cada pessoa escolhe a resposta que combina com ela.",
+                "scored": "Dê pontos a cada resposta: pode ser negativo, zero ou positivo."
+            },
+            "questionLabel": "Pergunta {number}",
+            "questionText": "Pergunta",
+            "questionPlaceholder": {
+                "compatibility": "Ex.: Praia ou montanha?",
+                "scored": "Ex.: O que você faz quando se perde?"
+            },
+            "moveUp": "Subir a pergunta {number}",
+            "moveDown": "Descer a pergunta {number}",
+            "removeQuestion": "Remover a pergunta {number}",
+            "answerLabel": "Resposta {number}",
+            "answerPlaceholder": "Resposta {number}",
+            "pointsLabel": "Pontos",
+            "removeAnswer": "Remover a resposta {number}",
+            "addAnswer": "Adicionar resposta",
+            "addQuestion": "Adicionar pergunta",
+            "limit": "Você chegou ao limite de {max} perguntas."
+        },
+        "ranges": {
+            "title": "Faixas de resultado",
+            "hint": "Cada faixa cobre um intervalo de pontos. Juntas, elas precisam cobrir todas as somas possíveis, sem se sobrepor.",
+            "bounds": "Com os pontos atuais, as somas vão de {min} a {max}.",
+            "noBounds": "Adicione perguntas com pontos para ver as somas possíveis.",
+            "suggest": "Dividir os pontos por igual",
+            "rangeLabel": "Faixa {number}",
+            "remove": "Remover a faixa {number}",
+            "minLabel": "De",
+            "maxLabel": "Até",
+            "titleLabel": "Título do resultado",
+            "titlePlaceholder": "Ex.: Explorador nato",
+            "descriptionLabel": "Descrição",
+            "descriptionPlaceholder": "O que este resultado diz sobre a pessoa?",
+            "add": "Adicionar faixa"
+        }
+    },
+    "experiencePages": {
+        "common": {
+            "breadcrumbHome": "Início",
+            "breadcrumbFormats": "Formatos interativos",
+            "tryExample": "Testar o exemplo",
+            "howTitle": "Como funciona",
+            "featuresTitle": "O que você recebe",
+            "faqTitle": "Perguntas frequentes",
+            "otherTitle": "Outros formatos interativos",
+            "seeMore": "Ver mais",
+            "quizTypesTitle": "Quizzes clássicos",
+            "quizTypesText": "Perguntas e respostas, prova online, quiz sobre mim e de personalidade."
+        },
+        "index": {
+            "metadata": {
+                "title": "Criar Torneio, História Interativa ou Teste de Compatibilidade | QuestioFlux",
+                "desc": "Formatos interativos grátis: torneios de favoritos, histórias de escolhas, testes de compatibilidade e quizzes por pontuação. Teste um exemplo e crie o seu a partir de um modelo.",
+                "keywords": "criar torneio, torneio de favoritos, chaveamento online, criar história interativa, história de escolhas, teste de compatibilidade, teste de casal, quiz por pontuação, quiz com pontos"
+            },
+            "eyebrow": "Formatos interativos",
+            "title": "Torneios, histórias e testes para jogar com os amigos",
+            "lead": "Além dos quizzes com resposta certa, o QuestioFlux tem quatro formatos em que as pessoas escolhem favoritos, decidem caminhos, comparam gostos ou somam pontos. Cada um tem um exemplo jogável e um modelo para editar.",
+            "cta": "Começar por um torneio",
+            "heroNote": "Grátis para criar e para jogar. Para jogar, nem precisa de conta.",
+            "formatsTitle": "Escolha um formato",
+            "featured": "Destaque",
+            "faq": [
+                {
+                    "question": "Qual a diferença entre estes formatos e um quiz?",
+                    "answer": "Em perguntas e respostas e na prova online existe resposta certa e nota. Aqui não há resposta certa: o resultado é um campeão, um final, uma porcentagem de compatibilidade ou uma faixa de pontos."
+                },
+                {
+                    "question": "São grátis?",
+                    "answer": "Sim. Criar, publicar e jogar torneios, histórias, testes de compatibilidade e quizzes por pontuação é grátis, inclusive as imagens das opções do torneio."
+                },
+                {
+                    "question": "Quem joga precisa de conta?",
+                    "answer": "Não. Qualquer pessoa joga como visitante. No teste de compatibilidade é preciso escolher um nome, porque a outra pessoa vê esse nome na comparação; nos outros formatos dá para jogar sem nome."
+                },
+                {
+                    "question": "Posso começar a partir de um exemplo?",
+                    "answer": "Pode. A página de cada formato tem um exemplo jogável e o botão “Usar este modelo”, que copia o conteúdo para um rascunho novo para você editar."
+                }
+            ]
+        },
+        "preview": {
+            "tournament": {
+                "label": "Exemplo",
+                "round": "Quartas de final",
+                "duel": "Duelo 1 de 7",
+                "topTitle": "As mais escolhidas"
+            },
+            "story": {
+                "label": "Exemplo",
+                "step": "Passo 1",
+                "endingLabel": "Um dos finais",
+                "endings": "{total, plural, one {# final} other {# finais}} para descobrir"
+            },
+            "compatibility": {
+                "sampleName": "Bia",
+                "label": "Exemplo",
+                "percent": "67% de compatibilidade",
+                "text": "4 de 6 respostas iguais"
+            },
+            "scored": {
+                "label": "Exemplo",
+                "points": "{points, plural, =0 {# pontos} one {# ponto} other {# pontos}}",
+                "resultLabel": "Resultado",
+                "resultText": "{min} a {max} pontos"
+            }
+        },
+        "tournament": {
+            "metadata": {
+                "title": "Criar Torneio de Favoritos Online Grátis (Chaveamento) | QuestioFlux",
+                "desc": "Monte um torneio com 8 ou 16 opções, com ou sem imagens. Quem joga escolhe a favorita em cada duelo e vê o próprio campeão e as favoritas de todo mundo.",
+                "keywords": "criar torneio, torneio de favoritos, chaveamento online, criar chaveamento, jogo do isso ou aquilo, escolha seu favorito, torneio com imagens, mata-mata de favoritos"
+            },
+            "eyebrow": "Torneio de favoritos",
+            "title": "Crie um torneio de favoritos e descubra quem vence",
+            "lead": "Escolha 8 ou 16 opções, de sabores de pizza a personagens de anime. Cada pessoa escolhe a favorita em cada duelo até sobrar o campeão e depois vê quais opções mais vencem entre todos que jogaram.",
+            "cta": "Criar torneio",
+            "heroNote": "Grátis, com imagem opcional em cada opção.",
+            "steps": [
+                {
+                    "title": "Cadastre as opções",
+                    "text": "Escreva 8 ou 16 nomes e, se quiser, coloque uma imagem em cada um."
+                },
+                {
+                    "title": "Publique e compartilhe",
+                    "text": "Mande o link ou publique no Explorar. Cada partida sorteia uma chave nova."
+                },
+                {
+                    "title": "Veja as favoritas",
+                    "text": "Cada pessoa vê o seu campeão e o caminho até o título; a aba de resultados mostra quais opções vencem mais duelos."
+                }
+            ],
+            "features": [
+                {
+                    "title": "8 ou 16 opções",
+                    "text": "7 duelos para uma partida rápida ou 15 para uma mais longa."
+                },
+                {
+                    "title": "Com imagens",
+                    "text": "Cada opção pode ter foto, o que ajuda com comidas, personagens, lugares e produtos. Sem precisar de assinatura."
+                },
+                {
+                    "title": "Um campeão para cada pessoa",
+                    "text": "O resultado mostra o campeão e cada adversário que ele venceu no caminho."
+                },
+                {
+                    "title": "As favoritas de todos",
+                    "text": "Aproveitamento e títulos de cada opção, somando todas as partidas concluídas."
+                }
+            ],
+            "ideasTitle": "Ideias de torneio",
+            "ideas": [
+                "Melhor sabor de pizza",
+                "Personagem de anime favorito",
+                "Música do ano",
+                "Melhor doce brasileiro",
+                "Destino de viagem dos sonhos",
+                "Melhor filme da década"
+            ],
+            "faq": [
+                {
+                    "question": "Como funciona um torneio de favoritos?",
+                    "answer": "As opções se enfrentam em pares. Em cada duelo a pessoa escolhe uma, que avança para a rodada seguinte até a final. Com 8 opções são 7 duelos; com 16, são 15."
+                },
+                {
+                    "question": "Posso usar imagens?",
+                    "answer": "Pode. Cada opção pode ter texto, imagem ou os dois. As imagens do torneio são grátis."
+                },
+                {
+                    "question": "Todo mundo joga com a mesma chave?",
+                    "answer": "Não. A chave é sorteada de novo a cada partida, então os confrontos mudam e o resultado geral fica mais justo."
+                },
+                {
+                    "question": "Onde vejo as opções mais escolhidas?",
+                    "answer": "Na aba de resultados do torneio: cada opção mostra o aproveitamento nos duelos e quantas vezes foi campeã."
+                }
+            ],
+            "finalTitle": "Quem vai ser o campeão?",
+            "finalText": "Crie o seu torneio em poucos minutos e mande para os amigos.",
+            "finalCta": "Criar torneio",
+            "cardText": "As opções se enfrentam em duelos até sobrar um campeão."
+        },
+        "story": {
+            "metadata": {
+                "title": "Criar História Interativa com Escolhas e Finais | QuestioFlux",
+                "desc": "Escreva cenas, escolhas e finais e ligue cada escolha à próxima cena. Quem joga decide o caminho, chega a um final e pode recomeçar para descobrir outro.",
+                "keywords": "criar história interativa, história interativa, história de escolhas, escolha sua aventura, livro-jogo, história com vários finais, aventura de texto"
+            },
+            "eyebrow": "História interativa",
+            "title": "Escreva uma história interativa em que cada escolha importa",
+            "lead": "Crie cenas com escolhas e decida para onde cada uma leva. Os caminhos podem se dividir e se reencontrar, e cada pessoa chega a um dos seus finais. Depois, dá para recomeçar e descobrir os outros.",
+            "cta": "Criar história",
+            "heroNote": "Grátis, com até 60 cenas por história.",
+            "steps": [
+                {
+                    "title": "Escreva as cenas",
+                    "text": "Cada cena tem um texto e as escolhas que a pessoa pode fazer."
+                },
+                {
+                    "title": "Ligue as escolhas",
+                    "text": "Aponte cada escolha para a próxima cena ou para um final. O editor avisa sobre caminhos soltos e cenas que ninguém alcança."
+                },
+                {
+                    "title": "Compartilhe o link",
+                    "text": "Quem joga escolhe o caminho, chega a um final e pode recomeçar para achar outro."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Caminhos que se reencontram",
+                    "text": "Escolhas diferentes podem levar à mesma cena, e a história cresce sem virar bagunça."
+                },
+                {
+                    "title": "Verificação antes de publicar",
+                    "text": "O editor mostra escolhas sem destino, becos sem saída e se pelo menos um final pode ser alcançado."
+                },
+                {
+                    "title": "Vários finais",
+                    "text": "Cada final tem título e texto próprios, que aparecem no resultado de quem jogou."
+                },
+                {
+                    "title": "Estatística por final",
+                    "text": "Veja que parte das partidas concluídas chegou a cada final."
+                }
+            ],
+            "ideasTitle": "Ideias de história",
+            "ideas": [
+                "Um mistério numa casa antiga",
+                "Sobreviva ao apocalipse zumbi",
+                "O primeiro dia na escola nova",
+                "Aventura no espaço",
+                "Escolha o seu destino num reino de fantasia",
+                "Um caso de detetive para resolver"
+            ],
+            "faq": [
+                {
+                    "question": "Como criar uma história interativa?",
+                    "answer": "Escreva a primeira cena e as escolhas dela, depois aponte cada escolha para outra cena ou para um final. Continue até todos os caminhos terminarem e publique."
+                },
+                {
+                    "question": "Quantos finais uma história pode ter?",
+                    "answer": "Quantos você quiser, dentro do limite de 60 cenas. A história precisa de pelo menos um final que dê para alcançar desde o início."
+                },
+                {
+                    "question": "Duas escolhas podem levar à mesma cena?",
+                    "answer": "Podem. Os caminhos podem se reencontrar, e uma escolha pode até voltar para uma cena anterior."
+                },
+                {
+                    "question": "O que a pessoa vê no fim?",
+                    "answer": "O final que alcançou, com título e texto, quantas escolhas fez até ali e quantos finais a história tem."
+                }
+            ],
+            "finalTitle": "Para onde a sua história vai levar?",
+            "finalText": "Escreva a primeira cena agora e acrescente os caminhos aos poucos.",
+            "finalCta": "Criar história",
+            "cardText": "Cenas e escolhas que levam cada pessoa a um final."
+        },
+        "compatibility": {
+            "metadata": {
+                "title": "Criar Teste de Compatibilidade para Amigos e Casais | QuestioFlux",
+                "desc": "Escreva perguntas sobre gostos e hábitos, responda e mande o seu link de convite. Cada pessoa que responder vê a porcentagem de compatibilidade e a comparação, resposta por resposta.",
+                "keywords": "teste de compatibilidade, teste de casal, teste de amizade, quanto a gente combina, teste de melhor amigo, quiz de compatibilidade, teste de compatibilidade amorosa, criar teste de compatibilidade"
+            },
+            "eyebrow": "Teste de compatibilidade",
+            "title": "Crie um teste de compatibilidade e veja o quanto vocês combinam",
+            "lead": "Escreva perguntas sobre gostos e hábitos e responda você mesmo. Depois mande o seu link de convite: cada pessoa que responder vê a porcentagem de compatibilidade e compara as respostas com as suas, uma a uma.",
+            "cta": "Criar teste de compatibilidade",
+            "heroNote": "Grátis, com 3 a 30 perguntas.",
+            "steps": [
+                {
+                    "title": "Escreva as perguntas",
+                    "text": "Coloque de 3 a 30 perguntas, com 2 a 6 respostas cada, sobre gostos, hábitos ou opiniões."
+                },
+                {
+                    "title": "Responda e convide",
+                    "text": "Depois de responder, você recebe um link de convite. Mande para um amigo, para o seu par ou para um grupo."
+                },
+                {
+                    "title": "Compare as respostas",
+                    "text": "Cada pessoa que responde pelo seu link vê a porcentagem e quais respostas bateram. No seu resultado aparecem as pessoas que responderam pelo seu convite."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Porcentagem de compatibilidade",
+                    "text": "O resultado mostra quantas respostas foram iguais e a porcentagem de compatibilidade."
+                },
+                {
+                    "title": "Resposta por resposta",
+                    "text": "Cada pessoa vê, pergunta por pergunta, o que respondeu e o que respondeu quem a convidou."
+                },
+                {
+                    "title": "Convites que se espalham",
+                    "text": "Quem responde por um convite também ganha o próprio link e pode se comparar com outras pessoas."
+                },
+                {
+                    "title": "As respostas ficam entre os dois",
+                    "text": "Quem abre o link de um resultado vê só a porcentagem. As respostas aparecem apenas para as duas pessoas comparadas."
+                }
+            ],
+            "ideasTitle": "Ideias de teste de compatibilidade",
+            "ideas": [
+                "Quanto a gente combina como casal?",
+                "Teste de melhor amigo",
+                "Combinamos para viajar juntos?",
+                "Daria certo morar junto?",
+                "Gostos de comida",
+                "Gostos de música e filmes"
+            ],
+            "faq": [
+                {
+                    "question": "Como funciona um teste de compatibilidade?",
+                    "answer": "Você escreve as perguntas e responde primeiro. Depois manda o link de convite, e cada pessoa que responder é comparada com você: o resultado mostra quantas respostas foram iguais e a porcentagem."
+                },
+                {
+                    "question": "Quem vê as minhas respostas?",
+                    "answer": "Só quem é comparado com você. A pessoa que você convidou vê as suas respostas ao lado das dela, e você vê as respostas de quem respondeu pelo seu link. Qualquer outra pessoa que abrir o link de um resultado vê só a porcentagem."
+                },
+                {
+                    "question": "Quem joga precisa de conta?",
+                    "answer": "Não. Basta escrever um nome, porque a outra pessoa vê esse nome na comparação."
+                },
+                {
+                    "question": "Posso convidar mais de uma pessoa?",
+                    "answer": "Pode. O mesmo link serve para quantas pessoas você quiser, e cada uma recebe a própria comparação com você. O seu resultado mostra quem respondeu por ele."
+                },
+                {
+                    "question": "Qual a diferença para o quiz sobre mim?",
+                    "answer": "No quiz sobre mim, os amigos tentam acertar as suas respostas e disputam um ranking. No teste de compatibilidade não há resposta certa: cada pessoa responde sobre si mesma, e o resultado mostra o quanto vocês têm em comum."
+                }
+            ],
+            "finalTitle": "Quanto vocês combinam?",
+            "finalText": "Escreva as perguntas, responda e mande o link para descobrir.",
+            "finalCta": "Criar teste de compatibilidade",
+            "cardText": "Cada pessoa responde sobre si e vê o quanto vocês combinam.",
+            "cross": {
+                "title": "Quer que os amigos adivinhem as suas respostas?",
+                "text": "No quiz sobre mim você responde perguntas sobre você, os amigos tentam acertar e um ranking mostra quem te conhece melhor.",
+                "cta": "Ver o quiz sobre mim"
+            }
+        },
+        "scored": {
+            "metadata": {
+                "title": "Criar Quiz por Pontuação com Resultado por Faixa | QuestioFlux",
+                "desc": "Dê pontos para cada resposta e defina as faixas de resultado. Quem joga soma pontos ao responder e, no fim, vê o resultado da sua faixa.",
+                "keywords": "quiz por pontuação, quiz com pontos, teste de pontuação, criar quiz com pontuação, quiz com faixas de resultado, teste quanto você é, teste de autoavaliação, quiz de pontos"
+            },
+            "eyebrow": "Quiz por pontuação",
+            "title": "Crie um quiz por pontuação em que cada resposta conta",
+            "lead": "Dê de -100 a 100 pontos para cada resposta e divida os totais em faixas, como “Aventureiro de sofá” ou “Aventureiro nato”. No fim, cada pessoa vê a pontuação e o resultado da sua faixa.",
+            "cta": "Criar quiz por pontuação",
+            "heroNote": "Grátis, com 2 a 10 faixas de resultado.",
+            "steps": [
+                {
+                    "title": "Escreva as perguntas",
+                    "text": "Coloque de 2 a 40 perguntas, com até 6 respostas cada."
+                },
+                {
+                    "title": "Dê pontos às respostas",
+                    "text": "Cada resposta vale de -100 a 100 pontos. Pontos negativos descontam do total."
+                },
+                {
+                    "title": "Defina as faixas",
+                    "text": "Divida os totais possíveis em 2 a 10 faixas, cada uma com título e texto. O editor mostra o menor e o maior total possível e pode dividir os pontos por igual para você."
+                }
+            ],
+            "features": [
+                {
+                    "title": "Pontos por resposta",
+                    "text": "De -100 a 100, então algumas respostas somam e outras descontam."
+                },
+                {
+                    "title": "Faixas conferidas pelo editor",
+                    "text": "O editor avisa quando faixas se sobrepõem, quando um total possível fica sem faixa ou quando uma faixa nunca pode ser alcançada."
+                },
+                {
+                    "title": "Resultado com a pontuação",
+                    "text": "Quem joga vê o total de pontos, o título da sua faixa e o texto dela."
+                },
+                {
+                    "title": "Estatística por faixa",
+                    "text": "Veja quantas partidas concluídas caíram em cada faixa e a pontuação média."
+                }
+            ],
+            "ideasTitle": "Ideias de quiz por pontuação",
+            "ideas": [
+                "Quão aventureiro você é?",
+                "Quanto você é uma pessoa matinal?",
+                "Você manda bem na cozinha?",
+                "Quão organizado você é?",
+                "Quanto você é gamer?",
+                "Quão saudável é a sua rotina?"
+            ],
+            "faq": [
+                {
+                    "question": "Como funciona um quiz por pontuação?",
+                    "answer": "Cada resposta vale uma quantidade de pontos. Quando a pessoa termina, os pontos são somados e o total cai numa das faixas que você criou, que mostra o resultado."
+                },
+                {
+                    "question": "As respostas podem tirar pontos?",
+                    "answer": "Podem. Cada resposta vale de -100 a 100 pontos, então dá para usar pontos negativos para baixar o total."
+                },
+                {
+                    "question": "Quantas faixas posso criar?",
+                    "answer": "De 2 a 10. As faixas não podem se sobrepor, e todo total possível precisa cair em alguma delas; o editor mostra o que falta antes de publicar."
+                },
+                {
+                    "question": "Qual a diferença para o quiz de personalidade?",
+                    "answer": "No quiz de personalidade, cada resposta aponta para um perfil e vence o perfil mais escolhido. No quiz por pontuação as respostas se somam e o resultado depende do total, o que funciona bem para perguntas de “quanto”, como o quanto alguém é aventureiro ou organizado."
+                }
+            ],
+            "finalTitle": "Quantos pontos o seu público vai fazer?",
+            "finalText": "Comece pelo exemplo ou escreva as suas próprias perguntas e faixas.",
+            "finalCta": "Criar quiz por pontuação",
+            "cardText": "As respostas valem pontos, e o total mostra o resultado.",
+            "cross": {
+                "title": "Prefere resultado por perfil?",
+                "text": "No quiz de personalidade, cada resposta aponta para um perfil, como um personagem ou um estilo, e o mais escolhido é o resultado.",
+                "cta": "Ver o quiz de personalidade"
+            }
+        }
     }
 }

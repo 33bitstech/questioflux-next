@@ -22,6 +22,7 @@ import { getQuizKind } from '@/utils/quizKind'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { useUser } from '@/contexts/userContext'
 import { clearPendingAnswers, savePendingAnswers, takePendingAnswers } from '@/utils/pendingQuizAnswers'
+import { newAttemptKey, saveParticipationRef } from '@/utils/participationKeys'
 
 export interface IQuizScore {
     userForLeaderBoard: IUserLeaderBoardScore
@@ -79,6 +80,10 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
         // respostas de antes do login com Google que voltaram sem login (erro ou desistência)
         [resume, setResume] = useState<IResumeAnswers>(),
         resumeChecked = useRef(false),
+        // chave desta partida: um segundo envio da mesma conclusão (duplo clique, repetição)
+        // recebe a mesma resposta e não conta de novo; jogar de novo cria outra
+        attemptKey = useRef<string | undefined>(undefined),
+        submitting = useRef(false),
         { user, loaded: userLoaded } = useUser()
 
     const t = useTranslations('takingPage')
@@ -91,6 +96,7 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
         const { ok, token } = await startQuiz(quiz.quizId, !!onFinish)
         if (!ok) return setError('Could not start the quiz. Please try again.')
         sessionToken.current = token
+        attemptKey.current = newAttemptKey()
         setInitialTime(Date.now())
         setStarted(true)
         progress.current = { started: true, finished: false, answered: 0, startedAt: Date.now() }
@@ -137,13 +143,20 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
 
     // tieBreak: a escolha na pergunta de desempate (segundo envio das mesmas respostas)
     const submitAnswers = (answers: { quizAnswer: any; guest?: string }, tieBreak?: string) => {
+        // um envio de cada vez (o backend também reconhece a mesma tentativa pela chave)
+        if (submitting.current) return
+        submitting.current = true
+        // de volta do login com Google a página recarregou: a partida ganha uma chave aqui
+        if (!attemptKey.current) attemptKey.current = newAttemptKey()
         // só agora: ligado antes, o overlay cobria o popup de visitante e engolia os cliques
         setLoadingReq(true)
-        takeQuiz(quiz.quizId, answers, sessionToken.current, isPersonality ? { tieBreak } : undefined)
-            .then(({ err, errData, res, review, personality, tie }) => {
+        takeQuiz(quiz.quizId, { ...answers, attemptKey: attemptKey.current }, sessionToken.current, isPersonality ? { tieBreak } : undefined)
+            .then(({ err, errData, res, review, personality, tie, participation }) => {
                 if (err) return setError(getLocalizedMessage(errData ?? { message: err }, locale))
 
                 if (tie) return setTie(tie)
+
+                saveParticipationRef(quiz.quizId, participation)
 
                 if (personality) {
                     clearPendingAnswers()
@@ -156,7 +169,9 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                     })
 
                     if (onFinish) return onFinish(undefined, undefined, personality)
-                    if (savePersonalityOutcome(quiz.quizId, personality)) return route.push(`/quiz/${quiz.quizId}/personality`)
+                    // com o link do resultado desta conclusão (para compartilhar)
+                    const saved = savePersonalityOutcome(quiz.quizId, { ...personality, participationId: participation?.participationId })
+                    if (saved) return route.push(`/quiz/${quiz.quizId}/personality`)
                     return setError(t('errors.resultStorage'))
                 }
 
@@ -185,7 +200,10 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                 }
             })
             .catch(console.log)
-            .finally(() => setLoadingReq(false))
+            .finally(() => {
+                submitting.current = false
+                setLoadingReq(false)
+            })
     }
 
     useEffect(() => {
@@ -266,8 +284,8 @@ export default function TakingComponent({ quiz, styles, onFinish, adTop }: IProp
                         setStarted={setStarted}
                         pauseQuiz={handlePause}
                         guestOnly={!!onFinish}
-                        // sem ranking, não faz sentido pedir nome de visitante
-                        skipGuestPrompt={isPersonality}
+                        // sem ranking o apelido é opcional: aparece na lista de participantes
+                        allowAnonymous={isPersonality}
                         setResult={setResult}
                         onQuestionAnswered={handleQuestionAnswered}
                         resume={resume}

@@ -1,4 +1,5 @@
 import styles from './quiz-type.module.scss'
+import own from '../../experiences/experiences-page.module.scss'
 import { Link } from '@/i18n/navigation'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -8,7 +9,7 @@ import QuizTypeIcon from '@/components/QuizTypes/quiz-type-icon'
 import QuizTypePreview from '@/components/QuizTypes/quiz-type-preview'
 import { TrackedLink } from '@/components/Google/analytics-widgets'
 import { getOpenGraphLocale } from '@/utils/locale'
-import { isQuizTypeSlug, QuizKind, quizTypeSlugs, QuizTypeSlug } from '@/utils/quizKind'
+import { ExperienceKind, isQuizTypeSlug, QuizKind, quizKindHref, quizTypeSlugs, QuizTypeSlug } from '@/utils/quizKind'
 import { DEFAULT_QUIZ_IMAGE, jsonLd, shellLanguages, SITE_URL } from '@/utils/seo'
 
 interface IProps {
@@ -18,7 +19,13 @@ interface IProps {
 interface IItem { title: string, text: string }
 interface IFaq { question: string, answer: string }
 
-const LANGUAGE_TAGS: Record<string, string> = { pt: 'pt-BR', en: 'en-US', es: 'es' }
+const LANGUAGE_TAGS: Record<string, string> = { pt: 'pt-BR', en: 'en-US', es: 'es', zh: 'zh-CN' }
+
+// Formato interativo parecido: quem procura um costuma querer conhecer o outro
+const CROSS_LINKS: Partial<Record<QuizKind, ExperienceKind>> = {
+    aboutMe: 'compatibility',
+    personality: 'scored',
+}
 
 // Página de cada tipo de quiz: é ela que concorre no Google por "criar prova online",
 // "quiz sobre mim"... e leva para a criação já com o tipo escolhido.
@@ -78,6 +85,7 @@ export default async function QuizTypePage({ params }: IProps) {
     const steps = t.raw('steps') as IItem[]
     const features = t.raw('features') as IItem[]
     const ideas = t.raw('ideas') as string[]
+    const cross = CROSS_LINKS[kind]
     const faq = t.raw('faq') as IFaq[]
 
     const url = `${SITE_URL}/${locale}/create/quiz/${slug}`
@@ -180,6 +188,19 @@ export default async function QuizTypePage({ params }: IProps) {
                 </ul>
             </section>
 
+            {cross && (
+                <section className={own.cross}>
+                    <span className={styles.eyebrow_icon}><QuizTypeIcon kind={cross} /></span>
+                    <div>
+                        <h2>{t('crossLink.title')}</h2>
+                        <p>{t('crossLink.text')}</p>
+                    </div>
+                    <Link locale={locale} href={quizKindHref(cross)} className={own.cross_link}>
+                        {t('crossLink.cta')} <ArrowRight aria-hidden="true" />
+                    </Link>
+                </section>
+            )}
+
             <section className={styles.section}>
                 <h2>{t('ideasTitle')}</h2>
                 <ul className={styles.ideas}>
@@ -235,6 +256,18 @@ export default async function QuizTypePage({ params }: IProps) {
                             </li>
                         )
                     }))}
+                    <li>
+                        <Link locale={locale} href="/create/experiences">
+                            <span className={styles.eyebrow_icon}><QuizTypeIcon kind="tournament" /></span>
+                            <span className={styles.other_text}>
+                                <strong>{tCommon('formatsTitle')}</strong>
+                                <span>{tCommon('formatsText')}</span>
+                            </span>
+                            <span className={styles.other_more}>
+                                {tCommon('seeMore')} <ArrowRight aria-hidden="true" />
+                            </span>
+                        </Link>
+                    </li>
                 </ul>
             </section>
         </main>

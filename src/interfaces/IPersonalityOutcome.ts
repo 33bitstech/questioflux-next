@@ -13,6 +13,8 @@ export default interface IPersonalityOutcome {
     // quantas pessoas já fizeram e quantos % delas tiveram este mesmo resultado (não vem no combinado)
     plays: number
     sameResultPercent?: number
+    // a conclusão gravada: o link /quiz/[id]/result/[participationId] mostra este resultado
+    participationId?: string
 }
 
 // Empate com pergunta de desempate: só as alternativas dos resultados empatados

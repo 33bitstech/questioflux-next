@@ -4,6 +4,8 @@ import ApiData from '@/utils/ApiData'
 import IQuizes from '@/interfaces/IQuizes'
 import IQuestion from '@/interfaces/IQuestion'
 import { idiomToLocale } from '@/utils/seo'
+import { normalizeContentLanguage } from '@/utils/contentLanguages'
+import { topicProfile, topicSimilarity } from '@/utils/relatedTopics'
 import { isQuizIndexable } from '@/utils/quizQuality'
 
 export const QUIZ_REVALIDATE = 300
@@ -53,7 +55,11 @@ export interface IIndexableQuiz {
     title: string
     idiom: string
     category: string
+    // para "mais quizzes" puxar o mesmo tema ou franquia
+    tags: string[]
     qtdQuestions: number
+    // tipo do quiz: o card de "mais quizzes" diz opções, cenas ou perguntas
+    kind?: string
     usersCount: number
     userCreatorName: string
     thumbnail?: string
@@ -92,7 +98,9 @@ const loadIndexableQuizzes = unstable_cache(async (): Promise<IIndexableQuiz[]> 
         title: quiz.title,
         idiom: quiz.idiom,
         category: quiz.category,
+        tags: Array.isArray(quiz.tags) ? quiz.tags.slice(0, 10) : [],
         qtdQuestions: quiz.qtdQuestions,
+        kind: quiz.kind,
         usersCount: quiz.usersCount ?? 0,
         userCreatorName: quiz.userCreatorName,
         thumbnail: isOwnImage(quiz.quizThumbnail) ? quiz.quizThumbnail : undefined,
@@ -102,7 +110,7 @@ const loadIndexableQuizzes = unstable_cache(async (): Promise<IIndexableQuiz[]> 
             .filter((src): src is string => !!src && /^https?:\/\//.test(src))
             .slice(0, 20),
     }))
-}, ['indexable-quizzes-v2'], { revalidate: 60 * 60 })
+}, ['indexable-quizzes-v4'], { revalidate: 60 * 60 })
 
 // Todos os quizzes que passam na regra de indexação, já enxutos. É a lista do sitemap e
 // a fonte dos links de "mais quizzes". O backend entrega 100 quizzes por requisição com
@@ -132,18 +140,32 @@ function stableHash(value: string) {
     return h >>> 0
 }
 
-// Links internos de um quiz para outros: mesmo idioma primeiro, depois mesma categoria. A escolha
-// varia de página para página (mas é fixa em cada uma), assim todo quiz indexável recebe
-// links em vez de só os mais novos. Sem a lista (API fora), a página segue sem a seção.
+// "Mais quizzes para você": primeiro o mesmo idioma do conteúdo (francês com francês), depois
+// o mesmo grupo de idioma do site; dentro disso, o mesmo tema ou franquia (título e tags:
+// Vingadores puxa MCU e Homem-Aranha) e a mesma categoria. Empates variam de página para página
+// (mas são fixos em cada uma), assim todo quiz indexável recebe links em vez de só os mais
+// novos. Sem a lista (API fora), a página segue sem a seção.
 export async function getRelatedQuizzes(quiz: IQuizes, limit = 6): Promise<IIndexableQuiz[]> {
     try {
-        const sameIdiom = (other: IIndexableQuiz) => idiomToLocale(other.idiom) === idiomToLocale(quiz.idiom)
+        const language = normalizeContentLanguage(quiz.idiom)
+        const languageRank = (other: IIndexableQuiz) =>
+            language && normalizeContentLanguage(other.idiom) === language ? 0
+                : idiomToLocale(other.idiom) === idiomToLocale(quiz.idiom) ? 1 : 2
+        const profile = topicProfile({ title: quiz.title, tags: quiz.tags })
+        const affinity = new Map<string, number>()
+        const topic = (other: IIndexableQuiz) => {
+            if (!affinity.has(other.quizId)) affinity.set(other.quizId, topicSimilarity(profile, topicProfile(other)))
+            return affinity.get(other.quizId) as number
+        }
         const sameCategory = (other: IIndexableQuiz) => other.category === quiz.category
-        const rank = (other: IIndexableQuiz) => (sameIdiom(other) ? 0 : 2) + (sameCategory(other) ? 0 : 1)
 
         return (await getIndexableQuizzes())
-            .filter(other => other.quizId !== quiz.quizId && (sameCategory(other) || sameIdiom(other)))
-            .sort((a, b) => rank(a) - rank(b) || stableHash(quiz.quizId + a.quizId) - stableHash(quiz.quizId + b.quizId))
+            .filter(other => other.quizId !== quiz.quizId && (languageRank(other) < 2 || sameCategory(other) || topic(other) > 0))
+            .sort((a, b) =>
+                languageRank(a) - languageRank(b)
+                || topic(b) - topic(a)
+                || Number(sameCategory(b)) - Number(sameCategory(a))
+                || stableHash(quiz.quizId + a.quizId) - stableHash(quiz.quizId + b.quizId))
             .slice(0, limit)
     } catch {
         return []

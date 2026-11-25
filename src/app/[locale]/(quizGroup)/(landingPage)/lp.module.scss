@@ -18,16 +18,59 @@
 }
 
 .actions_section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  ul {
-    display: flex;
-    gap: 2.31rem;
-    li {
-      @extend %icons-li-default;
-    }
+  gap: 1.5rem;
+}
+
+// atalhos do topo: um para os quizzes e outro para os formatos interativos
+.shortcuts {
+  width: 100%;
+  max-width: 46rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.shortcut {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background-color: var(--background-divs);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  color: var(--text-primary);
+  transition: transform .2s ease, border-color .2s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--background-button);
+  }
+}
+
+.shortcut_icon {
+  flex-shrink: 0;
+  @extend %icons-li-default;
+}
+
+.shortcut_text {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+
+  strong {
+    @include vars.styleTexto(var(--text-primary), 1.05rem, 700);
+  }
+
+  span {
+    line-height: 1.4;
+    @include vars.styleTexto(var(--text-description), .85rem, 400);
   }
 }
 
@@ -43,12 +86,85 @@
   gap: 1.25rem;
 }
 
+// torneio, história, compatibilidade e pontuação (os cards vêm das páginas dos formatos)
+.formats_section {
+  width: 100%;
+  max-width: 62rem;
+  margin-bottom: 14vh;
+  // ao chegar pelo atalho do topo, o título da seção não fica colado na borda
+  scroll-margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.formats_list {
+  width: 100%;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
 .quiz_exploration_section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
   margin-bottom: 8vh;
+}
+
+// os mais jogados entre os públicos
+.popular_list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .63rem;
+}
+
+// um link do Explorar já filtrado para cada tipo
+.explore_formats {
+  width: 100%;
+  max-width: 52rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .8rem;
+
+  p {
+    @include vars.styleTexto(var(--text-description), .95rem, 600);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .5rem .9rem;
+    border-radius: 999px;
+    border: 1px solid var(--seemore-button-border);
+    @include vars.styleTexto(var(--text-primary), .88rem, 600);
+    transition: border-color .2s ease;
+
+    svg {
+      width: 1.05rem;
+      height: 1.05rem;
+      fill: none;
+      stroke: currentColor;
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--background-button);
+    }
+  }
 }
 
 .box_itens {
@@ -141,23 +257,21 @@
   text-align: center;
 
   h1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 52rem;
+    line-height: 1.2;
     @include vars.styleTexto(var(--text-primary), 2.9rem, 500);
-
-    &:nth-child(2) {
-      font-size: 2.1rem;
-    }
 
     strong {
       font-weight: 700;
     }
+  }
 
-    .fakeh2 {
-      align-items: center;
-      @include vars.styleTexto(var(---text-primary), 1.65rem, 400);
-    }
+  // subtítulo da home, logo abaixo do h1
+  .hero_subtitle {
+    max-width: 44rem;
+    margin: 0 auto;
+    line-height: 1.55;
+    @include vars.styleTexto(var(--text-description), 1.15rem, 400);
   }
 
   h2 {
@@ -190,7 +304,8 @@
 .explore_link {
   text-align: center;
   width: 23rem;
-  padding: 0.625rem 7.25rem;
+  max-width: 100%;
+  padding: 0.625rem 1.5rem;
   border-radius: 0.625rem;
   background-color: var(--background-button);
   text-transform: uppercase;
@@ -228,13 +343,13 @@
     .title_section {
       h1 {
         font-size: 1.9rem !important;
-        &:nth-child(2) {
-          font-size: 1.7rem !important;
-        }
-        .fakeh2 {
-          font-size: 1.5rem !important;
-        }
+      }
+      .hero_subtitle {
+        font-size: 1rem;
       }
     }
+  }
+  .shortcuts {
+    grid-template-columns: 1fr;
   }
 }

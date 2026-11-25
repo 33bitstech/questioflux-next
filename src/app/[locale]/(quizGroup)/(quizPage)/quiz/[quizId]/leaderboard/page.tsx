@@ -10,7 +10,8 @@ import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popu
 import { getQuizRecommendationAction } from './action';
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz';
 import { jsonLd } from '@/utils/seo';
-import { getQuizKind } from '@/utils/quizKind';
+import { getQuizKind, isExperienceKind } from '@/utils/quizKind';
+import ExperienceStats from '@/components/Experiences/experience-stats';
 import PersonalityStats from '@/components/PersonalityResult/personality-stats';
 import LeaderboardGroups from '@/components/Leaderboard/leaderboard-groups';
 import { getLeaderboardData, getViewer, isGuestEntry } from '@/utils/leaderboardData';
@@ -41,6 +42,12 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     // personalidade não tem ranking: a aba é a distribuição dos resultados
     if (quiz && getQuizKind(quiz) === 'personality') {
         const tStats = await getTranslations({ locale, namespace: 'personalityResultPage.stats' })
+        return { title: tStats('metadataTitle', names), robots: 'noindex, follow' }
+    }
+
+    // torneio, história, compatibilidade e pontuação: estatística das partidas, sem ranking
+    if (quiz && isExperienceKind(getQuizKind(quiz))) {
+        const tStats = await getTranslations({ locale, namespace: 'experiencePlay.stats' })
         return { title: tStats('metadataTitle', names), robots: 'noindex, follow' }
     }
 
@@ -78,6 +85,15 @@ export default async function Leaderboard({ params }: IProps) {
         return (
             <>
                 <PersonalityStats quiz={withoutQuestions(publicQuiz)} locale={locale} />
+                <GoogleAd slot='6282931841' />
+            </>
+        )
+    }
+
+    if (publicQuiz && isExperienceKind(getQuizKind(publicQuiz))) {
+        return (
+            <>
+                <ExperienceStats quiz={withoutQuestions(publicQuiz)} locale={locale} />
                 <GoogleAd slot='6282931841' />
             </>
         )

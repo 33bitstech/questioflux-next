@@ -37,6 +37,10 @@ export type AnalyticsEvent =
     | 'login'
     | 'sign_up'
     | 'select_content'
+    // exemplo jogável e 'Usar este modelo' nas páginas dos formatos de experiência
+    | 'demo_start'
+    | 'demo_complete'
+    | 'template_use'
 
 // Fora do navegador, ou se a tag não estiver na página, não faz nada.
 export function trackEvent(name: AnalyticsEvent, params: EventParams = {}) {

@@ -20,7 +20,8 @@ import { getOpenGraphLocale } from '@/utils/locale';
 import { quizParams } from '@/utils/analytics';
 import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/analytics-widgets';
 import QuizCover from '@/components/Card/quiz-cover';
-import { getQuizKind, QuizKind, quizKindSlug } from '@/utils/quizKind';
+import { getQuizKind, hasLeaderboard, isExperienceKind, QuizKind, quizKindHref } from '@/utils/quizKind';
+import ExperienceQuizPreview from '@/components/Experiences/experience-quiz-preview';
 import { FilePen, Globe, Lock } from 'lucide-react';
 
 // Situação do quiz: rascunho tem prioridade; fora dele, privado ou público. Texto e ícone,
@@ -141,7 +142,8 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     // descrição curta demais para virar snippet: completa com um texto fixo
     const description = rawDescription.length >= 110
         ? rawDescription
-        : `${rawDescription}${/[.!?…]$/.test(rawDescription) ? '' : '.'} ${t('descSuffix', { count: quiz.qtdQuestions })}`
+        // o texto fixo fala de ranking só nos formatos que têm ranking
+        : `${rawDescription}${/[.!?…]$/.test(rawDescription) ? '' : '.'} ${isExperienceKind(getQuizKind(quiz)) ? t(`descSuffixByKind.${getQuizKind(quiz)}`, { count: quiz.qtdQuestions ?? 0 }) : t(hasLeaderboard(getQuizKind(quiz)) ? 'descSuffix' : 'descSuffixResult', { count: quiz.qtdQuestions })}`
 
     const canonical = quizCanonicalUrl(quiz)
     const image = quizImageUrl(quiz)
@@ -219,13 +221,14 @@ export default async function Quiz({ params }: IProps) {
                             </span>
                         </div>
 
-                        <EmbedQuizPopup
+                        {/* os formatos de experiência não rodam dentro de iframe */}
+                        {!isExperienceKind(kind) && <EmbedQuizPopup
                             styles={styles}
                             quizId={quizId}
                             locale={locale}
                             domain={env.NEXT_PUBLIC_DOMAIN_FRONT}
                             quizTitle={quiz.title}
-                        />
+                        />}
                     </div>
                     <ul>
                         <li>{t('details.createdBy')} <Link locale={locale} href={`/user/${quiz.userCreatorId}`}>{quiz.userCreatorName}</Link></li>
@@ -238,7 +241,7 @@ export default async function Quiz({ params }: IProps) {
                             />
                         </li>
                         {/* todo quiz mostra o tipo; quizzes antigos sem "kind" são trivia (certo e errado) */}
-                        <li>{t('details.kind')} <Link locale={locale} href={`/create/quiz/${quizKindSlug(kind)}`}>{tKinds(kind)}</Link>
+                        <li>{t('details.kind')} <Link locale={locale} href={quizKindHref(kind)}>{tKinds(kind)}</Link>
                             {quiz.type === 'image/RW' && <> · {tTypes('withImages')}</>}
                         </li>
                         {quiz.tags && quiz.tags.length > 0 ? <li>
@@ -251,7 +254,7 @@ export default async function Quiz({ params }: IProps) {
                     </ul>
                 </div>
                 <div className={styles.actions}>
-                    <Link locale={locale} href={`/quiz/${quizId}/taking`}>{kind === 'exam' ? t('ctaExam') : t('ctaButton')}</Link>
+                    <Link locale={locale} href={`/quiz/${quizId}/taking`}>{isExperienceKind(kind) ? t(`ctaByKind.${kind}`) : kind === 'exam' ? t('ctaExam') : t('ctaButton')}</Link>
                     <SaveQuizWidget quizId={quizId} />
                     <ShareButton styles={styles} quizId={quizId} />
                 </div>
@@ -277,6 +280,8 @@ export default async function Quiz({ params }: IProps) {
                         </ul>
                     </section>
                 )}
+
+                {isExperienceKind(kind) && <ExperienceQuizPreview quiz={quiz} locale={locale} styles={styles} analyticsParams={analyticsParams} />}
 
                 {preview.questions.length > 0 && (
                     <section className={styles.questions_preview}>
@@ -330,7 +335,7 @@ export default async function Quiz({ params }: IProps) {
                                             alt={relatedQuiz.title}
                                             sizes="(max-width: 860px) 46vw, 300px"
                                         />
-                                        <span>{t('related.count', { count: relatedQuiz.qtdQuestions })}</span>
+                                        <span>{t('related.countByKind', { kind: relatedQuiz.kind ?? 'quiz', count: relatedQuiz.qtdQuestions ?? 0 })}</span>
                                     </div>
                                     <div className={styles.related_body}>
                                         <strong>{relatedQuiz.title}</strong>

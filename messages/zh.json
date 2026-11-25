@@ -8,34 +8,45 @@
     },
     "landingPage": {
         "hero": {
-            "titleLine1": "创建<bold>免费在线测验</bold>",
-            "titleLine2": "用 <bold>QuestioFlux</bold> 挑战你的朋友",
-            "subtitle": "免费的测验制作工具，支持文字测验、选择题、排行榜和竞赛。免费创建文字测验，需要更直观的效果时还可以加入图片。",
-            "ctaButton": "立即开始",
-            "exploreButton": "探索"
+            "subtitle": "制作知识问答、在线考试或性格测验，也可以搭建最爱淘汰赛、分支选择故事或默契测试。分享链接，就能看到结果。",
+            "exploreButton": "探索",
+            "title": "创建<bold>测验</bold>、<bold>淘汰赛</bold>和<bold>互动故事</bold>",
+            "quizzesShortcut": "创建测验",
+            "quizzesShortcutText": "知识问答、在线考试、关于我的测验或性格测验",
+            "formatsShortcut": "创建淘汰赛或故事",
+            "formatsShortcutText": "淘汰赛、互动故事、默契测试或计分测验"
         },
         "stylesSection": {
-            "title": "在线测验制作工具",
-            "subtitle": "选择你想创建、分享并参与排名的测验类型。",
+            "title": "考考知识，或测出你的类型",
+            "subtitle": "点开一种类型，看看怎么玩。知识问答、在线考试和关于我的测验有排行榜；性格测验会给每位玩家一个结果类型。",
             "rightAndWrong": "<span>选择题测验：</span>免费创建文字测验，包含题目、选项和一个正确答案。适合冷知识、学校测验、粉丝测验、游戏、体育和朋友间的比赛。",
             "personality": "<span>性格测验：</span>创建以结果为导向的测验，每个答案都会把玩家引向某种性格、角色或你自定义的结果。",
             "aboutMe": "<span>关于我的测验：</span>邀请朋友来看看谁最了解你，把答题变成一场有趣的挑战。",
-            "ctaButton": "立即创建",
+            "ctaButton": "查看全部测验类型",
             "exam": "<span>在线考试：</span>制作自动评分的考试和模拟练习，然后向学生展示答案和每个选项的解析。"
         },
         "explorationSection": {
-            "title": "探索带排行榜的测验",
-            "subtitle": "参加其他用户制作的测验，争夺高分，发现新的挑战。",
-            "public": "<span>公开测验：</span>把测验发布在你的个人主页上，让其他人参加、比拼并登上排行榜。",
-            "private": "<span>私密测验：</span>通过链接把测验分享给朋友、学生或特定群体。"
+            "title": "探索可以直接玩的公开作品",
+            "subtitle": "其他用户发布的测验、淘汰赛和故事。玩一玩，比比结果，发现新的最爱。",
+            "public": "<span>公开：</span>显示在你的主页和“探索”中，任何人都能玩。知识问答、在线考试和关于我的测验还有排行榜。",
+            "private": "<span>私密：</span>只有拿到链接的人才能玩，不会出现在“探索”和搜索结果中。",
+            "byFormat": "按类型浏览",
+            "ctaButton": "前往探索"
         },
         "footer": {
             "aboutLink": "关于我们",
             "blogLink": "博客"
         },
-        "metadataTitle": "QuestioFlux | 免费在线测验制作工具（含排行榜）",
-        "metadataDesc": "免费在线创建文字测验，包含题目、答案、选择题选项和排行榜。把测验分享给朋友、学生或你的社群。",
-        "metadataKeywords": "在线测验制作, 免费测验制作, 创建测验, 制作测验, 测验生成器, 冷知识测验, 选择题制作, 学生测验, 带排行榜的测验, 图片测验"
+        "metadataTitle": "QuestioFlux | 免费创建测验、淘汰赛和互动故事",
+        "metadataDesc": "免费在线创建测验：带排行榜的知识问答、在线考试、关于我的测验和性格测验，还有最爱淘汰赛、互动故事和默契测试。分享链接，查看结果。",
+        "metadataKeywords": "在线测验制作, 免费测验制作, 创建测验, 制作测验, 知识问答, 在线考试制作, 关于我的测验, 性格测验, 带排行榜的测验, 最爱淘汰赛, 二选一淘汰赛, 互动故事, 默契测试, 计分测验",
+        "formatsSection": {
+            "title": "淘汰赛、故事和更多互动玩法",
+            "subtitle": "这里没有标准答案：玩家选出最爱、决定剧情走向，或者比一比彼此的喜好。免费创建，每个页面都有可以直接玩的示例。",
+            "featured": "推荐",
+            "seeMore": "了解玩法",
+            "ctaButton": "查看全部玩法"
+        }
     },
     "registerComponent": {
         "title": "创建你的账户",
@@ -51,7 +62,10 @@
         "button": "提交",
         "description": "如果想创建账户，请点击这里：",
         "link": "注册",
-        "emailError": "请使用名字，不要使用邮箱地址：它会显示在排行榜上。"
+        "emailError": "请使用名字，不要使用邮箱地址：其他人能看到它。",
+        "nameNote": "你的昵称会显示在参与者列表中。",
+        "anonymous": "不留名字继续",
+        "anonymousNote": "不留名字时，你会显示为“访客”。"
     },
     "registerForm": {
         "placeholders": {
@@ -142,7 +156,7 @@
         }
     },
     "navbar": {
-        "createQuiz": "创建测验",
+        "createQuiz": "创建",
         "createAccount": "创建账户",
         "login": "登录",
         "searchPlaceholder": "搜索测验……",
@@ -151,7 +165,7 @@
             "home": "首页",
             "explore": "探索",
             "gamepass": "游戏通行证",
-            "createQuiz": "创建测验",
+            "createQuiz": "创建",
             "profile": "个人主页",
             "saves": "收藏",
             "drafts": "草稿",
@@ -183,7 +197,7 @@
         }
     },
     "contextualHeader": {
-        "createQuiz": "创建测验",
+        "createQuiz": "创建",
         "exploreQuizzes": "探索测验",
         "home": "首页",
         "explore": "探索",
@@ -303,7 +317,8 @@
             "languages": "测验语言",
             "types": "测验类型",
             "langLabel": "{language}测验",
-            "remove": "{filter}（点击取消筛选）"
+            "remove": "{filter}（点击取消筛选）",
+            "moreLanguages": "更多语言"
         }
     },
     "quizCard": {
@@ -331,7 +346,14 @@
                 "take": "参加测验"
             },
             "titleQuiz": "{quiz_name} – 测验 | QuestioFlux",
-            "descSuffix": "QuestioFlux 上共 {count} 道题的测验：免费参加，看看你在排行榜上排第几。"
+            "descSuffix": "QuestioFlux 上共 {count} 道题的测验：免费参加，看看你在排行榜上排第几。",
+            "descSuffixResult": "QuestioFlux 上的 {count} 题测验：免费参与，看看你的结果。",
+            "descSuffixByKind": {
+                "tournament": "QuestioFlux 上的最爱淘汰赛，共 {count} 个选项：免费来玩，选出你的冠军。",
+                "story": "QuestioFlux 上的互动故事，共 {count} 个场景：免费来玩，找到你的结局。",
+                "compatibility": "QuestioFlux 上的默契测试，共 {count} 道题：免费作答，和朋友比一比。",
+                "scored": "QuestioFlux 上的计分测验，共 {count} 道题：免费来玩，看看你在哪个分数段。"
+            }
         },
         "title": "测验信息",
         "details": {
@@ -341,7 +363,7 @@
             "participants": "参与者：",
             "category": "分类：",
             "tags": "标签：",
-            "participantsSpan": "位用户参加了这个测验",
+            "participantsSpan": "{count} 位用户参加了这个测验",
             "kind": "类型："
         },
         "ctaButton": "参加测验",
@@ -364,7 +386,8 @@
         "related": {
             "title": "为你推荐更多测验",
             "count": "{count, plural, other {# 道题}}",
-            "players": "{count, plural, other {# 位玩家}}"
+            "players": "{count, plural, other {# 位玩家}}",
+            "countByKind": "{kind, select, tournament {{count} 个选项} story {{count} 个场景} other {{count} 道题}}"
         },
         "ctaExam": "参加考试",
         "examNote": "完成后，你会看到自己的分数和每道题的答案。",
@@ -386,7 +409,28 @@
             "empty": "没有可见的参与者。",
             "guest": "访客",
             "loadMore": "加载更多",
-            "close": "关闭参与者列表"
+            "close": "关闭参与者列表",
+            "unrecorded": "未记录名字",
+            "viewResult": "查看结果",
+            "match": "默契度 {percent}%",
+            "points": "{points} 分"
+        },
+        "ctaByKind": {
+            "tournament": "开始淘汰赛",
+            "story": "开始故事",
+            "compatibility": "开始测试",
+            "scored": "开始测验"
+        },
+        "experience": {
+            "questionsTitle": "题目",
+            "questionsSummary": "查看全部 {count} 道题",
+            "alternatives": "{count} 个选项",
+            "tournamentTitle": "参赛选项",
+            "tournamentText": "共 {count} 个选项，每局 {duels} 场对决。每次开局都会重新抽签。",
+            "storyTitle": "关于这个故事",
+            "storyText": "共 {scenes} 个场景、{endings} 个结局。你的选择决定故事走向。",
+            "rangesTitle": "可能的结果",
+            "rangesText": "共 {count} 个分数段，你的总分决定你得到哪一个。"
         }
     },
     "quizActions": {
@@ -483,15 +527,15 @@
         },
         "selectTypePage": {
             "title": "在线测验制作工具",
-            "desc": "用 QuestioFlux 创建你自己的在线测验。普通文字测验完全免费：添加题目、选择题选项和正确答案，发布测验，并在排行榜上查看玩家成绩。",
-            "subtitle": "选择一种形式开始吧：带排行榜的知识问答、带答案解析的在线考试、让朋友来答的“关于我”测验，或者由你自定义结果的性格测验。",
+            "desc": "用知识问答、在线考试或关于我的测验考考大家，或者创建一份性格测验，让每个人测出自己的类型。",
+            "subtitle": "知识问答、在线考试和关于我的测验有排行榜；性格测验不打分，而是给每个人一个结果类型。四种类型都可以免费创建，每个测验最多 10 道文字题。",
             "descriptions": {
                 "rightAndWrongTitle": "免费的选择题测验制作工具",
                 "rightAndWrongText": "用这种形式免费创建在线文字测验，每道题有若干选项和一个正确答案。非常适合冷知识问答、小测验、学校活动、粉丝测验、游戏、体育、剧集和社群挑战。发布后，玩家可以在排行榜上争夺最佳成绩。",
                 "imageTitle": "图片测验制作工具",
-                "imageText": "图片测验可以用文字、图片或两者结合来制作题目和选项。适用于国旗、角色、标志、地图、游戏、物品、地点等识图挑战。",
-                "competitionTitle": "排行榜与竞赛",
-                "competitionText": "QuestioFlux 让测验更有竞争性。无论是公开测验、私密测验、课堂挑战还是朋友间的测验，玩家都可以参加、比较成绩，争夺排行榜名次。",
+                "imageText": "在题目和选项中加入图片，四种类型都能变成识图测验：国旗、角色、标志、地图、游戏、地点都很适合。图片功能需要订阅或单次购买；性格测验的结果图片免费。",
+                "competitionTitle": "有分数，才有排行榜",
+                "competitionText": "知识问答、在线考试和关于我的测验会给每位玩家打分并排名，公开测验和通过链接分享的测验都一样。性格测验没有排行榜：参与者列表会显示每个人得到的结果类型。",
                 "studentTitle": "面向学生的测验制作工具",
                 "studentText": "老师可以用“在线考试”形式制作考试和模拟练习：成绩即时给出，结束后学生能看到答案以及每个选项的解析。也适用于复习、作业和课堂挑战。",
                 "studentLink": "创建在线考试",
@@ -501,24 +545,29 @@
             },
             "metadata": {
                 "title": "在线测验制作工具 | 用 QuestioFlux 免费创建文字测验",
-                "desc": "免费在线创建文字测验，包含题目、答案、选择题选项和排行榜。为朋友、学生、游戏和社群制作测验。",
+                "desc": "免费在线创建测验：带排行榜的知识问答、带答案解析的在线考试、给朋友答的关于我的测验，以及结果由你设定的性格测验。",
                 "keywords": "在线测验制作, 测验制作工具, 免费测验制作, 创建测验, 制作测验, 在线考试制作, 创建在线考试, 学生测验, 关于我的测验, 冷知识测验, 带排行榜的测验, 图片测验"
             },
             "faq": {
                 "title": "关于创建测验的常见问题",
-                "intro": "这里是关于在 QuestioFlux 创建、发布和分享测验的简要解答。",
+                "intro": "关于创建、发布和分享各类测验的简要解答。",
                 "question1Title": "如何创建在线测验？",
-                "question1Text": "选择测验类型，添加题目，写好选项，标出正确答案，然后发布。之后就可以把链接分享给朋友、学生或你的社群。",
+                "question1Text": "选择类型，写好题目和选项，然后发布。知识问答、在线考试和关于我的测验需要标出正确答案；性格测验的每个选项则指向一个结果类型。之后分享链接即可。",
                 "question2Title": "可以免费创建测验吗？",
-                "question2Text": "可以。普通文字测验完全免费，你可以创建题目、选项和正确答案，并在线发布和分享。",
+                "question2Text": "可以。四种类型都可以免费使用文字题，每个测验最多 10 题。超过 10 题，或在题目和选项中使用图片，需要订阅或单次购买。淘汰赛、互动故事、默契测试和计分测验都是免费的。",
                 "question3Title": "可以制作带排行榜的测验吗？",
-                "question3Text": "可以。QuestioFlux 自带排行榜，让你的测验变成竞赛，并展示成绩最好的玩家。",
+                "question3Text": "可以：知识问答、在线考试和关于我的测验都有排行榜，显示每位玩家的分数和用时。性格测验不排名，你可以看到谁参加了，以及每个人得到的结果类型。",
                 "question4Title": "可以制作图片测验吗？",
-                "question4Text": "可以。你可以在题目和选项中使用图片，适合识图挑战、角色、国旗、标志等主题。",
+                "question4Text": "可以。你可以在题目和选项中使用图片，适合识图挑战、角色、国旗、标志等主题。这是付费功能，订阅或单次购买后即可使用。",
                 "question5Title": "可以创建带答案的在线考试吗？",
                 "question5Text": "可以。在“在线考试”形式中，你可以为每个选项写一段可选的解析。学生完成后，会看到自己的分数、答对和答错的题，以及你的解析。"
             },
-            "seeMore": "了解更多"
+            "seeMore": "了解更多",
+            "formats": {
+                "title": "想做淘汰赛或互动故事？",
+                "text": "除了测验，你还可以免费创建最爱淘汰赛、互动故事、默契测试和计分测验。",
+                "cta": "查看互动玩法"
+            }
         },
         "formPage": {
             "saveDraftInfo": "完成这一步后，你的内容会自动保存在<drafts>草稿</drafts>中。"
@@ -531,15 +580,33 @@
                 "category": "分类",
                 "tags": "标签",
                 "visibility": "可见性",
-                "idiom": "语言",
+                "idiom": "内容语言",
                 "finalMessages": "测验结束时显示的消息：",
                 "kind": "测验类型",
                 "status": "状态"
             },
             "placeholders": {
-                "title": "例如：你对足球了如指掌吗？",
-                "description": "在这里写下你的测验描述。",
-                "tags": "输入标签，用“,”分隔"
+                "tags": "输入标签，用“,”分隔",
+                "titleByKind": {
+                    "quiz": "例如：你对足球了如指掌吗？",
+                    "exam": "例如：生物模拟考——细胞",
+                    "aboutMe": "例如：你有多了解我？",
+                    "personality": "例如：哪种动物最符合你的性格？",
+                    "tournament": "例如：哪种披萨最好吃？",
+                    "story": "例如：失落的地图",
+                    "compatibility": "例如：我们的喜好有多合拍？",
+                    "scored": "例如：你有多爱冒险？"
+                },
+                "descriptionByKind": {
+                    "quiz": "说说测验的主题，以及玩家会遇到什么。",
+                    "exam": "说明考试内容、适合谁，以及有多少题。",
+                    "aboutMe": "叫上朋友：他们会发现关于你的什么？",
+                    "personality": "说说大家最后会发现什么（没有标准答案）。",
+                    "tournament": "说明有哪些选项，玩家要选的是什么。",
+                    "story": "介绍故事：从哪里开始，主角面临什么。",
+                    "compatibility": "说明题目关于什么，适合邀请谁来玩。",
+                    "scored": "说明分数衡量的是什么，各个分数段代表什么。"
+                }
             },
             "selects": {
                 "chooseCategory": "选择分类",
@@ -553,7 +620,11 @@
                     "quiz": "知识问答",
                     "exam": "在线考试（含答案）",
                     "aboutMe": "关于我的测验",
-                    "personality": "性格测验"
+                    "personality": "性格测验",
+                    "tournament": "最爱淘汰赛",
+                    "story": "互动故事",
+                    "compatibility": "默契测试",
+                    "scored": "计分测验"
                 },
                 "statusDraft": "草稿",
                 "statusFinished": "已完成"
@@ -567,7 +638,11 @@
                 "quiz": "每道题有一个正确答案，玩家在排行榜上一较高下。",
                 "exam": "编写题目时可以为每个选项写解析。答题者在结束时会看到完整的答案。",
                 "aboutMe": "你会看到一些关于你自己的推荐题目。“关于我”测验不会出现在 Google 中，通过链接分享。",
-                "personality": "没有正确答案：你在封面里创建结果，并在题目中选择每个选项通向哪个结果。"
+                "personality": "没有正确答案：你在封面里创建结果，并在题目中选择每个选项通向哪个结果。",
+                "tournament": "8 或 16 个选项两两对决，玩家每次选出更喜欢的一个，直到决出冠军。没有标准答案。",
+                "story": "编写场景和选项，每个选项通向另一个场景或一个结局。玩家可以重新开始，解锁其他结局。",
+                "compatibility": "每个人按自己的喜好作答，再用链接邀请别人。结果是两人相同答案的百分比。",
+                "scored": "每个选项都有分值。总分落在你设定的某个分数段里，那个分数段就是结果。"
             },
             "kindLocked": "已经有题目后，就不能改成性格测验，也不能从性格测验改成其他类型。",
             "personalityResults": {
@@ -579,7 +654,7 @@
                 "imageAlt": "结果 {number} 的图片",
                 "removeImage": "移除图片",
                 "titleLabel": "结果 {number} 的名称",
-                "titlePlaceholder": "例如：猫头鹰",
+                "titlePlaceholder": "例如：{example}",
                 "descriptionLabel": "结果 {number} 的描述",
                 "descriptionPlaceholder": "这个结果说明了得到它的人是怎样的（可选）",
                 "add": "添加结果",
@@ -590,19 +665,27 @@
                     "questionPlaceholder": "例如：周末你会选择去下面哪个地方？",
                     "optionLabel": "通向“{result}”的选项",
                     "optionPlaceholder": "通向这个结果的选项"
-                }
+                },
+                "titleExamples": "猫头鹰|狮子|海豚|狐狸|狼|猫|鹰|熊"
             },
             "statusHints": {
                 "draft": "草稿不会出现在“探索”或 Google 中。测验准备好后请选择“已完成”。",
                 "finished": "测验已完成，并按你选择的可见性（公开或私密）展示。",
-                "noQuestions": "请先添加题目，再完成测验。"
+                "noQuestions": "请先添加题目，再完成测验。",
+                "notReady": "要完成发布，请先在编辑器里把内容补充完整，并通过那里的检查。"
+            },
+            "hints": {
+                "idiom": "题目所用的语言。用于“探索”页面的语言筛选，不会改变测验的网址。",
+                "visibility": "公开：显示在你的主页和“探索”中，任何人都能玩。私密：只有拿到链接的人才能玩，不会出现在“探索”和搜索结果中。"
             }
         }
     },
     "creatingQuiz": {
         "nav": {
             "cover": "测验封面",
-            "questions": "题目"
+            "questions": "题目",
+            "options": "选项",
+            "scenes": "场景"
         },
         "finalMessages": {
             "defaultButton": "默认",
@@ -635,7 +718,8 @@
                 "incorrectPlaceholder": "在这里填写错误选项",
                 "addAlternative": "添加选项",
                 "addQuestion": "添加题目",
-                "personalityPlaceholder": "选项 {number}"
+                "personalityPlaceholder": "选项 {number}",
+                "personalityQuestionPlaceholder": "例如：空闲的周六你会做什么？"
             },
             "imageInput": {
                 "placeholder": "第 {position} 题",
@@ -699,7 +783,8 @@
             "successMessage": "测验编辑成功！",
             "buttons": {
                 "editQuestions": "编辑题目",
-                "saveChanges": "保存修改"
+                "saveChanges": "保存修改",
+                "editContent": "编辑内容"
             },
             "validationError": "请先完成标出的题目再保存。",
             "unexpectedError": "保存修改时出了点问题，请重试。"
@@ -815,7 +900,9 @@
     },
     "embedPage": {
         "playAgain": "再玩一次",
-        "allResults": "查看全部结果"
+        "allResults": "查看全部结果",
+        "experienceText": "这种玩法会在 QuestioFlux 的新标签页中打开。",
+        "playOnSite": "在 QuestioFlux 上玩"
     },
     "SubscriptionPage": {
         "currency": {
@@ -921,7 +1008,11 @@
             "quiz": "知识问答",
             "exam": "在线考试",
             "aboutMe": "关于我的测验",
-            "personality": "性格测验"
+            "personality": "性格测验",
+            "tournament": "最爱淘汰赛",
+            "story": "互动故事",
+            "compatibility": "默契测试",
+            "scored": "计分测验"
         },
         "withImages": "图片版",
         "image": "图片测验"
@@ -1012,7 +1103,9 @@
                 "yourAnswer": "你的答案",
                 "correctAnswer": "正确答案",
                 "score": "得分 {score}"
-            }
+            },
+            "formatsTitle": "互动玩法",
+            "formatsText": "最爱淘汰赛、互动故事、默契测试和计分测验。"
         },
         "quiz": {
             "metadata": {
@@ -1327,7 +1420,12 @@
             ],
             "finalTitle": "你的朋友真的了解你吗？",
             "finalText": "花几分钟做个测验，答案马上揭晓。",
-            "finalCta": "制作关于我的测验"
+            "finalCta": "制作关于我的测验",
+            "crossLink": {
+                "title": "想比比喜好，而不是考朋友？",
+                "text": "默契测试没有标准答案：每个人按自己的情况作答，再邀请朋友，看看两人有多少答案相同。",
+                "cta": "查看默契测试"
+            }
         },
         "personality": {
             "metadata": {
@@ -1435,7 +1533,724 @@
             ],
             "finalTitle": "你的朋友会得到什么结果？",
             "finalText": "制作你的性格测验，答案马上揭晓。",
-            "finalCta": "制作性格测验"
+            "finalCta": "制作性格测验",
+            "crossLink": {
+                "title": "想按分数给出结果？",
+                "text": "在计分测验中，每个选项都有分值，总分会落在你设定的分数段里，比如“新手”“高手”“传奇”。",
+                "cta": "查看计分测验"
+            }
+        }
+    },
+    "participationResultPage": {
+        "yourResult": "你的结果",
+        "resultOf": "{name} 的结果",
+        "guest": "访客",
+        "unrecorded": "未记录名字",
+        "completed": "已完成",
+        "completedOn": "完成于 {date}",
+        "score": "答对：{score}",
+        "share": "分享结果",
+        "copied": "链接已复制",
+        "shareText": "我在「{quiz}」的结果：{result}",
+        "playAgain": "再玩一次",
+        "playToo": "我也来玩",
+        "seeQuiz": "查看测验",
+        "metaTitle": "{name} 在「{quiz}」的结果",
+        "metaTitleAnonymous": "「{quiz}」的一个结果"
+    },
+    "experiencePlay": {
+        "undo": "撤销",
+        "restart": "重新开始",
+        "back": "上一步",
+        "start": "开始",
+        "tournament": {
+            "rounds": {
+                "final": "决赛",
+                "semifinal": "半决赛",
+                "quarterfinal": "四分之一决赛",
+                "roundOf16": "十六强"
+            },
+            "done": "冠军已产生",
+            "duelOf": "第 {number} 场，共 {total} 场",
+            "pick": "选出你更喜欢的",
+            "versus": "VS",
+            "champion": "你的冠军",
+            "yourChampion": "你的冠军",
+            "pathTitle": "夺冠之路",
+            "beat": "击败了<strong>{option}</strong>",
+            "removed": "该选项已从淘汰赛中删除",
+            "championNote": "这一局里赢下所有对决的最爱。",
+            "allDuels": "查看全部 {count} 场对决",
+            "topTitle": "大家最常选的",
+            "titles": "{count, plural, =0 {还没夺冠过} other {夺冠 # 次}}",
+            "winRate": "对决胜率 {percent}%",
+            "seeAll": "查看全部结果"
+        },
+        "story": {
+            "endingReached": "抵达结局",
+            "step": "第 {number} 步",
+            "ending": "结局",
+            "tooLong": "这条路线太长了，重新开始试试别的走法吧。",
+            "endingsFound": "你已解锁 {found}/{total} 个结局。",
+            "resultSteps": "{steps, plural, =0 {直接抵达结局。} other {经过 # 次选择抵达这里。}}",
+            "resultEndings": "这个故事共有 {total} 个结局，重新开始去发现另一个吧。"
+        },
+        "questions": {
+            "questionOf": "第 {number} 题，共 {total} 题",
+            "finish": "查看结果"
+        },
+        "compatibility": {
+            "withName": "你和{name}",
+            "percent": "默契度 {percent}%",
+            "explanation": "{total} 道题中有 {matched} 道答案相同。",
+            "answersTitle": "逐题对比",
+            "you": "你",
+            "same": "答案相同",
+            "different": "答案不同",
+            "saved": "你的答案已保存",
+            "savedText": "把你的链接发给别人。对方答完后，你们都能看到相同答案的百分比。",
+            "withWho": "{name} 和 {other}",
+            "withSomeone": "{name} 的默契对比",
+            "inviteText": "来做“{quiz}”，看看我们的喜好有多合拍。",
+            "inviteTitle": "邀请别人",
+            "inviteHint": "每个打开你链接的人都会独立作答，并得到和你的对比结果。答案只有你们两人能看到。",
+            "inviteLink": "邀请链接",
+            "copied": "已复制",
+            "copy": "复制链接",
+            "share": "分享",
+            "howTitle": "怎么计算",
+            "how": "每道题的权重相同。你们在 {total} 道题中有 {matched} 道答案相同，所以是 {percent}%。",
+            "invitedTitle": "{count, plural, =0 {还没有人通过你的链接作答} other {已有 # 人通过你的链接作答}}",
+            "invitedEmpty": "有人作答后，会和百分比一起显示在这里。",
+            "seeAnswers": "查看答案"
+        },
+        "scored": {
+            "points": "分",
+            "pointsTotal": "总分 {points} 分",
+            "rangesTitle": "结果分数段",
+            "bounds": "总分范围为 {min} 到 {max} 分。",
+            "range": "{min}–{max} 分",
+            "explanation": "每个选项都有分值，你的总分决定落在哪个分数段。",
+            "yours": "你的"
+        },
+        "demo": {
+            "title": "试一试：{title}",
+            "play": "玩一下示例",
+            "again": "再玩一次",
+            "useTemplate": "使用这个模板",
+            "note": {
+                "tournament": "这只是示例，不会保存任何内容。使用模板后，这 8 个选项会进入一份可编辑的草稿。",
+                "story": "这只是示例，不会保存任何内容。使用模板后，这些场景和结局会进入一份可编辑的草稿。",
+                "compatibility": "这只是示例：对比对象是一组示范答案。使用模板后，这些题目会进入一份可编辑的草稿。",
+                "scored": "这只是示例，不会保存任何内容。使用模板后，这些题目、分值和分数段会进入一份可编辑的草稿。"
+            }
+        },
+        "invite": {
+            "lost": "这个邀请链接已失效，你的答案已保存，但没有对比。",
+            "banner": "{name} 邀请了你。按自己的情况作答，看看你们有多合拍。",
+            "someone": "有人",
+            "own": "这是你自己的邀请链接。把它发给别人吧：如果你在这里作答，会算作新的一局，没有对比。",
+            "notFound": "这个邀请链接已不存在。你仍然可以作答，并邀请别人。"
+        },
+        "errors": {
+            "noResult": "没能保存你的结果，请再试一次。",
+            "notReady": "这个作品还不能玩。"
+        },
+        "intro": {
+            "title": {
+                "tournament": "{count} 个选项，一个冠军",
+                "story": "一个包含 {count} 个场景的故事",
+                "compatibility": "{count} 道关于你的题",
+                "scored": "{count} 道题，一个总分"
+            },
+            "tournament": [
+                "每次两个选项，选出你更喜欢的。",
+                "胜者晋级，直到只剩一个。",
+                "最后会看到你的冠军，以及所有玩家的最爱。"
+            ],
+            "story": [
+                "阅读每个场景，选择接下来发生什么。",
+                "你的选择会通向其中一个结局。",
+                "随时可以重新开始，去发现别的结局。"
+            ],
+            "compatibility": [
+                "按你自己的喜好作答，没有错误答案。",
+                "然后把你的链接发给别人。",
+                "对方答完后，你们都能看到相同答案的百分比。"
+            ],
+            "scored": [
+                "每个答案都有分值。",
+                "最后，你的总分决定结果。",
+                "你可以查看所有分数段及其含义。"
+            ],
+            "guestOptional": "无需注册即可游玩。最后可以填写名字，也可以匿名。",
+            "guestRequired": "无需注册即可游玩。最后请填写一个名字：对方会通过它认出你。"
+        },
+        "pending": {
+            "text": "这一局已经完成。填写名字或登录后即可查看结果。",
+            "finish": "查看我的结果",
+            "playAgain": "再玩一次"
+        },
+        "stats": {
+            "metadataTitle": "{quiz_name} 的结果 | QuestioFlux",
+            "title": {
+                "tournament": "玩家们的最爱",
+                "story": "各结局抵达情况",
+                "compatibility": "玩家之间的默契度",
+                "scored": "各分数段的结果"
+            },
+            "plays": "共完成 {count} 局",
+            "noPlays": "还没有人玩完，来当第一个吧！",
+            "cta": "立即开始",
+            "winRate": "对决胜率 {percent}%",
+            "titles": "{count, plural, =0 {未夺冠} other {夺冠 # 次}} · {duels} 场对决赢了 {wins} 场",
+            "tournamentNote": "胜率统计该选项在所有已完成对局中参加过的每一场对决。",
+            "reached": "{count} 局",
+            "storyNote": "抵达每个结局的已完成对局所占的比例。",
+            "range": "{min}–{max} 分 · {count} 局",
+            "averagePoints": "平均分：{points} 分",
+            "averageMatch": "平均默契度：{percent}%（共 {count} 次对比）",
+            "noComparisons": "暂无对比：有人通过邀请作答后才会出现。",
+            "compatibilityNote": "每次对比都会统计 {questions} 道题中答案相同的题数。"
+        }
+    },
+    "experienceEditor": {
+        "title": {
+            "tournament": "淘汰赛选项",
+            "story": "故事场景",
+            "compatibility": "默契测试题目",
+            "scored": "题目和分数段"
+        },
+        "intro": {
+            "tournament": "添加要互相对决的选项。每局都会重新抽签排出对阵，每场对决的胜者晋级。",
+            "story": "编写场景，并把每个选项连到下一个场景。不同路线可以汇合，故事至少要有一个玩家能抵达的结局。",
+            "compatibility": "写一些关于喜好和习惯的题目。每个人按自己的情况作答，结果是相同答案的百分比。",
+            "scored": "为每个答案设定分值，再设置结果分数段。每一种可能的总分都必须恰好落在一个分数段里。"
+        },
+        "saveDraft": "保存草稿",
+        "publish": "发布",
+        "saveChanges": "保存修改",
+        "viewQuiz": "查看页面",
+        "saving": "正在保存…",
+        "unsaved": "有未保存的修改",
+        "savedAt": "已于 {time} 保存",
+        "saved": "已保存。",
+        "savedPublished": "已保存，修改已经上线。",
+        "fixBeforePublish": "发布前，请先修正下方列出的问题。",
+        "publishError": "发布失败，请再试一次。",
+        "imageError": "有些图片没能上传，其余内容已保存。",
+        "visibilityNote": "草稿状态下只有你能打开。发布时可以选择公开（显示在主页和“探索”中）或私密（只有拿到链接的人能玩）。",
+        "problems": {
+            "issuesTitle": "发布前需要修正",
+            "warningsTitle": "建议检查",
+            "okTitle": "一切就绪",
+            "okDraft": "内容已通过全部检查，随时可以发布。",
+            "okPublished": "内容已通过全部检查，并且已经上线。"
+        },
+        "labels": {
+            "option": "选项 {number}",
+            "scene": "场景 {number}",
+            "choice": "场景 {scene} 的选项 {number}",
+            "question": "第 {number} 题",
+            "answer": "第 {question} 题的答案 {number}",
+            "range": "分数段 {number}"
+        },
+        "issues": {
+            "optionCount": "请填满全部 {value} 个选项。",
+            "emptyOption": "{item}：请填写名称或添加图片。",
+            "duplicateOption": "{item} 与另一个选项重复。",
+            "noScenes": "请先添加第一个场景。",
+            "emptyEnding": "{item}：请为结局取一个标题。",
+            "emptyScene": "{item}：请填写场景内容。",
+            "noChoices": "{item}：请添加一个选项，或把这个场景设为结局。",
+            "emptyChoice": "{item}：请填写选项内容。",
+            "missingDestination": "{item}：请选择这个选项通向哪里。",
+            "noReachableEnding": "从第一个场景出发，没有任何路线能抵达结局。",
+            "deadEnd": "{item}：从这个场景出发，没有路线能抵达结局。",
+            "unreachableScene": "从第一个场景出发无法到达{item}。",
+            "fewQuestions": "请至少添加 {value} 道题。",
+            "emptyQuestion": "{item}：请填写题目。",
+            "fewAnswers": "{item}：请至少添加 {value} 个答案。",
+            "emptyAnswer": "{item}：请填写答案。",
+            "duplicateAnswer": "{item} 与同一题的另一个答案重复。",
+            "fewRanges": "请至少设置 {value} 个分数段。",
+            "emptyRange": "{item}：请为分数段取一个标题。",
+            "rangeOrder": "{item}：最低分高于最高分。",
+            "overlap": "{item} 与上一个分数段重叠。",
+            "gap": "总分 {value} 分不在任何分数段内。",
+            "unreachableRange": "{item}：没有任何答案组合能达到这个分数段。",
+            "unknown": "内容中有需要修正的地方，请检查后再保存。"
+        },
+        "tournament": {
+            "imageType": "请使用 JPG、PNG、WEBP 或 GIF 图片。",
+            "imageTooBig": "图片超过了 {size} MB。",
+            "confirmShrink": "改为 {size} 个选项会删除最后几个选项。要继续吗？",
+            "sizeLabel": "选项数量",
+            "sizeOption": "{size} 个选项 · {duels} 场对决",
+            "optionsTitle": "选项",
+            "optionsHint": "可以填名称、放图片，或两者都有。图片可选。",
+            "optionLabel": "选项 {number}",
+            "imagePick": "为选项 {number} 选择图片",
+            "optionPlaceholder": "例如：玛格丽特披萨",
+            "imageRemove": "删除选项 {number} 的图片",
+            "clear": "清空选项 {number}"
+        },
+        "story": {
+            "scenesTitle": "场景",
+            "scenesHint": "每个场景都有一段文字和若干选项。把场景设为结局，就能结束一条路线。",
+            "startLabel": "第一个场景",
+            "sceneLabel": "场景 {number}",
+            "start": "开始",
+            "endingBadge": "结局",
+            "isEnding": "这个场景是结局",
+            "removeScene": "删除场景 {number}",
+            "confirmEnding": "把这个场景设为结局会删除它的选项。要继续吗？",
+            "endingTitleLabel": "结局标题",
+            "endingTitlePlaceholder": "例如：地图的继承人",
+            "endingTextLabel": "这个结局发生了什么",
+            "endingTextPlaceholder": "写下故事在这条路线上如何收尾。",
+            "textLabel": "场景内容",
+            "textPlaceholder": "描述当前的情况，以及角色可以做什么。",
+            "choicesLabel": "选项",
+            "choiceLabel": "选项 {number}",
+            "choicePlaceholder": "例如：沿着河走",
+            "destinationLabel": "通向",
+            "destinationNone": "选择一个场景",
+            "destinationNew": "+ 新场景",
+            "destinationNewEnding": "+ 新结局",
+            "removeChoice": "删除选项 {number}",
+            "addChoice": "添加选项",
+            "addScene": "添加场景",
+            "addEnding": "添加结局",
+            "limit": "已达到 {max} 个场景的上限。",
+            "sceneOption": "场景 {number}：{text}",
+            "endingOption": "结局 {number}：{title}",
+            "untitled": "未命名"
+        },
+        "questions": {
+            "title": "题目",
+            "hint": {
+                "compatibility": "关于喜好、习惯和观点的题目。每个人选出最符合自己的答案。",
+                "scored": "为每个答案设定分值：可以是负数、零或正数。"
+            },
+            "questionLabel": "第 {number} 题",
+            "questionText": "题目",
+            "questionPlaceholder": {
+                "compatibility": "例如：海边还是山里？",
+                "scored": "例如：迷路时你会怎么做？"
+            },
+            "moveUp": "上移第 {number} 题",
+            "moveDown": "下移第 {number} 题",
+            "removeQuestion": "删除第 {number} 题",
+            "answerLabel": "答案 {number}",
+            "answerPlaceholder": "答案 {number}",
+            "pointsLabel": "分值",
+            "removeAnswer": "删除答案 {number}",
+            "addAnswer": "添加答案",
+            "addQuestion": "添加题目",
+            "limit": "已达到 {max} 道题的上限。"
+        },
+        "ranges": {
+            "title": "结果分数段",
+            "hint": "每个分数段覆盖一段分数。所有分数段加起来必须覆盖每一种可能的总分，且不能重叠。",
+            "bounds": "按目前的分值，总分范围为 {min} 到 {max}。",
+            "noBounds": "添加带分值的题目后，就能看到可能的总分。",
+            "suggest": "平均分配分数段",
+            "rangeLabel": "分数段 {number}",
+            "remove": "删除分数段 {number}",
+            "minLabel": "从",
+            "maxLabel": "到",
+            "titleLabel": "结果标题",
+            "titlePlaceholder": "例如：天生的探险家",
+            "descriptionLabel": "说明",
+            "descriptionPlaceholder": "这个结果说明了这个人的什么特点？",
+            "add": "添加分数段"
+        }
+    },
+    "experiencePages": {
+        "common": {
+            "breadcrumbHome": "首页",
+            "breadcrumbFormats": "互动玩法",
+            "tryExample": "试玩示例",
+            "howTitle": "玩法说明",
+            "featuresTitle": "你能得到什么",
+            "faqTitle": "常见问题",
+            "otherTitle": "其他互动玩法",
+            "seeMore": "了解更多",
+            "quizTypesTitle": "经典测验",
+            "quizTypesText": "知识问答、在线考试、关于我的测验和性格测验。"
+        },
+        "index": {
+            "metadata": {
+                "title": "创建淘汰赛、互动故事或默契测试 | QuestioFlux",
+                "desc": "免费的互动玩法：最爱淘汰赛、分支选择故事、默契测试和计分测验。先试玩示例，再用模板创建你自己的作品。",
+                "keywords": "淘汰赛制作, 最爱淘汰赛, 二选一, 互动故事制作, 分支剧情, 默契测试, 情侣默契测试, 计分测验, 分数测验"
+            },
+            "eyebrow": "互动玩法",
+            "title": "和朋友一起玩的淘汰赛、故事和测试",
+            "lead": "除了有标准答案的测验，QuestioFlux 还有四种玩法：选出最爱、决定剧情、比较喜好或累计分数。每种都有可以直接试玩的示例和可编辑的模板。",
+            "cta": "从淘汰赛开始",
+            "heroNote": "创建和游玩都免费，游玩无需注册。",
+            "formatsTitle": "选择一种玩法",
+            "featured": "推荐",
+            "faq": [
+                {
+                    "question": "这些玩法和测验有什么不同？",
+                    "answer": "知识问答和在线考试有正确答案和分数。这里没有正确答案：结果是一个冠军、一个结局、一个默契度百分比，或者一个分数段。"
+                },
+                {
+                    "question": "免费吗？",
+                    "answer": "免费。创建、发布和游玩淘汰赛、互动故事、默契测试和计分测验都不收费，淘汰赛选项的图片也免费。"
+                },
+                {
+                    "question": "玩家需要注册吗？",
+                    "answer": "不需要，任何人都可以以访客身份游玩。默契测试需要填写名字，因为对方会在对比结果中看到；其他玩法可以匿名。"
+                },
+                {
+                    "question": "可以从示例开始吗？",
+                    "answer": "可以。每种玩法的页面都有可以试玩的示例和“使用这个模板”按钮，它会把内容复制到一份新草稿里，供你编辑。"
+                }
+            ]
+        },
+        "preview": {
+            "tournament": {
+                "label": "示例",
+                "round": "四分之一决赛",
+                "duel": "第 1 场，共 7 场",
+                "topTitle": "最常被选中"
+            },
+            "story": {
+                "label": "示例",
+                "step": "第 1 步",
+                "endingLabel": "其中一个结局",
+                "endings": "共有 {total} 个结局等你发现"
+            },
+            "compatibility": {
+                "sampleName": "小美",
+                "label": "示例",
+                "percent": "默契度 67%",
+                "text": "6 道题中有 4 道答案相同"
+            },
+            "scored": {
+                "label": "示例",
+                "points": "{points} 分",
+                "resultLabel": "结果",
+                "resultText": "{min}–{max} 分"
+            }
+        },
+        "tournament": {
+            "metadata": {
+                "title": "免费在线创建最爱淘汰赛 | QuestioFlux",
+                "desc": "用 8 或 16 个选项搭建淘汰赛，可以配图。玩家在每场对决中选出更喜欢的一个，最后看到自己的冠军和所有人的最爱。",
+                "keywords": "淘汰赛制作, 最爱淘汰赛, 二选一游戏, 在线对决, 选出你的最爱, 图片淘汰赛, 喜好排行"
+            },
+            "eyebrow": "最爱淘汰赛",
+            "title": "创建一场最爱淘汰赛，看看谁会夺冠",
+            "lead": "选 8 或 16 个选项，从披萨口味到动漫角色都可以。每位玩家在每场对决中选出更喜欢的一个，直到决出冠军，再看看所有玩家中哪些选项赢得最多。",
+            "cta": "创建淘汰赛",
+            "heroNote": "免费，每个选项都可以配图。",
+            "steps": [
+                {
+                    "title": "添加选项",
+                    "text": "写下 8 或 16 个名称，也可以为每个选项配一张图。"
+                },
+                {
+                    "title": "发布并分享",
+                    "text": "发送链接，或发布到“探索”。每局都会重新抽签。"
+                },
+                {
+                    "title": "看看大家的最爱",
+                    "text": "每位玩家都能看到自己的冠军和夺冠之路；结果页会显示哪些选项赢下的对决最多。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "8 或 16 个选项",
+                    "text": "7 场对决快速玩一局，或 15 场玩得更尽兴。"
+                },
+                {
+                    "title": "支持图片",
+                    "text": "每个选项都能配图，适合美食、角色、地点和商品，无需订阅。"
+                },
+                {
+                    "title": "每个人都有自己的冠军",
+                    "text": "结果会显示冠军，以及它一路击败的每个对手。"
+                },
+                {
+                    "title": "所有人的最爱",
+                    "text": "统计每个选项在所有已完成对局中的胜率和夺冠次数。"
+                }
+            ],
+            "ideasTitle": "淘汰赛灵感",
+            "ideas": [
+                "最好吃的披萨口味",
+                "最喜欢的动漫角色",
+                "年度最佳歌曲",
+                "最爱的甜点",
+                "梦想中的旅行目的地",
+                "十年来最好看的电影"
+            ],
+            "faq": [
+                {
+                    "question": "最爱淘汰赛怎么玩？",
+                    "answer": "选项两两对决。每场对决中玩家选出一个，它进入下一轮，直到决赛。8 个选项共 7 场对决，16 个选项共 15 场。"
+                },
+                {
+                    "question": "可以用图片吗？",
+                    "answer": "可以。每个选项可以只有文字、只有图片，或两者都有。淘汰赛的图片免费。"
+                },
+                {
+                    "question": "每个人的对阵都一样吗？",
+                    "answer": "不一样。每局都会重新抽签，对阵会变化，整体结果也更公平。"
+                },
+                {
+                    "question": "在哪里看最常被选中的选项？",
+                    "answer": "在淘汰赛的结果页：每个选项都会显示对决胜率和夺冠次数。"
+                }
+            ],
+            "finalTitle": "谁会成为冠军？",
+            "finalText": "几分钟就能创建你的淘汰赛，发给朋友一起玩。",
+            "finalCta": "创建淘汰赛",
+            "cardText": "选项两两对决，直到决出冠军。"
+        },
+        "story": {
+            "metadata": {
+                "title": "创建互动故事：分支选择与多结局 | QuestioFlux",
+                "desc": "编写场景、选项和结局，把每个选项连到下一个场景。玩家自己选择路线，抵达结局后还能重新开始，发现别的结局。",
+                "keywords": "互动故事制作, 创建互动故事, 分支剧情, 多结局故事, 文字冒险, 选择你的冒险, 剧情选择游戏"
+            },
+            "eyebrow": "互动故事",
+            "title": "写一个每个选择都很重要的互动故事",
+            "lead": "创建带选项的场景，决定每个选项通向哪里。路线可以分开，也可以重新汇合，每位玩家都会抵达你写下的某个结局，之后还能重新开始，去发现其他结局。",
+            "cta": "创建故事",
+            "heroNote": "免费，每个故事最多 60 个场景。",
+            "steps": [
+                {
+                    "title": "编写场景",
+                    "text": "每个场景都有一段文字，以及玩家可以做的选择。"
+                },
+                {
+                    "title": "连接选项",
+                    "text": "把每个选项指向下一个场景或某个结局。编辑器会提醒你没有去向的选项和无法到达的场景。"
+                },
+                {
+                    "title": "分享链接",
+                    "text": "玩家自己选择路线，抵达结局后可以重新开始，寻找别的结局。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "路线可以汇合",
+                    "text": "不同的选择可以通向同一个场景，故事变长也不会乱。"
+                },
+                {
+                    "title": "发布前自动检查",
+                    "text": "编辑器会标出没有去向的选项、走不通的路线，并确认至少有一个结局可以抵达。"
+                },
+                {
+                    "title": "多个结局",
+                    "text": "每个结局都有自己的标题和文字，会显示在玩家的结果里。"
+                },
+                {
+                    "title": "结局统计",
+                    "text": "查看抵达每个结局的已完成对局所占的比例。"
+                }
+            ],
+            "ideasTitle": "故事灵感",
+            "ideas": [
+                "老宅里的谜团",
+                "在丧尸末日中活下来",
+                "转学第一天",
+                "太空冒险",
+                "在奇幻王国选择你的命运",
+                "破解一桩侦探案件"
+            ],
+            "faq": [
+                {
+                    "question": "怎么创建互动故事？",
+                    "answer": "先写第一个场景和它的选项，再把每个选项指向另一个场景或结局。一直写到所有路线都有终点，然后发布。"
+                },
+                {
+                    "question": "一个故事可以有多少个结局？",
+                    "answer": "想要几个都可以，只要不超过 60 个场景。故事至少要有一个从开头就能抵达的结局。"
+                },
+                {
+                    "question": "两个选项可以通向同一个场景吗？",
+                    "answer": "可以。路线可以重新汇合，选项甚至可以回到之前的场景。"
+                },
+                {
+                    "question": "玩家最后会看到什么？",
+                    "answer": "抵达的结局（标题和文字）、走到这里做了几次选择，以及这个故事一共有几个结局。"
+                }
+            ],
+            "finalTitle": "你的故事会走向哪里？",
+            "finalText": "现在就写下第一个场景，再慢慢加上更多路线。",
+            "finalCta": "创建故事",
+            "cardText": "用场景和选项，把每位玩家带到一个结局。"
+        },
+        "compatibility": {
+            "metadata": {
+                "title": "创建默契测试：朋友和情侣都能玩 | QuestioFlux",
+                "desc": "写下关于喜好和习惯的问题，自己先回答，再发出邀请链接。每位作答的人都能看到默契度百分比，并逐题对比答案。",
+                "keywords": "默契测试, 默契大考验, 情侣默契测试, 闺蜜默契测试, 好友默契度, 默契问答, 创建默契测试, 合拍测试"
+            },
+            "eyebrow": "默契测试",
+            "title": "创建默契测试，看看你们有多合拍",
+            "lead": "写下关于喜好和习惯的问题，自己先回答。然后发出邀请链接：每位作答的人都能看到默契度百分比，并和你的答案逐题对比。",
+            "cta": "创建默契测试",
+            "heroNote": "免费，可设置 3 到 30 道题。",
+            "steps": [
+                {
+                    "title": "编写问题",
+                    "text": "添加 3 到 30 道题，每题 2 到 6 个选项，内容可以是喜好、习惯或观点。"
+                },
+                {
+                    "title": "作答并邀请",
+                    "text": "答完后你会得到一个邀请链接，发给朋友、另一半或群聊。"
+                },
+                {
+                    "title": "对比答案",
+                    "text": "通过你的链接作答的人都能看到默契度，以及哪些答案一致；你的结果页会列出通过你的邀请作答的人。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "默契度百分比",
+                    "text": "结果会显示有几道题答案相同，以及默契度百分比。"
+                },
+                {
+                    "title": "逐题对比",
+                    "text": "每个人都能逐题看到自己的答案和邀请人的答案。"
+                },
+                {
+                    "title": "邀请可以传下去",
+                    "text": "通过邀请作答的人也会得到自己的链接，可以再和别人比一比。"
+                },
+                {
+                    "title": "答案只在两人之间",
+                    "text": "打开结果链接的其他人只能看到百分比，具体答案只有被对比的两个人能看到。"
+                }
+            ],
+            "ideasTitle": "默契测试灵感",
+            "ideas": [
+                "情侣默契大考验",
+                "闺蜜默契测试",
+                "我们适合一起旅行吗？",
+                "我们适合当室友吗？",
+                "饮食口味测试",
+                "音乐和电影喜好"
+            ],
+            "faq": [
+                {
+                    "question": "默契测试怎么玩？",
+                    "answer": "你先写好问题并作答，再发出邀请链接。每位作答的人都会和你对比：结果显示有几道题答案相同，以及默契度百分比。"
+                },
+                {
+                    "question": "谁能看到我的答案？",
+                    "answer": "只有和你对比的人。你邀请的人能看到你的答案和自己的答案；你能看到通过你的链接作答的人的答案。其他打开结果链接的人只能看到百分比。"
+                },
+                {
+                    "question": "玩家需要注册吗？",
+                    "answer": "不需要，只要填写一个名字，因为对方会在对比结果中看到它。"
+                },
+                {
+                    "question": "可以邀请不止一个人吗？",
+                    "answer": "可以。同一个链接可以发给任意多的人，每个人都会得到自己和你的对比。你的结果页会显示有谁通过它作答。"
+                },
+                {
+                    "question": "和关于我的测验有什么不同？",
+                    "answer": "在关于我的测验中，朋友要猜你的答案，并在排行榜上比拼。默契测试没有正确答案：每个人回答关于自己的问题，结果显示你们有多少共同点。"
+                }
+            ],
+            "finalTitle": "你们有多合拍？",
+            "finalText": "写好问题、自己作答，再把链接发出去就知道了。",
+            "finalCta": "创建默契测试",
+            "cardText": "每个人回答关于自己的问题，看看你们有多合拍。",
+            "cross": {
+                "title": "想让朋友猜猜你的答案？",
+                "text": "在关于我的测验中，你回答关于自己的问题，朋友来猜，排行榜会显示谁最了解你。",
+                "cta": "了解关于我的测验"
+            }
+        },
+        "scored": {
+            "metadata": {
+                "title": "创建计分测验：按总分显示结果 | QuestioFlux",
+                "desc": "为每个选项设定分数，再划分结果分数段。玩家边答边累计分数，最后看到自己所在分数段的结果。",
+                "keywords": "计分测验, 分数测验, 计分测试, 创建计分测验, 分数段结果, 测测你有多, 自我评估测试, 积分测验"
+            },
+            "eyebrow": "计分测验",
+            "title": "创建计分测验，每个回答都算分",
+            "lead": "为每个选项设定 -100 到 100 分，再把总分划分成几个分数段，比如“沙发冒险家”或“天生冒险家”。最后，每位玩家都能看到自己的总分和所在分数段的结果。",
+            "cta": "创建计分测验",
+            "heroNote": "免费，可设置 2 到 10 个结果分数段。",
+            "steps": [
+                {
+                    "title": "编写问题",
+                    "text": "添加 2 到 40 道题，每题最多 6 个选项。"
+                },
+                {
+                    "title": "给选项打分",
+                    "text": "每个选项的分值在 -100 到 100 之间，负分会从总分中扣除。"
+                },
+                {
+                    "title": "设置分数段",
+                    "text": "把可能的总分划分成 2 到 10 个分数段，每段都有标题和说明。编辑器会显示最低和最高的可能总分，还能帮你平均划分。"
+                }
+            ],
+            "features": [
+                {
+                    "title": "按选项计分",
+                    "text": "分值从 -100 到 100，有的选项加分，有的扣分。"
+                },
+                {
+                    "title": "编辑器帮你检查分数段",
+                    "text": "分数段重叠、某个可能的总分不在任何分数段内，或某个分数段永远达不到时，编辑器都会提醒你。"
+                },
+                {
+                    "title": "结果附带分数",
+                    "text": "玩家会看到总分、所在分数段的标题和说明。"
+                },
+                {
+                    "title": "分数段统计",
+                    "text": "查看已完成对局落在各分数段的数量，以及平均分。"
+                }
+            ],
+            "ideasTitle": "计分测验灵感",
+            "ideas": [
+                "你有多爱冒险？",
+                "你有多早起？",
+                "你的厨艺怎么样？",
+                "你有多爱整理？",
+                "你是多硬核的玩家？",
+                "你的作息有多健康？"
+            ],
+            "faq": [
+                {
+                    "question": "计分测验怎么玩？",
+                    "answer": "每个选项都有分数。玩家答完后，分数会累加，总分落在你设置的某个分数段里，对应的就是结果。"
+                },
+                {
+                    "question": "选项可以扣分吗？",
+                    "answer": "可以。每个选项的分值在 -100 到 100 之间，可以用负分拉低总分。"
+                },
+                {
+                    "question": "最多能设置几个分数段？",
+                    "answer": "2 到 10 个。分数段不能重叠，每个可能的总分都必须落在某个分数段内；发布前编辑器会告诉你还缺什么。"
+                },
+                {
+                    "question": "和性格测验有什么不同？",
+                    "answer": "在性格测验中，每个选项指向一种类型，被选最多的类型就是结果。计分测验则把分数加起来，结果取决于总分，适合“有多……”这类问题，比如一个人有多爱冒险、有多自律。"
+                }
+            ],
+            "finalTitle": "你的玩家会拿到多少分？",
+            "finalText": "从示例开始，或写下你自己的问题和分数段。",
+            "finalCta": "创建计分测验",
+            "cardText": "每个选项都有分数，总分决定结果。",
+            "cross": {
+                "title": "更喜欢按类型给结果？",
+                "text": "在性格测验中，每个选项指向一种类型，比如某个角色或风格，被选最多的就是结果。",
+                "cta": "了解性格测验"
+            }
         }
     }
 }

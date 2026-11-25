@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import ApiData from '@/utils/ApiData';
 
-// Participantes visíveis de um quiz de personalidade (paginado). Vai com o cookie: quem
-// ocultou a atividade continua vendo a própria participação.
+// Quem respondeu (paginado), em qualquer formato. Vai com o cookie: quem ocultou a
+// atividade continua vendo a própria participação.
 export async function GET(request: Request, {params}: {params:Promise<{quizId:string}>}) {
     try {
         const {quizId} = await params
@@ -10,7 +10,7 @@ export async function GET(request: Request, {params}: {params:Promise<{quizId:st
         const cookieHeader = request.headers.get('cookie') || ''
 
         const externalApiResponse = await ApiData({
-            path: `personality-participants/${quizId}?page=${page}`,
+            path: `participants/${encodeURIComponent(quizId)}?page=${page}`,
             method: 'GET',
             headerKey: 'Cookie',
             headerValue: cookieHeader,
@@ -26,7 +26,7 @@ export async function GET(request: Request, {params}: {params:Promise<{quizId:st
         return NextResponse.json(responseData, { status: 200 });
 
     } catch (error) {
-        console.error('[API ROUTE /api/quiz/personality-participants] Erro inesperado:', error);
+        console.error('[API ROUTE /api/quiz/participants] Erro inesperado:', error);
         return NextResponse.json(
             { type: 'global', message: 'Ocorreu um erro no servidor. Tente novamente mais tarde.' },
             { status: 500 }

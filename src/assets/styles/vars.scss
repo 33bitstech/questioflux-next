@@ -52,23 +52,26 @@ $container-maxwidth: 64.4rem;
     background-size: cover;
 }
 
+// Ícone de tipo de quiz: traço (lucide) num círculo de borda fina, como nos filtros do Explorar.
+// A cor vem de color (currentColor): onde o fundo é colorido, troque só a cor.
 %icons-li-default {
     width: 3.1875rem;
     height: 3.1875rem;
     border-radius: 50%;
-    background-color: #ffffff; // <--- MUDANÇA
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--seemore-button-border);
+    background-color: transparent;
+    color: var(--text-primary);
     position: relative;
 
     svg {
-        width: 1.875rem;
-        height: 1.875rem;
+        width: 1.5rem;
+        height: 1.5rem;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        // A cor do ícone deve ser definida no próprio componente ou aqui, se for padrão
-        fill: var(--text-primary);
+        fill: none;
+        stroke: currentColor;
     }
 }
 

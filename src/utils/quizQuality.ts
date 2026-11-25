@@ -28,6 +28,8 @@ export interface QuizQualityInput {
     personalityResults?: Array<{ title?: string; description?: string }>
     // Precisa vir com as questões: listagens (explore, perfil) não servem para avaliar.
     questions?: RawQuestion[]
+    // torneio, história, compatibilidade e pontuação: o conteúdo de cada formato
+    experience?: unknown
 }
 
 export interface QuizQualitySignals {
@@ -79,12 +81,55 @@ const wordsOf = (text: string) => text.toLowerCase().match(/[\p{L}\p{N}]{2,}/gu)
 const FIRST_PERSON = /\b(eu|meu|meus|minha|minhas|mim|comigo|my|mine|myself|yo|mis|mio|mia|conmigo)\b|\b(do|did|am|was|have|would|can|will) i\b|\bi (am|was|have|like|love|hate|do|did|would|want|prefer)\b/
 const PERSONAL_MARKER = /sobre mim|me conhece|about me|knows? me|sobre mi\b|me conoce|melhor(es)? amig|best friend|bestie|mejor(es)? amig|\bbff\b/
 
+type TLoose = Record<string, any>
+const list = (value: unknown): TLoose[] => (Array.isArray(value) ? value.filter(item => item && typeof item === 'object') : [])
+
+// Formatos de experiência: o conteúdo vira perguntas para a mesma conta. Torneio: cada par da
+// primeira rodada ("A vs B", com as imagens); história: cada cena com as escolhas;
+// compatibilidade e pontuação: as próprias perguntas. Faixas e finais entram como os perfis.
+function experienceContent(quiz: QuizQualityInput): { questions: RawQuestion[], extra: Array<{ title?: string; description?: string }> } {
+    const content = quiz.experience as TLoose | undefined
+    if (!content || typeof content !== 'object') return { questions: [], extra: [] }
+
+    switch (quiz.kind) {
+        case 'tournament': {
+            const options = list(content.options)
+            const questions: RawQuestion[] = []
+            for (let index = 0; index + 1 < options.length; index += 2) {
+                const pair = [options[index], options[index + 1]]
+                questions.push({
+                    question: pair.map(option => normalize(option.text)).filter(Boolean).join(' vs '),
+                    answers: pair.map(option => ({ text: option.text, thumbnail: option.image })),
+                })
+            }
+            return { questions, extra: [] }
+        }
+        case 'story': {
+            const scenes = list(content.scenes)
+            return {
+                questions: scenes.filter(scene => !scene.ending).map(scene => ({ question: scene.text, answers: list(scene.choices).map(choice => choice.text) })),
+                extra: scenes.filter(scene => scene.ending).map(scene => ({ title: scene.ending?.title, description: scene.text })),
+            }
+        }
+        case 'compatibility':
+        case 'scored':
+            return {
+                questions: list(content.questions).map(question => ({ question: question.question, answers: list(question.answers).map(answer => answer.text) })),
+                extra: list(content.ranges).map(range => ({ title: range.title, description: range.description })),
+            }
+        default:
+            return { questions: [], extra: [] }
+    }
+}
+
 function getSignals(quiz: QuizQualityInput): QuizQualitySignals {
     const seen = new Set<string>()
     const vocabulary = new Set<string>()
     let questions = 0, answersTotal = 0, questionImages = 0, answerImages = 0, firstPersonQuestions = 0
 
-    for (const q of quiz.questions ?? []) {
+    const experience = experienceContent(quiz)
+
+    for (const q of [...(quiz.questions ?? []), ...experience.questions]) {
         const text = normalize(q.question || q.title)
         const image = hasImage(q.image)
         const key = `${text.toLowerCase()}|${image ? q.image : ''}`
@@ -116,7 +161,7 @@ function getSignals(quiz: QuizQualityInput): QuizQualitySignals {
         for (const answer of distinct) for (const word of wordsOf(answer)) vocabulary.add(word)
     }
 
-    for (const result of quiz.personalityResults ?? []) {
+    for (const result of [...(quiz.personalityResults ?? []), ...experience.extra]) {
         for (const word of wordsOf(normalize(`${result.title ?? ''} ${result.description ?? ''}`))) vocabulary.add(word)
     }
 

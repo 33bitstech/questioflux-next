@@ -50,7 +50,8 @@ export default function PersonalityResultPage({ quiz, shareUrl }: IProps) {
             quizId={quiz.quizId}
             quizTitle={quiz.title}
             outcome={outcome}
-            shareUrl={shareUrl}
+            // com a conclusão gravada, o link compartilhado abre este resultado (e não só o quiz)
+            shareUrl={outcome.participationId ? `${shareUrl}/result/${outcome.participationId}` : shareUrl}
             actions={<>
                 <Link href={`/quiz/${quiz.quizId}/taking`} className={styles.button_primary}>
                     <RotateCcw aria-hidden="true" /> {t('retake')}

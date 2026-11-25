@@ -6,7 +6,7 @@ import { getPublicQuiz } from '@/utils/publicQuiz';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import QuizThumbnail from './quiz-thumbnail';
-import { getQuizKind } from '@/utils/quizKind';
+import { getQuizKind, isExperienceKind } from '@/utils/quizKind';
 
 interface IProps {
     children: ReactNode,
@@ -39,6 +39,9 @@ export default async function LayoutTaking({ children, params }: IProps) {
     // prova: o primeiro item é a correção (com a nota) em vez do resultado simples
     const isExam = getQuizKind(quiz) === 'exam'
     const isPersonality = getQuizKind(quiz) === 'personality'
+    // torneio, história, compatibilidade e pontuação: o resultado é a página da conclusão; aqui
+    // fica só o caminho para os resultados de todo mundo
+    const isExperience = isExperienceKind(getQuizKind(quiz))
 
     return (
         <>
@@ -56,6 +59,11 @@ export default async function LayoutTaking({ children, params }: IProps) {
 
                 <nav className={`${styles.navigate}`}>
                     <ul>
+                        {isExperience ? (
+                            <li>
+                                <NavLink replace href={`/quiz/${quizId}/leaderboard`} styles={styles}>{t('navAllResults')}</NavLink>
+                            </li>
+                        ) : <>
                         <li>
                             <NavLink
                                 replace
@@ -73,6 +81,7 @@ export default async function LayoutTaking({ children, params }: IProps) {
                                 styles={styles}
                             >{isPersonality ? t('navAllResults') : t('navLeaderboard')}</NavLink>
                         </li>
+                        </>}
                     </ul>
                 </nav>
             </div>

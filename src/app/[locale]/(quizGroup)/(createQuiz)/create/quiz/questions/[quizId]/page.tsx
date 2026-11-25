@@ -5,7 +5,8 @@ import QuizContent from '@/components/CreatingQuiz/Questions/quiz-content'
 import ApiData from '@/utils/ApiData'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { cookies } from 'next/headers'
-import { getQuizKind, QuizKind } from '@/utils/quizKind'
+import { getQuizKind, isExperienceKind, QuizKind } from '@/utils/quizKind'
+import ExperienceEditor from '@/components/Experiences/experience-editor'
 import { IPersonalityResult } from '@/interfaces/IQuizes'
 
 interface IProps {
@@ -16,7 +17,7 @@ interface IProps {
 
 // Se a consulta falhar o fluxo segue normal, só sem a pergunta de privacidade
 // e como quiz comum (sem as explicações da prova).
-async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, kind: QuizKind, results?: IPersonalityResult[] }> {
+async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, kind: QuizKind, results?: IPersonalityResult[], experience?: unknown, draft?: boolean }> {
     try {
         const cookieStore = await cookies()
 
@@ -35,6 +36,9 @@ async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, ki
             isPrivate: res?.quiz?.isPrivate === true,
             kind: getQuizKind(res?.quiz),
             results: res?.quiz?.personalityResults,
+            // torneio, história, compatibilidade e pontuação: o conteúdo já salvo
+            experience: res?.quiz?.experience,
+            draft: res?.quiz?.draft !== false,
         }
     } catch {
         return { isPrivate: false, kind: 'quiz' }
@@ -43,7 +47,15 @@ async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, ki
 
 export default async function QuestionsPage({params} : IProps) {
     const {quizId} = await params
-    const { isPrivate, kind, results } = await getQuizSettings(quizId)
+    const { isPrivate, kind, results, experience, draft } = await getQuizSettings(quizId)
+
+    if (isExperienceKind(kind)) {
+        return (
+            <main className={styles.content}>
+                <ExperienceEditor quizId={quizId} kind={kind} initial={experience} isPrivate={isPrivate} draft={draft ?? true} mode='create' />
+            </main>
+        )
+    }
 
     return (
         <main className={styles.content}>

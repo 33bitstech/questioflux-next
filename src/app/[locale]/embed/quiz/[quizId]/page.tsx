@@ -4,11 +4,14 @@ import takingStyles from '@/app/[locale]/(quizGroup)/(quizTaking)/quiz/[quizId]/
 import EmbedQuiz from '@/components/TakingQuiz/embed-quiz'
 import { getPublicQuiz } from '@/utils/publicQuiz'
 import { quizCanonicalUrl } from '@/utils/seo'
+import { getQuizKind, isExperienceKind } from '@/utils/quizKind'
+import { Link } from '@/i18n/navigation'
+import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 interface IProps {
-    params: Promise<{ quizId: string }>
+    params: Promise<{ locale: string, quizId: string }>
 }
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
@@ -30,10 +33,23 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
 // Quiz para ser aberto em iframe no site de outra pessoa (o código sai do "Incorporar quiz"
 // na página do quiz). Fica fora do (quizGroup) para não levar a navbar, e sem anúncios.
 export default async function EmbedQuizPage({ params }: IProps) {
-    const { quizId } = await params
+    const { locale, quizId } = await params
     const quiz = await getPublicQuiz(quizId)
 
     if (!quiz) notFound()
+
+    // torneio, história, compatibilidade e pontuação: o link abre o quiz no site, em outra aba
+    // (a partida e o convite dependem das páginas de lá)
+    if (isExperienceKind(getQuizKind(quiz))) {
+        const t = await getTranslations({ locale, namespace: 'embedPage' })
+        return (
+            <main className={`${styles.content} ${styles.not_found}`}>
+                <h1>{quiz.title}</h1>
+                <p>{t('experienceText')}</p>
+                <Link locale={locale} href={`/quiz/${quizId}/taking`} target='_blank'>{t('playOnSite')}</Link>
+            </main>
+        )
+    }
 
     return (
         <main className={styles.content}>

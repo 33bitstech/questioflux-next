@@ -92,6 +92,7 @@
     letter-spacing: .05rem;
 }
 
+// ícone do tipo, como nos filtros do Explorar: traço num círculo de borda fina, na cor do texto
 .eyebrow_icon {
     position: relative;
     flex-shrink: 0;
@@ -99,15 +100,18 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background-color: #ffffff;
+    border: 1px solid currentColor;
+    background-color: transparent;
 
     svg {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1.1rem;
+        height: 1.1rem;
         transform: translate(-50%, -50%);
+        fill: none;
+        stroke: currentColor;
     }
 }
 
@@ -592,7 +596,8 @@
         transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 
         .eyebrow_icon {
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+            color: var(--text-primary);
+            border-color: var(--seemore-button-border);
         }
 
         &:hover,

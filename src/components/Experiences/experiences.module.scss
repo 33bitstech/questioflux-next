@@ -1,0 +1,1088 @@
+@use '../../assets/styles/vars.scss';
+
+// Formatos de experiência: jogo (torneio, história, perguntas), editor, exemplo jogável e
+// detalhes do resultado. Cores pelos tokens do tema (claro e escuro).
+
+%panel {
+    border-radius: 1rem;
+    background-color: var(--background-divs);
+    border: 1px solid var(--horizontal-rule-color);
+}
+
+%button-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    padding: .7rem 1.2rem;
+    border-radius: .7rem;
+    cursor: pointer;
+    transition: transform .15s ease, opacity .15s ease;
+
+    svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        flex-shrink: 0;
+    }
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+}
+
+.button_primary {
+    @extend %button-base;
+    border: none;
+    background-color: var(--background-button);
+    @include vars.styleTexto(var(--button-text-color), .95rem, 700);
+}
+
+.button_secondary {
+    @extend %button-base;
+    border: 2px solid var(--background-button);
+    background-color: transparent;
+    @include vars.styleTexto(var(--text-primary), .95rem, 700);
+}
+
+.button_link {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    border: none;
+    background: none;
+    padding: .2rem 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: .18rem;
+    @include vars.styleTexto(var(--text-secondary), .88rem, 600);
+
+    svg {
+        width: .95rem;
+        height: .95rem;
+    }
+
+    &:hover {
+        color: var(--text-primary);
+    }
+}
+
+// ── partida ──
+
+.play {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.play_header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .6rem;
+
+    strong {
+        @include vars.styleTexto(var(--text-primary), 1.05rem, 800);
+    }
+
+    span {
+        @include vars.styleTexto(var(--text-secondary), .88rem, 600);
+    }
+}
+
+.progress {
+    width: 100%;
+    height: .45rem;
+    border-radius: 999px;
+    background-color: var(--horizontal-rule-color);
+    overflow: hidden;
+
+    span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, vars.$cor-azulEscuro, vars.$cor-ciano);
+        transition: width .25s ease;
+    }
+}
+
+.play_footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+}
+
+// torneio: duas opções lado a lado
+.duel {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    gap: .9rem;
+}
+
+.versus {
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, vars.$cor-azulEscuro, vars.$cor-ciano);
+    @include vars.styleTexto(vars.$cor-branco, .9rem, 800);
+}
+
+.duel_option {
+    @extend %panel;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    min-height: 9rem;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    @include vars.styleTexto(var(--text-primary), 1.1rem, 800);
+
+    img {
+        width: 100%;
+        aspect-ratio: 1;
+        max-height: 14rem;
+        object-fit: cover;
+        border-radius: .7rem;
+    }
+
+    span {
+        overflow-wrap: anywhere;
+        line-height: 1.3;
+    }
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+        transform: translateY(-2px);
+        border-color: vars.$cor-ciano;
+        box-shadow: 0 0 0 3px rgba(0, 228, 255, 0.18);
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+// história e perguntas
+.scene,
+.question {
+    @extend %panel;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.4rem;
+
+    >p,
+    >h2 {
+        line-height: 1.6;
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+    }
+
+    >p {
+        @include vars.styleTexto(var(--text-primary), 1.02rem, 500);
+    }
+
+    >h2 {
+        @include vars.styleTexto(var(--text-primary), 1.2rem, 800);
+    }
+}
+
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    list-style: none;
+}
+
+.choice {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    padding: .85rem 1rem;
+    border-radius: .8rem;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: var(--background-primary);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color .15s ease, transform .15s ease;
+    @include vars.styleTexto(var(--text-primary), .98rem, 600);
+
+    span {
+        overflow-wrap: anywhere;
+        line-height: 1.4;
+    }
+
+    svg {
+        flex-shrink: 0;
+        width: 1.05rem;
+        height: 1.05rem;
+        color: var(--text-secondary);
+    }
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+        border-color: vars.$cor-ciano;
+        transform: translateX(2px);
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+.choice_selected {
+    border-color: vars.$cor-azulEscuro;
+    box-shadow: inset 0 0 0 1px vars.$cor-azulEscuro;
+
+    svg {
+        color: vars.$cor-azulEscuro;
+    }
+}
+
+.ending {
+    @extend %panel;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .7rem;
+    padding: 1.6rem;
+    background: linear-gradient(135deg, var(--checkbox-checked-bg-color), var(--background-dark));
+    border: none;
+
+    h2 {
+        @include vars.styleTexto(vars.$cor-branco, 1.6rem, 800);
+        line-height: 1.2;
+    }
+
+    p {
+        line-height: 1.6;
+        white-space: pre-line;
+        @include vars.styleTexto(rgba(255, 255, 255, 0.9), .98rem, 400);
+    }
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .25rem .7rem;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    text-transform: uppercase;
+    letter-spacing: .05rem;
+    @include vars.styleTexto(vars.$cor-ciano, .75rem, 700);
+
+    svg {
+        width: .9rem;
+        height: .9rem;
+    }
+}
+
+// ── antes de começar ──
+
+.intro {
+    @extend %panel;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .9rem;
+    padding: 1.6rem;
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), 1.25rem, 800);
+    }
+
+    p {
+        line-height: 1.55;
+        @include vars.styleTexto(var(--text-description), .95rem, 400);
+    }
+}
+
+.how {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+    padding-left: 1.1rem;
+    list-style: disc;
+
+    li {
+        line-height: 1.5;
+        @include vars.styleTexto(var(--text-description), .92rem, 400);
+    }
+}
+
+.invite_banner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .9rem 1rem;
+    border-radius: .8rem;
+    background: linear-gradient(135deg, rgba(0, 71, 255, 0.12), rgba(0, 228, 255, 0.12));
+    border: 1px solid rgba(0, 228, 255, 0.35);
+
+    svg {
+        flex-shrink: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+        color: vars.$cor-ciano;
+    }
+
+    p {
+        @include vars.styleTexto(var(--text-primary), .95rem, 600);
+    }
+}
+
+.notice {
+    width: 100%;
+    padding: .8rem 1rem;
+    border-radius: .8rem;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: var(--background-primary);
+    line-height: 1.5;
+    @include vars.styleTexto(var(--text-secondary), .9rem, 500);
+}
+
+// ── exemplo jogável (página do formato) ──
+
+.demo {
+    @extend %panel;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.4rem;
+}
+
+.demo_header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: .3rem;
+    }
+
+    h2,
+    h3 {
+        @include vars.styleTexto(var(--text-primary), 1.15rem, 800);
+    }
+
+    p {
+        line-height: 1.5;
+        @include vars.styleTexto(var(--text-description), .9rem, 400);
+    }
+}
+
+.demo_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .7rem;
+}
+
+.demo .play {
+    max-width: none;
+}
+
+// ── detalhes do resultado ──
+
+.details {
+    @extend %panel;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    padding: 1.4rem;
+
+    h3 {
+        @include vars.styleTexto(var(--text-primary), 1.05rem, 800);
+    }
+
+    >p {
+        line-height: 1.55;
+        @include vars.styleTexto(var(--text-description), .92rem, 400);
+    }
+}
+
+.path {
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    list-style: none;
+
+    li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+        padding: .65rem .8rem;
+        border-radius: .7rem;
+        background-color: var(--background-primary);
+        border: 1px solid var(--horizontal-rule-color);
+        @include vars.styleTexto(var(--text-primary), .92rem, 500);
+    }
+
+    small {
+        @include vars.styleTexto(var(--text-secondary), .78rem, 700);
+        text-transform: uppercase;
+        letter-spacing: .04rem;
+    }
+
+    strong {
+        overflow-wrap: anywhere;
+        font-weight: 800;
+    }
+}
+
+.compare {
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    list-style: none;
+
+    li {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: .35rem .8rem;
+        padding: .75rem .9rem;
+        border-radius: .7rem;
+        background-color: var(--background-primary);
+        border: 1px solid var(--horizontal-rule-color);
+    }
+
+    p {
+        grid-column: 1;
+        overflow-wrap: anywhere;
+        line-height: 1.45;
+        @include vars.styleTexto(var(--text-primary), .9rem, 700);
+    }
+
+    dl {
+        grid-column: 1;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: .2rem .6rem;
+    }
+
+    dt {
+        @include vars.styleTexto(var(--text-secondary), .8rem, 700);
+    }
+
+    dd {
+        overflow-wrap: anywhere;
+        @include vars.styleTexto(var(--text-primary), .86rem, 500);
+    }
+
+    svg {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+}
+
+.match svg {
+    color: var(--status-correct);
+}
+
+.mismatch svg {
+    color: var(--text-secondary);
+}
+
+.invite_box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6rem;
+
+    input {
+        flex: 1 1 16rem;
+        min-width: 0;
+        padding: .7rem .9rem;
+        border-radius: .7rem;
+        border: 1px solid var(--border-input-color);
+        background-color: var(--background-input);
+        @include vars.styleTexto(var(--text-primary), .88rem, 500);
+    }
+}
+
+.people {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    list-style: none;
+
+    li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: .6rem;
+        padding: .65rem .8rem;
+        border-radius: .7rem;
+        background-color: var(--background-primary);
+        border: 1px solid var(--horizontal-rule-color);
+    }
+
+    a,
+    span {
+        overflow-wrap: anywhere;
+        @include vars.styleTexto(var(--text-primary), .92rem, 600);
+    }
+
+    strong {
+        @include vars.styleTexto(var(--text-primary), .95rem, 800);
+    }
+}
+
+.points {
+    display: inline-flex;
+    align-items: baseline;
+    gap: .4rem;
+    @include vars.styleTexto(vars.$cor-branco, 1rem, 600);
+
+    strong {
+        @include vars.styleTexto(vars.$cor-ciano, 1.6rem, 800);
+    }
+}
+
+// ── editor ──
+
+.editor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.editor_intro {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), 1.2rem, 800);
+    }
+
+    p {
+        line-height: 1.55;
+        @include vars.styleTexto(var(--text-description), .92rem, 400);
+    }
+}
+
+.section {
+    @extend %panel;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem;
+
+    >h3 {
+        @include vars.styleTexto(var(--text-primary), 1.02rem, 800);
+    }
+
+    >p {
+        line-height: 1.5;
+        @include vars.styleTexto(var(--text-description), .88rem, 400);
+    }
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1rem;
+    border-radius: .8rem;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: var(--background-primary);
+}
+
+.item_flagged {
+    border-color: var(--status-error);
+    box-shadow: inset 0 0 0 1px var(--status-error);
+}
+
+.item_header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+
+    strong {
+        @include vars.styleTexto(var(--text-primary), .95rem, 800);
+    }
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .15rem .55rem;
+    border-radius: 999px;
+    background-color: var(--background-divs);
+    border: 1px solid var(--horizontal-rule-color);
+    @include vars.styleTexto(var(--text-secondary), .74rem, 700);
+
+    svg {
+        width: .8rem;
+        height: .8rem;
+    }
+}
+
+.badge_start {
+    border-color: vars.$cor-ciano;
+    color: var(--text-primary);
+}
+
+.item_tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .4rem;
+}
+
+.icon_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: .55rem;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &:hover:not(:disabled) {
+        color: var(--text-primary);
+        border-color: var(--text-secondary);
+    }
+
+    &:disabled {
+        opacity: .4;
+        cursor: not-allowed;
+    }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    min-width: 0;
+
+    label,
+    >span {
+        @include vars.styleTexto(var(--text-secondary), .8rem, 700);
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        min-width: 0;
+        padding: .65rem .8rem;
+        border-radius: .65rem;
+        border: 1px solid var(--border-input-color);
+        background-color: var(--background-input);
+        @include vars.styleTexto(var(--text-primary), .92rem, 500);
+        line-height: 1.45;
+    }
+
+    textarea {
+        min-height: 5.5rem;
+        resize: vertical;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--text-placeholder);
+    }
+}
+
+.field_row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: .75rem;
+}
+
+.answer_row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: .5rem;
+}
+
+.answer_row_points {
+    grid-template-columns: 1fr 6.5rem auto;
+}
+
+.option_row {
+    display: grid;
+    grid-template-columns: 4.2rem 1fr auto;
+    align-items: center;
+    gap: .7rem;
+}
+
+.option_image {
+    position: relative;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: .65rem;
+    overflow: hidden;
+    border: 1px dashed var(--border-input-color);
+    background-color: var(--background-upload-image, var(--background-input));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    svg {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+    input {
+        @extend %sr-only;
+    }
+
+    &:focus-within {
+        outline: 2px solid vars.$cor-ciano;
+        outline-offset: 2px;
+    }
+}
+
+.add_button {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .55rem .9rem;
+    border-radius: .65rem;
+    border: 1px dashed var(--text-secondary);
+    background-color: transparent;
+    cursor: pointer;
+    @include vars.styleTexto(var(--text-primary), .88rem, 700);
+
+    svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &:disabled {
+        opacity: .45;
+        cursor: not-allowed;
+    }
+}
+
+.toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    cursor: pointer;
+    @include vars.styleTexto(var(--text-primary), .88rem, 600);
+
+    input {
+        width: 1rem;
+        height: 1rem;
+        accent-color: vars.$cor-azulEscuro;
+    }
+}
+
+.segmented {
+    display: inline-flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+
+    button {
+        padding: .5rem .95rem;
+        border-radius: .6rem;
+        border: 1px solid var(--horizontal-rule-color);
+        background-color: transparent;
+        cursor: pointer;
+        @include vars.styleTexto(var(--text-primary), .88rem, 700);
+    }
+
+    .segmented_active {
+        border-color: var(--background-button);
+        background-color: var(--background-button);
+        color: var(--button-text-color);
+    }
+}
+
+.hint {
+    line-height: 1.5;
+    @include vars.styleTexto(var(--text-description), .84rem, 400);
+}
+
+.bounds {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6rem;
+    padding: .7rem .9rem;
+    border-radius: .7rem;
+    background-color: var(--background-primary);
+    border: 1px solid var(--horizontal-rule-color);
+    @include vars.styleTexto(var(--text-primary), .88rem, 600);
+}
+
+.problems {
+    @extend %panel;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    padding: 1rem 1.2rem;
+
+    h3 {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        @include vars.styleTexto(var(--text-primary), .95rem, 800);
+
+        svg {
+            width: 1.05rem;
+            height: 1.05rem;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: .35rem;
+        padding-left: 1.1rem;
+        list-style: disc;
+    }
+
+    li {
+        line-height: 1.45;
+        @include vars.styleTexto(var(--text-primary), .88rem, 500);
+    }
+}
+
+.problems_issues h3 svg {
+    color: var(--status-error);
+}
+
+.problems_warnings h3 svg {
+    color: #F79009;
+}
+
+.problems_ok h3 svg {
+    color: var(--status-correct);
+}
+
+.editor_footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    padding: .9rem 1rem;
+    border-radius: 1rem;
+    background-color: var(--background-secondary, var(--background-divs));
+    border: 1px solid var(--horizontal-rule-color);
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.12);
+
+    >div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .6rem;
+    }
+}
+
+.saved_note {
+    @include vars.styleTexto(var(--text-secondary), .84rem, 600);
+}
+
+@media (max-width: 640px) {
+    .duel {
+        grid-template-columns: 1fr;
+    }
+
+    .versus {
+        justify-self: center;
+    }
+
+    .duel_option {
+        min-height: 6rem;
+
+        img {
+            max-height: 10rem;
+        }
+    }
+
+    .answer_row_points {
+        grid-template-columns: 1fr 5rem auto;
+    }
+
+    .option_row {
+        grid-template-columns: 3.4rem 1fr auto;
+    }
+
+    .option_image {
+        width: 3.4rem;
+        height: 3.4rem;
+    }
+
+}
+
+// linhas marcadas pela conferência (escolha, alternativa, opção)
+.option_row,
+.answer_row,
+.field_row {
+    border-radius: .75rem;
+}
+
+.option_row.item_flagged,
+.answer_row.item_flagged,
+.field_row.item_flagged {
+    padding: .45rem;
+}
+
+// ── vitrine das páginas dos formatos ──
+
+.mini_duel {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: .55rem;
+}
+
+.mini_option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.2rem;
+    padding: .7rem;
+    border-radius: .8rem;
+    border: 1.5px solid var(--horizontal-rule-color);
+    text-align: center;
+    overflow-wrap: anywhere;
+    @include vars.styleTexto(var(--text-primary), .9rem, 800);
+}
+
+.mini_option_picked {
+    border-color: vars.$cor-ciano;
+    box-shadow: 0 0 0 3px rgba(0, 228, 255, 0.18);
+}
+
+.mini_versus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, vars.$cor-azulEscuro, vars.$cor-ciano);
+    @include vars.styleTexto(vars.$cor-branco, .72rem, 800);
+}
+
+.mini_choices {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    list-style: none;
+
+    li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+        padding: .5rem .7rem;
+        border-radius: .6rem;
+        border: 1.5px solid var(--horizontal-rule-color);
+        @include vars.styleTexto(var(--text-primary), .82rem, 600);
+    }
+
+    svg {
+        flex-shrink: 0;
+        width: .95rem;
+        height: .95rem;
+        color: var(--text-secondary);
+    }
+
+    small {
+        flex-shrink: 0;
+        @include vars.styleTexto(var(--text-secondary), .74rem, 800);
+    }
+}
+
+.mini_compare {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    list-style: none;
+
+    li {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: .15rem .5rem;
+        padding: .5rem .7rem;
+        border-radius: .6rem;
+        border: 1.5px solid var(--horizontal-rule-color);
+    }
+
+    span {
+        @include vars.styleTexto(var(--text-primary), .8rem, 700);
+    }
+
+    small {
+        grid-column: 1;
+        @include vars.styleTexto(var(--text-secondary), .74rem, 500);
+    }
+
+    svg {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        width: 1rem;
+        height: 1rem;
+        color: var(--text-secondary);
+    }
+}

@@ -5,11 +5,20 @@ import React, { useState } from 'react'
 import ParticipantsContainer, { IParticipantItem } from './participants-container'
 import useQuizDatas from '@/hooks/requests/quiz-requests/useQuizDatas'
 import { useLocale, useTranslations } from 'next-intl'
-import { getQuizKind } from '@/utils/quizKind'
+import { getQuizKind, hasLeaderboard, isExperienceKind } from '@/utils/quizKind'
 
 interface IProps {
     styles: TStyles,
     quiz: IQuizes
+}
+
+// o que a lista traz de cada partida nos formatos de experiência
+interface IExperienceListItem extends IParticipantItem {
+    champion?: { text?: string }
+    ending?: { title?: string }
+    comparison?: { percent?: number }
+    points?: number
+    range?: { title?: string }
 }
 
 interface IParticipantsState {
@@ -27,17 +36,34 @@ export default function Participants({ quiz, styles }: IProps) {
     const [showParticipants, setShowParticipants] = useState<boolean>(false),
         [participants, setParticipants] = useState<IParticipantsState | null>(null),
         [loading, setLoading] = useState<boolean>(false),
-        { getLeaderboard, getPersonalityParticipants } = useQuizDatas(),
+        { getLeaderboard, getParticipants } = useQuizDatas(),
         t = useTranslations('quizInfoPage'),
         locale = useLocale(),
-        // personalidade não tem ranking: a lista vem das conclusões, paginada
-        isPersonality = getQuizKind(quiz) === 'personality'
+        // sem ranking (personalidade e os formatos de experiência): a lista vem das conclusões
+        // gravadas, com o apelido de cada partida, paginada
+        kind = getQuizKind(quiz),
+        fromParticipations = !hasLeaderboard(kind),
+        experience = isExperienceKind(kind)
+
+    // campeão, final, porcentagem ou faixa + pontos, no lugar do perfil da personalidade
+    const summaryOf = (item: IExperienceListItem): string | undefined => {
+        if (item.champion?.text) return item.champion.text
+        if (item.ending?.title) return item.ending.title
+        if (typeof item.comparison?.percent === 'number') return t('participantsList.match', { percent: item.comparison.percent })
+        if (typeof item.points === 'number') {
+            const points = t('participantsList.points', { points: item.points })
+            return item.range?.title ? `${item.range.title} · ${points}` : points
+        }
+        return undefined
+    }
 
     const loadPage = async (page: number) => {
-        if (isPersonality) {
-            const res = await getPersonalityParticipants(quiz.quizId, page)
+        if (fromParticipations) {
+            const res = await getParticipants(quiz.quizId, page)
+            const received: IExperienceListItem[] = res.participants ?? []
+            const items = experience ? received.map(item => ({ ...item, summary: item.summary ?? summaryOf(item) })) : received
             setParticipants(current => ({
-                items: [...(page > 1 ? current?.items ?? [] : []), ...(res.participants ?? [])],
+                items: [...(page > 1 ? current?.items ?? [] : []), ...items],
                 visible: res.visible ?? 0,
                 total: res.total ?? quiz.usersCount ?? 0,
                 page: res.page ?? page,
@@ -97,12 +123,13 @@ export default function Participants({ quiz, styles }: IProps) {
                 className={styles.participants}
                 aria-busy={loading}
             >
-                {quiz.usersCount ?? 0} {t('details.participantsSpan')}
+                {t('details.participantsSpan', { count: quiz.usersCount ?? 0 })}
             </span>
 
             {showParticipants && participants && (
                 <div className={styles.participants_popup}>
                     <ParticipantsContainer
+                        quizId={quiz.quizId}
                         users={participants.items}
                         visible={participants.visible}
                         total={participants.total}

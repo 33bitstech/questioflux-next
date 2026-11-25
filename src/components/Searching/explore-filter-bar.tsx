@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server'
-import { Brain, GraduationCap, ImageIcon, ListChecks, LucideIcon, UserRound } from 'lucide-react'
+import { ImageIcon, LucideIcon } from 'lucide-react'
+import { QUIZ_KIND_ICONS } from '@/components/QuizTypes/quiz-type-icon'
 import ExploreFilterLink from './explore-filter-link'
 import { TStyles } from '@/types/stylesType'
 import {
-    EXPLORE_LANGS, EXPLORE_TYPE_SLUGS, exploreHref, ExploreLang, ExploreType, IExploreFilters,
+    EXPLORE_LANGS, EXPLORE_MAIN_LANGS, EXPLORE_TYPE_SLUGS, exploreHref, exploreLangName, ExploreType, IExploreFilters,
 } from '@/utils/exploreFilters'
 
 interface IProps {
@@ -12,11 +13,16 @@ interface IProps {
     locale: string
 }
 
+// os mesmos ícones das páginas de criação
 const TYPE_ICONS: Record<ExploreType, LucideIcon> = {
-    'questions-and-answers': ListChecks,
-    'exam': GraduationCap,
-    'about-me': UserRound,
-    'personality': Brain,
+    'questions-and-answers': QUIZ_KIND_ICONS.quiz,
+    'exam': QUIZ_KIND_ICONS.exam,
+    'about-me': QUIZ_KIND_ICONS.aboutMe,
+    'personality': QUIZ_KIND_ICONS.personality,
+    'tournament': QUIZ_KIND_ICONS.tournament,
+    'story': QUIZ_KIND_ICONS.story,
+    'compatibility': QUIZ_KIND_ICONS.compatibility,
+    'scored': QUIZ_KIND_ICONS.scored,
     'image': ImageIcon,
 }
 
@@ -26,16 +32,13 @@ const TYPE_NAMES: Record<ExploreType, string> = {
     'exam': 'names.exam',
     'about-me': 'names.aboutMe',
     'personality': 'names.personality',
+    'tournament': 'names.tournament',
+    'story': 'names.story',
+    'compatibility': 'names.compatibility',
+    'scored': 'names.scored',
     'image': 'image',
 }
 
-// cada idioma no próprio idioma, como no seletor de idioma do site
-export const LANG_NAMES: Record<ExploreLang, string> = {
-    en: 'English',
-    pt: 'Português',
-    es: 'Español',
-    zh: '中文',
-}
 
 // Filtros rápidos do Explorar: idioma dos quizzes à esquerda, tipo à direita (ícones). Clicar
 // no filtro ativo tira o filtro; trocar de filtro volta para a primeira página.
@@ -50,9 +53,10 @@ export default async function ExploreFilterBar({ styles, filters, locale }: IPro
     return (
         <div className={styles.filter_bar}>
             <nav className={styles.filter_group} aria-label={t('languages')}>
-                {EXPLORE_LANGS.map(lang => {
+                {/* os idiomas da interface, mais o idioma ativo quando é um dos outros */}
+                {[...EXPLORE_MAIN_LANGS, ...(filters.lang && !(EXPLORE_MAIN_LANGS as readonly string[]).includes(filters.lang) ? [filters.lang] : [])].map(lang => {
                     const active = filters.lang === lang,
-                        name = t('langLabel', { language: LANG_NAMES[lang] })
+                        name = t('langLabel', { language: exploreLangName(lang) })
                     return (
                         <ExploreFilterLink
                             key={lang}
@@ -66,6 +70,25 @@ export default async function ExploreFilterBar({ styles, filters, locale }: IPro
                         </ExploreFilterLink>
                     )
                 })}
+                {/* links comuns (funcionam sem JavaScript e o Google segue) */}
+                <details className={styles.filter_more}>
+                    <summary>{t('moreLanguages')}</summary>
+                    <ul>
+                        {EXPLORE_LANGS.filter(lang => !(EXPLORE_MAIN_LANGS as readonly string[]).includes(lang)).map(lang => (
+                            <li key={lang}>
+                                <ExploreFilterLink
+                                    styles={styles}
+                                    href={hrefWith({ lang: filters.lang === lang ? undefined : lang })}
+                                    active={filters.lang === lang}
+                                    label={t('langLabel', { language: exploreLangName(lang) })}
+                                    className={styles.filter_more_link}
+                                >
+                                    {exploreLangName(lang)}
+                                </ExploreFilterLink>
+                            </li>
+                        ))}
+                    </ul>
+                </details>
             </nav>
 
             <nav className={styles.filter_group} aria-label={t('types')}>

@@ -4,16 +4,20 @@ import React from 'react'
 import NavLink from '../widgets/NavLink'
 import styles from './nav-creating-quiz.module.scss'
 import { useTranslations } from 'next-intl'
+import { QuizKind } from '@/utils/quizKind'
 
 interface IProps{
     isBlock?: boolean
     quizId?: string
     isBacking?: boolean
     locale: string
+    // o segundo passo leva o nome do conteúdo: opções no torneio, cenas na história
+    kind?: QuizKind
 }
-                
-export default function NavCreatinQuiz({isBlock, quizId, isBacking, locale}: IProps) {
+
+export default function NavCreatinQuiz({isBlock, quizId, isBacking, locale, kind}: IProps) {
     const t = useTranslations('creatingQuiz.nav' );
+    const contentLabel = kind === 'tournament' ? t('options') : kind === 'story' ? t('scenes') : t('questions')
 
     return (
         <nav className={styles.navQuiz}>
@@ -35,7 +39,7 @@ export default function NavCreatinQuiz({isBlock, quizId, isBacking, locale}: IPr
                         isBlock={isBlock}
                         styles={styles}
                     >
-                        {t('questions')} {'>'}
+                        {contentLabel} {'>'}
                     </NavLink>
                 </li>
             </ul>

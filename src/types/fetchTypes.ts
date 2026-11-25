@@ -105,6 +105,8 @@ export type HeaderType =
     | 'X-Wap-Profile'
     | 'Proxy-Connection'
     | 'X-Csrf-Token'
+    // chave de quem jogou: abre a parte privada da página do resultado
+    | 'X-Participation-Key'
     | 'X-Request-ID'
     | 'X-Correlation-ID'
     | 'Save-Data'

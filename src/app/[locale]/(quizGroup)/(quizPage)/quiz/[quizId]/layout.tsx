@@ -7,7 +7,7 @@ import { getTranslations } from 'next-intl/server'; // Importar
 import ScrollToTop from '@/components/scroll-auto';
 import { notFound } from 'next/navigation';
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz';
-import { getQuizKind } from '@/utils/quizKind';
+import { getQuizKind, hasLeaderboard } from '@/utils/quizKind';
 
 interface IProps {
     children: ReactNode,
@@ -41,7 +41,8 @@ export default async function LayoutQuizGroup({ children, params }: IProps) {
                     <NavLink replace styles={styles} href={`/quiz/${quizId}`}>{t('info')}</NavLink>
                     <NavLink replace styles={styles} href={`/quiz/${quizId}/comments`}>{t('comments')}</NavLink>
                     <NavLink replace styles={styles} href={`/quiz/${quizId}/leaderboard`}>
-                        {getQuizKind(quiz) === 'personality' ? t('results') : t('leaderboard')}
+                        {/* sem ranking (personalidade e os formatos de experiência): a aba mostra os resultados */}
+                        {hasLeaderboard(getQuizKind(quiz)) ? t('leaderboard') : t('results')}
                     </NavLink>
                 </nav>
             </div>

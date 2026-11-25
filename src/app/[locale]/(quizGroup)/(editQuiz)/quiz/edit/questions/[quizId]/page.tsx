@@ -7,6 +7,8 @@ import { getTranslations } from 'next-intl/server'
 import { cookies } from 'next/headers'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import EditQuizContent from '@/components/EditingQuiz/edit-quiz-content'
+import ExperienceEditor from '@/components/Experiences/experience-editor'
+import { getQuizKind, isExperienceKind } from '@/utils/quizKind'
 
 interface IProps{
     params:Promise<{
@@ -62,11 +64,23 @@ export default async function EditingQuiz({params}:IProps) {
                 <p>{t('subtitle')}</p>
             </div>
 
-            <EditQuizContent
-                styles={styles}
-                quiz={quiz}
-                quizId={quizId}
-            />
+            {/* torneio, história, compatibilidade e pontuação: o editor de cada formato */}
+            {quiz && !('err' in quiz) && isExperienceKind(getQuizKind(quiz)) ? (
+                <ExperienceEditor
+                    quizId={quizId}
+                    kind={getQuizKind(quiz) as Parameters<typeof ExperienceEditor>[0]['kind']}
+                    initial={quiz.experience}
+                    isPrivate={quiz.isPrivate === true}
+                    draft={quiz.draft !== false}
+                    mode='edit'
+                />
+            ) : (
+                <EditQuizContent
+                    styles={styles}
+                    quiz={quiz}
+                    quizId={quizId}
+                />
+            )}
         </main>
     )
 }

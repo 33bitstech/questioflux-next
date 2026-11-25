@@ -1,6 +1,7 @@
 import { TFilter } from "@/types/filtersType";
 import { QuizKind } from "@/utils/quizKind";
 import IQuestion from "./IQuestion"
+import { IExperienceStats, TExperienceContent } from "./IExperience"
 export interface IResultMessages {
     allCorrect: string; // Mensagem para quando o usuário acertar todas as perguntas
     aboveEighty: string; // Mensagem para quando o usuário acertar mais de 80%
@@ -45,4 +46,10 @@ export default interface IQuizes {
     personalityTieBreakQuestion?: string,
     // quantas vezes cada resultado saiu: { [resultId]: vezes }
     personalityStats?: Record<string, number>,
+    // torneio, história, compatibilidade e pontuação: o conteúdo de cada formato
+    experience?: TExperienceContent,
+    // contadores de todas as partidas do formato
+    experienceStats?: IExperienceStats,
+    // o conteúdo salvo está pronto para publicar
+    experienceValid?: boolean,
 }

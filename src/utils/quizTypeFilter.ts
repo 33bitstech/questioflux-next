@@ -12,6 +12,10 @@ const API_TYPE_BY_FILTER: Record<string, string> = {
     'exam': 'exam',
     'aboutMe': 'aboutMe',
     'personality': 'personality',
+    'tournament': 'tournament',
+    'story': 'story',
+    'compatibility': 'compatibility',
+    'scored': 'scored',
     'image/RW': 'image/RW',
     'default/RW': 'default/RW',
 }

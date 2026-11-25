@@ -86,6 +86,67 @@
             border-radius: .6875rem;
         }
 
+        // "Mais idiomas": os idiomas de conteúdo além dos da interface
+        .filter_more {
+            position: relative;
+
+            summary {
+                display: flex;
+                align-items: center;
+                height: 2.75rem;
+                padding: 0 .9rem;
+                border: 1px solid var(--seemore-button-border);
+                border-radius: .6875rem;
+                cursor: pointer;
+                list-style: none;
+                @include vars.styleTexto(var(--text-primary), .9rem, 600);
+
+                &::-webkit-details-marker {
+                    display: none;
+                }
+
+                &::after {
+                    content: "▾";
+                    margin-left: .4rem;
+                }
+            }
+
+            ul {
+                position: absolute;
+                z-index: 20;
+                top: calc(100% + .4rem);
+                left: 0;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(8.5rem, 1fr));
+                gap: .25rem;
+                max-width: calc(100vw - 2rem);
+                padding: .5rem;
+                border: 1px solid var(--seemore-button-border);
+                border-radius: .75rem;
+                background-color: var(--background-divs);
+                list-style: none;
+                box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .35);
+            }
+        }
+
+        .filter_more_link {
+            position: relative;
+            display: block;
+            padding: .45rem .6rem;
+            border-radius: .5rem;
+            text-decoration: none;
+            @include vars.styleTexto(var(--text-primary), .9rem, 500);
+
+            &:hover {
+                background-color: rgba(127, 127, 127, .15);
+            }
+
+            &.filter_active {
+                background-color: var(--background-button);
+                color: var(--button-text-color);
+            }
+        }
+
         .filter_type {
             border-radius: 50%;
 

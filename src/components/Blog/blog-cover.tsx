@@ -1,4 +1,4 @@
-import { GraduationCap, Heart, LayoutGrid, Sparkles } from 'lucide-react'
+import { BookOpen, Gauge, GraduationCap, Heart, HeartHandshake, LayoutGrid, Sparkles, Swords } from 'lucide-react'
 import { QuizKind } from '@/utils/quizKind'
 import styles from '@/app/[locale]/(quizGroup)/blog/blog.module.scss'
 
@@ -7,6 +7,10 @@ const ICONS: Record<QuizKind, typeof Sparkles> = {
     exam: GraduationCap,
     quiz: LayoutGrid,
     aboutMe: Heart,
+    tournament: Swords,
+    story: BookOpen,
+    compatibility: HeartHandshake,
+    scored: Gauge,
 }
 
 interface IProps {

@@ -19,8 +19,10 @@ import LoadingReq from '../Loading/loading-req'
 import { getAppLocale } from '@/utils/locale'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { trackEvent } from '@/utils/analytics'
-import { QuizKind } from '@/utils/quizKind'
+import { isExperienceKind, QuizKind } from '@/utils/quizKind'
 import InputKindQuiz from './input-kind-quiz'
+import ContentLanguageSelect from './content-language-select'
+import { ContentLanguage } from '@/utils/contentLanguages'
 import InputPersonalityResults from './input-personality-results'
 import { ILocalPersonalityResult, initialResults, toApiResults } from '@/utils/personalityResults'
 import { uploadResultImages } from './upload-result-images'
@@ -36,16 +38,16 @@ const SUGGESTED_CATEGORY: Partial<Record<QuizKind, string>> = {
     exam: 'Education',
     aboutMe: 'Life/Relationships',
     personality: 'Psychology',
+    compatibility: 'Life/Relationships',
 }
-type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN'
-
-const getDefaultQuizIdiom = (locale: string): QuizIdiom => {
+// começa no idioma da interface; quem cria escolhe o idioma real do conteúdo
+const getDefaultQuizIdiom = (locale: string): ContentLanguage => {
     const idiomByLocale = {
         pt: 'PT-BR',
         en: 'EN-US',
         es: 'ES-ES',
         zh: 'ZH-CN',
-    } satisfies Record<string, QuizIdiom>
+    } satisfies Record<string, ContentLanguage>
 
     return idiomByLocale[getAppLocale(locale)]
 }
@@ -69,7 +71,7 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
         [category, setCategory] = useState<string>(SUGGESTED_CATEGORY[initialKind] ?? ''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<'public' | 'private'>('private'),
-        [idiom, setIdiom] = useState<QuizIdiom>(getDefaultQuizIdiom(locale)),
+        [idiom, setIdiom] = useState<ContentLanguage>(getDefaultQuizIdiom(locale)),
         [finalMessages, setFinalMessages] = useState<IFinalMessages>(),
         [loading, setLoading] = useState<boolean>(false),
         [errorQuiz, setErrorQuiz] = useState<ErrorsState>(),
@@ -116,7 +118,8 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                     draft: true,
                     idiom,
                     kind,
-                    resultMessages: finalMessages,
+                    // torneio, história, compatibilidade e pontuação não usam as mensagens por nota
+                    resultMessages: isExperienceKind(kind) ? undefined : finalMessages,
                     ...(kind === 'personality' ? { personalityResults: toApiResults(results), personalityTieBreakQuestion: tieBreakQuestion } : {}),
                 },
             }
@@ -224,12 +227,12 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                 />
 
                 <InputTextQuiz styles={styles} labelFor='title' labelValue={t('labels.title')} error={getError('title')}>
-                    <input type="text" id="title" placeholder={t('placeholders.title')} value={title}
+                    <input type="text" id="title" placeholder={t(`placeholders.titleByKind.${kind}`)} value={title}
                         onChange={(e) => { setTitle(e.target.value); resetTypeError('title') }} />
                 </InputTextQuiz>
 
                 <InputTextQuiz labelFor='desc' labelValue={t('labels.description')} styles={styles} error={getError('description')}>
-                    <textarea id="desc" placeholder={t('placeholders.description')} value={desc}
+                    <textarea id="desc" placeholder={t(`placeholders.descriptionByKind.${kind}`)} value={desc}
                         onChange={(e) => { setDesc(e.target.value); resetTypeError('description') }}></textarea>
                 </InputTextQuiz>
 
@@ -260,23 +263,16 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                 </InputTextQuiz>
 
                 <InputTextQuiz styles={styles} labelFor='visibility' labelValue={t('labels.visibility')}>
-                    <select id="visibility" value={visibility} onChange={e => setVisibility(e.target.value as 'public' | 'private')}>
+                    <select id="visibility" value={visibility} onChange={e => setVisibility(e.target.value as 'public' | 'private')} aria-describedby='visibility-hint'>
                         <option value="public">{t('selects.public')}</option>
                         <option value="private">{t('selects.private')}</option>
                     </select>
+                    <p id='visibility-hint' className={styles.kind_hint}>{t('hints.visibility')}</p>
                 </InputTextQuiz>
 
                 <InputTextQuiz styles={styles} labelFor='lang' labelValue={t('labels.idiom')}>
-                    <select
-                        id="lang"
-                        value={idiom}
-                        onChange={e => setIdiom(e.target.value as QuizIdiom)}
-                    >
-                        <option value='EN-US'>{t('selects.en')}</option>
-                        <option value='PT-BR'>{t('selects.pt')}</option>
-                        <option value='ES-ES'>{t('selects.es')}</option>
-                        <option value='ZH-CN'>{t('selects.zh')}</option>
-                    </select>
+                    <ContentLanguageSelect value={idiom} onChange={setIdiom} describedBy='lang-hint' />
+                    <p id='lang-hint' className={styles.kind_hint}>{t('hints.idiom')}</p>
                 </InputTextQuiz>
 
                 {kind === 'personality' ? (
@@ -287,7 +283,7 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
                         tieBreakQuestion={tieBreakQuestion}
                         onTieBreakQuestionChange={(question) => { setTieBreakQuestion(question); resetTypeError('personalityResults') }}
                     />
-                ) : (
+                ) : !isExperienceKind(kind) && (
                     <div className={styles.messages}>
                         <label>{t('labels.finalMessages')}</label>
                         <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} />

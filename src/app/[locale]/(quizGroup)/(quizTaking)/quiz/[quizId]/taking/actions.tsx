@@ -8,6 +8,7 @@ import { updateTag } from "next/cache"
 import { quizTag } from "@/utils/publicQuiz"
 import IExamReviewQuestion from "@/interfaces/IExamReview"
 import IPersonalityOutcome, { IPersonalityTie } from "@/interfaces/IPersonalityOutcome"
+import { IParticipationRef } from "@/utils/participationKeys"
 
 const START_COOKIE = (id: string) => `quiz_start_${id}`
 const ELAPSED_COOKIE = (id: string) => `quiz_elapsed_${id}`
@@ -46,9 +47,10 @@ export async function pauseQuiz(quizId: string, token?: string): Promise<{ ok: b
 
 // personality: o quiz de personalidade não tem tempo nem ranking, então não depende da sessão
 // (que expira em uma hora); tieBreak é a escolha na pergunta de desempate, no segundo envio.
+// attemptKey: criada ao começar a partida; reenviar a mesma conclusão não conta de novo.
 export async function takeQuiz(
     quizId: string,
-    results: { quizAnswer: any; guest?: string },
+    results: { quizAnswer: any; guest?: string; attemptKey?: string },
     token?: string,
     personality?: { tieBreak?: string }
 ) {
@@ -73,6 +75,7 @@ export async function takeQuiz(
         const cookieHeader = await getCookieHeader(cookieStore.getAll())
         const body = {
             quizAnswer: results.quizAnswer, timing, guest: results.guest,
+            ...(results.attemptKey ? { attemptKey: results.attemptKey } : {}),
             ...(personality?.tieBreak ? { tieBreak: personality.tieBreak } : {}),
         }
 
@@ -97,6 +100,8 @@ export async function takeQuiz(
             review: res.review as IExamReviewQuestion[] | undefined,
             // personalidade: no lugar da nota vem o perfil
             personality: res.personality as IPersonalityOutcome | undefined,
+            // o link do resultado (participationId) e a chave de quem jogou
+            participation: res.participation as IParticipationRef | undefined,
         }
     } catch (err) {
         throw err

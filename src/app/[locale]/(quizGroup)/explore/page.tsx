@@ -2,16 +2,17 @@ import styles from './explore.module.scss'
 import ContextualHeaderActions from '@/components/NavigateWidgets/contextual-header-action'
 import SearchResults from '@/components/Searching/search-results'
 import FeaturedsContainer from '@/components/Searching/featureds-container'
-import ExploreFilterBar, { LANG_NAMES } from '@/components/Searching/explore-filter-bar'
+import ExploreFilterBar from '@/components/Searching/explore-filter-bar'
 import { env } from '@/env'
 import { generateExploreQuizSchema } from '@/utils/generateSchemas'
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
+import { cache } from 'react'
 import GoogleAd from '@/components/Google/GoogleAd'
 import { getQuizzes, getFeaturedsQuizzes } from './actions'
 import { getOpenGraphLocale } from '@/utils/locale'
 import { jsonLd } from '@/utils/seo'
-import { exploreHref, hasExploreSearch, IExploreFilters, parseExploreFilters } from '@/utils/exploreFilters'
+import { exploreHref, exploreLangName, hasExploreSearch, IExploreFilters, parseExploreFilters } from '@/utils/exploreFilters'
 
 type TSearchParams = Record<string, string | string[] | undefined>
 
@@ -25,6 +26,10 @@ const QUIZ_TYPE_NAMES = {
     'exam': 'names.exam',
     'about-me': 'names.aboutMe',
     'personality': 'names.personality',
+    'tournament': 'names.tournament',
+    'story': 'names.story',
+    'compatibility': 'names.compatibility',
+    'scored': 'names.scored',
     'image': 'image',
 } as const
 
@@ -32,13 +37,22 @@ const QUIZ_TYPE_NAMES = {
 // categorias continuam acessíveis, mas fora do índice
 const isIndexable = (filters: IExploreFilters) => !filters.title && !filters.tags && !filters.categories
 
+// a mesma busca serve ao generateMetadata e à página: uma chamada por requisição
+const loadQuizzes = cache((filtersKey: string) => getQuizzes(JSON.parse(filtersKey) as IExploreFilters))
+
 export async function generateMetadata({ params, searchParams }: IProps): Promise<Metadata> {
     const { locale } = await params
     const filters = parseExploreFilters(await searchParams)
-    const [t, tTypes] = await Promise.all([
+    // um filtro ainda sem nenhum quiz (um tipo novo, uma página depois da última) fica fora do
+    // índice até ter conteúdo; o Explorar sem filtros continua sempre no índice. Se a busca
+    // falhar, vale só a regra dos filtros.
+    const narrowed = Boolean(filters.type || filters.lang || filters.page > 1)
+    const [t, tTypes, listing] = await Promise.all([
         getTranslations({ locale, namespace: 'explorePage' }),
         getTranslations({ locale, namespace: 'quizTypes' }),
+        narrowed ? loadQuizzes(JSON.stringify(filters)) : Promise.resolve(undefined),
     ])
+    const emptyListing = Array.isArray(listing?.quizzes) && listing.quizzes.length === 0
 
     // o endereço canônico guarda só os filtros que formam a página (na ordem fixa)
     const path = exploreHref({ type: filters.type, lang: filters.lang, page: filters.page })
@@ -46,7 +60,7 @@ export async function generateMetadata({ params, searchParams }: IProps): Promis
 
     const labels = [
         filters.type ? tTypes(QUIZ_TYPE_NAMES[filters.type]) : '',
-        filters.lang ? LANG_NAMES[filters.lang] : '',
+        filters.lang ? exploreLangName(filters.lang) : '',
     ].filter(Boolean).join(' · ')
     const page = filters.page > 1 ? ` – ${t('metadataPage', { page: filters.page })}` : ''
     const title = (labels ? t('metadataFiltered', { filters: labels }) : t('metadataTitle')) + page
@@ -54,7 +68,7 @@ export async function generateMetadata({ params, searchParams }: IProps): Promis
     return {
         title,
         description: t('metadataDesc'),
-        robots: isIndexable(filters) ? 'index, follow' : 'noindex, follow',
+        robots: isIndexable(filters) && !emptyListing ? 'index, follow' : 'noindex, follow',
         keywords: "quiz, explore, play",
         alternates: {
             canonical: url(locale),
@@ -92,7 +106,7 @@ export default async function Explore({ params, searchParams }: IProps) {
 
     const [t, paginatedData, popularQuizzes] = await Promise.all([
         getTranslations({ locale, namespace: 'explorePage' }),
-        getQuizzes(filters),
+        loadQuizzes(JSON.stringify(filters)),
         showFeatured ? getFeaturedsQuizzes() : Promise.resolve(undefined),
     ])
 

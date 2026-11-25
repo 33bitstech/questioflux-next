@@ -397,6 +397,22 @@
             margin-top: 10px;
         }
 
+        // visitante: o apelido aparece na lista de participantes; nos formatos sem ranking dá
+        // para seguir sem nome
+        .guest-name-note {
+            margin: -.4rem 0 0;
+            @include vars.styleTexto(var(--text-description), .85rem, 400);
+        }
+
+        .guest-anonymous-button {
+            @extend %input-submit-default;
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--seemore-button-border);
+            font-size: 1rem;
+            text-transform: none;
+        }
+
         input[type="submit"][value="Login"],
         input[type="submit"][value="Send"],
         input[type="submit"][value="Loading"],

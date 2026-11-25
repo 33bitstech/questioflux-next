@@ -18,7 +18,9 @@ import LoadingReq from '../Loading/loading-req'
 import DeleteQuiz from './delete-quiz'
 import WarningReset from '../widgets/warning-reset'
 import InputKindQuiz from '../CreatingQuiz/input-kind-quiz'
-import { getQuizKind, QuizKind, quizKinds } from '@/utils/quizKind'
+import ContentLanguageSelect from '../CreatingQuiz/content-language-select'
+import { ContentLanguage, normalizeContentLanguage } from '@/utils/contentLanguages'
+import { contentFamily, getQuizKind, isExperienceKind, QuizKind, quizKinds } from '@/utils/quizKind'
 import InputPersonalityResults from '../CreatingQuiz/input-personality-results'
 import { ILocalPersonalityResult, initialResults, resultsSnapshot, toApiResults, toLocalResults } from '@/utils/personalityResults'
 import { uploadResultImages } from '../CreatingQuiz/upload-result-images'
@@ -27,7 +29,6 @@ interface IProps {
     styles: TStyles,
     quiz: IQuizes | undefined | any
 }
-type QuizIdiom = 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN'
 
 export default function FormEditQuiz({ styles, quiz }: IProps) {
     const { getError, setError, resetErrors, resetTypeError } = useErrors(),
@@ -45,7 +46,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [category, setCategory] = useState<string>(''),
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<string>(''),
-        [idiom, setIdiom] = useState<QuizIdiom>('EN-US'),
+        [idiom, setIdiom] = useState<ContentLanguage>('EN-US'),
         [kind, setKind] = useState<QuizKind>('quiz'),
         // rascunho só muda quando a pessoa escolhe (antes, salvar a capa finalizava o quiz)
         [draft, setDraft] = useState<boolean>(false),
@@ -88,11 +89,13 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
 
     const hasQuestions = (quiz?.qtdQuestions ?? 0) > 0
     const savedKind = getQuizKind(quiz)
-    const lockedKinds: QuizKind[] = !hasQuestions
-        ? []
-        : savedKind === 'personality'
-            ? quizKinds.filter(option => option !== 'personality')
-            : ['personality']
+    // com o conteúdo criado, o tipo só troca dentro da mesma família (mesma regra do backend)
+    const lockedKinds: QuizKind[] = hasQuestions
+        ? quizKinds.filter(option => contentFamily(option) !== contentFamily(savedKind))
+        : []
+    const experience = isExperienceKind(kind)
+    // formatos de experiência: só finaliza com o conteúdo completo (validado ao salvar no editor)
+    const canFinish = experience ? quiz?.experienceValid === true : hasQuestions
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -123,7 +126,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     draft,
                     idiom,
                     kind,
-                    resultMessages: finalMessages,
+                    resultMessages: experience ? undefined : finalMessages,
                     ...(kind === 'personality' ? { personalityResults: toApiResults(results), personalityTieBreakQuestion: tieBreakQuestion } : {}),
                 },
             }
@@ -205,7 +208,8 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             const initialCategory = quiz.category || '';
             const initialTags = (quiz.tags ?? []).join(', ');
             const initialVisibility = quiz.isPrivate ? 'private' : 'public';
-            const initialIdiom = quiz.idiom || 'EN-US';
+            // quizzes antigos guardam 'en'
+            const initialIdiom = normalizeContentLanguage(quiz.idiom) ?? 'EN-US';
             const initialMessages = quiz.resultMessages || null;
             const initialKind = getQuizKind(quiz);
             const initialDraft = quiz.draft === true;
@@ -217,7 +221,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             setCategory(initialCategory)
             setTagsString(initialTags)
             setVisibility(initialVisibility)
-            setIdiom(initialIdiom as QuizIdiom)
+            setIdiom(initialIdiom)
             setKind(initialKind)
             setDraft(initialDraft)
             setResults(initialResultsList)
@@ -275,12 +279,12 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             />
 
             <InputTextQuiz styles={styles} labelFor='title' labelValue={tShared('labels.title')} error={getError('title')}>
-                <input type="text" id="title" placeholder={tShared('placeholders.title')} value={title}
+                <input type="text" id="title" placeholder={tShared(`placeholders.titleByKind.${kind}`)} value={title}
                     onChange={(e) => { setTitle(e.target.value); resetTypeError('title') }} />
             </InputTextQuiz>
 
             <InputTextQuiz labelFor='desc' labelValue={tShared('labels.description')} styles={styles} error={getError('description')}>
-                <textarea id="desc" placeholder={tShared('placeholders.description')} value={desc}
+                <textarea id="desc" placeholder={tShared(`placeholders.descriptionByKind.${kind}`)} value={desc}
                     onChange={(e) => { setDesc(e.target.value); resetTypeError('description') }}></textarea>
             </InputTextQuiz>
 
@@ -311,10 +315,11 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             </InputTextQuiz>
 
             <InputTextQuiz styles={styles} labelFor='visibility' labelValue={tShared('labels.visibility')}>
-                <select id="visibility" value={visibility} onChange={e => setVisibility(e.target.value)}>
+                <select id="visibility" value={visibility} onChange={e => setVisibility(e.target.value)} aria-describedby='visibility-hint'>
                     <option value="public">{tShared('selects.public')}</option>
                     <option value="private">{tShared('selects.private')}</option>
                 </select>
+                <p id='visibility-hint' className={styles.kind_hint}>{tShared('hints.visibility')}</p>
             </InputTextQuiz>
 
             <InputTextQuiz styles={styles} labelFor='status' labelValue={tShared('labels.status')}>
@@ -323,28 +328,22 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     value={draft ? 'draft' : 'finished'}
                     onChange={e => setDraft(e.target.value === 'draft')}
                     aria-describedby="status-hint"
-                    // sem perguntas não há o que finalizar
-                    disabled={!draft ? false : !(quiz?.qtdQuestions > 0)}
+                    // sem perguntas (ou com o conteúdo incompleto) não há o que finalizar
+                    disabled={draft && !canFinish}
                 >
                     <option value="draft">{tShared('selects.statusDraft')}</option>
                     <option value="finished">{tShared('selects.statusFinished')}</option>
                 </select>
                 <p id="status-hint" className={styles.kind_hint}>
-                    {draft && !(quiz?.qtdQuestions > 0) ? tShared('statusHints.noQuestions') : tShared(draft ? 'statusHints.draft' : 'statusHints.finished')}
+                    {draft && !canFinish
+                        ? tShared(experience ? 'statusHints.notReady' : 'statusHints.noQuestions')
+                        : tShared(draft ? 'statusHints.draft' : 'statusHints.finished')}
                 </p>
             </InputTextQuiz>
 
             <InputTextQuiz styles={styles} labelFor='lang' labelValue={tShared('labels.idiom')}>
-                <select
-                    id="lang"
-                    value={idiom}
-                    onChange={e => setIdiom(e.target.value as QuizIdiom)}
-                >
-                    <option value='EN-US'>{tShared('selects.en')}</option>
-                    <option value='PT-BR'>{tShared('selects.pt')}</option>
-                    <option value='ES-ES'>{tShared('selects.es')}</option>
-                    <option value='ZH-CN'>{tShared('selects.zh')}</option>
-                </select>
+                <ContentLanguageSelect value={idiom} onChange={setIdiom} describedBy='lang-hint' />
+                <p id='lang-hint' className={styles.kind_hint}>{tShared('hints.idiom')}</p>
             </InputTextQuiz>
 
             {kind === 'personality' ? (
@@ -355,7 +354,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                     tieBreakQuestion={tieBreakQuestion}
                     onTieBreakQuestionChange={(question) => { setTieBreakQuestion(question); resetTypeError('personalityResults') }}
                 />
-            ) : (
+            ) : !experience && (
                 <div className={styles.messages}>
                     <label>{tShared('labels.finalMessages')}</label>
                     <InputFinalMessages styles={styles} messagesChanged={setFinalMessages} finalMessages={finalMessages} />
@@ -378,7 +377,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                                 }
                             }}
                         >
-                            {t('form.buttons.editQuestions')}
+                            {t(isExperienceKind(savedKind) ? 'form.buttons.editContent' : 'form.buttons.editQuestions')}
                         </Link>
                     )}
                     <input disabled={loading} type="submit" value={t('form.buttons.saveChanges')} />

@@ -1,6 +1,7 @@
 import { env } from '@/env'
 import IQuizes from '@/interfaces/IQuizes'
 import { AppLocale, getAppLocale } from '@/utils/locale'
+import { contentLanguageTag } from '@/utils/contentLanguages'
 
 export const SITE_URL = env.NEXT_PUBLIC_DOMAIN_FRONT.replace(/\/$/, '')
 
@@ -26,8 +27,9 @@ export const hreflangMap = (urls: Array<{ locale: string, url: string }>) => {
 // idiom vem do backend como 'PT-BR' | 'EN-US' | 'ES-ES' | 'ZH-CN' (ou 'en' nos quizzes antigos)
 export const idiomToLocale = (idiom?: string): AppLocale => getAppLocale(idiom?.toLowerCase())
 
+// a língua do conteúdo (francês, árabe...), não só as da interface
 export const idiomToLanguageTag = (idiom?: string) =>
-    ({ en: 'en-US', pt: 'pt-BR', es: 'es', zh: 'zh-CN' })[idiomToLocale(idiom)]
+    contentLanguageTag(idiom) ?? ({ en: 'en-US', pt: 'pt-BR', es: 'es', zh: 'zh-CN' })[idiomToLocale(idiom)]
 
 // As perguntas não são traduzidas: /en, /pt e /es mostram o mesmo quiz. A canônica é
 // a do idioma em que o quiz foi escrito, e a página de quiz não leva hreflang.

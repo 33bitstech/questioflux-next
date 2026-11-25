@@ -40,6 +40,7 @@ function ResultImage({ result, alt }: { result: ILocalPersonalityResult, alt: st
 // Capa do quiz de personalidade: os perfis a que as alternativas das perguntas vão levar.
 export default function InputPersonalityResults({ value, onChange, error, tieBreakQuestion, onTieBreakQuestionChange }: IProps) {
     const t = useTranslations('createQuizFlow.formComponent.personalityResults')
+    const titleExamples = String(t('titleExamples')).split('|')
 
     const update = (index: number, patch: Partial<ILocalPersonalityResult>) =>
         onChange(value.map((result, i) => i === index ? { ...result, ...patch } : result))
@@ -99,7 +100,8 @@ export default function InputPersonalityResults({ value, onChange, error, tieBre
                                         maxLength={80}
                                         value={result.title}
                                         aria-label={t('titleLabel', { number: index + 1 })}
-                                        placeholder={t('titlePlaceholder')}
+                                        // um exemplo diferente em cada resultado (Coruja, Leão, Golfinho...)
+                                        placeholder={t('titlePlaceholder', { example: titleExamples[index % titleExamples.length] })}
                                         onChange={(e) => update(index, { title: e.target.value })}
                                     />
                                     <textarea

@@ -100,6 +100,22 @@ $top-space: 6.5rem;
     background: linear-gradient(135deg, #EE46BC 0%, #7A5AF8 100%);
 }
 
+.cover_tournament {
+    background: linear-gradient(135deg, #FF7A00 0%, #EE46BC 55%, #7A5AF8 100%);
+}
+
+.cover_story {
+    background: linear-gradient(135deg, #0B1E5B 0%, #7A5AF8 60%, #EE46BC 100%);
+}
+
+.cover_compatibility {
+    background: linear-gradient(135deg, #EE46BC 0%, #FF7A9A 50%, #FFB86B 100%);
+}
+
+.cover_scored {
+    background: linear-gradient(135deg, #00A389 0%, #0A8CFF 55%, #0047FF 100%);
+}
+
 .cover_featured {
     aspect-ratio: 16 / 11;
     border-radius: 1.2rem;

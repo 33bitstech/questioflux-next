@@ -58,7 +58,7 @@ export default function QuestionInput({
 
             <textarea 
                 className={styles.question_textarea}
-                placeholder={t('placeholder')}
+                placeholder={isPersonality ? t('personalityQuestionPlaceholder') : t('placeholder')}
                 value={question.title}
                 onChange={(e)=>onTitleChange(e.target.value)}
             ></textarea>

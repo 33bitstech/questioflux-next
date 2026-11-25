@@ -31,8 +31,8 @@ interface IProps {
     pauseQuiz: () => Promise<void>
     // no embed quem não está logado só entra como visitante
     guestOnly?: boolean
-    // quiz de personalidade: envia direto, sem pedir login nem nome de visitante
-    skipGuestPrompt?: boolean
+    // formatos sem ranking (personalidade): o visitante pode seguir sem apelido
+    allowAnonymous?: boolean
     setStarted: React.Dispatch<React.SetStateAction<boolean>>
     setResult: React.Dispatch<React.SetStateAction<{
         quizAnswer: any;
@@ -73,7 +73,7 @@ export default function QuestionsContainer({
     questions, setStarted,
     started, typeOfQuiz, setResult,
     finalTime, setFinalTime,
-    pauseQuiz, guestOnly, skipGuestPrompt,
+    pauseQuiz, guestOnly, allowAnonymous,
     onQuestionAnswered, resume, googleResume
 }: IProps) {
     const [actualQuestion, setActualQuestion] = useState<number>(1),
@@ -181,7 +181,7 @@ export default function QuestionsContainer({
 
         handleSelectValuesCopy()
 
-        if (!user && !skipGuestPrompt) setCanShowRegister(true)
+        if (!user) setCanShowRegister(true)
 
         handleSelectValues()
     }
@@ -354,6 +354,7 @@ export default function QuestionsContainer({
                 }
                 {typePopup === 'guest' &&
                     <GuestForm
+                        allowAnonymous={allowAnonymous}
                         toRegister={guestOnly ? undefined : toRegister}
                         handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz}
                         show_pop_up={setCanShowRegister}

@@ -105,13 +105,24 @@
                     -webkit-background-clip: text;
                 }
             }
-            // a personalidade obtida (quiz de personalidade)
+            // visitante sem apelido (anônimo ou registro antigo sem nome)
+            .unnamed{
+                font-style: italic;
+                opacity: .75;
+            }
+            // o resultado obtido (perfil, faixa, campeão...); com link para a página dele
             .result{
                 max-width: 100%;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                text-transform: none;
                 @include vars.styleTexto(vars.$cor-ciano, .85rem, 500);
+            }
+            a.result:hover{
+                background: none;
+                -webkit-text-fill-color: currentColor;
+                text-decoration: underline;
             }
         }
         .load_more{

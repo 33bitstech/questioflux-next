@@ -25,6 +25,8 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt|es|zh)\/create\/quiz\/cover$/, actionWhenAuth: 'next' },
     // página de cada tipo de quiz (prova, sobre mim...): conteúdo para o Google
     { src: /^\/(en|pt|es|zh)\/create\/quiz\/(questions-and-answers|exam|about-me|personality)$/, actionWhenAuth: 'next' },
+    // formatos interativos: a página de escolha e a de cada formato, também para o Google
+    { src: /^\/(en|pt|es|zh)\/create\/experiences(\/(tournament|story|compatibility|scored))?$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es|zh)\/quiz\/[^/]+$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es|zh)\/quiz\/.+\/taking$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es|zh)\/quiz\/.+\/comments$/, actionWhenAuth: 'next' },
