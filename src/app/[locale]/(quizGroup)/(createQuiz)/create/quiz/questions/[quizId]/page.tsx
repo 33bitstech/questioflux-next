@@ -8,10 +8,13 @@ import { cookies } from 'next/headers'
 import { getQuizKind, isExperienceKind, QuizKind } from '@/utils/quizKind'
 import ExperienceEditor from '@/components/Experiences/experience-editor'
 import { IPersonalityResult } from '@/interfaces/IQuizes'
+import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 interface IProps {
     params:Promise<{
         quizId: string
+        locale: string
     }>
 }
 
@@ -45,6 +48,16 @@ async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, ki
     } catch {
         return { isPrivate: false, kind: 'quiz' }
     }
+}
+
+// título da aba com o formato ("Criar Torneio de Favoritos"); nos quizzes, o título do fluxo
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const { quizId, locale } = await params
+    const [t, { kind }] = await Promise.all([
+        getTranslations({ locale, namespace: 'createQuizFlow.layout' }),
+        getQuizSettings(quizId),
+    ])
+    return { title: t('metadataTitleKind', { kind }) }
 }
 
 export default async function QuestionsPage({params} : IProps) {

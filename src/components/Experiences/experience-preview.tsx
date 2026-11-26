@@ -58,7 +58,7 @@ export default async function ExperiencePreview({ kind, locale, styles }: IProps
                 <span className={styles.preview_label}>{t('story.label')}</span>
                 <div className={styles.preview_header}><span>{t('story.step')}</span></div>
                 <p className={styles.preview_question}>{start.text}</p>
-                <ul className={own.mini_choices}>
+                <ul className={`${own.mini_choices} ${own.mini_choices_story}`}>
                     {start.choices.map(choice => <li key={choice.choiceId}><ChevronRight /> {choice.text}</li>)}
                 </ul>
                 <div className={styles.preview_result}>

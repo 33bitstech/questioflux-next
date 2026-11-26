@@ -68,7 +68,7 @@ export default function ParticipationResult({ quiz, participation: initial, shar
     }, [initial])
 
     const { player } = participation
-    const nameOf = (someone?: IParticipationPlayer | null) => someone?.name || (someone?.nameStatus === 'unrecorded' ? t('unrecorded') : t('guest'))
+    const nameOf = (someone?: IParticipationPlayer | null) => someone?.name || t('guest')
     const name = nameOf(player)
     // torneio, história, compatibilidade e pontuação: o resultado é do mesmo formato do quiz
     const experience = isExperienceKind(getQuizKind(quiz)) && participation.kind === getQuizKind(quiz)
@@ -138,7 +138,7 @@ export default function ParticipationResult({ quiz, participation: initial, shar
                         <Play aria-hidden="true" /> {participation.isOwner ? t('playAgain') : t('playToo')}
                     </Link>
                     <Link href={`/quiz/${quiz.quizId}`} className={styles.button_secondary}>
-                        {t('seeQuiz')}
+                        {t('seeQuiz', { kind: getQuizKind(quiz) })}
                     </Link>
                 </>}
             </div>

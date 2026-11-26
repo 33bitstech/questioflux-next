@@ -25,7 +25,7 @@ export default function InputKindQuiz({ styles, value, onChange, disabledKinds =
             </select>
             <p id='kind-hint' className={styles.kind_hint}>
                 {t(`kindHints.${value}`)}
-                {disabledKinds.length > 0 && <> {t('kindLocked')}</>}
+                {disabledKinds.length > 0 && <> {t('kindLocked', { kind: value })}</>}
             </p>
         </InputTextQuiz>
     )

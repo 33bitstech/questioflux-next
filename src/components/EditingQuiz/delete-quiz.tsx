@@ -8,12 +8,15 @@ import { deleteQuiz } from "./delete-action"
 import { useRouter } from "@/i18n/navigation"
 import LoadingReq from "../Loading/loading-req"
 import { useGlobalMessage } from "@/contexts/globalMessageContext"
+import { QuizKind } from "@/utils/quizKind"
 
 interface IProps {
     quizId: string
+    // torneio, história e teste: os textos usam o nome do formato, não "quiz"
+    kind?: QuizKind
 }
 
-export default function DeleteQuiz({ quizId }: IProps) {
+export default function DeleteQuiz({ quizId, kind = 'quiz' }: IProps) {
     const [isDeleteMenuOpen, setIsDeleteMenuOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const { setSucess, setError } = useGlobalMessage()
@@ -26,7 +29,7 @@ export default function DeleteQuiz({ quizId }: IProps) {
         setLoading(true)
         deleteQuiz(quizId)
             .then(() => {
-                setSucess(t('sucess'))
+                setSucess(t('sucess', { kind }))
                 router.push('/')
             })
             .catch((err) => {
@@ -38,7 +41,7 @@ export default function DeleteQuiz({ quizId }: IProps) {
     return (
         <>
             <button className={styles.delete_button} type="button" onClick={toggleDeleteMenu}>
-                {t('button')}
+                {t('button', { kind })}
             </button>
 
             {loading && <LoadingReq loading={loading} />}
@@ -49,7 +52,7 @@ export default function DeleteQuiz({ quizId }: IProps) {
                     confirmFunction={handleDeleteQuiz}
                     cancelValue={t('menu.cancel')}
                     confirmValue={t('menu.confirm')}
-                    description={t('menu.desc')}
+                    description={t('menu.desc', { kind })}
                     title={t('menu.title')}
                 />
             )}

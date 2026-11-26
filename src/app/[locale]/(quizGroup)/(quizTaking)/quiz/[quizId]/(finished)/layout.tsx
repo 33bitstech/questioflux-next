@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     if (!quiz) notFound()
 
     return {
-        title: `${t('metadataTitle')} - ${quiz.title}`,
+        title: `${t('metadataTitle', { kind: getQuizKind(quiz) })} - ${quiz.title}`,
         robots: { index: false, follow: true }
     };
 }
@@ -53,7 +53,7 @@ export default async function LayoutTaking({ children, params }: IProps) {
                         src={quiz?.quizThumbnail !== 'default'
                             ? quiz?.quizThumbnail
                             : '/imageQuizDefault.jpg'}
-                        alt={t('altQuizImage')}
+                        alt={t('altQuizImage', { kind: getQuizKind(quiz) })}
                     />
                 </div>
 

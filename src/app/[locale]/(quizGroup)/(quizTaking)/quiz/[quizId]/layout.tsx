@@ -5,12 +5,18 @@ import ButtonBack from '@/components/widgets/button-back';
 import { Link } from '@/i18n/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getPublicQuiz } from '@/utils/publicQuiz';
+import { getQuizKind } from '@/utils/quizKind';
 import { AdSenseLoader } from '@/components/Google/AdSenseScript';
 
-export const metadata: Metadata = {
-    title: 'Taking',
-    robots: { index: false, follow: true }
-};
+// a aba mostra o nome do quiz, torneio ou história que está sendo jogado (as páginas de resultado têm título próprio)
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const { quizId } = await params
+    const quiz = await getPublicQuiz(quizId)
+    return {
+        title: quiz ? `${quiz.title} | QuestioFlux` : 'QuestioFlux',
+        robots: { index: false, follow: true },
+    }
+}
 
 
 interface IProps {
@@ -35,7 +41,7 @@ export default async function LayoutTaking({children, params}: IProps) {
                     styles={styles}
                 />
                 {/* a página do quiz (informações, comentários e ranking) */}
-                <Link locale={locale} href={`/quiz/${quizId}`} className={styles.btn_back}>{t('viewQuiz')}</Link>
+                <Link locale={locale} href={`/quiz/${quizId}`} className={styles.btn_back}>{t('viewQuiz', { kind: getQuizKind(quiz) })}</Link>
             </div>
             {children}
         </main>

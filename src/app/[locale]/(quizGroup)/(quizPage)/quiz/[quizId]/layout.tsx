@@ -41,7 +41,7 @@ export default async function LayoutQuizGroup({ children, params }: IProps) {
             <div className={styles.quiz_navigation}>
                 <h1>{quiz.title}</h1>
                 <nav className={styles.navbar_quiz}>
-                    <NavLink replace styles={styles} href={`/quiz/${quizId}`}>{t('info')}</NavLink>
+                    <NavLink replace styles={styles} href={`/quiz/${quizId}`}>{t('info', { kind: getQuizKind(quiz) })}</NavLink>
                     <NavLink replace styles={styles} href={`/quiz/${quizId}/comments`}>{t('comments')}</NavLink>
                     <NavLink replace styles={styles} href={`/quiz/${quizId}/leaderboard`}>
                         {/* sem ranking (personalidade e os formatos de experiência): a aba mostra os resultados */}

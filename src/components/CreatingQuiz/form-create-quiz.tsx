@@ -272,7 +272,7 @@ export default function FormCreateQuiz({ styles, initialKind = 'quiz' }: IProps)
 
                 <InputTextQuiz styles={styles} labelFor='lang' labelValue={t('labels.idiom')}>
                     <ContentLanguageSelect value={idiom} onChange={setIdiom} describedBy='lang-hint' />
-                    <p id='lang-hint' className={styles.kind_hint}>{t('hints.idiom')}</p>
+                    <p id='lang-hint' className={styles.kind_hint}>{t('hints.idiom', { kind })}</p>
                 </InputTextQuiz>
 
                 {kind === 'personality' ? (

@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server'
 import { env } from '@/env'
 import { Metadata } from 'next'
 import { getOpenGraphLocale } from '@/utils/locale'
-import { quizKindFromParam } from '@/utils/quizKind'
+import { isExperienceKind, quizKindFromParam } from '@/utils/quizKind'
 
 interface IProps {
     params: Promise<{ locale: string }>;
@@ -14,9 +14,15 @@ interface IProps {
     searchParams: Promise<{ type?: string | string[] }>;
 }
 
-export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: IProps): Promise<Metadata> {
     const {locale} = await params
+    const { type } = await searchParams
     const t = await getTranslations({ locale, namespace: 'createQuizFlow' });
+    const tFormats = await getTranslations({ locale, namespace: 'experiencePages' });
+    // vindo de um formato novo (?type=tournament): título e descrição do formato, sem "quiz"
+    const kind = quizKindFromParam(Array.isArray(type) ? type[0] : type) ?? 'quiz'
+    const title = t('layout.metadataTitleKind', { kind })
+    const description = isExperienceKind(kind) ? tFormats(`${kind}.metadata.desc`) : t('selectTypePage.desc')
 
     const langs = {
         'es': `${env.NEXT_PUBLIC_DOMAIN_FRONT}/es/create/quiz/cover`,
@@ -27,8 +33,8 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 
     return {
-        title: t('layout.metadataTitle'),
-        description: t('selectTypePage.desc'),
+        title,
+        description,
         robots: 'noindex, follow',
         keywords: "quiz, create, type",
         alternates:{
@@ -36,8 +42,8 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             languages: langs
         },
         openGraph: {
-            title: t('layout.metadataTitle'),
-            description: t('selectTypePage.desc'),
+            title,
+            description,
             url: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/${locale}/create/quiz/cover`, 
             siteName: 'QuestioFlux',
             images: `${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`,
@@ -46,8 +52,8 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         },
         twitter: {
             card: 'summary_large_image',
-            title: t('layout.metadataTitle'),
-            description: t('selectTypePage.desc'),
+            title,
+            description,
             images: [`${env.NEXT_PUBLIC_DOMAIN_FRONT}/quiz_padrao_preto.png`],
         }
     }
@@ -62,7 +68,7 @@ export default async function CreatingQuiz({ params, searchParams }: IProps) {
     return (
         <main className={styles.content}>
             <div className={styles.subtitle_creations}>
-                <NavCreatinQuiz isBlock={true} locale={locale} />
+                <NavCreatinQuiz isBlock={true} locale={locale} kind={initialKind} />
                 <p>
                     {t.rich('saveDraftInfo', {
                         drafts: (chunks) => <span>{chunks}</span>

@@ -29,7 +29,7 @@ export default function NavCreatinQuiz({isBlock, quizId, isBacking, locale, kind
                         styles={styles}
                     >
                         {/* Usar as traduções */}
-                        {t('cover')} {'>'}
+                        {t('cover', { kind: kind ?? 'quiz' })} {'>'}
                     </NavLink>
                 </li>
                 <li>

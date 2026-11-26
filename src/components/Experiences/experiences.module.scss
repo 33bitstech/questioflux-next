@@ -1001,6 +1001,22 @@
         height: 3.4rem;
     }
 
+    // história no celular: a caixa "é um final" e a lixeira descem para uma linha própria,
+    // e o selo "Final" some (a caixa marcada já diz isso)
+    .scene_tools {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .badge_ending {
+        display: none;
+    }
+
+    // escolha: o texto ocupa a linha inteira e o destino fica embaixo, sem cortar o nome da cena
+    .field_row {
+        grid-template-columns: 1fr;
+        gap: .5rem;
+    }
 }
 
 // linhas marcadas pela conferência (escolha, alternativa, opção)
@@ -1082,6 +1098,11 @@
         flex-shrink: 0;
         @include vars.styleTexto(var(--text-secondary), .74rem, 800);
     }
+}
+
+// escolhas da história: seta e texto juntos, à esquerda
+.mini_choices_story li {
+    justify-content: flex-start;
 }
 
 .mini_compare {

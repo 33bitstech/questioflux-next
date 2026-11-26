@@ -6,6 +6,8 @@ import { env } from '@/env'
 import { getTranslations } from 'next-intl/server'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { cookies } from 'next/headers'
+import { Metadata } from 'next'
+import { getQuizKind } from '@/utils/quizKind'
 
 interface IProps {
     params: Promise<{ quizId: string; locale: string }>
@@ -25,6 +27,19 @@ async function getQuiz(quizId: string, cookieHeader: string): Promise<IQuizes | 
     }
 }
 
+// torneio, história e teste: os textos usam o nome do formato, não "quiz"
+const kindOf = (quiz: IQuizes | undefined | { err: any }) => quiz && !('err' in quiz) ? getQuizKind(quiz) : 'quiz'
+
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    const { quizId, locale } = await params
+    const cookieStore = await cookies()
+    const [t, quiz] = await Promise.all([
+        getTranslations({ locale, namespace: 'editQuizFlow.page' }),
+        getQuiz(quizId, getCookieHeader(cookieStore.getAll())),
+    ])
+    return { title: t('title', { kind: kindOf(quiz) }) }
+}
+
 export default async function EditingQuiz({ params }: IProps) {
     const { quizId, locale } = await params;
     const t = await getTranslations({ locale, namespace: 'editQuizFlow.page' });
@@ -35,8 +50,8 @@ export default async function EditingQuiz({ params }: IProps) {
     return (
         <main className={styles.content}>
             <div className={styles.subtitle_creations}>
-                <h1>{t('title')}</h1>
-                <p>{t('subtitle')}</p>
+                <h1>{t('title', { kind: kindOf(quiz) })}</h1>
+                <p>{t('subtitle', { kind: kindOf(quiz) })}</p>
             </div>
             <FormEditQuiz styles={styles} quiz={quiz} />
         </main>

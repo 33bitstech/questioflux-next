@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { trackEvent } from '@/utils/analytics'
+import { QuizKind } from '@/utils/quizKind'
 
 interface IProps {
     styles: Record<string, string>
@@ -10,6 +11,8 @@ interface IProps {
     locale: string
     domain: string
     quizTitle: string
+    // torneio, história e teste: os textos usam o nome do formato, não "quiz"
+    kind?: QuizKind
 }
 
 function escapeHtml(value: string) {
@@ -26,7 +29,8 @@ export default function EmbedQuizPopup({
     quizId,
     locale,
     domain,
-    quizTitle
+    quizTitle,
+    kind = 'quiz'
 }: IProps) {
     const t = useTranslations('quizInfoPage.embed')
 
@@ -52,13 +56,13 @@ export default function EmbedQuizPopup({
   ></iframe>
 
   <p style="font-size:14px; text-align:center; margin:8px 0 0;">
-    ${escapeHtml(t('createdWith'))}
+    ${escapeHtml(t('createdWith', { kind }))}
     <a href="${quizUrl}" target="_blank" rel="noopener noreferrer">
       QuestioFlux
     </a>
   </p>
 </div>`
-    }, [domain, locale, quizId, quizTitle, t])
+    }, [domain, locale, quizId, quizTitle, t, kind])
 
     const fallbackCopy = () => {
         const textarea = document.createElement('textarea')
@@ -94,7 +98,7 @@ export default function EmbedQuizPopup({
                 className={styles.embed_quiz_button}
                 onClick={() => setIsOpen(true)}
             >
-                {t('button')}
+                {t('button', { kind })}
             </button>
 
             {isOpen && (
@@ -115,7 +119,7 @@ export default function EmbedQuizPopup({
                         <div className={styles.embed_popup_header}>
                             <div>
                                 <h3 id="embed-popup-title">
-                                    {t('title')}
+                                    {t('title', { kind })}
                                 </h3>
 
                                 <p>{t('description')}</p>

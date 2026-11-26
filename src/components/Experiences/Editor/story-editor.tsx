@@ -96,9 +96,9 @@ export default function StoryEditor({ content, onChange, flagged, disabled }: IP
                             <div className={styles.item_tools}>
                                 <strong>{t('sceneLabel', { number: sceneNumber })}</strong>
                                 {scene.sceneId === content.startSceneId && <span className={`${styles.badge} ${styles.badge_start}`}><Play aria-hidden="true" /> {t('start')}</span>}
-                                {scene.ending && <span className={styles.badge}><Flag aria-hidden="true" /> {t('endingBadge')}</span>}
+                                {scene.ending && <span className={`${styles.badge} ${styles.badge_ending}`}><Flag aria-hidden="true" /> {t('endingBadge')}</span>}
                             </div>
-                            <div className={styles.item_tools}>
+                            <div className={`${styles.item_tools} ${styles.scene_tools}`}>
                                 <label className={styles.toggle}>
                                     <input type="checkbox" checked={!!scene.ending} disabled={disabled || scene.sceneId === content.startSceneId}
                                         onChange={event => toggleEnding(scene, event.target.checked)} />

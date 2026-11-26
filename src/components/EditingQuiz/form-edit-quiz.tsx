@@ -47,9 +47,11 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
         [tagsString, setTagsString] = useState<string>(''),
         [visibility, setVisibility] = useState<string>(''),
         [idiom, setIdiom] = useState<ContentLanguage>('EN-US'),
-        [kind, setKind] = useState<QuizKind>('quiz'),
+        // já no primeiro desenho com o tipo salvo: sem isso, um torneio aparece por um instante
+        // como quiz (dicas, placeholder e mensagens finais de quiz)
+        [kind, setKind] = useState<QuizKind>(() => quiz && !quiz.err ? getQuizKind(quiz) : 'quiz'),
         // rascunho só muda quando a pessoa escolhe (antes, salvar a capa finalizava o quiz)
-        [draft, setDraft] = useState<boolean>(false),
+        [draft, setDraft] = useState<boolean>(() => quiz && !quiz.err ? quiz.draft === true : false),
         [results, setResults] = useState<ILocalPersonalityResult[]>(initialResults),
         [tieBreakQuestion, setTieBreakQuestion] = useState(''),
         // Cada tentativa de salvar devolve o quiz do servidor (updateTag na action). Depois de
@@ -168,7 +170,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 router.refresh()
             }
 
-            setSucess(t('form.successMessage'))
+            setSucess(t('form.successMessage', { kind: savedKind }))
             setInitialSnapshot(JSON.stringify({
                 title,
                 desc,
@@ -337,13 +339,13 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
                 <p id="status-hint" className={styles.kind_hint}>
                     {draft && !canFinish
                         ? tShared(experience ? 'statusHints.notReady' : 'statusHints.noQuestions')
-                        : tShared(draft ? 'statusHints.draft' : 'statusHints.finished')}
+                        : tShared(draft ? 'statusHints.draft' : 'statusHints.finished', { kind })}
                 </p>
             </InputTextQuiz>
 
             <InputTextQuiz styles={styles} labelFor='lang' labelValue={tShared('labels.idiom')}>
                 <ContentLanguageSelect value={idiom} onChange={setIdiom} describedBy='lang-hint' />
-                <p id='lang-hint' className={styles.kind_hint}>{tShared('hints.idiom')}</p>
+                <p id='lang-hint' className={styles.kind_hint}>{tShared('hints.idiom', { kind })}</p>
             </InputTextQuiz>
 
             {kind === 'personality' ? (
@@ -364,7 +366,7 @@ export default function FormEditQuiz({ styles, quiz }: IProps) {
             <footer className={styles.footer}>
                 <div className={styles.actions}>
                     <button type='button' onClick={(e) => { e.preventDefault(); router.back() }}>{tShared('buttons.back')}</button>
-                    <DeleteQuiz quizId={quiz?.quizId} />
+                    <DeleteQuiz quizId={quiz?.quizId} kind={savedKind} />
                 </div>
                 <div className={styles.save}>
                     {quiz && (

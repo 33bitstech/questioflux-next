@@ -314,14 +314,14 @@
         "loading": "Cargando...",
         "createdBy": "Creado por",
         "actions": {
-            "quizPage": "Página del quiz",
-            "takeQuiz": "Responder el quiz",
-            "editQuiz": "Editar quiz"
+            "quizPage": "{kind, select, tournament {Página del torneo} story {Página de la historia} compatibility {Página del test} other {Página del quiz}}",
+            "takeQuiz": "{kind, select, tournament {Jugar el torneo} story {Jugar la historia} compatibility {Hacer el test} other {Responder el quiz}}",
+            "editQuiz": "{kind, select, tournament {Editar torneo} story {Editar historia} compatibility {Editar test} other {Editar quiz}}"
         }
     },
     "quizLayout": {
         "nav": {
-            "info": "Información del quiz",
+            "info": "{kind, select, tournament {Información del torneo} story {Información de la historia} compatibility {Información del test} other {Información del quiz}}",
             "comments": "Comentarios",
             "leaderboard": "Clasificación",
             "results": "Resultados"
@@ -332,7 +332,7 @@
             "title": "{quiz_name} | QuestioFlux",
             "desc": "¡Pon a prueba tus conocimientos con este quiz {quiz_name} de {name}!",
             "actions": {
-                "take": "Responder el quiz"
+                "take": "{kind, select, tournament {Jugar el torneo} story {Jugar la historia} compatibility {Hacer el test} other {Responder el quiz}}"
             },
             "titleQuiz": "{quiz_name} – Quiz | QuestioFlux",
             "descSuffix": "Quiz de {count, plural, one {# pregunta} other {# preguntas}} en QuestioFlux: juega gratis y mira en qué puesto del ranking quedas.",
@@ -342,9 +342,10 @@
                 "story": "Historia interactiva con {count, plural, one {# escena} other {# escenas}} en QuestioFlux: juega gratis y descubre tu final.",
                 "compatibility": "Test de compatibilidad con {count, plural, one {# pregunta} other {# preguntas}} en QuestioFlux: responde gratis y compárate con un amigo.",
                 "scored": "Quiz por puntos con {count, plural, one {# pregunta} other {# preguntas}} en QuestioFlux: juega gratis y mira tu rango."
-            }
+            },
+            "titleKind": "{quiz_name} – {kind_name} | QuestioFlux"
         },
-        "title": "Información del quiz",
+        "title": "{kind, select, tournament {Información del torneo} story {Información de la historia} compatibility {Información del test} other {Información del quiz}}",
         "details": {
             "createdBy": "Creado por:",
             "creationDate": "Fecha de creación:",
@@ -352,19 +353,19 @@
             "participants": "Participantes:",
             "category": "Categoría:",
             "tags": "Etiquetas:",
-            "participantsSpan": "{count, plural, one {# usuario respondió} other {# usuarios respondieron}} este quiz",
+            "participantsSpan": "{kind, select, tournament {{count, plural, one {# persona jugó} other {# personas jugaron}} este torneo} story {{count, plural, one {# persona jugó} other {# personas jugaron}} esta historia} compatibility {{count, plural, one {# persona hizo} other {# personas hicieron}} este test} other {{count, plural, one {# usuario respondió} other {# usuarios respondieron}} este quiz}}",
             "kind": "Tipo:"
         },
         "ctaButton": "Responder el quiz",
         "embed": {
-            "button": "Insertar quiz en tu sitio web",
-            "title": "Insertar este quiz en tu sitio web",
+            "button": "{kind, select, tournament {Insertar torneo en tu sitio web} story {Insertar historia en tu sitio web} compatibility {Insertar test en tu sitio web} other {Insertar quiz en tu sitio web}}",
+            "title": "{kind, select, tournament {Insertar este torneo en tu sitio web} story {Insertar esta historia en tu sitio web} compatibility {Insertar este test en tu sitio web} other {Insertar este quiz en tu sitio web}}",
             "description": "Copia este código y pégalo en el HTML de tu sitio web, blog o página.",
             "codeLabel": "Código iframe",
             "copyButton": "Copiar código",
             "copiedButton": "¡Copiado!",
             "close": "Cerrar popup",
-            "createdWith": "Quiz creado con"
+            "createdWith": "{kind, select, tournament {Torneo creado con} story {Historia creada con} compatibility {Test creado con} other {Quiz creado con}}"
         },
         "questions": {
             "title": "Vista previa de las preguntas",
@@ -399,7 +400,6 @@
             "guest": "Invitado",
             "loadMore": "Cargar más",
             "close": "Cerrar la lista de participantes",
-            "unrecorded": "Nombre no registrado",
             "viewResult": "Ver el resultado",
             "match": "{percent}% de compatibilidad",
             "points": "{points, plural, one {# punto} other {# puntos}}"
@@ -428,13 +428,13 @@
             "remove": "Eliminar"
         },
         "share": {
-            "button": "Compartir quiz",
+            "button": "{kind, select, tournament {Compartir torneo} story {Compartir historia} compatibility {Compartir test} other {Compartir quiz}}",
             "title": "Comparte con tus amigos",
-            "whatsappMessage": "¡Responde este quiz!",
+            "whatsappMessage": "{kind, select, tournament {¡Juega este torneo!} story {¡Juega esta historia!} compatibility {¡Haz este test!} other {¡Responde este quiz!}}",
             "copyLinkButton": "Copiar enlace",
             "copySuccessMessage": "¡Enlace copiado con éxito!",
             "qrButton": "Código QR",
-            "qrAlt": "Código QR que abre el quiz",
+            "qrAlt": "{kind, select, tournament {Código QR que abre el torneo} story {Código QR que abre la historia} compatibility {Código QR que abre el test} other {Código QR que abre el quiz}}",
             "qrHint": "Imprímelo o muéstralo en una pantalla: quien lo escanee con la cámara del celular empieza a jugar al instante.",
             "qrDownload": "Descargar código QR",
             "qrError": "No se pudo generar el código QR. Inténtalo de nuevo."
@@ -485,7 +485,7 @@
             "empty": "Las preguntas de este intento ya no están en el quiz.",
             "close": "Cerrar las respuestas"
         },
-        "home": "Ver quiz",
+        "home": "{kind, select, tournament {Ver torneo} story {Ver historia} compatibility {Ver test} other {Ver quiz}}",
         "sections": {
             "registered": "Clasificación de usuarios",
             "guests": "Clasificación de invitados",
@@ -517,7 +517,8 @@
     },
     "createQuizFlow": {
         "layout": {
-            "metadataTitle": "Crear Quiz Online Gratis | Creador de Quizzes QuestioFlux"
+            "metadataTitle": "Crear Quiz Online Gratis | Creador de Quizzes QuestioFlux",
+            "metadataTitleKind": "{kind, select, tournament {Crear Torneo de Favoritos | QuestioFlux} story {Crear Historia Interactiva | QuestioFlux} compatibility {Crear Test de Compatibilidad | QuestioFlux} other {Crear Quiz Online Gratis | Creador de Quizzes QuestioFlux}}"
         },
         "selectTypePage": {
             "title": "Crear quiz online gratis",
@@ -576,7 +577,7 @@
                 "visibility": "Visibilidad",
                 "idiom": "Idioma del contenido",
                 "finalMessages": "Apariencia del mensaje al final del quiz:",
-                "kind": "Tipo de quiz",
+                "kind": "Tipo",
                 "status": "Estado"
             },
             "placeholders": {
@@ -638,7 +639,7 @@
                 "compatibility": "Cada persona responde sobre sus propios gustos e invita a alguien por enlace. El resultado es el porcentaje de respuestas en común.",
                 "scored": "Cada alternativa vale puntos. La suma cae en uno de los rangos que defines, y ese rango es el resultado."
             },
-            "kindLocked": "Con preguntas ya creadas, no se puede cambiar a o desde el quiz de personalidad.",
+            "kindLocked": "{kind, select, tournament {Con el contenido ya creado, el formato no se puede cambiar.} story {Con el contenido ya creado, el formato no se puede cambiar.} compatibility {Con el contenido ya creado, el formato no se puede cambiar.} other {Con preguntas ya creadas, no se puede cambiar a o desde el quiz de personalidad.}}",
             "personalityResults": {
                 "label": "Resultados posibles",
                 "hint": "Cada alternativa de las preguntas llevará a uno de estos resultados. Crea entre {min} y {max}.",
@@ -663,20 +664,20 @@
                 "titleExamples": "Búho|León|Delfín|Zorro|Lobo|Gato|Águila|Oso"
             },
             "statusHints": {
-                "draft": "Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando el quiz esté listo.",
-                "finished": "El quiz está listo y sigue la visibilidad elegida (público o privado).",
+                "draft": "{kind, select, tournament {Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando el torneo esté listo.} story {Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando la historia esté lista.} compatibility {Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando el test esté listo.} other {Los borradores no aparecen en Explorar ni en Google. Elige Finalizado cuando el quiz esté listo.}}",
+                "finished": "{kind, select, tournament {El torneo está listo y sigue la visibilidad elegida (público o privado).} story {La historia está lista y sigue la visibilidad elegida (pública o privada).} compatibility {El test está listo y sigue la visibilidad elegida (público o privado).} other {El quiz está listo y sigue la visibilidad elegida (público o privado).}}",
                 "noQuestions": "Añade preguntas antes de finalizar el quiz.",
                 "notReady": "Para finalizar, completa el contenido en el editor: tiene que pasar las comprobaciones de allí."
             },
             "hints": {
-                "idiom": "La lengua en que están escritas las preguntas. Sirve para el filtro de idioma de Explorar y no cambia la dirección del quiz.",
+                "idiom": "{kind, select, tournament {La lengua en que están escritas las opciones. Sirve para el filtro de idioma de Explorar y no cambia la dirección del torneo.} story {La lengua en que está escrita la historia. Sirve para el filtro de idioma de Explorar y no cambia la dirección de la historia.} compatibility {La lengua en que están escritas las preguntas. Sirve para el filtro de idioma de Explorar y no cambia la dirección del test.} other {La lengua en que están escritas las preguntas. Sirve para el filtro de idioma de Explorar y no cambia la dirección del quiz.}}",
                 "visibility": "Público: aparece en tu perfil y en Explorar, y cualquiera puede jugar. Privado: solo quien tiene el enlace puede jugar, y queda fuera de Explorar y de los buscadores."
             }
         }
     },
     "creatingQuiz": {
         "nav": {
-            "cover": "Portada del quiz",
+            "cover": "{kind, select, tournament {Portada del torneo} story {Portada de la historia} compatibility {Portada del test} other {Portada del quiz}}",
             "questions": "Preguntas",
             "options": "Opciones",
             "scenes": "Escenas"
@@ -767,11 +768,11 @@
         },
         "metadataTitle": "Edita tu quiz",
         "page": {
-            "title": "Edita tu quiz",
-            "subtitle": "Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar las preguntas? Simplemente haz clic en 'Editar preguntas'."
+            "title": "{kind, select, tournament {Edita tu torneo} story {Edita tu historia} compatibility {Edita tu test} other {Edita tu quiz}}",
+            "subtitle": "{kind, select, tournament {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. Para cambiar las opciones, haz clic en 'Editar contenido'.} story {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. Para cambiar las escenas, haz clic en 'Editar contenido'.} compatibility {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. Para cambiar las preguntas, haz clic en 'Editar contenido'.} scored {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. Para cambiar las preguntas y los rangos, haz clic en 'Editar contenido'.} other {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar las preguntas? Simplemente haz clic en 'Editar preguntas'.}}"
         },
         "form": {
-            "successMessage": "¡Quiz editado con éxito!",
+            "successMessage": "{kind, select, tournament {¡Torneo editado con éxito!} story {¡Historia editada con éxito!} compatibility {¡Test editado con éxito!} other {¡Quiz editado con éxito!}}",
             "buttons": {
                 "editQuestions": "Editar preguntas",
                 "saveChanges": "Guardar cambios",
@@ -781,9 +782,9 @@
             "unexpectedError": "Algo salió mal al guardar tus cambios. Inténtalo de nuevo."
         },
         "questionsPage": {
-            "metadataTitle": "Editar preguntas",
-            "title": "Edita las preguntas de tu quiz",
-            "subtitle": "Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar el quiz? Simplemente haz clic en 'Editar quiz'."
+            "metadataTitle": "{kind, select, tournament {Editar opciones} story {Editar escenas} compatibility {Editar preguntas} other {Editar preguntas}}",
+            "title": "{kind, select, tournament {Edita las opciones de tu torneo} story {Edita las escenas de tu historia} compatibility {Edita las preguntas de tu test} other {Edita las preguntas de tu quiz}}",
+            "subtitle": "{kind, select, tournament {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} story {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} compatibility {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} other {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar el quiz? Simplemente haz clic en 'Editar quiz'.}}"
         },
         "buttons": {
             "back": "Volver",
@@ -815,9 +816,9 @@
         }
     },
     "quizCompletedPage": {
-        "metadataTitle": "¡Quiz creado!",
-        "title": "¡Felicidades! ¡Tu quiz se ha creado con éxito!",
-        "viewQuizButton": "Ver quiz",
+        "metadataTitle": "{kind, select, tournament {¡Torneo creado!} story {¡Historia creada!} compatibility {¡Test creado!} other {¡Quiz creado!}}",
+        "title": "{kind, select, tournament {¡Felicidades! ¡Tu torneo se ha creado con éxito!} story {¡Felicidades! ¡Tu historia se ha creado con éxito!} compatibility {¡Felicidades! ¡Tu test se ha creado con éxito!} other {¡Felicidades! ¡Tu quiz se ha creado con éxito!}}",
+        "viewQuizButton": "{kind, select, tournament {Ver torneo} story {Ver historia} compatibility {Ver test} other {Ver quiz}}",
         "homeButton": "Inicio"
     },
     "takingPage": {
@@ -843,12 +844,12 @@
             "eyebrow": "Hubo un empate",
             "hint": "Tus respuestas empataron. Elige la opción que más va contigo para definir el resultado."
         },
-        "viewQuiz": "Ver quiz"
+        "viewQuiz": "{kind, select, tournament {Ver torneo} story {Ver historia} compatibility {Ver test} other {Ver quiz}}"
     },
     "quizResultsPage": {
         "layout": {
-            "metadataTitle": "Respondiendo quiz",
-            "altQuizImage": "Imagen del quiz",
+            "metadataTitle": "{kind, select, tournament {Jugando el torneo} story {Jugando la historia} compatibility {Haciendo el test} other {Respondiendo quiz}}",
+            "altQuizImage": "{kind, select, tournament {Imagen del torneo} story {Imagen de la historia} compatibility {Imagen del test} other {Imagen del quiz}}",
             "navResults": "Resultados",
             "navLeaderboard": "Clasificación",
             "navReview": "Corrección",
@@ -961,11 +962,11 @@
         "questioplususage": "Uso premium: {qtd} uso(s) disponible(s) para crear tu próximo quiz."
     },
     "deleteQuiz": {
-        "button": "Eliminar quiz",
-        "sucess": "¡Quiz eliminado con éxito!",
+        "button": "{kind, select, tournament {Eliminar torneo} story {Eliminar historia} compatibility {Eliminar test} other {Eliminar quiz}}",
+        "sucess": "{kind, select, tournament {¡Torneo eliminado con éxito!} story {¡Historia eliminada con éxito!} compatibility {¡Test eliminado con éxito!} other {¡Quiz eliminado con éxito!}}",
         "menu": {
             "title": "¡Zona de peligro!",
-            "desc": "Estás a punto de eliminar este quiz, ¿estás seguro?",
+            "desc": "{kind, select, tournament {Estás a punto de eliminar este torneo, ¿estás seguro?} story {Estás a punto de eliminar esta historia, ¿estás seguro?} compatibility {Estás a punto de eliminar este test, ¿estás seguro?} other {Estás a punto de eliminar este quiz, ¿estás seguro?}}",
             "confirm": "Sí, eliminar",
             "cancel": "No, cancelar"
         }
@@ -1568,7 +1569,6 @@
         "yourResult": "Tu resultado",
         "resultOf": "Resultado de {name}",
         "guest": "Invitado",
-        "unrecorded": "Nombre no registrado",
         "completed": "Completado",
         "completedOn": "Completado el {date}",
         "score": "Aciertos: {score}",
@@ -1577,7 +1577,7 @@
         "shareText": "Mi resultado en \"{quiz}\": {result}",
         "playAgain": "Jugar de nuevo",
         "playToo": "Jugar también",
-        "seeQuiz": "Ver el quiz",
+        "seeQuiz": "{kind, select, tournament {Ver el torneo} story {Ver la historia} compatibility {Ver el test} other {Ver el quiz}}",
         "metaTitle": "Resultado de {name} en {quiz}",
         "metaTitleAnonymous": "Un resultado en {quiz}"
     },

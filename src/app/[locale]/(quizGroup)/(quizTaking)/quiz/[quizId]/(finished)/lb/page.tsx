@@ -9,6 +9,7 @@ import { getCookieHeader } from '@/utils/getCookieHeader'
 import RecommendedQuizPopup from '@/components/Leaderboard/recommended-quiz-popup'
 import { getQuizRecommendationAction } from '@/app/[locale]/(quizGroup)/(quizPage)/quiz/[quizId]/leaderboard/action'
 import LeaderboardGroups from '@/components/Leaderboard/leaderboard-groups'
+import { getQuizKind } from '@/utils/quizKind'
 import { getLeaderboardData, getViewer } from '@/utils/leaderboardData'
 
 interface IProps {
@@ -22,7 +23,7 @@ export default async function LB({ params }: IProps) {
     const { quizId, locale } = await params
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll()),
-        t = await getTranslations('leaderboardPage'),
+        t = await getTranslations({ locale, namespace: 'leaderboardPage' }),
 
         [data, fullQuiz, user, recommendedQuiz] = await Promise.all([
             getLeaderboardData(quizId, cookieHeader),
@@ -53,7 +54,7 @@ export default async function LB({ params }: IProps) {
                 className={styles.share_quiz}
                 href={`/quiz/${quizId}`}
             >
-                {t('home')}
+                {t('home', { kind: getQuizKind(fullQuiz) })}
             </Link>
 
             {/* quem criou assina o QuestioPlus: o quiz não leva anúncios */}

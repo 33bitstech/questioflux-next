@@ -9,7 +9,7 @@ import IUserLeaderBoardScore from '@/interfaces/IUserLeaderBoardScore';
 // Uma entrada da lista: do ranking (quizzes com nota) ou das conclusões gravadas (formatos
 // sem ranking), que trazem o resultado obtido e o link para ele.
 //  nameStatus: 'chosen' (apelido da partida), 'anonymous' (visitante sem nome),
-//  'unrecorded' (registro antigo, de quando o nome não era gravado), 'account'
+//  'unrecorded' (registro antigo, sem nome; aparece como convidado), 'account'
 export interface IParticipantItem {
     participationId?: string
     userId?: string
@@ -43,7 +43,7 @@ export default function ParticipantsContainer({ quizId, users, visible, total, h
 
     // visitante: o apelido da partida; sem apelido, anonimato ou registro antigo sem nome
     const guestLabel = (user: IParticipantItem) =>
-        user.name || (user.nameStatus === 'unrecorded' ? t('unrecorded') : t('guest'))
+        user.name || t('guest')
 
     return (
         <div className={`${styles.container}`} role="dialog" aria-labelledby="participants-title">

@@ -314,14 +314,14 @@
         "loading": "加载中……",
         "createdBy": "创建者",
         "actions": {
-            "quizPage": "测验页面",
-            "takeQuiz": "参加测验",
-            "editQuiz": "编辑测验"
+            "quizPage": "{kind, select, tournament {淘汰赛页面} story {故事页面} compatibility {测试页面} other {测验页面}}",
+            "takeQuiz": "{kind, select, tournament {参加淘汰赛} story {开始故事} compatibility {参加测试} other {参加测验}}",
+            "editQuiz": "{kind, select, tournament {编辑淘汰赛} story {编辑故事} compatibility {编辑测试} other {编辑测验}}"
         }
     },
     "quizLayout": {
         "nav": {
-            "info": "测验信息",
+            "info": "{kind, select, tournament {淘汰赛信息} story {故事信息} compatibility {测试信息} other {测验信息}}",
             "comments": "评论",
             "leaderboard": "排行榜",
             "results": "结果"
@@ -332,7 +332,7 @@
             "title": "{quiz_name} | QuestioFlux",
             "desc": "来参加 {name} 制作的测验「{quiz_name}」，检验你的知识！",
             "actions": {
-                "take": "参加测验"
+                "take": "{kind, select, tournament {参加淘汰赛} story {开始故事} compatibility {参加测试} other {参加测验}}"
             },
             "titleQuiz": "{quiz_name} – 测验 | QuestioFlux",
             "descSuffix": "QuestioFlux 上共 {count} 道题的测验：免费参加，看看你在排行榜上排第几。",
@@ -342,9 +342,10 @@
                 "story": "QuestioFlux 上的互动故事，共 {count} 个场景：免费来玩，找到你的结局。",
                 "compatibility": "QuestioFlux 上的默契测试，共 {count} 道题：免费作答，和朋友比一比。",
                 "scored": "QuestioFlux 上的计分测验，共 {count} 道题：免费来玩，看看你在哪个分数段。"
-            }
+            },
+            "titleKind": "{quiz_name} – {kind_name} | QuestioFlux"
         },
-        "title": "测验信息",
+        "title": "{kind, select, tournament {淘汰赛信息} story {故事信息} compatibility {测试信息} other {测验信息}}",
         "details": {
             "createdBy": "创建者：",
             "creationDate": "创建日期：",
@@ -352,19 +353,19 @@
             "participants": "参与者：",
             "category": "分类：",
             "tags": "标签：",
-            "participantsSpan": "{count} 位用户参加了这个测验",
+            "participantsSpan": "{kind, select, tournament {{count} 人玩过这个淘汰赛} story {{count} 人玩过这个故事} compatibility {{count} 人做过这个测试} other {{count} 位用户参加了这个测验}}",
             "kind": "类型："
         },
         "ctaButton": "参加测验",
         "embed": {
-            "button": "把测验嵌入你的网站",
-            "title": "把这个测验嵌入你的网站",
+            "button": "{kind, select, tournament {把淘汰赛嵌入你的网站} story {把故事嵌入你的网站} compatibility {把测试嵌入你的网站} other {把测验嵌入你的网站}}",
+            "title": "{kind, select, tournament {把这个淘汰赛嵌入你的网站} story {把这个故事嵌入你的网站} compatibility {把这个测试嵌入你的网站} other {把这个测验嵌入你的网站}}",
             "description": "复制这段代码，粘贴到你的网站、博客或页面的 HTML 中。",
             "codeLabel": "Iframe 代码",
             "copyButton": "复制代码",
             "copiedButton": "已复制！",
             "close": "关闭弹窗",
-            "createdWith": "测验制作工具："
+            "createdWith": "{kind, select, tournament {淘汰赛制作工具：} story {故事制作工具：} compatibility {测试制作工具：} other {测验制作工具：}}"
         },
         "questions": {
             "title": "题目预览",
@@ -399,7 +400,6 @@
             "guest": "访客",
             "loadMore": "加载更多",
             "close": "关闭参与者列表",
-            "unrecorded": "未记录名字",
             "viewResult": "查看结果",
             "match": "默契度 {percent}%",
             "points": "{points} 分"
@@ -428,13 +428,13 @@
             "remove": "取消收藏"
         },
         "share": {
-            "button": "分享测验",
+            "button": "{kind, select, tournament {分享淘汰赛} story {分享故事} compatibility {分享测试} other {分享测验}}",
             "title": "分享给你的朋友",
-            "whatsappMessage": "来参加这个测验吧！",
+            "whatsappMessage": "{kind, select, tournament {来玩这个淘汰赛吧！} story {来玩这个互动故事吧！} compatibility {来做这个测试吧！} other {来参加这个测验吧！}}",
             "copyLinkButton": "复制链接",
             "copySuccessMessage": "链接已复制！",
             "qrButton": "二维码",
-            "qrAlt": "打开测验的二维码",
+            "qrAlt": "{kind, select, tournament {打开淘汰赛的二维码} story {打开故事的二维码} compatibility {打开测试的二维码} other {打开测验的二维码}}",
             "qrHint": "打印出来或投到屏幕上：用手机相机扫码就能马上开始玩。",
             "qrDownload": "下载二维码",
             "qrError": "二维码生成失败，请再试一次。"
@@ -485,7 +485,7 @@
             "empty": "这次作答的题目已不在测验中。",
             "close": "关闭答案"
         },
-        "home": "查看测验",
+        "home": "{kind, select, tournament {查看淘汰赛} story {查看故事} compatibility {查看测试} other {查看测验}}",
         "sections": {
             "registered": "用户排行榜",
             "guests": "访客排行榜",
@@ -517,7 +517,8 @@
     },
     "createQuizFlow": {
         "layout": {
-            "metadataTitle": "在线测验制作工具 | 用 QuestioFlux 免费创建文字测验"
+            "metadataTitle": "在线测验制作工具 | 用 QuestioFlux 免费创建文字测验",
+            "metadataTitleKind": "{kind, select, tournament {创建最爱淘汰赛 | QuestioFlux} story {创建互动故事 | QuestioFlux} compatibility {创建默契测试 | QuestioFlux} other {在线测验制作工具 | 用 QuestioFlux 免费创建文字测验}}"
         },
         "selectTypePage": {
             "title": "在线测验制作工具",
@@ -576,7 +577,7 @@
                 "visibility": "可见性",
                 "idiom": "内容语言",
                 "finalMessages": "测验结束时显示的消息：",
-                "kind": "测验类型",
+                "kind": "类型",
                 "status": "状态"
             },
             "placeholders": {
@@ -638,7 +639,7 @@
                 "compatibility": "每个人按自己的喜好作答，再用链接邀请别人。结果是两人相同答案的百分比。",
                 "scored": "每个选项都有分值。总分落在你设定的某个分数段里，那个分数段就是结果。"
             },
-            "kindLocked": "已经有题目后，就不能改成性格测验，也不能从性格测验改成其他类型。",
+            "kindLocked": "{kind, select, tournament {内容创建后，就不能再更换形式。} story {内容创建后，就不能再更换形式。} compatibility {内容创建后，就不能再更换形式。} other {已经有题目后，就不能改成性格测验，也不能从性格测验改成其他类型。}}",
             "personalityResults": {
                 "label": "可能的结果",
                 "hint": "题目中的每个选项都会通向其中一个结果。请创建 {min} 到 {max} 个结果。",
@@ -663,20 +664,20 @@
                 "titleExamples": "猫头鹰|狮子|海豚|狐狸|狼|猫|鹰|熊"
             },
             "statusHints": {
-                "draft": "草稿不会出现在“探索”或 Google 中。测验准备好后请选择“已完成”。",
-                "finished": "测验已完成，并按你选择的可见性（公开或私密）展示。",
+                "draft": "{kind, select, tournament {草稿不会出现在“探索”或 Google 中。淘汰赛准备好后请选择“已完成”。} story {草稿不会出现在“探索”或 Google 中。故事准备好后请选择“已完成”。} compatibility {草稿不会出现在“探索”或 Google 中。测试准备好后请选择“已完成”。} other {草稿不会出现在“探索”或 Google 中。测验准备好后请选择“已完成”。}}",
+                "finished": "{kind, select, tournament {淘汰赛已完成，并按你选择的可见性（公开或私密）展示。} story {故事已完成，并按你选择的可见性（公开或私密）展示。} compatibility {测试已完成，并按你选择的可见性（公开或私密）展示。} other {测验已完成，并按你选择的可见性（公开或私密）展示。}}",
                 "noQuestions": "请先添加题目，再完成测验。",
                 "notReady": "要完成发布，请先在编辑器里把内容补充完整，并通过那里的检查。"
             },
             "hints": {
-                "idiom": "题目所用的语言。用于“探索”页面的语言筛选，不会改变测验的网址。",
+                "idiom": "{kind, select, tournament {选项所用的语言。用于“探索”页面的语言筛选，不会改变淘汰赛的网址。} story {故事所用的语言。用于“探索”页面的语言筛选，不会改变故事的网址。} compatibility {题目所用的语言。用于“探索”页面的语言筛选，不会改变测试的网址。} other {题目所用的语言。用于“探索”页面的语言筛选，不会改变测验的网址。}}",
                 "visibility": "公开：显示在你的主页和“探索”中，任何人都能玩。私密：只有拿到链接的人才能玩，不会出现在“探索”和搜索结果中。"
             }
         }
     },
     "creatingQuiz": {
         "nav": {
-            "cover": "测验封面",
+            "cover": "{kind, select, tournament {淘汰赛封面} story {故事封面} compatibility {测试封面} other {测验封面}}",
             "questions": "题目",
             "options": "选项",
             "scenes": "场景"
@@ -767,11 +768,11 @@
         },
         "metadataTitle": "编辑你的测验",
         "page": {
-            "title": "编辑你的测验",
-            "subtitle": "修改完成后，点击“保存修改”即可生效。需要编辑题目？点击“编辑题目”就行。"
+            "title": "{kind, select, tournament {编辑你的淘汰赛} story {编辑你的故事} compatibility {编辑你的测试} other {编辑你的测验}}",
+            "subtitle": "{kind, select, tournament {修改完成后，点击“保存修改”即可生效。需要修改选项？点击“编辑内容”就行。} story {修改完成后，点击“保存修改”即可生效。需要修改场景？点击“编辑内容”就行。} compatibility {修改完成后，点击“保存修改”即可生效。需要修改题目？点击“编辑内容”就行。} scored {修改完成后，点击“保存修改”即可生效。需要修改题目和分数区间？点击“编辑内容”就行。} other {修改完成后，点击“保存修改”即可生效。需要编辑题目？点击“编辑题目”就行。}}"
         },
         "form": {
-            "successMessage": "测验编辑成功！",
+            "successMessage": "{kind, select, tournament {淘汰赛编辑成功！} story {故事编辑成功！} compatibility {测试编辑成功！} other {测验编辑成功！}}",
             "buttons": {
                 "editQuestions": "编辑题目",
                 "saveChanges": "保存修改",
@@ -781,9 +782,9 @@
             "unexpectedError": "保存修改时出了点问题，请重试。"
         },
         "questionsPage": {
-            "metadataTitle": "编辑题目",
-            "title": "编辑测验题目",
-            "subtitle": "修改完成后，点击“保存修改”即可生效。需要编辑测验？点击“编辑测验”就行。"
+            "metadataTitle": "{kind, select, tournament {编辑选项} story {编辑场景} compatibility {编辑题目} other {编辑题目}}",
+            "title": "{kind, select, tournament {编辑淘汰赛选项} story {编辑故事场景} compatibility {编辑测试题目} other {编辑测验题目}}",
+            "subtitle": "{kind, select, tournament {修改完成后，点击“保存修改”即可生效。} story {修改完成后，点击“保存修改”即可生效。} compatibility {修改完成后，点击“保存修改”即可生效。} other {修改完成后，点击“保存修改”即可生效。需要编辑测验？点击“编辑测验”就行。}}"
         },
         "buttons": {
             "back": "返回",
@@ -815,9 +816,9 @@
         }
     },
     "quizCompletedPage": {
-        "metadataTitle": "测验已创建！",
-        "title": "恭喜！你的测验已成功创建！",
-        "viewQuizButton": "查看测验",
+        "metadataTitle": "{kind, select, tournament {淘汰赛已创建！} story {故事已创建！} compatibility {测试已创建！} other {测验已创建！}}",
+        "title": "{kind, select, tournament {恭喜！你的淘汰赛已成功创建！} story {恭喜！你的故事已成功创建！} compatibility {恭喜！你的测试已成功创建！} other {恭喜！你的测验已成功创建！}}",
+        "viewQuizButton": "{kind, select, tournament {查看淘汰赛} story {查看故事} compatibility {查看测试} other {查看测验}}",
         "homeButton": "首页"
     },
     "takingPage": {
@@ -843,12 +844,12 @@
             "eyebrow": "平局",
             "hint": "你的答案出现了平局。选出最符合你的选项来决定结果。"
         },
-        "viewQuiz": "查看测验"
+        "viewQuiz": "{kind, select, tournament {查看淘汰赛} story {查看故事} compatibility {查看测试} other {查看测验}}"
     },
     "quizResultsPage": {
         "layout": {
-            "metadataTitle": "参加测验",
-            "altQuizImage": "测验图片",
+            "metadataTitle": "{kind, select, tournament {正在玩淘汰赛} story {正在玩故事} compatibility {正在做测试} other {参加测验}}",
+            "altQuizImage": "{kind, select, tournament {淘汰赛图片} story {故事图片} compatibility {测试图片} other {测验图片}}",
             "navResults": "结果",
             "navLeaderboard": "排行榜",
             "navReview": "答案解析",
@@ -961,11 +962,11 @@
         "questioplususage": "高级通行证：还有 {qtd} 次可用于创建你的下一个测验。"
     },
     "deleteQuiz": {
-        "button": "删除测验",
-        "sucess": "测验已删除！",
+        "button": "{kind, select, tournament {删除淘汰赛} story {删除故事} compatibility {删除测试} other {删除测验}}",
+        "sucess": "{kind, select, tournament {淘汰赛已删除！} story {故事已删除！} compatibility {测试已删除！} other {测验已删除！}}",
         "menu": {
             "title": "危险操作！",
-            "desc": "你即将删除这个测验，确定吗？",
+            "desc": "{kind, select, tournament {你即将删除这个淘汰赛，确定吗？} story {你即将删除这个故事，确定吗？} compatibility {你即将删除这个测试，确定吗？} other {你即将删除这个测验，确定吗？}}",
             "confirm": "是的，删除",
             "cancel": "不，取消"
         }
@@ -1568,7 +1569,6 @@
         "yourResult": "你的结果",
         "resultOf": "{name} 的结果",
         "guest": "访客",
-        "unrecorded": "未记录名字",
         "completed": "已完成",
         "completedOn": "完成于 {date}",
         "score": "答对：{score}",
@@ -1577,7 +1577,7 @@
         "shareText": "我在「{quiz}」的结果：{result}",
         "playAgain": "再玩一次",
         "playToo": "我也来玩",
-        "seeQuiz": "查看测验",
+        "seeQuiz": "{kind, select, tournament {查看淘汰赛} story {查看故事} compatibility {查看测试} other {查看测验}}",
         "metaTitle": "{name} 在「{quiz}」的结果",
         "metaTitleAnonymous": "「{quiz}」的一个结果"
     },

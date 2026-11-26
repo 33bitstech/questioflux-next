@@ -123,7 +123,7 @@ export default function Participants({ quiz, styles }: IProps) {
                 className={styles.participants}
                 aria-busy={loading}
             >
-                {t('details.participantsSpan', { count: quiz.usersCount ?? 0 })}
+                {t('details.participantsSpan', { count: quiz.usersCount ?? 0, kind })}
             </span>
 
             {showParticipants && participants && (

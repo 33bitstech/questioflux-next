@@ -423,7 +423,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     setQuestions(normalizedQuestions)
                     syncFromServer.current = true
                     router.refresh()
-                    setSucess(t('form.successMessage'))
+                    setSucess(t('form.successMessage', { kind: 'quiz' }))
 
                     setInitialSnapshot(getQuestionsSnapshot(normalizedQuestions))
                     return
@@ -469,7 +469,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
                     setQuestions(finalQuestions)
                     syncFromServer.current = true
                     router.refresh()
-                    setSucess(t('form.successMessage'))
+                    setSucess(t('form.successMessage', { kind: 'quiz' }))
 
                     setInitialSnapshot(getQuestionsSnapshot(finalQuestions))
                 }
@@ -492,7 +492,7 @@ export default function FormEditQuestions({ styles, quiz, quizId, textMode = tru
 
             if (res) {
                 syncFromServer.current = true
-                setSucess(t('form.successMessage'))
+                setSucess(t('form.successMessage', { kind: 'quiz' }))
 
                 setInitialSnapshot(getQuestionsSnapshot(questions))
             }

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import styles from './quiz-card.module.scss'
 import CardActions from './hover/card-actions'
+import { getQuizKind } from '@/utils/quizKind'
 import { useTranslations } from 'next-intl' // Importar
 import Skeleton from '../Loading/skeleton'
 
@@ -93,6 +94,7 @@ export default function QuizCard({quiz}: IProps) {
                         <CardActions
                             userCreatorId={quiz?.userCreatorId}
                             quizId={quiz.quizId}
+                            kind={getQuizKind(quiz)}
                         />
                     </div>
                 </div>

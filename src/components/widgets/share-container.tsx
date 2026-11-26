@@ -11,15 +11,18 @@ import XSvg from '../Icons/Logos/XSvg'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { useLocale, useTranslations } from 'next-intl'
 import { trackEvent } from '@/utils/analytics'
+import { QuizKind } from '@/utils/quizKind'
 
 interface IProps {
     quizId: string,
     closeShareContainer?: ()=>void
+    // torneio, história e teste: os textos usam o nome do formato, não "quiz"
+    kind?: QuizKind
 }
 
 const SITE = 'https://www.questioflux.com'
 
-export default function ShareContainer({closeShareContainer, quizId}:IProps) {
+export default function ShareContainer({closeShareContainer, quizId, kind = 'quiz'}:IProps) {
     const t = useTranslations('quizActions.share')
     const locale = useLocale()
     const {setSucess, setError} = useGlobalMessage()
@@ -30,7 +33,7 @@ export default function ShareContainer({closeShareContainer, quizId}:IProps) {
     // o QR Code abre direto a partida: em um evento, quem escaneia já começa a jogar
     const playUrl = `${quizUrl}/taking`
 
-    const shareText = encodeURIComponent(t('whatsappMessage'))
+    const shareText = encodeURIComponent(t('whatsappMessage', { kind }))
 
     const trackShare = (method: 'whatsapp' | 'facebook' | 'x' | 'qr_code' | 'qr_code_download' | 'copy_link') =>
         trackEvent('share', { method, content_type: 'quiz', item_id: quizId })
@@ -79,7 +82,7 @@ export default function ShareContainer({closeShareContainer, quizId}:IProps) {
             {qrImage && (
                 <section className={styles.qr_panel}>
                     {/* eslint-disable-next-line @next/next/no-img-element -- imagem gerada na hora (data URL) */}
-                    <img src={qrImage} alt={t('qrAlt')} width={200} height={200} />
+                    <img src={qrImage} alt={t('qrAlt', { kind })} width={200} height={200} />
                     <p>{t('qrHint')}</p>
                     <a
                         href={qrImage}

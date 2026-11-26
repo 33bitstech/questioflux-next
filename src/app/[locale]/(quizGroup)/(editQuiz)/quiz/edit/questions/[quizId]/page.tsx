@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     }
 
     return {
-        title: `${t('metadataTitle')} - ${(quiz as IQuizes)?.title || ''}`
+        title: `${t('metadataTitle', { kind: getQuizKind(quiz as IQuizes) })} - ${(quiz as IQuizes)?.title || ''}`
     }
 }
 
@@ -60,8 +60,8 @@ export default async function EditingQuiz({params}:IProps) {
     return (
         <main className={styles.content}>
             <div className={styles.subtitle_questions}>
-                <h1>{t('title')}</h1>
-                <p>{t('subtitle')}</p>
+                <h1>{t('title', { kind: quiz && !('err' in quiz) ? getQuizKind(quiz) : 'quiz' })}</h1>
+                <p>{t('subtitle', { kind: quiz && !('err' in quiz) ? getQuizKind(quiz) : 'quiz' })}</p>
             </div>
 
             {/* torneio, história, compatibilidade e pontuação: o editor de cada formato */}

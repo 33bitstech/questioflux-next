@@ -47,11 +47,16 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const name = participation.player.name
     const title = name ? t('metaTitle', { name, quiz: quiz.title }) : t('metaTitleAnonymous', { quiz: quiz.title })
 
+    // a prévia do link compartilhado descreve o próprio torneio, história ou quiz, não o site
+    const description = (quiz.description ?? '').replace(/\s+/g, ' ').trim() || undefined
+
     return {
         title,
+        description,
         // um resultado de cada pessoa: compartilhável, mas fora da busca
         robots: { index: false, follow: true },
-        openGraph: { title, images: [quizImageUrl(quiz)] },
+        openGraph: { title, description, images: [quizImageUrl(quiz)] },
+        twitter: { card: 'summary_large_image', title, description, images: [quizImageUrl(quiz)] },
     }
 }
 

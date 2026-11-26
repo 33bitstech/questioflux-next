@@ -159,7 +159,7 @@ export default async function Leaderboard({ params }: IProps) {
                 />
             )}
 
-            <ShareButton quizId={quizId} styles={styles} />
+            <ShareButton quizId={quizId} styles={styles} kind={getQuizKind(publicQuiz)} />
         </>
     )
 }

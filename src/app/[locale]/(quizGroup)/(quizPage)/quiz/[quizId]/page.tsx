@@ -106,7 +106,7 @@ function generateQuizSchema(t: any, quiz: IQuizes, locale: string, exploreLabel:
                 "potentialAction": [
                     {
                         "@type": "TakeAction",
-                        "name": t('metadata.actions.take'),
+                        "name": t('metadata.actions.take', { kind }),
                         "target": `${url}/taking`
                     }
                 ]
@@ -133,10 +133,15 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const t = await getTranslations({ locale, namespace: 'quizInfoPage.metadata' })
 
     const quizName = quiz.title.trim()
-    // "Naruto" vira "Naruto – Quiz": quem procura digita "quiz de ..."
-    const title = /quiz/i.test(quizName) || quizName.length > 50
+    const kind = getQuizKind(quiz)
+    const tTypes = await getTranslations({ locale, namespace: 'quizTypes' })
+    // "Naruto" vira "Naruto – Quiz": quem procura digita "quiz de ..."; nos formatos novos vai o
+    // nome do formato ("Melhor pizza – Torneio de favoritos")
+    const title = quizName.length > 50 || (!isExperienceKind(kind) && /quiz/i.test(quizName))
         ? t('title', { quiz_name: quizName })
-        : t('titleQuiz', { quiz_name: quizName })
+        : isExperienceKind(kind)
+            ? t('titleKind', { quiz_name: quizName, kind_name: tTypes(`names.${kind}`) })
+            : t('titleQuiz', { quiz_name: quizName })
 
     const rawDescription = (quiz.description ?? '').replace(/\s+/g, ' ').trim()
     // descrição curta demais para virar snippet: completa com um texto fixo
@@ -217,7 +222,7 @@ export default async function Quiz({ params }: IProps) {
                 <div className={styles.info}>
                     <div className={styles.info_header}>
                         <div className={styles.info_title}>
-                            <h3>{t('title')}</h3>
+                            <h3>{t('title', { kind })}</h3>
                             <span className={`${styles.status_badge} ${styles[`status_${status}`]}`} title={t(`status.${status}Hint`)}>
                                 <StatusIcon aria-hidden="true" /> {t(`status.${status}`)}
                             </span>
@@ -229,6 +234,7 @@ export default async function Quiz({ params }: IProps) {
                             locale={locale}
                             domain={env.NEXT_PUBLIC_DOMAIN_FRONT}
                             quizTitle={quiz.title}
+                            kind={kind}
                         />
                     </div>
                     <ul>
@@ -257,7 +263,7 @@ export default async function Quiz({ params }: IProps) {
                 <div className={styles.actions}>
                     <Link locale={locale} href={`/quiz/${quizId}/taking`}>{isExperienceKind(kind) ? t(`ctaByKind.${kind}`) : kind === 'exam' ? t('ctaExam') : t('ctaButton')}</Link>
                     <SaveQuizWidget quizId={quizId} />
-                    <ShareButton styles={styles} quizId={quizId} />
+                    <ShareButton styles={styles} quizId={quizId} kind={kind} />
                 </div>
                 {kind === 'exam' && <p className={styles.exam_note}>{t('examNote')}</p>}
                 <div className={styles.description_container}>
