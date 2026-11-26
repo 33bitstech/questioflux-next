@@ -199,10 +199,12 @@ export default async function Quiz({ params }: IProps) {
     // client components só recebem os dados do quiz, sem as questões
     const quizInfo = withoutQuestions(quiz)
     const analyticsParams = quizParams(quiz)
+    // quem criou assina o QuestioPlus: o quiz não leva anúncios
+    const showAds = !quiz.adFree
 
     return (
         <>
-            <GoogleAdMobile left={true} slot='6584414246' />
+            {showAds && <GoogleAdMobile left={true} slot='6584414246' />}
 
             <TrackOnView event='quiz_view' params={analyticsParams} />
 
@@ -221,14 +223,13 @@ export default async function Quiz({ params }: IProps) {
                             </span>
                         </div>
 
-                        {/* os formatos de experiência não rodam dentro de iframe */}
-                        {!isExperienceKind(kind) && <EmbedQuizPopup
+                        <EmbedQuizPopup
                             styles={styles}
                             quizId={quizId}
                             locale={locale}
                             domain={env.NEXT_PUBLIC_DOMAIN_FRONT}
                             quizTitle={quiz.title}
-                        />}
+                        />
                     </div>
                     <ul>
                         <li>{t('details.createdBy')} <Link locale={locale} href={`/user/${quiz.userCreatorId}`}>{quiz.userCreatorName}</Link></li>
@@ -353,7 +354,7 @@ export default async function Quiz({ params }: IProps) {
                 </section>
             )}
 
-            <GoogleAdMobile right={true} slot='2713167869' />
+            {showAds && <GoogleAdMobile right={true} slot='2713167869' />}
 
             <footer className={styles.footer}></footer>
         </>

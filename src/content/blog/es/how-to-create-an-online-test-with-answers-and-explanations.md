@@ -4,6 +4,7 @@ description: Guía para armar un examen online con corrección automática y una
 tag: Tutorial
 author: Equipo QuestioFlux
 publishedAt: 2026-10-28
+updatedAt: 2026-11-25
 status: published
 cta: exam
 ---
@@ -76,12 +77,21 @@ Fíjate en que las explicaciones de las opciones incorrectas no dicen solo "est�
 - **Explicaciones cortas.** Dos o tres frases bastan. Si necesitas más, probablemente la pregunta abarca demasiado.
 - **Revisa antes de finalizar.** Responde el examen tú mismo y lee la corrección como si fueras el alumno.
 
+## ¿Examen con respuestas o quiz por puntos?
+
+QuestioFlux también tiene el [quiz por puntos](/es/create/experiences/scored), y conviene no confundirlos:
+
+- **Examen online:** cada pregunta tiene una respuesta correcta. El alumno recibe la nota, la clave de respuestas y tus explicaciones. Es el formato de esta guía, para colegios, academias y capacitaciones.
+- **Quiz por puntos:** no hay respuesta correcta. Cada opción vale de -100 a 100 puntos, y la suma cae en un rango de resultado que tú escribes. Sirve para autoevaluaciones ("¿Cómo son tus hábitos de estudio?") o para divertirse ("¿Qué tan aventurero eres?"), no para poner nota.
+
+Si el objetivo es saber qué aprendió el alumno, quédate con el examen online.
+
 ## Límites del plan gratuito
 
-Comprobado el 28 de octubre de 2026:
+Comprobado el 25 de noviembre de 2026:
 
 - **Gratis:** exámenes con hasta 10 preguntas, hasta 6 opciones por pregunta, explicación en todas las opciones, corrección automática, filtros en la corrección, ranking y compartir por enlace o insertar.
-- **Imágenes en preguntas y opciones, más de 10 preguntas y más opciones** requieren **QuestioPlus** (2,50 US$ o 2,50 € al mes) o un **pase único** (1,99 US$ o 1,99 €), que desbloquea esos recursos en un examen. Una vez desbloqueado, el examen sigue siendo editable aunque no te queden pases.
+- **Imágenes en preguntas y opciones, más de 10 preguntas y más opciones** requieren **QuestioPlus** (3,50 US$ o 3,50 € al mes) o un **pase único** (2,99 US$ o 2,99 €), que desbloquea esos recursos en un examen. Una vez desbloqueado, el examen sigue siendo editable aunque no te queden pases.
 
 En español puedes pagar en dólares o en euros.
 

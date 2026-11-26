@@ -12,7 +12,7 @@ import { useUser } from '@/contexts/userContext'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import usePopupAuth from '@/hooks/usePopupAuth'
 import { allowsAnonymousPlay, ExperienceKind, getQuizKind } from '@/utils/quizKind'
-import { newAttemptKey, saveParticipationRef } from '@/utils/participationKeys'
+import { IParticipationRef, isParticipationRef, newAttemptKey, saveParticipationRef } from '@/utils/participationKeys'
 import { clearPendingExperience, isOwnInvite, saveOwnInvite, savePendingExperience, takePendingExperience } from '@/utils/experienceStorage'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { quizParams, trackEvent } from '@/utils/analytics'
@@ -35,6 +35,11 @@ interface IProps {
     quiz: IQuizes
     // compatibilidade aberta pelo link de alguém (?invite=)
     invite?: IInvite
+    // Quiz incorporado em outro site (iframe): só visitante, porque cadastro e login com
+    // Google dependem de cookies e redirecionamentos que o iframe não aceita. O resultado
+    // aparece ali mesmo (onFinished) em vez de ir para a página do resultado no site.
+    embed?: boolean
+    onFinished?: (participation: IParticipationRef) => void
 }
 
 // Quantos itens o formato tem, para a explicação antes de começar
@@ -49,7 +54,7 @@ function sizeOf(kind: ExperienceKind, quiz: IQuizes) {
 
 // Partida de um torneio, história, compatibilidade ou pontuação pelo link do quiz. No fim,
 // sem conta, pede o nome (ou segue anônimo, onde o formato deixa) e abre a página do resultado.
-export default function ExperienceTaking({ quiz, invite }: IProps) {
+export default function ExperienceTaking({ quiz, invite, embed, onFinished }: IProps) {
     const kind = getQuizKind(quiz) as ExperienceKind
     const t = useTranslations('experiencePlay')
     const locale = useLocale()
@@ -107,8 +112,12 @@ export default function ExperienceTaking({ quiz, invite }: IProps) {
             if (typeof result.experience.inviteCode === 'string') saveOwnInvite(quiz.quizId, result.experience.inviteCode)
             if (result.experience.inviteNotFound) setError(t('invite.lost'))
 
-            trackEvent('quiz_complete', { ...quizParams(quiz), player_type: user ? 'user' : 'guest', invited: !!inviteCode })
+            trackEvent('quiz_complete', { ...quizParams(quiz), player_type: user ? 'user' : 'guest', invited: !!inviteCode, ...(embed ? { embedded: true } : {}) })
 
+            if (onFinished && isParticipationRef(result.participation)) {
+                onFinished(result.participation)
+                return
+            }
             if (result.participation) {
                 router.push(`/quiz/${quiz.quizId}/result/${result.participation.participationId}`)
                 return
@@ -242,7 +251,7 @@ export default function ExperienceTaking({ quiz, invite }: IProps) {
                         <LoginComponent locale={locale} toRegister={toRegister} handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz} show_pop_up={setShowPopup} googleReturn={googleReturn} />
                     )}
                     {typePopup === 'guest' && (
-                        <GuestForm allowAnonymous={allowsAnonymousPlay(kind)} toRegister={toRegister} handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz} show_pop_up={setShowPopup} googleReturn={googleReturn} />
+                        <GuestForm allowAnonymous={allowsAnonymousPlay(kind)} toRegister={embed ? undefined : toRegister} handleRegisterAndFinishQuiz={handleRegisterAndFinishQuiz} show_pop_up={setShowPopup} googleReturn={googleReturn} />
                     )}
                 </div>,
                 document.body

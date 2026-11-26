@@ -4,6 +4,7 @@ description: Guia para montar uma prova online com gabarito automático e uma ex
 tag: Tutorial
 author: Equipe QuestioFlux
 publishedAt: 2026-10-28
+updatedAt: 2026-11-25
 status: published
 cta: exam
 ---
@@ -76,12 +77,21 @@ Repare que as explicações das alternativas erradas não dizem só "está errad
 - **Explicações curtas.** Duas ou três frases bastam. Se precisar de mais, provavelmente a questão cobre assunto demais.
 - **Revise antes de finalizar.** Responda a prova você mesmo e leia a correção como se fosse o aluno.
 
+## Prova com gabarito ou quiz por pontuação?
+
+O QuestioFlux também tem o [quiz por pontuação](/pt/create/experiences/scored), e vale não confundir os dois:
+
+- **Prova online:** cada questão tem uma resposta certa. O aluno recebe a nota, o gabarito e as suas explicações. É o formato deste guia, para escola, cursinho e treinamento.
+- **Quiz por pontuação:** não existe resposta certa. Cada alternativa vale de -100 a 100 pontos, e a soma cai em uma faixa de resultado que você escreve. Funciona para autoavaliação ("Como estão seus hábitos de estudo?") ou para diversão ("Quanto você é aventureiro?"), não para dar nota.
+
+Se o objetivo é saber o que o aluno aprendeu, fique com a prova online.
+
 ## Limites do plano grátis
 
-Conferido em 28 de outubro de 2026:
+Conferido em 25 de novembro de 2026:
 
 - **Grátis:** provas com até 10 questões, até 6 alternativas por questão, explicação em todas as alternativas, correção automática, filtros na correção, ranking e compartilhamento por link ou incorporação.
-- **Imagens nas questões e alternativas, mais de 10 questões e mais alternativas** exigem o **QuestioPlus** (R$ 2,50 por mês) ou um **passe avulso** (R$ 1,99), que libera esses recursos em uma prova. Depois de liberada, a prova continua editável mesmo sem passe sobrando.
+- **Imagens nas questões e alternativas, mais de 10 questões e mais alternativas** exigem o **QuestioPlus** (R$ 3,50 por mês) ou um **passe avulso** (R$ 2,99), que libera esses recursos em uma prova. Depois de liberada, a prova continua editável mesmo sem passe sobrando.
 
 Os valores acima são os preços em real. Nos outros idiomas, o site mostra o preço em dólar ou em euro.
 

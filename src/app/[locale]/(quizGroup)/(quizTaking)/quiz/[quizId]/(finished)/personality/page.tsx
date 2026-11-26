@@ -26,8 +26,11 @@ export default async function PersonalityResult({ params }: IProps) {
     return (
         <>
             <PersonalityResultPage quiz={withoutQuestions(quiz)} shareUrl={quizCanonicalUrl(quiz)} />
-            <GoogleAd slot={RESULTS_AD_SLOT} />
-            <AdRails />
+            {/* quem criou assina o QuestioPlus: o quiz não leva anúncios */}
+            {!quiz.adFree && <>
+                <GoogleAd slot={RESULTS_AD_SLOT} />
+                <AdRails />
+            </>}
         </>
     )
 }

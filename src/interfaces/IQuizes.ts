@@ -41,6 +41,9 @@ export default interface IQuizes {
     kind?: QuizKind,
     // recursos pagos já liberados neste quiz (assinatura ou crédito avulso usado nele)
     premiumUnlocked?: boolean,
+    // só na página pública: quem criou assina o QuestioPlus, então as páginas do quiz não
+    // levam anúncios (o passe avulso não tira anúncios)
+    adFree?: boolean,
     personalityResults?: IPersonalityResult[],
     // pergunta extra feita só quando dois ou mais resultados empatam
     personalityTieBreakQuestion?: string,

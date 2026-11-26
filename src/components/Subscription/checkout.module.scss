@@ -1,0 +1,399 @@
+@use '@/assets/styles/vars.scss';
+
+// ── página ──────────────────────────────────────────────
+
+.page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 1rem 3rem;
+    background-image: var(--main-background-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.topbar {
+    width: 100%;
+    max-width: 1040px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .75rem 1rem;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    @include vars.styleTexto(var(--text-secondary), .95rem, 600);
+    transition: color .15s ease;
+
+    svg {
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: var(--text-primary);
+    }
+}
+
+.secure {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    @include vars.styleTexto(var(--text-secondary), .82rem, 500);
+
+    svg {
+        width: .95rem;
+        height: .95rem;
+    }
+}
+
+.main {
+    width: 100%;
+    max-width: 1040px;
+}
+
+.grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    align-items: start;
+    gap: 1.5rem;
+
+    @media screen and (max-width: 820px) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.summary,
+.payment {
+    background-color: var(--background-divs);
+    border-radius: 1rem;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, .18);
+    padding: 1.75rem;
+
+    @media screen and (max-width: 520px) {
+        padding: 1.15rem;
+    }
+}
+
+// ── resumo do pedido ────────────────────────────────────
+
+.summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.eyebrow {
+    @include vars.styleTexto(var(--text-secondary), .76rem, 700);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .25rem;
+    padding: .25rem;
+    border-radius: .75rem;
+    border: 1px solid var(--theme-button-border);
+
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 2.5rem;
+        padding: .45rem .5rem;
+        border-radius: .55rem;
+        @include vars.styleTexto(var(--text-secondary), .9rem, 700);
+        transition: color .15s ease, background-color .15s ease;
+
+        &:hover {
+            color: var(--text-primary);
+        }
+    }
+
+    a[aria-current='page'] {
+        background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+        color: vars.$cor-branco;
+    }
+}
+
+.plan {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+
+    h1 {
+        @include vars.styleTexto(var(--text-primary), 1.35rem, 800);
+        line-height: 1.25;
+    }
+}
+
+.price {
+    @include vars.styleTexto(var(--text-primary), 2rem, 800);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.billing {
+    @include vars.styleTexto(var(--text-description), .92rem, 400);
+    line-height: 1.45;
+}
+
+.currency {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+
+    button {
+        padding: .45rem .8rem;
+        border-radius: 999px;
+        border: 1px solid var(--theme-button-border);
+        background-color: transparent;
+        color: var(--theme-button-text);
+        font-weight: 700;
+        font-size: .85rem;
+        cursor: pointer;
+    }
+}
+
+.currency_active {
+    background-color: var(--theme-button-active-bg) !important;
+    color: var(--theme-button-active-text) !important;
+    outline: 1px solid var(--theme-button-active-outline);
+}
+
+.included {
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--horizontal-rule-color);
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), .95rem, 700);
+        margin-bottom: .7rem;
+    }
+}
+
+.benefits {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: .55rem;
+        @include vars.styleTexto(var(--text-primary), .92rem, 400);
+        line-height: 1.4;
+
+        svg {
+            flex-shrink: 0;
+            width: 1.1rem;
+            height: 1.1rem;
+            margin-top: .05rem;
+            color: vars.$cor-correct;
+        }
+    }
+}
+
+// ── pagamento ───────────────────────────────────────────
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), 1.15rem, 700);
+    }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+
+    label {
+        @include vars.styleTexto(var(--text-primary), .9rem, 600);
+    }
+
+    input {
+        width: 100%;
+        padding: .75rem .8rem;
+        border-radius: .45rem;
+        border: 1px solid var(--border-input-color);
+        background-color: var(--background-input);
+        @include vars.styleTexto(var(--text-primary), 1rem, 400);
+        outline: none;
+        transition: border-color .15s ease, box-shadow .15s ease;
+
+        &:focus {
+            border-color: vars.$cor-ciano;
+            box-shadow: 0 0 0 3px rgba(0, 228, 255, .25);
+        }
+
+        &[aria-invalid='true'] {
+            border-color: var(--status-error);
+        }
+    }
+}
+
+.field_error,
+.form_error {
+    @include vars.styleTexto(var(--status-error), .85rem, 500);
+    line-height: 1.4;
+}
+
+.pay {
+    width: 100%;
+    min-height: 3rem;
+    padding: .8rem 1rem;
+    border: none;
+    border-radius: .6rem;
+    background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+    @include vars.styleTexto(vars.$cor-branco, 1.05rem, 700);
+    cursor: pointer;
+    transition: opacity .15s ease, transform .15s ease;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+}
+
+.note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .35rem;
+    text-align: center;
+    @include vars.styleTexto(var(--text-secondary), .8rem, 400);
+    line-height: 1.4;
+
+    svg {
+        flex-shrink: 0;
+        width: .85rem;
+        height: .85rem;
+    }
+}
+
+// ── carregando, resultado e erros ───────────────────────
+
+.skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+
+    p {
+        text-align: center;
+        @include vars.styleTexto(var(--text-secondary), .9rem, 500);
+    }
+}
+
+.skeleton_bar,
+.skeleton_block {
+    display: block;
+    border-radius: .45rem;
+    background-color: var(--skeleton-loading-color);
+    animation: checkout-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton_bar {
+    height: 2.75rem;
+}
+
+.skeleton_block {
+    height: 11rem;
+}
+
+@keyframes checkout-pulse {
+    50% {
+        opacity: .45;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton_bar,
+    .skeleton_block {
+        animation: none;
+    }
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .85rem;
+    padding: 1.5rem .5rem;
+    text-align: center;
+
+    > svg {
+        width: 3rem;
+        height: 3rem;
+        color: var(--text-secondary);
+    }
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), 1.25rem, 800);
+        line-height: 1.3;
+    }
+
+    p {
+        max-width: 26rem;
+        @include vars.styleTexto(var(--text-description), .95rem, 400);
+        line-height: 1.5;
+    }
+}
+
+.status_ok {
+    color: vars.$cor-correct !important;
+}
+
+.status_error {
+    color: var(--status-error) !important;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+    margin-top: .35rem;
+}
+
+.primary,
+.secondary {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: .6rem 1.2rem;
+    border-radius: .6rem;
+    cursor: pointer;
+    @include vars.styleTexto(var(--text-primary), .95rem, 700);
+}
+
+.primary {
+    border: none;
+    background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+    color: vars.$cor-branco;
+}
+
+.secondary {
+    border: 1px solid var(--theme-button-border);
+    background-color: transparent;
+}

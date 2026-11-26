@@ -30,6 +30,16 @@ export const EXPERIENCE_LIMITS = {
     rangeDescription: 600,
 } as const
 
+// Tamanhos do torneio: 8 e 16 opções são grátis; 32 e 64 são do QuestioPlus (ou de um
+// crédito do passe, que libera aquele torneio para sempre). O backend confere ao salvar.
+export const TOURNAMENT_SIZES = [8, 16, 32, 64] as const
+export type TTournamentSize = typeof TOURNAMENT_SIZES[number]
+
+export const isTournamentSize = (value: unknown): value is TTournamentSize =>
+    typeof value === 'number' && (TOURNAMENT_SIZES as readonly number[]).includes(value)
+
+export const isPaidTournamentSize = (size: number) => size > 16
+
 // ids no formato aceito pelo backend (letras, números, "-" e "_")
 export const newItemId = () => newAttemptKey()
 
@@ -95,7 +105,7 @@ export function editableExperience(kind: ExperienceKind, raw: unknown): TExperie
                 const option = isObject(item) ? item : {}
                 return { optionId: id(option.optionId), text: text(option.text), ...(typeof option.image === 'string' && option.image ? { image: option.image } : {}) }
             })
-            return options.length ? { size: source.size === 16 ? 16 : 8, options } : emptyExperience(kind)
+            return options.length ? { size: isTournamentSize(source.size) ? source.size : 8, options } : emptyExperience(kind)
         }
         case 'story': {
             const scenes: IStoryScene[] = (Array.isArray(source.scenes) ? source.scenes : []).map(item => {
@@ -205,7 +215,12 @@ export function tournamentDuels(bracket: readonly string[], winners: readonly st
 
 // chave de tradução da rodada pelo número de opções nela
 export const roundKey = (roundSize: number) =>
-    roundSize <= 2 ? 'final' : roundSize <= 4 ? 'semifinal' : roundSize <= 8 ? 'quarterfinal' : 'roundOf16'
+    roundSize <= 2 ? 'final'
+        : roundSize <= 4 ? 'semifinal'
+            : roundSize <= 8 ? 'quarterfinal'
+                : roundSize <= 16 ? 'roundOf16'
+                    : roundSize <= 32 ? 'roundOf32'
+                        : 'roundOf64'
 
 export interface IOptionRanking {
     option: ITournamentOption

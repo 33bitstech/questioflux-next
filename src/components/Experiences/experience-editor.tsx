@@ -10,7 +10,8 @@ import {
 import { saveExperience, uploadExperienceImage } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/experiences/actions'
 import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
-import { editableExperience } from '@/utils/experiences'
+import { editableExperience, isPaidTournamentSize } from '@/utils/experiences'
+import PaywallDialog from '@/components/Pricing/paywall-dialog'
 import { ExperienceKind } from '@/utils/quizKind'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { trackEvent } from '@/utils/analytics'
@@ -30,6 +31,8 @@ interface IProps {
     isPrivate: boolean
     draft: boolean
     mode: 'create' | 'edit'
+    // recursos pagos já liberados neste quiz (torneio de 32 ou 64 opções)
+    premiumUnlocked?: boolean
 }
 
 // 4 MB: as ações do servidor aceitam até 5 MB por envio
@@ -38,7 +41,7 @@ const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/gif']
 
 // Editor dos formatos de experiência. Salvar manda o conteúdo inteiro; o backend devolve o
 // conteúdo salvo e o que ainda impede publicar (issues) ou só merece atenção (warnings).
-export default function ExperienceEditor({ quizId, kind, initial, isPrivate, draft, mode }: IProps) {
+export default function ExperienceEditor({ quizId, kind, initial, isPrivate, draft, mode, premiumUnlocked }: IProps) {
     const t = useTranslations('experienceEditor')
     const locale = useLocale()
     const format = useFormatter()
@@ -52,6 +55,8 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
     const [savedAt, setSavedAt] = useState<Date>()
     const [isDraft, setIsDraft] = useState(draft)
     const [showVisibility, setShowVisibility] = useState(false)
+    const [unlocked, setUnlocked] = useState(premiumUnlocked === true)
+    const [paywall, setPaywall] = useState(false)
     // imagens escolhidas para opções do torneio, enviadas depois de salvar o conteúdo
     const [previews, setPreviews] = useState<Record<string, string>>({})
     const files = useRef<Record<string, File>>({})
@@ -104,6 +109,12 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
         try {
             let result = await saveExperience(quizId, content)
             if (!result.ok) {
+                // torneio de 32 ou 64 opções sem QuestioPlus nem crédito (o saldo pode ter
+                // acabado depois da escolha): o aviso do recurso pago explica e leva aos planos
+                if (result.error.type === 'premium') {
+                    setPaywall(true)
+                    return { ok: false, issues: [] }
+                }
                 if (result.issues) setCheck({ issues: result.issues, warnings: result.warnings ?? [] })
                 setError(getLocalizedMessage(result.error, locale))
                 return { ok: false, issues: result.issues ?? [] }
@@ -138,6 +149,8 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
                 }
             }
 
+            // o backend só aceita 32 ou 64 opções com acesso, e aí marca o torneio como liberado
+            if (kind === 'tournament' && isPaidTournamentSize((saved as ITournamentContent).size)) setUnlocked(true)
             setContent(saved)
             setCheck({ issues: result.issues, warnings: result.warnings })
             setSavedAt(new Date())
@@ -244,8 +257,10 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
 
             {kind === 'tournament' && (
                 <TournamentEditor content={content as ITournamentContent} onChange={change} flagged={flagged}
-                    previews={previews} onPickImage={pickImage} onRemoveImage={removeImage} disabled={saving} />
+                    previews={previews} onPickImage={pickImage} onRemoveImage={removeImage}
+                    unlocked={unlocked} onLocked={() => setPaywall(true)} disabled={saving} />
             )}
+            {paywall && <PaywallDialog feature="tournament" onClose={() => setPaywall(false)} />}
             {kind === 'story' && <StoryEditor content={content as IStoryContent} onChange={change} flagged={flagged} disabled={saving} />}
             {(kind === 'compatibility' || kind === 'scored') && (
                 <QuestionsEditor kind={kind} questions={(content as ICompatibilityContent).questions} flagged={flagged} disabled={saving}

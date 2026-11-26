@@ -47,6 +47,7 @@ export default function EmbedQuizPopup({
     height="650"
     style="border:0; border-radius:12px; overflow:hidden;"
     loading="lazy"
+    allow="clipboard-write; web-share"
     allowfullscreen
   ></iframe>
 

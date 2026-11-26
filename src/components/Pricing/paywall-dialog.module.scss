@@ -1,0 +1,115 @@
+@use '@/assets/styles/vars.scss';
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.dialog {
+    position: relative;
+    width: 100%;
+    max-width: 26rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .85rem;
+    padding: 2rem 1.5rem 1.4rem;
+    border-radius: 1rem;
+    background-color: var(--background-divs);
+    box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    outline: none;
+
+    h2 {
+        @include vars.styleTexto(var(--text-primary), 1.2rem, 800);
+        line-height: 1.3;
+    }
+
+    >p {
+        @include vars.styleTexto(var(--text-description), .95rem, 400);
+        line-height: 1.5;
+    }
+
+    .note {
+        @include vars.styleTexto(var(--text-secondary), .8rem, 400);
+        line-height: 1.4;
+    }
+}
+
+.close {
+    position: absolute;
+    top: .6rem;
+    right: .6rem;
+    display: flex;
+    padding: .35rem;
+    border: none;
+    border-radius: .5rem;
+    background-color: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    svg {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: var(--text-primary);
+    }
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+    color: vars.$cor-branco;
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+.actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+    margin-top: .3rem;
+}
+
+.primary,
+.secondary {
+    flex: 1 1 10rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: .6rem 1.1rem;
+    border-radius: .6rem;
+    cursor: pointer;
+    @include vars.styleTexto(var(--text-primary), .95rem, 700);
+}
+
+.primary {
+    border: none;
+    background: linear-gradient(180deg, vars.$cor-azulEscuro 0%, vars.$cor-ciano 100%);
+    color: vars.$cor-branco;
+}
+
+.secondary {
+    border: 1px solid var(--theme-button-border);
+    background-color: transparent;
+}

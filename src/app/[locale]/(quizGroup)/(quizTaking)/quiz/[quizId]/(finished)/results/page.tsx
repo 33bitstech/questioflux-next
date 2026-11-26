@@ -83,9 +83,12 @@ export default async function Results({ params }: IProps) {
                 >{t('viewLeaderboard')}</Link>
             </div>
 
-            <GoogleAd slot='8751962602' />
-            {/* desktop: uma em cada lateral; no celular fica só o anúncio de cima */}
-            <AdRails />
+            {/* desktop: uma em cada lateral; no celular fica só o anúncio de cima. Quem criou
+                assina o QuestioPlus: o quiz não leva anúncios */}
+            {!quiz?.adFree && <>
+                <GoogleAd slot='8751962602' />
+                <AdRails />
+            </>}
 
         </>
     )

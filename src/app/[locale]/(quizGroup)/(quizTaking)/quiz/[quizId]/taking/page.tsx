@@ -38,6 +38,8 @@ export default async function Taking({params, searchParams}:IProps) {
     if (!quiz) notFound()
 
     const kind = getQuizKind(quiz)
+    // quem criou assina o QuestioPlus: o quiz não leva anúncios
+    const showAds = !quiz.adFree
 
     // torneio, história, compatibilidade e pontuação: partida própria de cada formato
     if (isExperienceKind(kind)) {
@@ -49,12 +51,12 @@ export default async function Taking({params, searchParams}:IProps) {
                 <div className={styles.header_quiz}>
                     <h1>{quiz.title}</h1>
                 </div>
-                <TakingAd position='top' />
+                {showAds && <TakingAd position='top' />}
                 <ExperienceTaking
                     quiz={quiz}
                     invite={kind === 'compatibility' && code ? await getInvite(quizId, code) : undefined}
                 />
-                <TakingAd position='bottom' />
+                {showAds && <TakingAd position='bottom' />}
             </>
         )
     }
@@ -67,10 +69,10 @@ export default async function Taking({params, searchParams}:IProps) {
                     styles={styles}
                     // com key: o elemento vem pronto do servidor e entra entre os filhos do
                     // componente; sem ela o React avisa de "lista sem key" em dev
-                    adTop={<TakingAd key='ad-top' position='top' />}
+                    adTop={showAds ? <TakingAd key='ad-top' position='top' /> : undefined}
                 />
             </Suspense>
-            <TakingAd position='bottom' />
+            {showAds && <TakingAd position='bottom' />}
         </>
     )
 }

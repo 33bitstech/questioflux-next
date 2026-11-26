@@ -68,8 +68,11 @@ export default async function ParticipationResultPage({ params }: IProps) {
                 shareUrl={`${quizCanonicalUrl(quiz)}/result/${participation.participationId}`}
                 inviteBaseUrl={`${quizCanonicalUrl(quiz)}/taking`}
             />
-            <GoogleAd slot={RESULTS_AD_SLOT} />
-            <AdRails />
+            {/* quem criou assina o QuestioPlus: o quiz não leva anúncios */}
+            {!quiz.adFree && <>
+                <GoogleAd slot={RESULTS_AD_SLOT} />
+                <AdRails />
+            </>}
         </>
     )
 }

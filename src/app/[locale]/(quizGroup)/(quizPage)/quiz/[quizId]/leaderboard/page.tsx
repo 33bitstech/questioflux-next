@@ -81,11 +81,13 @@ export default async function Leaderboard({ params }: IProps) {
 
     // personalidade não tem ranking: a aba mostra quanto saiu cada resultado
     const publicQuiz = await getPublicQuiz(quizId)
+    // quem criou assina o QuestioPlus: o quiz não leva anúncios
+    const showAds = !publicQuiz?.adFree
     if (publicQuiz && getQuizKind(publicQuiz) === 'personality') {
         return (
             <>
                 <PersonalityStats quiz={withoutQuestions(publicQuiz)} locale={locale} />
-                <GoogleAd slot='6282931841' />
+                {showAds && <GoogleAd slot='6282931841' />}
             </>
         )
     }
@@ -94,7 +96,7 @@ export default async function Leaderboard({ params }: IProps) {
         return (
             <>
                 <ExperienceStats quiz={withoutQuestions(publicQuiz)} locale={locale} />
-                <GoogleAd slot='6282931841' />
+                {showAds && <GoogleAd slot='6282931841' />}
             </>
         )
     }
@@ -141,7 +143,7 @@ export default async function Leaderboard({ params }: IProps) {
                 <p>{t('noResults')}</p>
             )}
 
-            <GoogleAd slot='6282931841' />
+            {showAds && <GoogleAd slot='6282931841' />}
 
             {quiz && data && (
                 <LeaderboardGroups styles={styles} data={data} quiz={quiz} locale={locale} viewerId={user?.userId} />

@@ -1,9 +1,10 @@
 ---
-title: How to make a free personality quiz (with a complete example)
+title: How to Make a Free Personality Quiz (With a Complete Example)
 description: A step-by-step guide to building a personality quiz from scratch, setting up the results, linking every answer to a profile and sharing it. Includes a ready-made example and the real limits of the free plan.
 tag: Tutorial
 author: QuestioFlux Team
 publishedAt: 2026-10-28
+updatedAt: 2026-11-25
 status: published
 cta: personality
 ---
@@ -90,12 +91,27 @@ On the quiz page, the **Results** tab shows how many times each profile came up.
 - **Use images on the results.** They are free and make sharing much more eye-catching.
 - **Test before you promote it.** Take your own quiz a few times, trying to reach each result.
 
+## Example: a personality quiz at a party, a bar or a team event
+
+A personality quiz also works great in person, with everyone in the same room:
+
+1. **Create the quiz and keep it private.** It stays out of Explore and Google, so only people at the event play. Ideas: "Which cocktail matches you?" at a bar, "What kind of party guest are you?" at a party, "What is your teamwork style?" at a company offsite.
+2. **Create the QR code.** On the quiz page, click **Share Quiz**, then **QR code**, and download the image. Anyone who scans it starts the quiz right away.
+3. **Put the QR code where people can see it.** Print it on a table card, stick it on the bar or show it on the TV. Everyone scans it with their phone camera and plays right there, with no app to download and no account to create.
+4. **Use the results in the game.** The **Results** tab shows how many times each profile came up. You can form teams by profile, give a prize to the rarest profile or announce the "profile of the night".
+
+## More formats if you liked the personality quiz
+
+- **[Compatibility test](/en/create/experiences/compatibility):** instead of finding a profile, people find out how well they match. You write questions like "Beach or mountains?", each person answers and sends their own link, and whoever answers through it sees the percentage of matching answers. Great for couples, friends and coworkers.
+- **[Interactive story](/en/create/experiences/story):** people live the situation instead of answering about it. Each scene has up to 4 choices and every path leads to a different ending, with no code at all.
+- **[Points quiz](/en/create/experiences/scored):** for when the result is "how much" rather than "which one", like "How adventurous are you?". Each option is worth points, and the total lands in a result range.
+
 ## Free plan limits
 
-Checked on October 28, 2026:
+Checked on November 25, 2026:
 
 - **Free:** personality quizzes with up to 10 questions, up to 6 options per question, 2 to 12 results with images, a tie-break question, sharing by link and embedding on websites.
-- **Images on questions and options, more than 10 questions and more options** require **QuestioPlus** ($2.50 per month) or a **one-time pass** ($1.99), which unlocks those features on one quiz. Once unlocked, the quiz stays editable even with no passes left.
+- **Images on questions and options, more than 10 questions and more options** require **QuestioPlus** ($3.50 per month) or a **one-time pass** ($2.99), which unlocks those features on one quiz. Once unlocked, the quiz stays editable even with no passes left.
 
 Prices above are in US dollars. The site shows prices in Brazilian reais in Portuguese, and Spanish speakers can also pay in euros.
 

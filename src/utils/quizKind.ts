@@ -35,11 +35,14 @@ export const allowsAnonymousPlay = (kind: QuizKind) =>
 export const contentFamily = (kind: QuizKind) => (hasLeaderboard(kind) ? 'questions' : kind)
 
 // Mesma regra do backend: o quiz já teve os recursos pagos liberados (assinatura ou crédito
-// avulso). Quizzes antigos sem a marca contam se já têm imagem ou mais de 10 perguntas.
-export const isQuizPremiumUnlocked = (quiz?: { premiumUnlocked?: boolean, type?: string, qtdQuestions?: number } | null) =>
+// avulso). Quizzes antigos sem a marca contam se já têm imagem ou mais de 10 perguntas; nos
+// formatos de experiência só vale a marca (um torneio de 16 opções é grátis).
+export const isQuizPremiumUnlocked = (quiz?: { premiumUnlocked?: boolean, type?: string, qtdQuestions?: number, kind?: string } | null) =>
     quiz?.premiumUnlocked === true ||
-    (quiz?.type === 'image/RW' && (quiz?.qtdQuestions ?? 0) > 0) ||
-    (quiz?.qtdQuestions ?? 0) > 10
+    (!isExperienceKind(quiz?.kind) && (
+        (quiz?.type === 'image/RW' && (quiz?.qtdQuestions ?? 0) > 0) ||
+        (quiz?.qtdQuestions ?? 0) > 10
+    ))
 
 // Página de cada tipo em /create/quiz/[slug]. A ordem é a dos cards em /create/quiz.
 export const quizTypeSlugs = {

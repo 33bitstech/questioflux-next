@@ -35,7 +35,8 @@
         },
         "footer": {
             "aboutLink": "关于我们",
-            "blogLink": "博客"
+            "blogLink": "博客",
+            "pricingLink": "方案"
         },
         "metadataTitle": "QuestioFlux | 免费创建测验、淘汰赛和互动故事",
         "metadataDesc": "免费在线创建测验：带排行榜的知识问答、在线考试、关于我的测验和性格测验，还有最爱淘汰赛、互动故事和默契测试。分享链接，查看结果。",
@@ -184,16 +185,6 @@
             "feature2": "为题目配上插图",
             "feature3": "测验题目数量不限",
             "feature4": "每道题最多 15 个选项"
-        },
-        "subscription": {
-            "title": "使用 QuestioPlus，获得更好的体验",
-            "price": "$2.50/月",
-            "ctaButton": "立即订阅"
-        },
-        "singleUse": {
-            "title": "购买单次通行证，解锁高级测验创建功能",
-            "price": "$1.99/次",
-            "ctaButton": "立即购买"
         }
     },
     "contextualHeader": {
@@ -242,7 +233,6 @@
             "activeTitle": "已生效（{count}）",
             "vortexPlus": {
                 "title": "QuestioPlus",
-                "price": "$2.50/月",
                 "subscribeButton": "订阅",
                 "unsubscribeButton": "取消订阅",
                 "loadingButton": "加载中……",
@@ -255,7 +245,6 @@
             },
             "vortexPlusUsage": {
                 "title": "QuestioPlus 单次通行证（{count}）",
-                "price": "$1.99/次",
                 "buyButton": "购买"
             },
             "cancelPopup": {
@@ -443,7 +432,12 @@
             "title": "分享给你的朋友",
             "whatsappMessage": "来参加这个测验吧！",
             "copyLinkButton": "复制链接",
-            "copySuccessMessage": "链接已复制！"
+            "copySuccessMessage": "链接已复制！",
+            "qrButton": "二维码",
+            "qrAlt": "打开测验的二维码",
+            "qrHint": "打印出来或投到屏幕上：用手机相机扫码就能马上开始玩。",
+            "qrDownload": "下载二维码",
+            "qrError": "二维码生成失败，请再试一次。"
         }
     },
     "commentsSection": {
@@ -554,7 +548,7 @@
                 "question1Title": "如何创建在线测验？",
                 "question1Text": "选择类型，写好题目和选项，然后发布。知识问答、在线考试和关于我的测验需要标出正确答案；性格测验的每个选项则指向一个结果类型。之后分享链接即可。",
                 "question2Title": "可以免费创建测验吗？",
-                "question2Text": "可以。四种类型都可以免费使用文字题，每个测验最多 10 题。超过 10 题，或在题目和选项中使用图片，需要订阅或单次购买。淘汰赛、互动故事、默契测试和计分测验都是免费的。",
+                "question2Text": "可以。四种类型都可以免费使用文字题，每个测验最多 10 题。超过 10 题，或在题目和选项中使用图片，需要订阅或单次购买。互动故事、默契测试、计分测验和 16 个选项以内的淘汰赛也都免费；32 和 64 个选项的淘汰赛需要订阅或单次购买。",
                 "question3Title": "可以制作带排行榜的测验吗？",
                 "question3Text": "可以：知识问答、在线考试和关于我的测验都有排行榜，显示每位玩家的分数和用时。性格测验不排名，你可以看到谁参加了，以及每个人得到的结果类型。",
                 "question4Title": "可以制作图片测验吗？",
@@ -639,7 +633,7 @@
                 "exam": "编写题目时可以为每个选项写解析。答题者在结束时会看到完整的答案。",
                 "aboutMe": "你会看到一些关于你自己的推荐题目。“关于我”测验不会出现在 Google 中，通过链接分享。",
                 "personality": "没有正确答案：你在封面里创建结果，并在题目中选择每个选项通向哪个结果。",
-                "tournament": "8 或 16 个选项两两对决，玩家每次选出更喜欢的一个，直到决出冠军。没有标准答案。",
+                "tournament": "8、16、32 或 64 个选项两两对决，玩家每次选出更喜欢的一个，直到决出冠军。没有标准答案。32 和 64 个选项属于 QuestioPlus。",
                 "story": "编写场景和选项，每个选项通向另一个场景或一个结局。玩家可以重新开始，解锁其他结局。",
                 "compatibility": "每个人按自己的喜好作答，再用链接邀请别人。结果是两人相同答案的百分比。",
                 "scored": "每个选项都有分值。总分落在你设定的某个分数段里，那个分数段就是结果。"
@@ -703,9 +697,6 @@
             "toggleMode": {
                 "textOnly": "仅文字",
                 "textAndImage": "文字和图片"
-            },
-            "premiumWarning": {
-                "popupText": "“文字和图片”选项仅对高级用户开放。要启用它，请订阅 <vortexplus>vortexplus</vortexplus> 获得无限使用权限，或为这个测验购买单次通行证。"
             }
         },
         "questionsForm": {
@@ -901,48 +892,60 @@
     "embedPage": {
         "playAgain": "再玩一次",
         "allResults": "查看全部结果",
-        "experienceText": "这种玩法会在 QuestioFlux 的新标签页中打开。",
-        "playOnSite": "在 QuestioFlux 上玩"
+        "seeOnSite": "在 QuestioFlux 上查看",
+        "resultError": "你的这一局已经保存，但结果没能在这里打开。",
+        "openResult": "在 QuestioFlux 上查看结果"
     },
     "SubscriptionPage": {
         "currency": {
             "label": "选择货币"
         },
-        "metadataTitle": "订阅 | {type}",
-        "descriptionPlus": "订阅 - $2.50/月",
-        "descriptionUsage": "单次使用 - $1.99/次",
-        "textChooseMethod": "选择支付方式",
-        "buttons": {
-            "creditCard": "信用卡"
-        },
-        "inputs": {
-            "subscribe": "订阅",
-            "buy": "购买",
-            "loading": "加载中……"
-        },
         "hasPremium": "你已经有生效中的订阅",
-        "errors": {
-            "email": "请正确填写邮箱"
-        },
-        "sucess": "支付成功！",
         "messages": {
-            "paymentSessionNotFound": "找不到支付会话。",
             "invalidEmail": "邮箱无效。",
             "paymentProcessError": "处理支付时出错。",
-            "confirmPaymentStatusError": "无法确认支付状态。",
-            "paymentNotConfirmed": "支付尚未确认。",
-            "subscriptionSuccess": "订阅已成功开通。",
-            "paymentSuccess": "支付已成功确认。",
             "unexpectedError": "发生了意外错误。"
         },
         "maintenance": {
             "title": "支付暂时不可用",
             "description": "我们正在更换支付通道，请稍后再来。"
         },
-        "total": "应付总额：{amount}",
-        "totalPerMonth": "应付总额：{amount}/月",
         "planPlus": "QuestioPlus 订阅",
-        "planUsage": "QuestioPlus 单次通行证"
+        "planUsage": "QuestioPlus 单次通行证",
+        "metadataTitlePlus": "订阅 QuestioPlus | QuestioFlux",
+        "metadataTitleUsage": "购买单次通行证 | QuestioFlux",
+        "backToPlans": "返回方案",
+        "securePayment": "安全支付",
+        "summaryEyebrow": "订单摘要",
+        "planSwitchLabel": "选择方案",
+        "planMonthly": "按月订阅",
+        "planPass": "单次通行证",
+        "billingPlus": "每月扣费，可随时在个人资料中取消。",
+        "billingUsage": "一次性付款，无需订阅。通行证可为一个测验解锁付费功能。",
+        "includedTitle": "包含内容",
+        "paymentTitle": "付款",
+        "emailLabel": "电子邮箱",
+        "payPlus": "订阅：{amount}/月",
+        "payUsage": "支付 {amount}",
+        "processing": "处理中…",
+        "stripeNote": "付款由 Stripe 处理，QuestioFlux 看不到你的银行卡信息。",
+        "preparing": "正在准备付款…",
+        "confirming": "正在确认付款…",
+        "sessionErrorTitle": "无法打开付款页面",
+        "sessionErrorText": "没有产生任何扣款，请稍后再试。",
+        "retry": "重试",
+        "successPlusTitle": "订阅已开通！",
+        "successPlusText": "QuestioPlus 功能已在你的账户中解锁。",
+        "successUsageTitle": "付款成功！",
+        "successUsageText": "你的通行证已可使用。保存使用付费功能的测验时会自动用掉它。",
+        "pendingTitle": "正在确认你的付款",
+        "pendingText": "这可能需要几分钟。付款通过后，相关功能会在你的账户中解锁。",
+        "failedTitle": "付款未完成",
+        "failedText": "没有产生扣款。你可以用同一张卡或其他付款方式再试一次。",
+        "createQuiz": "创建测验",
+        "goHome": "返回首页",
+        "hasPremiumText": "QuestioPlus 功能已在你的账户中解锁，无需再购买。",
+        "manageSubscription": "管理订阅"
     },
     "mainMetadata": {
         "desc": "用 QuestioFlux 创建属于你的测验！强大又有趣的测验制作工具，轻松制作并与朋友分享测验。添加图片、自定义题目，看看谁能登上排行榜榜首。今天就开始创建吧！",
@@ -1047,10 +1050,10 @@
         "perUse": "{price}/次"
     },
     "blogPage": {
-        "metadataTitle": "QuestioFlux 博客：创建测验和在线考试的指南",
-        "metadataDescription": "实用教程：创建性格测验、带答案解析的在线考试，以及适合分享的测验。",
+        "metadataTitle": "QuestioFlux 博客：在线测试制作工具教程，测验、淘汰赛与互动故事",
+        "metadataDescription": "实用教程：免费制作知识问答、带答案解析的在线考试、心理与性格测试、淘汰赛投票和互动选择故事，并对比各个在线测试制作工具的免费版限制。",
         "title": "博客",
-        "subtitle": "创建测验、测试和在线考试的实用指南，附带示例以及各个方案的真实限制。",
+        "subtitle": "从知识问答、在线考试、心理与性格测试，到淘汰赛投票和分支剧情故事，一步步教你做出来，并写清免费版限制。",
         "empty": "这个语言暂时还没有文章。",
         "draft": "草稿",
         "draftNotice": "草稿：这篇文章尚未发布，只会出现在开发环境中。",
@@ -1079,9 +1082,29 @@
                 "title": "创建你的性格测验",
                 "text": "由你来定义结果，以及每个答案通向哪个结果。免费开始使用。",
                 "button": "创建性格测验"
+            },
+            "tournament": {
+                "title": "创建你的最爱淘汰赛",
+                "text": "8 或 16 个选项免费，32 和 64 个选项需订阅 QuestioPlus。可以配图，参与投票的人无需注册。",
+                "button": "创建淘汰赛"
+            },
+            "story": {
+                "title": "创建你的互动故事",
+                "text": "场景、选项和多个结局，无需编程。发布前，编辑器会提示走不通的路线。",
+                "button": "创建互动故事"
+            },
+            "compatibility": {
+                "title": "创建默契测试",
+                "text": "先回答关于你自己的问题，再把链接发出去：每个人都能看到你们有多默契。",
+                "button": "创建默契测试"
+            },
+            "scored": {
+                "title": "创建计分测验",
+                "text": "每个选项都有分值，总分落在你设定的分数段里。",
+                "button": "创建计分测验"
             }
         },
-        "heroTitle": "制作让人愿意做完、乐于分享的测验指南",
+        "heroTitle": "制作测验、淘汰赛和互动故事的实用指南",
         "readArticle": "阅读文章",
         "inThisArticle": "本文目录",
         "related": "继续阅读"
@@ -1568,7 +1591,9 @@
                 "final": "决赛",
                 "semifinal": "半决赛",
                 "quarterfinal": "四分之一决赛",
-                "roundOf16": "十六强"
+                "roundOf16": "十六强",
+                "roundOf32": "三十二强",
+                "roundOf64": "六十四强"
             },
             "done": "冠军已产生",
             "duelOf": "第 {number} 场，共 {total} 场",
@@ -1793,7 +1818,12 @@
             "imagePick": "为选项 {number} 选择图片",
             "optionPlaceholder": "例如：玛格丽特披萨",
             "imageRemove": "删除选项 {number} 的图片",
-            "clear": "清空选项 {number}"
+            "clear": "清空选项 {number}",
+            "plusBadge": "Plus",
+            "sizeHint": "8 和 16 个选项免费。32 和 64 个选项需要 QuestioPlus 或一张单次通行证。",
+            "creditNote": "保存时，这个淘汰赛会用掉你账户里的一张通行证，之后会永久解锁。",
+            "filledCount": "已填写 {filled}/{total} 个选项",
+            "premiumCheckError": "暂时无法确认你的套餐，请重试。"
         },
         "story": {
             "scenesTitle": "场景",
@@ -1940,19 +1970,19 @@
         },
         "tournament": {
             "metadata": {
-                "title": "免费在线创建最爱淘汰赛 | QuestioFlux",
-                "desc": "用 8 或 16 个选项搭建淘汰赛，可以配图。玩家在每场对决中选出更喜欢的一个，最后看到自己的冠军和所有人的最爱。",
-                "keywords": "淘汰赛制作, 最爱淘汰赛, 二选一游戏, 在线对决, 选出你的最爱, 图片淘汰赛, 喜好排行"
+                "title": "免费最爱淘汰赛生成器：在线创建对阵表 | QuestioFlux",
+                "desc": "用 8 到 64 个选项搭建淘汰赛，可以配图。玩家在每场对决中选出更喜欢的一个，最后看到自己的冠军和所有人的最爱。",
+                "keywords": "淘汰赛制作, 最爱淘汰赛, 淘汰赛对阵表, 对阵表生成器, 二选一游戏, 在线对决, 选出你的最爱, 图片淘汰赛, 喜好排行"
             },
             "eyebrow": "最爱淘汰赛",
             "title": "创建一场最爱淘汰赛，看看谁会夺冠",
-            "lead": "选 8 或 16 个选项，从披萨口味到动漫角色都可以。每位玩家在每场对决中选出更喜欢的一个，直到决出冠军，再看看所有玩家中哪些选项赢得最多。",
+            "lead": "选 8、16、32 或 64 个选项，从披萨口味到动漫角色都可以，系统会自动排好淘汰赛对阵表。每位玩家在每场对决中选出更喜欢的一个，直到决出冠军，再看看所有玩家中哪些选项赢得最多。",
             "cta": "创建淘汰赛",
-            "heroNote": "免费，每个选项都可以配图。",
+            "heroNote": "16 个选项以内免费，每个选项都可以配图。",
             "steps": [
                 {
                     "title": "添加选项",
-                    "text": "写下 8 或 16 个名称，也可以为每个选项配一张图。"
+                    "text": "写下 8 或 16 个名称（订阅 QuestioPlus 可用 32 或 64 个），也可以为每个选项配一张图。"
                 },
                 {
                     "title": "发布并分享",
@@ -1965,8 +1995,8 @@
             ],
             "features": [
                 {
-                    "title": "8 或 16 个选项",
-                    "text": "7 场对决快速玩一局，或 15 场玩得更尽兴。"
+                    "title": "8 到 64 个选项",
+                    "text": "8 或 16 个选项免费，分别有 7 场或 15 场对决。订阅 QuestioPlus 后可用 32 或 64 个选项，共 31 场或 63 场对决，适合直播和视频。"
                 },
                 {
                     "title": "支持图片",
@@ -1993,7 +2023,11 @@
             "faq": [
                 {
                     "question": "最爱淘汰赛怎么玩？",
-                    "answer": "选项两两对决。每场对决中玩家选出一个，它进入下一轮，直到决赛。8 个选项共 7 场对决，16 个选项共 15 场。"
+                    "answer": "选项会被随机排进对阵表，两两对决。每场对决中玩家选出一个，它进入下一轮，直到决赛。8 个选项共 7 场对决，16 个选项共 15 场，32 个选项共 31 场，64 个选项共 63 场。"
+                },
+                {
+                    "question": "可以创建 32 或 64 个选项的淘汰赛吗？",
+                    "answer": "可以。8 和 16 个选项的淘汰赛免费；32 和 64 个选项属于 QuestioPlus。不订阅的话，一张单次通行证可以解锁你正在创建的这个大型淘汰赛，之后也一直有效。大型淘汰赛很适合直播和视频，决出冠军前会有更多轮对决。"
                 },
                 {
                     "question": "可以用图片吗？",
@@ -2015,13 +2049,13 @@
         },
         "story": {
             "metadata": {
-                "title": "创建互动故事：分支选择与多结局 | QuestioFlux",
+                "title": "创建互动故事和互动小说：分支选择与多结局 | QuestioFlux",
                 "desc": "编写场景、选项和结局，把每个选项连到下一个场景。玩家自己选择路线，抵达结局后还能重新开始，发现别的结局。",
-                "keywords": "互动故事制作, 创建互动故事, 分支剧情, 多结局故事, 文字冒险, 选择你的冒险, 剧情选择游戏"
+                "keywords": "互动故事制作, 互动小说, 创建互动故事, 分支剧情, 多结局故事, 文字冒险, 选择你的冒险, 剧情选择游戏"
             },
             "eyebrow": "互动故事",
             "title": "写一个每个选择都很重要的互动故事",
-            "lead": "创建带选项的场景，决定每个选项通向哪里。路线可以分开，也可以重新汇合，每位玩家都会抵达你写下的某个结局，之后还能重新开始，去发现其他结局。",
+            "lead": "写一部属于你的互动小说：创建带选项的场景，决定每个选项通向哪里。路线可以分开，也可以重新汇合，每位玩家都会抵达你写下的某个结局，之后还能重新开始，去发现其他结局。",
             "cta": "创建故事",
             "heroNote": "免费，每个故事最多 60 个场景。",
             "steps": [
@@ -2081,6 +2115,10 @@
                 {
                     "question": "玩家最后会看到什么？",
                     "answer": "抵达的结局（标题和文字）、走到这里做了几次选择，以及这个故事一共有几个结局。"
+                },
+                {
+                    "question": "和互动小说、文字冒险游戏一样吗？",
+                    "answer": "是的。和互动小说或文字冒险游戏一样，每个选项都会通向另一个场景，玩家自己决定走哪条路线，直到抵达某个结局。这里的选项就是按钮，不用翻页，在手机上也能玩。"
                 }
             ],
             "finalTitle": "你的故事会走向哪里？",
@@ -2174,13 +2212,13 @@
         },
         "scored": {
             "metadata": {
-                "title": "创建计分测验：按总分显示结果 | QuestioFlux",
+                "title": "创建计分测验与自我评估：按总分显示结果 | QuestioFlux",
                 "desc": "为每个选项设定分数，再划分结果分数段。玩家边答边累计分数，最后看到自己所在分数段的结果。",
-                "keywords": "计分测验, 分数测验, 计分测试, 创建计分测验, 分数段结果, 测测你有多, 自我评估测试, 积分测验"
+                "keywords": "计分测验, 分数测验, 计分测试, 创建计分测验, 自我评估测试, 自我评估, 分数段结果, 测测你有多, 积分测验"
             },
             "eyebrow": "计分测验",
             "title": "创建计分测验，每个回答都算分",
-            "lead": "为每个选项设定 -100 到 100 分，再把总分划分成几个分数段，比如“沙发冒险家”或“天生冒险家”。最后，每位玩家都能看到自己的总分和所在分数段的结果。",
+            "lead": "为每个选项设定 -100 到 100 分，再把总分划分成几个分数段，比如“沙发冒险家”或“天生冒险家”。最后，每位玩家都能看到自己的总分和所在分数段的结果。既可以做有趣的计分测验，也可以做自我评估，比如学习习惯或时间管理。",
             "cta": "创建计分测验",
             "heroNote": "免费，可设置 2 到 10 个结果分数段。",
             "steps": [
@@ -2240,6 +2278,10 @@
                 {
                     "question": "和性格测验有什么不同？",
                     "answer": "在性格测验中，每个选项指向一种类型，被选最多的类型就是结果。计分测验则把分数加起来，结果取决于总分，适合“有多……”这类问题，比如一个人有多爱冒险、有多自律。"
+                },
+                {
+                    "question": "可以用来做自我评估吗？",
+                    "answer": "可以。写一些关于习惯的问题，比如学习或时间管理，并给能体现你想衡量的行为的回答更高的分数。每个分数段说明对方处在什么水平，还可以建议下一步怎么做。"
                 }
             ],
             "finalTitle": "你的玩家会拿到多少分？",
@@ -2251,6 +2293,203 @@
                 "text": "在性格测验中，每个选项指向一种类型，比如某个角色或风格，被选最多的就是结果。",
                 "cta": "了解性格测验"
             }
+        }
+    },
+    "paywall": {
+        "imagesTitle": "图片是 QuestioPlus 功能",
+        "imagesText": "要在题目和选项中使用图片，请订阅 QuestioPlus，或在这个测验上使用一张单次通行证。",
+        "tournamentTitle": "32 和 64 个选项的淘汰赛属于 QuestioPlus",
+        "tournamentText": "8 和 16 个选项的淘汰赛免费。想用 32 或 64 个选项，请订阅 QuestioPlus，或在这个淘汰赛上使用一张单次通行证。",
+        "seePlans": "查看方案",
+        "close": "暂不",
+        "note": "方案会在新标签页中打开，你正在编辑的内容会保留在这里。"
+    },
+    "pricingPage": {
+        "metadata": {
+            "title": "QuestioPlus 方案与价格 | QuestioFlux",
+            "desc": "免费创建测验、淘汰赛、互动故事和各类测试。QuestioPlus 增加图片、不限题目数量以及 32 和 64 个选项的淘汰赛，并去除广告。也可以购买单次通行证。"
+        },
+        "breadcrumbHome": "首页",
+        "breadcrumb": "方案",
+        "eyebrow": "方案",
+        "title": "免费创作，想要更多时再订阅",
+        "lead": "8 种玩法全部免费。QuestioPlus 可以为测验加入图片、不限题目数量、创建 32 和 64 个选项的淘汰赛，还会去除你所有作品中的广告。只做一个项目的话，用单次通行证就够了。",
+        "plansTitle": "选择你的方案",
+        "plans": {
+            "free": {
+                "name": "免费",
+                "billing": "永久免费，无需绑卡。",
+                "features": [
+                    "全部 8 种玩法：4 种测验、淘汰赛、互动故事、默契测试和计分测验",
+                    "纯文字测验，最多 10 道题，每题最多 6 个选项",
+                    "8 或 16 个选项的淘汰赛，可以配图",
+                    "最多 60 个场景的互动故事和完整的默契测试",
+                    "排行榜、统计数据和分享链接"
+                ],
+                "cta": "免费开始"
+            },
+            "plus": {
+                "badge": "推荐",
+                "name": "QuestioPlus 月度订阅",
+                "billing": "每月扣费，可随时取消。",
+                "features": [
+                    "包含免费版的全部功能",
+                    "不限题目数量，每题最多 15 个选项",
+                    "题目和选项都可以配图",
+                    "32 或 64 个选项的淘汰赛",
+                    "你的测验和作品不显示广告"
+                ],
+                "cta": "订阅 QuestioPlus"
+            },
+            "pass": {
+                "name": "单次通行证",
+                "billing": "一次性付款，无需订阅。",
+                "features": [
+                    "为一个测验或淘汰赛解锁付费功能",
+                    "这个测验会一直保持解锁，编辑后也一样",
+                    "多张通行证会累积在你的账户里",
+                    "适合只做一个项目"
+                ],
+                "cta": "购买通行证"
+            }
+        },
+        "compare": {
+            "title": "方案对比",
+            "caption": "各方案包含的内容",
+            "feature": "功能",
+            "free": "免费",
+            "plus": "QuestioPlus",
+            "pass": "通行证（1 个测验）",
+            "yes": "包含",
+            "no": "不包含",
+            "groups": [
+                {
+                    "title": "经典测验",
+                    "rows": [
+                        {
+                            "label": "每个测验的题目数",
+                            "free": "最多 10 道",
+                            "plus": "不限",
+                            "pass": "不限"
+                        },
+                        {
+                            "label": "每题的选项数",
+                            "free": "最多 6 个",
+                            "plus": "最多 15 个",
+                            "pass": "最多 15 个"
+                        },
+                        {
+                            "label": "题目和选项配图",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "性格测验结果配图",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "最爱淘汰赛",
+                    "rows": [
+                        {
+                            "label": "8 或 16 个选项，可以配图",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "32 或 64 个选项",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "互动故事",
+                    "rows": [
+                        {
+                            "label": "最多 60 个场景，多个结局",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "默契测试和计分测验",
+                    "rows": [
+                        {
+                            "label": "默契测试，3 到 30 道题",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "计分测验，2 到 10 个分数段",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "广告",
+                    "rows": [
+                        {
+                            "label": "你的测验和作品不显示广告",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
+                        }
+                    ]
+                },
+                {
+                    "title": "付费方式",
+                    "rows": [
+                        {
+                            "label": "怎么付费",
+                            "free": "免费",
+                            "plus": "按月",
+                            "pass": "每个测验付一次"
+                        }
+                    ]
+                }
+            ]
+        },
+        "faq": {
+            "title": "关于方案的问题",
+            "items": [
+                {
+                    "question": "可以随时取消吗？",
+                    "answer": "可以。在菜单的“设置”里取消即可。QuestioPlus 会保持有效到已付费的月份结束，之后不再续费。"
+                },
+                {
+                    "question": "取消后我的测验会怎样？",
+                    "answer": "它们会照常保持发布。用过付费功能的测验会继续保持解锁，也可以继续编辑。想在新的测验里使用付费功能，需要重新订阅或使用通行证。你的测验会重新显示广告。"
+                },
+                {
+                    "question": "月度订阅和通行证有什么区别？",
+                    "answer": "月度订阅在有效期内为你所有的测验和作品解锁付费功能，并去除其中的广告。通行证是一次性付款，为一个测验或淘汰赛解锁付费功能，但不会去除广告。如果你经常创作，月度订阅更划算。"
+                },
+                {
+                    "question": "通行证怎么使用？",
+                    "answer": "当你保存一个用到付费功能的测验或淘汰赛时，会用掉一张通行证，这个测验就会永久解锁。如果买了不止一张，没用完的会留在你的账户里。"
+                },
+                {
+                    "question": "可以用哪些付款方式？",
+                    "answer": "可用的付款方式会在付款时根据你所在的国家或地区显示。付款由 Stripe 处理，QuestioFlux 看不到你的银行卡信息。"
+                }
+            ]
+        },
+        "final": {
+            "title": "准备好开始创作了吗？",
+            "text": "现在就免费开始，需要时再订阅。",
+            "cta": "创建测验"
         }
     }
 }

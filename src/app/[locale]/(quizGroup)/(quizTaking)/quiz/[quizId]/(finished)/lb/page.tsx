@@ -56,7 +56,8 @@ export default async function LB({ params }: IProps) {
                 {t('home')}
             </Link>
 
-            <GoogleAd slot='5791876907' />
+            {/* quem criou assina o QuestioPlus: o quiz não leva anúncios */}
+            {!fullQuiz?.adFree && <GoogleAd slot='5791876907' />}
         </>
     )
 }

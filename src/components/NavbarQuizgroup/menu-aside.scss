@@ -54,7 +54,7 @@
     border: none !important;
   }
 
-  li a, #link button, .leave button {
+  li a, .leave button {
     @include vars.styleTexto(var(--fixed), 1.4rem, 700);
     text-transform: uppercase;
     width: 100%; // Usar 100% para preencher o container do pop-up
@@ -72,18 +72,6 @@
     }
   }
 
-  #link {
-    position: relative;
-    width: 100%; 
-    .gamepass-vortexplus {
-      position: absolute;
-      top: 0;
-      left: 105%;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-  }
   #themes {
     width: 75%;
   }
@@ -145,16 +133,4 @@
 
 #pop-up-menu {
   left: 0;
-}
-
-// Media query permanece a mesma
-@media screen and (max-width: 860px) {
-  #pop-up-menu, #pop-up-config {
-    #link .gamepass-vortexplus {
-      position: absolute !important;
-      top: 110% !important;
-      left: 0 !important;
-      z-index: 12;
-    }
-  }
 }

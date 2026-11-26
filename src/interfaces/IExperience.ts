@@ -11,8 +11,8 @@ export interface ITournamentOption {
 }
 
 export interface ITournamentContent {
-    // 8 opções = 7 duelos; 16 opções = 15 duelos
-    size: 8 | 16
+    // 8 opções = 7 duelos, 16 = 15, 32 = 31 e 64 = 63; 32 e 64 são do QuestioPlus
+    size: 8 | 16 | 32 | 64
     options: ITournamentOption[]
 }
 

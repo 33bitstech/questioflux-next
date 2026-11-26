@@ -13,7 +13,9 @@ export async function generateMetadata({params}:IProps) : Promise<Metadata> {
     const {locale, type} = await params
     const t = await getTranslations({locale, namespace: 'SubscriptionPage'});
     return {
-        title: t('metadataTitle', {type: type == 'questioplususage' ? "Usage" : "QuestioPlus"})
+        title: type === 'questioplususage' ? t('metadataTitleUsage') : t('metadataTitlePlus'),
+        // página de pagamento, só para quem está logado: fora da busca
+        robots: { index: false, follow: false },
     }
 }
 

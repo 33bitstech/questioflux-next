@@ -1,14 +1,15 @@
 ---
-title: How to create an online test with answers and explanations
-description: A guide to building an online test with automatic grading and an explanation for every option, with sample questions and a look at what students see when they finish.
+title: "How to Make an Auto-Graded Online Test with Answers and Explanations"
+description: A step-by-step guide to an auto-graded online test with instant answer feedback, an explanation for every option, sample questions and a look at what students see when they finish.
 tag: Tutorial
 author: QuestioFlux Team
 publishedAt: 2026-10-28
+updatedAt: 2026-11-25
 status: published
 cta: exam
 ---
 
-Grading tests by hand takes time, and students almost always get a score without understanding where they went wrong. An online test with an answer key solves the first part. The second part, understanding the mistake, depends on something few free tools offer: **an explanation for every option**, which students read as soon as they finish.
+Grading tests by hand takes time, and students almost always get a score without understanding where they went wrong. An auto-graded online test solves the first part. The second part, understanding the mistake, depends on something few free tools offer: **an explanation for every option**, which students read as soon as they finish. That is instant answer feedback, without you grading a single paper.
 
 In this guide you will build a test like that on QuestioFlux, from scratch, and see exactly what students find in the answer key.
 
@@ -43,9 +44,9 @@ You can save and continue another day: saving the questions does not publish the
 
 Send the link to your class or embed the test on the school website. People taking it do not need an account: a student without one just types a name to show on the leaderboard.
 
-## What students see when they finish
+## Instant answer feedback: what students see when they finish
 
-As soon as a student submits, the **answer key** appears:
+The test grades itself. As soon as a student submits, the **answer key** appears:
 
 - the score and how many questions they got right;
 - every question with its options, marking **Your answer** and the **Correct answer**, plus "Correct" or "Wrong" spelled out (not just a color);
@@ -76,12 +77,21 @@ Notice that the explanations of the wrong options do not just say "wrong". They 
 - **Short explanations.** Two or three sentences are enough. If you need more, the question probably covers too much.
 - **Review before finishing.** Take the test yourself and read the answer key as if you were the student.
 
+## Auto-graded test or points quiz?
+
+QuestioFlux also has a [points quiz](/en/create/experiences/scored), and the two are easy to mix up:
+
+- **Online test:** every question has one right answer. Students get a score, the answer key and your explanations. That is the format in this guide, for schools, prep courses and training.
+- **Points quiz:** there is no right answer. Each option is worth -100 to 100 points, and the total lands in a result range you write. It works for self-assessments ("How are your study habits?") or for fun ("How adventurous are you?"), not for grading.
+
+If the goal is to find out what students learned, stick with the online test.
+
 ## Free plan limits
 
-Checked on October 28, 2026:
+Checked on November 25, 2026:
 
 - **Free:** tests with up to 10 questions, up to 6 options per question, an explanation on every option, automatic grading, filters in the answer key, a leaderboard and sharing by link or embedding.
-- **Images on questions and options, more than 10 questions and more options** require **QuestioPlus** ($2.50 per month) or a **one-time pass** ($1.99), which unlocks those features on one test. Once unlocked, the test stays editable even with no passes left.
+- **Images on questions and options, more than 10 questions and more options** require **QuestioPlus** ($3.50 per month) or a **one-time pass** ($2.99), which unlocks those features on one test. Once unlocked, the test stays editable even with no passes left.
 
 Prices above are in US dollars. The site shows prices in Brazilian reais in Portuguese, and Spanish speakers can also pay in euros.
 

@@ -4,7 +4,6 @@ import { CookieValueTypes } from 'cookies-next'
 import React from 'react'
 import LangsWidget from './client/langs-widget'
 import ThemeWidget from './client/theme-widget'
-import GamepassWidget from './client/gamepass-widget'
 // @ts-ignore: SCSS module declaration is handled externally
 import './menu-aside.scss'
 import LinkProfile from './client/link-profile'
@@ -28,7 +27,7 @@ export default function MenuAside({auth}: IProps) {
                         <>
                             <li><NavLink href='/home'>{t('asideMenu.home')}</NavLink></li>
                             <li><NavLink href='/explore'>{t('asideMenu.explore')}</NavLink></li>
-                            <GamepassWidget /> 
+                            <li><NavLink href='/pricing'>QuestioPlus</NavLink></li>
                             <li><NavLink href='/create/quiz'>{t('asideMenu.createQuiz')}</NavLink></li>
                             <li><NavLink href='/about-us'>{t('asideMenu.about')}</NavLink></li>
                             <li><NavLink href='/blog'>{t('asideMenu.blog')}</NavLink></li>

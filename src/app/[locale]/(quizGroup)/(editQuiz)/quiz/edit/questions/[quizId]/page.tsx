@@ -73,6 +73,7 @@ export default async function EditingQuiz({params}:IProps) {
                     isPrivate={quiz.isPrivate === true}
                     draft={quiz.draft !== false}
                     mode='edit'
+                    premiumUnlocked={quiz.premiumUnlocked === true}
                 />
             ) : (
                 <EditQuizContent

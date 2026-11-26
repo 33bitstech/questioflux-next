@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Marked } from 'marked'
-import { QuizKind } from '@/utils/quizKind'
+import { isQuizKind, QuizKind } from '@/utils/quizKind'
 
 // Blog: cada artigo é um arquivo Markdown em src/content/blog/<idioma>/<slug>.md, revisado
 // por commit/PR como o resto do código. O cabeçalho (entre ---) traz título, descrição,
@@ -33,7 +33,6 @@ export interface IBlogPost extends IBlogPostMeta {
 }
 
 const BLOG_DIR = path.join(process.cwd(), 'src', 'content', 'blog')
-const CTA_KINDS: QuizKind[] = ['quiz', 'exam', 'aboutMe', 'personality']
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
 // Rascunho só aparece fora de produção, para revisar no ambiente de desenvolvimento.
@@ -109,7 +108,8 @@ function readPost(locale: string, slug: string): IBlogPost | null {
         publishedAt: data.publishedAt,
         ...(data.updatedAt ? { updatedAt: data.updatedAt } : {}),
         status: data.status === 'published' ? 'published' : 'draft',
-        cta: CTA_KINDS.includes(data.cta as QuizKind) ? data.cta as QuizKind : 'quiz',
+        // qualquer tipo: os quizzes clássicos e os formatos interativos (torneio, história...)
+        cta: isQuizKind(data.cta) ? data.cta : 'quiz',
         readingMinutes: readingMinutes(body, locale),
         html,
         toc,

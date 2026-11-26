@@ -92,9 +92,11 @@ export default async function Comment({ params }: IProps) {
     const cookieStore = await cookies()
     const cookieHeader = getCookieHeader(cookieStore.getAll())
 
-    const [user, comments] = await Promise.all([
+    const [user, comments, quiz] = await Promise.all([
         getUser(cookieHeader),
-        getComments(quizId)
+        getComments(quizId),
+        // a mesma consulta do layout (dividida na renderização): diz se o quiz leva anúncios
+        getPublicQuiz(quizId),
     ]);
 
     const isCommentsEmpty = !comments || comments.length === 0
@@ -124,8 +126,9 @@ export default async function Comment({ params }: IProps) {
                 ))}
             </div>}
 
-            {/* desktop: uma em cada lateral; o celular continua sem anúncio aqui */}
-            <AdRails />
+            {/* desktop: uma em cada lateral; o celular continua sem anúncio aqui. Quiz de quem
+                assina o QuestioPlus: nenhuma */}
+            {!quiz?.adFree && <AdRails />}
         </div>
     )
 }

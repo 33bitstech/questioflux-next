@@ -3,7 +3,7 @@ import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/act
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import { TStyles } from '@/types/stylesType'
 import React, { useState } from 'react'
-import PopupWarningGamepass from './popup-warning-gamepass'
+import PaywallDialog from '@/components/Pricing/paywall-dialog'
 import { useTranslations } from 'next-intl'
 import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
 
@@ -42,10 +42,7 @@ export default function ToggleQuizMode({ styles, setTextMode, textMode }: IProps
                 onClick={(e) => { e.preventDefault(); handleSetImageMode() }}>
                 {t('textAndImage')}
             </button>
-            {showPopup && <>
-                <PopupWarningGamepass closePopup={() => setShowPopup(false)} />
-                <div className={styles.warning_overlay} onClick={() => setShowPopup(false)} />
-            </>}
+            {showPopup && <PaywallDialog feature="images" onClose={() => setShowPopup(false)} />}
         </div>
     )
 }

@@ -10,7 +10,7 @@ export const revalidate = 3600
 
 // Páginas que existem em todos os idiomas. Nada com noindex entra aqui.
 const SHELL_PATHS = [
-    '', '/explore', '/create/quiz', '/about-us',
+    '', '/explore', '/create/quiz', '/about-us', '/pricing',
     ...Object.keys(quizTypeSlugs).map(slug => `/create/quiz/${slug}`),
     '/create/experiences',
     ...experienceKinds.map(kind => `/create/experiences/${kind}`),

@@ -17,7 +17,7 @@ interface IProps {
 
 // Se a consulta falhar o fluxo segue normal, só sem a pergunta de privacidade
 // e como quiz comum (sem as explicações da prova).
-async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, kind: QuizKind, results?: IPersonalityResult[], experience?: unknown, draft?: boolean }> {
+async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, kind: QuizKind, results?: IPersonalityResult[], experience?: unknown, draft?: boolean, premiumUnlocked?: boolean }> {
     try {
         const cookieStore = await cookies()
 
@@ -39,6 +39,8 @@ async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, ki
             // torneio, história, compatibilidade e pontuação: o conteúdo já salvo
             experience: res?.quiz?.experience,
             draft: res?.quiz?.draft !== false,
+            // torneio já liberado para 32 ou 64 opções
+            premiumUnlocked: res?.quiz?.premiumUnlocked === true,
         }
     } catch {
         return { isPrivate: false, kind: 'quiz' }
@@ -47,12 +49,12 @@ async function getQuizSettings(quizId: string): Promise<{ isPrivate: boolean, ki
 
 export default async function QuestionsPage({params} : IProps) {
     const {quizId} = await params
-    const { isPrivate, kind, results, experience, draft } = await getQuizSettings(quizId)
+    const { isPrivate, kind, results, experience, draft, premiumUnlocked } = await getQuizSettings(quizId)
 
     if (isExperienceKind(kind)) {
         return (
             <main className={styles.content}>
-                <ExperienceEditor quizId={quizId} kind={kind} initial={experience} isPrivate={isPrivate} draft={draft ?? true} mode='create' />
+                <ExperienceEditor quizId={quizId} kind={kind} initial={experience} isPrivate={isPrivate} draft={draft ?? true} mode='create' premiumUnlocked={premiumUnlocked} />
             </main>
         )
     }

@@ -133,10 +133,12 @@ function InviteBox({ quiz, url }: { quiz: IQuizes, url: string }) {
         trackEvent('share', { method: 'compatibility_invite', content_type: 'quiz', item_id: quiz.quizId })
         try {
             if (navigator.share) return await navigator.share({ title: quiz.title, text: t('inviteText', { quiz: quiz.title }), url })
-            await copy()
-        } catch {
+        } catch (error) {
             // a pessoa cancelou
+            if ((error as Error)?.name === 'AbortError') return
+            // sem permissão (ex.: dentro de um iframe em outro site): copia o link
         }
+        await copy()
     }
 
     return (

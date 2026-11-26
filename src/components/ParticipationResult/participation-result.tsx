@@ -21,6 +21,8 @@ interface IProps {
     inviteBaseUrl: string
     // conteúdo próprio de cada formato (torneio, história...), abaixo do cartão
     children?: ReactNode
+    // botões do fim no lugar de "Jogar de novo" e "Ver o quiz" (quiz incorporado em outro site)
+    actions?: ReactNode
 }
 
 export interface IResultHeadline {
@@ -47,7 +49,7 @@ export function resultHeadline(quiz: IQuizes, participation: IParticipationView,
 
 // /quiz/[id]/result/[participationId]: o resultado de uma conclusão, com o nome de quem jogou.
 // É o link que vai no compartilhamento e na lista de participantes.
-export default function ParticipationResult({ quiz, participation: initial, shareUrl, inviteBaseUrl, children }: IProps) {
+export default function ParticipationResult({ quiz, participation: initial, shareUrl, inviteBaseUrl, children, actions }: IProps) {
     const t = useTranslations('participationResultPage')
     const te = useTranslations('experiencePlay')
     const format = useFormatter()
@@ -81,11 +83,19 @@ export default function ParticipationResult({ quiz, participation: initial, shar
                 await navigator.share({ title: quiz.title, text, url: shareUrl })
                 return
             }
+        } catch (error) {
+            // a pessoa cancelou o compartilhamento
+            if ((error as Error)?.name === 'AbortError') return
+            // sem permissão (ex.: dentro de um iframe em outro site): tenta copiar
+        }
+
+        try {
             await navigator.clipboard.writeText(`${text} ${shareUrl}`)
             setCopied(true)
             setTimeout(() => setCopied(false), 2500)
         } catch {
-            // a pessoa cancelou o compartilhamento
+            // nem copiar dá: abre o resultado no site, onde o compartilhamento funciona
+            window.open(shareUrl, '_blank', 'noopener,noreferrer')
         }
     }
 
@@ -123,12 +133,14 @@ export default function ParticipationResult({ quiz, participation: initial, shar
             {children}
 
             <div className={styles.actions}>
-                <Link href={`/quiz/${quiz.quizId}/taking`} className={styles.button_primary}>
-                    <Play aria-hidden="true" /> {participation.isOwner ? t('playAgain') : t('playToo')}
-                </Link>
-                <Link href={`/quiz/${quiz.quizId}`} className={styles.button_secondary}>
-                    {t('seeQuiz')}
-                </Link>
+                {actions ?? <>
+                    <Link href={`/quiz/${quiz.quizId}/taking`} className={styles.button_primary}>
+                        <Play aria-hidden="true" /> {participation.isOwner ? t('playAgain') : t('playToo')}
+                    </Link>
+                    <Link href={`/quiz/${quiz.quizId}`} className={styles.button_secondary}>
+                        {t('seeQuiz')}
+                    </Link>
+                </>}
             </div>
         </section>
     )

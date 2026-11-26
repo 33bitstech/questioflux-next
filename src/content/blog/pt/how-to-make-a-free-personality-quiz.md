@@ -4,6 +4,7 @@ description: Passo a passo para montar um quiz de personalidade do zero, definir
 tag: Tutorial
 author: Equipe QuestioFlux
 publishedAt: 2026-10-28
+updatedAt: 2026-11-25
 status: published
 cta: personality
 ---
@@ -90,12 +91,27 @@ Na página do quiz, a aba **Resultados** mostra quantas vezes cada perfil saiu. 
 - **Use imagens nos resultados.** Elas são grátis e deixam o compartilhamento muito mais chamativo.
 - **Teste antes de divulgar.** Responda o próprio quiz algumas vezes, tentando chegar a cada resultado.
 
+## Exemplo: o quiz numa festa, num bar ou numa dinâmica de grupo
+
+O quiz de personalidade também funciona muito bem ao vivo, com todo mundo no mesmo lugar:
+
+1. **Crie o quiz e deixe como privado.** Ele não aparece no Explorar nem no Google, e só joga quem está no evento. Ideias: "Que drink combina com você?" num bar, "Que tipo de convidado você é?" numa festa, "Qual é o seu estilo no trabalho em equipe?" numa dinâmica da empresa.
+2. **Gere o QR Code.** Na página do quiz, clique em **Compartilhar Quiz** e depois em **QR Code**, e baixe a imagem. Quem escanear começa o quiz na hora.
+3. **Deixe o QR code à vista.** Imprima num cartão de mesa, cole no balcão ou mostre na TV. Cada pessoa aponta a câmera do celular e responde ali mesmo, sem baixar nada e sem criar conta.
+4. **Use os resultados na brincadeira.** Na aba **Resultados**, você vê quantas vezes cada perfil saiu. Dá para formar times por perfil, dar um brinde para o perfil mais raro ou anunciar o "perfil da noite".
+
+## Outros formatos para quem gostou do quiz de personalidade
+
+- **[Teste de compatibilidade](/pt/create/experiences/compatibility):** em vez de descobrir um perfil, as pessoas descobrem quanto combinam. Você escreve perguntas como "Praia ou montanha?", cada pessoa responde e manda o próprio link, e quem responde por ele vê a porcentagem de respostas iguais. Bom para casais, amigos e colegas de equipe.
+- **[História interativa](/pt/create/experiences/story):** a pessoa vive a situação em vez de responder sobre ela. Cada cena tem até 4 escolhas, e cada caminho leva a um final diferente, sem programar nada.
+- **[Quiz por pontuação](/pt/create/experiences/scored):** para quando o resultado é "quanto" e não "qual", como "Quanto você é aventureiro?". Cada alternativa vale pontos, e a soma cai em uma faixa de resultado.
+
 ## Limites do plano grátis
 
-Conferido em 28 de outubro de 2026:
+Conferido em 25 de novembro de 2026:
 
 - **Grátis:** quizzes de personalidade com até 10 perguntas, até 6 alternativas por pergunta, de 2 a 12 resultados com imagem, pergunta de desempate, compartilhamento por link e incorporação em sites.
-- **Imagens nas perguntas e alternativas, mais de 10 perguntas e mais alternativas** exigem o **QuestioPlus** (R$ 2,50 por mês) ou um **passe avulso** (R$ 1,99), que libera esses recursos em um quiz. Depois de liberado, o quiz continua editável mesmo sem passe sobrando.
+- **Imagens nas perguntas e alternativas, mais de 10 perguntas e mais alternativas** exigem o **QuestioPlus** (R$ 3,50 por mês) ou um **passe avulso** (R$ 2,99), que libera esses recursos em um quiz. Depois de liberado, o quiz continua editável mesmo sem passe sobrando.
 
 Os valores acima são os preços em real. Nos outros idiomas, o site mostra o preço em dólar ou em euro.
 

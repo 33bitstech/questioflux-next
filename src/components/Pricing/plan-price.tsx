@@ -9,7 +9,7 @@ interface IProps {
     className?: string
 }
 
-// Preço de um plano como está no Stripe agora, na moeda da pessoa ("R$ 2,50/mês").
+// Preço de um plano como está no Stripe agora, na moeda da pessoa ("R$ 3,50/mês").
 // Sem preço válido não mostra valor nenhum: avisa que está indisponível.
 export default function PlanPrice({ plan, className }: IProps) {
     const t = useTranslations('pricing')

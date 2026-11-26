@@ -248,6 +248,7 @@ export default async function LandingPage({ params }: IProps) {
 
             <footer className={styles.footer}>
                 <Link locale={locale} href={'/about-us'}>{t('footer.aboutLink')}</Link>
+                <Link locale={locale} href={'/pricing'}>{t('footer.pricingLink')}</Link>
                 <Link locale={locale} href={'/blog'}>{t('footer.blogLink')}</Link>
             </footer>
         </>

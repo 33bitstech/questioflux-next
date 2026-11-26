@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { getAllPublishedPosts, getPost, getPosts, getTranslationsOf } from '@/utils/blog'
 import { hreflangMap, SITE_URL } from '@/utils/seo'
-import { quizKindSlug } from '@/utils/quizKind'
+import { quizKindHref } from '@/utils/quizKind'
 import BlogCta from '@/components/Blog/blog-cta'
 import BlogCover from '@/components/Blog/blog-cover'
 import styles from '../blog.module.scss'
@@ -119,7 +119,8 @@ export default async function BlogPostPage({ params }: IProps) {
                 <div className={styles.article_main}>
                     {/* conteúdo do próprio repositório (revisado como código), não de quem usa o site */}
                     <div className={styles.content} dangerouslySetInnerHTML={{ __html: post.html }} />
-                    <BlogCta slug={slug} href={`/create/quiz/${quizKindSlug(post.cta)}`} kind={post.cta} />
+                    {/* quiz clássico: /create/quiz/<tipo>; formato interativo: /create/experiences/<formato> */}
+                    <BlogCta slug={slug} href={quizKindHref(post.cta)} kind={post.cta} />
                 </div>
             </div>
 

@@ -35,7 +35,8 @@
         },
         "footer": {
             "aboutLink": "Sobre nós",
-            "blogLink": "Blog"
+            "blogLink": "Blog",
+            "pricingLink": "Planos"
         },
         "metadataTitle": "QuestioFlux | Crie Quizzes, Torneios e Histórias Interativas Grátis",
         "metadataDesc": "Crie quizzes grátis: perguntas e respostas com ranking, provas online, quiz sobre mim e de personalidade, além de torneios de favoritos, histórias interativas e testes de compatibilidade. Compartilhe o link e veja os resultados.",
@@ -184,16 +185,6 @@
             "feature2": "Imagens ilustrativas para suas perguntas",
             "feature3": "Perguntas ilimitadas para seu quiz",
             "feature4": "Até 15 alternativas para suas perguntas"
-        },
-        "subscription": {
-            "title": "Melhore sua experiência com o QuestioPlus",
-            "price": "R$ 2,50/mês",
-            "ctaButton": "Assine Agora"
-        },
-        "singleUse": {
-            "title": "Compre este passe para um uso de criação de quiz premium",
-            "price": "R$ 1,99/uso",
-            "ctaButton": "Compre Agora"
         }
     },
     "contextualHeader": {
@@ -242,7 +233,6 @@
             "activeTitle": "Ativas ({count})",
             "vortexPlus": {
                 "title": "QuestioPlus",
-                "price": "R$ 2,50/mês",
                 "subscribeButton": "Assinar",
                 "unsubscribeButton": "Cancelar Assinatura",
                 "loadingButton": "Carregando...",
@@ -255,7 +245,6 @@
             },
             "vortexPlusUsage": {
                 "title": "Uso de QuestioPlus ({count})",
-                "price": "R$ 1,99/uso",
                 "buyButton": "Comprar"
             },
             "cancelPopup": {
@@ -443,7 +432,12 @@
             "title": "Compartilhe com seus amigos",
             "whatsappMessage": "Faça este quiz!",
             "copyLinkButton": "Copiar link",
-            "copySuccessMessage": "Link copiado com sucesso!"
+            "copySuccessMessage": "Link copiado com sucesso!",
+            "qrButton": "QR Code",
+            "qrAlt": "QR Code que abre o quiz",
+            "qrHint": "Imprima ou mostre na tela: quem escanear com a câmera do celular começa a jogar na hora.",
+            "qrDownload": "Baixar QR Code",
+            "qrError": "Não deu para gerar o QR Code. Tente de novo."
         }
     },
     "commentsSection": {
@@ -554,7 +548,7 @@
                 "question1Title": "Como criar um quiz online?",
                 "question1Text": "Escolha o tipo, escreva as perguntas e as alternativas e publique. Em perguntas e respostas, prova online e quiz sobre mim você marca a resposta certa; no quiz de personalidade, cada alternativa aponta para um perfil. Depois é só compartilhar o link.",
                 "question2Title": "Posso criar um quiz grátis?",
-                "question2Text": "Sim. Os quatro tipos são grátis com perguntas de texto, até 10 por quiz. Mais de 10 perguntas, ou imagens nas perguntas e alternativas, pedem assinatura ou crédito avulso. Torneios, histórias, testes de compatibilidade e quizzes por pontuação são grátis.",
+                "question2Text": "Sim. Os quatro tipos são grátis com perguntas de texto, até 10 por quiz. Mais de 10 perguntas, ou imagens nas perguntas e alternativas, pedem assinatura ou crédito avulso. Histórias, testes de compatibilidade, quizzes por pontuação e torneios de até 16 opções também são grátis; torneios de 32 e 64 opções pedem assinatura ou crédito avulso.",
                 "question3Title": "Posso fazer um quiz com ranking?",
                 "question3Text": "Sim: perguntas e respostas, prova online e quiz sobre mim têm ranking, com a nota e o tempo de cada participante. O quiz de personalidade não classifica ninguém; você vê quem participou e o perfil de cada pessoa.",
                 "question4Title": "Posso criar um quiz com imagens?",
@@ -639,7 +633,7 @@
                 "exam": "Ao escrever as questões você pode explicar cada alternativa. Quem faz a prova vê a correção completa no final.",
                 "aboutMe": "Você vai receber sugestões de perguntas sobre você. Quizzes sobre mim não aparecem no Google: circulam pelo link.",
                 "personality": "Sem resposta certa: você cria os resultados aqui na capa e, nas perguntas, escolhe a que resultado cada alternativa leva.",
-                "tournament": "8 ou 16 opções se enfrentam em duelos; cada pessoa escolhe a favorita até sobrar um campeão. Não há resposta certa.",
+                "tournament": "8, 16, 32 ou 64 opções se enfrentam em duelos; cada pessoa escolhe a favorita até sobrar um campeão. Não há resposta certa. 32 e 64 opções são do QuestioPlus.",
                 "story": "Escreva cenas e escolhas; cada escolha leva a outra cena ou a um final. Quem joga pode recomeçar para achar outros finais.",
                 "compatibility": "Cada pessoa responde sobre os próprios gostos e convida alguém pelo link. O resultado é a porcentagem de respostas iguais.",
                 "scored": "Cada alternativa vale pontos. A soma cai em uma das faixas que você define, e essa faixa é o resultado."
@@ -703,9 +697,6 @@
             "toggleMode": {
                 "textOnly": "Apenas Texto",
                 "textAndImage": "Texto e Imagem"
-            },
-            "premiumWarning": {
-                "popupText": "A opção 'Texto e Imagem' está disponível para nossos usuários premium. Para habilitá-la, assine o <vortexplus>QuestioPlus</vortexplus> para acesso ilimitado ou compre um passe de uso único para este quiz."
             }
         },
         "questionsForm": {
@@ -901,48 +892,60 @@
     "embedPage": {
         "playAgain": "Jogar de novo",
         "allResults": "Ver todos os resultados",
-        "experienceText": "Este formato abre no QuestioFlux, em outra aba.",
-        "playOnSite": "Jogar no QuestioFlux"
+        "seeOnSite": "Ver no QuestioFlux",
+        "resultError": "Sua partida foi salva, mas o resultado não abriu aqui.",
+        "openResult": "Ver o resultado no QuestioFlux"
     },
     "SubscriptionPage": {
         "currency": {
             "label": "Escolha a moeda"
         },
-        "metadataTitle": "Assinatura | {type}",
-        "descriptionPlus": "assinatura - R$2,50/mês",
-        "descriptionUsage": "usage - R$1,99/uso",
-        "textChooseMethod": "Escolha a forma de pagamento",
-        "buttons": {
-            "creditCard": "Cartão de credito"
-        },
-        "inputs": {
-            "subscribe": "Assinar",
-            "buy": "Comprar",
-            "loading": "Carregando..."
-        },
         "hasPremium": "Você já tem uma assinatura ativa",
-        "errors": {
-            "email": "O email tem que estar preenchido corretamente"
-        },
-        "sucess": "Pagamento realizado com sucesso!",
         "messages": {
-            "paymentSessionNotFound": "Sessão de pagamento não encontrada.",
             "invalidEmail": "E-mail inválido.",
             "paymentProcessError": "Erro ao processar o pagamento.",
-            "confirmPaymentStatusError": "Não foi possível confirmar o status do pagamento.",
-            "paymentNotConfirmed": "O pagamento ainda não foi confirmado.",
-            "subscriptionSuccess": "Assinatura ativada com sucesso.",
-            "paymentSuccess": "Pagamento confirmado com sucesso.",
             "unexpectedError": "Ocorreu um erro inesperado."
         },
         "maintenance": {
             "title": "Pagamentos temporariamente indisponíveis",
             "description": "Estamos mudando de gateway de pagamentos. Volte novamente mais tarde."
         },
-        "total": "Total a pagar: {amount}",
-        "totalPerMonth": "Total a pagar: {amount}/mês",
         "planPlus": "Assinatura QuestioPlus",
-        "planUsage": "Passe avulso QuestioPlus"
+        "planUsage": "Passe avulso QuestioPlus",
+        "metadataTitlePlus": "Assinar o QuestioPlus | QuestioFlux",
+        "metadataTitleUsage": "Comprar passe avulso | QuestioFlux",
+        "backToPlans": "Voltar aos planos",
+        "securePayment": "Pagamento seguro",
+        "summaryEyebrow": "Resumo do pedido",
+        "planSwitchLabel": "Escolha o plano",
+        "planMonthly": "Mensal",
+        "planPass": "Passe avulso",
+        "billingPlus": "Cobrado todo mês. Cancele quando quiser no seu perfil.",
+        "billingUsage": "Pagamento único, sem mensalidade. O passe libera os recursos pagos em um quiz.",
+        "includedTitle": "O que está incluído",
+        "paymentTitle": "Pagamento",
+        "emailLabel": "E-mail",
+        "payPlus": "Assinar por {amount}/mês",
+        "payUsage": "Pagar {amount}",
+        "processing": "Processando…",
+        "stripeNote": "O pagamento é processado pelo Stripe. O QuestioFlux não vê os dados do seu cartão.",
+        "preparing": "Preparando o pagamento…",
+        "confirming": "Confirmando o pagamento…",
+        "sessionErrorTitle": "Não foi possível abrir o pagamento",
+        "sessionErrorText": "Nada foi cobrado. Tente de novo em instantes.",
+        "retry": "Tentar de novo",
+        "successPlusTitle": "Assinatura ativada!",
+        "successPlusText": "Os recursos do QuestioPlus já estão liberados na sua conta.",
+        "successUsageTitle": "Pagamento confirmado!",
+        "successUsageText": "Seu passe já está disponível. Ele é usado quando você salvar um quiz com recursos pagos.",
+        "pendingTitle": "Estamos confirmando o pagamento",
+        "pendingText": "Isso pode levar alguns minutos. Assim que o pagamento for aprovado, os recursos são liberados na sua conta.",
+        "failedTitle": "O pagamento não foi concluído",
+        "failedText": "Nada foi cobrado. Você pode tentar de novo, com o mesmo cartão ou com outra forma de pagamento.",
+        "createQuiz": "Criar um quiz",
+        "goHome": "Ir para o início",
+        "hasPremiumText": "Os recursos do QuestioPlus já estão liberados na sua conta, então não precisa comprar mais nada.",
+        "manageSubscription": "Gerenciar assinatura"
     },
     "mainMetadata": {
         "desc": "Crie seu próprio quiz com o QuestioFlux! Um criador de quizzes poderoso e divertido para construir e compartilhar testes com amigos. Adicione imagens, personalize perguntas e veja quem chega ao topo do ranking. Comece a criar hoje!",
@@ -1502,10 +1505,10 @@
         "perUse": "{price}/uso"
     },
     "blogPage": {
-        "metadataTitle": "Blog do QuestioFlux: guias para criar quizzes e testes online",
-        "metadataDescription": "Tutoriais práticos para criar quizzes de personalidade, provas online com correção comentada e quizzes para compartilhar.",
+        "metadataTitle": "Blog do QuestioFlux: como criar quizzes, torneios e histórias interativas",
+        "metadataDescription": "Tutoriais práticos para criar quizzes grátis: provas online com correção comentada, quiz de personalidade, torneio de votação, história interativa com escolhas e teste de compatibilidade.",
         "title": "Blog",
-        "subtitle": "Guias práticos para criar quizzes, testes e provas online, com exemplos e os limites reais de cada plano.",
+        "subtitle": "Passo a passo para criar quizzes, provas online, torneios de votação, histórias com escolhas e testes de compatibilidade, com exemplos e os limites reais do plano grátis.",
         "empty": "Ainda não há artigos neste idioma.",
         "draft": "Rascunho",
         "draftNotice": "Rascunho: este artigo ainda não foi publicado e só aparece no ambiente de desenvolvimento.",
@@ -1534,9 +1537,29 @@
                 "title": "Crie seu quiz de personalidade",
                 "text": "Você define os resultados e a que resultado cada resposta leva. É grátis para começar.",
                 "button": "Criar quiz de personalidade"
+            },
+            "tournament": {
+                "title": "Crie o seu torneio de favoritos",
+                "text": "8 ou 16 opções grátis, ou 32 e 64 com o QuestioPlus. Imagem opcional, e quem vota não precisa de conta.",
+                "button": "Criar torneio"
+            },
+            "story": {
+                "title": "Crie a sua história interativa",
+                "text": "Cenas, escolhas e vários finais, sem programar. O editor avisa se algum caminho ficou sem saída.",
+                "button": "Criar história"
+            },
+            "compatibility": {
+                "title": "Crie um teste de compatibilidade",
+                "text": "Responda sobre você e mande o link: cada pessoa vê quanto vocês combinam.",
+                "button": "Criar teste de compatibilidade"
+            },
+            "scored": {
+                "title": "Crie um quiz por pontuação",
+                "text": "Cada alternativa vale pontos e a soma cai em uma faixa que você define.",
+                "button": "Criar quiz por pontuação"
             }
         },
-        "heroTitle": "Guias para criar quizzes que as pessoas terminam e compartilham",
+        "heroTitle": "Guias para criar quizzes, torneios e histórias que as pessoas terminam e compartilham",
         "readArticle": "Ler artigo",
         "inThisArticle": "Neste artigo",
         "related": "Leia também"
@@ -1568,7 +1591,9 @@
                 "final": "Final",
                 "semifinal": "Semifinal",
                 "quarterfinal": "Quartas de final",
-                "roundOf16": "Oitavas de final"
+                "roundOf16": "Oitavas de final",
+                "roundOf32": "16 avos de final",
+                "roundOf64": "32 avos de final"
             },
             "done": "Campeão escolhido",
             "duelOf": "Duelo {number} de {total}",
@@ -1793,7 +1818,12 @@
             "imagePick": "Escolher imagem da opção {number}",
             "optionPlaceholder": "Ex.: Margherita",
             "imageRemove": "Remover a imagem da opção {number}",
-            "clear": "Limpar a opção {number}"
+            "clear": "Limpar a opção {number}",
+            "plusBadge": "Plus",
+            "sizeHint": "8 e 16 opções são grátis. 32 e 64 opções pedem o QuestioPlus ou um passe avulso.",
+            "creditNote": "Ao salvar, este torneio usa um passe avulso da sua conta e fica liberado de vez.",
+            "filledCount": "{filled} de {total} opções preenchidas",
+            "premiumCheckError": "Não deu para conferir o seu plano agora. Tente de novo."
         },
         "story": {
             "scenesTitle": "Cenas",
@@ -1940,19 +1970,19 @@
         },
         "tournament": {
             "metadata": {
-                "title": "Criar Torneio de Favoritos Online Grátis (Chaveamento) | QuestioFlux",
-                "desc": "Monte um torneio com 8 ou 16 opções, com ou sem imagens. Quem joga escolhe a favorita em cada duelo e vê o próprio campeão e as favoritas de todo mundo.",
-                "keywords": "criar torneio, torneio de favoritos, chaveamento online, criar chaveamento, jogo do isso ou aquilo, escolha seu favorito, torneio com imagens, mata-mata de favoritos"
+                "title": "Criar Torneio Mata-Mata de Favoritos Online Grátis | QuestioFlux",
+                "desc": "Monte uma copa de favoritos no mata-mata, de 8 a 64 opções, com imagens. Quem joga escolhe a favorita em cada duelo do chaveamento e vê o próprio campeão e as favoritas de todos.",
+                "keywords": "criar torneio, torneio de favoritos, mata-mata de favoritos, criar mata-mata, copa de favoritos, chaveamento online, criar chaveamento, jogo do isso ou aquilo, escolha seu favorito, torneio com imagens"
             },
             "eyebrow": "Torneio de favoritos",
-            "title": "Crie um torneio de favoritos e descubra quem vence",
-            "lead": "Escolha 8 ou 16 opções, de sabores de pizza a personagens de anime. Cada pessoa escolhe a favorita em cada duelo até sobrar o campeão e depois vê quais opções mais vencem entre todos que jogaram.",
+            "title": "Crie um torneio mata-mata de favoritos e descubra quem vence",
+            "lead": "Escolha 8, 16, 32 ou 64 opções, de sabores de pizza a personagens de anime, e monte a sua copa de favoritos. Cada pessoa escolhe a favorita em cada duelo do mata-mata até sobrar o campeão e depois vê quais opções mais vencem entre todos que jogaram.",
             "cta": "Criar torneio",
-            "heroNote": "Grátis, com imagem opcional em cada opção.",
+            "heroNote": "Grátis até 16 opções, com imagem opcional em cada uma.",
             "steps": [
                 {
                     "title": "Cadastre as opções",
-                    "text": "Escreva 8 ou 16 nomes e, se quiser, coloque uma imagem em cada um."
+                    "text": "Escreva 8 ou 16 nomes (32 ou 64 com o QuestioPlus) e, se quiser, coloque uma imagem em cada um."
                 },
                 {
                     "title": "Publique e compartilhe",
@@ -1965,8 +1995,8 @@
             ],
             "features": [
                 {
-                    "title": "8 ou 16 opções",
-                    "text": "7 duelos para uma partida rápida ou 15 para uma mais longa."
+                    "title": "De 8 a 64 opções",
+                    "text": "8 ou 16 opções são grátis: 7 ou 15 duelos. Com o QuestioPlus, 32 e 64 opções rendem 31 ou 63 duelos, bom para lives e vídeos."
                 },
                 {
                     "title": "Com imagens",
@@ -1992,16 +2022,20 @@
             ],
             "faq": [
                 {
-                    "question": "Como funciona um torneio de favoritos?",
-                    "answer": "As opções se enfrentam em pares. Em cada duelo a pessoa escolhe uma, que avança para a rodada seguinte até a final. Com 8 opções são 7 duelos; com 16, são 15."
+                    "question": "Como funciona um torneio mata-mata de favoritos?",
+                    "answer": "As opções são sorteadas num chaveamento e se enfrentam em pares. Em cada duelo a pessoa escolhe uma, que avança para a rodada seguinte até a final. Com 8 opções são 7 duelos; com 16, 15; com 32, 31; e com 64, 63."
+                },
+                {
+                    "question": "Dá para fazer um torneio de 32 ou 64 opções?",
+                    "answer": "Dá. Torneios de 8 e 16 opções são grátis; os de 32 e 64 são do QuestioPlus. Sem assinatura, um passe avulso libera o torneio grande que você estiver criando, e ele continua liberado depois. Torneios grandes funcionam bem em lives e vídeos, com mais rodadas até o campeão."
                 },
                 {
                     "question": "Posso usar imagens?",
                     "answer": "Pode. Cada opção pode ter texto, imagem ou os dois. As imagens do torneio são grátis."
                 },
                 {
-                    "question": "Todo mundo joga com a mesma chave?",
-                    "answer": "Não. A chave é sorteada de novo a cada partida, então os confrontos mudam e o resultado geral fica mais justo."
+                    "question": "Todo mundo joga com o mesmo chaveamento?",
+                    "answer": "Não. O chaveamento é sorteado de novo a cada partida, então os confrontos mudam e o resultado geral fica mais justo."
                 },
                 {
                     "question": "Onde vejo as opções mais escolhidas?",
@@ -2011,17 +2045,17 @@
             "finalTitle": "Quem vai ser o campeão?",
             "finalText": "Crie o seu torneio em poucos minutos e mande para os amigos.",
             "finalCta": "Criar torneio",
-            "cardText": "As opções se enfrentam em duelos até sobrar um campeão."
+            "cardText": "As opções se enfrentam em duelos no mata-mata até sobrar um campeão."
         },
         "story": {
             "metadata": {
-                "title": "Criar História Interativa com Escolhas e Finais | QuestioFlux",
-                "desc": "Escreva cenas, escolhas e finais e ligue cada escolha à próxima cena. Quem joga decide o caminho, chega a um final e pode recomeçar para descobrir outro.",
-                "keywords": "criar história interativa, história interativa, história de escolhas, escolha sua aventura, livro-jogo, história com vários finais, aventura de texto"
+                "title": "Criar História Interativa (Escolha Sua Aventura) | QuestioFlux",
+                "desc": "Escreva um livro-jogo online: cenas, escolhas e finais, com cada escolha ligada à próxima cena. Quem joga decide o caminho, chega a um final e pode recomeçar para descobrir outro.",
+                "keywords": "criar história interativa, história interativa, escolha sua aventura, livro-jogo, livro-jogo online, história de escolhas, história com vários finais, aventura de texto"
             },
             "eyebrow": "História interativa",
             "title": "Escreva uma história interativa em que cada escolha importa",
-            "lead": "Crie cenas com escolhas e decida para onde cada uma leva. Os caminhos podem se dividir e se reencontrar, e cada pessoa chega a um dos seus finais. Depois, dá para recomeçar e descobrir os outros.",
+            "lead": "Crie o seu livro-jogo no estilo escolha sua aventura: escreva cenas com escolhas e decida para onde cada uma leva. Os caminhos podem se dividir e se reencontrar, e cada pessoa chega a um dos seus finais. Depois, dá para recomeçar e descobrir os outros.",
             "cta": "Criar história",
             "heroNote": "Grátis, com até 60 cenas por história.",
             "steps": [
@@ -2081,6 +2115,10 @@
                 {
                     "question": "O que a pessoa vê no fim?",
                     "answer": "O final que alcançou, com título e texto, quantas escolhas fez até ali e quantos finais a história tem."
+                },
+                {
+                    "question": "É como um livro-jogo?",
+                    "answer": "É. Como num livro-jogo ou numa história de escolha sua aventura, cada escolha leva a outra cena, e quem joga decide o caminho até um dos finais. Aqui as escolhas são botões, então ninguém precisa virar páginas, e a história funciona no celular."
                 }
             ],
             "finalTitle": "Para onde a sua história vai levar?",
@@ -2091,12 +2129,12 @@
         "compatibility": {
             "metadata": {
                 "title": "Criar Teste de Compatibilidade para Amigos e Casais | QuestioFlux",
-                "desc": "Escreva perguntas sobre gostos e hábitos, responda e mande o seu link de convite. Cada pessoa que responder vê a porcentagem de compatibilidade e a comparação, resposta por resposta.",
-                "keywords": "teste de compatibilidade, teste de casal, teste de amizade, quanto a gente combina, teste de melhor amigo, quiz de compatibilidade, teste de compatibilidade amorosa, criar teste de compatibilidade"
+                "desc": "Escreva perguntas sobre gostos e hábitos, responda e mande o seu link de convite. É um teste de afinidade: cada pessoa que responder vê a porcentagem de compatibilidade e a comparação, resposta por resposta.",
+                "keywords": "teste de compatibilidade, teste de afinidade, teste de casal, teste de amizade, quanto a gente combina, teste de melhor amigo, quiz de compatibilidade, teste de afinidade de casal, criar teste de compatibilidade"
             },
             "eyebrow": "Teste de compatibilidade",
             "title": "Crie um teste de compatibilidade e veja o quanto vocês combinam",
-            "lead": "Escreva perguntas sobre gostos e hábitos e responda você mesmo. Depois mande o seu link de convite: cada pessoa que responder vê a porcentagem de compatibilidade e compara as respostas com as suas, uma a uma.",
+            "lead": "Escreva perguntas sobre gostos e hábitos e responda você mesmo. Depois mande o seu link de convite: cada pessoa que responder vê a porcentagem de compatibilidade e compara as respostas com as suas, uma a uma. Serve como teste de afinidade entre amigos, casais e família.",
             "cta": "Criar teste de compatibilidade",
             "heroNote": "Grátis, com 3 a 30 perguntas.",
             "steps": [
@@ -2160,6 +2198,10 @@
                 {
                     "question": "Qual a diferença para o quiz sobre mim?",
                     "answer": "No quiz sobre mim, os amigos tentam acertar as suas respostas e disputam um ranking. No teste de compatibilidade não há resposta certa: cada pessoa responde sobre si mesma, e o resultado mostra o quanto vocês têm em comum."
+                },
+                {
+                    "question": "Serve como teste de afinidade de casal?",
+                    "answer": "Serve. Escreva perguntas sobre a rotina, os gostos e os planos de vocês, responda e mande o link para a outra pessoa. O resultado mostra a porcentagem de compatibilidade e cada resposta lado a lado. O mesmo formato funciona com amigos e família."
                 }
             ],
             "finalTitle": "Quanto vocês combinam?",
@@ -2174,13 +2216,13 @@
         },
         "scored": {
             "metadata": {
-                "title": "Criar Quiz por Pontuação com Resultado por Faixa | QuestioFlux",
-                "desc": "Dê pontos para cada resposta e defina as faixas de resultado. Quem joga soma pontos ao responder e, no fim, vê o resultado da sua faixa.",
-                "keywords": "quiz por pontuação, quiz com pontos, teste de pontuação, criar quiz com pontuação, quiz com faixas de resultado, teste quanto você é, teste de autoavaliação, quiz de pontos"
+                "title": "Criar Quiz por Pontuação e Teste de Autoavaliação | QuestioFlux",
+                "desc": "Monte um teste de pontuação: dê pontos para cada resposta e defina as faixas de resultado. Quem joga soma pontos ao responder e, no fim, vê o resultado da sua faixa.",
+                "keywords": "quiz por pontuação, teste de pontuação, quiz com pontos, criar quiz com pontuação, teste de autoavaliação, autoavaliação online, quiz com faixas de resultado, teste quanto você é, quiz de pontos"
             },
             "eyebrow": "Quiz por pontuação",
             "title": "Crie um quiz por pontuação em que cada resposta conta",
-            "lead": "Dê de -100 a 100 pontos para cada resposta e divida os totais em faixas, como “Aventureiro de sofá” ou “Aventureiro nato”. No fim, cada pessoa vê a pontuação e o resultado da sua faixa.",
+            "lead": "Dê de -100 a 100 pontos para cada resposta e divida os totais em faixas, como “Aventureiro de sofá” ou “Aventureiro nato”. No fim, cada pessoa vê a pontuação e o resultado da sua faixa. Serve para testes de pontuação divertidos e para autoavaliações, como hábitos de estudo ou organização.",
             "cta": "Criar quiz por pontuação",
             "heroNote": "Grátis, com 2 a 10 faixas de resultado.",
             "steps": [
@@ -2240,6 +2282,10 @@
                 {
                     "question": "Qual a diferença para o quiz de personalidade?",
                     "answer": "No quiz de personalidade, cada resposta aponta para um perfil e vence o perfil mais escolhido. No quiz por pontuação as respostas se somam e o resultado depende do total, o que funciona bem para perguntas de “quanto”, como o quanto alguém é aventureiro ou organizado."
+                },
+                {
+                    "question": "Dá para fazer uma autoavaliação?",
+                    "answer": "Dá. Escreva perguntas sobre hábitos, como estudo ou organização, e dê mais pontos às respostas que mostram o comportamento que você quer medir. Cada faixa diz em que nível a pessoa está e pode sugerir o próximo passo."
                 }
             ],
             "finalTitle": "Quantos pontos o seu público vai fazer?",
@@ -2251,6 +2297,203 @@
                 "text": "No quiz de personalidade, cada resposta aponta para um perfil, como um personagem ou um estilo, e o mais escolhido é o resultado.",
                 "cta": "Ver o quiz de personalidade"
             }
+        }
+    },
+    "paywall": {
+        "imagesTitle": "Imagens são um recurso do QuestioPlus",
+        "imagesText": "Para usar imagens nas perguntas e nas alternativas, assine o QuestioPlus ou use um passe avulso neste quiz.",
+        "tournamentTitle": "Torneios de 32 e 64 opções são do QuestioPlus",
+        "tournamentText": "Torneios de 8 e 16 opções são grátis. Para 32 ou 64 opções, assine o QuestioPlus ou use um passe avulso neste torneio.",
+        "seePlans": "Ver planos",
+        "close": "Agora não",
+        "note": "Os planos abrem em outra aba. O que você está editando continua aqui."
+    },
+    "pricingPage": {
+        "metadata": {
+            "title": "Planos e Preços do QuestioPlus | QuestioFlux",
+            "desc": "Crie quizzes, torneios, histórias e testes de graça. O QuestioPlus libera imagens, perguntas ilimitadas e torneios de 32 e 64 opções, e tira os anúncios. Também há passe avulso."
+        },
+        "breadcrumbHome": "Início",
+        "breadcrumb": "Planos",
+        "eyebrow": "Planos",
+        "title": "Crie de graça. Assine quando quiser mais.",
+        "lead": "Os 8 formatos são grátis. O QuestioPlus libera imagens nos quizzes, perguntas ilimitadas e torneios de 32 e 64 opções, e tira os anúncios de tudo o que você cria. Para um projeto só, use o passe avulso.",
+        "plansTitle": "Escolha o seu plano",
+        "plans": {
+            "free": {
+                "name": "Grátis",
+                "billing": "Para sempre, sem cartão.",
+                "features": [
+                    "Os 8 formatos: 4 tipos de quiz, torneio, história, compatibilidade e pontuação",
+                    "Quizzes de texto com até 10 perguntas e 6 alternativas",
+                    "Torneios de 8 e 16 opções, com imagens",
+                    "Histórias com até 60 cenas e testes de compatibilidade completos",
+                    "Ranking, estatísticas e link para compartilhar"
+                ],
+                "cta": "Começar grátis"
+            },
+            "plus": {
+                "badge": "Recomendado",
+                "name": "QuestioPlus Mensal",
+                "billing": "Cobrado todo mês. Cancele quando quiser.",
+                "features": [
+                    "Tudo do plano grátis",
+                    "Perguntas ilimitadas e até 15 alternativas",
+                    "Imagens nas perguntas e nas alternativas",
+                    "Torneios de 32 e 64 opções",
+                    "Sem anúncios nos seus quizzes e experiências"
+                ],
+                "cta": "Assinar o QuestioPlus"
+            },
+            "pass": {
+                "name": "Passe avulso",
+                "billing": "Pagamento único, sem mensalidade.",
+                "features": [
+                    "Libera os recursos pagos em um quiz ou torneio",
+                    "O quiz continua liberado depois, inclusive para editar",
+                    "Os passes se acumulam na sua conta",
+                    "Bom para um projeto só"
+                ],
+                "cta": "Comprar um passe"
+            }
+        },
+        "compare": {
+            "title": "Compare os planos",
+            "caption": "O que cada plano inclui",
+            "feature": "Recurso",
+            "free": "Grátis",
+            "plus": "QuestioPlus",
+            "pass": "Passe (1 quiz)",
+            "yes": "Incluído",
+            "no": "Não incluído",
+            "groups": [
+                {
+                    "title": "Quizzes clássicos",
+                    "rows": [
+                        {
+                            "label": "Perguntas por quiz",
+                            "free": "Até 10",
+                            "plus": "Ilimitadas",
+                            "pass": "Ilimitadas"
+                        },
+                        {
+                            "label": "Alternativas por pergunta",
+                            "free": "Até 6",
+                            "plus": "Até 15",
+                            "pass": "Até 15"
+                        },
+                        {
+                            "label": "Imagens nas perguntas e nas alternativas",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "Imagens nos resultados do quiz de personalidade",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Torneio de favoritos",
+                    "rows": [
+                        {
+                            "label": "8 ou 16 opções, com imagens",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "32 ou 64 opções",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "História interativa",
+                    "rows": [
+                        {
+                            "label": "Até 60 cenas e vários finais",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Compatibilidade e pontuação",
+                    "rows": [
+                        {
+                            "label": "Teste de compatibilidade com 3 a 30 perguntas",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "Quiz por pontuação com 2 a 10 faixas",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Anúncios",
+                    "rows": [
+                        {
+                            "label": "Seus quizzes e experiências sem anúncios",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
+                        }
+                    ]
+                },
+                {
+                    "title": "Cobrança",
+                    "rows": [
+                        {
+                            "label": "Como você paga",
+                            "free": "Grátis",
+                            "plus": "Todo mês",
+                            "pass": "Uma vez por quiz"
+                        }
+                    ]
+                }
+            ]
+        },
+        "faq": {
+            "title": "Perguntas sobre os planos",
+            "items": [
+                {
+                    "question": "Posso cancelar quando quiser?",
+                    "answer": "Pode. É só ir em Configurações, no menu. O QuestioPlus continua ativo até o fim do mês já pago e não é renovado."
+                },
+                {
+                    "question": "O que acontece com os meus quizzes se eu cancelar?",
+                    "answer": "Continuam publicados, como estão. Os quizzes em que você usou recursos pagos continuam liberados, inclusive para editar. Para usar recursos pagos em quizzes novos, assine de novo ou use um passe. Os anúncios voltam a aparecer nos seus quizzes."
+                },
+                {
+                    "question": "Qual a diferença entre o mensal e o passe?",
+                    "answer": "O mensal libera os recursos pagos em todos os seus quizzes e experiências enquanto estiver ativo e tira os anúncios deles. O passe é um pagamento único que libera os recursos pagos em um quiz ou torneio, sem tirar os anúncios. Se você cria com frequência, o mensal sai mais em conta."
+                },
+                {
+                    "question": "Como o passe é usado?",
+                    "answer": "Ele é gasto quando você salva um quiz ou torneio que usa recursos pagos, e esse quiz fica liberado de vez. Se você comprar mais de um, eles ficam guardados na sua conta até serem usados."
+                },
+                {
+                    "question": "Quais formas de pagamento posso usar?",
+                    "answer": "As formas disponíveis aparecem na hora de pagar, de acordo com o seu país. O pagamento é processado pelo Stripe, e o QuestioFlux não vê os dados do seu cartão."
+                }
+            ]
+        },
+        "final": {
+            "title": "Pronto para criar?",
+            "text": "Comece grátis agora. Você pode assinar depois, quando precisar.",
+            "cta": "Criar um quiz"
         }
     }
 }

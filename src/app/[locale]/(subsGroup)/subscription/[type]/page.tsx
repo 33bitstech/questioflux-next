@@ -1,22 +1,24 @@
-import styles from './subscription.module.scss'
+import styles from '@/components/Subscription/checkout.module.scss'
 import { Link } from '@/i18n/navigation'
+import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
+import { ArrowLeft, Lock } from 'lucide-react'
 import { getPublicKey } from './actions'
-import SubscriptionForm from '@/components/Subscription/subscription-form'
 import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions'
-import CurrencySelector from '@/components/Subscription/currency-selector'
 import { SubscriptionCurrencyProvider } from '@/contexts/subscriptionCurrencyContext'
 import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
-import PlanPrice from '@/components/Pricing/plan-price'
+import { isCheckoutPlan } from '@/utils/checkout'
+import CheckoutView from '@/components/Subscription/checkout-view'
 
 interface IProps {
     params: Promise<{
         locale: string
         type: string
     }>
+    searchParams: Promise<{ session_id?: string | string[] }>
 }
 
-async function fetchPublicKey() {
+async function fetchPublicKey(): Promise<string | undefined> {
     try {
         const { err, res } = await getPublicKey()
         if (err) throw err
@@ -26,59 +28,40 @@ async function fetchPublicKey() {
     }
 }
 
-export default async function Subscription({ params }: IProps) {
+export default async function Subscription({ params, searchParams }: IProps) {
     const { locale, type } = await params
+    if (!isCheckoutPlan(type)) notFound()
 
-    const [tNav, t] = await Promise.all([
-        getTranslations({ locale, namespace: 'navbar.asideMenu' }),
+    const { session_id } = await searchParams
+    const returnSessionId = typeof session_id === 'string' && /^cs_[A-Za-z0-9_]+$/.test(session_id) ? session_id : undefined
+
+    const [t, publicKey, premiumRes] = await Promise.all([
         getTranslations({ locale, namespace: 'SubscriptionPage' }),
+        fetchPublicKey(),
+        verifyUserPremium(false),
     ])
-
-    const publicKey = await fetchPublicKey()
-    const res = await verifyUserPremium(false)
-    let premium = res.err ? false : checkPremiumState(res as PremiumRes)
+    // quem voltou do Stripe agora pode já estar com o premium ativo: mostra o resultado, não o aviso
+    const premium = !returnSessionId && !premiumRes.err && !!checkPremiumState(premiumRes as PremiumRes)
 
     return (
         <SubscriptionCurrencyProvider locale={locale}>
-            <div className={styles.container}>
-                <main className={styles.content}>
-                    <header className={styles.header_subscription}>
-                        <nav>
-                            <Link locale={locale} href="/">
-                                {tNav('home')}
-                            </Link>
-                        </nav>
+            <div className={styles.page}>
+                <header className={styles.topbar}>
+                    <Link locale={locale} href="/pricing" className={styles.back}>
+                        <ArrowLeft aria-hidden="true" /> {t('backToPlans')}
+                    </Link>
+                    <span className={styles.secure}>
+                        <Lock aria-hidden="true" /> {t('securePayment')}
+                    </span>
+                </header>
 
-                        <div className={styles.text_content}>
-                            <h1>{type}</h1>
-
-                            {/* o preço vem do Stripe, na moeda escolhida no seletor abaixo */}
-                            <p>
-                                {type === 'questioplususage' ? t('planUsage') : t('planPlus')}
-                                {' — '}
-                                <PlanPrice plan={type === 'questioplususage' ? 'usage' : 'plus'} />
-                            </p>
-
-                            <CurrencySelector
-                                className={styles.currency_selector}
-                                activeClassName={styles.currency_active}
-                            />
-                        </div>
-                    </header>
-
-                    {premium && (
-                        <p className={styles.hasPremium}>
-                            {t('hasPremium')}
-                        </p>
-                    )}
-
-                    {!premium && (
-                        <SubscriptionForm
-                            publicKey={publicKey}
-                            styles={styles}
-                            type={type}
-                        />
-                    )}
+                <main className={styles.main}>
+                    <CheckoutView
+                        type={type}
+                        publicKey={publicKey}
+                        premium={premium}
+                        returnSessionId={returnSessionId}
+                    />
                 </main>
             </div>
         </SubscriptionCurrencyProvider>

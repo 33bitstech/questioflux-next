@@ -35,7 +35,8 @@
         },
         "footer": {
             "aboutLink": "About us",
-            "blogLink": "Blog"
+            "blogLink": "Blog",
+            "pricingLink": "Pricing"
         },
         "metadataTitle": "QuestioFlux | Free Quiz Maker, Brackets and Interactive Stories",
         "metadataDesc": "Create free quizzes online: trivia with leaderboards, online tests, about me and personality quizzes, plus favorites tournaments, interactive stories and compatibility tests. Share the link and see the results.",
@@ -184,16 +185,6 @@
             "feature2": "Illustrative images for your questions",
             "feature3": "Unlimited questions for your quiz",
             "feature4": "Up to 15 alternatives for your questions"
-        },
-        "subscription": {
-            "title": "Improve your experience with QuestioPlus",
-            "price": "$2.50/mo",
-            "ctaButton": "Subscribe Now"
-        },
-        "singleUse": {
-            "title": "Buy this pass to get premium quiz creation usage",
-            "price": "$1.99/use",
-            "ctaButton": "Buy Now"
         }
     },
     "contextualHeader": {
@@ -242,7 +233,6 @@
             "activeTitle": "Active ({count})",
             "vortexPlus": {
                 "title": "QuestioPlus",
-                "price": "$2.50/month",
                 "subscribeButton": "Subscribe",
                 "unsubscribeButton": "Cancel Subscription",
                 "loadingButton": "Loading...",
@@ -255,7 +245,6 @@
             },
             "vortexPlusUsage": {
                 "title": "QuestioPlus Usage ({count})",
-                "price": "$1.99/use",
                 "buyButton": "Buy"
             },
             "cancelPopup": {
@@ -443,7 +432,12 @@
             "title": "Share with your friends",
             "whatsappMessage": "Take this quiz!",
             "copyLinkButton": "Copy link",
-            "copySuccessMessage": "Link copied successfully!"
+            "copySuccessMessage": "Link copied successfully!",
+            "qrButton": "QR code",
+            "qrAlt": "QR code that opens the quiz",
+            "qrHint": "Print it or show it on a screen: anyone who scans it with their phone camera starts playing right away.",
+            "qrDownload": "Download QR code",
+            "qrError": "Couldn't create the QR code. Please try again."
         }
     },
     "commentsSection": {
@@ -554,7 +548,7 @@
                 "question1Title": "How do I create an online quiz?",
                 "question1Text": "Pick a type, write the questions and the alternatives, and publish. In trivia quizzes, online tests and about me quizzes you mark the correct answer; in personality quizzes each alternative points to a profile. Then share the link.",
                 "question2Title": "Can I create a quiz for free?",
-                "question2Text": "Yes. All four types are free with text questions, up to 10 per quiz. More than 10 questions, or images in questions and alternatives, need a subscription or a one-time credit. Tournaments, stories, compatibility tests and points quizzes are free.",
+                "question2Text": "Yes. All four types are free with text questions, up to 10 per quiz. More than 10 questions, or images in questions and alternatives, need a subscription or a one-time credit. Stories, compatibility tests, points quizzes and tournaments with up to 16 options are free too; 32- and 64-option tournaments need a subscription or a one-time credit.",
                 "question3Title": "Can I make a quiz with a leaderboard?",
                 "question3Text": "Yes: trivia quizzes, online tests and about me quizzes have one, with each player's score and time. Personality quizzes don't rank anyone; you see who took part and which profile each person got.",
                 "question4Title": "Can I create an image quiz?",
@@ -639,7 +633,7 @@
                 "exam": "While writing the questions you can explain each option. Test takers see the full answer key at the end.",
                 "aboutMe": "You will get suggested questions about yourself. About me quizzes stay out of Google and are shared by link.",
                 "personality": "No right answer: you create the results here on the cover and, in the questions, choose which result each option leads to.",
-                "tournament": "8 or 16 options face off in duels; each person picks a favorite until one champion is left. No right answers.",
+                "tournament": "8, 16, 32 or 64 options face off in duels; each person picks a favorite until one champion is left. No right answers. 32 and 64 options are part of QuestioPlus.",
                 "story": "Write scenes and choices; each choice leads to another scene or to an ending. Players can start over to find other endings.",
                 "compatibility": "Each person answers about their own tastes and invites someone by link. The result is the percentage of answers in common.",
                 "scored": "Each alternative is worth points. The total falls into one of the ranges you define, and that range is the result."
@@ -703,9 +697,6 @@
             "toggleMode": {
                 "textOnly": "Text only",
                 "textAndImage": "Text and image"
-            },
-            "premiumWarning": {
-                "popupText": "The 'Text and Image' option is available for our premium users. To enable it, subscribe to <vortexplus>vortexplus</vortexplus> for unlimited access or purchase a single-use pass for this quiz."
             }
         },
         "questionsForm": {
@@ -901,48 +892,60 @@
     "embedPage": {
         "playAgain": "Play again",
         "allResults": "See all results",
-        "experienceText": "This format opens on QuestioFlux, in a new tab.",
-        "playOnSite": "Play on QuestioFlux"
+        "seeOnSite": "See it on QuestioFlux",
+        "resultError": "Your play was saved, but the result didn't open here.",
+        "openResult": "See your result on QuestioFlux"
     },
     "SubscriptionPage": {
         "currency": {
             "label": "Choose currency"
         },
-        "metadataTitle": "Subscription | {type}",
-        "descriptionPlus": "subscription - $2.50/month",
-        "descriptionUsage": "usage - $1,99/use",
-        "textChooseMethod": "Choose a payment method",
-        "buttons": {
-            "creditCard": "Credit Card"
-        },
-        "inputs": {
-            "subscribe": "Subscribe",
-            "buy": "Buy",
-            "loading": "Loading..."
-        },
         "hasPremium": "You already have an active subscription",
-        "errors": {
-            "email": "The email must be filled out correctly"
-        },
-        "sucess": "Payment successfully!",
         "messages": {
-            "paymentSessionNotFound": "Payment session not found.",
             "invalidEmail": "Invalid email.",
             "paymentProcessError": "Error processing payment.",
-            "confirmPaymentStatusError": "Could not confirm payment status.",
-            "paymentNotConfirmed": "The payment has not been confirmed yet.",
-            "subscriptionSuccess": "Subscription activated successfully.",
-            "paymentSuccess": "Payment confirmed successfully.",
             "unexpectedError": "An unexpected error occurred."
         },
         "maintenance": {
             "title": "Payments temporarily unavailable",
             "description": "We are changing our payment gateway. Please come back later."
         },
-        "total": "Total to pay: {amount}",
-        "totalPerMonth": "Total to pay: {amount}/month",
         "planPlus": "QuestioPlus subscription",
-        "planUsage": "QuestioPlus one-time pass"
+        "planUsage": "QuestioPlus one-time pass",
+        "metadataTitlePlus": "Subscribe to QuestioPlus | QuestioFlux",
+        "metadataTitleUsage": "Buy a one-time pass | QuestioFlux",
+        "backToPlans": "Back to plans",
+        "securePayment": "Secure payment",
+        "summaryEyebrow": "Order summary",
+        "planSwitchLabel": "Choose a plan",
+        "planMonthly": "Monthly",
+        "planPass": "One-time pass",
+        "billingPlus": "Billed every month. Cancel anytime from your profile.",
+        "billingUsage": "One-time payment, no subscription. The pass unlocks the paid features on one quiz.",
+        "includedTitle": "What's included",
+        "paymentTitle": "Payment",
+        "emailLabel": "Email",
+        "payPlus": "Subscribe for {amount}/month",
+        "payUsage": "Pay {amount}",
+        "processing": "Processing…",
+        "stripeNote": "Payments are processed by Stripe. QuestioFlux never sees your card details.",
+        "preparing": "Getting your payment ready…",
+        "confirming": "Confirming your payment…",
+        "sessionErrorTitle": "We couldn't open the payment",
+        "sessionErrorText": "You haven't been charged. Please try again in a moment.",
+        "retry": "Try again",
+        "successPlusTitle": "Your subscription is active!",
+        "successPlusText": "QuestioPlus features are now unlocked on your account.",
+        "successUsageTitle": "Payment confirmed!",
+        "successUsageText": "Your pass is ready. It's used when you save a quiz with paid features.",
+        "pendingTitle": "We're confirming your payment",
+        "pendingText": "This can take a few minutes. As soon as the payment is approved, the features are unlocked on your account.",
+        "failedTitle": "The payment wasn't completed",
+        "failedText": "You haven't been charged. You can try again with the same card or another payment method.",
+        "createQuiz": "Create a quiz",
+        "goHome": "Go to home",
+        "hasPremiumText": "QuestioPlus features are already unlocked on your account, so there's nothing else to buy.",
+        "manageSubscription": "Manage subscription"
     },
     "mainMetadata": {
         "desc": "Create your own quiz with QuestioFlux! A powerful and fun quiz maker to build and share tests with friends. Add images, customize questions, and see who reaches the top of the leaderboard. Start creating today!",
@@ -1502,10 +1505,10 @@
         "perUse": "{price}/use"
     },
     "blogPage": {
-        "metadataTitle": "QuestioFlux Blog: guides to create quizzes and online tests",
-        "metadataDescription": "Practical tutorials to create personality quizzes, online tests with commented answers and quizzes to share.",
+        "metadataTitle": "QuestioFlux Blog: How to Make Quizzes, Brackets and Interactive Stories",
+        "metadataDescription": "Step-by-step guides to make free quizzes, auto-graded online tests, personality quizzes, voting brackets, choose-your-own-adventure stories and compatibility tests, plus an honest look at free quiz makers.",
         "title": "Blog",
-        "subtitle": "Practical guides to create quizzes, tests and online exams, with examples and the real limits of each plan.",
+        "subtitle": "Practical guides to make quizzes, online tests, voting brackets, interactive stories and compatibility tests, with examples and the real limits of the free plan.",
         "empty": "There are no articles in this language yet.",
         "draft": "Draft",
         "draftNotice": "Draft: this article has not been published yet and only shows up in the development environment.",
@@ -1534,9 +1537,29 @@
                 "title": "Create your personality quiz",
                 "text": "You define the results and which result each answer leads to. Free to get started.",
                 "button": "Create a personality quiz"
+            },
+            "tournament": {
+                "title": "Make your voting bracket",
+                "text": "8 or 16 options for free, or 32 and 64 with QuestioPlus. Images are optional, and voters don't need an account.",
+                "button": "Create a bracket"
+            },
+            "story": {
+                "title": "Create your interactive story",
+                "text": "Scenes, choices and multiple endings, no code. The editor flags dead ends before you publish.",
+                "button": "Create a story"
+            },
+            "compatibility": {
+                "title": "Create a compatibility test",
+                "text": "Answer about yourself and send the link: each person sees how well you match.",
+                "button": "Create a compatibility test"
+            },
+            "scored": {
+                "title": "Create a points quiz",
+                "text": "Every answer is worth points, and the total lands in a range you define.",
+                "button": "Create a points quiz"
             }
         },
-        "heroTitle": "Guides to create quizzes people finish and share",
+        "heroTitle": "How to make quizzes, brackets and stories people finish and share",
         "readArticle": "Read article",
         "inThisArticle": "In this article",
         "related": "Keep reading"
@@ -1568,7 +1591,9 @@
                 "final": "Final",
                 "semifinal": "Semifinal",
                 "quarterfinal": "Quarterfinal",
-                "roundOf16": "Round of 16"
+                "roundOf16": "Round of 16",
+                "roundOf32": "Round of 32",
+                "roundOf64": "Round of 64"
             },
             "done": "Champion chosen",
             "duelOf": "Duel {number} of {total}",
@@ -1793,7 +1818,12 @@
             "imagePick": "Choose an image for option {number}",
             "optionPlaceholder": "E.g. Margherita",
             "imageRemove": "Remove the image of option {number}",
-            "clear": "Clear option {number}"
+            "clear": "Clear option {number}",
+            "plusBadge": "Plus",
+            "sizeHint": "8 and 16 options are free. 32 and 64 options need QuestioPlus or a one-time pass.",
+            "creditNote": "When you save, this bracket uses one pass from your account and stays unlocked for good.",
+            "filledCount": "{filled} of {total} options filled in",
+            "premiumCheckError": "We couldn't check your plan right now. Please try again."
         },
         "story": {
             "scenesTitle": "Scenes",
@@ -1940,19 +1970,19 @@
         },
         "tournament": {
             "metadata": {
-                "title": "Create a Favorites Tournament (Bracket) Online for Free | QuestioFlux",
-                "desc": "Make a bracket with 8 or 16 options, with or without images. Players pick a favorite in each duel and see their champion and everyone's favorites.",
+                "title": "Free Bracket Maker: Create a Favorites Tournament | QuestioFlux",
+                "desc": "Make a tournament bracket with 8 to 64 options, with or without images. Players pick a favorite in each duel and see their champion and everyone's favorites.",
                 "keywords": "bracket maker, create a bracket online, favorites tournament, tournament bracket maker, this or that game, pick your favorite, bracket with images"
             },
             "eyebrow": "Favorites tournament",
-            "title": "Create a favorites tournament and find out who wins",
-            "lead": "Choose 8 or 16 options, from pizzas to anime characters. Each player picks a favorite in every duel until only the champion is left, and then sees which options win the most among everyone who played.",
+            "title": "Create a favorites tournament bracket and find out who wins",
+            "lead": "Choose 8, 16, 32 or 64 options, from pizzas to anime characters, and turn them into a tournament bracket. Each player picks a favorite in every duel until only the champion is left, and then sees which options win the most among everyone who played.",
             "cta": "Create a tournament",
-            "heroNote": "Free, with an optional image for each option.",
+            "heroNote": "Free up to 16 options, with an optional image for each one.",
             "steps": [
                 {
                     "title": "Add the options",
-                    "text": "Write 8 or 16 names and, if you want, add an image to each one."
+                    "text": "Write 8 or 16 names (32 or 64 with QuestioPlus) and, if you want, add an image to each one."
                 },
                 {
                     "title": "Publish and share",
@@ -1965,8 +1995,8 @@
             ],
             "features": [
                 {
-                    "title": "8 or 16 options",
-                    "text": "7 duels for a quick game or 15 for a longer one."
+                    "title": "8 to 64 options",
+                    "text": "8 or 16 options are free: 7 or 15 duels. With QuestioPlus, 32 and 64 options give you 31 or 63 duels, great for streams and videos."
                 },
                 {
                     "title": "Images included",
@@ -1992,8 +2022,12 @@
             ],
             "faq": [
                 {
-                    "question": "How does a favorites tournament work?",
-                    "answer": "The options face off in pairs. In each duel the player picks one, and it moves on to the next round until the final. With 8 options there are 7 duels; with 16, there are 15."
+                    "question": "How does a tournament bracket work?",
+                    "answer": "The options are drawn into a bracket and face off in pairs. In each duel the player picks one, and it moves on to the next round until the final. With 8 options there are 7 duels; with 16, 15; with 32, 31; and with 64, 63."
+                },
+                {
+                    "question": "Can I make a bracket with 32 or 64 options?",
+                    "answer": "Yes. Brackets with 8 and 16 options are free; 32 and 64 options are part of QuestioPlus. Without a subscription, a one-time pass unlocks the big bracket you're making, and it stays unlocked afterwards. Big brackets work well on streams and videos, with more rounds before the champion."
                 },
                 {
                     "question": "Can I use images?",
@@ -2011,17 +2045,17 @@
             "finalTitle": "Who will be the champion?",
             "finalText": "Create your tournament in a few minutes and send it to your friends.",
             "finalCta": "Create a tournament",
-            "cardText": "Options face off in duels until a champion is left."
+            "cardText": "Options face off in a bracket until a champion is left."
         },
         "story": {
             "metadata": {
                 "title": "Create an Interactive Story (Choose Your Own Adventure) | QuestioFlux",
-                "desc": "Write scenes, choices and endings, and link each choice to the next scene. Players choose their path, reach an ending and can start over to find another.",
-                "keywords": "interactive story maker, choose your own adventure maker, create an interactive story, branching story, text adventure, story with choices, multiple endings"
+                "desc": "Write interactive fiction with scenes, choices and endings, and link each choice to the next scene. Players choose their path, reach an ending and can start over to find another.",
+                "keywords": "interactive story maker, choose your own adventure maker, interactive fiction, create an interactive story, branching story, text adventure, story with choices, multiple endings"
             },
             "eyebrow": "Interactive story",
             "title": "Write an interactive story where every choice matters",
-            "lead": "Create scenes with choices and decide where each one leads. Paths can split and meet again, and each player reaches one of your endings. Then they can start over to discover the others.",
+            "lead": "Write your own choose your own adventure story: create scenes with choices and decide where each one leads. Paths can split and meet again, and each player reaches one of your endings. Then they can start over to discover the others.",
             "cta": "Create a story",
             "heroNote": "Free, with up to 60 scenes per story.",
             "steps": [
@@ -2081,6 +2115,10 @@
                 {
                     "question": "What does the player see at the end?",
                     "answer": "The ending they reached, with its title and text, how many choices it took and how many endings the story has."
+                },
+                {
+                    "question": "Is it like a choose your own adventure book?",
+                    "answer": "Yes. Just like in a choose your own adventure book or any interactive fiction, each choice leads to another scene, and the player decides the path to one of the endings. Here the choices are buttons, so there are no pages to flip, and the story works on a phone."
                 }
             ],
             "finalTitle": "Where will your story lead?",
@@ -2174,13 +2212,13 @@
         },
         "scored": {
             "metadata": {
-                "title": "Create a Points Quiz with Results by Score | QuestioFlux",
-                "desc": "Give each answer a number of points and set the score ranges. Players add up points as they answer and, at the end, see the result for their range.",
-                "keywords": "points quiz, score quiz maker, quiz with points, scored personality test, quiz with score ranges, how much are you quiz, self-assessment quiz, create a scored quiz"
+                "title": "Weighted Quiz Maker: Points Quiz with Score Ranges | QuestioFlux",
+                "desc": "Build a weighted quiz: give each answer a number of points and set the score ranges. Players add up points as they answer and, at the end, see the result for their range.",
+                "keywords": "weighted quiz maker, points quiz, score quiz maker, quiz with points, quiz with score ranges, how much are you quiz, self-assessment quiz, create a scored quiz"
             },
             "eyebrow": "Points quiz",
             "title": "Create a points quiz where every answer counts",
-            "lead": "Give each answer from -100 to 100 points and split the totals into ranges, such as “Couch adventurer” or “Born adventurer”. At the end, each player sees their score and the result for their range.",
+            "lead": "Give each answer from -100 to 100 points and split the totals into ranges, such as “Couch adventurer” or “Born adventurer”. At the end, each player sees their score and the result for their range. It works for fun quizzes and for self-assessments, like study or work habits.",
             "cta": "Create a points quiz",
             "heroNote": "Free, with 2 to 10 result ranges.",
             "steps": [
@@ -2240,6 +2278,14 @@
                 {
                     "question": "How is it different from a personality quiz?",
                     "answer": "In a personality quiz each answer points to a profile, and the most picked profile wins. In a points quiz the answers add up and the result depends on the total, which works well for “how much” questions, like how adventurous or organized someone is."
+                },
+                {
+                    "question": "What is a weighted quiz?",
+                    "answer": "A quiz where answers carry different weights. Here each answer is worth from -100 to 100 points, so a strong answer can count more than a mild one, and the total decides the result."
+                },
+                {
+                    "question": "Can I make a self-assessment?",
+                    "answer": "Yes. Write questions about habits, such as studying or staying organized, and give more points to the answers that show the behavior you want to measure. Each range tells people where they stand and can suggest a next step."
                 }
             ],
             "finalTitle": "How many points will your players score?",
@@ -2251,6 +2297,203 @@
                 "text": "In a personality quiz each answer points to a profile, such as a character or a style, and the most picked one is the result.",
                 "cta": "See the personality quiz"
             }
+        }
+    },
+    "paywall": {
+        "imagesTitle": "Images are a QuestioPlus feature",
+        "imagesText": "To use images in questions and answers, subscribe to QuestioPlus or use a one-time pass on this quiz.",
+        "tournamentTitle": "32- and 64-option brackets are part of QuestioPlus",
+        "tournamentText": "Brackets with 8 or 16 options are free. For 32 or 64 options, subscribe to QuestioPlus or use a one-time pass on this bracket.",
+        "seePlans": "See plans",
+        "close": "Not now",
+        "note": "Plans open in a new tab. What you're editing stays here."
+    },
+    "pricingPage": {
+        "metadata": {
+            "title": "QuestioPlus Plans and Pricing | QuestioFlux",
+            "desc": "Create quizzes, brackets, stories and tests for free. QuestioPlus adds images, unlimited questions and 32- and 64-option brackets, and removes ads. One-time passes too."
+        },
+        "breadcrumbHome": "Home",
+        "breadcrumb": "Plans",
+        "eyebrow": "Plans",
+        "title": "Create for free. Subscribe when you want more.",
+        "lead": "All 8 formats are free. QuestioPlus adds images to your quizzes, unlimited questions and 32- and 64-option brackets, and removes the ads from everything you create. For a single project, use a one-time pass.",
+        "plansTitle": "Choose your plan",
+        "plans": {
+            "free": {
+                "name": "Free",
+                "billing": "Forever. No card needed.",
+                "features": [
+                    "All 8 formats: 4 quiz types, bracket, story, compatibility and points quiz",
+                    "Text quizzes with up to 10 questions and 6 answers each",
+                    "Brackets with 8 or 16 options, with images",
+                    "Stories with up to 60 scenes and full compatibility tests",
+                    "Leaderboards, stats and a link to share"
+                ],
+                "cta": "Start for free"
+            },
+            "plus": {
+                "badge": "Recommended",
+                "name": "QuestioPlus Monthly",
+                "billing": "Billed every month. Cancel anytime.",
+                "features": [
+                    "Everything in Free",
+                    "Unlimited questions and up to 15 answers",
+                    "Images in questions and answers",
+                    "Brackets with 32 or 64 options",
+                    "No ads on your quizzes and experiences"
+                ],
+                "cta": "Get QuestioPlus"
+            },
+            "pass": {
+                "name": "One-time pass",
+                "billing": "Pay once, no subscription.",
+                "features": [
+                    "Unlocks the paid features on one quiz or bracket",
+                    "That quiz stays unlocked, even when you edit it",
+                    "Passes add up in your account",
+                    "Good for a single project"
+                ],
+                "cta": "Buy a pass"
+            }
+        },
+        "compare": {
+            "title": "Compare plans",
+            "caption": "What each plan includes",
+            "feature": "Feature",
+            "free": "Free",
+            "plus": "QuestioPlus",
+            "pass": "Pass (1 quiz)",
+            "yes": "Included",
+            "no": "Not included",
+            "groups": [
+                {
+                    "title": "Classic quizzes",
+                    "rows": [
+                        {
+                            "label": "Questions per quiz",
+                            "free": "Up to 10",
+                            "plus": "Unlimited",
+                            "pass": "Unlimited"
+                        },
+                        {
+                            "label": "Answers per question",
+                            "free": "Up to 6",
+                            "plus": "Up to 15",
+                            "pass": "Up to 15"
+                        },
+                        {
+                            "label": "Images in questions and answers",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "Images in personality quiz results",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Favorites tournament",
+                    "rows": [
+                        {
+                            "label": "8 or 16 options, with images",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "32 or 64 options",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Interactive story",
+                    "rows": [
+                        {
+                            "label": "Up to 60 scenes and multiple endings",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Compatibility and points",
+                    "rows": [
+                        {
+                            "label": "Compatibility test with 3 to 30 questions",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        },
+                        {
+                            "label": "Points quiz with 2 to 10 ranges",
+                            "free": "yes",
+                            "plus": "yes",
+                            "pass": "yes"
+                        }
+                    ]
+                },
+                {
+                    "title": "Ads",
+                    "rows": [
+                        {
+                            "label": "No ads on your quizzes and experiences",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
+                        }
+                    ]
+                },
+                {
+                    "title": "Billing",
+                    "rows": [
+                        {
+                            "label": "How you pay",
+                            "free": "Free",
+                            "plus": "Monthly",
+                            "pass": "Once per quiz"
+                        }
+                    ]
+                }
+            ]
+        },
+        "faq": {
+            "title": "Questions about plans",
+            "items": [
+                {
+                    "question": "Can I cancel anytime?",
+                    "answer": "Yes. Go to Settings in the menu. QuestioPlus stays active until the end of the month you already paid for, and it won't renew."
+                },
+                {
+                    "question": "What happens to my quizzes if I cancel?",
+                    "answer": "They stay published, as they are. Quizzes where you used paid features stay unlocked, including for editing. To use paid features on new quizzes, subscribe again or use a pass. Ads will show on your quizzes again."
+                },
+                {
+                    "question": "What's the difference between monthly and the pass?",
+                    "answer": "Monthly unlocks the paid features on all your quizzes and experiences while it's active, and removes their ads. The pass is a one-time payment that unlocks the paid features on one quiz or bracket, without removing ads. If you create often, monthly costs less."
+                },
+                {
+                    "question": "How is a pass used?",
+                    "answer": "It's used when you save a quiz or bracket that uses paid features, and that quiz stays unlocked for good. If you buy more than one, they stay in your account until you use them."
+                },
+                {
+                    "question": "Which payment methods can I use?",
+                    "answer": "The available methods show up at checkout, depending on your country. Payments are processed by Stripe, and QuestioFlux never sees your card details."
+                }
+            ]
+        },
+        "final": {
+            "title": "Ready to create?",
+            "text": "Start for free now. You can subscribe later, whenever you need to.",
+            "cta": "Create a quiz"
         }
     }
 }

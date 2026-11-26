@@ -15,6 +15,8 @@ const publicRoutes: PublicRoute[] = [
     { src: /^\/(en|pt|es|zh)\/login$/, actionWhenAuth: 'redirect' },
     { src: /^\/(en|pt|es|zh)\/register$/, actionWhenAuth: 'redirect' },
     { src: /^\/(en|pt|es|zh)\/about-us$/, actionWhenAuth: 'next' },
+    // planos e preços: aberta para quem ainda não tem conta (e para o Google)
+    { src: /^\/(en|pt|es|zh)\/pricing$/, actionWhenAuth: 'next' },
     // blog: listagem e artigos, abertos com ou sem login
     { src: /^\/(en|pt|es|zh)\/blog(\/[a-z0-9-]+)?$/, actionWhenAuth: 'next' },
     { src: /^\/(en|pt|es|zh)\/rescuepassword$/, actionWhenAuth: 'redirect' },

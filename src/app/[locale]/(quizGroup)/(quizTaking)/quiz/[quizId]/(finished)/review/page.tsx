@@ -24,9 +24,12 @@ export default async function Review({ params }: IProps) {
 
     return (
         <>
-            <ExamReviewPage quiz={withoutQuestions(quiz)} adSlot={RESULTS_AD_SLOT} />
-            <GoogleAd slot={RESULTS_AD_SLOT} />
-            <AdRails />
+            {/* quem criou assina o QuestioPlus: o quiz não leva anúncios */}
+            <ExamReviewPage quiz={withoutQuestions(quiz)} adSlot={quiz.adFree ? undefined : RESULTS_AD_SLOT} />
+            {!quiz.adFree && <>
+                <GoogleAd slot={RESULTS_AD_SLOT} />
+                <AdRails />
+            </>}
         </>
     )
 }

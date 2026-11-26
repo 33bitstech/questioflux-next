@@ -8,6 +8,7 @@ import ScrollToTop from '@/components/scroll-auto';
 import { notFound } from 'next/navigation';
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz';
 import { getQuizKind, hasLeaderboard } from '@/utils/quizKind';
+import { AdSenseLoader } from '@/components/Google/AdSenseScript';
 
 interface IProps {
     children: ReactNode,
@@ -26,6 +27,8 @@ export default async function LayoutQuizGroup({ children, params }: IProps) {
 
     return (
         <main className={styles.content}>
+            {/* quiz de quem assina o QuestioPlus: sem o script, sem anúncio nenhum */}
+            {!quiz.adFree && <AdSenseLoader />}
 
             <ScrollToTop />
 
