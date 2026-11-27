@@ -259,6 +259,99 @@
     }
 }
 
+// alternativas e escolhas com imagem (QuestioPlus): cartões em grade, legenda embaixo
+.choices_images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+    gap: .7rem;
+    list-style: none;
+
+    li {
+        display: flex;
+    }
+}
+
+.choice_card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+    border-radius: .8rem;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: var(--background-primary);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color .15s ease, transform .15s ease;
+
+    img,
+    .choice_card_blank {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        background-color: var(--background-input);
+    }
+
+    // sem imagem: o texto ocupa o quadrado
+    .choice_card_blank {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        text-align: center;
+        overflow-wrap: anywhere;
+        @include vars.styleTexto(var(--text-primary), 1.05rem, 700);
+        line-height: 1.3;
+    }
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+        border-color: vars.$cor-ciano;
+        transform: translateY(-2px);
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+.choice_card_caption {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .6rem .7rem;
+    @include vars.styleTexto(var(--text-primary), .9rem, 600);
+
+    span {
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+    }
+
+    svg {
+        flex-shrink: 0;
+        width: 1rem;
+        height: 1rem;
+        color: var(--text-secondary);
+    }
+}
+
+.choice_card.choice_selected {
+    .choice_card_caption svg {
+        color: vars.$cor-azulEscuro;
+    }
+}
+
+// ilustração da cena (e do final) da história
+.scene_image {
+    display: block;
+    width: 100%;
+    max-height: 22rem;
+    object-fit: contain;
+    border-radius: .7rem;
+    background-color: rgba(0, 0, 0, 0.18);
+}
+
 .ending {
     @extend %panel;
     position: relative;
@@ -517,6 +610,26 @@
 
 .mismatch svg {
     color: var(--text-secondary);
+}
+
+// resposta com imagem na comparação da compatibilidade
+.compare_answer {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+
+    img,
+    .compare_answer_blank {
+        width: 2.4rem;
+        height: 2.4rem;
+        flex-shrink: 0;
+        border-radius: .4rem;
+        object-fit: cover;
+    }
+
+    .compare_answer_blank {
+        border: 1px dashed var(--horizontal-rule-color);
+    }
 }
 
 .invite_box {
@@ -794,6 +907,143 @@
     }
 }
 
+// "Só texto" ou "Com imagens" (QuestioPlus)
+.image_mode {
+    @extend %panel;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    padding: 1.2rem;
+
+    >h3 {
+        @include vars.styleTexto(var(--text-primary), 1.02rem, 800);
+    }
+
+    .segmented button {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+
+        >svg {
+            width: .95rem;
+            height: .95rem;
+        }
+    }
+
+    .size_plus {
+        margin-left: .15rem;
+    }
+}
+
+// opção à vista, mas trancada para quem não assina: o clique explica
+.segmented_locked {
+    color: var(--text-secondary) !important;
+    border-style: dashed !important;
+}
+
+.image_slot {
+    position: relative;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.image_slot_wide {
+    align-self: stretch;
+}
+
+.image_slot_remove {
+    position: absolute;
+    top: -.45rem;
+    right: -.45rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--horizontal-rule-color);
+    background-color: var(--background-divs);
+    color: var(--text-primary);
+    cursor: pointer;
+
+    svg {
+        width: .8rem;
+        height: .8rem;
+    }
+
+    &:disabled {
+        opacity: .4;
+        cursor: not-allowed;
+    }
+}
+
+.image_slot_wide .image_slot_remove {
+    top: .5rem;
+    right: .5rem;
+}
+
+.scene_image_pick {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    width: 100%;
+    min-height: 6rem;
+    border-radius: .7rem;
+    overflow: hidden;
+    border: 1px dashed var(--border-input-color);
+    background-color: var(--background-upload-image, var(--background-input));
+    color: var(--text-secondary);
+    cursor: pointer;
+    @include vars.styleTexto(var(--text-secondary), .85rem, 600);
+
+    img {
+        display: block;
+        width: 100%;
+        max-height: 16rem;
+        object-fit: contain;
+    }
+
+    &:has(img) {
+        border-style: solid;
+        background-color: var(--background-input);
+    }
+
+    svg {
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+
+    input {
+        @extend %sr-only;
+    }
+
+    &:focus-within {
+        outline: 2px solid vars.$cor-ciano;
+        outline-offset: 2px;
+    }
+}
+
+// alternativa com imagem: [imagem] [legenda] ([pontos]) [x]
+.answer_row_image {
+    grid-template-columns: 4.2rem 1fr auto;
+    align-items: center;
+}
+
+.answer_row_image.answer_row_points {
+    grid-template-columns: 4.2rem 1fr 6.5rem auto;
+}
+
+// escolha da história com imagem: [imagem] [texto]
+.choice_with_image {
+    display: grid;
+    grid-template-columns: 4.2rem 1fr;
+    align-items: center;
+    gap: .7rem;
+}
+
 .add_button {
     align-self: flex-start;
     display: inline-flex;
@@ -1010,6 +1260,37 @@
 
     .badge_ending {
         display: none;
+    }
+
+    // alternativa com imagem e pontos: os pontos descem para baixo da legenda
+    .answer_row_image,
+    .answer_row_image.answer_row_points {
+        grid-template-columns: 3.4rem 1fr auto;
+    }
+
+    .answer_row_image .option_image,
+    .choice_with_image .option_image {
+        width: 3.4rem;
+        height: 3.4rem;
+    }
+
+    .answer_row_image.answer_row_points > .image_slot,
+    .answer_row_image.answer_row_points > .icon_button {
+        grid-row: 1 / span 2;
+    }
+
+    .answer_row_image.answer_row_points .answer_points {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .choice_with_image {
+        grid-template-columns: 3.4rem 1fr;
+    }
+
+    .choices_images {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .55rem;
     }
 
     // escolha: o texto ocupa a linha inteira e o destino fica embaixo, sem cortar o nome da cena

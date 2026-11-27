@@ -15,6 +15,37 @@ interface IProps {
 // mesmo limite do backend: uma partida com mais escolhas que isso é recusada
 const MAX_STEPS = 200
 
+// escolhas da cena; com imagem (QuestioPlus), cartões em grade com a legenda embaixo
+function ChoiceList({ choices, onChoose, disabled }: { choices: IStoryChoice[], onChoose: (choice: IStoryChoice) => void, disabled?: boolean }) {
+    const t = useTranslations('experiencePlay')
+    const withImages = choices.some(choice => choice.image)
+
+    return (
+        <ul className={withImages ? styles.choices_images : styles.choices}>
+            {choices.map((choice, index) => (
+                <li key={choice.choiceId}>
+                    <button type="button" className={withImages ? styles.choice_card : styles.choice} onClick={() => onChoose(choice)} disabled={disabled}
+                        aria-label={withImages ? choice.text || t('imageAnswer', { number: index + 1 }) : undefined}>
+                        {withImages ? <>
+                            {choice.image
+                                // eslint-disable-next-line @next/next/no-img-element
+                                ? <img src={choice.image} alt="" loading="lazy" decoding="async" />
+                                : <span className={styles.choice_card_blank} aria-hidden="true">{choice.text}</span>}
+                            <span className={styles.choice_card_caption}>
+                                <ChevronRight aria-hidden="true" />
+                                {choice.image && choice.text && <span>{choice.text}</span>}
+                            </span>
+                        </> : <>
+                            <ChevronRight aria-hidden="true" />
+                            <span>{choice.text}</span>
+                        </>}
+                    </button>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
 // História interativa: cada escolha leva a outra cena, até um dos finais.
 export default function StoryPlay({ content, onEnding, disabled }: IProps) {
     const t = useTranslations('experiencePlay')
@@ -59,25 +90,20 @@ export default function StoryPlay({ content, onEnding, disabled }: IProps) {
             {scene.ending ? (
                 <div className={styles.ending} ref={sceneRef} tabIndex={-1}>
                     <span className={styles.eyebrow}><Flag aria-hidden="true" /> {t('story.ending')}</span>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {scene.image && <img className={styles.scene_image} src={scene.image} alt="" />}
                     <h2>{scene.ending.title}</h2>
                     {scene.text && <p>{scene.text}</p>}
                 </div>
             ) : (
                 <div className={styles.scene} ref={sceneRef} tabIndex={-1}>
-                    <p>{scene.text}</p>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {scene.image && <img className={styles.scene_image} src={scene.image} alt="" />}
+                    {scene.text && <p>{scene.text}</p>}
                     {choices.length >= MAX_STEPS ? (
                         <p className={styles.notice}>{t('story.tooLong')}</p>
                     ) : (
-                        <ul className={styles.choices}>
-                            {scene.choices.map(choice => (
-                                <li key={choice.choiceId}>
-                                    <button type="button" className={styles.choice} onClick={() => choose(choice)} disabled={disabled}>
-                                        <ChevronRight aria-hidden="true" />
-                                        <span>{choice.text}</span>
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                        <ChoiceList choices={scene.choices} onChoose={choose} disabled={disabled} />
                     )}
                 </div>
             )}

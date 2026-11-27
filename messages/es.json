@@ -782,9 +782,9 @@
             "unexpectedError": "Algo salió mal al guardar tus cambios. Inténtalo de nuevo."
         },
         "questionsPage": {
-            "metadataTitle": "{kind, select, tournament {Editar opciones} story {Editar escenas} compatibility {Editar preguntas} other {Editar preguntas}}",
-            "title": "{kind, select, tournament {Edita las opciones de tu torneo} story {Edita las escenas de tu historia} compatibility {Edita las preguntas de tu test} other {Edita las preguntas de tu quiz}}",
-            "subtitle": "{kind, select, tournament {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} story {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} compatibility {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} other {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar el quiz? Simplemente haz clic en 'Editar quiz'.}}"
+            "metadataTitle": "{kind, select, tournament {Editar opciones} story {Editar escenas} compatibility {Editar preguntas} scored {Editar preguntas} other {Editar preguntas}}",
+            "title": "{kind, select, tournament {Edita las opciones de tu torneo} story {Edita las escenas de tu historia} compatibility {Edita las preguntas de tu test} scored {Edita las preguntas y rangos de tu quiz} other {Edita las preguntas de tu quiz}}",
+            "subtitle": "{kind, select, tournament {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} story {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} compatibility {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} scored {Cuando termines, haz clic en 'Guardar cambios' para aplicarlos.} other {Cuando termines tus cambios, haz clic en 'Guardar cambios' para aplicarlos. ¿Necesitas editar el quiz? Simplemente haz clic en 'Editar quiz'.}}"
         },
         "buttons": {
             "back": "Volver",
@@ -1684,7 +1684,7 @@
         "intro": {
             "title": {
                 "tournament": "{count} opciones, un campeón",
-                "story": "Una historia con {count, plural, one {# escena} other {# escenas}}",
+                "story": "Una historia con {count, plural, one {# final} other {# finales}}",
                 "compatibility": "{count, plural, one {# pregunta} other {# preguntas}} sobre ti",
                 "scored": "{count, plural, one {# pregunta} other {# preguntas}}, una puntuación"
             },
@@ -1737,7 +1737,8 @@
             "averageMatch": "Compatibilidad media: {percent}% en {count, plural, one {# comparación} other {# comparaciones}}",
             "noComparisons": "Todavía no hay comparaciones: aparecen cuando alguien responde con una invitación.",
             "compatibilityNote": "Cada comparación cuenta cuántas de las {questions} preguntas tienen la misma respuesta."
-        }
+        },
+        "imageAnswer": "Opción {number}"
     },
     "experienceEditor": {
         "title": {
@@ -1804,7 +1805,10 @@
             "overlap": "{item} se superpone con el rango anterior.",
             "gap": "Una suma de {value} puntos queda fuera de todos los rangos.",
             "unreachableRange": "{item}: ninguna combinación de respuestas llega a este rango.",
-            "unknown": "Hay algo en el contenido que corregir. Revísalo y guarda de nuevo."
+            "unknown": "Hay algo en el contenido que corregir. Revísalo y guarda de nuevo.",
+            "emptySceneImage": "{item}: escribe el texto de la escena o pon una imagen.",
+            "emptyChoiceImage": "{item}: escribe el texto de la opción o pon una imagen.",
+            "emptyAnswerImage": "{item}: pon una imagen o escribe la respuesta."
         },
         "tournament": {
             "imageType": "Usa una imagen JPG, PNG, WEBP o GIF.",
@@ -1895,6 +1899,34 @@
             "descriptionLabel": "Descripción",
             "descriptionPlaceholder": "¿Qué dice este resultado sobre la persona?",
             "add": "Añadir rango"
+        },
+        "images": {
+            "label": {
+                "story": "Imágenes en escenas y opciones",
+                "questions": "Imágenes en las respuestas"
+            },
+            "textOnly": "Solo texto",
+            "withImages": "Con imágenes",
+            "plusBadge": "Plus",
+            "hintOff": {
+                "story": "Actívalo para poner una ilustración en cada escena y una imagen en cada opción. El texto sigue funcionando igual.",
+                "questions": "Actívalo para mostrar las respuestas como imágenes. El texto de cada respuesta pasa a ser una leyenda opcional."
+            },
+            "hintOn": {
+                "story": "Cada escena puede tener una ilustración y cada opción una imagen. Con imagen, el texto es opcional.",
+                "questions": "Cada respuesta lleva una imagen, y el texto pasa a ser una leyenda opcional."
+            },
+            "hintLocked": "Función de la suscripción QuestioPlus. Toca para ver cómo desbloquearla.",
+            "confirmOff": "Volver a solo texto borra las imágenes de este contenido al guardar. ¿Continuar?",
+            "captionPlaceholder": "Leyenda (opcional)",
+            "pickAnswer": "Elegir imagen de la pregunta {question}, respuesta {number}",
+            "removeAnswer": "Quitar la imagen de la pregunta {question}, respuesta {number}",
+            "pickScene": "Elegir imagen de la escena {number}",
+            "removeScene": "Quitar la imagen de la escena {number}",
+            "sceneEmpty": "Añadir imagen de la escena (opcional)",
+            "pickChoice": "Elegir imagen de la escena {scene}, opción {number}",
+            "removeChoice": "Quitar la imagen de la escena {scene}, opción {number}",
+            "imageOnly": "(solo imagen)"
         }
     },
     "experiencePages": {
@@ -2306,7 +2338,9 @@
         "tournamentText": "Los torneos de 8 y 16 opciones son gratis. Para 32 o 64 opciones, suscríbete a QuestioPlus o usa un pase único en este torneo.",
         "seePlans": "Ver planes",
         "close": "Ahora no",
-        "note": "Los planes se abren en otra pestaña. Lo que estás editando sigue aquí."
+        "note": "Los planes se abren en otra pestaña. Lo que estás editando sigue aquí.",
+        "plusImagesTitle": "Las imágenes aquí son de QuestioPlus",
+        "plusImagesText": "Las imágenes en las escenas y opciones de las historias, y en las respuestas de los tests de compatibilidad y de los quizzes por puntos, son parte de la suscripción QuestioPlus. El pase único no incluye esta función."
     },
     "pricingPage": {
         "metadata": {
@@ -2341,6 +2375,7 @@
                     "Preguntas ilimitadas y hasta 15 respuestas",
                     "Imágenes en preguntas y respuestas",
                     "Torneos de 32 o 64 opciones",
+                    "Imágenes en las historias y en las respuestas de compatibilidad y puntos",
                     "Sin anuncios en tus quizzes y experiencias"
                 ],
                 "cta": "Suscribirme a QuestioPlus"
@@ -2421,6 +2456,12 @@
                             "free": "yes",
                             "plus": "yes",
                             "pass": "yes"
+                        },
+                        {
+                            "label": "Imágenes en escenas y opciones",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
                         }
                     ]
                 },
@@ -2438,6 +2479,12 @@
                             "free": "yes",
                             "plus": "yes",
                             "pass": "yes"
+                        },
+                        {
+                            "label": "Imágenes en las respuestas",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
                         }
                     ]
                 },

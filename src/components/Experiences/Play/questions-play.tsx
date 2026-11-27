@@ -31,6 +31,8 @@ export default function QuestionsPlay({ questions, onFinish, disabled }: IProps)
     }
 
     const progress = Math.round(Object.keys(answers).length / questions.length * 100)
+    // alternativas com imagem (QuestioPlus): cartões em grade, com a legenda embaixo
+    const withImages = question.answers.some(answer => answer.image)
 
     return (
         <div className={styles.play}>
@@ -43,20 +45,33 @@ export default function QuestionsPlay({ questions, onFinish, disabled }: IProps)
 
             <div className={styles.question}>
                 <h2>{question.question}</h2>
-                <ul className={styles.choices}>
-                    {question.answers.map(answer => {
+                <ul className={withImages ? styles.choices_images : styles.choices}>
+                    {question.answers.map((answer, answerIndex) => {
                         const selected = answers[question.questionId] === answer.answerId
+                        const label = answer.text || t('imageAnswer', { number: answerIndex + 1 })
                         return (
                             <li key={answer.answerId}>
                                 <button
                                     type="button"
-                                    className={`${styles.choice} ${selected ? styles.choice_selected : ''}`}
+                                    className={`${withImages ? styles.choice_card : styles.choice} ${selected ? styles.choice_selected : ''}`}
                                     aria-pressed={selected}
+                                    aria-label={withImages ? label : undefined}
                                     onClick={() => select(answer.answerId)}
                                     disabled={disabled}
                                 >
-                                    {selected ? <Check aria-hidden="true" /> : <Circle aria-hidden="true" />}
-                                    <span>{answer.text}</span>
+                                    {withImages ? <>
+                                        {answer.image
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            ? <img src={answer.image} alt="" loading="lazy" decoding="async" />
+                                            : <span className={styles.choice_card_blank} aria-hidden="true">{answer.text}</span>}
+                                        <span className={styles.choice_card_caption}>
+                                            {selected ? <Check aria-hidden="true" /> : <Circle aria-hidden="true" />}
+                                            {answer.image && answer.text && <span>{answer.text}</span>}
+                                        </span>
+                                    </> : <>
+                                        {selected ? <Check aria-hidden="true" /> : <Circle aria-hidden="true" />}
+                                        <span>{answer.text}</span>
+                                    </>}
                                 </button>
                             </li>
                         )

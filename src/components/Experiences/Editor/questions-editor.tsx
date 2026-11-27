@@ -2,8 +2,9 @@
 import { useTranslations } from 'next-intl'
 import { ArrowDown, ArrowUp, Plus, Trash2, Wand2, X } from 'lucide-react'
 import { IChoiceQuestion, IScoredRange } from '@/interfaces/IExperience'
-import { blankAnswer, blankQuestion, blankRange, EXPERIENCE_LIMITS, scoredBounds, suggestRanges } from '@/utils/experiences'
+import { blankAnswer, blankQuestion, blankRange, EXPERIENCE_LIMITS, scoredBounds, shownImage, suggestRanges } from '@/utils/experiences'
 import NumberField from './number-field'
+import ImageSlot from './image-slot'
 import styles from '../experiences.module.scss'
 
 interface IQuestionsProps {
@@ -12,11 +13,17 @@ interface IQuestionsProps {
     onChange: (questions: IChoiceQuestion[]) => void
     flagged: Set<string>
     disabled?: boolean
+    // alternativas com imagem (QuestioPlus): cada uma ganha uma imagem, e o texto vira legenda
+    withImages: boolean
+    previews: Record<string, string>
+    onPickImage: (answerId: string, file: File) => void
+    onRemoveImage: (answerId: string) => void
 }
 
 // Perguntas da compatibilidade (sem resposta certa) e da pontuação (cada alternativa vale pontos)
-export function QuestionsEditor({ kind, questions, onChange, flagged, disabled }: IQuestionsProps) {
+export function QuestionsEditor({ kind, questions, onChange, flagged, disabled, withImages, previews, onPickImage, onRemoveImage }: IQuestionsProps) {
     const t = useTranslations('experienceEditor.questions')
+    const tImages = useTranslations('experienceEditor.images')
     const withPoints = kind === 'scored'
     const max = withPoints ? EXPERIENCE_LIMITS.scoredMaxQuestions : EXPERIENCE_LIMITS.compatibilityMaxQuestions
 
@@ -65,18 +72,24 @@ export function QuestionsEditor({ kind, questions, onChange, flagged, disabled }
                         {question.answers.map((answer, answerIndex) => {
                             const answerNumber = answerIndex + 1
                             return (
-                                <div key={answer.answerId} className={`${styles.answer_row} ${withPoints ? styles.answer_row_points : ''} ${flagged.has(answer.answerId) ? styles.item_flagged : ''}`}>
+                                <div key={answer.answerId} className={`${styles.answer_row} ${withPoints ? styles.answer_row_points : ''} ${withImages ? styles.answer_row_image : ''} ${flagged.has(answer.answerId) ? styles.item_flagged : ''}`}>
+                                    {withImages && (
+                                        <ImageSlot image={shownImage(answer, previews[answer.answerId])} disabled={disabled}
+                                            pickLabel={tImages('pickAnswer', { question: number, number: answerNumber })}
+                                            removeLabel={tImages('removeAnswer', { question: number, number: answerNumber })}
+                                            onPick={file => onPickImage(answer.answerId, file)} onRemove={() => onRemoveImage(answer.answerId)} />
+                                    )}
                                     <div className={styles.field}>
                                         <label htmlFor={`answer-${answer.answerId}`}>{t('answerLabel', { number: answerNumber })}</label>
                                         <input id={`answer-${answer.answerId}`} type="text" value={answer.text} maxLength={EXPERIENCE_LIMITS.answerText}
-                                            placeholder={t('answerPlaceholder', { number: answerNumber })} disabled={disabled}
+                                            placeholder={withImages ? tImages('captionPlaceholder') : t('answerPlaceholder', { number: answerNumber })} disabled={disabled}
                                             onChange={event => update(question.questionId, current => ({
                                                 ...current,
                                                 answers: current.answers.map(item => (item.answerId === answer.answerId ? { ...item, text: event.target.value } : item)),
                                             }))} />
                                     </div>
                                     {withPoints && (
-                                        <div className={styles.field}>
+                                        <div className={`${styles.field} ${styles.answer_points}`}>
                                             <label htmlFor={`points-${answer.answerId}`}>{t('pointsLabel')}</label>
                                             <NumberField id={`points-${answer.answerId}`} value={answer.points ?? 0} min={-EXPERIENCE_LIMITS.maxPoints} max={EXPERIENCE_LIMITS.maxPoints}
                                                 onChange={points => update(question.questionId, current => ({

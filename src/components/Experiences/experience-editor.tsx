@@ -10,14 +10,17 @@ import {
 import { saveExperience, uploadExperienceImage } from '@/app/[locale]/(quizGroup)/(createQuiz)/create/experiences/actions'
 import { editQuiz } from '@/app/[locale]/(quizGroup)/(editQuiz)/quiz/edit/[quizId]/action'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
-import { editableExperience, isPaidTournamentSize } from '@/utils/experiences'
-import PaywallDialog from '@/components/Pricing/paywall-dialog'
+import { editableExperience, imageItems, isPaidTournamentSize, updateImageItem } from '@/utils/experiences'
+import PaywallDialog, { TPaywallFeature } from '@/components/Pricing/paywall-dialog'
+import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/actions'
+import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
 import { ExperienceKind } from '@/utils/quizKind'
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { trackEvent } from '@/utils/analytics'
-import TournamentEditor, { TEditorOption } from './Editor/tournament-editor'
+import TournamentEditor from './Editor/tournament-editor'
 import StoryEditor from './Editor/story-editor'
 import { QuestionsEditor, RangesEditor } from './Editor/questions-editor'
+import ImageModeToggle, { TPlusState } from './Editor/image-mode-toggle'
 import VisibilityPopup from '../CreatingQuiz/Questions/visibility-popup'
 import NavCreatinQuiz from '../CreatingQuiz/nav-creating-quiz'
 import LoadingReq from '../Loading/loading-req'
@@ -39,6 +42,9 @@ interface IProps {
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024
 const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/gif']
 
+// imagens que dependem da assinatura QuestioPlus (o torneio tem imagens para todos)
+const usesPlusImages = (kind: ExperienceKind) => kind !== 'tournament'
+
 // Editor dos formatos de experiência. Salvar manda o conteúdo inteiro; o backend devolve o
 // conteúdo salvo e o que ainda impede publicar (issues) ou só merece atenção (warnings).
 export default function ExperienceEditor({ quizId, kind, initial, isPrivate, draft, mode, premiumUnlocked }: IProps) {
@@ -56,8 +62,10 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
     const [isDraft, setIsDraft] = useState(draft)
     const [showVisibility, setShowVisibility] = useState(false)
     const [unlocked, setUnlocked] = useState(premiumUnlocked === true)
-    const [paywall, setPaywall] = useState(false)
-    // imagens escolhidas para opções do torneio, enviadas depois de salvar o conteúdo
+    const [paywall, setPaywall] = useState<TPaywallFeature>()
+    // assinatura de quem edita, para as imagens fora do torneio ('unknown' até a conferência)
+    const [plus, setPlus] = useState<TPlusState>('unknown')
+    // imagens escolhidas (opções, cenas, escolhas, alternativas), enviadas depois de salvar o conteúdo
     const [previews, setPreviews] = useState<Record<string, string>>({})
     const files = useRef<Record<string, File>>({})
     const problemsRef = useRef<HTMLDivElement>(null)
@@ -78,29 +86,73 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
     // prévias locais liberadas ao sair
     useEffect(() => () => Object.values(previews).forEach(url => URL.revokeObjectURL(url)), [])
 
-    const dropPreview = (optionId: string) => {
-        delete files.current[optionId]
+    // a assinatura decide se a opção de imagens aparece trancada (o clique confere de novo)
+    useEffect(() => {
+        if (!usesPlusImages(kind)) return
+        verifyUserPremium(false)
+            .then(res => { if (!res.err && res.premium) setPlus(checkPremiumState(res as PremiumRes) ? 'yes' : 'no') })
+            .catch(() => {})
+    }, [kind])
+
+    // Imagens fora do torneio: só com a assinatura. Sem ela, mostra o aviso do QuestioPlus.
+    // Confere a cada tentativa enquanto não deu "sim" (a pessoa pode ter assinado em outra aba).
+    const ensurePlus = async (): Promise<boolean> => {
+        if (plus === 'yes') return true
+        try {
+            const res = await verifyUserPremium(false)
+            if (res.err || !res.premium) {
+                setError(res.err || t('tournament.premiumCheckError'))
+                return false
+            }
+            const subscriber = !!checkPremiumState(res as PremiumRes)
+            setPlus(subscriber ? 'yes' : 'no')
+            if (!subscriber) setPaywall('plusImages')
+            return subscriber
+        } catch {
+            setError(t('tournament.premiumCheckError'))
+            return false
+        }
+    }
+
+    const dropPreview = (itemId: string) => {
+        delete files.current[itemId]
         setPreviews(current => {
-            if (current[optionId]) URL.revokeObjectURL(current[optionId])
-            const { [optionId]: _removed, ...rest } = current
+            if (current[itemId]) URL.revokeObjectURL(current[itemId])
+            const { [itemId]: _removed, ...rest } = current
             return rest
         })
     }
 
-    const pickImage = (optionId: string, file: File) => {
+    const pickImage = async (itemId: string, file: File) => {
         if (!IMAGE_TYPES.includes(file.type)) return setError(t('tournament.imageType'))
         if (file.size > MAX_IMAGE_BYTES) return setError(t('tournament.imageTooBig', { size: 4 }))
-        dropPreview(optionId)
-        files.current[optionId] = file
-        setPreviews(current => ({ ...current, [optionId]: URL.createObjectURL(file) }))
-        const tournament = content as ITournamentContent
-        change({ ...tournament, options: (tournament.options as TEditorOption[]).map(option => (option.optionId === optionId ? { ...option, removeImage: undefined } : option)) })
+        if (usesPlusImages(kind) && !(await ensurePlus())) return
+        dropPreview(itemId)
+        files.current[itemId] = file
+        setPreviews(current => ({ ...current, [itemId]: URL.createObjectURL(file) }))
+        setContent(current => updateImageItem(kind, current, itemId, () => ({ removeImage: undefined })))
+        setDirty(true)
     }
 
-    const removeImage = (optionId: string) => {
-        if (files.current[optionId]) return dropPreview(optionId)
-        const tournament = content as ITournamentContent
-        change({ ...tournament, options: (tournament.options as TEditorOption[]).map(option => (option.optionId === optionId ? { ...option, removeImage: true } : option)) })
+    const removeImage = (itemId: string) => {
+        if (files.current[itemId]) return dropPreview(itemId)
+        change(updateImageItem(kind, content, itemId, () => ({ removeImage: true })))
+    }
+
+    const withImages = usesPlusImages(kind) && (content as { withImages?: boolean }).withImages === true
+
+    // "Com imagens" pede a assinatura; voltar para "Só texto" tira as imagens (com confirmação)
+    const setImageMode = async (on: boolean) => {
+        if (on === withImages) return
+        if (on) {
+            if (!(await ensurePlus())) return
+            setContent(current => ({ ...current, withImages: true }) as TExperienceContent)
+            return setDirty(true)
+        }
+        const hasImages = Object.keys(files.current).length > 0 || [...imageItems(kind, content).values()].some(item => item.image && !item.removeImage)
+        if (hasImages && !window.confirm(t('images.confirmOff'))) return
+        Object.keys(files.current).forEach(dropPreview)
+        change({ ...content, withImages: false } as TExperienceContent)
     }
 
     // salva o conteúdo e, no torneio, sobe as imagens novas (as opções já existem no servidor)
@@ -112,7 +164,13 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
                 // torneio de 32 ou 64 opções sem QuestioPlus nem crédito (o saldo pode ter
                 // acabado depois da escolha): o aviso do recurso pago explica e leva aos planos
                 if (result.error.type === 'premium') {
-                    setPaywall(true)
+                    setPaywall('tournament')
+                    return { ok: false, issues: [] }
+                }
+                // imagens sem a assinatura (ela pode ter acabado com o editor aberto)
+                if (result.error.type === 'plusImages') {
+                    setPlus('no')
+                    setPaywall('plusImages')
                     return { ok: false, issues: [] }
                 }
                 if (result.issues) setCheck({ issues: result.issues, warnings: result.warnings ?? [] })
@@ -123,23 +181,32 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
             let saved = editableExperience(kind, result.experience)
             const pending = Object.entries(files.current)
 
-            if (kind === 'tournament' && pending.length) {
-                let uploaded = 0, failed = 0
-                for (const [optionId, file] of pending) {
-                    const options = (saved as ITournamentContent).options
-                    if (!options.some(option => option.optionId === optionId)) { dropPreview(optionId); continue }
+            // o conteúdo voltou a ser só texto: as imagens escolhidas não sobem
+            const imagesOn = kind === 'tournament' || (saved as { withImages?: boolean }).withImages === true
+            if (pending.length) {
+                let uploaded = 0, failed = 0, plusMissing = false
+                const items = imageItems(kind, saved)
+                for (const [itemId, file] of pending) {
+                    if (!imagesOn || !items.has(itemId)) { dropPreview(itemId); continue }
 
                     const formData = new FormData()
                     formData.append('quizImg', file)
-                    const upload = await uploadExperienceImage(quizId, optionId, formData)
-                    if (!upload.ok) { failed++; continue }
+                    const upload = await uploadExperienceImage(quizId, itemId, formData)
+                    if (!upload.ok) {
+                        if (upload.error.type === 'plusImages') plusMissing = true
+                        failed++
+                        continue
+                    }
 
                     uploaded++
-                    saved = { ...(saved as ITournamentContent), options: options.map(option => (option.optionId === optionId ? { ...option, image: upload.image } : option)) }
-                    dropPreview(optionId)
+                    saved = updateImageItem(kind, saved, itemId, () => ({ image: upload.image }))
+                    dropPreview(itemId)
                 }
-                if (failed) setError(t('imageError'))
-                // a opção só com imagem estava "vazia" na conferência anterior: confere de novo
+                if (plusMissing) {
+                    setPlus('no')
+                    setPaywall('plusImages')
+                } else if (failed) setError(t('imageError'))
+                // o item só com imagem estava "vazio" na conferência anterior: confere de novo
                 if (uploaded) {
                     const again = await saveExperience(quizId, saved)
                     if (again.ok) {
@@ -233,8 +300,12 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
 
     const describe = (issue: IExperienceIssue) => {
         const values = { item: itemName(issue.itemId), value: issue.value ?? 0 }
-        return t.has(`issues.${issue.code}`) ? t(`issues.${issue.code}`, values) : t('issues.unknown')
+        // com imagens, o item vazio pode ganhar um texto ou uma imagem
+        const code = withImages && t.has(`issues.${issue.code}Image`) ? `${issue.code}Image` : issue.code
+        return t.has(`issues.${code}`) ? t(`issues.${code}`, values) : t('issues.unknown')
     }
+
+    const imageProps = { withImages, previews, onPickImage: pickImage, onRemoveImage: removeImage }
 
     const flagged = new Set((check?.issues ?? []).map(issue => issue.itemId).filter((id): id is string => !!id))
 
@@ -258,12 +329,15 @@ export default function ExperienceEditor({ quizId, kind, initial, isPrivate, dra
             {kind === 'tournament' && (
                 <TournamentEditor content={content as ITournamentContent} onChange={change} flagged={flagged}
                     previews={previews} onPickImage={pickImage} onRemoveImage={removeImage}
-                    unlocked={unlocked} onLocked={() => setPaywall(true)} disabled={saving} />
+                    unlocked={unlocked} onLocked={() => setPaywall('tournament')} disabled={saving} />
             )}
-            {paywall && <PaywallDialog feature="tournament" onClose={() => setPaywall(false)} />}
-            {kind === 'story' && <StoryEditor content={content as IStoryContent} onChange={change} flagged={flagged} disabled={saving} />}
+            {paywall && <PaywallDialog feature={paywall} onClose={() => setPaywall(undefined)} />}
+            {usesPlusImages(kind) && (
+                <ImageModeToggle kind={kind} enabled={withImages} plus={plus} onChange={setImageMode} disabled={saving} />
+            )}
+            {kind === 'story' && <StoryEditor content={content as IStoryContent} onChange={change} flagged={flagged} disabled={saving} {...imageProps} />}
             {(kind === 'compatibility' || kind === 'scored') && (
-                <QuestionsEditor kind={kind} questions={(content as ICompatibilityContent).questions} flagged={flagged} disabled={saving}
+                <QuestionsEditor kind={kind} questions={(content as ICompatibilityContent).questions} flagged={flagged} disabled={saving} {...imageProps}
                     onChange={questions => change({ ...content, questions } as TExperienceContent)} />
             )}
             {kind === 'scored' && (

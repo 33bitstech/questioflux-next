@@ -5,8 +5,13 @@ import { useLocale, useTranslations } from 'next-intl'
 import { Sparkles, X } from 'lucide-react'
 import styles from './paywall-dialog.module.scss'
 
+// images: imagens do quiz clássico (assinatura ou passe); tournament: torneio de 32 ou 64
+// opções (assinatura ou passe); plusImages: imagens na história, na compatibilidade e na
+// pontuação (só assinatura)
+export type TPaywallFeature = 'images' | 'tournament' | 'plusImages'
+
 interface IProps {
-    feature: 'images' | 'tournament'
+    feature: TPaywallFeature
     onClose: () => void
 }
 

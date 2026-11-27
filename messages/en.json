@@ -782,9 +782,9 @@
             "unexpectedError": "Something went wrong while saving your changes. Please try again."
         },
         "questionsPage": {
-            "metadataTitle": "{kind, select, tournament {Edit Options} story {Edit Scenes} compatibility {Edit Questions} other {Edit Questions}}",
-            "title": "{kind, select, tournament {Edit your tournament options} story {Edit your story scenes} compatibility {Edit your test questions} other {Edit your quiz questions}}",
-            "subtitle": "{kind, select, tournament {When you're done, click 'Save changes' to apply them.} story {When you're done, click 'Save changes' to apply them.} compatibility {When you're done, click 'Save changes' to apply them.} other {Once you're done with your changes, click 'Save Changes' to apply them. Need to edit the quiz? Simply click 'Edit Quiz'.}}"
+            "metadataTitle": "{kind, select, tournament {Edit Options} story {Edit Scenes} compatibility {Edit Questions} scored {Edit Questions} other {Edit Questions}}",
+            "title": "{kind, select, tournament {Edit your tournament options} story {Edit your story scenes} compatibility {Edit your test questions} scored {Edit your quiz questions and ranges} other {Edit your quiz questions}}",
+            "subtitle": "{kind, select, tournament {When you're done, click 'Save changes' to apply them.} story {When you're done, click 'Save changes' to apply them.} compatibility {When you're done, click 'Save changes' to apply them.} scored {When you're done, click 'Save changes' to apply them.} other {Once you're done with your changes, click 'Save Changes' to apply them. Need to edit the quiz? Simply click 'Edit Quiz'.}}"
         },
         "buttons": {
             "back": "Back",
@@ -1684,7 +1684,7 @@
         "intro": {
             "title": {
                 "tournament": "{count} options, one champion",
-                "story": "A story with {count, plural, one {# scene} other {# scenes}}",
+                "story": "A story with {count, plural, one {# ending} other {# endings}}",
                 "compatibility": "{count, plural, one {# question} other {# questions}} about you",
                 "scored": "{count, plural, one {# question} other {# questions}}, one score"
             },
@@ -1737,7 +1737,8 @@
             "averageMatch": "Average match: {percent}% across {count, plural, one {# comparison} other {# comparisons}}",
             "noComparisons": "No comparisons yet: they appear when someone answers through an invite.",
             "compatibilityNote": "Each comparison counts how many of the {questions} questions got the same answer."
-        }
+        },
+        "imageAnswer": "Option {number}"
     },
     "experienceEditor": {
         "title": {
@@ -1804,7 +1805,10 @@
             "overlap": "{item} overlaps the previous range.",
             "gap": "A total of {value} points falls outside every range.",
             "unreachableRange": "{item}: no combination of answers reaches this range.",
-            "unknown": "Something in the content needs fixing. Review it and save again."
+            "unknown": "Something in the content needs fixing. Review it and save again.",
+            "emptySceneImage": "{item}: write the scene text or add an image.",
+            "emptyChoiceImage": "{item}: write the choice text or add an image.",
+            "emptyAnswerImage": "{item}: add an image or write the answer."
         },
         "tournament": {
             "imageType": "Use a JPG, PNG, WEBP or GIF image.",
@@ -1895,6 +1899,34 @@
             "descriptionLabel": "Description",
             "descriptionPlaceholder": "What does this result say about the person?",
             "add": "Add range"
+        },
+        "images": {
+            "label": {
+                "story": "Images in scenes and choices",
+                "questions": "Images in answers"
+            },
+            "textOnly": "Text only",
+            "withImages": "With images",
+            "plusBadge": "Plus",
+            "hintOff": {
+                "story": "Turn on to add an illustration to each scene and an image to each choice. The text still works as before.",
+                "questions": "Turn on to show the answers as images. Each answer’s text becomes an optional caption."
+            },
+            "hintOn": {
+                "story": "Each scene can have an illustration and each choice an image. With an image, the text is optional.",
+                "questions": "Each answer gets an image, and its text becomes an optional caption."
+            },
+            "hintLocked": "Part of the QuestioPlus subscription. Tap to see how to unlock it.",
+            "confirmOff": "Switching back to text only deletes this content’s images when you save. Continue?",
+            "captionPlaceholder": "Caption (optional)",
+            "pickAnswer": "Choose image for question {question}, answer {number}",
+            "removeAnswer": "Remove the image from question {question}, answer {number}",
+            "pickScene": "Choose image for scene {number}",
+            "removeScene": "Remove the image from scene {number}",
+            "sceneEmpty": "Add a scene image (optional)",
+            "pickChoice": "Choose image for scene {scene}, choice {number}",
+            "removeChoice": "Remove the image from scene {scene}, choice {number}",
+            "imageOnly": "(image only)"
         }
     },
     "experiencePages": {
@@ -2306,7 +2338,9 @@
         "tournamentText": "Brackets with 8 or 16 options are free. For 32 or 64 options, subscribe to QuestioPlus or use a one-time pass on this bracket.",
         "seePlans": "See plans",
         "close": "Not now",
-        "note": "Plans open in a new tab. What you're editing stays here."
+        "note": "Plans open in a new tab. What you're editing stays here.",
+        "plusImagesTitle": "Images here are part of QuestioPlus",
+        "plusImagesText": "Images in story scenes and choices, and in the answers of compatibility tests and points quizzes, are part of the QuestioPlus subscription. The one-time pass doesn’t include this feature."
     },
     "pricingPage": {
         "metadata": {
@@ -2341,6 +2375,7 @@
                     "Unlimited questions and up to 15 answers",
                     "Images in questions and answers",
                     "Brackets with 32 or 64 options",
+                    "Images in stories and in compatibility and points quiz answers",
                     "No ads on your quizzes and experiences"
                 ],
                 "cta": "Get QuestioPlus"
@@ -2421,6 +2456,12 @@
                             "free": "yes",
                             "plus": "yes",
                             "pass": "yes"
+                        },
+                        {
+                            "label": "Images in scenes and choices",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
                         }
                     ]
                 },
@@ -2438,6 +2479,12 @@
                             "free": "yes",
                             "plus": "yes",
                             "pass": "yes"
+                        },
+                        {
+                            "label": "Images in answers",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
                         }
                     ]
                 },

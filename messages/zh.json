@@ -782,9 +782,9 @@
             "unexpectedError": "保存修改时出了点问题，请重试。"
         },
         "questionsPage": {
-            "metadataTitle": "{kind, select, tournament {编辑选项} story {编辑场景} compatibility {编辑题目} other {编辑题目}}",
-            "title": "{kind, select, tournament {编辑淘汰赛选项} story {编辑故事场景} compatibility {编辑测试题目} other {编辑测验题目}}",
-            "subtitle": "{kind, select, tournament {修改完成后，点击“保存修改”即可生效。} story {修改完成后，点击“保存修改”即可生效。} compatibility {修改完成后，点击“保存修改”即可生效。} other {修改完成后，点击“保存修改”即可生效。需要编辑测验？点击“编辑测验”就行。}}"
+            "metadataTitle": "{kind, select, tournament {编辑选项} story {编辑场景} compatibility {编辑题目} scored {编辑题目} other {编辑题目}}",
+            "title": "{kind, select, tournament {编辑淘汰赛选项} story {编辑故事场景} compatibility {编辑测试题目} scored {编辑测验题目和分数区间} other {编辑测验题目}}",
+            "subtitle": "{kind, select, tournament {修改完成后，点击“保存修改”即可生效。} story {修改完成后，点击“保存修改”即可生效。} compatibility {修改完成后，点击“保存修改”即可生效。} scored {修改完成后，点击“保存修改”即可生效。} other {修改完成后，点击“保存修改”即可生效。需要编辑测验？点击“编辑测验”就行。}}"
         },
         "buttons": {
             "back": "返回",
@@ -1684,7 +1684,7 @@
         "intro": {
             "title": {
                 "tournament": "{count} 个选项，一个冠军",
-                "story": "一个包含 {count} 个场景的故事",
+                "story": "一个有 {count} 种结局的故事",
                 "compatibility": "{count} 道关于你的题",
                 "scored": "{count} 道题，一个总分"
             },
@@ -1737,7 +1737,8 @@
             "averageMatch": "平均默契度：{percent}%（共 {count} 次对比）",
             "noComparisons": "暂无对比：有人通过邀请作答后才会出现。",
             "compatibilityNote": "每次对比都会统计 {questions} 道题中答案相同的题数。"
-        }
+        },
+        "imageAnswer": "选项 {number}"
     },
     "experienceEditor": {
         "title": {
@@ -1804,7 +1805,10 @@
             "overlap": "{item} 与上一个分数段重叠。",
             "gap": "总分 {value} 分不在任何分数段内。",
             "unreachableRange": "{item}：没有任何答案组合能达到这个分数段。",
-            "unknown": "内容中有需要修正的地方，请检查后再保存。"
+            "unknown": "内容中有需要修正的地方，请检查后再保存。",
+            "emptySceneImage": "{item}：请填写场景文字或添加图片。",
+            "emptyChoiceImage": "{item}：请填写选项文字或添加图片。",
+            "emptyAnswerImage": "{item}：请添加图片或填写答案。"
         },
         "tournament": {
             "imageType": "请使用 JPG、PNG、WEBP 或 GIF 图片。",
@@ -1895,6 +1899,34 @@
             "descriptionLabel": "说明",
             "descriptionPlaceholder": "这个结果说明了这个人的什么特点？",
             "add": "添加分数段"
+        },
+        "images": {
+            "label": {
+                "story": "场景和选项中的图片",
+                "questions": "答案中的图片"
+            },
+            "textOnly": "仅文字",
+            "withImages": "带图片",
+            "plusBadge": "Plus",
+            "hintOff": {
+                "story": "开启后，可以给每个场景配一张插图，给每个选项配一张图片。文字照常保留。",
+                "questions": "开启后，答案会以图片显示，每个答案的文字变成可选的图片说明。"
+            },
+            "hintOn": {
+                "story": "每个场景可以有一张插图，每个选项可以有一张图片。有图片时，文字可以不填。",
+                "questions": "每个答案配一张图片，文字变成可选的图片说明。"
+            },
+            "hintLocked": "这是 QuestioPlus 订阅功能。点按查看如何解锁。",
+            "confirmOff": "切回仅文字后，保存时会删除这份内容里的图片。要继续吗？",
+            "captionPlaceholder": "图片说明（可选）",
+            "pickAnswer": "为第 {question} 题的答案 {number} 选择图片",
+            "removeAnswer": "移除第 {question} 题答案 {number} 的图片",
+            "pickScene": "为场景 {number} 选择图片",
+            "removeScene": "移除场景 {number} 的图片",
+            "sceneEmpty": "添加场景图片（可选）",
+            "pickChoice": "为场景 {scene} 的选项 {number} 选择图片",
+            "removeChoice": "移除场景 {scene} 选项 {number} 的图片",
+            "imageOnly": "（仅图片）"
         }
     },
     "experiencePages": {
@@ -2302,7 +2334,9 @@
         "tournamentText": "8 和 16 个选项的淘汰赛免费。想用 32 或 64 个选项，请订阅 QuestioPlus，或在这个淘汰赛上使用一张单次通行证。",
         "seePlans": "查看方案",
         "close": "暂不",
-        "note": "方案会在新标签页中打开，你正在编辑的内容会保留在这里。"
+        "note": "方案会在新标签页中打开，你正在编辑的内容会保留在这里。",
+        "plusImagesTitle": "这里的图片属于 QuestioPlus",
+        "plusImagesText": "互动故事的场景和选项中的图片，以及默契测试和计分测验答案中的图片，都属于 QuestioPlus 订阅功能。单次通行证不包含此功能。"
     },
     "pricingPage": {
         "metadata": {
@@ -2337,6 +2371,7 @@
                     "不限题目数量，每题最多 15 个选项",
                     "题目和选项都可以配图",
                     "32 或 64 个选项的淘汰赛",
+                    "互动故事以及默契测试、计分测验答案中的图片",
                     "你的测验和作品不显示广告"
                 ],
                 "cta": "订阅 QuestioPlus"
@@ -2417,6 +2452,12 @@
                             "free": "yes",
                             "plus": "yes",
                             "pass": "yes"
+                        },
+                        {
+                            "label": "场景和选项中的图片",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
                         }
                     ]
                 },
@@ -2434,6 +2475,12 @@
                             "free": "yes",
                             "plus": "yes",
                             "pass": "yes"
+                        },
+                        {
+                            "label": "答案中的图片",
+                            "free": "no",
+                            "plus": "yes",
+                            "pass": "no"
                         }
                     ]
                 },

@@ -2,7 +2,8 @@
 import { useTranslations } from 'next-intl'
 import { Flag, Play, Plus, Trash2, X } from 'lucide-react'
 import { IStoryContent, IStoryScene } from '@/interfaces/IExperience'
-import { blankChoice, blankScene, EXPERIENCE_LIMITS } from '@/utils/experiences'
+import { blankChoice, blankScene, EXPERIENCE_LIMITS, shownImage } from '@/utils/experiences'
+import ImageSlot from './image-slot'
 import styles from '../experiences.module.scss'
 
 interface IProps {
@@ -10,6 +11,11 @@ interface IProps {
     onChange: (content: IStoryContent) => void
     flagged: Set<string>
     disabled?: boolean
+    // imagens nas cenas e nas escolhas (QuestioPlus)
+    withImages: boolean
+    previews: Record<string, string>
+    onPickImage: (itemId: string, file: File) => void
+    onRemoveImage: (itemId: string) => void
 }
 
 const NEW_SCENE = '__new_scene__'
@@ -21,15 +27,16 @@ const preview = (text: string, size = 42) => (text.length > size ? `${text.slice
 
 // História: cenas com até 4 escolhas, cada escolha leva a outra cena; os finais não têm
 // escolhas. O backend confere se algum final pode ser alcançado a partir do início.
-export default function StoryEditor({ content, onChange, flagged, disabled }: IProps) {
+export default function StoryEditor({ content, onChange, flagged, disabled, withImages, previews, onPickImage, onRemoveImage }: IProps) {
     const t = useTranslations('experienceEditor.story')
+    const tImages = useTranslations('experienceEditor.images')
     const { scenes } = content
     const full = scenes.length >= EXPERIENCE_LIMITS.maxScenes
     const number = (sceneId: string) => scenes.findIndex(scene => scene.sceneId === sceneId) + 1
 
     const sceneName = (scene: IStoryScene) => scene.ending
         ? t('endingOption', { number: number(scene.sceneId), title: scene.ending.title ? preview(scene.ending.title) : t('untitled') })
-        : t('sceneOption', { number: number(scene.sceneId), text: scene.text ? preview(scene.text) : t('untitled') })
+        : t('sceneOption', { number: number(scene.sceneId), text: scene.text ? preview(scene.text) : withImages && shownImage(scene, previews[scene.sceneId]) ? tImages('imageOnly') : t('untitled') })
 
     const updateScene = (sceneId: string, change: (scene: IStoryScene) => IStoryScene) =>
         onChange({ ...content, scenes: scenes.map(scene => (scene.sceneId === sceneId ? change(scene) : scene)) })
@@ -46,14 +53,14 @@ export default function StoryEditor({ content, onChange, flagged, disabled }: IP
             .map(scene => ({ ...scene, choices: scene.choices.map(choice => (choice.nextSceneId === sceneId ? { ...choice, nextSceneId: '' } : choice)) }))
         if (!rest.length) return
         const startSceneId = content.startSceneId === sceneId ? (rest.find(scene => !scene.ending) ?? rest[0]).sceneId : content.startSceneId
-        onChange({ startSceneId, scenes: rest })
+        onChange({ ...content, startSceneId, scenes: rest })
     }
 
     const toggleEnding = (scene: IStoryScene, ending: boolean) => {
         if (ending && scene.choices.some(choice => choice.text || choice.nextSceneId) && !window.confirm(t('confirmEnding'))) return
         updateScene(scene.sceneId, current => ending
             ? { ...current, choices: [], ending: { title: '' } }
-            : { sceneId: current.sceneId, text: current.text, choices: [blankChoice(), blankChoice()] })
+            : { ...current, ending: undefined, choices: [blankChoice(), blankChoice()] })
     }
 
     // destino novo: cria a cena (ou o final) e já liga a escolha a ela
@@ -111,6 +118,13 @@ export default function StoryEditor({ content, onChange, flagged, disabled }: IP
                             </div>
                         </div>
 
+                        {withImages && (
+                            <ImageSlot wide image={shownImage(scene, previews[scene.sceneId])} disabled={disabled}
+                                pickLabel={tImages('pickScene', { number: sceneNumber })} removeLabel={tImages('removeScene', { number: sceneNumber })}
+                                emptyText={tImages('sceneEmpty')}
+                                onPick={file => onPickImage(scene.sceneId, file)} onRemove={() => onRemoveImage(scene.sceneId)} />
+                        )}
+
                         {scene.ending && (
                             <div className={styles.field}>
                                 <label htmlFor={`ending-${scene.sceneId}`}>{t('endingTitleLabel')}</label>
@@ -134,14 +148,22 @@ export default function StoryEditor({ content, onChange, flagged, disabled }: IP
                                     const choiceNumber = choiceIndex + 1
                                     return (
                                         <div key={choice.choiceId} className={`${styles.field_row} ${flagged.has(choice.choiceId) ? styles.item_flagged : ''}`}>
-                                            <div className={styles.field}>
-                                                <label htmlFor={`choice-${choice.choiceId}`}>{t('choiceLabel', { number: choiceNumber })}</label>
-                                                <input id={`choice-${choice.choiceId}`} type="text" value={choice.text} maxLength={EXPERIENCE_LIMITS.choiceText}
-                                                    placeholder={t('choicePlaceholder')} disabled={disabled}
-                                                    onChange={event => updateScene(scene.sceneId, current => ({
-                                                        ...current,
-                                                        choices: current.choices.map(item => (item.choiceId === choice.choiceId ? { ...item, text: event.target.value } : item)),
-                                                    }))} />
+                                            <div className={withImages ? styles.choice_with_image : undefined}>
+                                                {withImages && (
+                                                    <ImageSlot image={shownImage(choice, previews[choice.choiceId])} disabled={disabled}
+                                                        pickLabel={tImages('pickChoice', { scene: sceneNumber, number: choiceNumber })}
+                                                        removeLabel={tImages('removeChoice', { scene: sceneNumber, number: choiceNumber })}
+                                                        onPick={file => onPickImage(choice.choiceId, file)} onRemove={() => onRemoveImage(choice.choiceId)} />
+                                                )}
+                                                <div className={styles.field}>
+                                                    <label htmlFor={`choice-${choice.choiceId}`}>{t('choiceLabel', { number: choiceNumber })}</label>
+                                                    <input id={`choice-${choice.choiceId}`} type="text" value={choice.text} maxLength={EXPERIENCE_LIMITS.choiceText}
+                                                        placeholder={withImages ? tImages('captionPlaceholder') : t('choicePlaceholder')} disabled={disabled}
+                                                        onChange={event => updateScene(scene.sceneId, current => ({
+                                                            ...current,
+                                                            choices: current.choices.map(item => (item.choiceId === choice.choiceId ? { ...item, text: event.target.value } : item)),
+                                                        }))} />
+                                                </div>
                                             </div>
                                             <div className={styles.answer_row}>
                                                 <div className={styles.field}>

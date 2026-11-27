@@ -48,6 +48,8 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
 
 const text = (value: unknown) => (typeof value === 'string' ? value : '')
 const id = (value: unknown) => (typeof value === 'string' && value ? value : newItemId())
+const imageOf = (value: unknown) => (typeof value === 'string' && value ? { image: value } : {})
+const withImagesOf = (source: Record<string, unknown>) => (source.withImages === true ? { withImages: true } : {})
 
 // ── conteúdo inicial do editor ──
 
@@ -90,6 +92,7 @@ const editableQuestions = (raw: unknown, withPoints: boolean): IChoiceQuestion[]
                     answerId: id(answer.answerId),
                     text: text(answer.text),
                     ...(withPoints ? { points: Number.isFinite(points) ? points : 0 } : {}),
+                    ...imageOf(answer.image),
                 }
             }),
         }
@@ -116,18 +119,19 @@ export function editableExperience(kind: ExperienceKind, raw: unknown): TExperie
                     text: text(scene.text),
                     choices: ending ? [] : (Array.isArray(scene.choices) ? scene.choices : []).map(entry => {
                         const choice = isObject(entry) ? entry : {}
-                        return { choiceId: id(choice.choiceId), text: text(choice.text), nextSceneId: text(choice.nextSceneId) }
+                        return { choiceId: id(choice.choiceId), text: text(choice.text), nextSceneId: text(choice.nextSceneId), ...imageOf(choice.image) }
                     }),
                     ...(ending ? { ending } : {}),
+                    ...imageOf(scene.image),
                 }
             })
             if (!scenes.length) return emptyExperience(kind)
             const startSceneId = scenes.some(scene => scene.sceneId === source.startSceneId) ? source.startSceneId as string : scenes[0].sceneId
-            return { startSceneId, scenes }
+            return { startSceneId, scenes, ...withImagesOf(source) }
         }
         case 'compatibility': {
             const questions = editableQuestions(source.questions, false)
-            return questions.length ? { questions } : emptyExperience(kind)
+            return questions.length ? { questions, ...withImagesOf(source) } : emptyExperience(kind)
         }
         case 'scored': {
             const questions = editableQuestions(source.questions, true)
@@ -141,10 +145,55 @@ export function editableExperience(kind: ExperienceKind, raw: unknown): TExperie
                     description: text(range.description),
                 }
             })
-            return questions.length || ranges.length ? { questions, ranges } : emptyExperience(kind)
+            return questions.length || ranges.length ? { questions, ranges, ...withImagesOf(source) } : emptyExperience(kind)
         }
     }
 }
+
+// ── imagens dos itens (opção do torneio; cena e escolha da história; alternativa) ──
+
+export interface IImageItem {
+    image?: string
+    removeImage?: boolean
+}
+
+// Troca um item com imagem pelo id. Devolve o conteúdo como estava se o id não existe.
+export function updateImageItem(kind: ExperienceKind, content: TExperienceContent, itemId: string, change: (item: IImageItem) => IImageItem): TExperienceContent {
+    const apply = <T extends IImageItem>(item: T, id: string): T => (id === itemId ? { ...item, ...change(item) } : item)
+
+    if (kind === 'tournament') {
+        const tournament = content as ITournamentContent
+        return { ...tournament, options: tournament.options.map(option => apply(option, option.optionId)) }
+    }
+    if (kind === 'story') {
+        const story = content as IStoryContent
+        return {
+            ...story,
+            scenes: story.scenes.map(scene => apply({ ...scene, choices: scene.choices.map(choice => apply(choice, choice.choiceId)) }, scene.sceneId)),
+        }
+    }
+    const questions = content as ICompatibilityContent
+    return {
+        ...content,
+        questions: questions.questions.map(question => ({ ...question, answers: question.answers.map(answer => apply(answer, answer.answerId)) })),
+    } as TExperienceContent
+}
+
+// Todos os itens que podem ter imagem, pelo id
+export function imageItems(kind: ExperienceKind, content: TExperienceContent): Map<string, IImageItem> {
+    const items = new Map<string, IImageItem>()
+    if (kind === 'tournament') (content as ITournamentContent).options.forEach(option => items.set(option.optionId, option))
+    else if (kind === 'story') {
+        (content as IStoryContent).scenes.forEach(scene => {
+            items.set(scene.sceneId, scene)
+            scene.choices.forEach(choice => items.set(choice.choiceId, choice))
+        })
+    } else (content as ICompatibilityContent).questions.forEach(question => question.answers.forEach(answer => items.set(answer.answerId, answer)))
+    return items
+}
+
+// imagem que o item mostra no editor: a nova escolhida (prévia local) ou a salva, se não foi tirada
+export const shownImage = (item: IImageItem, preview?: string) => preview ?? (item.removeImage ? undefined : item.image)
 
 // ── torneio ──
 

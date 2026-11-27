@@ -5,8 +5,8 @@ import { Check, ChevronDown, Copy, Minus, Share2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import IQuizes from '@/interfaces/IQuizes'
 import IParticipationView, { IParticipationPlayer } from '@/interfaces/IParticipation'
-import { ICompatibilityContent, IScoredContent, ITournamentContent } from '@/interfaces/IExperience'
-import { answerText, optionRanking, roundKey, sortedRanges } from '@/utils/experiences'
+import { IChoiceQuestion, ICompatibilityContent, IScoredContent, ITournamentContent } from '@/interfaces/IExperience'
+import { optionRanking, roundKey, sortedRanges } from '@/utils/experiences'
 import { getQuizKind } from '@/utils/quizKind'
 import { trackEvent } from '@/utils/analytics'
 import type { IResultHeadline } from '../ParticipationResult/participation-result'
@@ -29,7 +29,8 @@ interface ITournamentView {
 }
 
 interface IStoryView {
-    ending?: { sceneId: string, title: string, text?: string }
+    // image: ilustração da cena final (QuestioPlus)
+    ending?: { sceneId: string, title: string, text?: string, image?: string }
     steps?: number
     endingsTotal?: number
 }
@@ -66,7 +67,7 @@ export function experienceHeadline(participation: IParticipationView, t: TTransl
         }
         case 'story': {
             const { ending } = participation as unknown as IStoryView
-            return ending ? { title: ending.title, description: ending.text } : undefined
+            return ending ? { title: ending.title, description: ending.text, image: ending.image } : undefined
         }
         case 'scored': {
             const { points, range } = participation as unknown as IScoredView
@@ -90,6 +91,24 @@ export function experienceHeadline(participation: IParticipationView, t: TTransl
     return undefined
 }
 
+// resposta escolhida: com imagem (QuestioPlus), a miniatura e a legenda
+function AnswerShown({ question, answerId }: { question: IChoiceQuestion, answerId?: string }) {
+    const t = useTranslations('experiencePlay')
+    const index = question.answers.findIndex(answer => answer.answerId === answerId)
+    const answer = question.answers[index]
+    if (!answer) return <>—</>
+    if (!question.answers.some(other => other.image)) return <>{answer.text}</>
+    return (
+        <span className={styles.compare_answer}>
+            {answer.image
+                // eslint-disable-next-line @next/next/no-img-element
+                ? <img src={answer.image} alt="" loading="lazy" decoding="async" />
+                : <span className={styles.compare_answer_blank} aria-hidden="true" />}
+            {answer.text || t('imageAnswer', { number: index + 1 })}
+        </span>
+    )
+}
+
 function CompareList({ content, mine, theirs, theirName }: { content?: ICompatibilityContent, mine: Record<string, string>, theirs: Record<string, string>, theirName: string }) {
     const t = useTranslations('experiencePlay.compatibility')
     const questions = (content?.questions ?? []).filter(question => mine[question.questionId] && theirs[question.questionId])
@@ -103,9 +122,9 @@ function CompareList({ content, mine, theirs, theirName }: { content?: ICompatib
                         <p>{question.question}</p>
                         <dl>
                             <dt>{t('you')}</dt>
-                            <dd>{answerText(question, mine[question.questionId]) ?? '—'}</dd>
+                            <dd><AnswerShown question={question} answerId={mine[question.questionId]} /></dd>
                             <dt>{theirName}</dt>
-                            <dd>{answerText(question, theirs[question.questionId]) ?? '—'}</dd>
+                            <dd><AnswerShown question={question} answerId={theirs[question.questionId]} /></dd>
                         </dl>
                         {same ? <Check aria-label={t('same')} /> : <Minus aria-label={t('different')} />}
                     </li>

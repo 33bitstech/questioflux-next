@@ -21,6 +21,10 @@ export interface IStoryChoice {
     choiceId: string
     text: string
     nextSceneId: string
+    // com withImages (QuestioPlus), só pelo upload próprio; o editor nunca manda a URL
+    image?: string
+    // só no editor: tira a imagem salva ao salvar
+    removeImage?: boolean
 }
 
 export interface IStoryScene {
@@ -29,19 +33,28 @@ export interface IStoryScene {
     choices: IStoryChoice[]
     // cena final: tem título e não tem escolhas
     ending?: { title: string }
+    // ilustração da cena (withImages)
+    image?: string
+    removeImage?: boolean
 }
 
 export interface IStoryContent {
     startSceneId: string
     scenes: IStoryScene[]
+    // imagens nas cenas e nas escolhas: recurso da assinatura QuestioPlus
+    withImages?: boolean
 }
 
 // ── compatibilidade ──
 export interface IChoiceAnswer {
     answerId: string
+    // com imagem, o texto vira legenda (opcional)
     text: string
     // só na pontuação, e só para quem criou (quem joga não recebe)
     points?: number
+    // com withImages (QuestioPlus), só pelo upload próprio; o editor nunca manda a URL
+    image?: string
+    removeImage?: boolean
 }
 
 export interface IChoiceQuestion {
@@ -52,6 +65,8 @@ export interface IChoiceQuestion {
 
 export interface ICompatibilityContent {
     questions: IChoiceQuestion[]
+    // imagens nas alternativas: recurso da assinatura QuestioPlus
+    withImages?: boolean
 }
 
 // ── pontuação por faixas ──
@@ -67,6 +82,7 @@ export interface IScoredRange {
 export interface IScoredContent {
     questions: IChoiceQuestion[]
     ranges: IScoredRange[]
+    withImages?: boolean
 }
 
 export type TExperienceContent = ITournamentContent | IStoryContent | ICompatibilityContent | IScoredContent
