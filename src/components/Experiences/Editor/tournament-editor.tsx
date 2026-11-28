@@ -8,6 +8,7 @@ import { verifyUserPremium } from '@/app/[locale]/(quizGroup)/profile/config/act
 import { checkPremiumState, PremiumRes } from '@/utils/checkPremiumSubs'
 import { useGlobalMessage } from '@/contexts/globalMessageContext'
 import styles from '../experiences.module.scss'
+import { useImageDrop } from './use-image-drop'
 
 // opção no editor: a imagem nova fica no navegador até o conteúdo ser salvo
 export type TEditorOption = ITournamentOption & { removeImage?: boolean }
@@ -111,23 +112,12 @@ export default function TournamentEditor({ content, onChange, flagged, previews,
 
                     return (
                         <div key={option.optionId} className={`${styles.option_row} ${flagged.has(option.optionId) ? styles.item_flagged : ''}`}>
-                            <label className={styles.option_image} title={t('imagePick', { number: index + 1 })}>
-                                {image
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    ? <img src={image} alt="" />
-                                    : <ImagePlus aria-hidden="true" />}
-                                <input
-                                    type="file"
-                                    accept="image/png, image/jpeg, image/webp, image/gif"
-                                    aria-label={t('imagePick', { number: index + 1 })}
-                                    disabled={disabled}
-                                    onChange={event => {
-                                        const file = event.target.files?.[0]
-                                        if (file) onPickImage(option.optionId, file)
-                                        event.target.value = ''
-                                    }}
-                                />
-                            </label>
+                            <OptionImage
+                                image={image}
+                                label={t('imagePick', { number: index + 1 })}
+                                disabled={disabled}
+                                onPick={file => onPickImage(option.optionId, file)}
+                            />
 
                             <div className={styles.field}>
                                 <label htmlFor={`option-${option.optionId}`}>{label}</label>
@@ -158,5 +148,30 @@ export default function TournamentEditor({ content, onChange, flagged, previews,
                 })}
             </div>
         </div>
+    )
+}
+
+// imagem da opção: clicar escolhe o arquivo, ou arraste a imagem para cima
+function OptionImage({ image, label, disabled, onPick }: { image?: string, label: string, disabled?: boolean, onPick: (file: File) => void }) {
+    const { dragging, dropProps } = useImageDrop(onPick, disabled)
+
+    return (
+        <label className={`${styles.option_image} ${dragging ? styles.image_dragging : ''}`} title={label} {...dropProps}>
+            {image
+                // eslint-disable-next-line @next/next/no-img-element
+                ? <img src={image} alt="" />
+                : <ImagePlus aria-hidden="true" />}
+            <input
+                type="file"
+                accept="image/png, image/jpeg, image/webp, image/gif"
+                aria-label={label}
+                disabled={disabled}
+                onChange={event => {
+                    const file = event.target.files?.[0]
+                    if (file) onPick(file)
+                    event.target.value = ''
+                }}
+            />
+        </label>
     )
 }

@@ -1,6 +1,7 @@
 'use client'
 import { ImagePlus, X } from 'lucide-react'
 import styles from '../experiences.module.scss'
+import { useImageDrop } from './use-image-drop'
 
 interface IProps {
     // imagem mostrada: a nova escolhida (prévia local) ou a salva
@@ -16,11 +17,15 @@ interface IProps {
     emptyText?: string
 }
 
-// Espaço de uma imagem no editor: clicar escolhe o arquivo; o "x" no canto tira a imagem.
+// Espaço de uma imagem no editor: clicar escolhe o arquivo, ou arraste a imagem para cima dele;
+// o "x" no canto tira a imagem.
 export default function ImageSlot({ image, pickLabel, removeLabel, onPick, onRemove, disabled, wide, emptyText }: IProps) {
+    const { dragging, dropProps } = useImageDrop(onPick, disabled)
+
     return (
         <div className={`${styles.image_slot} ${wide ? styles.image_slot_wide : ''}`}>
-            <label className={wide ? styles.scene_image_pick : styles.option_image} title={pickLabel}>
+            <label className={`${wide ? styles.scene_image_pick : styles.option_image} ${dragging ? styles.image_dragging : ''}`}
+                title={pickLabel} {...dropProps}>
                 {image
                     // eslint-disable-next-line @next/next/no-img-element
                     ? <img src={image} alt="" />

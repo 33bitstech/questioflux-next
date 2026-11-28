@@ -951,6 +951,18 @@
     align-self: stretch;
 }
 
+// imagem sendo arrastada por cima do espaço (como no quiz de imagens clássico)
+.option_image.image_dragging,
+.scene_image_pick.image_dragging {
+    border-style: dashed;
+    border-color: vars.$cor-azulEscuro;
+    outline: 2px dashed vars.$cor-azulEscuro;
+    outline-offset: -6px;
+    filter: brightness(.95);
+    transform: scale(.98);
+    transition: transform .15s ease, outline-color .15s ease;
+}
+
 .image_slot_remove {
     position: absolute;
     top: -.45rem;

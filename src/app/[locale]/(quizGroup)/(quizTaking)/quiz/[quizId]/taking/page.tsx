@@ -7,10 +7,51 @@ import TakingAd from '@/components/Google/TakingAds'
 import ApiData from '@/utils/ApiData'
 import { getQuizKind, isExperienceKind } from '@/utils/quizKind'
 import ExperienceTaking, { IInvite } from '@/components/Experiences/experience-taking'
+import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
+import { quizCanonicalUrl, quizImageUrl } from '@/utils/seo'
+import { getOpenGraphLocale } from '@/utils/locale'
 
 interface IProps{
-    params:Promise<{quizId: string}>
+    params:Promise<{quizId: string, locale: string}>
     searchParams: Promise<{ invite?: string | string[] }>
+}
+
+const inviteCode = (invite?: string | string[]) =>
+    typeof invite === 'string' && /^[A-Za-z0-9_-]{8,32}$/.test(invite) ? invite : undefined
+
+// Prévia do link (WhatsApp, redes): a capa e o nome do quiz, não a prévia genérica do site.
+// No convite da compatibilidade, a descrição diz quem chamou.
+export async function generateMetadata({ params, searchParams }: IProps): Promise<Metadata> {
+    const [{ quizId, locale }, { invite }] = await Promise.all([params, searchParams])
+    const quiz = await getPublicQuiz(quizId)
+    if (!quiz) return {}
+
+    const code = getQuizKind(quiz) === 'compatibility' ? inviteCode(invite) : undefined
+    const inviter = code ? (await getInvite(quizId, code)).player : undefined
+    const t = await getTranslations({ locale, namespace: 'experiencePlay.invite' })
+
+    const title = quiz.title.trim()
+    const description = inviter
+        ? t('banner', { name: inviter.name || t('someone') })
+        : (quiz.description ?? '').replace(/\s+/g, ' ').trim() || title
+    const image = quizImageUrl(quiz)
+    const url = `${quizCanonicalUrl(quiz)}/taking${code ? `?invite=${code}` : ''}`
+
+    return {
+        title: `${title} | QuestioFlux`,
+        description,
+        openGraph: {
+            title,
+            description,
+            url,
+            siteName: 'QuestioFlux',
+            images: [{ url: image, alt: title }],
+            locale: getOpenGraphLocale(locale),
+            type: 'website',
+        },
+        twitter: { card: 'summary_large_image', title, description, images: [image] },
+    }
 }
 
 // Compatibilidade pelo link de alguém: o nome de quem convidou. Sem resposta da API, o convite
@@ -44,7 +85,7 @@ export default async function Taking({params, searchParams}:IProps) {
     // torneio, história, compatibilidade e pontuação: partida própria de cada formato
     if (isExperienceKind(kind)) {
         const { invite } = await searchParams
-        const code = typeof invite === 'string' && /^[A-Za-z0-9_-]{8,32}$/.test(invite) ? invite : undefined
+        const code = inviteCode(invite)
 
         return (
             <>
