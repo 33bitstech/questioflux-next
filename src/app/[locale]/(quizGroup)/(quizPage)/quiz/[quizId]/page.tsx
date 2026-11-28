@@ -22,6 +22,7 @@ import { TrackedDetails, TrackedLink, TrackOnView } from '@/components/Google/an
 import QuizCover from '@/components/Card/quiz-cover';
 import { getQuizKind, hasLeaderboard, isExperienceKind, QuizKind, quizKindHref } from '@/utils/quizKind';
 import ExperienceQuizPreview from '@/components/Experiences/experience-quiz-preview';
+import MyInvites from '@/components/Experiences/my-invites';
 import { FilePen, Globe, Lock } from 'lucide-react';
 
 // Situação do quiz: rascunho tem prioridade; fora dele, privado ou público. Texto e ícone,
@@ -265,6 +266,8 @@ export default async function Quiz({ params }: IProps) {
                     <SaveQuizWidget quizId={quizId} />
                     <ShareButton styles={styles} quizId={quizId} kind={kind} />
                 </div>
+                {/* quem já jogou volta aos próprios convites (quem respondeu, quanto combinam) */}
+                {kind === 'compatibility' && <MyInvites quizId={quizId} inviteBaseUrl={`${quizCanonicalUrl(quiz)}/taking`} />}
                 {kind === 'exam' && <p className={styles.exam_note}>{t('examNote')}</p>}
                 <div className={styles.description_container}>
                     <p>{quiz.description}</p>

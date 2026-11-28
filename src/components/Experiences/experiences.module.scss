@@ -678,6 +678,81 @@
     }
 }
 
+// "Seus convites" (página do quiz e início da partida): um convite por linha
+.my_invites {
+    width: 100%;
+    text-align: left;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: .55rem;
+        list-style: none;
+    }
+
+    li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: .7rem 1rem;
+        padding: .8rem .9rem;
+        border-radius: .8rem;
+        background-color: var(--background-primary);
+        border: 1px solid var(--horizontal-rule-color);
+    }
+}
+
+.my_invite_info {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    flex: 1 1 14rem;
+    min-width: 0;
+
+    strong {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        @include vars.styleTexto(var(--text-primary), .95rem, 800);
+
+        svg {
+            width: 1.05rem;
+            height: 1.05rem;
+            flex-shrink: 0;
+            color: vars.$cor-ciano;
+        }
+    }
+
+    span {
+        overflow-wrap: anywhere;
+        @include vars.styleTexto(var(--text-description), .84rem, 500);
+    }
+}
+
+.my_invite_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+
+    button,
+    a {
+        padding: .55rem .95rem;
+        font-size: .88rem;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    @media (max-width: 520px) {
+        width: 100%;
+
+        button,
+        a {
+            flex: 1 1 0;
+        }
+    }
+}
+
 .points {
     display: inline-flex;
     align-items: baseline;

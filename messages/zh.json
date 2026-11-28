@@ -1579,7 +1579,9 @@
         "playToo": "我也来玩",
         "seeQuiz": "{kind, select, tournament {查看淘汰赛} story {查看故事} compatibility {查看测试} other {查看测验}}",
         "metaTitle": "{name} 在「{quiz}」的结果",
-        "metaTitleAnonymous": "「{quiz}」的一个结果"
+        "metaTitleAnonymous": "「{quiz}」的一个结果",
+        "previewInvite": "你和{name}有多合拍？",
+        "previewInviteText": "回答同样的问题，看看结果。"
     },
     "experiencePlay": {
         "undo": "撤销",
@@ -1738,7 +1740,14 @@
             "noComparisons": "暂无对比：有人通过邀请作答后才会出现。",
             "compatibilityNote": "每次对比都会统计 {questions} 道题中答案相同的题数。"
         },
-        "imageAnswer": "选项 {number}"
+        "imageAnswer": "选项 {number}",
+        "myInvites": {
+            "title": "你的邀请",
+            "text": "随时回来查看谁通过你的链接作答，以及你们有多合拍。链接不会改变，可以再次发送。",
+            "playedOn": "你在 {date} 作答",
+            "lastAnswer": "最近一次作答：{date}",
+            "open": "查看谁作答了"
+        }
     },
     "experienceEditor": {
         "title": {

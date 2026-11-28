@@ -17,7 +17,9 @@ import { clearPendingExperience, isOwnInvite, saveOwnInvite, savePendingExperien
 import { getLocalizedMessage } from '@/utils/getLocalizedMessage'
 import { quizParams, trackEvent } from '@/utils/analytics'
 import { storyEndings } from '@/utils/experiences'
+import { quizCanonicalUrl } from '@/utils/seo'
 import ExperiencePlayer from './Play/experience-player'
+import MyInvites from './my-invites'
 import RegisterComponent from '../AuthForms/register-component'
 import LoginComponent from '../AuthForms/login-component'
 import GuestForm from '../AuthForms/Guest/guest-form'
@@ -214,6 +216,9 @@ export default function ExperienceTaking({ quiz, invite, embed, onFinished }: IP
                     <button type="button" className={styles.button_primary} onClick={start}>
                         <Play aria-hidden="true" /> {t('start')}
                     </button>
+
+                    {/* já jogou (talvez em outra aba ou aparelho): volta aos convites sem criar outro link */}
+                    {kind === 'compatibility' && !embed && <MyInvites quizId={quiz.quizId} inviteBaseUrl={`${quizCanonicalUrl(quiz)}/taking`} />}
                 </div>
             ) : (
                 <>

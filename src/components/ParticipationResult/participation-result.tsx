@@ -10,7 +10,8 @@ import { ownerKeyFor } from '@/utils/participationKeys'
 import { trackEvent } from '@/utils/analytics'
 import { getQuizKind, isExperienceKind } from '@/utils/quizKind'
 import { IParticipationPlayer } from '@/interfaces/IParticipation'
-import ExperienceResultDetails, { experienceHeadline } from '../Experiences/experience-result'
+import ExperienceResultDetails from '../Experiences/experience-result'
+import { experienceHeadline, resultHeadline } from '@/utils/resultHeadline'
 import styles from '../PersonalityResult/personality-result.module.scss'
 
 interface IProps {
@@ -23,28 +24,6 @@ interface IProps {
     children?: ReactNode
     // botões do fim no lugar de "Jogar de novo" e "Ver o quiz" (quiz incorporado em outro site)
     actions?: ReactNode
-}
-
-export interface IResultHeadline {
-    title: string
-    description?: string
-    image?: string
-}
-
-// O que aparece no cartão em cada formato. Personalidade: o perfil (ou os empatados);
-// formatos com nota: os acertos.
-export function resultHeadline(quiz: IQuizes, participation: IParticipationView, t: (key: string, values?: Record<string, string | number>) => string): IResultHeadline | undefined {
-    if (participation.results?.length) {
-        const details = participation.results.map(item => quiz.personalityResults?.find(result => result.resultId === item.resultId) ?? item)
-        const single = details.length === 1 ? details[0] as { title: string, description?: string, image?: string } : undefined
-        return {
-            title: details.map(item => item.title).join(' + '),
-            description: single?.description,
-            image: single?.image,
-        }
-    }
-    if (typeof participation.score === 'string') return { title: t('score', { score: participation.score }) }
-    return undefined
 }
 
 // /quiz/[id]/result/[participationId]: o resultado de uma conclusão, com o nome de quem jogou.

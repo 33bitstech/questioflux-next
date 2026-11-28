@@ -1579,7 +1579,9 @@
         "playToo": "Play it too",
         "seeQuiz": "{kind, select, tournament {See the tournament} story {See the story} compatibility {See the test} other {See the quiz}}",
         "metaTitle": "{name}'s result in {quiz}",
-        "metaTitleAnonymous": "A result in {quiz}"
+        "metaTitleAnonymous": "A result in {quiz}",
+        "previewInvite": "How well do you match with {name}?",
+        "previewInviteText": "Answer the same questions and find out."
     },
     "experiencePlay": {
         "undo": "Undo",
@@ -1738,7 +1740,14 @@
             "noComparisons": "No comparisons yet: they appear when someone answers through an invite.",
             "compatibilityNote": "Each comparison counts how many of the {questions} questions got the same answer."
         },
-        "imageAnswer": "Option {number}"
+        "imageAnswer": "Option {number}",
+        "myInvites": {
+            "title": "{count, plural, one {Your invite} other {Your invites}}",
+            "text": "Come back anytime to see who answered through your link and how much you match. The link stays the same, so you can send it again.",
+            "playedOn": "You answered on {date}",
+            "lastAnswer": "last answer on {date}",
+            "open": "See who answered"
+        }
     },
     "experienceEditor": {
         "title": {

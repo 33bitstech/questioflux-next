@@ -42,6 +42,11 @@ export function ownerKeyFor(participationId: string): string | undefined {
     return readAll().find(item => item.participationId === participationId)?.ownerKey
 }
 
+// todas as conclusões deste navegador num quiz, a mais recente primeiro ("Seus convites")
+export function participationRefsFor(quizId: string): IParticipationRef[] {
+    return readAll().filter(item => item.quizId === quizId).map(({ participationId, ownerKey }) => ({ participationId, ownerKey }))
+}
+
 // a conclusão mais recente deste navegador num quiz (ex.: o convite da compatibilidade)
 export function latestParticipationFor(quizId: string): IParticipationRef | undefined {
     const found = readAll().find(item => item.quizId === quizId)

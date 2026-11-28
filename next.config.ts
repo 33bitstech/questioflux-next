@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
     '/[locale]/blog': ['./src/content/blog/**/*'],
     '/[locale]/blog/[slug]': ['./src/content/blog/**/*'],
     '/sitemap.xml': ['./src/content/blog/**/*'],
+    // o ícone que vai na imagem da prévia do resultado (lido do disco)
+    '/api/og/result/[quizId]/[participationId]': ['./public/iconv2.png'],
   },
   images: {
     remotePatterns: [

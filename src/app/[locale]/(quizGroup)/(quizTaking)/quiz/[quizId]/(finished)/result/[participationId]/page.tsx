@@ -6,7 +6,8 @@ import { getTranslations } from 'next-intl/server'
 import ApiData from '@/utils/ApiData'
 import { getCookieHeader } from '@/utils/getCookieHeader'
 import { getPublicQuiz, withoutQuestions } from '@/utils/publicQuiz'
-import { quizCanonicalUrl, quizImageUrl } from '@/utils/seo'
+import { quizCanonicalUrl } from '@/utils/seo'
+import { RESULT_PREVIEW_SIZE, resultPreview, resultPreviewImageUrl } from '@/utils/resultPreview'
 import IParticipationView from '@/interfaces/IParticipation'
 import ParticipationResult from '@/components/ParticipationResult/participation-result'
 import GoogleAd from '@/components/Google/GoogleAd'
@@ -43,20 +44,24 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const [quiz, participation] = await Promise.all([getPublicQuiz(quizId), getParticipation(quizId, participationId)])
     if (!quiz || !participation) notFound()
 
-    const t = await getTranslations({ locale, namespace: 'participationResultPage' })
+    const [t, preview] = await Promise.all([
+        getTranslations({ locale, namespace: 'participationResultPage' }),
+        resultPreview(quiz, participation, locale),
+    ])
     const name = participation.player.name
     const title = name ? t('metaTitle', { name, quiz: quiz.title }) : t('metaTitleAnonymous', { quiz: quiz.title })
 
-    // a prévia do link compartilhado descreve o próprio torneio, história ou quiz, não o site
-    const description = (quiz.description ?? '').replace(/\s+/g, ' ').trim() || undefined
+    // a prévia do link compartilhado mostra o próprio resultado (texto e imagem gerada), não a capa
+    const description = [preview.title, preview.description].filter(Boolean).join(' · ')
+    const image = { url: resultPreviewImageUrl(quizId, participationId, locale), ...RESULT_PREVIEW_SIZE, alt: description }
 
     return {
         title,
         description,
         // um resultado de cada pessoa: compartilhável, mas fora da busca
         robots: { index: false, follow: true },
-        openGraph: { title, description, images: [quizImageUrl(quiz)] },
-        twitter: { card: 'summary_large_image', title, description, images: [quizImageUrl(quiz)] },
+        openGraph: { title, description, images: [image], siteName: 'QuestioFlux', type: 'website' },
+        twitter: { card: 'summary_large_image', title, description, images: [image.url] },
     }
 }
 

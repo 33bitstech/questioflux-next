@@ -1579,7 +1579,9 @@
         "playToo": "Jugar también",
         "seeQuiz": "{kind, select, tournament {Ver el torneo} story {Ver la historia} compatibility {Ver el test} other {Ver el quiz}}",
         "metaTitle": "Resultado de {name} en {quiz}",
-        "metaTitleAnonymous": "Un resultado en {quiz}"
+        "metaTitleAnonymous": "Un resultado en {quiz}",
+        "previewInvite": "¿Cuánto coincides con {name}?",
+        "previewInviteText": "Responde las mismas preguntas y descúbrelo."
     },
     "experiencePlay": {
         "undo": "Deshacer",
@@ -1738,7 +1740,14 @@
             "noComparisons": "Todavía no hay comparaciones: aparecen cuando alguien responde con una invitación.",
             "compatibilityNote": "Cada comparación cuenta cuántas de las {questions} preguntas tienen la misma respuesta."
         },
-        "imageAnswer": "Opción {number}"
+        "imageAnswer": "Opción {number}",
+        "myInvites": {
+            "title": "{count, plural, one {Tu invitación} other {Tus invitaciones}}",
+            "text": "Vuelve cuando quieras para ver quién respondió con tu enlace y cuánto coinciden. El enlace no cambia: puedes enviarlo de nuevo.",
+            "playedOn": "Respondiste el {date}",
+            "lastAnswer": "última respuesta el {date}",
+            "open": "Ver quién respondió"
+        }
     },
     "experienceEditor": {
         "title": {
